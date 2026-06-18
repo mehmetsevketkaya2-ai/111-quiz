@@ -1,351 +1,644 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aşk Şarkıları 💕</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TUS Hazırlık - Bölüm 3: Endokrin, GİS ve AKS</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f1f5f9;
+            --primary: #3b82f6;
+            --secondary: #64748b;
+            --success: #22c55e;
+            --error: #ef4444;
+            --accent: #eab308;
+        }
 
-    :root {
-      --bg:        #0d0610;
-      --bg2:       #160c1e;
-      --rose:      #e8416b;
-      --rose-soft: #f07090;
-      --gold:      #f5c842;
-      --text:      #f0e6f6;
-      --muted:     #a08aaa;
-      --card-bg:   rgba(255,255,255,0.04);
-      --card-bdr:  rgba(232,65,107,0.25);
-    }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
 
-    html { scroll-behavior: smooth; }
+        #app-container {
+            width: 100%;
+            max-width: 750px;
+            padding: 20px;
+        }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Lato', sans-serif;
-      font-weight: 300;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
 
-    /* ── Floating hearts ── */
-    .hearts-bg {
-      position: fixed; inset: 0; pointer-events: none; z-index: 0;
-      overflow: hidden;
-    }
-    .heart-particle {
-      position: absolute;
-      bottom: -60px;
-      font-size: 1.4rem;
-      animation: rise linear infinite;
-      opacity: 0;
-      user-select: none;
-    }
-    @keyframes rise {
-      0%   { transform: translateY(0)   rotate(0deg);   opacity: 0; }
-      10%  { opacity: 0.6; }
-      90%  { opacity: 0.3; }
-      100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
-    }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #334155;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
 
-    /* ── Hero ── */
-    .hero {
-      position: relative; z-index: 1;
-      text-align: center;
-      padding: 80px 20px 50px;
-    }
-    .hero-eyebrow {
-      font-size: 0.75rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--rose);
-      margin-bottom: 18px;
-    }
-    .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.4rem, 7vw, 5rem);
-      font-weight: 700;
-      line-height: 1.1;
-      background: linear-gradient(135deg, var(--rose-soft), var(--gold));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 16px;
-    }
-    .hero p {
-      color: var(--muted);
-      font-size: 1rem;
-      letter-spacing: 0.06em;
-    }
+        #progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
 
-    .big-heart {
-      font-size: 3.5rem;
-      display: block;
-      margin: 0 auto 20px;
-      animation: heartbeat 1.6s ease-in-out infinite;
-    }
-    @keyframes heartbeat {
-      0%,100% { transform: scale(1); }
-      14%      { transform: scale(1.18); }
-      28%      { transform: scale(1); }
-      42%      { transform: scale(1.12); }
-      56%      { transform: scale(1); }
-    }
+        .question-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            margin-bottom: 1.5rem;
+            display: none;
+        }
 
-    /* ── Grid ── */
-    .grid-section {
-      position: relative; z-index: 1;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px 20px 80px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 20px;
-    }
+        .question-card.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
 
-    /* ── Card ── */
-    .song-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-bdr);
-      border-radius: 18px;
-      padding: 28px 24px 22px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
-      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .song-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 50% 0%, rgba(232,65,107,0.12), transparent 70%);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .song-card:hover::before { opacity: 1; }
-    .song-card:hover {
-      transform: translateY(-6px) scale(1.02);
-      box-shadow: 0 18px 40px rgba(232,65,107,0.22);
-      border-color: var(--rose);
-    }
-    .song-card:active { transform: scale(0.97); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-    .card-emoji { font-size: 2rem; }
-    .card-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.05rem;
-      font-style: italic;
-      color: var(--rose-soft);
-      line-height: 1.3;
-    }
-    .card-artist {
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .card-desc {
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.55;
-      flex: 1;
-    }
-    .card-btn {
-      margin-top: 8px;
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      background: linear-gradient(135deg, var(--rose), #c0304f);
-      color: #fff;
-      border: none;
-      border-radius: 30px;
-      padding: 9px 20px;
-      font-size: 0.8rem;
-      font-family: 'Lato', sans-serif;
-      font-weight: 400;
-      letter-spacing: 0.08em;
-      cursor: pointer;
-      transition: opacity 0.2s, box-shadow 0.2s;
-    }
-    .card-btn:hover { opacity: 0.88; box-shadow: 0 4px 14px rgba(232,65,107,0.45); }
+        .hint-box {
+            background: rgba(234, 179, 8, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            display: none;
+        }
 
-    /* YouTube icon */
-    .yt-icon {
-      width: 18px; height: 18px; fill: #fff; flex-shrink: 0;
-    }
+        .options-container {
+            display: grid;
+            gap: 12px;
+            margin-top: 1.5rem;
+        }
 
-    /* ── Footer ── */
-    footer {
-      position: relative; z-index: 1;
-      text-align: center;
-      padding: 24px;
-      color: var(--muted);
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-  </style>
+        .option-btn {
+            background: #334155;
+            border: 2px solid transparent;
+            color: white;
+            padding: 1.2rem;
+            border-radius: 0.5rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: #475569;
+        }
+
+        .option-btn.correct {
+            background: var(--success) !important;
+            border-color: #166534;
+        }
+
+        .option-btn.wrong {
+            background: var(--error) !important;
+            border-color: #991b1b;
+        }
+
+        .explanation {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: #0f172a;
+            border-radius: 0.5rem;
+            display: none;
+            line-height: 1.6;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 10px;
+        }
+
+        .control-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .control-btn:disabled {
+            background: #334155;
+            cursor: not-allowed;
+        }
+
+        #hint-toggle {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .score-screen {
+            text-align: center;
+            display: none;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+        }
+
+        strong { color: var(--accent); }
+    </style>
 </head>
 <body>
 
-<!-- Floating hearts background -->
-<div class="hearts-bg" id="heartsBg"></div>
+<div id="app-container">
+    <div id="quiz-view">
+        <div class="header">
+            <h2>TUS Cerrahi Hazırlık (Bölüm 3/4)</h2>
+            <div class="progress-bar"><div id="progress-fill" style="width: 0%"></div></div>
+            <span id="progress-text">Soru: 1 / 50</span>
+        </div>
 
-<!-- Hero -->
-<section class="hero">
-  <span class="big-heart">💖</span>
-  <div class="hero-eyebrow">♬ Müzikle Hisset</div>
-  <h1>Aşkın Sesi</h1>
-  <p>Kalbini titretecek şarkılara tek tıkla ulaş</p>
-</section>
+        <button id="hint-toggle" class="control-btn" onclick="toggleHint()">İpucu Göster</button>
 
-<!-- Song Cards -->
-<section class="grid-section" id="songs"></section>
+        <div id="questions-wrapper"></div>
 
-<footer>Sevgiyle hazırlandı &nbsp;·&nbsp; YouTube Music ♥</footer>
+        <div class="controls">
+            <button id="prev-btn" class="control-btn" onclick="changeQuestion(-1)" disabled>Geri</button>
+            <button id="next-btn" class="control-btn" onclick="changeQuestion(1)">İleri</button>
+        </div>
+    </div>
+
+    <div id="score-screen" class="score-screen">
+        <h1>Bölüm 3 Tamamlandı!</h1>
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div style="font-size: 2.5rem; font-weight: bold;" id="final-score">0</div>
+                <div>Doğru Cevap</div>
+            </div>
+            <div class="stat-card">
+                <div style="font-size: 2.5rem; font-weight: bold;" id="final-percent">0%</div>
+                <div>Başarı Oranı</div>
+            </div>
+        </div>
+        <button class="control-btn" onclick="location.reload()">Yeniden Başlat</button>
+    </div>
+</div>
 
 <script>
-  // ── Song data ──
-  const songs = [
+const rawQuestions = [
     {
-      emoji: "🌹",
-      title: "Can't Help Falling in Love",
-      artist: "Elvis Presley",
-      desc: "Aşkın kaçınılmaz olduğunu anlatan efsanevi bir klasik.",
-      url: "https://music.youtube.com/search?q=Can%27t+Help+Falling+in+Love+Elvis+Presley"
+        q: "Günlük ne kadar dozda prednizol kullanımı hipotalamo-hipofizer-adrenal aks (HPAA) baskılanmasına yol açmaz?",
+        options: ["<5 mg", "10 mg", "20 mg", ">30 mg", "Her doz baskılar"],
+        answer: 0,
+        hint: "Herhangi bir sürede günlük <5 mg prednizol veya eşdeğeri: HPAA baskılanması olmayan hastalar.",
+        desc: "Günlük <strong>5 mg'ın altındaki</strong> prednizol dozları, aksı baskılamak için yetersizdir ve cerrahi sırasında ek doz gerektirmez."
     },
     {
-      emoji: "🌙",
-      title: "Perfect",
-      artist: "Ed Sheeran",
-      desc: "İki sevgilinin mükemmel anını anlatan duygusal bir balad.",
-      url: "https://music.youtube.com/search?q=Perfect+Ed+Sheeran"
+        q: "Miksödem komasının klinik tablosunda aşağıdakilerden hangisi karakteristiktir?",
+        options: ["Taşikardi", "Hipertermi", "DTR kaybı ve kardiyopulmoner kollaps", "Hipertansiyon", "Anksiyete"],
+        answer: 2,
+        hint: "Koma, hipotermi, DTR kaybı ve kardiyopulmoner kollaps ile karakterizedir.",
+        desc: "<strong>Miksödem koması</strong>; bilinç bulanıklığı (koma), <strong>hipotermi</strong>, tendon reflekslerinde kayıp ve ağır kardiyovasküler yetmezlik ile giden hayatı tehdit edici bir tablodur."
     },
     {
-      emoji: "💌",
-      title: "A Thousand Years",
-      artist: "Christina Perri",
-      desc: "Sonsuz aşkı ve beklemeyi anlatan büyülü bir şarkı.",
-      url: "https://music.youtube.com/search?q=A+Thousand+Years+Christina+Perri"
+        q: "Şiddetli hipotiroidisi olan bir hastada elektif olmayan (acil) cerrahi gerektiğinde, miksödem komasını önlemek için ameliyat öncesi hangi tedavi verilmelidir?",
+        options: ["Sadece IV sıvı", "IV T4 (200-250 µg)", "Oral T3", "Yüksek doz iyot", "Propranolol"],
+        answer: 1,
+        hint: "Şiddetli hipotiroidisi olan hastalarda... ameliyattan önce IV T4 (200-250 µg L-tiroksin) verilmelidir.",
+        desc: "Kritik durumdaki hipotiroid hastalarında cerrahi stresin komayı tetiklememesi için <strong>IV T4 (L-tiroksin)</strong> yüklemesi yapılmalıdır."
     },
     {
-      emoji: "✨",
-      title: "Seni Duyuyorum",
-      artist: "Teoman",
-      desc: "Türkçe rockun en duygusal aşk şarkılarından biri.",
-      url: "https://music.youtube.com/search?q=Teoman+Seni+Duyuyorum"
+        q: "Miksödem koması yönetiminde ikincil olarak bozulan hangi fonksiyon için IV hidrokortizon desteği gerekir?",
+        options: ["Tiroid fonksiyonu", "Böbrek fonksiyonu", "Hipofiz-adrenal fonksiyonu", "Karaciğer fonksiyonu", "Pankreas fonksiyonu"],
+        answer: 2,
+        hint: "Hipofiz-adrenal fonksiyonu bozulduğu ve kortizol seviyeleri sıklıkla düştüğü için IV hidrokortizon da genellikle gerekir.",
+        desc: "Ağır hipotiroidide sıklıkla <strong>adrenal yetmezlik</strong> de eşlik edebileceği için tedaviye <strong>IV hidrokortizon</strong> eklenmesi önerilir."
     },
     {
-      emoji: "🎻",
-      title: "Ölürsem Aşktan Öleceğim",
-      artist: "Sezen Aksu",
-      desc: "Türk pop müziğinin kraliçesinden efsanevi bir aşk şarkısı.",
-      url: "https://music.youtube.com/search?q=Sezen+Aksu+Olursem+Asktan+Olecegim"
+        q: "Miksödem koması yönetiminde IV L-Tiroksin (T4) için önerilen doz aralığı nedir?",
+        options: ["10-25 µg", "50-100 µg", "300-500 µg", "1000-2000 µg", "Sadece 1 µg/kg"],
+        answer: 2,
+        hint: "IV T4 300-500 µg; klinik iyileşme olmadığında T3... [Miksödem Koma Yönetimi]",
+        desc: "Miksödem komasında <strong>yüksek doz IV T4 (300-500 µg)</strong> tedavinin temelidir."
     },
     {
-      emoji: "🕊️",
-      title: "Say You Love Me",
-      artist: "Fleetwood Mac",
-      desc: "Yumuşak melodisi ile ruhu okşayan zamansız bir klasik.",
-      url: "https://music.youtube.com/search?q=Fleetwood+Mac+Say+You+Love+Me"
+        q: "Miksödem komasında görülen hipotermi tedavisiyle ilgili hangisi doğrudur?",
+        options: ["Aktif ısıtma şarttır", "Genellikle T3/T4 tedavisi ile düzelir", "Asla düzelmez", "Sadece soğuk uygulama yapılır", "Antibiyotikle düzelir"],
+        answer: 1,
+        hint: "Hipotermi : Genellikle T3/T4 tedavisi ile düzelir.",
+        desc: "Miksödem komasındaki hipotermi metabolik kökenli olduğu için <strong>tiroid hormon replasmanı</strong> ile kendiliğinden düzelme eğilimindedir."
     },
     {
-      emoji: "🌸",
-      title: "Beni Bul",
-      artist: "Mor ve Ötesi",
-      desc: "Kayıp aşkı ve özlemi anlatan Türkçe rock başyapıtı.",
-      url: "https://music.youtube.com/search?q=Mor+ve+Otesi+Beni+Bul"
+        q: "Erken postoperatif intestinal obstrüksiyon tanımı için ameliyat sonrası hangi süre sınırı kullanılır?",
+        options: ["İlk 24 saat", "İlk 1 hafta", "İlk 6 hafta", "İlk 6 ay", "İlk 1 yıl"],
+        answer: 2,
+        hint: "Erken postoperatif intestinal obstrüksiyon, postop ilk 6 haftada oluşan tıkanıklıktır.",
+        desc: "Cerrahi sonrası <strong>ilk 42 gün (6 hafta)</strong> içinde gelişen barsak tıkanıklıkları 'erken' olarak sınıflandırılır."
     },
     {
-      emoji: "💫",
-      title: "At Last",
-      artist: "Etta James",
-      desc: "Soul müziğin en romantik ve en güçlü seslerinden biri.",
-      url: "https://music.youtube.com/search?q=Etta+James+At+Last"
+        q: "Erken postoperatif intestinal obstrüksiyonların en sık (>%90) nedeni aşağıdakilerden hangisidir?",
+        options: ["Tümör nüksü", "Herni", "Adezyonlar (yapışıklıklar)", "İntususepsiyon", "Yabancı cisim"],
+        answer: 2,
+        hint: "Erken postoperatif intestinal obstrüksiyonların çoğundan (>%90) adezyonlar sorumludur.",
+        desc: "Postoperatif dönemdeki tıkanıklıkların çok büyük bir kısmı cerrahiye bağlı gelişen <strong>adezyonlara (yapışıklıklara)</strong> bağlıdır."
     },
     {
-      emoji: "🌊",
-      title: "Make You Feel My Love",
-      artist: "Adele",
-      desc: "Adele'nin eşsiz sesiyle taçlanan derin bir aşk vaadi.",
-      url: "https://music.youtube.com/search?q=Adele+Make+You+Feel+My+Love"
+        q: "Normal yara iyileşme sürecinde, ince bağırsak ameliyat sonrası ne kadar süre içinde kontraktil aktivite (peristaltizm) geliştirir?",
+        options: ["Hemen (birkaç saat)", "24 saat sonra", "48-72 saat sonra", "5 gün sonra", "1 hafta sonra"],
+        answer: 0,
+        hint: "İnce bağırsak birkaç saat, mide 24-48 saat ve kolon 3-5 gün içinde kontraktil aktivite geliştirir.",
+        desc: "Cerrahi sonrası en hızlı toparlayan organ <strong>ince bağırsaktır</strong> (birkaç saat). Onu mide, en son ise kolon izler."
     },
     {
-      emoji: "🔥",
-      title: "Aşkın Olayım",
-      artist: "Tarkan",
-      desc: "Tarkan'ın ikonik sesiyle dans ettiren tutkulu bir şarkı.",
-      url: "https://music.youtube.com/search?q=Tarkan+Askin+Olayim"
+        q: "Postoperatif dönemde kolonun normal kontraktil aktivitesine dönmesi ne kadar sürer?",
+        options: ["6 saat", "12 saat", "24 saat", "3-5 gün", "10 gün"],
+        answer: 3,
+        hint: "Kolon 3-5 gün içinde kontraktil aktivite geliştirir.",
+        desc: "<strong>Kolon</strong>, postoperatif ileusun en uzun sürdüğü bölgedir ve toparlanması tipik olarak <strong>3 ila 5 günü</strong> bulur."
     },
     {
-      emoji: "🎵",
-      title: "La Vie en Rose",
-      artist: "Édith Piaf",
-      desc: "Aşkın hayatı gül rengi göstermesini anlatan Fransız klasiği.",
-      url: "https://music.youtube.com/search?q=Edith+Piaf+La+Vie+en+Rose"
+        q: "Postoperatif fonksiyonel bağırsak tıkanıklığının en yaygın şekli aşağıdakilerden hangisidir?",
+        options: ["Mekanik obstrüksiyon", "Volvulus", "Postoperatif ileus", "İnvajinasyon", "Mezenter iskemi"],
+        answer: 2,
+        hint: "Postoperatif ileus, fonksiyonel bağırsak tıkanıklığının en yaygın şeklidir.",
+        desc: "Mekanik bir engel olmaksızın barsak hareketlerinin durması olan <strong>postoperatif ileus</strong>, cerrahi sonrası en sık görülen fonksiyonel sorundur."
     },
     {
-      emoji: "🌺",
-      title: "Unutamam",
-      artist: "Mustafa Ceceli",
-      desc: "Türk pop müziğinin en sevilen aşk şarkılarından biri.",
-      url: "https://music.youtube.com/search?q=Mustafa+Ceceli+Unutamam"
+        q: "İleus tablosuyla takip edilen bir hastada hangi klinik bulgular strangülasyon (boğulma/nekroz) şüphesini artırır?",
+        options: ["Hipotansiyon ve anüri", "Ateş, taşikardi ve lökositoz", "Hıçkırık ve kusma", "Kabızlık", "Bradikardi"],
+        answer: 1,
+        hint: "Ateş, taşikardi ve lökositoz strangülasyonu düşündürür.",
+        desc: "Barsak tıkanıklığında <strong>ateş, nabız artışı (taşikardi) ve lökosit yüksekliği</strong> barsak canlılığının bozulduğunu (strangülasyon) gösteren alarm bulgularıdır."
     },
-  ];
+    {
+        q: "Postoperatif Bulantı ve Kusma (PONV) için aşağıdakilerden hangisi bir risk faktörüdür?",
+        options: ["Erkek cinsiyet", "Sigara içmeme", "Yaşlılık", "Lokal anestezi", "Sigara içme"],
+        answer: 1,
+        hint: "Risk faktörleri: kadın, PONV veya taşıt tutması öyküsü, sigara içmeme, genç yaş...",
+        desc: "İlginç bir şekilde <strong>sigara içmeyenlerde</strong> PONV görülme riski daha yüksektir. Diğer riskler; kadın cinsiyet, genç yaş ve opiyat kullanımıdır."
+    },
+    {
+        q: "PONV riskini hesaplamak için kullanılan klinik skorlama sistemi aşağıdakilerden hangisidir?",
+        options: ["Glasgow Skoru", "Apfel Skoru", "Ranson Skoru", "Alvarado Skoru", "Child Skoru"],
+        answer: 1,
+        hint: "PONV’nin görülme oranını hesaplamada Apfel Skoru kullanılır.",
+        desc: "<strong>Apfel Skoru</strong>; cinsiyet, sigara durumu, PONV öyküsü ve opiyat kullanımı kriterlerine dayanarak risk tahmini yapar."
+    },
+    {
+        q: "Sabiston'a göre Abdominal Kompartman Sendromu (AKS) hangi üçlü klinik bulgu ve intraabdominal basınç artışı ile karakterizedir?",
+        options: ["Ateş, Sarılık, Taşikardi", "Hipotansiyon, oligüri ve solunum yetmezliği", "Koma, Hipotermi, Bradikardi", "Kusma, İshal, Dehidratasyon", "Öksürük, Balgam, Göğüs ağrısı"],
+        answer: 1,
+        hint: "Sabiston: Hipotansiyon, oligüri ve solunum yetmezliği gibi organ disfonksiyonu ile karakterize intraabdominal basınç artışına... bağlı sendromdur.",
+        desc: "<strong>AKS</strong>; karın içi basınç artışına bağlı olarak <strong>tansiyon düşüklüğü</strong>, <strong>idrar çıkışında azalma</strong> ve <strong>solunum sıkıntısı</strong> ile giden ağır bir tablodur."
+    },
+    {
+        q: "Abdominal Kompartman Sendromu tanımı için intraabdominal basınç (İAB) eşik değeri nedir?",
+        options: [">5 mmHg", ">12 mmHg", ">20 mmHg", ">30 mmHg", ">50 mmHg"],
+        answer: 2,
+        hint: "Intraabdominal basınç >20 mmHg olması abdominal kompartman sendromu olarak tanımlanır.",
+        desc: "Organ yetmezliği eşliğinde <strong>İAB'nin 20 mmHg'nin üzerine çıkması</strong> AKS olarak kabul edilir."
+    },
+    {
+        q: "AKS gelişen bir hastada serebral perfüzyon basıncı ve intrakranial basınç nasıl değişir?",
+        options: ["İkisi de artar", "İkisi de azalır", "Serebral perfüzyon artar, intrakranial azalır", "Serebral perfüzyon azalır, intrakranial artar", "Değişmez"],
+        answer: 3,
+        hint: "Serebral perfüzyon basıncı azalır, intrakranial basınç artar.",
+        desc: "AKS'de intratorasik basınç artışı venöz dönüşü engelleyerek <strong>intrakranial basıncı (İKB) artırır</strong> ve sonuçta <strong>beyin perfüzyon basıncını düşürür</strong>."
+    },
+    {
+        q: "İntraabdominal basınç artışının böbrekler üzerindeki temel etkisi aşağıdakilerden hangisidir?",
+        options: ["Renal kan akımı artar", "Renal kan akımı ve idrar çıkışı azalır", "Sadece proteinüri yapar", "Böbrek boyutları büyür", "Etkilemez"],
+        answer: 1,
+        hint: "Renal Kan Akımı ↓, İdrar Çıkışı ↓ [Görseldeki AKS tablosu]",
+        desc: "Artan karın içi basıncı renal venleri ve parankimi sıkıştırarak <strong>böbrek kan akımını ve idrar üretimini (oligüri/anüri) azaltır</strong>."
+    },
+    {
+        q: "AKS'de kalbin venöz dönüşü ve kardiyak outputu nasıl etkilenir?",
+        options: ["Venöz dönüş artar, output azalır", "İkisi de artar", "Venöz dönüş azalır, kardiyak output azalır", "Output artar, venöz dönüş azalır", "Değişmez"],
+        answer: 2,
+        hint: "Venöz Dönüş ↓, Kardiyak output ↓ [Görseldeki AKS tablosu]",
+        desc: "Vena cava inferior basısı nedeniyle <strong>venöz dönüş (preload) azalır</strong>, bu da <strong>kardiyak outputun (debi) düşmesine</strong> neden olur."
+    },
+    {
+        q: "AKS'de intratorasik (göğüs içi) basınç değişimi aşağıdakilerden hangisidir?",
+        options: ["Azalır", "Artar", "Önce azalır sonra artar", "Değişmez", "Sadece ekspiryumda artar"],
+        answer: 1,
+        hint: "Intratorasik Basınç ↑ [Görseldeki AKS tablosu]",
+        desc: "Diyaframın yukarı itilmesi göğüs içi hacmi daraltır ve <strong>intratorasik basıncı artırır</strong>."
+    },
+    {
+        q: "İntraabdominal basıncı ölçmek için en sık kullanılan ve standart kabul edilen teknik hangisidir?",
+        options: ["Direkt iğne ponksiyonu", "Gastrik tüp basıncı", "Mesane basıncının ölçülmesi", "Rektal prob", "Vena cava kateteri"],
+        answer: 2,
+        hint: "En sık kullanılan ölçüm tekniği mesane basıncının ölçülmesidir.",
+        desc: "<strong>Mesane basıncı ölçümü</strong> (Foley sonda üzerinden), karın içi basıncı yansıtan en pratik ve güvenilir yöntemdir."
+    },
+    {
+        q: "Mesane basıncı ölçülürken foley sondadan ne kadar steril sıvı verilmesi önerilir?",
+        options: ["5-10 mL", "25-100 mL", "250-500 mL", "1 litre", "Sıvı verilmez"],
+        answer: 1,
+        hint: "Abdominal basınç, mesaneye foley sondadan 25-100 mL steril salin verildikten sonra... ölçülmelidir.",
+        desc: "Ölçümün doğru yapılabilmesi için mesane duvarının gerilmesi amacıyla <strong>25-100 mL sıvı</strong> verilir."
+    },
+    {
+        q: "Normal sağlıklı bir yetişkinde intraabdominal basınç (İAB) aralığı ne olmalıdır?",
+        options: ["<1 mmHg", "5-7 mmHg", "10-15 mmHg", "15-20 mmHg", ">20 mmHg"],
+        answer: 1,
+        hint: "Normal sağlıklı hasta: <8 mmHg (Normal intraabdominal basınç 5-7 mm Hg arasındadır)",
+        desc: "Yetişkinlerde <strong>normal karın içi basınç 5-7 mmHg</strong> civarındadır. 12 mmHg üzeri patolojik kabul edilir."
+    },
+    {
+        q: "AKS Derecelendirme Sisteminde 'Grade 1' basınç aralığı nedir?",
+        options: ["5-10 mmHg", "12-15 mmHg", "16-20 mmHg", "21-25 mmHg", ">25 mmHg"],
+        answer: 1,
+        hint: "Grade 1: 12-15 mmHg",
+        desc: "İAB'nin <strong>12-15 mmHg</strong> arasında olması hafif artış (Grade 1) olarak sınıflandırılır."
+    },
+    {
+        q: "AKS Derecelendirme Sisteminde 'Grade 2' basınç aralığı nedir?",
+        options: ["10-12 mmHg", "12-15 mmHg", "16-20 mmHg", "21-25 mmHg", ">25 mmHg"],
+        answer: 2,
+        hint: "Grade 2: 16-20 mmHg",
+        desc: "<strong>16-20 mmHg</strong> arası Grade 2 AKS olarak tanımlanır."
+    },
+    {
+        q: "AKS Derecelendirme Sisteminde 'Grade 3' basınç aralığı nedir? (TUS 2020 sorusu)",
+        options: ["12-15 mmHg", "16-20 mmHg", "21-25 mmHg", "26-30 mmHg", ">30 mmHg"],
+        answer: 2,
+        hint: "Grade 3: 21-25 mmHg",
+        desc: "<strong>21-25 mmHg</strong> arası Grade 3 olarak kabul edilir ve genellikle cerrahi müdahale sınırıdır."
+    },
+    {
+        q: "AKS Derecelendirme Sisteminde 'Grade 4' basınç değeri hangisidir?",
+        options: [">15 mmHg", ">20 mmHg", ">25 mmHg", ">35 mmHg", ">50 mmHg"],
+        answer: 2,
+        hint: "Grade 4: >25 mmHg",
+        desc: "İAB'nin <strong>25 mmHg'nin üzerine</strong> çıkması en ağır seviye olan Grade 4'tür."
+    },
+    {
+        q: "AKS tedavisinde intraabdominal basıncı düşürmek için yapılan temel işlem nedir?",
+        options: ["Yüksek doz diüretik", "Barsak temizliği", "Cerrahi insizyon veya fasyanın açılması", "Vazopressör kullanımı", "Nazogastrik takılması"],
+        answer: 2,
+        hint: "Tedavi insizyon veya fasyanın açılarak karın içi basıncın düşürülmesidir.",
+        desc: "Kompartman sendromunun kesin tedavisi karın duvarının <strong>cerrahi dekompresyonu (fasyotomi/laparostomi)</strong> ile basıncın tahliye edilmesidir."
+    },
+    {
+        q: "Organ disfonksiyonu gelişirse, intraabdominal basınç (İAB) hangi değerin üzerine çıktığında 'acil dekompresyon' yapılmalıdır?",
+        options: [">12 mmHg", ">15 mmHg", ">25 mmHg", ">35 mmHg", ">50 mmHg"],
+        answer: 2,
+        hint: "Bunun yerine, end organ disfonksiyonu gelişirse acil dekompresyon yapılır. [Kutu içinde >25 mmHg vurgulanmış]",
+        desc: "Organ yetmezliği varlığında <strong>25 mmHg</strong> ve üzeri basınçlar acil cerrahi dekompresyon endikasyonudur."
+    },
+    {
+        q: "AKS'de basıncın hangi değerin üzerinde olduğu durumlarda, organ disfonksiyonuna bakılmaksızın dekompresyon yapılması önerilir?",
+        options: [">15 mmHg", ">20 mmHg", ">25 mmHg", ">35 mmHg", ">45 mmHg"],
+        answer: 3,
+        hint: "Genel olarak, basıncın >35 mmHg olduğu durumlar dışında, mesane basıncına göre terapötik müdahale yapılmaz.",
+        desc: "İAB <strong>35 mmHg</strong>'yi aşarsa, hastada henüz belirgin bir organ disfonksiyonu gelişmemiş olsa dahi <strong>acil dekompresyon</strong> düşünülmelidir."
+    },
+    {
+        q: "Grade 1 ve Grade 2 Abdominal Kompartman Sendromu vakalarında ilk yaklaşım ne olmalıdır?",
+        options: ["Acil cerrahi", "Medikal tedavi uygulanır", "Sadece gözlem", "Antibiyotik başlanır", "Hasta taburcu edilir"],
+        answer: 1,
+        hint: "Grade 1-2 hastalarda medikal tedavi uygulanır.",
+        desc: "Düşük dereceli (1-2) AKS vakalarında sıvı yönetimi, nazogastrik dekompresyon gibi <strong>medikal tedaviler</strong> önceliklidir."
+    },
+    {
+        q: "Grade 3 hastaların çoğunda ve Grade 4'lerin tamamında önerilen tedavi nedir?",
+        options: ["Sadece diüretik", "Konservatif takip", "Cerrahi dekompresyon", "Radyoterapi", "Karaciğer nakli"],
+        answer: 2,
+        hint: "Grade 3 hastaların çoğu ve grade 4'lerin tamamı cerrahi dekompresyon gerektirir.",
+        desc: "Basıncın 21 mmHg üzerine çıktığı (Grade 3-4) durumlarda genellikle <strong>cerrahi müdahale</strong> kaçınılmazdır."
+    },
+    {
+        q: "Postoperatif stoma komplikasyonları 'erken' olarak tanımlanması için ne kadar süre içinde gelişmelidir?",
+        options: ["İlk 24 saat", "İlk 1 hafta", "1 aydan kısa sürede", "6 ay içinde", "1 yıl içinde"],
+        answer: 2,
+        hint: "Ameliyat sonrası erken stoma komplikasyonları, postoperatif 1 aydan kısa sürede ortaya çıkan...",
+        desc: "Stoma açıldıktan sonraki <strong>ilk 1 ay</strong> içinde görülen sorunlar erken komplikasyon olarak kabul edilir."
+    },
+    {
+        q: "Parastomal herniler en sık hangi stoma tipinde görülür?",
+        options: ["İleostomi", "Kolostomi", "Ürostomi", "Gastrostomi", "Sadece loop ileostomi"],
+        answer: 1,
+        hint: "Parastomal herniler kolostominin en sık komplikasyonudur.",
+        desc: "<strong>Kolostomilerde</strong> en sık karşılaşılan geç dönem komplikasyon <strong>parastomal hernidir</strong>."
+    },
+    {
+        q: "Stomanın ciltten ayrılmasına yol açan faktörler arasında aşağıdakilerden hangisi yer almaz?",
+        options: ["İskemi", "Enfeksiyon", "Kötü beslenme", "Gerginlik", "Genç yaş"],
+        answer: 4,
+        hint: "Stomanın ciltten ayrılması: gerginlik, iskemi, enfeksiyon ve kötü beslenme sonucu ortaya çıkar.",
+        desc: "Cilt ayrışması (mukokutanöz ayrışma) doku beslenmesini bozan (iskemi, malnütrisyon) veya gerilime yol açan durumlarda görülür; <strong>genç yaş</strong> bir risk değildir."
+    },
+    {
+        q: "Nozokomiyal (hastane kaynaklı) ishalin en yaygın nedeni aşağıdakilerden hangisidir?",
+        options: ["Salmonella", "Shigella", "C. difficile enfeksiyonu", "E. coli", "Rotavirüs"],
+        answer: 2,
+        hint: "C. difficile enfeksiyonu, nozokomiyal ishalin en yaygın nedenidir.",
+        desc: "Hastanede yatan cerrahi hastalarında antibiyotik kullanımı sonrası gelişen ishallerin 1 numaralı sorumlusu <strong>Clostridioides difficile</strong>'dir."
+    },
+    {
+        q: "C. difficile enfeksiyonu gelişen hastaların çoğunda ishal ne kadar sürede gelişir?",
+        options: ["Hemen ilk dozda", "Antibiyotik tedavisi sırasında veya tedavisinden kısa bir süre sonra", "6 ay sonra", "Sadece ameliyat sabahı", "Asla antibiyotikle ilişkili değildir"],
+        answer: 1,
+        hint: "Hastaların çoğunda antibiyotik tedavisi sırasında veya tedaviden kısa bir süre sonra sulu ishal gelişir.",
+        desc: "C. difficile ishali tipik olarak <strong>antibiyotik kullanım süresince</strong> veya kesildikten sonraki ilk günlerde ortaya çıkar."
+    },
+    {
+        q: "C. difficile koliti en sık kolonu hangi bölgesini tutar?",
+        options: ["Proksimal kolon", "Çekum", "Distal kolon", "Appendiks", "Sadece rektum"],
+        answer: 2,
+        hint: "C. difficile enfeksiyonu en sık distal kolonu tutar.",
+        desc: "C. difficile tutulumu tüm kolonda olabilse de en sık <strong>distal kolon</strong> (sol kolon) segmentlerini etkiler."
+    },
+    {
+        q: "Anastomoz kaçağı açısından en 'düşük riskli' kabul edilen anastomoz bölgesi hangisidir?",
+        options: ["Özofagus", "Mide", "İnce bağırsak", "Kolorektal", "Rektal"],
+        answer: 2,
+        hint: "İnce bağırsak anastomozları... 'düşük riskli' olarak kabul edilirken...",
+        desc: "<strong>İnce bağırsak</strong> kanlanmasının çok iyi olması ve lümen içeriğinin daha az bakteriyel yük taşıması nedeniyle anastomoz kaçağı açısından en güvenli bölgedir."
+    },
+    {
+        q: "Hangi ilaç kullanımı cerrahi sonrası anastomoz açılma (leak) riskini artırır?",
+        options: ["Penisilin", "Bevacizumab", "Metformin", "Aspirin", "Parasetamol"],
+        answer: 1,
+        hint: "Bevacizumab anastomoz açılma riskini artırır.",
+        desc: "Bir anjiyogenez inhibitörü olan <strong>Bevacizumab</strong>, doku iyileşmesini bozarak anastomoz kaçağı riskini belirgin şekilde artırır."
+    },
+    {
+        q: "Anastomoz kaçağı tanısında klinikte en sık kullanılan radyolojik yöntem hangisidir?",
+        options: ["Direkt batın grafisi", "USG", "Oral opaklı BT", "MR", "Sintigrafi"],
+        answer: 2,
+        hint: "Tanıda en sık oral opaklı BT kullanılır.",
+        desc: "Anastomozdan dışarı sızan kontrastı ve apse odaklarını en iyi gösteren yöntem <strong>kontrastlı Bilgisayarlı Tomografi'dir (BT)</strong>."
+    },
+    {
+        q: "Anastomoz kaçağı saptanan ve 'lokalize apsesi' olan hastalarda ilk tercih edilen tedavi yaklaşımı nedir?",
+        options: ["Acil cerrahi", "Konservatif tedavi uygulanır", "Sadece antibiyotik verilip taburcu edilir", "Anastomoz tamamen sökülür", "Kemoterapi verilir"],
+        answer: 1,
+        hint: "Tedavide; lokalize apse olanlarda konservatif tedavi uygulanır.",
+        desc: "Eğer kaçak peritonite yol açmamış ve <strong>lokalize bir apse</strong> ile sınırlı kalmışsa, perkütan drenaj ve <strong>konservatif takip</strong> (barsak istirahati, antibiyotik) yapılabilir."
+    },
+    {
+        q: "Anastomoz kaçağı sonrası hemodinamik instabilite veya diffüz peritonit gelişen hastalarda yaklaşım nasıl olmalıdır?",
+        options: ["Gözlem", "Sadece sıvı desteği", "Cerrahi uygulanır", "Bekle-gör stratejisi", "Fizik tedavi"],
+        answer: 2,
+        hint: "Hemodinamik instabilite veya diffüz peritonit olanlarda cerrahi uygulanır.",
+        desc: "Yaygın karın zarı iltihabı (peritonit) ve <strong>şok bulguları</strong> olan hastalarda vakit kaybetmeden <strong>cerrahi revizyon</strong> gereklidir."
+    },
+    {
+        q: "C. difficile enfeksiyonu risk faktörleri arasında aşağıdakilerden hangisi yer alır?",
+        options: ["Genç yaş (<20)", "Antibiyotik kullanımı", "Yüksek lifli diyet", "Spor yapmak", "Düşük tansiyon"],
+        answer: 1,
+        hint: "Risk faktörleri: Antibiyotik kullanımı, İleri yaş (>65 yaş), Hastanede yatış...",
+        desc: "<strong>Antibiyotik kullanımı</strong>, normal barsak florasını bozarak C. difficile çoğalmasına zemin hazırlayan en kritik risk faktörüdür."
+    },
+    {
+        q: "İintraabdominal basınç artışı splanknik (barsak) kan akımını nasıl etkiler?",
+        options: ["Artırır", "Önce artırır sonra azaltır", "Azaltır", "Değişmez", "Sadece midede artırır"],
+        answer: 2,
+        hint: "Splanknik İskemi [Görseldeki AKS tablosu]",
+        desc: "Basınç artışı barsakları besleyen damarları sıkıştırarak <strong>iskemiye (kanlanma bozukluğu)</strong> yol açar."
+    },
+    {
+        q: "AKS'de ekstremite (kol/bacak) kan akımı nasıl değişir?",
+        options: ["Ekstremite iskemisi görülebilir", "Akım artar", "Etkilenmez", "Sadece kollarda artar", "Sadece bacaklarda artar"],
+        answer: 0,
+        hint: "Ekstremite İskemisi [Görseldeki AKS tablosu]",
+        desc: "Karın içi basınç artışı sistemik venöz dönüşü ve outputu bozarak perifere giden kan akımını azaltır ve <strong>ekstremite iskemisine</strong> neden olabilir."
+    },
+    {
+        q: "Aşağıdakilerden hangisi stomanın geç dönem komplikasyonları arasında sayılabilir?",
+        options: ["Cilt ayrılması", "İskemi", "Parastomal herni", "Stoma nekrozu", "Akut ödem"],
+        answer: 2,
+        hint: "Parastomal herni kolostominin en sık (geç) komplikasyonudur.",
+        desc: "<strong>Parastomal herni</strong> ve prolapsus genellikle aylar/yıllar sonra gelişen <strong>geç</strong> komplikasyonlardır."
+    },
+    {
+        q: "Miksödem komasında tiroid hormon replasmanına rağmen klinik düzelme yoksa tedaviye ne eklenmelidir?",
+        options: ["Daha fazla T4", "T3 (Liothyronine)", "Adrenalin", "Dopamin", "İnsülin"],
+        answer: 1,
+        hint: "IV T4 300-500 µg; klinik iyileşme olmadığında T3 (10-25 µg T3).",
+        desc: "Eğer yüksek doz T4'e yanıt alınamazsa, daha aktif olan form olan <strong>T3 (Liothyronine)</strong> eklenmesi düşünülür."
+    },
+    {
+        q: "Stoma nekrozu genellikle hangi dönemde görülür?",
+        options: ["Erken dönem", "5 yıl sonra", "Sadece yaşlılarda", "Asla görülmez", "Sadece kışın"],
+        answer: 0,
+        hint: "Ameliyat sonrası erken stoma komplikasyonları... [Nekroz bu listede yer alır]",
+        desc: "Dolaşım bozukluğuna bağlı gelişen stoma nekrozu tipik bir <strong>erken (ilk günler)</strong> komplikasyondur."
+    },
+    {
+        q: "İntraabdominal hipertansiyonun (İAH) tanımı hangi basınç değeri ile başlar?",
+        options: [">=5 mmHg", ">=12 mmHg", ">=20 mmHg", ">=25 mmHg", ">=35 mmHg"],
+        answer: 1,
+        hint: "Grade 1: 12-15 mmHg [AKS derecelendirmesinin başlangıcı]",
+        desc: "Karın içi basıncın <strong>12 mmHg ve üzerine</strong> çıkması 'İntraabdominal Hipertansiyon' olarak tanımlanır; bu durum AKS'nin öncüsüdür."
+    }
+];
 
-  // ── Render cards ──
-  const grid = document.getElementById('songs');
+let questions = [...rawQuestions];
+let currentIdx = 0;
+let userAnswers = new Array(questions.length).fill(null);
+let score = 0;
 
-  songs.forEach(song => {
-    const card = document.createElement('a');
-    card.href = song.url;
-    card.target = '_blank';
-    card.rel = 'noopener noreferrer';
-    card.className = 'song-card';
+function renderQuestion() {
+    const qWrapper = document.getElementById('questions-wrapper');
+    qWrapper.innerHTML = '';
+    
+    const q = questions[currentIdx];
+    const card = document.createElement('div');
+    card.className = 'question-card active';
+    
     card.innerHTML = `
-      <span class="card-emoji">${song.emoji}</span>
-      <div class="card-title">${song.title}</div>
-      <div class="card-artist">${song.artist}</div>
-      <div class="card-desc">${song.desc}</div>
-      <button class="card-btn" tabindex="-1">
-        <svg class="yt-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
-        </svg>
-        YouTube Music'te Dinle
-      </button>
+        <div class="hint-box" id="hint-${currentIdx}">${q.hint}</div>
+        <div style="font-size: 1.2rem; font-weight: 500; margin-bottom: 1.5rem;">${q.q}</div>
+        <div class="options-container">
+            ${q.options.map((opt, i) => `
+                <button class="option-btn ${userAnswers[currentIdx] !== null ? (i === q.answer ? 'correct' : (i === userAnswers[currentIdx] ? 'wrong' : '')) : ''}" 
+                        onclick="checkAnswer(${i})" 
+                        ${userAnswers[currentIdx] !== null ? 'disabled' : ''}>
+                    ${String.fromCharCode(65 + i)}) ${opt}
+                </button>
+            `).join('')}
+        </div>
+        <div class="explanation" id="exp-${currentIdx}" style="display: ${userAnswers[currentIdx] !== null ? 'block' : 'none'}">
+            ${q.desc}
+        </div>
     `;
-    grid.appendChild(card);
-  });
+    qWrapper.appendChild(card);
+    
+    document.getElementById('progress-fill').style.width = `${((currentIdx + 1) / questions.length) * 100}%`;
+    document.getElementById('progress-text').innerText = `Soru: ${currentIdx + 1} / ${questions.length}`;
+    document.getElementById('prev-btn').disabled = currentIdx === 0;
+    document.getElementById('next-btn').innerText = currentIdx === questions.length - 1 ? "Bitir" : "İleri";
+}
 
-  // ── Floating heart particles ──
-  const emojis = ['💕','💖','💗','💓','❤️','🌹','✨','💫'];
-  const bg = document.getElementById('heartsBg');
+function checkAnswer(choice) {
+    if (userAnswers[currentIdx] !== null) return;
+    
+    userAnswers[currentIdx] = choice;
+    const q = questions[currentIdx];
+    if (choice === q.answer) score++;
+    
+    renderQuestion();
+    const exp = document.getElementById(`exp-${currentIdx}`);
+    exp.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
 
-  function spawnHeart() {
-    const el = document.createElement('span');
-    el.className = 'heart-particle';
-    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-    el.style.left = Math.random() * 100 + 'vw';
-    const dur = 7 + Math.random() * 9;
-    const delay = Math.random() * 5;
-    el.style.animationDuration = dur + 's';
-    el.style.animationDelay = delay + 's';
-    el.style.fontSize = (0.9 + Math.random() * 1.2) + 'rem';
-    bg.appendChild(el);
-    setTimeout(() => el.remove(), (dur + delay + 1) * 1000);
-  }
+function changeQuestion(step) {
+    if (step === 1 && currentIdx === questions.length - 1) {
+        showScore();
+        return;
+    }
+    currentIdx += step;
+    renderQuestion();
+    document.getElementById('hint-toggle').innerText = "İpucu Göster";
+}
 
-  // Spawn initial batch then continue
-  for (let i = 0; i < 18; i++) spawnHeart();
-  setInterval(spawnHeart, 700);
+function toggleHint() {
+    const hint = document.getElementById(`hint-${currentIdx}`);
+    const btn = document.getElementById('hint-toggle');
+    if (hint.style.display === 'block') {
+        hint.style.display = 'none';
+        btn.innerText = "İpucu Göster";
+    } else {
+        hint.style.display = 'block';
+        btn.innerText = "İpucu Gizle";
+    }
+}
+
+function showScore() {
+    document.getElementById('quiz-view').style.display = 'none';
+    document.getElementById('score-screen').style.display = 'block';
+    document.getElementById('final-score').innerText = score;
+    document.getElementById('final-percent').innerText = Math.round((score / questions.length) * 100) + '%';
+}
+
+renderQuestion();
 </script>
+
 </body>
 </html>

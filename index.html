@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TUS Hazırlık - Karın Duvarı, Periton ve Mezenter (Part 1)</title>
+    <style>
+        body { background-color: #121212; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { max-width: 800px; width: 100%; }
+        .question-card { background-color: #1e1e1e; border-radius: 12px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: none; }
+        .active { display: block; }
+        .question-text { font-size: 1.2rem; font-weight: bold; margin-bottom: 20px; color: #ffffff; }
+        .option { background-color: #2c2c2c; border: 2px solid #3d3d3d; border-radius: 8px; padding: 12px 15px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; }
+        .option:hover { background-color: #3d3d3d; border-color: #ffeb3b; }
+        .option.correct { background-color: #2e7d32 !important; border-color: #4caf50 !important; }
+        .option.wrong { background-color: #c62828 !important; border-color: #f44336 !important; }
+        .hint-btn { background-color: #ffeb3b; color: #000; border: none; padding: 8px 15px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-bottom: 15px; }
+        .hint-content { display: none; background-color: #333; padding: 15px; border-left: 5px solid #ffeb3b; margin-bottom: 15px; font-style: italic; color: #fff; }
+        .explanation { display: none; background-color: #1a237e; padding: 20px; border-radius: 8px; margin-top: 15px; border: 1px solid #3f51b5; }
+        .nav-btns { display: flex; justify-content: space-between; margin-top: 30px; gap: 10px; width: 100%; }
+        .nav-btn { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; background-color: #3f51b5; color: white; transition: 0.3s; }
+        .nav-btn:disabled { background-color: #555; cursor: not-allowed; }
+        .score-board { text-align: center; margin-bottom: 20px; font-size: 1.1rem; color: #ffeb3b; }
+        .summary-screen { display: none; text-align: center; background-color: #1e1e1e; padding: 40px; border-radius: 12px; }
+        strong { color: #ffeb3b; }
+        .page-tag { font-size: 0.8rem; background: #444; padding: 3px 8px; border-radius: 4px; margin-bottom: 10px; display: inline-block; }
+    </style>
+</head>
+<body>
+
+<div class="container" id="quiz-container">
+    <div class="score-board">Soru: <span id="current-index">1</span> / 50 | Skor: <span id="score">0</span></div>
+    
+    <!-- Sorular buraya JS ile yüklenecek -->
+</div>
+
+<div class="summary-screen" id="summary">
+    <h2>Sınav Tamamlandı!</h2>
+    <p id="final-score" style="font-size: 1.5rem;"></p>
+    <button class="nav-btn" onclick="location.reload()">Tekrar Çöz</button>
+</div>
+
+<div class="nav-btns">
+    <button class="nav-btn" id="prev-btn" onclick="changeQuestion(-1)">Geri</button>
+    <button class="nav-btn" id="next-btn" onclick="changeQuestion(1)">İleri</button>
+</div>
+
+<script>
+const quizData = [
+    {
+        p: "Sayfa 282",
+        q: "Karın duvarının en yaygın primer malign neoplazmları aşağıdakilerden hangisidir?",
+        a: ["Liposarkom ve anjiosarkom", "Desmoid tümörler ve sarkomlar", "Melanom ve bazal hücreli karsinom", "Fibromlar ve nörinomlar", "Lenfomalar"],
+        c: 1,
+        h: "Karın duvarının en yaygın primer malign neoplazmları desmoid tümörler ve sarkomlardır.",
+        e: "Karın duvarında primer maligniteler nadir görülse de, <strong>desmoid tümörler ve sarkomlar</strong> en sık rastlanan tiplerdir."
+    },
+    {
+        p: "Sayfa 282",
+        q: "Desmoid tümörlerin biyolojik davranışı hakkında hangisi doğrudur?",
+        a: ["Uzak metastaz potansiyeli çok yüksektir", "Sadece cilt katmanında sınırlı kalır", "Lokal agresiftir ancak metastaz potansiyeli yoktur", "Tamamen selimdir, nüks etmez", "Lenfatik yolla hızla yayılır"],
+        c: 2,
+        h: "Desmoid tümörler lokal agresif, ancak metastaz potansiyeli olmayan tümörlerdir.",
+        e: "Desmoid tümörler (fibromatozis), <strong>lokal agresif</strong> bir büyüme sergilemelerine rağmen <strong>metastaz yapmazlar</strong>; ancak cerrahi sonrası nüks riskleri yüksektir."
+    },
+    {
+        p: "Sayfa 282",
+        q: "Desmoid tümörlerin insidansı hakkında hangisi doğrudur?",
+        a: ["Tamamı kalıtsal sendromlarla ilişkilidir", "Genellikle sporadiktir", "Sadece çocuklarda görülür", "Erkeklerde kadınlardan 5 kat daha sıktır", "Yalnızca travma sonrası gelişir"],
+        c: 1,
+        h: "Genellikle sporadik olarak ortaya çıkar (%75-85).",
+        e: "Desmoid tümörler kalıtsal sendromlarla (FAP gibi) ilişkili olabilse de, vakaların büyük çoğunluğu <strong>sporadik</strong> olarak gelişir."
+    },
+    {
+        p: "Sayfa 282",
+        q: "Desmoid tümörler en sık hangi yaş grubunda izlenir?",
+        a: ["Yenidoğan dönemi", "İleri yaş (>70)", "Genç-orta yaşlarda", "Sadece puberte öncesi", "Her yaşta eşit sıklıktadır"],
+        c: 2,
+        h: "Genç-orta yaşlarda görülür.",
+        e: "Desmoid tümörler tipik olarak <strong>genç ve orta yaş</strong> erişkinlerde tanı alır."
+    },
+    {
+        p: "Sayfa 282",
+        q: "Desmoid tümörlerin cinsiyet dağılımı nasıldır?",
+        a: ["Erkeklerde çok daha sıktır", "Cinsiyet ayrımı yoktur", "Sadece gebelerde görülür", "Kadınlarda daha sık görülür", "Sadece postmenopozal dönemde izlenir"],
+        c: 3,
+        h: "Kadınlarda daha sık görülür.",
+        e: "Hormonal etkilerin de rol oynadığı düşünülen desmoid tümörler <strong>kadınlarda daha sık</strong> izlenmektedir."
+    },
+    {
+        p: "Sayfa 282",
+        q: "Hangi kalıtsal sendroma sahip hastalarda desmoid tümör görülme sıklığı normal popülasyona göre anlamlı derecede yüksektir?",
+        a: ["Lynch sendromu", "MEN 2A", "FAP, Gardner sendromu ve Turcot sendromu", "Peutz-Jeghers sendromu", "Li-Fraumeni sendromu"],
+        c: 2,
+        h: "%10-15'i FAP, Gardner sendromu... Turcot sendromu olan hastalarda görülür.",
+        e: "<strong>FAP, Gardner ve Turcot sendromu</strong> gibi polipozis sendromları desmoid tümörler için majör risk faktörüdür."
+    },
+    {
+        p: "Sayfa 282",
+        q: "FAP'lı hastalarda profilaktik kolektomiden sonra gelen en sık 'primer ölüm nedeni' aşağıdakilerden hangisidir?",
+        a: ["Karaciğer yetmezliği", "Desmoid tümörler", "Özofagus varis kanaması", "Pankreas kanseri", "Duodenal kanserler"],
+        c: 1,
+        h: "FAP'lı hastalarda profilaktik kolektomiden sonra desmoid tümörler primer ölüm nedeni haline gelir.",
+        e: "Schwartz cerrahi kitabında vurgulandığı üzere, kolektomi sonrası sağkalımı uzayan FAP hastalarında <strong>desmoid tümörler</strong> en önemli mortalite nedenidir."
+    },
+    {
+        p: "Sayfa 282",
+        q: "Sporadik desmoid tümörlerin patogenezinde en sık saptanan mutasyon hangisidir?",
+        a: ["p53 mutasyonu", "KRAS onkojeni", "β-katenin geni CTNNB1 somatik mutasyonları", "BRCA1 eksikliği", "BRAF mutasyonu"],
+        c: 2,
+        h: "Sporadik desmoid tümörler en sık β-katenin geni CTNNB1 somatik mutasyonları ile ilişkilidir.",
+        e: "Desmoid tümör patogenezinde <strong>β-katenin (CTNNB1)</strong> sinyal yolundaki mutasyonlar anahtar rol oynar."
+    },
+    {
+        p: "Sayfa 282",
+        q: "Kalıtsal (FAP ilişkili) desmoid tümörlerde hangi genin germ hattı mutasyonu izlenir?",
+        a: ["APC geni", "PTEN geni", "VHL geni", "RET proto-onkojeni", "MLH1 geni"],
+        c: 0,
+        h: "APC geninin germ hattı mutasyonlarından kaynaklanır.",
+        e: "FAP hastalarında desmoid tümörlerin temelinde <strong>APC geni</strong> mutasyonları yatar."
+    },
+    {
+        p: "Sayfa 282",
+        q: "Aşağıdakilerden hangisi desmoid tümör gelişimi için önemli bir risk faktörüdür?",
+        a: ["Düşük lifli diyet", "Kronik alkol kullanımı", "Travma, gebelik ve OKS kullanımı", "Güneş ışığına maruziyet", "Sigara kullanımı"],
+        c: 2,
+        h: "Travma, gebelik, OKS kullanımı ve geçirilmiş ameliyat önemli bir risk faktörüdür.",
+        e: "Özellikle <strong>geçirilmiş ameliyatlar ve gebelik</strong> gibi faktörler karın duvarı desmoidlerini tetikleyebilir."
+    },
+    {
+        p: "Sayfa 282",
+        q: "Desmoid tümörlerin tanısı, lokal evrelemesi ve takibi için tercih edilen en iyi görüntüleme yöntemi hangisidir?",
+        a: ["BT", "PET-BT", "MR", "USG", "Sintigrafi"],
+        c: 2,
+        h: "MR desmoid tümörlerin tanı, lokal evreleme ve takibi için tercih edilen yöntemdir.",
+        e: "Yumuşak doku çözünürlüğü yüksek olduğu için <strong>MR</strong> desmoidlerde altın standart görüntülemedir."
+    },
+    {
+        p: "Sayfa 282",
+        q: "Desmoid tümörlerin tanısında altın standart yöntem aşağıdakilerden hangisidir?",
+        a: ["FNA (İnce iğne aspirasyonu)", "Core biyopsi", "Kan tahlili (CEA/CA19-9)", "Tanısal laparoskopi", "Yalnızca radyolojik takip"],
+        c: 1,
+        h: "Tanı genellikle core biyopsi ile konur.",
+        e: "Doku bütünlüğünü ve histolojik yapıyı görmek adına <strong>core (tru-cut) biyopsi</strong> gereklidir."
+    },
+    {
+        p: "Sayfa 282",
+        q: "Semptomatik veya progresif desmoid tümörlerde altın standart tedavi yöntemi nedir?",
+        a: ["Yalnızca kemoterapi", "Radyoterapi", "Geniş sağlam cerrahi sınır ile rezeksiyon", "İzlem", "Ablasyon"],
+        c: 2,
+        h: "Tümörün geniş sağlam cerrahi sınır ile rezeksiyonu altın standart tedavidir.",
+        e: "Nüksleri önlemek için <strong>geniş cerrahi rezeksiyon</strong> temel tedavidir."
+    },
+    {
+        p: "Sayfa 283",
+        q: "Yumuşak doku sarkomları vücutta en sık hangi bölgede yerleşir?",
+        a: ["Retroperiton", "Gövde", "Ekstremite", "Baş-boyun", "İntraabdominal"],
+        c: 2,
+        h: "Yumuşak doku sarkomları, en sık ekstremitede görülür.",
+        e: "Sarkomlar en sık <strong>ekstremitelerde</strong>, ikinci sıklıkla ise retroperitonda izlenir."
+    },
+    {
+        p: "Sayfa 283",
+        q: "Aşağıdakilerden hangisi yumuşak doku sarkomları için önemli predispozan faktörlerdendir?",
+        a: ["Beslenme alışkanlıkları", "Radyasyon maruziyeti ve genetik sendromlar", "Hareketsiz yaşam", "Kronik irritasyon", "Hepatit B"],
+        c: 1,
+        h: "Radyasyon maruziyeti ve genetik sendromlar (nörofibromatozis ve Li-Fraumeni sendromu) önemli predispozan faktörlerdir.",
+        e: "Özellikle geçmişteki <strong>radyoterapi</strong> öyküsü ve <strong>Li-Fraumeni</strong> sendromu sarkom riskini artırır."
+    },
+    {
+        p: "Sayfa 283",
+        q: "Karın duvarı sarkomlarının tanısında en iyi yöntem hangisidir?",
+        a: ["Açık biyopsi", "Core biyopsi", "İnce iğne aspirasyonu", "Tam kat cilt biyopsisi", "Frozın"],
+        c: 1,
+        h: "Tanıda en iyi yöntem core biyopsidir.",
+        e: "Sarkomlarda tümör ekimini önlemek ve tanı koymak için <strong>core biyopsi</strong> önceliklidir."
+    },
+    {
+        p: "Sayfa 283",
+        q: "Sarkom cerrahisinde tanı aşamasında aşağıdakilerden hangisinden kaçınılmalıdır?",
+        a: ["MR çekilmesi", "Core biyopsi", "Açık biyopsi", "Toraks BT", "Fizik muayene"],
+        c: 2,
+        h: "Açık biyopsiden kaçınılmalıdır.",
+        e: "Postoperatif hematom ve lokal yayılım riski nedeniyle sarkomlarda <strong>açık biyopsiden</strong> kaçınılır."
+    },
+    {
+        p: "Sayfa 283",
+        q: "Yumuşak doku sarkomlarında rezeksiyon sınırı olarak 'Dermatofibrosarkoma Protuberans' için gereken minimum sınır nedir?",
+        a: ["0.5 cm", "1 cm", "2 cm", "5 cm", "Sınır önemli değildir"],
+        c: 2,
+        h: "Dermatofibrosarkoma protuberans için 2 cm'lik sınır gerekir.",
+        e: "Çoğu sarkomda 1 cm yeterli olsa da, <strong>Dermatofibrosarkoma Protuberans</strong> lokal invazif olduğu için <strong>2 cm</strong> sınır istenir."
+    },
+    {
+        p: "Sayfa 283",
+        q: "Sarkomlarda lenfatik yayılım ile ilgili hangisi doğrudur?",
+        a: ["Her hastada rutin lenfadenektomi yapılmalıdır", "Vakaların %50'sinde lenf nodu pozitiftir", "Lenfatik yayılım olmadıkça lenfadenektomi gerekmez", "Sarkomlar asla lenfatik yayılım yapmaz", "En sık aksiller lenf noduna metastaz yapar"],
+        c: 2,
+        h: "<%5'i LN'larına metastaz yaptığından lenfatik yayılım olmadıkça lenfadenektomi gerekmez.",
+        e: "Sarkomlarda lenf nodu metastazı <strong>%5'in altındadır</strong>; bu nedenle rutin diseksiyon gerekmez."
+    },
+    {
+        p: "Sayfa 283",
+        q: "Karın duvarına hematojen metastaz yapan en sık malignite hangisidir?",
+        a: ["Mide kanseri", "Pankreas kanseri", "Akciğer, kolon, renal karsinom ve melanom", "Serviks kanseri", "Prostat kanseri"],
+        c: 2,
+        h: "Hematojen metastaz ile gelen en sık maligniteler: akciğer, kolon, renal karsinom ve melanom.",
+        e: "Karın duvarına metastazlar genelde <strong>akciğer, kolon, böbrek ve melanom</strong> kaynaklıdır."
+    },
+    {
+        p: "Sayfa 284",
+        q: "Peritonun fizyolojik özelliği hakkında hangisi doğrudur?",
+        a: ["Sadece tek yönlü sıvı geçişine izin verir", "Çift yönlü, yarı geçirgen bir membrandır", "Sadece emilim yapar, salgı yapmaz", "Sinir uçları içermez", "Sadece viseral organdan oluşur"],
+        c: 1,
+        h: "Periton çift yönlü, yarı geçirgen bir membrandır.",
+        e: "Periton hem salgı (eksüdasyon) hem de emilim (absorpsiyon) yapabilen <strong>çift yönlü</strong> bir zar yapısıdır."
+    },
+    {
+        p: "Sayfa 284",
+        q: "Periton sıvısının dolaşım yönü hakkında hangisi doğrudur?",
+        a: ["Aşağıdan yukarıya (pelvisten diyaframa) doğrudur", "Yukarıdan aşağıya doğrudur", "Sabit durur, dolaşmaz", "Yalnızca organlar arasında dikey hareket eder", "Sadece sağ tarafta dolaşır"],
+        c: 0,
+        h: "Periton sıvısının diyaframa ve merkezi lenfatik kanallara doğru bu dolaşım şekli...",
+        e: "Periton içi sıvı, negatif basınç ve solunumun etkisiyle <strong>diyaframa ve lenfatik kanallara</strong> doğru (kraniale) hareket eder."
+    },
+    {
+        p: "Sayfa 284",
+        q: "Akut salpenjitli bir hastada enfeksiyonun diyafram altına yayılıp perihepatit yapmasına (asendan yolla) ne ad verilir?",
+        a: ["Rovsing belirtisi", "Fitz-Hugh-Curtis sendromu", "Meigs sendromu", "Cullen belirtisi", "Grey Turner belirtisi"],
+        c: 1,
+        h: "Akut salpenjit hastalarında asendan yolla hepatit olması (Fitz-Hugh-Curtis sendromu).",
+        e: "Pelvik inflamatuar hastalığın kraniale yayılıp karaciğer kapsülünde yapışıklık yapmasına <strong>Fitz-Hugh-Curtis</strong> sendromu denir."
+    },
+    {
+        p: "Sayfa 284",
+        q: "Sirotik asit oluşumunda rol oynayan en önemli iki faktör nedir?",
+        a: ["Enfeksiyon ve düşük protein", "Renal sodyum ve su retansiyonu ile portal hipertansiyon", "Hipoalbüminemi ve kalp yetmezliği", "Safra tıkanıklığı ve dehidratasyon", "K vitamini eksikliği ve splenomegali"],
+        c: 1,
+        h: "Sirotik asit oluşumunun altında yatan 2 temel faktör: renal sodyum ve su retansiyonu ile portal hipertansiyondur.",
+        e: "Asit oluşumunda <strong>portal hipertansiyon</strong> ve böbreklerdeki <strong>tuz/su tutulumu</strong> ana patofizyolojik süreçlerdir."
+    },
+    {
+        p: "Sayfa 284",
+        q: "Şilöz asit nedir?",
+        a: ["İltihaplı karın sıvısı", "Kansız periton sıvısı", "Lenfatik sıvı", "Safra içeren sıvı", "Üre içeren sıvı"],
+        c: 2,
+        h: "Şilöz Asit -> lenfatik sıvı.",
+        e: "Lenfatik kanalların tıkanması veya yaralanması sonucu karın içinde biriken süt rengindeki sıvıya <strong>şilöz asit</strong> denir."
+    },
+    {
+        p: "Sayfa 285",
+        q: "Yetişkinlerde şilöz asitin en sık nedeni nedir?",
+        a: ["Travma", "Mutfak kazaları", "İntra-abdominal maligniteler", "Siroz", "Kalp yetmezliği"],
+        c: 2,
+        h: "Yetişkinlerde şilöz asitin en sık nedeni lenfatik kanalları tıkayan intra-abdominal malignitedir.",
+        e: "Erişkin yaş grubunda lenfatik akımı bozan <strong>maligniteler</strong> (özellikle lenfoma) şilöz asitin baş sorumlusudur."
+    },
+    {
+        p: "Sayfa 285",
+        q: "Şilöz asit ile ilişkili en yaygın malign neoplazm hangisidir?",
+        a: ["Kolon kanseri", "Lenfoma", "Pankreas kanseri", "Mide kanseri", "HCC"],
+        c: 1,
+        h: "Lenfoma, şilöz asit ile ilişkili en yaygın malign neoplazmdır.",
+        e: "Lenf düğümlerini yaygın tutan <strong>Lenfomalar</strong>, lenfatik drenajı engelleyerek şilöz asite yol açar."
+    },
+    {
+        p: "Sayfa 285",
+        q: "Şilöz asiti olan hastalar tipik olarak hangi şikayetle başvurur?",
+        a: ["Şiddetli bulantı-kusma", "Ağrısız karın şişliği", "Ateş ve titreme", "Melena", "Sarılık"],
+        c: 1,
+        h: "Şilöz asiti olan hastalar çoğunlukla ağrısız karın şişliği ile başvurur.",
+        e: "Şilöz asit genelde inflamatuar bir süreç olmadığı için <strong>ağrısız şişkinlik</strong> ön plandadır."
+    },
+    {
+        p: "Sayfa 285",
+        q: "Şilöz asit tanısında SAAG (Serum-Asit Albümin Gradiyenti) ve trigliserid seviyeleri nasıldır?",
+        a: ["SAAG > 1,1 ve düşük trigliserid", "SAAG < 1,1 ve plazmadan 2-8 kat yüksek trigliserid", "SAAG > 1,1 ve plazmadan düşük trigliserid", "SAAG < 1,1 ve düşük protein", "SAAG ve trigliserid normaldir"],
+        c: 1,
+        h: "SAAG 1,1 mg/dL'den az ve trigliserid seviyesi plazmadan 2-8 kat daha yüksektir.",
+        e: "Şilöz asit bir eksüdadır (<strong>SAAG < 1,1</strong>) ve karakteristik olarak <strong>yüksek trigliserid</strong> içerir."
+    },
+    {
+        p: "Sayfa 285",
+        q: "Şilöz asitli hastaların diyet tedavisinde temel prensip nedir?",
+        a: ["Düşük proteinli diyet", "Yüksek yağlı diyet", "Orta zincirli trigliserit (MCT), yüksek protein ve düşük yağlı diyet", "Bol karbonhidratlı diyet", "Sadece sıvı diyet"],
+        c: 2,
+        h: "Çoğu hasta, orta zincirli trigliseritlerle desteklenmiş yüksek proteinli ve düşük yağlı bir diyet uygulanmasına yanıt verir.",
+        e: "<strong>Orta zincirli yağ asitleri (MCT)</strong> lenf sistemine girmeden portal venle emildiği için lenf yükünü azaltmak amacıyla kullanılır."
+    },
+    {
+        p: "Sayfa 285",
+        q: "Şilöz asit tedavisinde lenfatik kaçağı azaltmak için hangi ilaç kullanılabilir?",
+        a: ["Furosemid", "Somatostatin analogları", "Antibiyotikler", "Kortikosteroidler", "Proton pompası inhibitörleri"],
+        c: 1,
+        h: "Somatostatin analogları lenfatik kaçağı azaltabilir.",
+        e: "<strong>Somatostatin (Oktreotid)</strong>, splanknik kan akımını ve lenfatik sekresyonu azaltarak kaçağı kontrol altına alabilir."
+    },
+    {
+        p: "Sayfa 285",
+        q: "Şilöz asit hastalarında diyette uzun zincirli yağ asitlerinin kısıtlanma nedeni nedir?",
+        a: ["Vitamin emilimini bozması", "Şilöz akış hızını artıracakları varsayılması", "Kilo aldırması", "Sıvı tutulumunu artırması", "Sindirilememesi"],
+        c: 1,
+        h: "Uzun zincirli alımının azalmasının şilöz akış hızını azaltacağı varsayılmaktadır.",
+        e: "<strong>Uzun zincirli yağ asitleri</strong> lenfatik şilomikronlarla taşındığı için akış hızını artırır, bu yüzden kısıtlanırlar."
+    },
+    {
+        p: "Sayfa 285",
+        q: "Konservatif tedaviye yanıt vermeyen şilöz asit vakalarının yaklaşık ne kadarında cerrahi gerekir?",
+        a: ["Hepsinde", "Yarısında", "Üçte birinde", "Sadece %5'inde", "Asla gerekmez"],
+        c: 2,
+        h: "Ancak, hastaların üçte birinde cerrahi tedavi gerekir.",
+        e: "Hastaların <strong>1/3</strong>'lük kısmı cerrahi ligasyon veya şant işlemlerine ihtiyaç duyar."
+    },
+    {
+        p: "Sayfa 285",
+        q: "Primer peritonit (Spontan Bakteriyel Peritonit) en sık hangi yolla gelişir?",
+        a: ["Travma", "Ameliyat sonrası", "Hematojen yayılım", "Fistül", "Komşu organ perforasyonu"],
+        c: 2,
+        h: "Primer peritonit... hematojen yayılım ile oluşur.",
+        e: "Herhangi bir intraabdominal organ delinmesi olmaksızın gelişen bu peritonit genelde <strong>hematojen</strong> kökenlidir."
+    },
+    {
+        p: "Sayfa 285",
+        q: "Primer peritonitin mikrobiyolojik özelliği nedir?",
+        a: ["Çoklu bakteri türü (Polimikrobiyal)", "Monomikrobiyaldir", "Sadece mantar enfeksiyonudur", "Sadece anaeroblar ürer", "Virüs kaynaklıdır"],
+        c: 1,
+        h: "Genellikle monomikrobiyaldir.",
+        e: "Sekonder peritonitlerin aksine primer peritonitler <strong>tek bir mikroorganizma</strong> (monomikrobiyal) ile gelişir."
+    },
+    {
+        p: "Sayfa 285",
+        q: "Sekonder peritonit en sık hangi sebeple ortaya çıkar?",
+        a: ["Kan yoluyla gelen enfeksiyon", "GİS veya GÜS perforasyonu veya inflamasyonu", "Hipotermi", "İlaç yan etkisi", "Yalnızca karaciğer yetmezliği"],
+        c: 1,
+        h: "Sekonder peritonit; GİS veya GÜS perforasyonu veya inflamasyonu ile ortaya çıkar.",
+        e: "<strong>Appendisit, perforasyon</strong> gibi cerrahi müdahale gerektiren odakların varlığı sekonder peritonit tablosudur."
+    },
+    {
+        p: "Sayfa 285",
+        q: "Tersiyer peritonit hangi durumlarda görülür?",
+        a: ["İdrar kaçması sonrası", "İlk enfeksiyonun temizlenemediği, immün sistemi baskılanmış hastalarda", "Ameliyattan hemen 1 saat sonra", "Safra taşı düşmesi sonrası", "Yalnızca sirozda"],
+        c: 1,
+        h: "Tersiyer peritonit; konak savunmasının başlangıçtaki sekonder peritoneal enfeksiyonu temizleyemediği, immün sistemi baskılanmış hastalarda...",
+        e: "Cerrahi ve antibiyotiğe rağmen peritonun <strong>temizlenememesi</strong> ve dirençli mikroorganizmaların varlığı tersiyer peritonittir."
+    },
+    {
+        p: "Sayfa 286",
+        q: "Asiti olan çocuklarda gelişen spontan bakteriyel peritonitte en sık izole edilen bakteriler hangileridir?",
+        a: ["E. Coli ve Klebsiella", "A grubu streptokok, Staf aureus ve Streptococcus pneumoniae", "Bacteroides fragilis", "Candida albicans", "Listeria"],
+        c: 1,
+        h: "Nefrojenik veya hepatojenik asiti olan çocuklarda A grubu streptokok, Staf aureus ve Streptococcus pneumoniae yaygın izolatlardır.",
+        e: "Çocuklarda primer peritonit etkenleri yetişkinlerden (E.coli) farklı olarak daha çok <strong>G (+) koklar</strong>dır."
+    },
+    {
+        p: "Sayfa 286",
+        q: "SBP (Spontan Bakteriyel Peritonit) tanısı için parasentezde hangi kriter aranır?",
+        a: ["Yüksek protein ve düşük nötrofil", "Düşük protein ve >250 nötrofil/mm3", "Yüksek LDH ve polimikrobiyal kültür", "Sadece bakterinin görülmesi yeterlidir", "SAAG > 1,1"],
+        c: 1,
+        h: "SBP tanısı için... düşük protein ve artmış nötrofil sayısı (>250 nötrofil/mm3) ile konur.",
+        e: "Asit sıvısında <strong>nötrofil sayısının 250/mm3'ten fazla</strong> olması SBP için tanı koydurucudur."
+    },
+    {
+        p: "Sayfa 286",
+        q: "SBP şüphesi olan hastalarda ilk seçenek (tercih edilen) antibiyotik grubu hangisidir?",
+        a: ["Aminoglikozitler", "Metronidazol", "3. kuşak sefalosporinler", "Sadece penisilin", "Vankomisin"],
+        c: 2,
+        h: "3. kuşak sefalosporinler tercih edilen antibiyotiklerdir.",
+        e: "Gram negatifleri de kapsayan <strong>3. kuşak sefalosporinler</strong> (Sefotaksim gibi) SBP'de ilk tercihtir."
+    }
+];
+
+let currentIndex = 0;
+let score = 0;
+
+function loadQuestion() {
+    const quizContainer = document.getElementById('quiz-container');
+    const q = quizData[currentIndex];
+    
+    quizContainer.innerHTML = `
+        <div class="score-board">Soru: <span id="current-index">${currentIndex + 1}</span> / 50 | Skor: <span id="score">${score}</span></div>
+        <div class="question-card active">
+            <div class="page-tag">${q.p}</div>
+            <div class="question-text">${q.q}</div>
+            <button class="hint-btn" onclick="toggleHint()">💡 İpucu Göster</button>
+            <div class="hint-content" id="hint-text">${q.h}</div>
+            <div id="options-container">
+                ${q.a.map((opt, i) => `<div class="option" onclick="checkAnswer(${i}, ${q.c})">${String.fromCharCode(65 + i)}) ${opt}</div>`).join('')}
+            </div>
+            <div class="explanation" id="explanation-text">
+                <strong>Açıklama:</strong><br>${q.e}
+            </div>
+        </div>
+    `;
+    
+    updateNavButtons();
+}
+
+function checkAnswer(selected, correct) {
+    const options = document.querySelectorAll('.option');
+    if(options[0].style.pointerEvents === 'none') return;
+
+    if(selected === correct) {
+        options[selected].classList.add('correct');
+        score++;
+    } else {
+        options[selected].classList.add('wrong');
+        options[correct].classList.add('correct');
+    }
+    
+    document.getElementById('score').innerText = score;
+    document.getElementById('explanation-text').style.display = 'block';
+    
+    options.forEach(opt => opt.style.pointerEvents = 'none');
+}
+
+function toggleHint() {
+    const hint = document.getElementById('hint-text');
+    hint.style.display = (hint.style.display === 'block') ? 'none' : 'block';
+}
+
+function changeQuestion(step) {
+    currentIndex += step;
+    if(currentIndex >= quizData.length) {
+        showSummary();
+    } else {
+        loadQuestion();
+    }
+}
+
+function updateNavButtons() {
+    document.getElementById('prev-btn').disabled = (currentIndex === 0);
+    document.getElementById('next-btn').innerText = (currentIndex === quizData.length - 1) ? "Sınavı Bitir" : "İleri";
+}
+
+function showSummary() {
+    document.getElementById('quiz-container').style.display = 'none';
+    document.getElementById('prev-btn').style.display = 'none';
+    document.getElementById('next-btn').style.display = 'none';
+    const summary = document.getElementById('summary');
+    summary.style.display = 'block';
+    document.getElementById('final-score').innerText = `Toplam 50 sorudan ${score} doğru yaptınız. Başarı Oranı: %${(score/50*100).toFixed(1)}`;
+}
+
+// Başlat
+loadQuestion();
+
+</script>
+</body>
+</html>

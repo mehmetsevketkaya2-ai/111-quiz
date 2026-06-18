@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>İntestinal Tıkanıklıklar – TUS Quiz</title>
+<title>GİS Kanamaları & Fistülleri – TUS Quiz</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -22,43 +22,31 @@
 
   .section-badge {
     font-family: 'IBM Plex Mono', monospace;
-    color: var(--accent2);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    margin-bottom: 14px;
-    display: block;
+    color: var(--accent2); font-size: 11px; font-weight: 600;
+    letter-spacing: .12em; text-transform: uppercase;
+    margin-bottom: 14px; display: block;
   }
 
   .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 24px 24px 20px;
-    margin-bottom: 16px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 24px 24px 20px; margin-bottom: 16px;
   }
 
   .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
   #q-num { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); }
   #star-btn {
     background: none; border: none; cursor: pointer;
-    font-size: 20px; color: var(--muted); transition: color .2s, transform .15s;
-    padding: 4px;
+    font-size: 20px; color: var(--muted); transition: color .2s, transform .15s; padding: 4px;
   }
   #star-btn:hover { transform: scale(1.2); }
   #star-btn.active { color: var(--gold); }
 
   .year-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
   .year-tag {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px; font-weight: 500;
-    background: rgba(91,141,238,.12);
-    color: var(--accent);
-    border: 1px solid rgba(91,141,238,.25);
-    border-radius: 4px;
-    padding: 2px 8px;
-    letter-spacing: .06em;
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500;
+    background: rgba(91,141,238,.12); color: var(--accent);
+    border: 1px solid rgba(91,141,238,.25); border-radius: 4px;
+    padding: 2px 8px; letter-spacing: .06em;
   }
 
   #q-text { font-size: 15px; line-height: 1.7; margin-bottom: 18px; }
@@ -66,49 +54,29 @@
 
   .hint-toggle {
     display: inline-flex; align-items: center; gap: 6px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px; font-weight: 600;
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
     color: var(--gold); background: rgba(245,200,66,.08);
-    border: 1px solid rgba(245,200,66,.2);
-    border-radius: 6px; padding: 6px 12px; cursor: pointer;
-    margin-bottom: 16px; transition: background .2s;
+    border: 1px solid rgba(245,200,66,.2); border-radius: 6px;
+    padding: 6px 12px; cursor: pointer; margin-bottom: 16px; transition: background .2s;
   }
   .hint-toggle:hover { background: rgba(245,200,66,.16); }
   #hint-box {
-    display: none;
-    background: rgba(245,200,66,.06);
-    border: 1px solid rgba(245,200,66,.2);
-    border-radius: 8px;
-    padding: 12px 14px;
-    margin-bottom: 16px;
-    font-size: 13.5px;
-    line-height: 1.65;
-    color: var(--text);
+    display: none; background: rgba(245,200,66,.06);
+    border: 1px solid rgba(245,200,66,.2); border-radius: 8px;
+    padding: 12px 14px; margin-bottom: 16px; font-size: 13.5px; line-height: 1.65; color: var(--text);
   }
   #hint-box.open { display: block; }
 
   .options { display: flex; flex-direction: column; gap: 8px; }
   .opt-btn {
     display: flex; align-items: flex-start; gap: 10px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 9px;
-    padding: 11px 14px;
-    cursor: pointer;
-    text-align: left;
-    color: var(--text);
-    font-size: 14px;
-    line-height: 1.55;
-    transition: border-color .18s, background .18s;
-    width: 100%;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 9px; padding: 11px 14px; cursor: pointer;
+    text-align: left; color: var(--text); font-size: 14px; line-height: 1.55;
+    transition: border-color .18s, background .18s; width: 100%;
   }
   .opt-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(91,141,238,.07); }
-  .opt-letter {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px; font-weight: 600;
-    color: var(--accent);
-    min-width: 18px; margin-top: 1px;
-  }
+  .opt-letter { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; color: var(--accent); min-width: 18px; margin-top: 1px; }
   .opt-btn.correct { border-color: var(--green); background: rgba(62,207,116,.1); }
   .opt-btn.correct .opt-letter { color: var(--green); }
   .opt-btn.wrong { border-color: var(--red); background: rgba(240,71,109,.1); }
@@ -117,150 +85,89 @@
 
   .feedback { display: none; margin-top: 18px; }
   .feedback.open { display: block; }
-  .trap-box {
-    background: rgba(240,71,109,.07);
-    border: 1px solid rgba(240,71,109,.2);
-    border-radius: 8px;
-    padding: 13px 15px;
-    margin-bottom: 10px;
-  }
+  .trap-box { background: rgba(240,71,109,.07); border: 1px solid rgba(240,71,109,.2); border-radius: 8px; padding: 13px 15px; margin-bottom: 10px; }
   .trap-title { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; color: var(--red); letter-spacing: .08em; margin-bottom: 7px; }
   .trap-text { font-size: 13.5px; line-height: 1.65; }
-  .explain-box {
-    background: rgba(91,141,238,.07);
-    border: 1px solid rgba(91,141,238,.2);
-    border-radius: 8px;
-    padding: 13px 15px;
-  }
+  .explain-box { background: rgba(91,141,238,.07); border: 1px solid rgba(91,141,238,.2); border-radius: 8px; padding: 13px 15px; }
   .explain-title { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: .08em; margin-bottom: 7px; }
   .explain-text { font-size: 13.5px; line-height: 1.7; }
   .explain-text b { color: var(--accent2); }
 
-  .nav-wrap { position: sticky; bottom: 0; background: var(--bg); border-top: 1px solid var(--border); padding: 12px 0; margin-top: 8px; }
-  .nav {
-    display: flex; justify-content: space-between; align-items: center;
-    max-width: 760px; margin: 0 auto;
-    padding: 0 16px;
-  }
+  /* NAV */
+  .nav-wrap { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(15,17,23,.92); backdrop-filter: blur(10px); border-top: 1px solid var(--border); padding: 12px 16px; z-index: 50; }
+  .nav { display: flex; justify-content: space-between; align-items: center; max-width: 760px; margin: 0 auto; }
   .nav-btn {
-    background: var(--surface); border: 1px solid var(--border);
-    color: var(--text); border-radius: 9px;
-    padding: 10px 18px; font-size: 13px; font-weight: 600;
-    cursor: pointer; transition: border-color .2s, background .2s;
-    font-family: 'Inter', sans-serif;
+    background: var(--surface); border: 1px solid var(--border); color: var(--text);
+    border-radius: 9px; padding: 10px 18px; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: border-color .2s, background .2s; font-family: 'Inter', sans-serif;
   }
   .nav-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(91,141,238,.1); }
   .nav-btn:disabled { opacity: .35; cursor: default; }
   .nav-btn.result-btn { background: var(--accent2); border-color: var(--accent2); color: #fff; }
-  .nav-btn.result-btn:hover { background: #c44d6a; border-color: #c44d6a; }
-
   #q-counter {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px; font-weight: 600;
-    background: var(--surface); border: 1px solid var(--border);
-    color: var(--muted); border-radius: 8px;
-    padding: 8px 14px; cursor: pointer;
-    transition: border-color .2s;
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600;
+    background: var(--surface); border: 1px solid var(--border); color: var(--muted);
+    border-radius: 8px; padding: 8px 14px; cursor: pointer; transition: border-color .2s;
   }
   #q-counter:hover { border-color: var(--accent); color: var(--text); }
 
-  .q-modal-overlay {
-    display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,.6); backdrop-filter: blur(4px);
-    z-index: 200; align-items: flex-end; justify-content: center;
-  }
+  /* MODAL */
+  .q-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); backdrop-filter: blur(4px); z-index: 200; align-items: flex-end; justify-content: center; }
   .q-modal-overlay.open { display: flex; }
-  .q-modal {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 16px 16px 0 0;
-    width: 100%; max-width: 760px;
-    max-height: 70vh; overflow-y: auto;
-    padding: 20px 16px 32px;
-  }
-  .q-modal-title {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px; font-weight: 600; color: var(--muted);
-    letter-spacing: .1em; text-transform: uppercase;
-    margin-bottom: 14px; text-align: center;
-  }
+  .q-modal { background: var(--surface); border: 1px solid var(--border); border-radius: 16px 16px 0 0; width: 100%; max-width: 760px; max-height: 70vh; overflow-y: auto; padding: 20px 16px 32px; }
+  .q-modal-title { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 14px; text-align: center; }
   .q-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
-  .q-grid-btn {
-    aspect-ratio: 1; border-radius: 8px;
-    background: var(--card); border: 1px solid var(--border);
-    color: var(--muted); font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px; font-weight: 600; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: all .15s;
-  }
+  .q-grid-btn { aspect-ratio: 1; border-radius: 8px; background: var(--card); border: 1px solid var(--border); color: var(--muted); font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .15s; }
   .q-grid-btn.current { background: var(--accent); border-color: var(--accent); color: #fff; }
   .q-grid-btn.done-correct { background: rgba(62,207,116,.15); border-color: var(--green); color: var(--green); }
-  .q-grid-btn.done-wrong { background: rgba(240,71,109,.12); border-color: var(--red); color: var(--red); }
+  .q-grid-btn.done-wrong { background: rgba(240,71,109,.15); border-color: var(--red); color: var(--red); }
   .q-grid-btn.starred-q { box-shadow: 0 0 0 2px var(--gold); }
+  .q-grid-btn:hover { transform: scale(1.08); }
 
-  /* RESULT SCREEN */
+  /* RESULT */
   #result-screen { display: none; max-width: 760px; margin: 0 auto; padding: 40px 16px; }
-  .result-hero { text-align: center; margin-bottom: 32px; }
-  .score-ring {
-    --pct: 0%;
-    width: 120px; height: 120px;
-    border-radius: 50%;
-    background: conic-gradient(var(--accent) var(--pct), var(--border) 0);
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 16px;
-    position: relative;
-  }
-  .score-ring::after {
-    content: '';
-    position: absolute;
-    inset: 12px;
-    border-radius: 50%;
-    background: var(--bg);
-  }
-  #score-pct {
-    position: relative; z-index: 1;
+  .result-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 36px 28px; text-align: center; }
+  .score-ring { width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(var(--accent) 0%, var(--accent2) var(--pct, 0%), var(--border) var(--pct, 0%) 100%); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+  .score-inner { width: 92px; height: 92px; border-radius: 50%; background: var(--card); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .score-pct { font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 600; color: var(--text); }
+  .score-label { font-size: 10px; color: var(--muted); letter-spacing: .08em; }
+  .result-stats { display: flex; justify-content: center; gap: 32px; margin-bottom: 28px; }
+  .stat-item { text-align: center; }
+  .stat-num { font-family: 'IBM Plex Mono', monospace; font-size: 28px; font-weight: 700; }
+  .stat-num.green { color: var(--green); }
+  .stat-num.red { color: var(--red); }
+  .stat-num.gold { color: var(--gold); }
+  .stat-lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .result-btns { display: flex; flex-direction: column; gap: 10px; }
+  .res-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); border-radius: 10px; padding: 13px 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all .2s; font-family: 'Inter', sans-serif; }
+  .res-btn:hover { border-color: var(--accent); background: rgba(91,141,238,.1); }
+  .res-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .res-btn.primary:hover { background: #4a7bd4; }
+  .res-btn.share { border-color: var(--gold); color: var(--gold); }
+  .res-btn.share:hover { background: rgba(245,200,66,.1); }
+  .result-title { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .result-sub { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+
+  /* TOPIC DIVIDER */
+  .topic-divider {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 22px; font-weight: 600; color: var(--text);
+    font-size: 10px; font-weight: 700; letter-spacing: .15em;
+    color: var(--muted); text-transform: uppercase;
+    text-align: center; padding: 6px 0; margin-bottom: 4px;
   }
-  .result-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-  .result-sub { color: var(--muted); font-size: 14px; }
-  .result-stats { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px; }
-  .stat-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 10px; padding: 14px 20px; text-align: center; min-width: 90px;
-  }
-  .stat-val { font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 600; }
-  .stat-val.green { color: var(--green); }
-  .stat-val.red { color: var(--red); }
-  .stat-val.gold { color: var(--gold); }
-  .stat-label { font-size: 11px; color: var(--muted); margin-top: 4px; }
-  .result-actions { display: flex; flex-direction: column; gap: 10px; max-width: 340px; margin: 0 auto; }
-  .result-btn-full {
-    width: 100%; padding: 13px; border-radius: 10px;
-    font-size: 14px; font-weight: 600; cursor: pointer;
-    font-family: 'Inter', sans-serif; border: 1px solid var(--border);
-    transition: all .2s;
-  }
-  .result-btn-full.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .result-btn-full.primary:hover { background: #4a7dd4; }
-  .result-btn-full.secondary { background: var(--surface); color: var(--text); }
-  .result-btn-full.secondary:hover { border-color: var(--accent); }
-  .result-btn-full.danger { background: rgba(240,71,109,.1); border-color: var(--red); color: var(--red); }
-  .result-btn-full.danger:hover { background: rgba(240,71,109,.2); }
-  .result-btn-full.gold-btn { background: rgba(245,200,66,.1); border-color: var(--gold); color: var(--gold); }
-  .result-btn-full.gold-btn:hover { background: rgba(245,200,66,.2); }
 </style>
 </head>
 <body>
 
 <div class="progress-wrap"><div class="progress-bar" id="progress-bar"></div></div>
 
-<div class="container">
-  <div class="card" id="quiz-card">
+<div class="container" id="quiz-container">
+  <span class="section-badge" id="section-badge">GİS KANAMALARI VE FİSTÜLLERİ</span>
+  <div class="card">
     <div class="q-header">
-      <span id="q-num">Soru 1 / 23</span>
+      <span id="q-num">Soru 1 / 15</span>
       <button id="star-btn" onclick="toggleStar()" title="Yıldızla">☆</button>
     </div>
-    <span class="section-badge" id="section-badge">İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ</span>
     <div class="year-tags" id="year-tags"></div>
     <div id="q-text"></div>
     <button class="hint-toggle" onclick="toggleHint()">💡 İpucu</button>
@@ -268,7 +175,7 @@
     <div class="options" id="options"></div>
     <div class="feedback" id="feedback">
       <div class="trap-box">
-        <div class="trap-title">⚠️ TUZAK / YANILTI</div>
+        <div class="trap-title">⚠ TUZAK</div>
         <div class="trap-text" id="trap-text"></div>
       </div>
       <div class="explain-box">
@@ -279,456 +186,239 @@
   </div>
 </div>
 
-<div class="nav-wrap" id="nav">
+<div id="result-screen">
+  <div class="result-card">
+    <div class="score-ring" id="score-ring">
+      <div class="score-inner">
+        <span class="score-pct" id="score-pct">0%</span>
+        <span class="score-label">Başarı</span>
+      </div>
+    </div>
+    <div class="result-title">Quiz Tamamlandı!</div>
+    <div class="result-sub">GİS Kanamaları & Fistülleri</div>
+    <div class="result-stats">
+      <div class="stat-item"><div class="stat-num green" id="r-correct">0</div><div class="stat-lbl">Doğru</div></div>
+      <div class="stat-item"><div class="stat-num red" id="r-wrong">0</div><div class="stat-lbl">Yanlış</div></div>
+      <div class="stat-item"><div class="stat-num gold" id="r-star">0</div><div class="stat-lbl">Yıldızlı</div></div>
+    </div>
+    <div class="result-btns">
+      <button class="res-btn primary" onclick="restartQuiz()">🔄 Tüm Soruları Yeniden Çöz</button>
+      <button class="res-btn" id="retry-wrong-btn" onclick="retryWrong()">✗ Yanlışları Tekrar Çöz</button>
+      <button class="res-btn" id="retry-star-btn" onclick="retryStar()">★ Yıldızlıları Tekrar Çöz</button>
+    </div>
+  </div>
+</div>
+
+<div class="nav-wrap">
   <div class="nav">
-    <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">← Önceki</button>
-    <button id="q-counter" onclick="toggleQuestionList()">1 / 23 ☰</button>
+    <button class="nav-btn" id="prev-btn" onclick="navigate(-1)" disabled>← Önceki</button>
+    <button id="q-counter" onclick="toggleQuestionList()">1 / 15 ☰</button>
     <button class="nav-btn" id="next-btn" onclick="navigate(1)">Sonraki →</button>
   </div>
 </div>
 
 <div class="q-modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
   <div class="q-modal">
-    <div class="q-modal-title">Soru Seç</div>
+    <div class="q-modal-title">Soru Listesi</div>
     <div class="q-grid" id="q-grid"></div>
-  </div>
-</div>
-
-<div id="result-screen">
-  <div class="result-hero">
-    <div class="score-ring" id="score-ring"><span id="score-pct">0%</span></div>
-    <div class="result-title">Quiz Tamamlandı!</div>
-    <div class="result-sub">İntestinal Tıkanıklıklar ve Cerrahisi</div>
-  </div>
-  <div class="result-stats">
-    <div class="stat-card"><div class="stat-val green" id="r-correct">0</div><div class="stat-label">Doğru</div></div>
-    <div class="stat-card"><div class="stat-val red" id="r-wrong">0</div><div class="stat-label">Yanlış</div></div>
-    <div class="stat-card"><div class="stat-val gold" id="r-star">0</div><div class="stat-label">Yıldızlı</div></div>
-  </div>
-  <div class="result-actions">
-    <button class="result-btn-full primary" onclick="restartQuiz()">🔄 Baştan Başla</button>
-    <button class="result-btn-full danger" id="retry-wrong-btn" onclick="retryWrong()">❌ Yanlışları Tekrar Çöz</button>
-    <button class="result-btn-full gold-btn" id="retry-star-btn" onclick="retryStar()">⭐ Yıldızlıları Tekrar Çöz</button>
-    <button class="result-btn-full secondary" id="share-star-btn" onclick="shareStarred()">📋 Yıldızlıları Kopyala</button>
   </div>
 </div>
 
 <script>
 const ALL_QUESTIONS = [
+  // ── GİS KANAMALARI ──────────────────────────────────────────
   {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'İnce bağırsak ve kolon obstrüksiyonlarının en sık nedenleri sırası ile aşağıdakilerden hangisinde <b>doğru</b> olarak verilmiştir?',
-    opts: [
-      'A) Primer Tümör — Primer Tümör',
-      'B) Postoperatif adezyon — Divertikülit',
-      'C) Crohn hastalığı — Primer Tümör',
-      'D) Postoperatif adezyon — Primer Tümör',
-      'E) Metastatik tümör — Divertikülit'
-    ],
+    section: 'gis_kanama',
+    sectionLabel: 'GİS KANAMALARI – Meditus 7. Baskı',
+    years: ['GİS Kanamaları'],
+    q: 'Üst gastrointestinal sistem kanamalarının en sık görülen nedeni aşağıdakilerden hangisidir?',
+    opts: ['A) Mide kanseri', 'B) Özofagus kanseri', 'C) Özofagus varisi', 'D) Duodenum ülseri', 'E) Mide ülseri'],
     ans: 'D',
-    hint: '🔑 İnce bağırsak → <b>Adezyon (yapışıklık)</b>. Kolon → <b>Kolon kanseri</b> (gelişmiş ülke). Gelişmekte olan ülkelerde kolon obstrüksiyonunun en sık nedeni volvulustur.',
-    trap: '"İnce bağırsak = tümör" yanılgısı sıktır. İnce bağırsak tümörleri obstrüksiyon nedenleri arasında yer alır ama en sık neden geçirilmiş ameliyata bağlı adezyonlardır. Kolon için de divertikülit değil, kolon kanseri birinci sıradadır.',
-    explain: '<b>İnce bağırsak obstrüksiyonlarının en sık nedeni postoperatif adezyonlardır (%60-75).</b> Kolon obstrüksiyonlarının gelişmiş ülkelerdeki en sık nedeni <b>kolon kanseridir</b>. Gelişmekte olan ülkelerde ise <b>volvulus</b> birinci sıraya geçmektedir. Diğer kolon obstrüksiyon nedenleri: divertikülit (%15) ve volvulus (%15).'
+    hint: '🔑 Üst GİS kanamasının en sık nedeni <b>peptik ülser</b>dır. Duodenal ülser, gastrik ülserden daha sık kanamaya neden olur.',
+    trap: 'Özofagus varisi yalnızca portal hipertansiyonlu hastalarda üst GİS kanamasının en sık nedenidir; genel popülasyonda değil.',
+    explain: 'Üst GİS kanamalarının en sık nedeni <b>peptik ülser</b>dir. Peptik ülserler içinde <b>duodenal ülser</b> gastrik ülserden daha sık kanamaya neden olur. Özofagus varisi ise portal hipertansiyonlu hastalarda üst GİS kanamasının en sık nedenidir.'
   },
   {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'Kolon obstrüksiyonlarının en sık iki nedeni hangi seçenekte <b>doğru</b> olarak verilmiştir?',
-    opts: [
-      'A) Adezyon - Fıtık',
-      'B) Divertikülit - Volvulus',
-      'C) Adezyon - Volvulus',
-      'D) Kolon kanseri - Volvulus',
-      'E) Kolon kanseri - Fıtık'
-    ],
-    ans: 'D',
-    hint: '🔑 Gelişmiş ülkelerde: <b>1. Kolon kanseri, 2. Volvulus</b>. Adezyon ince bağırsak için geçerlidir, kolon için değil.',
-    trap: 'Adezyon ve fıtık ince bağırsak tıkanıklığı etyolojisine aittir. Kolon için bu seçenekler yanlıştır. Divertikülit üçüncü sıradadır, ikinci değil.',
-    explain: '<b>Kolon obstrüksiyonlarında</b>: Gelişmiş ülkelerde en sık neden <b>sol kolon kanseri (%60)</b>, ikinci sırada <b>volvulus (%15)</b>, üçüncü sırada divertikülit (%15) gelir. Gelişmekte olan ülkelerde ise volvulus birinci sıraya geçer. İnce bağırsak tıkanıklıkların en sık nedeni <b>adezyon</b>, ikinci sırada <b>fıtık</b>dır.'
-  },
-  {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'Elli yaşında erkek hasta bulantı, kusma, karın ağrısı şikâyeti ile başvuruyor. Hastada <b>obstipasyon</b> olduğu görülüyor. Yapılan tetkiklerinde <b>kolon tıkanıklığı</b> tespit ediliyor.<br><br>Bu hastada en olası etiyolojik neden aşağıdakilerden hangisidir?',
-    opts: [
-      'A) Adezyon',
-      'B) Crohn hastalığı',
-      'C) Kolon kanseri',
-      'D) Divertikülit',
-      'E) Ülseratif kolit'
-    ],
+    section: 'gis_kanama',
+    sectionLabel: 'GİS KANAMALARI – Meditus 7. Baskı',
+    years: ['GİS Kanamaları'],
+    q: 'Erişkinlerde alt gastrointestinal sistem kanamalarının en sık nedeni aşağıdakilerden hangisidir?',
+    opts: ['A) Meckel divertikülü', 'B) Ülseratif kolit', 'C) Kolonun divertiküler hastalığı', 'D) İskemik kolit', 'E) Kolon kanseri'],
     ans: 'C',
-    hint: '🔑 <b>Obstipasyon</b> = gaz ve gaita çıkaramamak. Kolon tıkanıklığı → gelişmiş ülkelerde <b>en sık neden kolon kanseridir (%60).</b>',
-    trap: 'Adezyon ince bağırsak tıkanıklığının en sık nedenidir; kolon için değil. Crohn ve ülseratif kolit tıkanıklık yapabilir ama bu yaş ve klinik tabloda en olası değil. Divertikülit ikinci-üçüncü sırada yer alır.',
-    explain: '<b>Obstipasyon:</b> gaz ve gaita çıkaramamak anlamına gelir. <b>Kolon obstrüksiyonlarında</b> gelişmiş ülkelerde en sık neden <b>kolon kanseridir (%60)</b>. Diğer nedenler: divertikülit (%15), volvulus (%15). Gelişmekte olan ülkelerde en sık obstrüksiyon nedeni volvulustur. <b>İnce bağırsak tıkanıklıkların</b> en sık nedeni ise adezyondur.'
+    hint: '🔑 Alt GİS = Treitz ligamanı <b>distalindeki</b> kanamalar. En sık neden <b>kolonun divertiküler hastalığı</b>dır.',
+    trap: 'Meckel divertikülü çocuklarda alt GİS kanamasının en sık nedenidir; erişkinde değil. Kolon kanseri de sık düşünülen ama ikinci sıraya girmeyen bir yanıltıcıdır.',
+    explain: 'Alt GİS kanamaları Treitz ligamanının distalinden olan kanamalardır. <b>Kolonun divertiküler hastalığı</b> erişkinde en sık nedendir. Divertikülün geliştiği yer kolon arteriolünün kas tabakasını geçtiği noktadır. İkinci en sık neden anorektal hastalıklardır.'
   },
   {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'Aşağıdakilerden hangisi intestinal obstrüksiyonun <b>kardinal bulgularından değildir?</b>',
-    opts: [
-      'A) Karın ağrısı',
-      'B) Distansiyon',
-      'C) Gaz çıkaramama',
-      'D) Diyare',
-      'E) Kusma'
-    ],
-    ans: 'D',
-    hint: '🔑 İntestinal obstrüksiyonun 4 kardinal belirtisi: <b>Karın ağrısı + Kusma + Obstipasyon + Distansiyon.</b> Diyare görülmez!',
-    trap: '"Tıkanıklık olursa içerik sıkışır ve bazen aşağı kaçar, diyare olabilir" gibi bir mantık yanlıştır. Diyare karşı tarafın özelliğidir. Obstrüksiyonda distale geçiş durduğu için diyare beklenmez.',
-    explain: '<b>İntestinal obstrüksiyonun 4 kardinal belirtisi:</b> kramp tarzında karın ağrısı, kusma, obstipasyon (gaz ve gayta çıkaramama) ve abdominal distansiyondur. <b>Diyare görülmez.</b> Proksimal obstrüksiyonlarda kusma öne çıkar; distal obstrüksiyonlarda distansiyon ve obstipasyon ön plandadır.'
+    section: 'gis_kanama',
+    sectionLabel: 'GİS KANAMALARI – Meditus 7. Baskı',
+    years: ['GİS Kanamaları'],
+    q: 'Makattan bol miktarda kırmızı kan gelme yakınması ile başvuran 56 yaşındaki erkek hastada rektal tuşe yapılıyor ve hematokezya saptanıyor.<br><br>Damar yolu açılmasını takiben ilk yapılması gereken tanısal işlem aşağıdakilerden hangisi olmalıdır?',
+    opts: ['A) Proktosigmoidoskopi', 'B) Mezenter anjiyografi', 'C) Baryumlu kolon grafisi', 'D) Özofagogastroduedonoskopi', 'E) Nazogastrik sonda ile aspirasyon'],
+    ans: 'E',
+    hint: '🔑 Hematokezyada önce <b>alt mı üst GİS mi?</b> sorusu sorulmalı → N/G aspirasyon ilk adım.',
+    trap: 'Hematozya "alt GİS kanaması" diye düşündürür ama üst GİS kanamasında da rektal taze kan gelebilir. Proktosigmoidoskopi N/G aspirasyonun ardından yapılır.',
+    explain: 'Hematokezya şikayetinde alt ve üst GİS kanamasını ayırt etmek için <b>nazogastrik aspirasyon</b> ilk tanısal işlemdir. N/G aspirasyondan <b>safralı içerik</b> gelirse alt GİS kanaması düşünülür ve <b>rektosigmoidoskopi</b> yapılır. <b>Kanlı içerik</b> gelirse üst GİS kanaması düşünülür ve üst endoskopi yapılır.'
   },
   {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'İki gündür devam eden karın ağrısı, bulantı ve kusma nedeniyle başvuran 60 yaşındaki kadın hastanın fizik muayenesinde, karnının distandü olduğu ve palpasyonla yaygın hassasiyet olduğu tespit ediliyor. Hastanın öyküsünden 2 gündür <b>gaz ve gaita çıkışı olmadığı</b> öğreniliyor.<br><br>Bu hastada öncelikli olarak aşağıdaki görüntüleme yöntemlerinden hangisinin istenmesi uygundur?',
-    opts: [
-      'A) Oral kontrastlı tüm karın bilgisayarlı tomografisi',
-      'B) Ayakta direkt karın grafisi',
-      'C) Tüm karın ultrasonografisi',
-      'D) Tüm karın manyetik rezonans görüntüleme',
-      'E) Baryumlu pasaj grafisi'
-    ],
-    ans: 'B',
-    hint: '🔑 Akut karında spesifik bir hastalık düşünülmüyorsa <b>ilk tetkik ayakta direkt karın grafisi (ADKG)</b>. Sonrasında duruma göre USG veya BT.',
-    trap: 'BT daha duyarlı ve özgül olsa da ilk basamak değildir; ADKG sonrası karar verilir. Baryumlu grafi obstrüksiyon şüphesinde kontrendikedir. MRI akut tabloda pratik değildir.',
-    explain: 'Bulantı, kusma, karın ağrısı, distansiyon → intestinal tıkanıklık klassik bulgularıdır. <b>Akut karında eğer spesifik bir hastalık düşünülmüyorsa ilk tetkik genellikle ayakta direkt karın grafisidir.</b> ADKG\'de hava-sıvı seviyeleri gözlenir. Ardından duruma göre USG veya BT çekilebilir. Karında serbest havayı en iyi gösteren tetkik bilgisayarlı tomografidir. BT %80-90 sensitif ve %95-90 spesifiktir.'
-  },
-  {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'Yetmiş altı yaşındaki erkek hasta 48 saattir devam eden kolik tarzı karın ağrısı, gaz-gaita çıkaramama, batında distansiyon şikâyetiyle geliyor.<br><br>Bu hastada <b>ilk yapılması gereken</b> tetkik aşağıdakilerden hangisidir?',
-    opts: [
-      'A) Ayakta direkt batın grafisi',
-      'B) Abdominal tomografi',
-      'C) Sintigrafi',
-      'D) Enteroklizis',
-      'E) Abdominal ultrasonografi'
-    ],
-    ans: 'A',
-    hint: '🔑 Önce tanı → sonra etiyoloji → sonra tedavi. Tıkanıklık şüphesinde <b>önce ADKG.</b> Amaç hava-sıvı seviyelerini görmek.',
-    trap: 'BT akut karında çok değerli olsa da ilk basamak değil. "Direkt önce" kuralını hatırla. Enteroklizis ve sintigrafi akut tıkanıklık tanısında yeri yoktur.',
-    explain: '<b>İntestinal obstrüksiyon düşünülen hastaya öncelikle ayakta direkt karın grafileri çektirilir.</b> Amaç obstrüksiyon lehine hava-sıvı seviyeleri görmektir. BT %80-90 sensitif ve %95-90 spesifiktir. Erken dönemde BUN/kreatinin yüksekliği, hemokonsantrasyon, hipokalemi tipik bulgulardır. İdrar dansitesi hafif yüksektir (1.025-1.030). Proksimal obstrüksiyonlarda amilaz düzeyi yükselebilir. Nekroz geliştiğinde fosfat ve LDH düzeyleri artabilir.'
-  },
-  {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'Kırk yaşında bir erkek hasta iki gündür devam eden kramp tarzı karın ağrısı, bulantı ve kusma yakınmalarıyla acil servise başvuruyor. Öyküsünden <b>üç yıl önce perfore apandisit nedeniyle apendektomi</b> geçirdiği öğreniliyor. Yapılan fizik muayenede hastanın dehidrate ve karnının distandü olduğu saptanıyor. Çekilen ayakta direkt karın grafisinde <b>yer yer gaz-sıvı seviyeleri</b> gözleniyor.<br><br>Bu hasta için en olası tanı aşağıdakilerden hangisidir?',
-    opts: [
-      'A) Akut kolesistit',
-      'B) Yapışıklığa ikincil bağırsak tıkanması',
-      'C) Kolorektal kanser',
-      'D) Akut mezenterik iskemi',
-      'E) Sigmoid volvulus'
-    ],
-    ans: 'B',
-    hint: '🔑 Geçirilmiş karın ameliyatı + kramp tarzı ağrı + distansiyon + gaz-sıvı seviyeleri = <b>Adezyon bağlı ince bağırsak tıkanıklığı.</b>',
-    trap: 'Kolorektal kanser 40 yaşında olabilir ama geçirilmiş ameliyat öyküsü çok daha güçlü bir ipucudur. Sigmoid volvulus grafikte "ters U / omega işareti" verir. Akut mezenterik iskemide ağrı-muayene uyumsuzluğu olur.',
-    explain: 'Kramp tarzında karın ağrısı, distansiyon, kusma, direkt grafide hava-sıvı seviyeleri → <b>mekanik ince bağırsak tıkanıklığı</b>. <b>Mekanik ince bağırsak tıkanıklığının en sık nedeni geçirilmiş operasyona bağlı adezyonlardır.</b> Perfore apandisit sonrası yapışıklık gelişmesi çok yaygındır. Kolorektal kanser kolon obstrüksiyonu yapar; direkt grafide görünüm farklıdır.'
-  },
-  {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'Karın ağrısı, bulantı ve kusma yakınmaları ile acil polikliniğe başvuran <b>32 yaşında erkek hastanın 3 yıl önce perfore apandisit nedeniyle apendektomi</b> ameliyatı olduğu, o zamandan beri de ara ara kolik tarzda karın ağrılarının olduğu öğreniliyor. Fizik muayenede hastanın karnının distandü, bağırsak seslerinin ise <b>metalik tinlamalar</b> içerdiği saptanıyor. Palpasyonda hafif hassasiyet gözleniyor; <b>defans saptanmıyor.</b> Nazogastrik tüpten bol miktarda <b>fekaloid vasıfta mayi</b> geliyor. Kan lökosit düzeyi 11.000/mm³ saptanıyor.<br><br>Bu hastada bu aşamada en uygun tedavi yaklaşımı aşağıdakilerden hangisidir?',
-    opts: [
-      'A) Nazogastrik dekompresyon ve intravenöz sıvı',
-      'B) İV sıvı ile sıvı-elektrolit dengesi sağlandıktan sonra acil ameliyat',
-      'C) İV Prostigmin tedavisi',
-      'D) Rektosigmoidoskopi',
-      'E) Sulu lavman'
-    ],
-    ans: 'A',
-    hint: '🔑 Adezyon bağlı obstrüksiyonda <b>septik bulgu yoksa önce konservatif:</b> NG dekompresyon + IV sıvı. Defans/rebound yoksa bekle.',
-    trap: 'Fekaloid NG drenajı görünce "hemen ameliyat!" refleksi doğal; ancak <b>defans ve rebound yoksa</b> ilk yaklaşım konservatiftir. Prostigmin ve lavman mekanik obstrüksiyonda endike değildir.',
-    explain: 'Geçirilmiş karın ameliyatına bağlı adezyon ve intestinal obstrüksiyon tanımlanmaktadır. <b>İdeal erken yaklaşım: septik bulgular (defans, rebound, yüksek ateş) olmadıkça nazogastrik dekompresyon ve intravenöz sıvı tedavisidir.</b> Bu tedaviyle obstrüksiyon giderilemezse ameliyat gündeme gelir. Metalik tinlamalar mekanik obstrüksiyona işaret eder; defans yokluğu strangülasyonu dışlatır.'
-  },
-  {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'Karın ağrısı, şişkinlik, kusma şikâyetleriyle acil cerrahiye başvuran yetmiş yaşındaki hastanın fizik muayenesinde yaygın distansiyon ve duyarlılık, ayakta direkt karın grafisinde <b>solda ters U şeklinde dolgun bağırsak gazı</b> görülüyor.<br><br>Bu hasta için en olası tanı aşağıdakilerden hangisidir?',
-    opts: [
-      'A) Sigmoid volvulus',
-      'B) İnen kolon tümörü',
-      'C) Rektum tümörü',
-      'D) Toksik megakolon',
-      'E) İnvajinasyon'
-    ],
-    ans: 'A',
-    hint: '🔑 ADKG\'de <b>"ters U / omega işareti / sucuk / araba lastiği"</b> görünümü = <b>Sigmoid volvulus.</b>',
-    trap: 'Toksik megakolonda kolon tüm uzunluğuyla genişler; fokal ters U görünümü vermez. İnen kolon tümörü kronik tıkanıklık yapar; bu kadar dramatik distansiyon olmaz. İnvajinasyon çocuklarda sıktır.',
-    explain: '<b>Sigmoid volvulus:</b> Sol alt kadrandan başlayarak karna yayılan ağrı ile distansiyon ve gaz-gayta çıkarılamaması. ADKG\'de <b>araba lastiği içine benzeyen, diyafragmaya dek uzanan iki hava-sıvı seviyesi (Omega veya "inner tube sign", ters U, sucuk)</b> ile karakterizedir. Strangülasyon yoksa rijit sigmoidoskopi/kolonoskopi ile dekompresyon yapılır; strangülasyon şüphesinde veya peritonit varsa laparotomi (genellikle Hartmann ameliyatı).'
-  },
-  {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'Aşağıdakilerden hangisi intestinal obstrüksiyonda <b>acil laparotomi endikasyonu değildir?</b>',
-    opts: [
-      'A) Paralitik ileus',
-      'B) Kapalı ans obstrüksiyonu',
-      'C) Strangüle obstrüksiyon',
-      'D) Kolonik obstrüksiyon',
-      'E) Medikal tedavi ile düzelmeyen mekanik obstrüksiyon'
-    ],
-    ans: 'A',
-    hint: '🔑 <b>Paralitik ileus = mekanik lezyon yok → konservatif tedavi.</b> Diğerleri acil ameliyat endikasyonudur.',
-    trap: 'Kolonik obstrüksiyonu görünce "kolon kanseri = elektif ameliyat" diye düşünülmesi yanlıştır; akut kolonik obstrüksiyon acil laparotomi endikasyonudur.',
-    explain: '<b>Konservatif (medikal) tedavinin önce denendiği durumlar:</b> Parsiyel ince bağırsak obstrüksiyonları (24-48 saat), erken postoperatif dönemde gelişen obstrüksiyonlar (2-3 hafta), Crohn hastalığına bağlı obstrüksiyonlar, karsinomatozis.<br><b>Acil ameliyat endikasyonları:</b> Strangülasyon, kapalı-ans obstrüksiyonları, kolonik obstrüksiyonlar, medikal tedaviye rağmen düzelmeyen obstrüksiyonlar.<br><b>Paralitik ileus mekanik değil fonksiyonel bir durumdur → acil laparotomi gerektirmez.</b>'
-  },
-  {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'Laparotomi sonrasında gastrointestinal motilitenin normale dönme sırası aşağıdakilerin hangisinde <b>doğru</b> olarak verilmiştir?',
-    opts: [
-      'A) İnce bağırsak, mide, kalın bağırsak',
-      'B) Mide, ince bağırsak, kalın bağırsak',
-      'C) Kalın bağırsak, ince bağırsak, mide',
-      'D) Kalın bağırsak, mide, ince bağırsak',
-      'E) Mide, kalın bağırsak, ince bağırsak'
-    ],
-    ans: 'A',
-    hint: '🔑 Sıra: <b>İnce bağırsak (ilk 24 saat) → Mide (48 saat) → Kolon (3-5. gün).</b> En hızlı ince bağırsak, en yavaş kolon.',
-    trap: '"Mide ameliyattan etkilendiği için önce mide normalleşir" düşüncesi yanlış. Motilite mide değil ince bağırsakta önce normalize olur. Kolon her zaman en geç toparlanır.',
-    explain: 'Laparotomi sonrası gastrointestinal sistemde motilitenin normale dönüşü karakteristik bir sıra izler: <b>İnce bağırsak motilitesi ilk 24 saatte, mide motilitesi 48 saatte, kolon motilitesi 3-5. günlerde normale döner.</b> Bu bilgi postoperatif beslenme başlangıcı için de önemlidir.'
-  },
-  {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: '<ol style="padding-left:18px;margin-bottom:10px;"><li>Sekonder peritonit</li><li>Visseral miyopatiler</li><li>Amiloidoz</li><li>Kollajen vasküler hastalıklar</li></ol>Yukarıdakilerden hangisi veya hangileri <b>kronik intestinal psödoobstrüksiyonun nedenlerinden değildir?</b>',
-    opts: [
-      'A) Sadece I',
-      'B) II ve III',
-      'C) III ve IV',
-      'D) I ve IV',
-      'E) I, II ve III'
-    ],
-    ans: 'A',
-    hint: '🔑 <b>Sekonder peritonit akut bir durumdur</b>, kronik psödoobstrüksiyona neden olmaz. Visseral miyopati, amiloidoz ve kollajen hastalıklar kronik süreçlerdir.',
-    trap: '"Peritonit bağırsak motilitesini bozar, psödoobstrüksiyona yol açar" mantığı akla gelebilir; ancak kronik kelimesi belirleyicidir. Sekonder peritonit akut bir tablodur, kronik değil.',
-    explain: '<b>Kronik intestinal psödoobstrüksiyon (Ogilvie sendromu):</b> Bağırsak motilitesinin bozulduğu ve tıkayıcı lezyon olmadan obstrüksiyon bulgularının görüldüğü durumdur. Nedenleri: visseral miyopatiler, amiloidoz, kollajen vasküler hastalıklar, nörolojik hastalıklar, ilaçlar... <b>Sekonder peritonit (perforasyon peritoniti) akut bir durumdur; kronik psödoobstrüksiyona neden olmaz.</b>'
-  },
-  {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'Aşağıdakilerden hangisinin <b>ameliyat sonrası ileusu azaltmada etkinliği gösterilmiştir?</b>',
-    opts: [
-      'A) NG dekompresyon',
-      'B) Agresif sıvı verilmesi',
-      'C) Erken enteral beslenme',
-      'D) Rektal süppozituvarlar',
-      'E) Erken mobilizasyon'
-    ],
+    section: 'gis_kanama',
+    sectionLabel: 'GİS KANAMALARI – Meditus 7. Baskı',
+    years: ['GİS Kanamaları'],
+    q: 'Üst gastrointestinal sistem kanamasının lokalizasyonunu saptamak için ilk seçilecek yöntem aşağıdakilerden hangisidir?',
+    opts: ['A) Nazogastrik sonda', 'B) Özofagus-mide-duodenum grafisi', 'C) Endoskopi', 'D) Selektif anjiyografi', 'E) Bilgisayarlı Tomografi'],
     ans: 'C',
-    hint: '🔑 <b>Erken enteral beslenme</b> ileusu azaltır ve hastane yatışını kısaltır. NG dekompresyon ve erken mobilizasyon görünürde mantıklı ama kanıtlanmış etkisi yok.',
-    trap: 'Erken mobilizasyon "ileusu önler" gibi önerilse de bilimsel kanıtı yoktur. NG dekompresyon da aynı şekilde önerilir ama ileusu kısalttığı gösterilememiştir. Agresif sıvı verilmesi aksine ileusun süresini uzatır.',
-    explain: 'Sıklıkla önerilse de, <b>nazogastrik dekompresyon ve erken mobilizasyonun</b> ameliyat sonrası ileusun erken açılmasıyla ilişkisi gösterilememiştir. <b>Ameliyat sonrası dönemde erken enteral beslenme</b> iyi tolere edilmekte, ileusu azaltmakta ve hastanede kalış süresini kısaltmaktadır. NSAİİ eklenerek opioid dozunun azaltılması da ileusun süresini kısaltır. Ameliyat sırasında ve sonrasında <b>sıvının kısıtlanması</b> da ameliyat sonrası ileusu kısaltır.'
+    hint: '🔑 Tüm GİS kanamalarında lokalizasyon için <b>endoskopi</b> birincil yöntemdir.',
+    trap: 'Anjiyografi en spesifik yöntemdir ama endoskopi kadar duyarlı değildir ve tedavi imkânı açısından da endoskopi önce tercih edilir. Sintigrafi ise en sensitif yöntemdir.',
+    explain: '<b>Endoskopi</b> hem tanı hem de tedavi amacıyla kullanılabilen birincil yöntemdir. <b>Anjiyografi</b> 0.5–1 mL/dk\'yı aşan hızdaki kanamaları tespit eder ve en spesifik tanı yöntemidir; tedavi amaçlı da kullanılabilir. <b>Sintigrafi</b> ise en sensitif yöntemdir; 0.1 mL/dk hızında devam eden kanamaları bile gösterebilir.'
   },
   {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'Acil servise başvuran 67 yaşında erkek hastanın yapılan karın muayenesinde distansiyon ve minimal hassasiyet mevcut; rektal tuşesinde patolojik bulgu tespit edilmiyor. Ayakta karın filminde solda diyafragmaya uzanan <b>ters U şeklinde geniş bağırsak gazı</b> görülüyor. Hastada <b>strangülasyon bulgusu saptanmıyor.</b><br><br>Tedavide bundan sonraki basamakta ne planlanmalıdır?',
-    opts: [
-      'A) Takip',
-      'B) Rektosigmoidoskopi',
-      'C) Laparoskopi',
-      'D) Laparotomi',
-      'E) Anjiyografi'
-    ],
+    section: 'gis_kanama',
+    sectionLabel: 'GİS KANAMALARI – Meditus 7. Baskı',
+    years: ['GİS Kanamaları'],
+    q: 'Aşağıdaki üst gastrointestinal sistem kanaması nedenlerinden hangisinin terapötik endoskopi/girişim veya ameliyata ihtiyaç duyma olasılığı en düşüktür?',
+    opts: ['A) Akut mukozal lezyonlar', 'B) Aortoenterik fistüller', 'C) Duodenal ülser', 'D) Özofagogastrik varisler', 'E) Mallory-Weiss yırtıkları'],
+    ans: 'E',
+    hint: '🔑 <b>Mallory-Weiss yırtıklarında</b> kanamaların %90\'ı kendiliğinden durur; girişim nadiren gerekir.',
+    trap: 'Aortoenterik fistül son derece ciddi ve mutlaka müdahale gerektirir. Varis kanaması da agresif tedavi gerektiren bir durumdur. Mallory-Weiss ise en hafif kanan gruptur.',
+    explain: 'Üst GİS kanamalarının çoğu kendiliğinden durur. Bu kanamalar içinde en hafif olan ve <b>%90\'ı kendiliğinden duran</b>, herhangi bir girişime gerek duyulmayan kanamalar <b>Mallory-Weiss yırtıkları</b>dır. Üst GİS kanamalarının %5–10\'undan sorumludur.'
+  },
+  {
+    section: 'gis_kanama',
+    sectionLabel: 'GİS KANAMALARI – Meditus 7. Baskı',
+    years: ['GİS Kanamaları'],
+    q: 'Aktif devam eden masif alt gastrointestinal sistem kanamasında proktosigmoidoskopi yapılıp burada kanama odağı saptanmadığı zaman aşağıdakilerden hangisinin yapılması en uygundur?',
+    opts: ['A) Kolonoskopi', 'B) Arteriyografi', 'C) İşaretli eritrosit sintigrafisi', 'D) Enteroskopi', 'E) Özofagogastroduodenoskopi'],
     ans: 'B',
-    hint: '🔑 Sigmoid volvulus + <b>strangülasyon YOK</b> → <b>Rektosigmoidoskopi / kolonoskopi ile dekompresyon.</b> Strangülasyon varsa direkt laparotomi.',
-    trap: 'Strangülasyon şüphesi varsa hemen ameliyat; ama bu vakada strangülasyon belirtisi yok. Bu durumda laparotomi değil, önce endoskopik dekompresyon denenir. Anjiyografi mezenterik iskemi için kullanılır.',
-    explain: '<b>Sigmoid volvulus</b>: sigmoid kolonun uzun mezenterinin etrafında saate ters yönde dönmesiyle oluşur. <b>Strangülasyon yoksa</b> sıvı tedavisini takiben <b>kolonoskopi veya rijid sigmoidoskopi ile dekompresyon</b> yapılır. <b>Strangülasyon şüphesinden veya periton irritasyonu bulguları varsa</b> redüksiyon denenmemeli, hasta acilen ameliyata alınmalıdır. Dekompresyon başarısız olursa, kanlı akıntı veya mukozal iskemi varsa laparotomi (Hartmann ameliyatı) yapılır.'
+    hint: '🔑 <b>Aktif ve masif</b> devam eden alt GİS kanamasında kolonoskopi işe yaramaz çünkü lümen kanla dolu → <b>arteriyografi</b> sonraki adım.',
+    trap: 'Kolonoskopi kanamanın durduğu veya hafif olduğu durumlarda kullanılır. Masif aktif kanamalarda görüş sağlanamaz. Sintigrafi, anjiyografi ve kolonoskopi başarısız olursa düşünülür.',
+    explain: '<b>Arteriyografi</b> devam eden masif alt GİS kanamalarında proktoskopiden sonra yapılabilecek en uygun tetkiktir. İntraarteriyel vazopressin infüzyonu veya kanayan arterin embolizasyonu ile <b>tedavi amaçlı</b> da kullanılabilir. Kolonoskopi yalnızca kanama hafif veya durmuşsa uygulanır; aktif masif kanamalarda lümen kanla dolu olduğundan görüş sağlanamaz. Enteroskopi kanamanın ince bağırsaktan olduğu düşünüldüğünde tercih edilir.'
   },
   {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'Seksen yaşında bir erkek hasta karın ağrısı ve gaz-gaita çıkaramama yakınmasıyla acil servise başvuruyor. Yapılan muayenede <b>karında asimetrik distansiyon</b>, ayakta direkt karın grafisinde <b>kafatası görünümü</b> (inverted coffee bean sign) gözleniyor. Hastanın yapılan rektal tuşesinde <b>"boş" bir rektum</b> tespit ediliyor.<br><br>Bu hasta için en olası tanı aşağıdakilerden hangisidir?',
-    opts: [
-      'A) Sigmoid volvulus',
-      'B) Çekum volvulusu',
-      'C) Sol kolon kanseri',
-      'D) Paralitik ileus',
-      'E) İnvajinasyon'
-    ],
-    ans: 'B',
-    hint: '🔑 <b>Çekum volvulusu:</b> "kafatası görünümü (inverted coffee bean)" + sağ alt kadranda boşluk + boş rektum. Sigmoid volvulusta ters U / omega işareti vardır.',
-    trap: 'Sigmoid volvulusta grafikte omega/ters U işareti görülür ve distansiyon simetriktir. Çekum volvulusunda bulgu sol tarafta görünür (çekum sola deplase olur), asimetrik distansiyon ve farklı radyolojik görünüm vardır.',
-    explain: '<b>Çekum volvulusu:</b> Çekumun mezenterinin etrafında dönmesiyle oluşur. ADKG\'de <b>"kafatası görünümü" (inverted coffee bean sign)</b> karakteristiktir; bağırsak çoğunlukla sol üst kadrana displase olur. Rektal tuşede rektum boştur. Tedavide önce kolonoskopik dekompresyon denenir; başarısız olursa cerrahi (sağ hemikolektomi veya seksiyopeksi) gerekir.'
-  },
-  {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'Altmış beş yaşında kadın hasta batında ani gelişen şiddetli ağrı şikâyetiyle geliyor. Öyküsünden daha önce <b>safra taşı hastalığı</b> nedeniyle kolesistit atakları geçirdiği öğreniliyor. Fizik muayenede batında distansiyon ve metalik bağırsak sesleri mevcut. Direkt batın grafisinde <b>safra yollarında hava (pnömobilia)</b> ile birlikte ince bağırsak hava-sıvı seviyeleri görülüyor.<br><br>Bu hasta için en olası tanı aşağıdakilerden hangisidir?',
-    opts: [
-      'A) Safra taşı ileusu',
-      'B) Akut pankreatit',
-      'C) Amfizematöz kolesistit',
-      'D) Perfore peptik ülser',
-      'E) Mezenterik iskemi'
-    ],
+    section: 'gis_kanama',
+    sectionLabel: 'GİS KANAMALARI – Meditus 7. Baskı',
+    years: ['GİS Kanamaları'],
+    q: 'Kronik viral hepatite bağlı karaciğer yetersizliği tanısı ile izlenen bir hastada ani bulantı ile birlikte bol miktarda kan içeren kusma gözleniyor. Fizik incelemede <b>asit, splenomegali</b> ve nabız 120/dakika olarak saptanıyor.<br><br>Bu hastadaki gastrointestinal kanamanın en olası nedeni aşağıdakilerden hangisidir?',
+    opts: ['A) Portal hipertansiyon', 'B) Akut emboli', 'C) Gastrit', 'D) Duodenal apse', 'E) Özofagogastrik bileşkede yırtık'],
     ans: 'A',
-    hint: '🔑 Safra öyküsü + <b>pnömobilia</b> + ince bağırsak obstrüksiyonu = <b>Safra taşı ileusu (Rigler triadı).</b>',
-    trap: 'Amfizematöz kolesistitte de safra kesesinde hava görülür; ama bu vakada sistematik ince bağırsak tıkanıklığı bulguları var. Amfizematöz kolesistitin kliniği akut kolesistitle aynıdır, metalik bağırsak sesleri ve hava-sıvı seviyeleri olmaz.',
-    explain: '<b>Safra taşı ileusu (Rigler triadı):</b> (1) Pnömobilia (safra yollarında hava), (2) İnce bağırsak tıkanıklığı bulguları, (3) Obstrüksiyon yerinde taş görünümü. <b>Kolesistoenterik fistüllerden bağırsağa geçen büyük safra taşları</b>, ince bağırsağın en dar yeri olan <b>terminal ileum ve ileosekal valvde</b> tıkanıklık yapar. Tıkanma sarılığı olmadığı için <b>akolik gaita beklenmez</b>. Tedavi: laparotomi ile taş çıkarılması (enterotomi).'
+    hint: '🔑 Karaciğer yetersizliği + asit + splenomegali = <b>portal hipertansiyon</b> → varis kanaması.',
+    trap: 'Mallory-Weiss (özofagogastrik bileşke yırtığı) ciddi kusma sonrası gelişir; bu hastada tipik portal hipertansiyon bulguları (asit + splenomegali) ön plana çıkıyor.',
+    explain: 'Splenomegali, asit ve üst GİS kanaması birlikteliği <b>portal hipertansiyona bağlı varis kanaması</b>nı güçlü biçimde düşündürmektedir. Karaciğer yetersizliği zemininde portal ven basıncının artması özofagus ve mide varislerine neden olur; bunların rüptürü masif üst GİS kanamasına yol açar.'
   },
   {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'Safra taşı ileusunun klinik tablosunda aşağıdakilerden hangisi <b>bulunmaz?</b>',
-    opts: [
-      'A) Safra yollarında hava',
-      'B) İnce bağırsak obstrüksiyonu',
-      'C) Obstrüksiyon yerinde taş',
-      'D) Akolik gayta',
-      'E) Tekrarlayan kolanjit atakları'
-    ],
+    section: 'gis_kanama',
+    sectionLabel: 'GİS KANAMALARI – Meditus 7. Baskı',
+    years: ['GİS Kanamaları'],
+    q: 'Ciddi kusmalar sonrası genç sağlıklı hastada gelişen üst gastrointestinal kanama en yüksek olasılıkla aşağıdakilerden hangisine bağlı olabilir?',
+    opts: ['A) Özofagus kanseri', 'B) Boerhaave sendromu', 'C) Mallory-Weiss sendromu', 'D) Plummer-Vinson sendromu', 'E) Hiatal herni'],
+    ans: 'C',
+    hint: '🔑 Ciddi kusma + mukozal kanama = <b>Mallory-Weiss</b>. Tam kat perforasyon olmaz; bu onu Boerhaave\'den ayırır.',
+    trap: 'Boerhaave sendromu ciddi kusmada özofagusun <b>tam kat perforasyonudur</b>; kanama Mallory-Weiss kadar belirgin değildir. Burada genç ve sağlıklı hastada hematemez odakta.',
+    explain: '<b>Mallory-Weiss sendromu</b> ciddi kusmalar sonrasında gelişen, gastroözofageal bileşkenin küçük kurvaturunda <b>mukoza ve submukoza düzeyindeki yırtıkla</b> karakterize kanamalardır. Tam kat perforasyon olmaz. Kanama sıklıkla kendiliğinden durur; devam eden kanamalarda endoskopik adrenalin enjeksiyonu uygulanabilir.'
+  },
+  {
+    section: 'gis_kanama',
+    sectionLabel: 'GİS KANAMALARI – Meditus 7. Baskı',
+    years: ['GİS Kanamaları'],
+    q: '<b>I.</b> 48 saatten uzun ventilatör desteği gerektiren solunum yetmezliği<br><b>II.</b> Akut böbrek yetmezliği<br><b>III.</b> Ortalama arteryal kan basıncının 90 mmHg\'nin üzerinde tutulması<br><b>IV.</b> Koagülopati<br><b>V.</b> Hipotermi<br><br>Yukarıdakilerden hangisi/hangileri yoğun bakımda yatan hastalarda gelişen stres gastriti–ülserinde kanama riskini artıran en önemli <b>iki</b> faktördür?',
+    opts: ['A) I ve IV', 'B) IV ve V', 'C) II ve IV', 'D) II ve V', 'E) I ve V'],
+    ans: 'A',
+    hint: '🔑 Stres ülserinde kanama riskini artıran <b>en önemli 2 faktör</b>: koagülopati + 48 saatten uzun mekanik ventilasyon.',
+    trap: 'Böbrek yetmezliği ve hipotermi risk faktörü olmakla birlikte "en önemli iki" soru kökü belirleyicidir; kılavuzlarda koagülopati ve uzun süreli mekanik ventilasyon öne çıkar.',
+    explain: 'Yoğun bakımda stres gastriti / ülserinde kanama riskini artıran en önemli iki faktör: <b>Koagülopati</b> ve <b>48 saatten uzun süre ventilatör desteğine ihtiyaç duyulan solunum yetmezliği</b>dir. Bu iki faktörün varlığında profilaktik asit baskılama tedavisi (PPI veya H2 blokörü) önerilir.'
+  },
+  {
+    section: 'gis_kanama',
+    sectionLabel: 'GİS KANAMALARI – Meditus 7. Baskı',
+    years: ['GİS Kanamaları'],
+    q: 'Otuz yaşında bir erkek hasta masif hematemez ve hipovolemi bulguları ile geliyor. Hastaya intravenöz sıvı yüklenmesi ve üç ünite eritrosit süspansiyonu verilerek hasta hemodinamik olarak stabilize ediliyor. Fakat yeni sıvı ve kan ihtiyacından kanamanın devam ettiği anlaşılıyor.<br><br>Yapılan endoskopi yoğun lavaja rağmen midede taze kan toplanması nedeniyle başarılı olamıyor. Tanıda bundan sonra en uygun seçim aşağıdakilerden hangisidir?',
+    opts: ['A) Sintigrafi', 'B) Baryumlu grafiler', 'C) Çift kontrastlı grafi', 'D) Selektif viseral anjiyografi', 'E) Endoskopinin 48 saat sonra tekrarlanması'],
     ans: 'D',
-    hint: '🔑 Safra taşı ileusunda <b>tıkanma sarılığı yoktur</b> (taş bağırsağa geçmiş, kolede değil). Bu yüzden <b>akolik gaita beklenmez.</b>',
-    trap: '"Safra taşı ileusu = safra yolunda taş = sarılık = akolik gaita" mantığı yanlıştır. Taş bağırsağa geçmiş, kolede değil. Dolayısıyla safra akışı devam eder ve gaita rengi normaldir.',
-    explain: '<b>Safra taşı ileusu:</b> İntestinal obstrüksiyon yapacak kadar büyük taşlar genellikle kolesistoenterik fistüllerden bağırsağa geçer. Bu taşlar genellikle ince bağırsağın en dar yeri olan <b>terminal ileum</b> ve ileosekal valvde pasajı tıkayarak intestinal obstrüksiyona neden olur. Kolesistoenterik fistüllerin tekrarlayan kolesistit ve kolanjit ataklarına yol açabileceği bilinmektedir. <b>Tıkanma sarılığı olmadığı için akolik gaita beklenmez.</b> Ayrıca bu hastaların %15\'inde safra kesesi kanseri gelişebilir.'
+    hint: '🔑 Endoskopi başarısız olduysa → <b>anjiyografi</b>. En son çare ise laparotomidir.',
+    trap: '48 saat sonra tekrar endoskopi yapmak aktif masif kanamalı bu hastada güvensizdir. Sintigrafi daha hassas ama daha az spesifik ve tedavi imkânı sınırlıdır.',
+    explain: 'Üst GİS kanamasında <b>ilk tercih endoskopi</b>dir. Endoskopinin başarısız olduğu masif kanamalarda <b>selektif viseral anjiyografi</b> hem tanı hem de tedavi (embolizasyon, vazopressin) amacıyla kullanılır. <b>En son çare laparotomi</b>dir.'
   },
   {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'Safra taşı ileusunun en sık nedeni olan biliyer enterik fistüllerin en sık görüldüğü segmentler hangi seçenekte <b>doğru</b> olarak verilmiştir?',
-    opts: [
-      'A) Safra kesesi - duodenum',
-      'B) Safra kesesi - jejunum',
-      'C) Koledok - jejunum',
-      'D) Safra kesesi - kolon',
-      'E) Safra kesesi - mide'
-    ],
-    ans: 'A',
-    hint: '🔑 Kolesistoenterik fistüllerde <b>en sık: Safra kesesi – Duodenum (%90).</b> Kolon ikinci sırada (%9).',
-    trap: '"Safra kesesi mideye yakın, mide ile fistül olabilir" düşüncesi akla gelebilir ama mide-safra fistülü çok nadirdir. Duodenum en komşu yapı olduğundan fistül en sık orada gelişir.',
-    explain: '<b>Kolesistoenterik fistüllerde</b> en sık tutulan segment <b>safra kesesi ile duodenum (%90)</b> arasındadır. Kolon ikinci sıradadır (%9). Fistül yolu ile bağırsağa geçen taşlar ince bağırsakların en dar yeri olan <b>terminal ileumda</b> obstrüksiyona neden olabilmektedir.'
+    section: 'gis_kanama',
+    sectionLabel: 'GİS KANAMALARI – Meditus 7. Baskı',
+    years: ['GİS Kanamaları'],
+    q: 'Gastrointestinal sistem kanaması olan bir hastada aşağıdaki bulgulardan hangisi <b>üst gastrointestinal sistem kanamayı ön planda düşündüren bulgulardan değildir?</b>',
+    opts: ['A) Başvuru yakınmasının hematemez olması', 'B) Gastrik aspirasyonun kanlı olması', 'C) Kan üre (BUN) seviyesinin normal olması', 'D) Bağırsak seslerinin hiperaktif olması', 'E) Hastada melena olması'],
+    ans: 'C',
+    hint: '🔑 İlk 24 saatte <b>BUN > 30 mg/dL</b> ise üst GİS kanaması daha olasıdır. Normal BUN, üst GİS kanamasını desteklemez.',
+    trap: 'Melena, hiperaktif bağırsak sesleri ve hematemez üst GİS kanamasını düşündürür. Normal BUN ise üst GİS kanamayı desteklemeyen bir bulgudur; soru "değildir" diye soruyor.',
+    explain: 'Kanamanın başlamasından itibaren ilk 24 saatte <b>BUN > 30 mg/dL</b> ise üst GİS kanaması daha olasıdır (üre döngüsüne giren kan proteini BUN\'u yükseltir). <b>Normal BUN</b> ise üst GİS kanamasını ön plana taşımaz; bu seçenek "düşündüren bulgular arasında değil"dir.'
   },
+
+  // ── GİS FİSTÜLLERİ ──────────────────────────────────────────
   {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'Altmış yaşında erkek hasta son 24 saattir olan <b>karın ağrısı, ateş, karında şişlik, kusma ve gaz-gaita çıkaramama</b> şikâyetleri ile acil servise getiriliyor. Özgeçmişinde 7 yıl önce peptik ülser perforasyonu, 20 yıl önce de apandisit nedeniyle ameliyat edildiği öğreniliyor. Fizik muayenesinde KB 90/70 mmHg, kalp hızı 120/dk, kan pH\'ı 7.30. Karında distansiyon, <b>yaygın hassasiyet, defans ve rebound hassasiyet</b> saptanıyor; dinlemede metalik tıkırdamalar. NGT\'den yaklaşık 500 mL <b>fekaloid</b> vasıfta mayi geliyor. Beyaz küre 20.000/mm³.<br><br>Bu hasta için en uygun yaklaşım aşağıdakilerden hangisidir?',
-    opts: [
-      'A) Acil laparotomi',
-      'B) Lavman',
-      'C) Rijit rektoskopi',
-      'D) Kolonoskopi',
-      'E) İntravenöz sıvı-elektrolit tedavisi ile takip'
-    ],
-    ans: 'A',
-    hint: '🔑 İntestinal obstrüksiyonda <b>peritoneal irritasyon bulguları (defans + rebound)</b> → acil laparotomi. Lavman, rektoskopi, kolonoskopi kontrendike.',
-    trap: '"Önce sıvı-elektrolit ver, stabilize et" bu vakada yanlış önceliklendirmedir. Defans + rebound + hemodinami bozukluğu + metabolik asidoz laparotomiyi geciktirmeye tahammül yoktur.',
-    explain: 'İntestinal obstrüksiyon vakalarına öncelikle sıvı ve elektrolit tedavisi uygulanmakla birlikte, <b>bu vakada peritoneal irritasyon bulguları</b> (defans, rebound) bulunmaktadır; bu durum strangülasyonu veya perforasyonu işaret eder ve <b>acil laparotomi endikasyonudur.</b> İntestinal obstrüksiyonda <b>lavman, rektoskopi ve kolonoskopi kontrendikedir.</b> Fekaloid nazogastrik drenaj ileri düzey obstrüksiyonu gösterir.'
-  },
-  {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'Elli yaşında bir kadın hasta 5 yıl önce geçirdiği histerektomi ameliyatından bu yana ara ara olan karın ağrılarına ek olarak 3 gündür süren kolik tarzı ağrı, bulantı, kusma ile başvuruyor. Fizik muayenede bağırsak sesleri <b>hiperaktif metalik tınlı</b>, karın orta derecede distandü, <b>rebound negatif.</b> Direkt grafide çok sayıda hava-sıvı seviyesi mevcut.<br><br>Bu hastaya ilk verilecek tedavi aşağıdakilerden hangisidir?',
-    opts: [
-      'A) Acil laparotomi',
-      'B) Nazogastrik dekompresyon + IV sıvı tedavisi',
-      'C) Kolonoskopi',
-      'D) Oral laksatif',
-      'E) Kortikosteroid tedavisi'
-    ],
-    ans: 'B',
-    hint: '🔑 Geçirilmiş pelvik cerrahi + parsiyel tıkanıklık + <b>rebound yok</b> = <b>Önce konservatif: NG + IV sıvı.</b>',
-    trap: 'Ameliyat öyküsü ve hava-sıvı seviyeleri ameliyatı düşündürebilir; ancak rebound olmadıkça ilk yaklaşım konservatiftir. Kolonoskopi mekanik ince bağırsak tıkanıklığında endike değildir.',
-    explain: '<b>Parsiyel veya erken ince bağırsak tıkanıklıklarında</b> (rebound, defans, hemodinami bozukluğu yok ise) ilk tedavi yaklaşımı: <b>NG dekompresyon + IV sıvı-elektrolit replasmanı</b>. Bu yaklaşım 24-48 saat sürdürülür. İyileşme olmazsa veya bulgu kötüleşirse (peritonit gelişimi, strangülasyon şüphesi) ameliyat endikasyonu doğar. Geçirilmiş pelvik cerrahi adezyon açısından klasik risk faktörüdür.'
-  },
-  {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'İntestinal obstrüksiyonda <b>strangülasyona</b> ait aşağıdaki bulgulardan hangisi <b>en erken</b> ortaya çıkar?',
-    opts: [
-      'A) Rektal kanama',
-      'B) Ateş',
-      'C) Lökositoz',
-      'D) Sürekli (kolik olmayan) ağrı',
-      'E) Peritoneal irritasyon bulguları'
-    ],
+    section: 'gis_fistul',
+    sectionLabel: 'GİS FİSTÜLLERİ – Meditus 7. Baskı',
+    years: ['GİS Fistülleri'],
+    q: 'Yüksek debili enterokutan fistüllerde minimum günlük debi kaç mililitredir (mL)?',
+    opts: ['A) 200 mL', 'B) 300 mL', 'C) 400 mL', 'D) 500 mL', 'E) 600 mL'],
     ans: 'D',
-    hint: '🔑 Strangülasyonda bağırsak duvarı iskemiye girince ağrı <b>kolik olmaktan çıkar, sürekli hal alır.</b> Bu en erken belirtidir.',
-    trap: 'Ateş, lökositoz ve peritoneal bulgular strangülasyonun ileri evrelerinde görülür. Rektal kanama ise ancak mukozal nekroz ile birlikte gelişir.',
-    explain: '<b>Strangülasyon (boğulma):</b> Bağırsak duvarının vasküler kompromisini ifade eder. <b>En erken bulgu: aralıklı (kolik tarzı) ağrının sürekli hale gelmesidir</b> — bu bağırsak duvarının iskemiye girdiğini gösterir. Daha sonra ateş, lökositoz, peritonit gelişir. <b>Strangülasyon acil laparotomi endikasyonudur.</b> Gecikme bağırsak nekrozuna, perforasyona ve sepsise yol açar.'
+    hint: '🔑 GİS fistülleri: <b>&lt;200 mL/gün</b> = düşük, <b>200–500 mL/gün</b> = orta, <b>&gt;500 mL/gün</b> = yüksek debili.',
+    trap: '200 mL düşük debi eşiğidir, yüksek debinin değil. Yüksek debi 500 mL/gün üzerindedir.',
+    explain: 'GİS fistülleri debiye göre sınıflandırılır: Günde <b>200 mL\'den az</b> → düşük debili, <b>200–500 mL</b> → orta debili, <b>500 mL\'den fazla</b> → yüksek debili enterokutan fistül. Yüksek debili fistüller sıvı-elektrolit kaybı ve nutrisyon sorunları açısından daha kritiktir.'
   },
   {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'Yetmiş beş yaşında erkek hasta giderek artan karın ağrısı, distansiyon ve 4 gündür gaz-gaita çıkaramaması ile başvuruyor. Daha önce hiç karın ameliyatı geçirmemiş. Rektal tuşede patoloji yok. Direkt grafide geniş bir kolon dilatasiyonu görülüyor; <b>mekanik obstrüksiyon saptanmıyor.</b><br><br>Bu hasta için en olası tanı aşağıdakilerden hangisidir?',
-    opts: [
-      'A) Sigmoid volvulus',
-      'B) Akut kolonik psödoobstrüksiyon (Ogilvie sendromu)',
-      'C) Hirschsprung hastalığı',
-      'D) Fekal impaksiyon',
-      'E) Kolon kanseri'
-    ],
-    ans: 'B',
-    hint: '🔑 Mekanik obstrüksiyon yok + masif kolon dilatasyonu + yaşlı hasta = <b>Ogilvie sendromu (akut kolonik psödoobstrüksiyon).</b>',
-    trap: 'Volvulus\'ta grafikte karakteristik görünüm (omega/kafatası) olur. Kolon kanseri mekanik obstrüksiyon yapar. Hirschsprung hastalığı çocuklarda görülür. Fekal impaksiyon direkt grafide solid yoğunluk gösterir.',
-    explain: '<b>Akut kolonik psödoobstrüksiyon (Ogilvie sendromu):</b> Mekanik bir lezyon olmaksızın kolonun massif dilatasyonudur. Genellikle <b>yaşlı, yoğun bakım, postoperatif veya ciddi komorbiditeleri olan hastalarda</b> görülür. Tedavi: konservatif (sıvı, elektrolit, tetikleyici ilaçların kesilmesi), <b>neostigmin</b> (kolinerjik ajan), kolonoskopik dekompresyon veya cerrahi. Çekum çapı >12 cm ise perforasyon riski yüksektir.'
+    section: 'gis_fistul',
+    sectionLabel: 'GİS FİSTÜLLERİ – Meditus 7. Baskı',
+    years: ['GİS Fistülleri'],
+    q: 'Aşağıdakilerden hangisi bir enterokutan fistülün <b>spontan kapanmasını engelleyen</b> faktörlerden biridir?',
+    opts: ['A) Fistül distalinde obstrüksiyon olması', 'B) Fistül çapının dar olması', 'C) Fistülün kolondan olması', 'D) Fistül traktının uzunluğunun 5 santimetre olması', 'E) Fistül traktının epitelize olmaması'],
+    ans: 'A',
+    hint: '🔑 Akrostik: <b>FRIENDS</b> — Foreign body, Radiation, Infection, Epithelialization, Neoplasm, Distal obstruction, Short tract.',
+    trap: 'Fistül traktının kısa (< 2.5 cm) olması kapanmayı zorlaştırır; 5 cm uzunluk tersine kapanmayı kolaylaştırır. Epitelize olmamış trakt kapanabilir; olmuş trakt kapanmaz.',
+    explain: 'Spontan iyileşmeyi olumsuz etkileyen faktörler (FRIENDS): Fistül traktının çok <b>kısa</b> (&lt;2.5 cm) olması, traktın <b>epitelize</b> olması, aktif granülomatöz bağırsak hastalığı, lokal inflamasyon/sepsis, yabancı cisim, <b>distal obstrüksiyon</b>, radyasyon enteriti, negatif nütrisyon dengesi, traktda tümör, immünsüpresif ilaç kullanımı. Distal obstrüksiyon fistülün kapanmasını kesinlikle engeller.'
   },
   {
-    section: 'intestinal_tikaniklik',
-    sectionLabel: 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ',
-    years: ['Meditus 7. Baskı'],
-    q: 'Karın ameliyatı geçirmeyen 25 yaşında erkek hasta, 10 dakikalık aralıklarla gelen <b>kolik tarzı karın ağrısı, kusma</b> ve özellikle sağ alt kadranda palpe edilen <b>sosis şeklinde kitle</b> ile acile başvuruyor. Ultrasonografide <b>"target sign (hedef işareti)"</b> görülüyor.<br><br>Bu hasta için en olası tanı aşağıdakilerden hangisidir?',
-    opts: [
-      'A) Sigmoid volvulus',
-      'B) İnvajinasyon',
-      'C) Apendisit',
-      'D) İnguinal herni',
-      'E) Meckel divertikülü komplikasyonu'
-    ],
-    ans: 'B',
-    hint: '🔑 <b>"Target sign (hedef/boğa gözü işareti)"</b> + sosis şekli kitle = <b>İnvajinasyon.</b> Çocuklarda çok sık; erişkinde daha nadirdir ama görülür.',
-    trap: 'Erişkinde invajinasyon çocuklara göre nadir olsa da USG\'deki hedef işareti ayırt edicidir. Erişkinde invajinasyonun arkasında genellikle <b>benign veya malign bir lezyon</b> (polip, tümör) yatar; bunu araştırmak gerekir.',
-    explain: '<b>İnvajinasyon:</b> Bağırsağın bir segmentinin bir diğerinin içine girmesidir (iç içe geçme). Klinik: kolik tarzı ağrı, kusma, kan-mukuslu dışkı ("frenk çileği jölesi"). Palpe edilebilirse <b>sosis şeklinde kitle</b> saptanır. USG\'de <b>"target sign (hedef/boğa gözü)"</b> karakteristiktir. Çocuklarda çoğunlukla idiyopatik; <b>erişkinde tümör veya polip gibi bir lider nokta</b> araştırılmalıdır. Tedavi: çocuklarda hidros tatik/pnömatik redüksiyon; erişkinde cerrahi.'
+    section: 'gis_fistul',
+    sectionLabel: 'GİS FİSTÜLLERİ – Meditus 7. Baskı',
+    years: ['GİS Fistülleri'],
+    q: 'Yetmiş yaşında bir erkek hasta ince bağırsak adenokarsinomu nedeniyle ameliyat edilerek ince bağırsak rezeksiyonu ve uçuca anastomoz yapılıyor. Ameliyattan sonra 8. günde dren yerinden yaklaşık 500 mL ince bağırsak içeriği gelmeye başlamıştır.<br><br>Bu hastanın tedavisi ile ilgili aşağıdaki yöntemlerden hangisi <b>yanlıştır?</b>',
+    opts: ['A) Sıvı-elektrolit tedavisi hayati öneme sahiptir.', 'B) Enfeksiyonla mücadele ve sepsisin önlenmesi amacıyla antibiyotik tedavisi uygulanır.', 'C) Enteral veya total parenteral nutrisyon başlanır.', 'D) Somatostatin analogları faydalı olabilir.', 'E) İntestinal içeriğin geldiği dren yerinin içine siyanoakrilat veya fibrin yapıştırıcı uygulanır.'],
+    ans: 'E',
+    hint: '🔑 Fistülün cilt ağzına yapıştırıcı veya sütür uygulamak, içeriği hapsettiği için <b>kontrendike</b>dir; apse gelişimine zemin hazırlar.',
+    trap: 'Yapıştırıcı madde sezgisel cazip görünse de fistülü "tıkamak" içeriğin birikimine ve enfeksiyona neden olur. Tedavinin amacı fistülü kontrol altına almak, spontan kapanmayı beklemektir.',
+    explain: 'Enterokütan fistüllerin tedavisinin temel aşamaları: <b>Sıvı-elektrolit dengesinin sağlanması, enfeksiyona karşı drenaj ve antibiyotik, enteral veya parenteral beslenme, somatostatin analogları (debi azaltır), lokal cilt komplikasyonlarının önlenmesi.</b> Fistülün ciltteki ağzına <b>yapıştırıcı madde veya sütür uygulanması kontrendikedir</b>; fistül iyileşmesine katkı sağlamaz, apse oluşumuna zemin hazırlar.'
+  },
+  {
+    section: 'gis_fistul',
+    sectionLabel: 'GİS FİSTÜLLERİ – Meditus 7. Baskı',
+    years: ['GİS Fistülleri'],
+    q: 'Otuz yaşında erkek hasta, karında yaygın ağrı ve akut batın tablosuyla acil servise başvuruyor. Perfore apandisit düşünülerek laparotomi yapılıyor. Apandektominin ardından batına dren yerleştiriliyor. Post-operatif 4. günde dren alınıyor; ancak post-operatif 8. günde ateş ve taşikardi gelişiyor, ardından laparotomi insizyonunun alt bölümünden bağırsak içeriği gelmeye başlıyor.<br><br>Bu hastada oluşan enterokütan fistülün tedavisinde <b>öncelikle</b> yapılması gerekenler aşağıdakilerden hangisidir?',
+    opts: ['A) Sepsis tedavisi – Sıvı elektrolit tedavisi', 'B) Beslenme desteği – Vitamin verilmesi', 'C) Vitamin verilmesi – Sıvı elektrolit desteği', 'D) Derinin fistül içeriğine bağlı yanıktan korunması – IV antibiyotik verilmesi', 'E) Sıvı elektrolit tedavisi – Derinin fistül içeriğine bağlı yanıktan korunması'],
+    ans: 'A',
+    hint: '🔑 Önce hayati tehlikeyi önle: <b>sepsis + sıvı-elektrolit</b>. Beslenme ve cilt bakımı önemlidir ama önce stabil et.',
+    trap: 'Cilt bakımı (D, E) önemlidir ama bu hastada ateş + taşikardi var; önce sepsisi tedavi etmek, ardından drenaj ve sıvı-elektrolit dengesi sağlamak gerekir.',
+    explain: 'Post-operatif enterokütan fistüllerde ateş ve taşikardi <b>sepsis</b> gelişimine işaret eder. Öncelikle: <b>uygun sıvı-elektrolit tedavisi ile birlikte fistülü kontrol altına almak, sepsis gelişmesini engellemek için drenaj ve antibiyotik</b> uygulamaktır. Beslenme ve cilt bakımı bu kritik adımların ardından ele alınır.'
   }
 ];
 
-// STATE
+// ─── STATE ──────────────────────────────────────────────────────
 let idx = 0;
-let filteredQ = [...ALL_QUESTIONS];
+let filteredQ = ALL_QUESTIONS.map((q, i) => { q._gi = i; return q; });
 let answered = new Set();
-let correct = new Set();
-let wrong = new Set();
-let starred = new Set();
+let correct  = new Set();
+let wrong    = new Set();
+let starred  = new Set();
 
-(function() {
-  ALL_QUESTIONS.forEach((q, i) => q._gi = i);
-  filteredQ = ALL_QUESTIONS.map(q => q);
-  renderQuestion();
-})();
-
+// ─── RENDER ─────────────────────────────────────────────────────
 function renderQuestion() {
   const q = filteredQ[idx];
-  const globalIdx = q._gi;
+  const gi = q._gi;
 
+  // Progress
+  document.getElementById('progress-bar').style.width = ((idx + 1) / filteredQ.length * 100) + '%';
+
+  // Badge
+  document.getElementById('section-badge').textContent = q.sectionLabel || 'GİS';
+
+  // Header
   document.getElementById('q-num').textContent = `Soru ${idx + 1} / ${filteredQ.length}`;
-  document.getElementById('section-badge').textContent = q.sectionLabel || 'İNTESTİNAL TIKANIKLIKLAR ve CERRAHİSİ';
 
+  // Year tags
   const ytEl = document.getElementById('year-tags');
   ytEl.innerHTML = '';
   (q.years || []).forEach(y => {
@@ -738,10 +428,14 @@ function renderQuestion() {
     ytEl.appendChild(sp);
   });
 
+  // Question
   document.getElementById('q-text').innerHTML = q.q;
+
+  // Hint
   document.getElementById('hint-box').innerHTML = q.hint || '';
   document.getElementById('hint-box').classList.remove('open');
 
+  // Options
   const optEl = document.getElementById('options');
   optEl.innerHTML = '';
   (q.opts || []).forEach(opt => {
@@ -749,60 +443,66 @@ function renderQuestion() {
     btn.className = 'opt-btn';
     const letter = opt[0];
     btn.innerHTML = `<span class="opt-letter">${letter}</span><span>${opt.slice(3)}</span>`;
-    btn.onclick = () => selectAnswer(letter, globalIdx, q);
+    btn.onclick = () => selectAnswer(letter, gi, q);
+    if (answered.has(gi)) {
+      btn.disabled = true;
+      if (letter === q.ans) btn.classList.add('correct');
+    }
     optEl.appendChild(btn);
   });
 
+  // Feedback
   document.getElementById('trap-text').textContent = q.trap || '';
   document.getElementById('explain-text').innerHTML = q.explain || '';
-  document.getElementById('feedback').classList.remove('open');
+  const fb = document.getElementById('feedback');
+  if (answered.has(gi)) fb.classList.add('open'); else fb.classList.remove('open');
 
+  // Star
   const starBtn = document.getElementById('star-btn');
-  starBtn.textContent = starred.has(globalIdx) ? '★' : '☆';
-  starBtn.classList.toggle('active', starred.has(globalIdx));
+  starBtn.textContent = starred.has(gi) ? '★' : '☆';
+  starBtn.classList.toggle('active', starred.has(gi));
 
-  if (answered.has(globalIdx)) {
-    restoreAnswerUI(globalIdx, q);
+  // Nav
+  document.getElementById('prev-btn').disabled = (idx === 0);
+  const nextBtn = document.getElementById('next-btn');
+  if (idx === filteredQ.length - 1) {
+    nextBtn.textContent = 'Sonuçlar →';
+    nextBtn.classList.add('result-btn');
+  } else {
+    nextBtn.textContent = 'Sonraki →';
+    nextBtn.classList.remove('result-btn');
   }
+  nextBtn.disabled = false;
 
-  updateNavBtns();
-  updateProgress();
-  updateToggleBtn();
+  // Counter
+  document.getElementById('q-counter').textContent = `${idx + 1} / ${filteredQ.length} ☰`;
 }
 
-function selectAnswer(letter, globalIdx, q) {
-  if (answered.has(globalIdx)) return;
-  answered.add(globalIdx);
+function selectAnswer(letter, gi, q) {
+  if (answered.has(gi)) return;
+  answered.add(gi);
 
-  const isCorrect = letter === q.ans;
-  if (isCorrect) correct.add(globalIdx);
-  else wrong.add(globalIdx);
+  const isCorrect = (letter === q.ans);
+  if (isCorrect) correct.add(gi); else wrong.add(gi);
 
-  const optEls = document.querySelectorAll('.opt-btn');
-  optEls.forEach(btn => {
+  // Style buttons
+  document.querySelectorAll('.opt-btn').forEach(btn => {
     btn.disabled = true;
     const l = btn.querySelector('.opt-letter').textContent;
     if (l === q.ans) btn.classList.add('correct');
-    else if (l === letter && !isCorrect) btn.classList.add('wrong');
+    if (l === letter && !isCorrect) btn.classList.add('wrong');
   });
 
   document.getElementById('feedback').classList.add('open');
-  setTimeout(() => {
-    document.getElementById('feedback').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 80);
-
-  updateNavBtns();
-  updateProgress();
 }
 
-function restoreAnswerUI(globalIdx, q) {
-  const optEls = document.querySelectorAll('.opt-btn');
-  optEls.forEach(btn => {
-    btn.disabled = true;
-    const l = btn.querySelector('.opt-letter').textContent;
-    if (l === q.ans) btn.classList.add('correct');
-  });
-  document.getElementById('feedback').classList.add('open');
+function navigate(dir) {
+  const newIdx = idx + dir;
+  if (newIdx < 0) return;
+  if (newIdx >= filteredQ.length) { showResult(); return; }
+  idx = newIdx;
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function toggleHint() {
@@ -810,27 +510,23 @@ function toggleHint() {
 }
 
 function toggleStar() {
-  const q = filteredQ[idx];
-  const globalIdx = q._gi;
-  if (starred.has(globalIdx)) starred.delete(globalIdx);
-  else starred.add(globalIdx);
-  const starBtn = document.getElementById('star-btn');
-  starBtn.textContent = starred.has(globalIdx) ? '★' : '☆';
-  starBtn.classList.toggle('active', starred.has(globalIdx));
-  updateToggleBtn();
+  const gi = filteredQ[idx]._gi;
+  if (starred.has(gi)) starred.delete(gi); else starred.add(gi);
+  const btn = document.getElementById('star-btn');
+  btn.textContent = starred.has(gi) ? '★' : '☆';
+  btn.classList.toggle('active', starred.has(gi));
 }
 
+// ─── QUESTION MODAL ─────────────────────────────────────────────
 function toggleQuestionList() {
-  document.getElementById('modal-overlay').classList.add('open');
-  buildGrid();
+  const overlay = document.getElementById('modal-overlay');
+  overlay.classList.toggle('open');
+  if (overlay.classList.contains('open')) buildGrid();
 }
-
 function closeModalOnOverlay(e) {
-  if (e.target === document.getElementById('modal-overlay')) {
+  if (e.target === document.getElementById('modal-overlay'))
     document.getElementById('modal-overlay').classList.remove('open');
-  }
 }
-
 function buildGrid() {
   const grid = document.getElementById('q-grid');
   grid.innerHTML = '';
@@ -843,132 +539,58 @@ function buildGrid() {
     else if (correct.has(gi)) btn.classList.add('done-correct');
     else if (wrong.has(gi)) btn.classList.add('done-wrong');
     if (starred.has(gi)) btn.classList.add('starred-q');
-    btn.onclick = () => {
-      idx = i;
-      renderQuestion();
-      document.getElementById('modal-overlay').classList.remove('open');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+    btn.onclick = () => { idx = i; renderQuestion(); document.getElementById('modal-overlay').classList.remove('open'); window.scrollTo({ top: 0 }); };
     grid.appendChild(btn);
   });
 }
 
-function navigate(dir) {
-  const newIdx = idx + dir;
-  if (newIdx < 0 || newIdx >= filteredQ.length) return;
-  idx = newIdx;
-  renderQuestion();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function updateNavBtns() {
-  const prevBtn = document.getElementById('prev-btn');
-  const nextBtn = document.getElementById('next-btn');
-  prevBtn.disabled = idx === 0;
-
-  const q = filteredQ[idx];
-  const globalIdx = q._gi;
-  const isLast = idx === filteredQ.length - 1;
-  const isAnswered = answered.has(globalIdx);
-
-  if (isLast && isAnswered) {
-    nextBtn.textContent = 'Sonuçları Gör →';
-    nextBtn.classList.add('result-btn');
-    nextBtn.onclick = showResult;
-  } else {
-    nextBtn.textContent = 'Sonraki →';
-    nextBtn.classList.remove('result-btn');
-    nextBtn.onclick = () => navigate(1);
-    nextBtn.disabled = false;
-  }
-}
-
-function updateProgress() {
-  const pct = (answered.size / ALL_QUESTIONS.length) * 100;
-  document.getElementById('progress-bar').style.width = pct + '%';
-}
-
-function updateToggleBtn() {
-  document.getElementById('q-counter').textContent = `${idx + 1} / ${filteredQ.length} ☰`;
-}
-
+// ─── RESULT ─────────────────────────────────────────────────────
 function showResult() {
-  document.getElementById('quiz-card').style.display = 'none';
-  document.getElementById('nav').style.display = 'none';
+  document.getElementById('quiz-container').style.display = 'none';
+  document.querySelector('.nav-wrap').style.display = 'none';
   document.getElementById('result-screen').style.display = 'block';
 
   const total = filteredQ.length;
   const c = filteredQ.filter(q => correct.has(q._gi)).length;
   const w = filteredQ.filter(q => wrong.has(q._gi)).length;
   const s = filteredQ.filter(q => starred.has(q._gi)).length;
-  const pct = total > 0 ? Math.round((c / total) * 100) : 0;
+  const pct = total ? Math.round(c / total * 100) : 0;
 
   document.getElementById('score-pct').textContent = pct + '%';
+  document.getElementById('score-ring').style.setProperty('--pct', pct + '%');
   document.getElementById('r-correct').textContent = c;
   document.getElementById('r-wrong').textContent = w;
   document.getElementById('r-star').textContent = s;
-  document.getElementById('score-ring').style.setProperty('--pct', pct + '%');
 
-  document.getElementById('retry-wrong-btn').style.display = w === 0 ? 'none' : '';
-  document.getElementById('retry-star-btn').style.display = s === 0 ? 'none' : '';
-  document.getElementById('share-star-btn').style.display = s === 0 ? 'none' : '';
-}
-
-function shareStarred() {
-  const lines = [];
-  ALL_QUESTIONS.forEach((q, i) => {
-    if (!starred.has(q._gi)) return;
-    lines.push(`Soru ${i + 1}:`);
-    lines.push(q.q.replace(/<[^>]+>/g, ''));
-    lines.push(`Doğru Cevap: ${q.ans}`);
-    lines.push('Açıklama: ' + (q.explain || '').replace(/<[^>]+>/g, ''));
-    lines.push('---');
-  });
-  const text = lines.join('\n');
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.getElementById('share-star-btn');
-    const orig = btn.textContent;
-    btn.textContent = '✅ Kopyalandı!';
-    setTimeout(() => btn.textContent = orig, 2000);
-  });
+  document.getElementById('retry-wrong-btn').disabled = (w === 0);
+  document.getElementById('retry-star-btn').disabled = (s === 0);
 }
 
 function restartQuiz() {
-  answered.clear(); correct.clear(); wrong.clear();
   filteredQ = ALL_QUESTIONS.map(q => q);
-  idx = 0;
-  document.getElementById('result-screen').style.display = 'none';
-  document.getElementById('quiz-card').style.display = '';
-  document.getElementById('nav').style.display = '';
-  renderQuestion();
-  window.scrollTo({ top: 0 });
+  idx = 0; answered.clear(); correct.clear(); wrong.clear();
+  showQuiz();
 }
-
 function retryWrong() {
-  const wrongQs = ALL_QUESTIONS.filter(q => wrong.has(q._gi));
-  if (!wrongQs.length) return;
-  answered.clear(); correct.clear(); wrong.clear();
-  filteredQ = wrongQs;
-  idx = 0;
+  filteredQ = ALL_QUESTIONS.filter(q => wrong.has(q._gi));
+  idx = 0; answered.clear(); correct.clear(); wrong.clear();
+  showQuiz();
+}
+function retryStar() {
+  filteredQ = ALL_QUESTIONS.filter(q => starred.has(q._gi));
+  idx = 0; answered.clear(); correct.clear(); wrong.clear();
+  showQuiz();
+}
+function showQuiz() {
+  document.getElementById('quiz-container').style.display = 'block';
+  document.querySelector('.nav-wrap').style.display = 'block';
   document.getElementById('result-screen').style.display = 'none';
-  document.getElementById('quiz-card').style.display = '';
-  document.getElementById('nav').style.display = '';
   renderQuestion();
   window.scrollTo({ top: 0 });
 }
 
-function retryStar() {
-  const starQs = ALL_QUESTIONS.filter(q => starred.has(q._gi));
-  if (!starQs.length) return;
-  answered.clear(); correct.clear(); wrong.clear();
-  filteredQ = starQs;
-  idx = 0;
-  document.getElementById('result-screen').style.display = 'none';
-  document.getElementById('quiz-card').style.display = '';
-  document.getElementById('nav').style.display = '';
-  renderQuestion();
-  window.scrollTo({ top: 0 });
-}
+// ─── INIT ────────────────────────────────────────────────────────
+renderQuestion();
 </script>
 </body>
 </html>

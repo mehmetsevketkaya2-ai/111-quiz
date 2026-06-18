@@ -1,504 +1,351 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TUS Cerrahi Komplikasyonlar Quiz - Bölüm 1</title>
-    <style>
-        :root {
-            --bg: #0f172a;
-            --card: #1e293b;
-            --accent: #eab308;
-            --correct: #22c55e;
-            --wrong: #ef4444;
-            --text: #f1f5f9;
-        }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .container { max-width: 800px; width: 100%; }
-        .card { background: var(--card); border-radius: 15px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); margin-bottom: 20px; position: relative; }
-        .progress { font-size: 0.9rem; color: #94a3b8; margin-bottom: 10px; }
-        .question { font-size: 1.2rem; font-weight: 600; margin-bottom: 20px; line-height: 1.4; }
-        .options { display: grid; gap: 12px; }
-        .option { background: #334155; border: 2px solid transparent; padding: 15px; border-radius: 10px; cursor: pointer; transition: 0.3s; text-align: left; font-size: 1rem; color: white; width: 100%; }
-        .option:hover { background: #475569; }
-        .option.correct { border-color: var(--correct); background: rgba(34, 197, 94, 0.2); }
-        .option.wrong { border-color: var(--wrong); background: rgba(239, 68, 68, 0.2); }
-        .hint-btn { background: var(--accent); color: #000; border: none; padding: 8px 15px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 15px; }
-        .hint-box { display: none; background: #422006; border-left: 4px solid var(--accent); padding: 15px; margin: 15px 0; font-style: italic; }
-        .explanation { display: none; background: #0f172a; border-radius: 8px; padding: 20px; margin-top: 20px; border: 1px solid #334155; }
-        .nav-btns { display: flex; justify-content: space-between; margin-top: 30px; }
-        .nav-btn { background: #6366f1; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        #summary-screen { display: none; text-align: center; }
-        .stat-box { display: flex; justify-content: space-around; margin: 20px 0; }
-        .stat-item { padding: 15px; border-radius: 10px; background: #334155; flex: 1; margin: 0 5px; }
-        strong { color: var(--accent); }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aşk Şarkıları 💕</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d0610;
+      --bg2:       #160c1e;
+      --rose:      #e8416b;
+      --rose-soft: #f07090;
+      --gold:      #f5c842;
+      --text:      #f0e6f6;
+      --muted:     #a08aaa;
+      --card-bg:   rgba(255,255,255,0.04);
+      --card-bdr:  rgba(232,65,107,0.25);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Floating hearts ── */
+    .hearts-bg {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      overflow: hidden;
+    }
+    .heart-particle {
+      position: absolute;
+      bottom: -60px;
+      font-size: 1.4rem;
+      animation: rise linear infinite;
+      opacity: 0;
+      user-select: none;
+    }
+    @keyframes rise {
+      0%   { transform: translateY(0)   rotate(0deg);   opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 80px 20px 50px;
+    }
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 18px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 7vw, 5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      background: linear-gradient(135deg, var(--rose-soft), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+    }
+    .hero p {
+      color: var(--muted);
+      font-size: 1rem;
+      letter-spacing: 0.06em;
+    }
+
+    .big-heart {
+      font-size: 3.5rem;
+      display: block;
+      margin: 0 auto 20px;
+      animation: heartbeat 1.6s ease-in-out infinite;
+    }
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1); }
+      14%      { transform: scale(1.18); }
+      28%      { transform: scale(1); }
+      42%      { transform: scale(1.12); }
+      56%      { transform: scale(1); }
+    }
+
+    /* ── Grid ── */
+    .grid-section {
+      position: relative; z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px 20px 80px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    /* ── Card ── */
+    .song-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      border-radius: 18px;
+      padding: 28px 24px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .song-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(232,65,107,0.12), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .song-card:hover::before { opacity: 1; }
+    .song-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 18px 40px rgba(232,65,107,0.22);
+      border-color: var(--rose);
+    }
+    .song-card:active { transform: scale(0.97); }
+
+    .card-emoji { font-size: 2rem; }
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--rose-soft);
+      line-height: 1.3;
+    }
+    .card-artist {
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .card-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.55;
+      flex: 1;
+    }
+    .card-btn {
+      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: linear-gradient(135deg, var(--rose), #c0304f);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      padding: 9px 20px;
+      font-size: 0.8rem;
+      font-family: 'Lato', sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: opacity 0.2s, box-shadow 0.2s;
+    }
+    .card-btn:hover { opacity: 0.88; box-shadow: 0 4px 14px rgba(232,65,107,0.45); }
+
+    /* YouTube icon */
+    .yt-icon {
+      width: 18px; height: 18px; fill: #fff; flex-shrink: 0;
+    }
+
+    /* ── Footer ── */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 24px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
-    <div id="quiz-area">
-        <div class="progress">Soru: <span id="current-index">1</span>/50</div>
-        <div class="card">
-            <div id="question-text" class="question">Soru yükleniyor...</div>
-            <div class="options" id="options-container"></div>
-            <button class="hint-btn" onclick="toggleHint()">İpucu Göster</button>
-            <div id="hint-box" class="hint-box"></div>
-            <div id="explanation" class="explanation"></div>
-        </div>
-        <div class="nav-btns">
-            <button class="nav-btn" onclick="prevQuestion()" id="prev-btn">Geri</button>
-            <button class="nav-btn" onclick="nextQuestion()" id="next-btn">İleri</button>
-        </div>
-    </div>
+<!-- Floating hearts background -->
+<div class="hearts-bg" id="heartsBg"></div>
 
-    <div id="summary-screen" class="card">
-        <h2>Bölüm 1 Tamamlandı!</h2>
-        <div class="stat-box">
-            <div class="stat-item"><h3>Doğru</h3><p id="correct-count" style="color:var(--correct); font-size: 1.5rem;">0</p></div>
-            <div class="stat-item"><h3>Yanlış</h3><p id="wrong-count" style="color:var(--wrong); font-size: 1.5rem;">0</p></div>
-            <div class="stat-item"><h3>Başarı</h3><p id="success-rate" style="color:var(--accent); font-size: 1.5rem;">0%</p></div>
-        </div>
-        <button class="nav-btn" onclick="location.reload()">Başa Dön</button>
-    </div>
-</div>
+<!-- Hero -->
+<section class="hero">
+  <span class="big-heart">💖</span>
+  <div class="hero-eyebrow">♬ Müzikle Hisset</div>
+  <h1>Aşkın Sesi</h1>
+  <p>Kalbini titretecek şarkılara tek tıkla ulaş</p>
+</section>
+
+<!-- Song Cards -->
+<section class="grid-section" id="songs"></section>
+
+<footer>Sevgiyle hazırlandı &nbsp;·&nbsp; YouTube Music ♥</footer>
 
 <script>
-    const questions = [
-        {
-            q: "İndirekt inguinal fıtığın epigastrik damarlara göre anatomik konumu nasıldır?",
-            o: ["Medialinde", "Lateralinde", "Superiorunda", "Inferiorunda", "Anteriorunda"],
-            a: "Lateralinde",
-            h: "İndirekt inguinal: Epigastrik damarların lateralinde.",
-            e: "<strong>İndirekt inguinal fıtıklar</strong>, inferior epigastrik damarların <strong>lateralinden</strong> kaynaklanır ve prosesus vajinalis açıklığı ile ilişkilidir."
-        },
-        {
-            q: "Hesselbach üçgeninden çıkan fıtık tipi aşağıdakilerden hangisidir?",
-            o: ["İndirekt inguinal", "Femoral", "Direkt inguinal", "Spigel", "Obturator"],
-            a: "Direkt inguinal",
-            h: "Direkt inguinal: Epigastrik damarların medialinde, hesselbach üçgeninde.",
-            e: "<strong>Direkt inguinal fıtık</strong>, anatomik olarak inferior epigastrik damarların medialinde kalan <strong>Hesselbach üçgeninden</strong> protrüze olur."
-        },
-        {
-            q: "Aynı tarafta hem direkt hem de indirekt herni bulunması durumuna ne ad verilir?",
-            o: ["Sliding herni", "Richter herni", "Pantolon herni", "Amyant herni", "Littre herni"],
-            a: "Pantolon herni",
-            h: "Pantolon herni: Aynı tarafta direkt ve indirekt herni.",
-            e: "<strong>Pantolon herni</strong>, hastada aynı inguinal bölgede hem direkt hem de indirekt fıtık keselerinin eş zamanlı bulunmasıdır."
-        },
-        {
-            q: "Fıtık kesesi duvarının bir kısmının mesane veya kolon gibi organlar tarafından oluşturulduğu fıtık tipi hangisidir?",
-            o: ["Richter herni", "Littre fıtığı", "Maydl hernisi", "Sliding Herni", "Spigel herni"],
-            a: "Sliding Herni",
-            h: "Sliding Herni: Fıtık kesesi duvarının mesane ve kolon gibi organlarca oluşturulması.",
-            e: "<strong>Sliding (kayıcı) herni</strong> durumunda, fıtık kesesinin bir duvarını intraabdominal bir organ (en sık mesane veya kolon) oluşturur."
-        },
-        {
-            q: "İnguinal ligamanın inferoposteriorundan femoral kanala doğru gelişen herni hangisidir?",
-            o: ["Femoral herni", "Direkt herni", "Spigel herni", "İndirekt herni", "Obturator herni"],
-            a: "Femoral herni",
-            h: "Femoral herni: İnguinal ligamanın inferoposteriorundan femoral kanala doğru herni olması.",
-            e: "<strong>Femoral herni</strong>, inguinal ligamanın <strong>altında ve arkasında</strong> yer alan femoral kanaldan çıkar."
-        },
-        {
-            q: "İnguinal herni kesesi içinde apendiks bulunması durumuna ne ad verilir?",
-            o: ["De Garengeot herni", "Amyant herni", "Littre herni", "Richter herni", "Maydl herni"],
-            a: "Amyant herni",
-            h: "Amyant herni: İnguinal herni kesesi içinde apendiks bulunması.",
-            e: "<strong>Amyant herni</strong>, fıtık kesesi içinde <strong>vermis apendiks</strong> bulunmasıdır (Genellikle sağ taraftadır)."
-        },
-        {
-            q: "Femoral herni kesesi içinde apendiks bulunmasına ne ad verilir?",
-            o: ["Amyant herni", "De Garengeot herni", "Littre fıtığı", "Richter fıtığı", "Maydl hernisi"],
-            a: "De Garengeot herni",
-            h: "De garengeot herni: Femoral herni kesesi içinde apendiks bulunması.",
-            e: "<strong>De Garengeot herni</strong>, apendiksin <strong>femoral</strong> bir fıtık kesesi içine girmesidir."
-        },
-        {
-            q: "Fıtık kesesi içinde Meckel Divertikülü bulunması hangi isimle anılır?",
-            o: ["Richter", "Amyant", "Maydl", "Littre Fıtığı", "Sliding"],
-            a: "Littre Fıtığı",
-            h: "Littre Fıtığı: Fıtık kesesi içinde meckel divertikülü bulunması.",
-            e: "<strong>Littre fıtığı</strong>, kese içeriğinde <strong>Meckel divertikülü</strong> saptanması durumudur."
-        },
-        {
-            q: "Lümen tıkanıklığı (obstrüksiyon) yapmadan, bağırsak yan duvarının bir kısmının keseye girmesi hangi fıtıktır?",
-            o: ["Richter Fıtığı", "Littre Fıtığı", "Maydl Hernisi", "Spigel Herni", "Amyant Herni"],
-            a: "Richter Fıtığı",
-            h: "Richter Fıtığı: Kese içerisinde bağırsak yan duvarının bir parçası bulunması (Obstrüksiyon olmadan strangülasyona neden olabilir).",
-            e: "<strong>Richter fıtığı</strong> tehlikelidir çünkü tam obstrüksiyon yapmadığı için geç fark edilebilir ancak <strong>strangülasyon</strong> riski yüksektir."
-        },
-        {
-            q: "Bağırsağın fıtık kesesine 'W' şeklinde girmesi ile karakterize herni hangisidir?",
-            o: ["Maydl Hernisi", "Richter Herni", "Littre Herni", "Sliding Herni", "Pantaloon Herni"],
-            a: "Maydl Hernisi",
-            h: "Maydl Hernisi: Fıtık kesesinin içine bağırsağın 'w' şeklinde girmesi.",
-            e: "<strong>Maydl hernisinde</strong> bağırsağın iki anslı kesede, orta halkası ise karın içindedir. Karın içindeki halkanın iskemisi meşhurdur."
-        },
-        {
-            q: "Semilunar çizgiden (linea semilunaris) gelişen fıtık aşağıdakilerden hangisidir?",
-            o: ["Epigastrik", "Umbilikal", "Spigel Herni", "Bochdalek", "Morgagni"],
-            a: "Spigel Herni",
-            h: "Spigel Herni: Semilunar çizgiden gelişen fıtık.",
-            e: "<strong>Spigel fıtığı</strong>, rektus kasının lateral kenarındaki <strong>semilunar çizgi</strong> boyunca oluşur."
-        },
-        {
-            q: "Ostomi kenarından gelişen herniye ne ad verilir?",
-            o: ["İnsizyonel herni", "Parastomal herni", "Umbilikal herni", "Epigastrik herni", "Siyatik herni"],
-            a: "Parastomal herni",
-            h: "Parastomal herni: Ostomi kenarından gelişen herni.",
-            e: "<strong>Parastomal herniler</strong>, kolostomi veya ileostomi gibi cerrahi stomaların kenarındaki defektlerden kaynaklanır."
-        },
-        {
-            q: "Postero-lateral konjenital diyafragma hernisi aşağıdakilerden hangisidir?",
-            o: ["Morgagni", "Richter", "Littre", "Bochdalek hernisi", "Spigel"],
-            a: "Bochdalek hernisi",
-            h: "Bochdalek hernisi: Posterolateral konjenital diyafragma hernisi.",
-            e: "<strong>Bochdalek hernisi</strong>, diyafragmanın en sık görülen konjenital fıtığıdır ve <strong>posterolateral</strong> yerleşimlidir."
-        },
-        {
-            q: "Parasternal konjenital diyafragma hernisi hangisidir?",
-            o: ["Bochdalek", "Morgagni Hernisi", "Spigel", "Amyant", "Sliding"],
-            a: "Morgagni Hernisi",
-            h: "Morgagni Hernisi: Parasternal konjenital diyafragma hernisi.",
-            e: "<strong>Morgagni hernisi</strong>, diyafragmanın önünde (retro-sternal veya parasternal) Larrey aralığından çıkar."
-        },
-        {
-            q: "İnsizyon altında yağ, serum ve lenfatik sıvı birikimi ile karakterize masum komplikasyon hangisidir?",
-            o: ["Hematom", "Seroma", "Abse", "Eviserasyon", "Keloid"],
-            a: "Seroma",
-            h: "Seroma: İnsizyon altında yağ, serum ve lenfatik sıvı birikimidir. Masum bir komplikasyondur.",
-            e: "<strong>Seroma</strong>, steril bir sıvı koleksiyonudur. Enfeksiyon içermez ancak geniş flepli cerrahilerde sıktır."
-        },
-        {
-            q: "Seroma gelişimi aşağıdaki operasyonların hangisinde en sıktır?",
-            o: ["Apendektomi", "Tiroidektomi", "Mastektomi", "Gastrostomi", "Sünnet"],
-            a: "Mastektomi",
-            h: "Özellikle büyük deri flepli operasyonlarda gelişir (mastektomi, inguinal diseksiyon...).",
-            e: "<strong>Mastektomi</strong> ve inguinal lenf nodu diseksiyonu gibi <strong>geniş deri flebi</strong> kaldırılan cerrahilerde seroma riski en yüksektir."
-        },
-        {
-            q: "Semptomatik seromaların yönetiminde İLK adım hangisidir?",
-            o: ["Hemen cerrahi drenaj", "Geniş spektrumlu antibiyotik", "Aspire edilmeli ve basınçlı pansuman uygulanmalıdır", "Dren yerleştirip eve gönderilmelidir", "Sadece buz uygulaması"],
-            a: "Aspire edilmeli ve basınçlı pansuman uygulanmalıdır",
-            h: "Semptomatik seromalar aspire edilmeli ve basınçlı pansuman uygulanmalıdır.",
-            e: "Seroma tedavisinde temel prensip, sıvıyı iğne ile <strong>aspire etmek</strong> ve tekrar birikmemesi için <strong>basınçlı pansuman</strong> yapmaktır."
-        },
-        {
-            q: "Dirençli seromalarda uygulanabilecek yöntemler arasında hangisi yoktur?",
-            o: ["Dren yerleştirilmesi", "İnsizyon açılması", "Negatif basınçlı tedavi", "Sistemik yüksek doz heparin", "Enfekte ise cerrahi boşaltma"],
-            a: "Sistemik yüksek doz heparin",
-            h: "Dirençli seromalarda dren, insizyon veya negatif basınç tedavisi (VAC) uygulanabilir.",
-            e: "Heparin kanama riskini artırır; seroma tedavisinde yeri yoktur. Dirençli vakalarda <strong>VAC (Negatif basınç)</strong> tedavisi etkilidir."
-        },
-        {
-            q: "Ameliyat bölgesinde kan pıhtısı ve kan toplanması olarak tanımlanan durum hangisidir?",
-            o: ["Seroma", "Keloid", "Hematom", "Fistül", "Eviserasyon"],
-            a: "Hematom",
-            h: "Hematom: Ameliyat bölgesinde kan pıhtısı ve kan toplanmasıdır.",
-            e: "<strong>Hematom</strong>, yetersiz hemostaz veya pıhtılaşma bozukluklarına bağlı cerrahi sahada kan birikmesidir."
-        },
-        {
-            q: "Karın boşluğundaki büyük bir hematom aşağıdakilerden hangisine neden olabilir?",
-            o: ["Pankreatit", "Abdominal kompartman sendromu", "Akut kolesistit", "Portal hipertansiyon", "Safra taşı"],
-            a: "Abdominal kompartman sendromu",
-            h: "Karın boşluğundaki hematomlar abdominal kompartman sendromu veya ileus yapabilir.",
-            e: "Karın içinde biriken büyük hacimli kan, <strong>intraabdominal basıncı artırarak</strong> kompartman sendromuna yol açabilir."
-        },
-        {
-            q: "Boyundaki bir hematomda en korkulan komplikasyon hangisidir?",
-            o: ["Ses kısıklığı", "Yutma güçlüğü", "Hava yolu obstrüksiyonu", "Tiroid fırtınası", "Hipokalsemi"],
-            a: "Hava yolu obstrüksiyonu",
-            h: "Boyundaki hematomlar basıya bağlı hava yolu obstrüksiyonu yapabilir.",
-            e: "Boyun cerrahisi (Tiroid/Paratiroid) sonrası <strong>hematom</strong> hızla büyüyerek trakeaya bası yapabilir ve <strong>acil müdahale</strong> gerektirir."
-        },
-        {
-            q: "Enfekte hematomların klinik bulguları arasında hangisi yer almaz?",
-            o: ["Ateş", "Lökositoz", "Sepsis", "Bradikardi", "Lokal hassasiyet"],
-            a: "Bradikardi",
-            h: "Enfekte hematomlar ateş, lökositoz veya sepsise neden olabilir.",
-            e: "Enfeksiyon gelişmiş bir hematomda <strong>takikardi</strong> beklenir, bradikardi beklenmez."
-        },
-        {
-            q: "Elektif cerrahi öncesi Warfarin kaç gün önce kesilmelidir?",
-            o: ["1 gün", "3 gün", "5 gün", "10 gün", "14 gün"],
-            a: "5 gün",
-            h: "Warfarin: 5 gün.",
-            e: "INR düzeyinin normale dönmesi için <strong>Warfarin</strong> cerrahiden <strong>5 gün</strong> önce kesilmelidir."
-        },
-        {
-            q: "Kreatinin klirensi >50 olan bir hastada Dabigatran kaç gün önce kesilmelidir?",
-            o: ["1-2 gün", "3-5 gün", "7 gün", "10 gün", "24 saat"],
-            a: "1-2 gün",
-            h: "Dabigatran: Kreatinin klirensi ≥ 50 ise 1-2 gün.",
-            e: "Böbrek fonksiyonu iyi olanlarda <strong>Dabigatran</strong> için <strong>1-2 gün</strong> yeterlidir; ancak böbrek yetmezliğinde süre uzar."
-        },
-        {
-            q: "Yüksek kanama riskli cerrahilerde Rivaroxaban ve Apixaban en az kaç saat önce kesilmelidir?",
-            o: ["12 saat", "24 saat", "48 saat", "72 saat", "96 saat"],
-            a: "48 saat",
-            h: "Rivaroxaban/Apixaban: Yüksek kanama riski için ≥48 saat.",
-            e: "<strong>Yüksek riskli</strong> işlemlerden önce Faktör Xa inhibitörlerinin en az <strong>48 saat</strong> önce bırakılması önerilir."
-        },
-        {
-            q: "Düşük kardiyovasküler riskli bir hastada Aspirin cerrahiden kaç gün önce kesilmelidir?",
-            o: ["1 gün", "3 gün", "5 gün", "7-10 gün", "Kesilmemelidir"],
-            a: "7-10 gün",
-            h: "Aspirin: Düşük kardiyovasküler risk veya majör kanama riski: 7-10 gün.",
-            e: "Trombosit fonksiyonlarının geri dönmesi için <strong>Aspirin</strong>'in <strong>7-10 gün</strong> önce kesilmesi gerekir."
-        },
-        {
-            q: "Klopidogrel (Plavix) cerrahiden kaç gün önce kesilmelidir?",
-            o: ["1 gün", "3 gün", "5 gün", "10 gün", "14 gün"],
-            a: "5 gün",
-            h: "Klopidogrel: 5 gün.",
-            e: "<strong>Klopidogrel</strong> cerrahiden <strong>5 gün</strong> önce kesilmelidir."
-        },
-        {
-            q: "Çıplak metal stent takılan bir hastada elektif cerrahi ne kadar süre ertelenmelidir?",
-            o: ["2 hafta", "6 hafta", "3 ay", "6 ay", "1 yıl"],
-            a: "6 hafta",
-            h: "Çıplak metal stent olan hastalarda ameliyatı 6 hafta ertele.",
-            e: "<strong>Çıplak metal stent (BMS)</strong> takılanlarda endotelizasyon tamamlanana kadar <strong>6 hafta</strong> beklenmelidir."
-        },
-        {
-            q: "İlaç salınımlı stent (DES) takılan bir hastada elektif cerrahi ideal olarak ne kadar ertelenmelidir?",
-            o: ["4 hafta", "6-12 ay", "2 ay", "3 ay", "5 yıl"],
-            a: "6-12 ay",
-            h: "İlaç salınımlı stent olan hastalarda ameliyatı 6-12 ay ertele.",
-            e: "<strong>İlaç salınımlı stentlerde (DES)</strong> stent trombozu riski nedeniyle cerrahi <strong>6-12 ay</strong> sonrasına planlanmalıdır."
-        },
-        {
-            q: "Güncel kılavuzlara göre, stentleme sonrası aspirin yönetimi nasıldır?",
-            o: ["Her durumda kesilmelidir", "Mümkünse aspirine devam edilmelidir", "Sadece koroner bypass varsa devam edilir", "Klopidogrel ile birlikte devam edilir", "Ameliyat sabahı kesilir"],
-            a: "Mümkünse aspirine devam edilmelidir",
-            h: "Güncel kılavuzlar, aspirine devam edilmesini ve klopidogrelin kesilmesini önermektedir.",
-            e: "Stentli hastalarda trombozu önlemek için <strong>aspirine devam</strong> edilmesi, ancak kanama riski için P2Y12 inhibitörünün (Klopidogrel) kesilmesi önerilir."
-        },
-        {
-            q: "HAS-BLED skorlamasında 'SBP >160 mmHg' kaç puan olarak hesaplanır?",
-            o: ["1 puan", "2 puan", "3 puan", "4 puan", "0 puan"],
-            a: "1 puan",
-            h: "Hipertansiyon, SBP >160 mmHg: 1 puan.",
-            e: "<strong>HAS-BLED</strong> skalasında kontrolsüz <strong>hipertansiyon</strong> (SKB >160) hastaya <strong>1 puan</strong> ekler."
-        },
-        {
-            q: "HAS-BLED skorunda 'Anormal böbrek veya karaciğer fonksiyonu' (her biri için) kaç puan verilir?",
-            o: ["Yarım puan", "1 puan", "2 puan", "3 puan", "Toplamda 1 puan"],
-            a: "1 puan",
-            h: "Anormal böbrek veya karaciğer fonksiyonu (her biri 1 puan).",
-            e: "Böbrek veya karaciğer yetmezliğinin her biri için <strong>1 puan</strong> verilir (ikisi varsa 2 puan)."
-        },
-        {
-            q: "HAS-BLED skorlamasında 'Labil INR' kaç puan değerindedir?",
-            o: ["1 puan", "2 puan", "3 puan", "0 puan", "Değişken"],
-            a: "1 puan",
-            h: "Değişken (Labil) INR: 1 puan.",
-            e: "Terapötik aralıkta tutulamayan <strong>labil INR</strong> değerleri <strong>1 puan</strong> olarak kaydedilir."
-        },
-        {
-            q: "HAS-BLED skoruna göre 'Yüksek Kanama Riski' sınırı kaçtır?",
-            o: ["0-1 puan", "2 puan", "≥3 puan", "≥5 puan", "≥7 puan"],
-            a: "≥3 puan",
-            h: "≥3 puan: Yüksek kanama riski.",
-            e: "Skorlamada <strong>3 ve üzeri</strong> puan alan hastalar cerrahi sırasında <strong>yüksek kanama riskli</strong> kabul edilir."
-        },
-        {
-            q: "Aşağıdaki cerrahi prosedürlerden hangisi 'Yüksek Kanama Riskli' (%2-4) kategorisinde değildir?",
-            o: ["Büyük vasküler cerrahi", "Ortopedik cerrahi", "Abdominal herni onarımı", "Baş boyun kanser cerrahisi", "Ürolojik cerrahi"],
-            a: "Abdominal herni onarımı",
-            h: "Yüksek kanama riski: vasküler, ortopedik, baş boyun kanser, ürolojik (>45 dk).",
-            e: "<strong>Abdominal herni</strong> onarımları genellikle <strong>düşük kanama riskli</strong> (%0-2) işlemlerdir."
-        },
-        {
-            q: "Akut yara ayrışması (Dehisens) en sık ne zaman görülür?",
-            o: ["İlk 24 saatte", "Ameliyat sonrası ilk haftada", "Ameliyattan 1 ay sonra", "Yalnızca dren çekilince", "Taburcu olduktan sonra"],
-            a: "Ameliyat sonrası ilk haftada",
-            h: "Ameliyat sonrası ilk haftada (iyileşmenin enflamatuar fazı) daha yaygındır.",
-            e: "<strong>Yara dehisensi</strong> tipik olarak kolajen sentezinin henüz yeterli olmadığı <strong>ilk haftada</strong> (enflamatuar faz) gerçekleşir."
-        },
-        {
-            q: "Cerrahi insizyon yerinden aniden gelen 'somon rengi' (pembe) ve kokusuz sıvı neyin habercisidir?",
-            o: ["Hematom rüptürü", "Yara ayrışması (Dehisens)", "Gastrointestinal fistül", "C. Difficile enfeksiyonu", "Abse direnajı"],
-            a: "Yara ayrışması (Dehisens)",
-            h: "Yaradan bir anda somon rengi (sarı-pembe), kokusuz serosanjinöz sıvı gelir.",
-            e: "Yara yerinden gelen <strong>somon rengi seröz sıvı</strong>, fasyal tabakaların ayrıldığının (<strong>dehisens</strong>) klasik ve en önemli klinik belirtisidir."
-        },
-        {
-            q: "Peritoneal içeriğin dehisens alanından cilt seviyesinin üstüne çıkmasına ne ad verilir?",
-            o: ["Dehisens", "Seroma", "Eviserasyon", "Fistül", "Granülom"],
-            a: "Eviserasyon",
-            h: "Eviserasyon: peritoneal içeriğin dehisens alanından cilt seviyesinin üstüne çıkmasıdır.",
-            e: "<strong>Eviserasyon</strong>, fasyanın tamamen açılıp karın içi organların (genelde ince bağırsak) dışarı fırlaması durumudur."
-        },
-        {
-            q: "Eviserasyon sırasında hastalar genellikle ne hissederler?",
-            o: ["Şiddetli kramp", "Ani bir yırtılma hissi", "Hıçkırık", "Soğukluk", "Uyuşma"],
-            a: "Ani bir yırtılma hissi",
-            h: "Hastalar genellikle öksürme ve öğürme ile oluşan ani yırtılma hissederler.",
-            e: "Öksürme gibi karın içi basıncı artıran bir olay sonrası <strong>ani yırtılma hissi</strong> eviserasyonun subjektif tanısıdır."
-        },
-        {
-            q: "Yara ayrışmasında en önemli lokal faktör aşağıdakilerden hangisidir?",
-            o: ["Obezite", "Yaş", "Yetersiz kapatma (teknik başarısızlık)", "Hipoalbüminemi", "Steroid kullanımı"],
-            a: "Yetersiz kapatma (teknik başarısızlık)",
-            h: "Lokal faktörler: Yetersiz kapatma (teknik başarısızlık), artmış intraabdominal basınç, enfeksiyon.",
-            e: "Yara ayrışmalarının yarısından fazlasında <strong>yetersiz teknik</strong> (dikiş mesafeleri, düğüm güvenliği) sorumlu tutulur."
-        },
-        {
-            q: "Kontamine veya aktif olarak enfekte olmuş cerrahi yaralarda önerilen yaklaşım nedir?",
-            o: ["Primer olarak kapatılmalıdır", "Açık bırakılmalıdır", "Mesh ile güçlendirilmelidir", "Sadece tek kat dikilmelidir", "Sıcak pansuman yapılmalıdır"],
-            a: "Açık bırakılmalıdır",
-            h: "Kontamine veya aktif olarak enfekte olmuş yaralar açık bırakılmalıdır.",
-            e: "Enfeksiyon riski çok yüksek (<strong>kontamine</strong>) yaralar primer kapatılmaz, <strong>açık bırakılarak</strong> sekonder iyileşmeye veya gecikmiş kapatmaya bırakılır."
-        },
-        {
-            q: "Negatif basınçlı yara kapama (VAC) uygulamasının bir faydası değildir?",
-            o: ["Doku ödemini azaltır", "Bakteri sayısını azaltır", "Doku perfüzyonunu azaltır", "Hücresel proliferasyonu uyarır", "İnflamatuar süreci düzenler"],
-            a: "Doku perfüzyonunu azaltır",
-            h: "VAC: Doku ödemini azaltır, perfüzyonu artırır, bakteri sayısını azaltır.",
-            e: "VAC sistemi, kan akımını (<strong>perfüzyonu</strong>) <strong>artırarak</strong> yara iyileşmesini hızlandırır; azaltmaz."
-        },
-        {
-            q: "Hipotermi tanımı için vücut iç sıcaklığının kaç derecenin altına düşmesi gerekir?",
-            o: ["37°C", "36.5°C", "36°C", "35°C", "34°C"],
-            a: "35°C",
-            h: "Hipotermi: Vücut iç sıcaklığının <35°C altında olması.",
-            e: "Cerrahi hastalarda vücut sıcaklığının <strong>35°C</strong>'nin altında olması klinik <strong>hipotermi</strong> olarak kabul edilir."
-        },
-        {
-            q: "Orta derece hipotermi hangi ısı aralığını kapsar?",
-            o: ["32-35°C", "28-32°C", "<28°C", "35-37°C", "20-25°C"],
-            a: "28-32°C",
-            h: "Orta (28-32°C) hipotermi.",
-            e: "Hipotermi sınıflamasında <strong>28-32°C</strong> arası <strong>orta</strong> derece olarak tanımlanır."
-        },
-        {
-            q: "Hipotermi risk faktörleri arasında hangisi yer almaz?",
-            o: ["İleri yaş", "Yanık yaralanmaları", "Kısa süreli cerrahi (<1 saat)", "Büyük ameliyat sahası", "Alkol zehirlenmesi"],
-            a: "Kısa süreli cerrahi (<1 saat)",
-            h: "Risk faktörleri: İleri yaş, yanık yaralanmaları, uzun süreli ameliyat (>4 saat).",
-            e: "Ameliyat süresinin <strong>uzun olması (>4 saat)</strong> hipotermi riskini artırırken, kısa işlemler koruyucudur."
-        },
-        {
-            q: "Ameliyat öncesi hangi ilacın kullanımı titremeyi bozarak hipotermiye katkıda bulunur?",
-            o: ["Aspirin", "Gevşetici (Kas gevşetici)", "Antibiyotik", "Proton pompası inhibitörü", "K vitamini"],
-            a: "Gevşetici (Kas gevşetici)",
-            h: "Ameliyat öncesi kas gevşetici kullanımı titremeyi bozarak hipotermiye katkıda bulunur.",
-            e: "Vücudun ısı üretim mekanizması olan <strong>titreme</strong>, <strong>kas gevşeticiler</strong> tarafından engellendiği için ısı kaybı hızlanır."
-        },
-        {
-            q: "Hipoterminin kardiyovasküler sistem üzerindeki etkisi nedir?",
-            o: ["Aritmi riskini azaltır", "Sistolik fonksiyonu artırır", "Aritmiye yatkınlık sağlar", "Hipotansiyonu düzeltir", "Damarları genişletir"],
-            a: "Aritmiye yatkınlık sağlar",
-            h: "Hipotermi: Kardiyovasküler sistem bozulur, aritmiye yatkınlık sağlar.",
-            e: "Hipotermi miyokardiyal irritabiliteyi artırarak <strong>aritmi</strong> riskini belirgin şekilde yükseltir."
-        },
-        {
-            q: "Hipoterminin koagülasyon (pıhtılaşma) üzerindeki etkisi hangisidir?",
-            o: ["Pıhtılaşmayı hızlandırır", "Koagülasyon bozukluğu yapar", "Trombosit sayısını artırır", "Kanamayı durdurur", "Etkisizdir"],
-            a: "Koagülasyon bozukluğu yapar",
-            h: "Hipotermi: Koagülasyon bozukluğu oluşturur.",
-            e: "Enzim fonksiyonlarını yavaşlatan hipotermi, pıhtılaşma kaskadını bozarak <strong>kanama eğilimini</strong> artırır."
-        },
-        {
-            q: "Hipotermi ilaç metabolizmasını nasıl etkiler?",
-            o: ["Hızlandırır", "Bozar (yavaşlatır)", "Etkilemez", "İlaç emilimini artırır", "Böbrekten atılımı hızlandırır"],
-            a: "Bozar (yavaşlatır)",
-            h: "Hipotermi: İlaç metabolizması bozulur.",
-            e: "Karaciğer enzimlerinin aktivitesi ısıya bağımlı olduğundan, hipotermide <strong>ilaç metabolizması yavaşlar</strong> ve ilaçların etkisi uzar."
-        },
-        {
-            q: "Hipoterminin yara iyileşmesi üzerindeki etkisi nedir?",
-            o: ["Hızlandırır", "İnfeksiyon riskini azaltır", "Yara iyileşmesi bozulur", "Kolajen sentezini artırır", "Etkisi yoktur"],
-            a: "Yara iyileşmesi bozulur",
-            h: "Hipotermi: Yara iyileşmesi bozulur.",
-            e: "Vazokonstriksiyon ve doku perfüzyonunun azalması nedeniyle hipotermi <strong>yara iyileşmesini geciktirir</strong>."
-        }
-    ];
+  // ── Song data ──
+  const songs = [
+    {
+      emoji: "🌹",
+      title: "Can't Help Falling in Love",
+      artist: "Elvis Presley",
+      desc: "Aşkın kaçınılmaz olduğunu anlatan efsanevi bir klasik.",
+      url: "https://music.youtube.com/search?q=Can%27t+Help+Falling+in+Love+Elvis+Presley"
+    },
+    {
+      emoji: "🌙",
+      title: "Perfect",
+      artist: "Ed Sheeran",
+      desc: "İki sevgilinin mükemmel anını anlatan duygusal bir balad.",
+      url: "https://music.youtube.com/search?q=Perfect+Ed+Sheeran"
+    },
+    {
+      emoji: "💌",
+      title: "A Thousand Years",
+      artist: "Christina Perri",
+      desc: "Sonsuz aşkı ve beklemeyi anlatan büyülü bir şarkı.",
+      url: "https://music.youtube.com/search?q=A+Thousand+Years+Christina+Perri"
+    },
+    {
+      emoji: "✨",
+      title: "Seni Duyuyorum",
+      artist: "Teoman",
+      desc: "Türkçe rockun en duygusal aşk şarkılarından biri.",
+      url: "https://music.youtube.com/search?q=Teoman+Seni+Duyuyorum"
+    },
+    {
+      emoji: "🎻",
+      title: "Ölürsem Aşktan Öleceğim",
+      artist: "Sezen Aksu",
+      desc: "Türk pop müziğinin kraliçesinden efsanevi bir aşk şarkısı.",
+      url: "https://music.youtube.com/search?q=Sezen+Aksu+Olursem+Asktan+Olecegim"
+    },
+    {
+      emoji: "🕊️",
+      title: "Say You Love Me",
+      artist: "Fleetwood Mac",
+      desc: "Yumuşak melodisi ile ruhu okşayan zamansız bir klasik.",
+      url: "https://music.youtube.com/search?q=Fleetwood+Mac+Say+You+Love+Me"
+    },
+    {
+      emoji: "🌸",
+      title: "Beni Bul",
+      artist: "Mor ve Ötesi",
+      desc: "Kayıp aşkı ve özlemi anlatan Türkçe rock başyapıtı.",
+      url: "https://music.youtube.com/search?q=Mor+ve+Otesi+Beni+Bul"
+    },
+    {
+      emoji: "💫",
+      title: "At Last",
+      artist: "Etta James",
+      desc: "Soul müziğin en romantik ve en güçlü seslerinden biri.",
+      url: "https://music.youtube.com/search?q=Etta+James+At+Last"
+    },
+    {
+      emoji: "🌊",
+      title: "Make You Feel My Love",
+      artist: "Adele",
+      desc: "Adele'nin eşsiz sesiyle taçlanan derin bir aşk vaadi.",
+      url: "https://music.youtube.com/search?q=Adele+Make+You+Feel+My+Love"
+    },
+    {
+      emoji: "🔥",
+      title: "Aşkın Olayım",
+      artist: "Tarkan",
+      desc: "Tarkan'ın ikonik sesiyle dans ettiren tutkulu bir şarkı.",
+      url: "https://music.youtube.com/search?q=Tarkan+Askin+Olayim"
+    },
+    {
+      emoji: "🎵",
+      title: "La Vie en Rose",
+      artist: "Édith Piaf",
+      desc: "Aşkın hayatı gül rengi göstermesini anlatan Fransız klasiği.",
+      url: "https://music.youtube.com/search?q=Edith+Piaf+La+Vie+en+Rose"
+    },
+    {
+      emoji: "🌺",
+      title: "Unutamam",
+      artist: "Mustafa Ceceli",
+      desc: "Türk pop müziğinin en sevilen aşk şarkılarından biri.",
+      url: "https://music.youtube.com/search?q=Mustafa+Ceceli+Unutamam"
+    },
+  ];
 
-    let currentIndex = 0;
-    let correctCount = 0;
-    let wrongCount = 0;
-    let answered = false;
+  // ── Render cards ──
+  const grid = document.getElementById('songs');
 
-    function displayQuestion() {
-        answered = false;
-        const q = questions[currentIndex];
-        document.getElementById("current-index").innerText = currentIndex + 1;
-        document.getElementById("question-text").innerText = q.q;
-        document.getElementById("hint-box").innerText = q.h;
-        document.getElementById("hint-box").style.display = "none";
-        document.getElementById("explanation").style.display = "none";
-        
-        const optionsContainer = document.getElementById("options-container");
-        optionsContainer.innerHTML = "";
-        
-        q.o.forEach(opt => {
-            const btn = document.createElement("button");
-            btn.className = "option";
-            btn.innerText = opt;
-            btn.onclick = () => checkAnswer(opt, btn);
-            optionsContainer.appendChild(btn);
-        });
+  songs.forEach(song => {
+    const card = document.createElement('a');
+    card.href = song.url;
+    card.target = '_blank';
+    card.rel = 'noopener noreferrer';
+    card.className = 'song-card';
+    card.innerHTML = `
+      <span class="card-emoji">${song.emoji}</span>
+      <div class="card-title">${song.title}</div>
+      <div class="card-artist">${song.artist}</div>
+      <div class="card-desc">${song.desc}</div>
+      <button class="card-btn" tabindex="-1">
+        <svg class="yt-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
+        </svg>
+        YouTube Music'te Dinle
+      </button>
+    `;
+    grid.appendChild(card);
+  });
 
-        document.getElementById("prev-btn").disabled = currentIndex === 0;
-        document.getElementById("next-btn").innerText = currentIndex === questions.length - 1 ? "Bitir" : "İleri";
-    }
+  // ── Floating heart particles ──
+  const emojis = ['💕','💖','💗','💓','❤️','🌹','✨','💫'];
+  const bg = document.getElementById('heartsBg');
 
-    function checkAnswer(selected, btn) {
-        if(answered) return;
-        answered = true;
-        const q = questions[currentIndex];
-        const options = document.querySelectorAll(".option");
+  function spawnHeart() {
+    const el = document.createElement('span');
+    el.className = 'heart-particle';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    const dur = 7 + Math.random() * 9;
+    const delay = Math.random() * 5;
+    el.style.animationDuration = dur + 's';
+    el.style.animationDelay = delay + 's';
+    el.style.fontSize = (0.9 + Math.random() * 1.2) + 'rem';
+    bg.appendChild(el);
+    setTimeout(() => el.remove(), (dur + delay + 1) * 1000);
+  }
 
-        if(selected === q.a) {
-            btn.classList.add("correct");
-            correctCount++;
-        } else {
-            btn.classList.add("wrong");
-            wrongCount++;
-            options.forEach(b => { if(b.innerText === q.a) b.classList.add("correct"); });
-        }
-
-        const exp = document.getElementById("explanation");
-        exp.innerHTML = q.e;
-        exp.style.display = "block";
-        exp.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-
-    function toggleHint() {
-        const box = document.getElementById("hint-box");
-        box.style.display = box.style.display === "none" ? "block" : "none";
-    }
-
-    function nextQuestion() {
-        if(currentIndex < questions.length - 1) {
-            currentIndex++;
-            displayQuestion();
-        } else {
-            showSummary();
-        }
-    }
-
-    function prevQuestion() {
-        if(currentIndex > 0) {
-            currentIndex--;
-            displayQuestion();
-        }
-    }
-
-    function showSummary() {
-        document.getElementById("quiz-area").style.display = "none";
-        document.getElementById("summary-screen").style.display = "block";
-        document.getElementById("correct-count").innerText = correctCount;
-        document.getElementById("wrong-count").innerText = wrongCount;
-        document.getElementById("success-rate").innerText = Math.round((correctCount/50)*100) + "%";
-    }
-
-    displayQuestion();
+  // Spawn initial batch then continue
+  for (let i = 0; i < 18; i++) spawnHeart();
+  setInterval(spawnHeart, 700);
 </script>
-
 </body>
 </html>

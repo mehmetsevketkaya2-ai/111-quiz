@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Appendiks Vermiformis – TUS Quiz</title>
+<title>Perianal Bölge Hastalıkları – TUS Quiz</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -15,9 +15,11 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; padding: 0 0 80px; }
 
+  /* PROGRESS */
   .progress-wrap { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: var(--border); z-index: 100; }
   .progress-bar { height: 3px; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width .4s ease; }
 
+  /* LAYOUT */
   .container { max-width: 760px; margin: 0 auto; padding: 32px 16px 0; }
 
   .section-badge {
@@ -31,6 +33,7 @@
     display: block;
   }
 
+  /* CARD */
   .card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -39,6 +42,7 @@
     margin-bottom: 16px;
   }
 
+  /* Q HEADER */
   .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
   #q-num { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); }
   #star-btn {
@@ -49,6 +53,7 @@
   #star-btn:hover { transform: scale(1.2); }
   #star-btn.active { color: var(--gold); }
 
+  /* YEAR TAGS */
   .year-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
   .year-tag {
     font-family: 'IBM Plex Mono', monospace;
@@ -61,9 +66,11 @@
     letter-spacing: .06em;
   }
 
+  /* QUESTION TEXT */
   #q-text { font-size: 15px; line-height: 1.7; margin-bottom: 18px; }
   #q-text b { color: var(--accent2); }
 
+  /* HINT */
   .hint-toggle {
     display: inline-flex; align-items: center; gap: 6px;
     font-family: 'IBM Plex Mono', monospace;
@@ -87,6 +94,7 @@
   }
   #hint-box.open { display: block; }
 
+  /* OPTIONS */
   .options { display: flex; flex-direction: column; gap: 8px; }
   .opt-btn {
     display: flex; align-items: flex-start; gap: 10px;
@@ -115,6 +123,7 @@
   .opt-btn.wrong .opt-letter { color: var(--red); }
   .opt-btn:disabled { cursor: default; }
 
+  /* FEEDBACK */
   .feedback { display: none; margin-top: 18px; }
   .feedback.open { display: block; }
   .trap-box {
@@ -136,6 +145,7 @@
   .explain-text { font-size: 13.5px; line-height: 1.7; }
   .explain-text b { color: var(--accent2); }
 
+  /* NAV */
   .nav {
     display: flex; justify-content: space-between; align-items: center;
     max-width: 760px; margin: 0 auto;
@@ -163,6 +173,7 @@
   }
   #q-counter:hover { border-color: var(--accent); color: var(--text); }
 
+  /* MODAL */
   .q-modal-overlay {
     display: none; position: fixed; inset: 0;
     background: rgba(0,0,0,.6); backdrop-filter: blur(4px);
@@ -197,6 +208,7 @@
   .q-grid-btn.starred-q { box-shadow: 0 0 0 2px var(--gold); }
   .q-grid-btn:hover { transform: scale(1.08); }
 
+  /* RESULT SCREEN */
   #result-screen {
     display: none;
     max-width: 760px; margin: 0 auto; padding: 40px 16px;
@@ -247,11 +259,11 @@
 <div class="progress-wrap"><div class="progress-bar" id="progress-bar"></div></div>
 
 <div class="container">
-  <span class="section-badge" id="section-badge">APENDİKS VERMİFORMİS HASTALIKLARI ve CERRAHİSİ</span>
+  <span class="section-badge" id="section-badge">PERİANAL BÖLGE HASTALIKLARI VE CERRAHİSİ</span>
 
   <div class="card" id="quiz-card">
     <div class="q-header">
-      <span id="q-num">Soru 1 / 24</span>
+      <span id="q-num">Soru 1 / 18</span>
       <button id="star-btn" onclick="toggleStar()" title="Yıldızla">☆</button>
     </div>
     <div class="year-tags" id="year-tags"></div>
@@ -274,7 +286,7 @@
 
 <div class="nav" id="nav">
   <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">← Önceki</button>
-  <button id="q-counter" onclick="toggleQuestionList()">1 / 24 ☰</button>
+  <button id="q-counter" onclick="toggleQuestionList()">1 / 18 ☰</button>
   <button class="nav-btn" id="next-btn" onclick="navigate(1)">Sonraki →</button>
 </div>
 
@@ -310,386 +322,337 @@
 <script>
 const ALL_QUESTIONS = [
   {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: 'Akut apandisitin genelde <b>en sık nedeni</b> ve apendiks lümenini <b>en sık tıkayan parazit</b> aşağıdakilerden hangisinde doğru olarak verilmiştir?',
-    opts: ['A) Fekalit – Ascaris lumbricoides', 'B) Lenfoid hiperplazi – Ascaris lumbricoides', 'C) Fekalit – Enterobius vermicularis', 'D) Lenfoid hiperplazi – Enterobius vermicularis', 'E) Lenfoid hiperplazi – Echinococcus granulosus'],
-    ans: 'A',
-    hint: '🔑 Genel neden = <b>fekalit</b>; parazitler içinde en sık = <b>Ascaris lumbricoides</b> (bağırsak solucanı).',
-    trap: 'Enterobius vermicularis (kıl kurdu) apendikste sıkışsa da akut apandisit etyolojisinde Ascaris kadar önemli değildir. Lenfoid hiperplazi çocuklarda öne çıkar, yetişkinlerde değil.',
-    explain: 'Akut apandisitin <b>en sık sebebi felakittir (fekalit)</b>. Parazitler arasında ise apendiks lümenini en sık tıkayan <b>Ascaris lumbricoides</b>dur. Lenfoid hiperplazi çocuklarda birinci sıra nedendir; yetişkinlerde fekalitler öne geçer.'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: 'Akut apandisite <b>yetişkinlerde</b> ve <b>çocuklarda</b> en sık görülen neden aşağıdakilerden hangisinde doğru eşleştirilmiştir?<br><br><i>Yetişkin &nbsp;&nbsp;&nbsp;&nbsp; Çocuk</i>',
-    opts: ['A) Fekalit &nbsp;&nbsp;&nbsp;&nbsp; Lenfoid hiperplazi', 'B) Fekalit &nbsp;&nbsp;&nbsp;&nbsp; Fekalit', 'C) Lenfoid hiperplazi &nbsp;&nbsp;&nbsp;&nbsp; Lenfoid hiperplazi', 'D) Lenfoid hiperplazi &nbsp;&nbsp;&nbsp;&nbsp; Fekalit', 'E) Fekalit &nbsp;&nbsp;&nbsp;&nbsp; Karsinoid tümör'],
-    ans: 'A',
-    hint: '🔑 Çocuklarda lenf dokusu reaktif → <b>lenfoid hiperplazi</b>. Yetişkinlerde dışkı birikimi → <b>fekalit</b>.',
-    trap: 'Her iki yaş grubunda da fekalit diyebilirsiniz; ancak çocuklarda üst solunum yolu enfeksiyonları sonrası lenfoid hiperplazi hakimdir.',
-    explain: 'Akut apandisit temel mekanizması <b>lümen tıkanıklığı</b>dır. <b>Çocuklarda en sık neden lenfoid hiperplazi</b>, <b>yetişkinlerde ise fekalit</b>tir. Karsinoid tümör nadir bir nedendir ve her iki grupta da görülebilir.'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: 'Akut apandisitin <b>ilk semptomu</b> aşağıdakilerden hangisidir?',
-    opts: ['A) Epigastrik ağrı', 'B) Bulantı-kusma', 'C) Sağ alt kadran ağrısı', 'D) Ateş', 'E) İştahsızlık (anoreksi)'],
-    ans: 'E',
-    hint: '🔑 Semptom sırası: <b>Anoreksi → Ağrı → Kusma</b>. "A-A-K" şeklinde ezberlenebilir.',
-    trap: 'Karın ağrısı temel semptom gibi görünse de <b>ilk</b> semptom değildir. %95 vakada ilk belirti iştah kaybıdır. Ağrı sonra başlar, kusma en sonda gelir.',
-    explain: 'Akut apendisitin yaklaşık <b>%95\'inde ilk semptom anoreksi (iştahsızlık)</b>dir. Bunu ağrı takip eder — önce periumbilikal, 4–6 saat içinde sağ alt kadrana lokalize olur. Kusma ağrıdan sonra gelir. Bu sıralama tanıda önemlidir: kusma ağrıdan önce geliyorsa gastroenterit düşünülmelidir.'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: 'Akut apandisitin <b>erken döneminde</b> görülen viseral ağrı öncelikle nerede lokalize olur?',
-    opts: ['A) Periumbilikal bölgede', 'B) Sağ fossa iliaca\'da', 'C) Sağ üst kadranda', 'D) Sağ inguinal bölgede', 'E) Sol üst kadranda'],
-    ans: 'A',
-    hint: '🔑 <b>Viseral faz</b> → göbek çevresi künt ağrı. <b>Somatik faz</b> → sağ alt kadrana keskin ağrı (McBurney).',
-    trap: 'Sağ alt kadran (McBurney noktası) ağrısı hastalığın ilerleyen döneminde ortaya çıkar. Erken dönemde ağrı iyi lokalize edilemez ve göbek çevresindedir.',
-    explain: 'Akut apendisitte karın ağrısı <b>iki aşamada</b> gelişir:<br>• <b>Viseral faz:</b> Umbilikus etrafında künt, iyi lokalize edilemeyen ağrı (apendiksin viseral innervasyonu T8–T10 aracılığıyla göbeğe yansır).<br>• <b>Somatik faz:</b> Enfeksiyon apendiksi aşıp parietal peritonu tutunca <b>McBurney noktasında</b> keskin, iyi lokalize edilebilen ağrı başlar.'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: 'Alvarado skorlaması aşağıdaki hastalıklardan <b>hangisinin</b> tanısal yaklaşımında kullanılır?',
-    opts: ['A) Akut apandisit', 'B) Akut pankreatit', 'C) Künt karın travması', 'D) Karaciğer kist hidatiği', 'E) Septik şok'],
-    ans: 'A',
-    hint: '🔑 Alvarado = Apandisit. 7–8 puan → görüntüleme. 9–10 puan → erkekte direkt ameliyat.',
-    trap: 'Ranson skoru pankreatit, FAST travma için kullanılır. Alvarado yalnızca akut apandisit için geliştirilmiştir.',
-    explain: '<b>Alvarado skorlama sistemi</b> akut apandisit tanısına yaklaşımda ameliyat veya ileri tetkik kararını güvenli şekilde sağlayan klinik bir skorlamadır.<br>Parametreler: Anoreksi (1p), Bulantı-kusma (1p), Sağ alt kadranda hassasiyet (2p), Rebound (1p), Ateş >38.3°C (1p), Lökositoz >10.000 (2p), Sola kayma >%70 (1p) → Toplam 9 puan.<br>• 1–4: Apandisit muhtemel değil<br>• 5–6: Görüntüleme gerekli<br>• 7–8: İleri tetkik / gözlem<br>• 9–10: Direkt ameliyat (erkekte)'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: 'Aşağıdakilerden hangisi akut apandisit tanısında kullanılan <b>Alvarado Skorlama Sistemi</b>nde yer alan parametrelerden biri <b>değildir?</b>',
-    opts: ['A) Sağ alt kadranda hassasiyet varlığı', 'B) İştahsızlık', 'C) Kusma', 'D) Nötrofil sayısında sola kayma', 'E) İshal'],
-    ans: 'E',
-    hint: '🔑 Alvarado\'da <b>ishal yoktur</b>. İshal apandisit lehine değil, aksine gastroenterit lehine yorumlanır.',
-    trap: 'İshal gastrointestinal enfeksiyonları akla getirir. Apandisit tablolarında kabızlık daha karakteristiktir. İshalin skorda yer almaması sınavda önemli bir tuzaktır.',
-    explain: 'Alvarado skorlamasının <b>parametreleri:</b> Anoreksi, Bulantı-kusma, Sağ alt kadranda hassasiyet, Rebound, Ateş, Lökositoz ve Sola kayma. <b>İshal bu parametreler arasında yer almaz.</b> İshal aksine gastroenterit veya mezenter adenit lehine bir bulgudur.'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: 'Otuz yaşındaki kadın hasta sağ alt kadran ağrısı, lökositoz ve ateş şikâyetleriyle başvuruyor. Alvarado skoru hesaplanmaya çalışılıyor.<br><br>Aşağıdaki değişkenlerden hangisi <b>Alvarado skorlamasında kullanılmamaktadır?</b>',
-    opts: ['A) Anoreksi', 'B) Nötrofillerin sola kayması', 'C) İliopsoas bulgusu', 'D) Sağ alt kadran ağrısı', 'E) Ateş'],
-    ans: 'C',
-    hint: '🔑 Psoas (iliopsoas) bulgusu retroçekal apandisitte önemlidir ama <b>Alvarado skorunda yer almaz</b>.',
-    trap: 'Psoas testi apandisitin fizik muayene bulgusu olmakla birlikte Alvarado skorlama sistemine dahil edilmemiştir. Skor yalnızca sayılabilir/ölçülebilir klinik ve lab parametrelerini içerir.',
-    explain: '<b>İliopsoas (psoas) testi:</b> Retroçekal yerleşimli apandisitte pozitif olur. Hasta sol yanına yatar, sağ uyluk geriye çekildiğinde psoas kası gerilir ve apendiksi uyarır. Ancak bu bulgu <b>Alvarado skorlamasının dışındadır.</b> Skorda yer alan parametreler: Anoreksi, Bulantı-kusma, Sağ alt kadran hassasiyeti, Rebound, Ateş, Lökositoz, Sola kayma.'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: 'İnen kolondaki gazın yukarı doğru elle karın üzerinden itilmesiyle <b>sağ alt kadranda ağrı</b> ortaya çıkması şeklinde tanımlanan fizik muayene bulgusu aşağıdakilerden hangisidir?',
-    opts: ['A) Fothergill bulgusu', 'B) Ten Horn bulgusu', 'C) Rovsing bulgusu', 'D) Aaron bulgusu', 'E) Dunphy bulgusu'],
-    ans: 'C',
-    hint: '🔑 <b>Rovsing</b> = Soldan baskı → sağda ağrı. Çapraz rebound prensibi.',
-    trap: 'Aaron bulgusu McBurney\'ye basınca epigastriumda ağrı duyulmasıdır. Dunphy bulgusu öksürmekle sağ alt kadranda ağrıdır. Rovsing ise sol alt kadrandan sağa gaz itmesiyle ağrı oluşmasıdır.',
-    explain: '<b>Rovsing belirtisi:</b> Sol alt kadrana basıldığında inen kolondaki gaz yukarı doğru itilir; bu sağ alt kadranda ağrı ortaya çıkarır. Apendiksin sağ tarafta olduğunu dolaylı olarak gösterir. Akut apandisit muayenesinde kullanılan önemli bulgulardan biridir.'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: 'Aşağıdakilerden hangisi akut apandisitte tespit edilen fizik muayene bulgularından <b>birisi değildir?</b>',
-    opts: ['A) Psoas bulgusu', 'B) Sağ alt kadranda direkt rebound', 'C) Murphy bulgusu', 'D) Obturator bulgusu', 'E) Rovsing bulgusu'],
-    ans: 'C',
-    hint: '🔑 <b>Murphy bulgusu</b> = <b>Akut kolesistit</b>. Sağ üst kadrana basılıp inspirasyon istenince ağrı ve nefes kesme.',
-    trap: 'Murphy bulgusu yanlışlıkla apandisitle ilişkilendirilebilir çünkü her ikisi de akut karın tablosudur. Ancak Murphy sağ üst kadran (karaciğer/safra kesesi bölgesi) bulgusudur.',
-    explain: '<b>Murphy bulgusu</b> akut kolesistite özgüdür: Sağ alt kadranın derin palpasyonu sırasında hasta derin nefes alırken hassasiyet hisseder ve inspirasyonu keser.<br><br>Akut apandisitte kullanılan bulgular:<br>• <b>Psoas bulgusu</b>: Retroçekal apandisit<br>• <b>Obturator bulgusu</b>: Pelvik apandisit<br>• <b>Rovsing bulgusu</b>: Çapraz rebound<br>• <b>Dunphy bulgusu</b>: Öksürükle sağ alt kadran ağrısı<br>• <b>Aaron bulgusu</b>: McBurney\'ye basınca epigastrik ağrı'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: 'Yirmi yaşındaki erkek hasta karın ağrısıyla başvuruyor. Ağrı bir gün önce başlamış, ertesi sabah sağ tarafa yerleşmiş. İştahı yok. Hastanın küçük ve temkinli adımlarla yürüdüğü dikkat çekiyor; hızlı yürüyünce ve öksürünce karnının ağrıdığını söylüyor.<br><br>Öksürmekle sağ alt kadranda ağrı oluşmasına verilen isim aşağıdakilerden hangisidir?',
-    opts: ['A) Murphy bulgusu', 'B) Dunphy bulgusu', 'C) Kehr bulgusu', 'D) Rovsing bulgusu', 'E) McBurney bulgusu'],
-    ans: 'B',
-    hint: '🔑 <b>Dunphy</b> = Öksürmekle sağ alt kadran ağrısı. "D" harfi hem Dunphy hem de "Derin nefes/öksürük" için.',
-    trap: 'McBurney noktası bir "bulgu" değil anatomik nokta olup hassasiyetin tespit edildiği yerdir. Kehr bulgusu dalak rüptüründe sol omuza yansıyan ağrıdır.',
-    explain: '<b>Dunphy bulgusu:</b> Öksürmekle veya hareket etmekle sağ alt kadranda ağrının ortaya çıkması ya da şiddetlenmesidir. Peritoneal irritasyonu gösterir ve akut apandisit tanısında kullanılan klinik bulgulardan biridir. Bu hastanın temkinli yürüyüşü de peritoneal irritasyonun göstergesidir.'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: '<b>Aaron bulgusu</b> aşağıdaki durumların hangisinde rastlanır?',
-    opts: ['A) Akut kolesistit', 'B) Akut apandisit', 'C) Periampüller tümör', 'D) Pelvik apse', 'E) Portal hipertansiyon'],
-    ans: 'B',
-    hint: '🔑 <b>Aaron</b> bulgusu: McBurney\'ye basınca <b>epigastriumda</b> ağrı. Sağ alt kadrana değil, epigastriuma yansır!',
-    trap: 'Diğer apandisit bulguları sağ alt kadranda ağrı artışı iken Aaron bulgusu tam tersine uzak bir bölgede (epigastrium) ağrı hissettirir; bu farklılık sınav sorusunda tuzak olarak kullanılır.',
-    explain: '<b>Aaron bulgusu:</b> McBurney noktasına basıldığında <b>epigastriumda veya prekordiyal bölgede</b> ağrı veya baskı hissi duyulmasıdır. Bu bulgu akut apandisit için özgündür ve diğer apandisit bulgularından farklı bir yöne (epigastrium) yansımasıyla dikkat çeker.'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: 'Yirmi yaşındaki erkek hastada akut apandisit nedeniyle laparoskopik apendektomi yapılıyor; apendiksin perfore olduğu görülüyor. Hasta 3. günde taburcu ediliyor. 10. günde 39°C ateş ve karın ağrısıyla acil servise başvuruyor. Karın BT\'sinde çekum komşuluğunda 8 cm\'lik apse saptanıyor. Perkütan drenaj ve ampirik antibiyotik başlanıyor.<br><br>Bu hastanın apse sıvısında üremesi <b>en olası bakteri</b> aşağıdakilerden hangisidir?',
-    opts: ['A) Bilophila wadsworthia', 'B) Eubacterium nodatum', 'C) Prevotella fusca', 'D) Bacteroides fragilis', 'E) Peptostreptococcus'],
+    section: 'perianal',
+    sectionLabel: 'PERİANAL BÖLGE HASTALIKLARI VE CERRAHİSİ',
+    years: ['Benign Perianal'],
+    q: 'Aşağıdakilerden hangisi <b>internal hemoroidal hastalığın</b> oluşturduğu tipik belirtilerden biri <b>değildir?</b>',
+    opts: ['A) Dışkılama olmadan kanama', 'B) Parlak kırmızı rektal kanama', 'C) Mukus yapımı', 'D) Ağrı', 'E) Prolapsus'],
     ans: 'D',
-    hint: '🔑 Distal ileum, apendiks, kolon enfeksiyonları → en sık etken <b>Bacteroides fragilis</b> (gram-negatif anaerob).',
-    trap: 'Cerrahi alan enfeksiyonlarında genel olarak S. aureus akla gelir. Ancak GİS kökenli enfeksiyonlarda E. coli, distal ileum-apendiks-kolon apselerinde ise B. fragilis öne geçer.',
-    explain: 'Cerrahi alan enfeksiyonlarının genel en sık nedeni <b>S. aureus</b>tur. Gastrointestinal enfeksiyonlarda <b>E. coli</b> birinci sıraya geçer. Ancak <b>distal ileum, apendiks ve kolona bağlı enfeksiyonlarda</b> (özellikle perfore apandisit apsesi) en sık etken <b>Bacteroides fragilis</b>tir; gram-negatif zorunlu anaerobdur ve kolonik floranın baskın üyesidir.'
+    hint: '🔑 Internal hemoroidler mukoza ile kaplıdır, cilt hassasiyeti yoktur. <b>Ağrısız parlak kırmızı rektal kanama</b> karakteristik bulgusudur.',
+    trap: '"Hemoroid = ağrı" diye ezberleme tuzağı! Ağrı yapan lezyon anal fissür veya tromboze eksternal hemoroiddır. Internal hemoroidler ağrı yapmaz; ağrı varsa başka tanı düşün.',
+    explain: '<b>Ağrısız parlak kırmızı rektal kanama</b> internal hemoroidal hastalığın karakteristik belirtisidir. Mukoza ile kaplı ve cilt hassasiyetine sahip olmayan bu hemoroidler ağrı oluşturmazlar. Diğer tipik bulgular: mukus yapımı, prolapsus ve defekasyon sırasında kanama. <b>Ağrı internal hemoroide özgü değildir</b>; ağrılı anorektal tablo anal fissür, tromboz veya abse akla getirmelidir.'
   },
   {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: 'Akut apandisitin gerekli cerrahi müdahale yapılmadığında <b>en sık gözlenen komplikasyonu</b> aşağıdakilerden hangisidir?',
-    opts: ['A) Plastron', 'B) Periapendiküler apse', 'C) Perforasyon', 'D) Pilefilebit', 'E) Generalize peritonit'],
-    ans: 'C',
-    hint: '🔑 En sık komplikasyon = <b>Perforasyon</b>. En mortal komplikasyon = <b>Pilefilebit</b>.',
-    trap: 'Plastron ve periapendiküler apse perforasyonu engelleyebilir veya sınırlayabilir; ancak bunlar perforasyondan sonra ya da yerine gelişen tablolardır. Perforasyon her zaman ilk sıradadır.',
-    explain: 'Tedavisiz bırakılan apendisitlerde <b>en sık gelişen komplikasyon perforasyondur.</b> Perforasyon sonrası olası gelişmeler (sıklık sırasıyla):<br>• <b>Plastron</b>: Omentum ve komşu organların apendiksi sarması<br>• <b>Periapendiküler apse</b><br>• <b>Peritonit</b><br>• <b>Pilefilebit</b>: Portal venin septik trombofilebiti → en mortal komplikasyon'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: 'Akut apandisitte mortaliteyi artıran <b>en önemli iki neden</b> aşağıdakilerden hangisinde eksiksiz doğru verilmiştir?',
-    opts: ['A) Perforasyon ve apse', 'B) İleri yaş ve perforasyon', 'C) İleri yaş ve retroçekal yerleşim', 'D) Perforasyon ve retroçekal yerleşim', 'E) Apse ve retroçekal yerleşim'],
-    ans: 'B',
-    hint: '🔑 Mortalite = <b>İleri yaş + Perforasyon</b>. Bu ikili hem tanıyı geciktirir hem de iyileşmeyi zorlaştırır.',
-    trap: 'Retroçekal yerleşim tanıyı güçleştirir ama tek başına mortalite için en önemli faktör değildir. Apse de perforasyonun bir sonucudur; nedenin sonucu mortalite nedeni olarak sayılamaz.',
-    explain: 'Akut apandisitte mortalitenin <b>en önemli iki nedeni ileri yaş ve perforasyondur.</b><br>• <b>İleri yaş:</b> Semptomlar atipik seyreder, tanı gecikmesi artar, komorbidite fazladır.<br>• <b>Perforasyon:</b> Diffüz peritonit veya pilefilebit riskini dramatik biçimde artırır.<br>Genel popülasyonda apandisit mortalitesi <%1 iken perfore apandisitte bu oran belirgin artar.'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: 'Perfore apandisit nedeniyle apendektomi sonrası <b>en sık görülen postoperatif komplikasyon</b> aşağıdakilerden hangisidir?',
-    opts: ['A) Pilefilebit', 'B) Ciltaltı yağ dokusu enfeksiyonu', 'C) Pelvik apse', 'D) Fekal fistül', 'E) Jeneralize peritonit'],
-    ans: 'B',
-    hint: '🔑 Perfore apandisit sonrası <b>en sık komplikasyon = yara yeri enfeksiyonu (ciltaltı yağ dokusu enfeksiyonu)</b>.',
-    trap: 'Pelvik apse ve peritonit daha dramatik görünse de görülme sıklığı bakımından yara yeri enfeksiyonunun gerisinde kalır. Pilefilebit en nadir ama en mortal komplikasyondur.',
-    explain: 'Perfore apandisit nedeniyle apendektomi sonrası komplikasyon görülme oranı yüksektir. Sıklık sırasıyla:<br>1. <b>Ciltaltı yağ dokusu enfeksiyonu</b> (en sık)<br>2. Mekanik ince bağırsak obstrüksiyonu<br>3. Pelvik apse<br>4. Fekal fistül<br>5. Jeneralize peritonit<br><b>Pilefilebit</b> (portal venin septik trombofilebiti) ise en nadir ama en mortal komplikasyondur.'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: 'Altmış yaşındaki erkek hastada perfore apandisit nedeniyle apendektomiden <b>5 gün sonra</b> titreme, yüksek ateş ve sarılık gelişiyor. Karın BT\'sinde portal sistem damarlarında trombüs ve hava görülüyor.<br><br>Bu hastada en olası tanı aşağıdakilerden hangisidir?',
-    opts: ['A) Safra taşı ileusu', 'B) Amfizematöz kolesistit', 'C) Assendan kolanjit', 'D) Pilefilebit', 'E) İntestinal obstrüksiyon'],
-    ans: 'D',
-    hint: '🔑 Portal ven trombozu + gaz + sarılık + apandisit öyküsü = <b>Pilefilebit</b>.',
-    trap: 'Assendan kolanjit de ateş ve sarılık yapar (Charcot triadı), ancak portal vende trombüs ve gaz görülmez. BT bulgusu pilefilebit için patognomoniktir.',
-    explain: '<b>Pilefilebit (Piyelofilebit):</b> Portal venin septik trombofilebitidir. Akut apandisitin en mortal komplikasyonudur, nadir görülür.<br>Klinik: <b>Ateş, titreme, sarılık</b> ve sağ üst kadrana yayılan ağrı.<br>BT bulgusu: Portal sistemde hava ve trombüs.<br>Tedavi: Uzun süreli antibiyotik (4–6 hafta) ve antikoagülasyon. Karaciğer absesi gelişirse drenaj gerekebilir.'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: 'Aşağıdakilerden hangisi akut apandisitte tespit edilen fizik muayene bulgularından <b>birisi değildir?</b>',
-    opts: ['A) Psoas bulgusu', 'B) Sağ alt kadranda direkt rebound', 'C) Murphy bulgusu', 'D) Obturator bulgusu', 'E) Rovsing bulgusu'],
-    ans: 'C',
-    hint: '🔑 Murphy = Kolesistit. Diğerleri apandisit.',
-    trap: 'Bu soru, Soru 9 ile benzerdir ve sınavlarda tekrarlanır. Murphy bulgusunun akut kolesistite ait olduğunu unutmayın.',
-    explain: '<b>Murphy bulgusu</b> akut kolesistitte gözlenir: Sağ üst kadranın derin palpasyonu sırasında nefes alması istendiğinde hassasiyet duyulması ve inspiryumun kesilmesidir.<br><br>Akut apandisit bulguları: Psoas, Obturator, Rovsing, Dunphy, Aaron, direkt/çapraz rebound.'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: 'Yirmi yaşındaki erkek hasta iştahsızlıkla başlayan karın ağrısı şikâyetiyle başvuruyor. Periumbilikal bölgeden başlayıp sağ alt kadrana lokalize ağrısı ve iki kez kusması mevcut. Sağ alt kadranda hassasiyet ve rebound tespit ediliyor. Ateş 38.5°C, lökositoz %75\'den fazla nötrofil içerecek şekilde 13.000 olarak saptanıyor.<br><br>Alvarado skorlamasına göre bu hasta için <b>en uygun yaklaşım</b> aşağıdakilerden hangisidir?',
-    opts: ['A) Abdominal bilgisayarlı tomografi', 'B) Abdominal ultrasonografi', 'C) Açık apendektomi', 'D) Laparoskopik apendektomi', 'E) Doğal açıklıktan translüminal endoskopik apendektomi (NOTES)'],
-    ans: 'D',
-    hint: '🔑 Alvarado 9–10 puan + erkek hasta → <b>direkt laparoskopik apendektomi</b>.',
-    trap: 'NOTES (doğal açıklıktan endoskopik cerrahi) yeni bir yöntemdir ve henüz standartlaşmamıştır; TUS\'ta doğru cevap olamaz. Açık vs laparoskopik tercihinde, laparoskopik yöntem günümüz standardıdır.',
-    explain: 'Bu hasta Alvarado skorlamasından <b>10 puan</b> almaktadır (Anoreksi+1, Kusma+1, SAK hassasiyet+2, Rebound+1, Ateş+1, Lökositoz+2, Sola kayma+1 = 9 + erkek için değerlendirme). 9–10 puan alan <b>erkek hastalarda direkt laparoskopik apendektomi</b> uygulanır. NOTES standartlaşmamış deneysel bir yöntemdir.'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: 'Akut apandisit ön tanısıyla McBurney insizyonuyla karna girilen hastada apendiks normal bulunuyor. İleoçekal valvden 1 metre proksimale çıkılan ince bağırsak ansında Meckel divertikülü aranıyor, bulunmuyor; ancak ince bağırsaklarda ve <b>çekumda Crohn hastalığı</b> lehine bulgular saptanıyor.<br><br>Bu hasta için en doğru yaklaşım aşağıdakilerden hangisidir?',
-    opts: ['A) Apendektomi yapılması', 'B) Apendektomi + hastalıklı bağırsak rezeksiyonu ve sağ hemikolektomi', 'C) Herhangi bir rezeksiyon yapılmadan ameliyatın bitirilmesi', 'D) Hastalıklı segmentlerden tam kat biyopsiler alınması', 'E) Sağ hemikolektomi yapılması'],
-    ans: 'C',
-    hint: '🔑 Çekumda Crohn varsa apendektomi → fistül riski! Bu durumda ameliyatı kapat.',
-    trap: 'Çekum normalse Crohn vakalarında apendektomi yapılabilir. Ama çekumda Crohn varsa apendiks çekuma yapıştığından apendektomi sonrası <b>çekokütanöz fistül</b> riski çok yüksektir.',
-    explain: 'Akut apandisit şüphesiyle açılan ve Crohn hastalığı bulunan vakalarda:<br>• <b>Çekum normalse:</b> Apendektomi yapılabilir.<br>• <b>Çekumda Crohn tutulumu varsa:</b> Apendektomi kontrendikedir; post-op fistül riski çok yüksektir. <b>Bu vakada en doğrusu ameliyatı komplikasyonsuz bitirmek</b>, hastayı tıbbi Crohn tedavisine yönlendirmektir.'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: 'Altmış yaşındaki kadın hasta 5 günlük sağ alt kadran ağrısı ve bulantı-kusmayla başvuruyor. Karın BT\'sinde perfore apandisit ile birlikte 5 cm\'lik apse saptanıyor. Apse perkütan drene ediliyor, geniş spektrumlu antibiyotik başlanıyor. Hastanın 72 saat içinde vital bulguları, lökositozu ve semptomları düzeliyor.<br><br>Bu hasta için bir sonraki tedavi adımı aşağıdakilerden hangisidir?',
-    opts: ['A) Taburculuk öncesi apandektomi', 'B) İlk 10 gün içinde interval apandektomi', 'C) Altı hafta sonra interval apandektomi', 'D) Rekürrens riski düşük olduğu için gözlem', 'E) Altı hafta sonra çekum rezeksiyonu'],
-    ans: 'C',
-    hint: '🔑 Plastron/apse → önce drenaj + antibiyotik → sonra <b>4–6 hafta sonra interval apendektomi</b>.',
-    trap: 'Erken (10 gün içi) ameliyat yapılabilirdi ama diffüz peritonit yoksa standart yaklaşım 4–6 haftalık bekleme ile interval apendektomidir. "Rekürrens riski düşük" ifadesi de tuzaktır; bekleme kararı verilse de takip yeterli değildir.',
-    explain: 'Akut apandisitte apendektominin kontrendike olduğu durum <b>plastron ve apse gelişimi</b>dir. Bu vakada:<br>1. Perkütan drenaj + antibiyotik ile semptomlar geriledi.<br>2. Diffüz peritonit yoktu.<br>Standart yaklaşım: <b>Altı hafta (4–6 hafta) sonra interval apendektomi.</b> İnterval apendektomi hem rekürrensi önler hem de altta yatan patolojiyi (malignite ihtimali dahil) ekarte eder.'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Akut Apandisit',
-    years: ['Meditus 7. Baskı'],
-    q: 'On yaşındaki çocuk hasta, 1 hafta önce geçirdiği üst solunum yolu enfeksiyonu sonrasında son 24 saattir bulantı, kusma, karın ağrısıyla başvuruyor. Ateş 38°C, lökosit 12.000/mm³; sağ alt kadranda diffüz hassasiyet var. Ameliyata alınan hastada apendiks <b>normal</b> bulunuyor.<br><br>Bu hastada en olası tanı aşağıdakilerden hangisidir?',
-    opts: ['A) Akut gastroenterit', 'B) Crohn hastalığı', 'C) Meckel divertikülü', 'D) Karsinoid tümör', 'E) Mezenter adenit'],
-    ans: 'E',
-    hint: '🔑 Çocuk + ÜSYE öyküsü + normal apendiks = <b>Mezenter adenit</b>.',
-    trap: 'Tablo kliniği apandisit gibidir ama apendiks normal bulunmuştur. ÜSYE geçmişi ve çocuk yaş, mezenter adenitin en önemli ipuçlarıdır.',
-    explain: '<b>Mezenter adenit</b> akut apandisitin en sık karıştığı hastalıktır, özellikle çocuklarda. Özellikler:<br>• Üst solunum yolu enfeksiyonu veya viral hastalık öyküsü<br>• Ağrı yaygın, keskin lokalize değil<br>• İstemli defans olabilir ama rijidite nadirdir<br>• Genel lenfadenopati eşlik edebilir<br>Apandisit ameliyatında apendiks normal bulunursa mezenter adenit, Crohn, Meckel ve Ailevi Akdeniz Ateşi ayırıcı tanıda düşünülmelidir.'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Apendiks Tümörleri',
-    years: ['Meditus 7. Baskı'],
-    q: 'Psödomiksoma peritoneinin en sık ilişkili olduğu patolojiler aşağıdaki organlardan hangisi/hangilerinden kaynaklanır?<br><br>I. Apendiks<br>II. Mide<br>III. Over<br>IV. Pankreas',
-    opts: ['A) I, III', 'B) IV', 'C) II, III', 'D) II, III, IV', 'E) I, III, IV'],
+    section: 'perianal',
+    sectionLabel: 'PERİANAL BÖLGE HASTALIKLARI VE CERRAHİSİ',
+    years: ['Benign Perianal'],
+    q: '<b>Hemoroidektomiden</b> sonra en sık görülen komplikasyon aşağıdakilerden hangisidir?',
+    opts: ['A) Üriner retansiyon', 'B) Rektal kanama', 'C) İnkontinans', 'D) Yara infeksiyonu', 'E) Beyaz baş deformitesi'],
     ans: 'A',
-    hint: '🔑 Psödomiksoma = <b>Apendiks + Over</b>. Kadınlarda 2–3 kat sık. Periton ve omentum üzerinde jelatinöz müsin birikimi.',
-    trap: 'Pankreas ve mide müsin üreten organlar olmakla birlikte psödomiksoma peritoneinin en sık kaynağı değildir. Apendiks müsinöz kistadenomu ve over müsinöz tümörleri öne çıkar.',
-    explain: '<b>Psödomiksoma peritonei:</b> Omentum ve periton üzerinde müsinöz implantlar ve peritonda yaygın jelatinöz sıvı koleksiyonlarıyla ortaya çıkan nadir bir durumdur. <b>Kadınlarda 2–3 kat sık görülür.</b> En sık kaynağı <b>apendiks müsinöz neoplazmları ve over müsinöz tümörleridir.</b>'
+    hint: '🔑 Hemoroidektomi sonrası en sık komplikasyon: <b>üriner retansiyon</b>. Bunu kanama ve anal stenoz izler.',
+    trap: 'Ağrı çok belirgin olduğu için "en sık komplikasyon ağrıdır" tuzağına düşülebilir. Ancak ağrı beklenen bir durumdur ve "komplikasyon" sayılmaz; sorulan gerçek komplikasyonlar arasında üriner retansiyon birinci sıradadır.',
+    explain: '<b>Hemoroidektomiden sonra en sık görülen komplikasyon üriner retansiyondur.</b> Bunun dışında postoperatif ağrı, kanama ve anal stenoz da görülür. Beyaz baş deformitesi beklenen bir komplikasyon değildir; bu nedenle üriner retansiyon doğru cevaptır.'
   },
   {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Apendiks Tümörleri',
-    years: ['Meditus 7. Baskı'],
-    q: 'Akut apandisit nedeniyle opere edilen hastanın histopatolojik incelemesinde apendiksin distal 1/3\'ünde <b>8 mm çapında karsinoid tümör</b> saptanmış ve bölgesel lenf gangliyonu metastazı <b>görülmemiştir.</b><br><br>Bu hasta için ne yaparsınız?',
-    opts: ['A) Sağ hemikolektomi', 'B) Radyoterapi', 'C) Yapılmış olan apandektomi yeterlidir', 'D) Kemoterapi', 'E) Laparoskopi ile metastaz aranması'],
-    ans: 'C',
-    hint: '🔑 Apendiks karsinoid ≤1 cm + lenf nodu metastazı yok = <b>apendektomi yeterli</b>.',
-    trap: 'Karsinoid tümör deyince agresif tedavi gerekir izlenimi oluşabilir. Ancak apendiks karsinoidlerinde boyut ve metastaz durumu tedaviyi belirler. ≤1 cm ve metastazsız vakada apendektomi yeterlidir.',
-    explain: 'Apendiks karsinoid tümörlerinde tedavi boyuta ve metastaza göre belirlenir:<br>• <b>≤1 cm + metastaz yok:</b> Apendektomi yeterli<br>• <b>1–2 cm arası:</b> Mezoapendiks invazyonu, pozitif cerrahi sınır veya metastaz varsa → sağ hemikolektomi<br>• <b>>2 cm:</b> Her zaman sağ hemikolektomi<br>Bu hastada tümör <b>8 mm (<1 cm)</b> ve lenf nodu metastazı yok → <b>apandektomi yeterli.</b>'
-  },
-  {
-    section: 'appendiks',
-    sectionLabel: 'APENDİKS VERMİFORMİS – Apendiks Tümörleri',
-    years: ['Meditus 7. Baskı'],
-    q: 'Apendiks yerleşimli <b>1.5 cm boyutlarında karsinoid tümör</b>ün etrafında <b>patolojik büyüklükte lenf nodları</b> tespit edilmiştir.<br><br>Bu hastada en uygun tedavi aşağıdakilerden hangisidir?',
-    opts: ['A) Apendektomi', 'B) Sağ hemikolektomi', 'C) Çekum rezeksiyonu', 'D) RT ve KT', 'E) Apendektomi + Drenaj'],
+    section: 'perianal',
+    sectionLabel: 'PERİANAL BÖLGE HASTALIKLARI VE CERRAHİSİ',
+    years: ['Benign Perianal'],
+    q: 'Hemoroid cerrahisi sonrasında hangi komplikasyon <b>beklenmez?</b>',
+    opts: ['A) Postoperatif ağrı', 'B) Soliter rektal ülser', 'C) Kanama', 'D) Anal stenoz', 'E) Üriner retansiyon'],
     ans: 'B',
-    hint: '🔑 1–2 cm arası + <b>lenf nodu büyümesi</b> var = <b>Sağ hemikolektomi</b>.',
-    trap: 'Tümörün 1.5 cm olması tek başına sağ hemikolektomiyi zorunlu kılmaz. Ancak buna ek olarak patolojik lenf nodunun varlığı kesin endikasyon oluşturur.',
-    explain: '1–2 cm arası apendiks karsinoid tümörlerinde konsensus yoktur; ancak şu bulgulardan biri varsa <b>sağ hemikolektomi</b> önerilir:<br>• Mezoapendiks invazyonu<br>• Pozitif cerrahi sınır<br>• <b>Patolojik lenf nodu büyümesi</b> (bu vakada mevcut)<br>Bu hastada 1.5 cm tümör + lenf nodu tutulumu → <b>sağ hemikolektomi endikasyonu vardır.</b>'
+    hint: '🔑 Soliter rektal ülser, internal intususepsiyonla (rektal prolapsusla) birlikte görülür; hemoroid ameliyatıyla ilişkisi yoktur.',
+    trap: '"Rektal" dediği için hemoroid ameliyatıyla ilgili sanılabilir. Oysa soliter rektal ülser, mukozal prolapsustan kaynaklanır; hemoroid cerrahisi sonrası beklenen bir komplikasyon değildir.',
+    explain: 'Hemoroidler anal kanala yerleşmiş; içinde venül, arteriyol ve düz kas lifleri bulunan submukozal yastıklardır. Hemoroid cerrahisi sonrası beklenen komplikasyonlar; <b>postoperatif ağrı, kanama, anal stenoz ve üriner retansiyondur.</b> <b>Soliter rektal ülser</b> ise genellikle internal intususepsiyon (internal rektal prolapsus) ile birlikte görülür; hemoroid ameliyatıyla ilgisi yoktur.'
+  },
+  {
+    section: 'perianal',
+    sectionLabel: 'PERİANAL BÖLGE HASTALIKLARI VE CERRAHİSİ',
+    years: ['Benign Perianal'],
+    q: 'Kırk yaşında kadın hasta, defekasyon sırasında <b>şiddetli ağrı</b> yakınması ile başvuruyor. Gaita üzerinde parlak kırmızı renkte kan olduğunu söyleyen hastanın muayenesinde anal kenarda <b>fibrotik cilt pilisi</b> görülüyor.<br><br>Bu hastanın en olası tanısı aşağıdakilerden hangisidir?',
+    opts: ['A) Pilonidal sinüs', 'B) Anal fistül', 'C) İnternal hemoroidal hastalık', 'D) Eksternal hemoroidal hastalık', 'E) Anal fissür'],
+    ans: 'E',
+    hint: '🔑 Defekasyonda şiddetli ağrı + parlak kırmızı kanama + <b>sentinel pile (fibrotik cilt pilisi)</b> = klasik anal fissür triadı.',
+    trap: 'Kanama olduğu için hemoroid düşünülebilir; ancak internal hemoroidde ağrı <b>olmaz</b>. Sentinel pile (cilt pilisi) ise kronik anal fissürün karakteristik fizik muayene bulgusudur.',
+    explain: '<b>Anal fissür</b> dentat çizginin distalindeki anodermde oluşan bir yırtıktır. Anodermdeki yırtık internal anal sfinkterde spazm oluşturur; bu durum ağrı, yırtığın artması ve kan akımının azalmasına neden olur. Ağrı-spazm-iskemi döngüsü kronik fissür oluşmasına zemin hazırlar. Fissürlerin çoğu <b>arka orta hattadır.</b> Tipik semptomlar: defekasyonda yırtılır gibi ağrı ve kanama; ağrı saatlerce sürebilir. <b>Sentinel pile</b> kronik fissürün karakteristik bulgusudur.'
+  },
+  {
+    section: 'perianal',
+    sectionLabel: 'PERİANAL BÖLGE HASTALIKLARI VE CERRAHİSİ',
+    years: ['Benign Perianal'],
+    q: 'Otuz yaşında erkek hasta defekasyon sonrası <b>kanama</b> şikayeti ile başvuruyor. Son aylarda konstipasyon şikayeti olan hastanın defekasyon sonrası <b>keskin ağrısı</b> ve <b>damlama şeklinde kanaması</b> oluyor.<br><br>Bu hastada en olası tanı aşağıdakilerden hangisidir?',
+    opts: ['A) Eksternal hemoroidal hastalık', 'B) İnternal hemoroid hastalık', 'C) Anorektal abse', 'D) Anal fissür', 'E) Perianal fistül'],
+    ans: 'D',
+    hint: '🔑 Anal fissür: <b>defekasyon sırasında/sonrasında keskin ağrı + damlama/bulaşma tarzında kanama</b>. Konstipasyon zemininde gelişmesi tipiktir.',
+    trap: 'Kanama deyince akla hemoroid gelmesi çok yaygın bir tuzak. Oysa <b>internal hemoroiddeki kanama ağrısızdır</b>; bu hastada keskin ağrı var → fissür.',
+    explain: 'Anal fissürlerin çok karakteristik bir klinik tablosu vardır: <b>defekasyon sırasında ağrı, damlama ya da gaytaya bulaşma tarzında kanama.</b> Ayrıca defekasyondan sonra perineal veya perirektal ağrılar olabilir. <b>İnternal hemoroidal hastalık</b> ise defekasyon sonrası <b>ağrısız kanama</b> ile karakterizedir; bu temel ayrım doğru tanı için kritiktir.'
+  },
+  {
+    section: 'perianal',
+    sectionLabel: 'PERİANAL BÖLGE HASTALIKLARI VE CERRAHİSİ',
+    years: ['Benign Perianal'],
+    q: 'Kırk yaşında bir erkek hasta makatta <b>ağrı ve kanama</b> yakınması ile başvuruyor. 10 gün önce tuvalette ikinirken makat bölgesinde şiddetli bir acıma olduğu, o günden beri büyük abdest sırasında şiddetli acıma ve birkaç damla kanama olduğu öğreniliyor.<br><br>Bu hastanın hastalığı büyük olasılıkla aşağıdakilerden hangisidir?',
+    opts: ['A) Tromboze eksternal hemoroidal hastalık', 'B) İnternal hemoroidal hastalık', 'C) Anorektal abse', 'D) Perianal fistül', 'E) Anal fissür'],
+    ans: 'E',
+    hint: '🔑 <b>Akut başlangıç</b> (ikinirken ani ağrı) + defekasyonda şiddetli ağrı + damlama kanama = anal fissür.',
+    trap: 'Anorektal absede kanama olmaz; ateş gibi septik bulgular beklenir. Perianal fistülde ne ağrı ne kanama olur; pürülan akıntı gözlenir. Tromboze eksternal hemoroid ağrılıdır ama kanama olmaz ve genellikle dışarıdan görülebilen mor/mavi kitle vardır.',
+    explain: '<b>Anal fissürde</b> defekasyon sırasında veya sonrasında ağrı ve kanama tipiktir. Anorektal absede kanama olmaz; ateş gibi septik bulgular beklenir. Perianal fistülde ise ne ağrı ne de kanama olur; pürülan akıntı gözlenir. Bu hastanın tablosu akut başlangıçlı defekasyon ağrısı ve damlama kanamasıyla <b>anal fissürle</b> uyumludur.'
+  },
+  {
+    section: 'perianal',
+    sectionLabel: 'PERİANAL BÖLGE HASTALIKLARI VE CERRAHİSİ',
+    years: ['Benign Perianal'],
+    q: 'Yirmi yaşındaki erkek hasta, 2 ay önce başlayan dışkılamadan dolayı şiddetli rektal ağrı ile kliniğe başvurmuştur. Hastanın rektal muayenesinde fissürü tespit edilmiştir.<br><br>Aşağıdakilerden hangisi bu hastanın fissürünün <b>Crohn hastalığına</b> bağlı olduğunu gösteren bulgudur?',
+    opts: ['A) Lateral pozisyonda bulunan derin ve geniş ülser', 'B) Anteriorda bulunan sığ ve geniş ülser', 'C) Arka orta hat pozisyonunda bulunan derin ve dar ülser', 'D) Posteriorda bulunan sığ ve dar ülser', 'E) Posteriorda bulunan yüzeyel ülser'],
+    ans: 'A',
+    hint: '🔑 İdiyopatik fissür: <b>arka/ön orta hat, dar ve sığ</b>. Crohn fissürü: <b>lateral pozisyon, derin ve geniş, çoğul</b>.',
+    trap: 'Crohn fissürü = "arka orta hat" şeklinde ezberlenebilir; oysa tam tersi! Crohn\'a özgü fissürler <b>lateraldedir</b>; orta hat fissürü idiyopatik fissürün özelliğidir.',
+    explain: 'Crohn hastalığında en sık görülen perianal lezyonlar minimal semptomatik olan <b>skin tag\'lerdir.</b> Fissürler de yaygındır. Tipik olarak Crohn hastalığından kaynaklanan bir fissür özellikle <b>derin ve geniştir.</b> Bu fissürler sıklıkla çokludur ve idiyopatik fissürde görüldüğü gibi ön veya arka orta hattan ziyade <b>lateral bir pozisyonda</b> bulunur.'
+  },
+  {
+    section: 'perianal',
+    sectionLabel: 'PERİANAL BÖLGE HASTALIKLARI VE CERRAHİSİ',
+    years: ['Benign Perianal'],
+    q: '<b>Lateral internal sfinkterotomi</b> aşağıdaki hastalıklardan hangisinin tedavisinde kullanılır?',
+    opts: ['A) Anal fissür', 'B) İnternal hemoroidler', 'C) Rektum kanseri', 'D) Perianal abse', 'E) Rektal prolapsus'],
+    ans: 'A',
+    hint: '🔑 Anal fissürün cerrahi tedavisinde altın standart: <b>lateral internal sfinkterotomi</b>. Spazmı artmış internal sfinkter lateralden kesilir.',
+    trap: 'Sfinkter adı geçince hemoroid veya inkontinans akla gelebilir. Ama bu işlemin endikasyonu özellikle <b>anal fissürdür</b>; fissüre dokunulmadan sfinkterin kesilmesiyle pasaj kolaylaşır.',
+    explain: 'Anal fissürün cerrahi tedavisinde en çok tercih edilen teknik <b>lateral internal sfinkterotomidir.</b> Spazmı artmış olan internal sfinkter lateralden kesilir. Fissüre dokunulmaz; böylece dışkı pasajı kolaylaştırılır ve travmatik etkisi ortadan kalkar. Fissür 10-15 günde kendiliğinden iyileşir.'
+  },
+  {
+    section: 'perianal',
+    sectionLabel: 'PERİANAL BÖLGE HASTALIKLARI VE CERRAHİSİ',
+    years: ['Benign Perianal'],
+    q: 'Anorektal abseler için aşağıdaki ifadelerden hangisi <b>doğrudur?</b>',
+    opts: ['A) Anal kript bezlerinin enfeksiyonu sonucunda gelişirler.', 'B) Drenaj sonrasında hiçbir komplikasyona neden olmadan iyileşirler.', 'C) Genellikle supralevatör abse şeklinde görülür.', 'D) Sadece immün yetmezlikli hastalarda görülür.', 'E) Sadece antibiyotik kullanımı tedavisi için yeterlidir.'],
+    ans: 'A',
+    hint: '🔑 Anorektal abse patogenezi: <b>anal kript bezleri → intersfinkterik plan → perianal bölge.</b> En sık tip: perianal abse.',
+    trap: '"Drenaj sonrası her şey düzelir" tuzağı! Hastaların ~%50\'sinde drenaj yeterli olur; geri kalanında kalıcı fistül oluşur. Ayrıca en sık görülen tip <b>supralevatör değil perianal absedir.</b>',
+    explain: 'Anorektal abseler genellikle <b>anal bezlerdeki enfeksiyondan</b> kaynaklanır. İntersfinkterik planda yayılır; en sık perianal bölgeye yerleşir. Nadir olarak bartolin bezi absesi, enfekte sebase kist, pilonidal abse, prostatit gibi enfeksiyonlar da anorektal boşluklara ilerleyip abse oluşumuna neden olabilir. <b>Sadece antibiyotik yeterli değildir; cerrahi drenaj gereklidir.</b>'
+  },
+  {
+    section: 'perianal',
+    sectionLabel: 'PERİANAL BÖLGE HASTALIKLARI VE CERRAHİSİ',
+    years: ['Benign Perianal'],
+    q: 'Perianal fistüllerin en sık nedeni aşağıdakilerden hangisidir?',
+    opts: ['A) Divertikülit', 'B) Crohn hastalığı', 'C) Anorektal ameliyatlar', 'D) Soliter rektal ülser', 'E) Anorektal apseler'],
+    ans: 'E',
+    hint: '🔑 Perianal fistül = genellikle anorektal absenin komplikasyonu. Abse → trakt oluşumu → fistül.',
+    trap: 'Crohn hastalığı perianal fistülle çok ilişkili bir tablo olduğundan "en sık neden Crohn" diye düşünülebilir. Ancak en sık neden <b>anorektal abselerdir;</b> Crohn ikincil bir nedendir.',
+    explain: '<b>Perianal fistülün en sık nedeni anorektal abselerdir.</b> Absenin başladığı anal kriptten, drene edildiği yere kadar uzanan trakt fistülü oluşturur. Bu nedenle uzun fistül traktı oluşumundan sakınabilmek için absenin anüse mümkün olan en yakın yerden drene edilmesi önemlidir.'
+  },
+  {
+    section: 'perianal',
+    sectionLabel: 'PERİANAL BÖLGE HASTALIKLARI VE CERRAHİSİ',
+    years: ['Benign Perianal'],
+    q: 'En sık görülen <b>anal fistül tipi</b> aşağıdakilerden hangisidir?',
+    opts: ['A) Kolovezikal fistül', 'B) İntersfinkterik fistül', 'C) Transsfinkterik fistül', 'D) Suprasfinkterik fistül', 'E) Ekstrasfinkterik fistül'],
+    ans: 'B',
+    hint: '🔑 Anal fistüller 4 tiptir: <b>intersfinkterik (en sık), transsfinkterik, suprasfinkterik, ekstrasfinkterik.</b>',
+    trap: '"Trans" kelimesi daha tehlikeli/sık gibi geldiği için transsfinkterik seçilebilir. Ancak en sık tip kesinlikle <b>intersfinkterikdir</b>; absenin intersfinkterik planda yayılmasıyla doğrudan ilişkilidir.',
+    explain: 'Anal fistüller intersfinkterik, transsfinkterik, suprasfinkterik ve ekstrasfinkterik olmak üzere <b>4 tipe</b> ayrılır. <b>En sık görülen tip intersfinkterik fistül tipidir.</b> Anorektal absenin drenajı hastaların yarısında kür sağlarken geri kalanında inatçı anal fistül oluşur.'
+  },
+  {
+    section: 'perianal',
+    sectionLabel: 'PERİANAL BÖLGE HASTALIKLARI VE CERRAHİSİ',
+    years: ['Benign Perianal'],
+    q: 'Kırk yaşında bir kadın hasta spontan vajinal doğum sonrasında <b>gaz ve dışkı inkontinansı</b> yakınmasıyla başvuruyor. Öyküsünden doğum sırasında epizyotomi yapıldığı öğreniliyor.<br><br>Bu hasta için hasarın yerini gösteren en iyi yöntem aşağıdakilerden hangisidir?',
+    opts: ['A) Elektromiyografi', 'B) Anal endosonografi', 'C) Bilgisayarlı tomografi', 'D) Defekografi', 'E) Pelvis magnetik rezonans görüntüleme'],
+    ans: 'B',
+    hint: '🔑 Sfinkter hasarını göstermek için: <b>anal endosonografi</b>. EMG nörojenik nedenleri değerlendirir.',
+    trap: 'EMG sfinkter hasarında yapılabilir diye bilinir; ancak EMG <b>nörojenik</b> inkontinansta (pudental sinir hasarı) faydalıdır. Mekanik sfinkter hasarını (travma, epizyotomi) doğrudan görüntülemek için <b>anal endosonografi</b> tercih edilir.',
+    explain: '<b>Anal inkontinansta</b> mekanik nedenler genellikle travmaya bağlıdır (en sık obstetrik yaralanma). Nörojenik nedenler pudental sinir yaralanmalarından kaynaklanır. Tanı için; nörojenik nedenlerde anal manometri ve EMG, sfinkter görüntülemesi için <b>anal endosonografi</b> tercih edilir. Endosonografi eksternal ve internal sfinkterlerin bütünlüğünü doğrudan gösterir.'
+  },
+  {
+    section: 'perianal',
+    sectionLabel: 'PERİANAL BÖLGE HASTALIKLARI VE CERRAHİSİ',
+    years: ['Benign Perianal'],
+    q: 'Yirmi yaşında bir erkek hastada <b>intergluteal bölgede sinüs ve abse oluşumu</b> varsa aşağıdakilerden hangi patoloji düşünülmelidir?',
+    opts: ['A) Supralevator abse', 'B) Suprasfinkterik fistül', 'C) İntersfinkterik fistül', 'D) Pilonidal sinüs hastalığı', 'E) Retrorektal tümör'],
+    ans: 'D',
+    hint: '🔑 <b>İntergluteal/sakrokoksigeal bölge + sinüs/abse</b> = pilonidal sinüs hastalığı. İçinde kıl bulunması tanı koydurucudur.',
+    trap: 'Abse ve sinüs dendiğinde anorektal fistül tipleri akla gelebilir; ancak <b>lokalizasyon</b> belirleyicidir. İntergluteal bölge = pilonidal sinüs; anorektal bölge = anorektal abse/fistül.',
+    explain: '<b>Pilonidal sinüs hastalığı</b> intergluteal bölgede oluşan ve içinde kıl bulunan sinüs ya da absedir. Genellikle genç erkeklerde görülür. Tedavisinde çeşitli cerrahi teknikler (eksizyonel, flep, minimal invaziv) kullanılabilir.'
+  },
+  {
+    section: 'perianal',
+    sectionLabel: 'PERİANAL BÖLGE HASTALIKLARI VE CERRAHİSİ',
+    years: ['Malign Perianal'],
+    q: 'Kondiloma aküminatanın <b>fokal agresif formu</b> olan anorektal bölgenin tümöral hastalığı aşağıdakilerden hangisidir?',
+    opts: ['A) Epidermoid karsinom', 'B) Bazal hücreli karsinom', 'C) Bowen hastalığı', 'D) Paget hastalığı', 'E) Buschke-Lowenstein tümörü'],
+    ans: 'E',
+    hint: '🔑 <b>Dev kondiloma aküminata = Buschke-Lowenstein tümörü = Verrüköz karsinom.</b> Metastaz yapmaz; geniş lokal eksizyon ile tedavi edilir.',
+    trap: 'Kondiloma = HPV ilişkili dermal lezyon deyip epidermoid karsinom seçilebilir. Ancak bu sorudaki anahtar kelime "fokal agresif form" → bu Buschke-Lowenstein tümörünü işaret eder.',
+    explain: '<b>Verrüköz Karsinom (Buschke-Lowenstein Tümörü, Dev Kondiloma Aküminata)</b> kondiloma aküminatanın lokal agresif bir formudur. <b>Metastaz yapmazlar.</b> Geniş lokal eksizyon ile tedavi edilir. Çok büyük lezyonlarda radyoterapi uygulanabilir.'
+  },
+  {
+    section: 'perianal',
+    sectionLabel: 'PERİANAL BÖLGE HASTALIKLARI VE CERRAHİSİ',
+    years: ['Malign Perianal'],
+    q: 'Elli yaşında kadın hastada anal kanalda <b>5 cm çaplı tümör</b> saptanıyor. Biyopsi sonucunun <b>skuamöz hücreli karsinom</b> olduğu rapor ediliyor.<br><br>Bu hastanın tedavisinde öncelikle hangisi tercih edilmelidir?',
+    opts: ['A) Abdominoperineal rezeksiyon', 'B) Aşağı anterior rezeksiyon', 'C) Kombine kemoradyoterapi', 'D) Lokal eksizyon', 'E) Kemoterapi'],
+    ans: 'C',
+    hint: '🔑 Anal kanal skuamöz hücreli karsinom: <b>2 cm\'den küçük → lokal eksizyon; büyük veya sfinkter invazyonu → Nigro protokolü (kombinekemoradyoterapi).</b>',
+    trap: 'Büyük tümörde hemen ameliyat (APR) düşünülebilir. Ancak anal kanal skuamöz hücreli karsinomda <b>kemoradyoterapi birincil tedavidir</b>; APR yalnızca tedaviye yanıt vermeyen ya da nüks eden vakalarda yapılır.',
+    explain: 'Anal kanal tümörlerinde tümör <b>2 cm\'den küçükse lokal eksizyon</b> uygundur. Skuamöz hücreli karsinom büyükse veya sfinkter invazyonu varsa <b>kombine kemoradyoterapi (Nigro protokolü)</b> uygulanmalıdır. Bu tümörlerin %80\'inden fazlası bu tedavi ile iyileşir. <b>Abdominoperineal rezeksiyon</b> bu tedaviye yanıt vermeyen, nüks eden olgularda yapılır.'
+  },
+  {
+    section: 'perianal',
+    sectionLabel: 'PERİANAL BÖLGE HASTALIKLARI VE CERRAHİSİ',
+    years: ['Malign Perianal'],
+    q: 'Aşağıdaki anorektal bölge malign hastalıklarından hangisi <b>apokrin bezlerden kaynaklanan in-situ adenokanserdir?</b>',
+    opts: ['A) Bowen hastalığı', 'B) Bazal hücreli karsinom', 'C) Bazaloid karsinom', 'D) Anal kanalın Paget hastalığı', 'E) Malign melanom'],
+    ans: 'D',
+    hint: '🔑 <b>Paget hastalığı = apokrin bezlerden kaynaklanan adenokarsinoma in-situ.</b> Bowen = skuamöz karsinoma in-situ (HPV ilişkili).',
+    trap: 'Bowen hastalığı da in-situ olduğu için karıştırılabilir. Fark: Bowen = <b>skuamöz</b> karsinoma in-situ; Paget = <b>adeno</b>karsinoma in-situ (apokrin bez kökenli).',
+    explain: '<b>Bowen hastalığı</b>: skuamöz karsinoma in-situ (anal intraepitelyal neoplazi). <b>Buschke-Lowenstein tümörü</b>: verrüköz karsinom, dev kondiloma aküminata. <b>Anüsün Paget hastalığı</b>: apokrin bezlerden kaynaklanan adenokarsinoma in-situ\'dur. HPV ile ilişkisi yoktur. Seçenekler içinde adenokarsinom olan yalnızca <b>Paget hastalığıdır.</b>'
+  },
+  {
+    section: 'perianal',
+    sectionLabel: 'PERİANAL BÖLGE HASTALIKLARI VE CERRAHİSİ',
+    years: ['Malign Perianal'],
+    q: 'Aşağıdakilerden hangisi anüsün <b>epidermoid karsinomlarından biri değildir?</b>',
+    opts: ['A) Skuamöz hücreli karsinom', 'B) Kloajenik karsinom', 'C) Transizyonel karsinom', 'D) Paget hastalığı', 'E) Bazaloid karsinom'],
+    ans: 'D',
+    hint: '🔑 Epidermoid karsinomlar: <b>skuamöz hücreli, kloajenik, transizyonel, bazaloid.</b> Paget hastalığı = apokrin bez kökenli → <b>adenokarsinoma in-situ</b> = epidermoid değil.',
+    trap: 'Paget hastalığı perianal bölgede görüldüğü ve "anorektal malignite" kapsamında değerlendirildiği için epidermoid karsinom zannedilebilir. Ancak kökeni apokrin bezler olduğundan <b>epidermoid gruba girmez.</b>',
+    explain: 'Anüsün epidermoid karsinomları; <b>skuamöz (yassı epitel) hücreli karsinomlar, kloajenik karsinom, transizyonel karsinom ve bazaloid karsinomları</b> kapsar. Bu tümörlerin klinik davranışı ve seyri benzerdir. <b>Meme dışı perianal Paget hastalığı</b>, perianal bölgedeki apokrin bezlerden kaynaklanan adenokarsinoma in-situdur; epidermoid gruba girmez.'
+  },
+  {
+    section: 'perianal',
+    sectionLabel: 'PERİANAL BÖLGE HASTALIKLARI VE CERRAHİSİ',
+    years: ['Malign Perianal'],
+    q: 'Aşağıdaki lokal anal hastalıklardan hangisinde uzun süre geçtikten sonra <b>artmış anal karsinom riski</b> söz konusudur?',
+    opts: ['A) Anal fissür', 'B) İnternal hemoroid', 'C) Eksternal hemoroid', 'D) Rektal prolapsus', 'E) Anal fistül'],
+    ans: 'E',
+    hint: '🔑 Kronik anal fistül → uzun süreli kronik irritasyon → malign transformasyon riski. <b>Adenokarsinom kronik fistüllerde gelişebilir.</b>',
+    trap: 'Kronik fissür veya hemoroid de uzun süre irritasyon yapar diye düşünülebilir. Ancak kanser riski ile kanıtlanmış birliktelik <b>anal fistüle</b> özgüdür; diğer benign lezyonlarda bu risk gösterilmemiştir.',
+    explain: 'Uzun süredir var olan <b>anal fistül</b> hastalığında kronik iritasyon sonucu gelişmiş anal kanserler gelişebilir. <b>Adenokarsinom kronik fistüllerde gelişebilmektedir.</b> Bu nedenle tedavisiz bırakılan ya da nüks eden anal fistüller takip gerektiren patolojilerdir.'
   }
 ];
 
+// ── State ──────────────────────────────────────────────
+let filteredQ = ALL_QUESTIONS.map(q => q);
 let idx = 0;
-let filteredQ = ALL_QUESTIONS.map((q, i) => ({ ...q, _gi: i }));
-const answered = new Set();
-const correct = new Set();
-const wrong = new Set();
-const starred = new Set();
+let answered = new Map();   // _gi → chosen letter
+let correct  = new Set();
+let wrong    = new Set();
+let starred  = new Set();
+let hintOpen = false;
 
+ALL_QUESTIONS.forEach((q, i) => q._gi = i);
+
+// ── Render ─────────────────────────────────────────────
 function renderQuestion() {
   const q = filteredQ[idx];
+  const total = filteredQ.length;
   const gi = q._gi;
 
-  document.getElementById('q-num').textContent = `Soru ${idx + 1} / ${filteredQ.length}`;
   document.getElementById('section-badge').textContent = q.sectionLabel;
-  document.getElementById('q-text').innerHTML = q.q;
+  document.getElementById('q-num').textContent = `Soru ${idx + 1} / ${total}`;
+  document.getElementById('q-counter').textContent = `${idx + 1} / ${total} ☰`;
 
-  const yearTags = document.getElementById('year-tags');
-  yearTags.innerHTML = '';
-  (q.years || []).forEach(y => {
-    const span = document.createElement('span');
-    span.className = 'year-tag';
-    span.textContent = y;
-    yearTags.appendChild(span);
-  });
-
-  const hintBox = document.getElementById('hint-box');
-  hintBox.innerHTML = q.hint || '';
-  hintBox.classList.remove('open');
-
-  const optionsEl = document.getElementById('options');
-  optionsEl.innerHTML = '';
-  q.opts.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'opt-btn';
-    const letter = String.fromCharCode(65 + i);
-    btn.innerHTML = `<span class="opt-letter">${letter}</span><span>${opt.replace(/^[A-E]\)\s*/, '')}</span>`;
-    btn.onclick = () => selectAnswer(letter, btn, gi);
-    if (answered.has(gi)) {
-      btn.disabled = true;
-      if (letter === q.ans) btn.classList.add('correct');
-      else if (wrong.has(gi)) {
-        const userAns = [...wrong].find(x => x === gi);
-        // mark chosen wrong
-      }
-    }
-    optionsEl.appendChild(btn);
-  });
-
-  if (answered.has(gi)) {
-    showFeedback(q);
-    markAnsweredOptions(gi, q);
-  } else {
-    document.getElementById('feedback').classList.remove('open');
-  }
-
+  // star
   const starBtn = document.getElementById('star-btn');
   starBtn.textContent = starred.has(gi) ? '★' : '☆';
   starBtn.classList.toggle('active', starred.has(gi));
 
-  updateNavBtns();
-  updateProgress();
-  updateToggleBtn();
-  renderGrid();
-}
+  // year tags
+  const tagContainer = document.getElementById('year-tags');
+  tagContainer.innerHTML = q.years.map(y => `<span class="year-tag">${y}</span>`).join('');
 
-function selectAnswer(letter, btn, gi) {
-  if (answered.has(gi)) return;
-  answered.add(gi);
-  const q = filteredQ.find(x => x._gi === gi);
+  // question
+  document.getElementById('q-text').innerHTML = q.q;
 
-  if (letter === q.ans) {
-    correct.add(gi);
-    btn.classList.add('correct');
+  // hint
+  hintOpen = false;
+  const hintBox = document.getElementById('hint-box');
+  hintBox.innerHTML = q.hint || '';
+  hintBox.classList.remove('open');
+
+  // options
+  const optContainer = document.getElementById('options');
+  optContainer.innerHTML = '';
+  const isAnswered = answered.has(gi);
+  const chosen = answered.get(gi);
+
+  q.opts.forEach(opt => {
+    const letter = opt.charAt(0);
+    const text   = opt.slice(3);
+    const btn    = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.innerHTML = `<span class="opt-letter">${letter}</span><span>${text}</span>`;
+    btn.disabled = isAnswered;
+
+    if (isAnswered) {
+      if (letter === q.ans) btn.classList.add('correct');
+      else if (letter === chosen) btn.classList.add('wrong');
+    }
+
+    btn.addEventListener('click', () => selectAnswer(letter));
+    optContainer.appendChild(btn);
+  });
+
+  // feedback
+  const fb = document.getElementById('feedback');
+  if (isAnswered) {
+    document.getElementById('trap-text').innerHTML    = q.trap    || '—';
+    document.getElementById('explain-text').innerHTML = q.explain || '—';
+    fb.classList.add('open');
   } else {
-    wrong.add(gi);
-    btn.classList.add('wrong');
-    markAnsweredOptions(gi, q);
+    fb.classList.remove('open');
   }
 
-  showFeedback(q);
-  updateNavBtns();
-  updateProgress();
-  renderGrid();
+  // progress bar
+  const doneCount = filteredQ.filter(q2 => answered.has(q2._gi)).length;
+  document.getElementById('progress-bar').style.width = (doneCount / total * 100) + '%';
+
+  // nav
+  document.getElementById('prev-btn').disabled = idx === 0;
+  const nextBtn = document.getElementById('next-btn');
+  if (idx === total - 1 && doneCount === total) {
+    nextBtn.textContent = 'Sonuç →';
+    nextBtn.classList.add('result-btn');
+    nextBtn.onclick = showResult;
+  } else {
+    nextBtn.textContent = 'Sonraki →';
+    nextBtn.classList.remove('result-btn');
+    nextBtn.onclick = () => navigate(1);
+    nextBtn.disabled = idx === total - 1;
+  }
+
+  updateGrid();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function markAnsweredOptions(gi, q) {
-  const btns = document.querySelectorAll('.opt-btn');
-  btns.forEach(b => {
-    const letter = b.querySelector('.opt-letter').textContent;
-    if (letter === q.ans) b.classList.add('correct');
-    b.disabled = true;
-  });
+function selectAnswer(letter) {
+  const q  = filteredQ[idx];
+  const gi = q._gi;
+  if (answered.has(gi)) return;
+
+  answered.set(gi, letter);
+  if (letter === q.ans) correct.add(gi);
+  else wrong.add(gi);
+
+  renderQuestion();
 }
 
-function showFeedback(q) {
-  document.getElementById('trap-text').innerHTML = q.trap || '—';
-  document.getElementById('explain-text').innerHTML = q.explain || '—';
-  document.getElementById('feedback').classList.add('open');
-}
-
+// ── Hint ───────────────────────────────────────────────
 function toggleHint() {
-  document.getElementById('hint-box').classList.toggle('open');
+  hintOpen = !hintOpen;
+  document.getElementById('hint-box').classList.toggle('open', hintOpen);
 }
 
+// ── Star ───────────────────────────────────────────────
 function toggleStar() {
   const gi = filteredQ[idx]._gi;
-  if (starred.has(gi)) starred.delete(gi);
-  else starred.add(gi);
-  const btn = document.getElementById('star-btn');
-  btn.textContent = starred.has(gi) ? '★' : '☆';
-  btn.classList.toggle('active', starred.has(gi));
-  renderGrid();
+  starred.has(gi) ? starred.delete(gi) : starred.add(gi);
+  const starBtn = document.getElementById('star-btn');
+  starBtn.textContent = starred.has(gi) ? '★' : '☆';
+  starBtn.classList.toggle('active', starred.has(gi));
+  updateGrid();
 }
 
+// ── Navigation ─────────────────────────────────────────
+function navigate(dir) {
+  idx = Math.max(0, Math.min(filteredQ.length - 1, idx + dir));
+  renderQuestion();
+}
+
+// ── Question Grid Modal ────────────────────────────────
 function toggleQuestionList() {
   document.getElementById('modal-overlay').classList.toggle('open');
+  updateGrid();
 }
 
 function closeModalOnOverlay(e) {
@@ -697,94 +660,65 @@ function closeModalOnOverlay(e) {
     document.getElementById('modal-overlay').classList.remove('open');
 }
 
-function renderGrid() {
+function updateGrid() {
   const grid = document.getElementById('q-grid');
   grid.innerHTML = '';
   filteredQ.forEach((q, i) => {
+    const gi  = q._gi;
     const btn = document.createElement('button');
     btn.className = 'q-grid-btn';
     btn.textContent = i + 1;
-    if (i === idx) btn.classList.add('current');
-    if (correct.has(q._gi)) btn.classList.add('done-correct');
-    if (wrong.has(q._gi)) btn.classList.add('done-wrong');
-    if (starred.has(q._gi)) btn.classList.add('starred-q');
+    if (i === idx)            btn.classList.add('current');
+    else if (correct.has(gi)) btn.classList.add('done-correct');
+    else if (wrong.has(gi))   btn.classList.add('done-wrong');
+    if (starred.has(gi))      btn.classList.add('starred-q');
     btn.onclick = () => {
       idx = i;
-      renderQuestion();
       document.getElementById('modal-overlay').classList.remove('open');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      renderQuestion();
     };
     grid.appendChild(btn);
   });
 }
 
-function navigate(dir) {
-  const newIdx = idx + dir;
-  if (newIdx < 0 || newIdx >= filteredQ.length) return;
-  idx = newIdx;
-  renderQuestion();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function updateNavBtns() {
-  const prevBtn = document.getElementById('prev-btn');
-  const nextBtn = document.getElementById('next-btn');
-  prevBtn.disabled = idx === 0;
-  const q = filteredQ[idx];
-  const gi = q._gi;
-  const isLast = idx === filteredQ.length - 1;
-  const isAnswered = answered.has(gi);
-  if (isLast && isAnswered) {
-    nextBtn.textContent = 'Sonuçları Gör →';
-    nextBtn.classList.add('result-btn');
-    nextBtn.onclick = showResult;
-  } else {
-    nextBtn.textContent = 'Sonraki →';
-    nextBtn.classList.remove('result-btn');
-    nextBtn.onclick = () => navigate(1);
-    nextBtn.disabled = false;
-  }
-}
-
-function updateProgress() {
-  const pct = (answered.size / ALL_QUESTIONS.length) * 100;
-  document.getElementById('progress-bar').style.width = pct + '%';
-}
-
-function updateToggleBtn() {
-  document.getElementById('q-counter').textContent = `${idx + 1} / ${filteredQ.length} ☰`;
-}
-
+// ── Result Screen ──────────────────────────────────────
 function showResult() {
   document.getElementById('quiz-card').style.display = 'none';
   document.getElementById('nav').style.display = 'none';
-  document.getElementById('result-screen').style.display = 'block';
+  const rs = document.getElementById('result-screen');
+  rs.style.display = 'block';
+
   const total = filteredQ.length;
   const c = filteredQ.filter(q => correct.has(q._gi)).length;
   const w = filteredQ.filter(q => wrong.has(q._gi)).length;
   const s = filteredQ.filter(q => starred.has(q._gi)).length;
-  const pct = total > 0 ? Math.round((c / total) * 100) : 0;
+  const pct = Math.round(c / total * 100);
+
   document.getElementById('score-pct').textContent = pct + '%';
+  document.getElementById('score-ring').style.setProperty('--pct', pct + '%');
   document.getElementById('r-correct').textContent = c;
   document.getElementById('r-wrong').textContent = w;
   document.getElementById('r-star').textContent = s;
-  document.getElementById('score-ring').style.setProperty('--pct', pct + '%');
-  document.getElementById('retry-wrong-btn').style.display = w === 0 ? 'none' : '';
-  document.getElementById('retry-star-btn').style.display = s === 0 ? 'none' : '';
-  document.getElementById('share-star-btn').style.display = s === 0 ? 'none' : '';
+
+  const rw = document.getElementById('retry-wrong-btn');
+  const rs2 = document.getElementById('retry-star-btn');
+  rw.disabled = w === 0; rw.style.opacity = w === 0 ? '.4' : '1';
+  rs2.disabled = s === 0; rs2.style.opacity = s === 0 ? '.4' : '1';
 }
 
+// ── Share ──────────────────────────────────────────────
 function shareStarred() {
   const lines = [];
   ALL_QUESTIONS.forEach((q, i) => {
-    if (!starred.has(i)) return;
+    if (!starred.has(q._gi)) return;
     lines.push(`Soru ${i + 1}:`);
     lines.push(q.q.replace(/<[^>]+>/g, ''));
     lines.push(`Doğru Cevap: ${q.ans}`);
     lines.push('Açıklama: ' + (q.explain || '').replace(/<[^>]+>/g, ''));
     lines.push('---');
   });
-  navigator.clipboard.writeText(lines.join('\n')).then(() => {
+  const text = lines.join('\n');
+  navigator.clipboard.writeText(text).then(() => {
     const btn = document.getElementById('share-star-btn');
     const orig = btn.textContent;
     btn.textContent = '✅ Kopyalandı!';
@@ -794,7 +728,7 @@ function shareStarred() {
 
 function restartQuiz() {
   answered.clear(); correct.clear(); wrong.clear();
-  filteredQ = ALL_QUESTIONS.map((q, i) => ({ ...q, _gi: i }));
+  filteredQ = ALL_QUESTIONS.map(q => q);
   idx = 0;
   document.getElementById('result-screen').style.display = 'none';
   document.getElementById('quiz-card').style.display = '';
@@ -804,7 +738,7 @@ function restartQuiz() {
 }
 
 function retryWrong() {
-  const wrongQs = ALL_QUESTIONS.map((q, i) => ({ ...q, _gi: i })).filter(q => wrong.has(q._gi));
+  const wrongQs = ALL_QUESTIONS.filter(q => wrong.has(q._gi));
   if (!wrongQs.length) return;
   answered.clear(); correct.clear(); wrong.clear();
   filteredQ = wrongQs;
@@ -817,7 +751,7 @@ function retryWrong() {
 }
 
 function retryStar() {
-  const starQs = ALL_QUESTIONS.map((q, i) => ({ ...q, _gi: i })).filter(q => starred.has(q._gi));
+  const starQs = ALL_QUESTIONS.filter(q => starred.has(q._gi));
   if (!starQs.length) return;
   answered.clear(); correct.clear(); wrong.clear();
   filteredQ = starQs;
@@ -829,8 +763,7 @@ function retryStar() {
   window.scrollTo({ top: 0 });
 }
 
-// Init
-filteredQ = ALL_QUESTIONS.map((q, i) => ({ ...q, _gi: i }));
+// ── Init ───────────────────────────────────────────────
 renderQuestion();
 </script>
 </body>

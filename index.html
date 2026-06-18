@@ -1,351 +1,518 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aşk Şarkıları 💕</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TUS Hazırlık - Bölüm 4: Tıbbi Etik, Hatalar ve Yaşlanma</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f1f5f9;
+            --primary: #3b82f6;
+            --secondary: #64748b;
+            --success: #22c55e;
+            --error: #ef4444;
+            --accent: #eab308;
+        }
 
-    :root {
-      --bg:        #0d0610;
-      --bg2:       #160c1e;
-      --rose:      #e8416b;
-      --rose-soft: #f07090;
-      --gold:      #f5c842;
-      --text:      #f0e6f6;
-      --muted:     #a08aaa;
-      --card-bg:   rgba(255,255,255,0.04);
-      --card-bdr:  rgba(232,65,107,0.25);
-    }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
 
-    html { scroll-behavior: smooth; }
+        #app-container {
+            width: 100%;
+            max-width: 750px;
+            padding: 20px;
+        }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Lato', sans-serif;
-      font-weight: 300;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
 
-    /* ── Floating hearts ── */
-    .hearts-bg {
-      position: fixed; inset: 0; pointer-events: none; z-index: 0;
-      overflow: hidden;
-    }
-    .heart-particle {
-      position: absolute;
-      bottom: -60px;
-      font-size: 1.4rem;
-      animation: rise linear infinite;
-      opacity: 0;
-      user-select: none;
-    }
-    @keyframes rise {
-      0%   { transform: translateY(0)   rotate(0deg);   opacity: 0; }
-      10%  { opacity: 0.6; }
-      90%  { opacity: 0.3; }
-      100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
-    }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #334155;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
 
-    /* ── Hero ── */
-    .hero {
-      position: relative; z-index: 1;
-      text-align: center;
-      padding: 80px 20px 50px;
-    }
-    .hero-eyebrow {
-      font-size: 0.75rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--rose);
-      margin-bottom: 18px;
-    }
-    .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.4rem, 7vw, 5rem);
-      font-weight: 700;
-      line-height: 1.1;
-      background: linear-gradient(135deg, var(--rose-soft), var(--gold));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 16px;
-    }
-    .hero p {
-      color: var(--muted);
-      font-size: 1rem;
-      letter-spacing: 0.06em;
-    }
+        #progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
 
-    .big-heart {
-      font-size: 3.5rem;
-      display: block;
-      margin: 0 auto 20px;
-      animation: heartbeat 1.6s ease-in-out infinite;
-    }
-    @keyframes heartbeat {
-      0%,100% { transform: scale(1); }
-      14%      { transform: scale(1.18); }
-      28%      { transform: scale(1); }
-      42%      { transform: scale(1.12); }
-      56%      { transform: scale(1); }
-    }
+        .question-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            margin-bottom: 1.5rem;
+            display: none;
+        }
 
-    /* ── Grid ── */
-    .grid-section {
-      position: relative; z-index: 1;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px 20px 80px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 20px;
-    }
+        .question-card.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
 
-    /* ── Card ── */
-    .song-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-bdr);
-      border-radius: 18px;
-      padding: 28px 24px 22px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
-      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .song-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 50% 0%, rgba(232,65,107,0.12), transparent 70%);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .song-card:hover::before { opacity: 1; }
-    .song-card:hover {
-      transform: translateY(-6px) scale(1.02);
-      box-shadow: 0 18px 40px rgba(232,65,107,0.22);
-      border-color: var(--rose);
-    }
-    .song-card:active { transform: scale(0.97); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-    .card-emoji { font-size: 2rem; }
-    .card-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.05rem;
-      font-style: italic;
-      color: var(--rose-soft);
-      line-height: 1.3;
-    }
-    .card-artist {
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .card-desc {
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.55;
-      flex: 1;
-    }
-    .card-btn {
-      margin-top: 8px;
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      background: linear-gradient(135deg, var(--rose), #c0304f);
-      color: #fff;
-      border: none;
-      border-radius: 30px;
-      padding: 9px 20px;
-      font-size: 0.8rem;
-      font-family: 'Lato', sans-serif;
-      font-weight: 400;
-      letter-spacing: 0.08em;
-      cursor: pointer;
-      transition: opacity 0.2s, box-shadow 0.2s;
-    }
-    .card-btn:hover { opacity: 0.88; box-shadow: 0 4px 14px rgba(232,65,107,0.45); }
+        .hint-box {
+            background: rgba(234, 179, 8, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            display: none;
+        }
 
-    /* YouTube icon */
-    .yt-icon {
-      width: 18px; height: 18px; fill: #fff; flex-shrink: 0;
-    }
+        .options-container {
+            display: grid;
+            gap: 12px;
+            margin-top: 1.5rem;
+        }
 
-    /* ── Footer ── */
-    footer {
-      position: relative; z-index: 1;
-      text-align: center;
-      padding: 24px;
-      color: var(--muted);
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-  </style>
+        .option-btn {
+            background: #334155;
+            border: 2px solid transparent;
+            color: white;
+            padding: 1.2rem;
+            border-radius: 0.5rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: #475569;
+        }
+
+        .option-btn.correct {
+            background: var(--success) !important;
+            border-color: #166534;
+        }
+
+        .option-btn.wrong {
+            background: var(--error) !important;
+            border-color: #991b1b;
+        }
+
+        .explanation {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: #0f172a;
+            border-radius: 0.5rem;
+            display: none;
+            line-height: 1.6;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 10px;
+        }
+
+        .control-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .control-btn:disabled {
+            background: #334155;
+            cursor: not-allowed;
+        }
+
+        #hint-toggle {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .score-screen {
+            text-align: center;
+            display: none;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+        }
+
+        strong { color: var(--accent); }
+    </style>
 </head>
 <body>
 
-<!-- Floating hearts background -->
-<div class="hearts-bg" id="heartsBg"></div>
+<div id="app-container">
+    <div id="quiz-view">
+        <div class="header">
+            <h2>TUS Cerrahi Hazırlık (Bölüm 4/4)</h2>
+            <div class="progress-bar"><div id="progress-fill" style="width: 0%"></div></div>
+            <span id="progress-text">Soru: 1 / 32</span>
+        </div>
 
-<!-- Hero -->
-<section class="hero">
-  <span class="big-heart">💖</span>
-  <div class="hero-eyebrow">♬ Müzikle Hisset</div>
-  <h1>Aşkın Sesi</h1>
-  <p>Kalbini titretecek şarkılara tek tıkla ulaş</p>
-</section>
+        <button id="hint-toggle" class="control-btn" onclick="toggleHint()">İpucu Göster</button>
 
-<!-- Song Cards -->
-<section class="grid-section" id="songs"></section>
+        <div id="questions-wrapper"></div>
 
-<footer>Sevgiyle hazırlandı &nbsp;·&nbsp; YouTube Music ♥</footer>
+        <div class="controls">
+            <button id="prev-btn" class="control-btn" onclick="changeQuestion(-1)" disabled>Geri</button>
+            <button id="next-btn" class="control-btn" onclick="changeQuestion(1)">İleri</button>
+        </div>
+    </div>
+
+    <div id="score-screen" class="score-screen">
+        <h1>Tebrikler! Set Tamamlandı.</h1>
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div style="font-size: 2.5rem; font-weight: bold;" id="final-score">0</div>
+                <div>Doğru Cevap</div>
+            </div>
+            <div class="stat-card">
+                <div style="font-size: 2.5rem; font-weight: bold;" id="final-percent">0%</div>
+                <div>Başarı Oranı</div>
+            </div>
+        </div>
+        <button class="control-btn" onclick="location.reload()">Yeniden Başlat</button>
+    </div>
+</div>
 
 <script>
-  // ── Song data ──
-  const songs = [
+const rawQuestions = [
     {
-      emoji: "🌹",
-      title: "Can't Help Falling in Love",
-      artist: "Elvis Presley",
-      desc: "Aşkın kaçınılmaz olduğunu anlatan efsanevi bir klasik.",
-      url: "https://music.youtube.com/search?q=Can%27t+Help+Falling+in+Love+Elvis+Presley"
+        q: "Hastanın hastalığından ziyade tıbbi yönetimden kaynaklanan yaralanmaya ne ad verilir?",
+        options: ["İhmal", "Olumsuz olay", "İskalayan hata", "Sentinel olay", "Malpraktis"],
+        answer: 1,
+        hint: "Olumsuz olay: Hastanın hastalığından ziyade tıbbi yönetimden kaynaklanan yaralanma olmasıdır.",
+        desc: "<strong>Olumsuz olay (Adverse event)</strong>, tıbbi müdahale sırasında beklenen veya beklenmeyen şekilde hastaya zarar gelmesidir."
     },
     {
-      emoji: "🌙",
-      title: "Perfect",
-      artist: "Ed Sheeran",
-      desc: "İki sevgilinin mükemmel anını anlatan duygusal bir balad.",
-      url: "https://music.youtube.com/search?q=Perfect+Ed+Sheeran"
+        q: "Tanımlanmış standart tedavi seviyesinin altında kalan bakım hizmetine ne ad verilir?",
+        options: ["Olumsuz olay", "İskalayan hata", "Sentinel olay", "İhmal", "Komplikasyon"],
+        answer: 3,
+        hint: "İhmal: Tanımlanmış standart tedavi seviyesinin altında kalan bakımdır.",
+        desc: "Tıbbi standartların ve protokollerin bilerek veya bilmeyerek uygulanmaması <strong>İhmal (Negligence)</strong> olarak tanımlanır."
     },
     {
-      emoji: "💌",
-      title: "A Thousand Years",
-      artist: "Christina Perri",
-      desc: "Sonsuz aşkı ve beklemeyi anlatan büyülü bir şarkı.",
-      url: "https://music.youtube.com/search?q=A+Thousand+Years+Christina+Perri"
+        q: "Hatanın yapıldığı ancak hastanın zarar görmesine yol açmadığı tıbbi durumlara ne ad verilir?",
+        options: ["Sentinel olay", "İhmal", "İskalayan hata", "Olumsuz olay", "Malpraktis"],
+        answer: 2,
+        hint: "İskalayan Hata: Hastanın zarar görmesine yol açmayan hatadır.",
+        desc: "<strong>İskalayan hata (Near miss)</strong>, bir hata yapılmasına rağmen şans eseri veya son anda fark edilerek hastanın zarar görmediği durumdur."
     },
     {
-      emoji: "✨",
-      title: "Seni Duyuyorum",
-      artist: "Teoman",
-      desc: "Türkçe rockun en duygusal aşk şarkılarından biri.",
-      url: "https://music.youtube.com/search?q=Teoman+Seni+Duyuyorum"
+        q: "Ölüm, ciddi fiziksel veya psikolojik yaralanmaya neden olan beklenmedik olaylara ne ad verilir?",
+        options: ["İskalayan hata", "İhmal", "Olumsuz olay", "Sentinel (Beklenmeyen) olay", "Komplikasyon"],
+        answer: 3,
+        hint: "Sentinel (Beklenmeyen) olay: Ölüm, ciddi fiziksel veya psikolojik yaralanmaya neden olan beklenmedik bir olaydır.",
+        desc: "<strong>Sentinel olay</strong>, sistemdeki bir hatayı gösteren, telafisi zor ve derhal soruşturma gerektiren en ağır hata türüdür."
     },
     {
-      emoji: "🎻",
-      title: "Ölürsem Aşktan Öleceğim",
-      artist: "Sezen Aksu",
-      desc: "Türk pop müziğinin kraliçesinden efsanevi bir aşk şarkısı.",
-      url: "https://music.youtube.com/search?q=Sezen+Aksu+Olursem+Asktan+Olecegim"
+        q: "Aşağıdakilerden hangisi bir 'Sentinel Olay' örneği olarak kabul edilir?",
+        options: ["İlacın yanlış saatte verilmesi", "Serumun damar dışına sızması", "Hemolitik transfüzyon reaksiyonu", "Ateşin 38 dereceye çıkması", "Pansumanın geç yapılması"],
+        answer: 2,
+        hint: "Sentinel olay örnekleri: Hemolitik transfüzyon reaksiyonu, yanlış yer/yanlış hasta ameliyatı...",
+        desc: "<strong>Hemolitik transfüzyon reaksiyonu</strong> ciddi hayati risk taşıdığı için sentinel bir olaydır."
     },
     {
-      emoji: "🕊️",
-      title: "Say You Love Me",
-      artist: "Fleetwood Mac",
-      desc: "Yumuşak melodisi ile ruhu okşayan zamansız bir klasik.",
-      url: "https://music.youtube.com/search?q=Fleetwood+Mac+Say+You+Love+Me"
+        q: "Yanlış yer veya yanlış prosedürle yapılan cerrahi müdahale hangi hata sınıfına girer?",
+        options: ["İhmal", "Sentinel olay", "İskalayan hata", "Olumsuz olay", "Yan etki"],
+        answer: 1,
+        hint: "Sentinel olay örnekleri: Yanlış yer, yanlış prosedür veya yanlış hasta ameliyatı...",
+        desc: "<strong>Yanlış taraf cerrahisi</strong>, tıbbi güvenliğin en üst düzeyde ihlal edildiği sentinel bir olaydır."
     },
     {
-      emoji: "🌸",
-      title: "Beni Bul",
-      artist: "Mor ve Ötesi",
-      desc: "Kayıp aşkı ve özlemi anlatan Türkçe rock başyapıtı.",
-      url: "https://music.youtube.com/search?q=Mor+ve+Otesi+Beni+Bul"
+        q: "Ameliyat sonrası hastada kasıtsız bir yabancı cisim kalması hangi kategoriye girer?",
+        options: ["İskalayan hata", "Sentinel olay", "Olumsuz olay", "İhmal", "Fizyolojik süreç"],
+        answer: 1,
+        hint: "Sentinel olay örnekleri: Ameliyat sonrası hastada kasıtsız yabancı cisim kalması...",
+        desc: "Kayıtlarda unutulan gazlı bez veya aletler <strong>sentinel olay</strong> olarak değerlendirilir."
     },
     {
-      emoji: "💫",
-      title: "At Last",
-      artist: "Etta James",
-      desc: "Soul müziğin en romantik ve en güçlü seslerinden biri.",
-      url: "https://music.youtube.com/search?q=Etta+James+At+Last"
+        q: "Cerrahi operasyonlarda hastada en sık unutulan yabancı cisim aşağıdakilerden hangisidir?",
+        options: ["Koter ucu", "Makas", "Spanç (gazlı bez)", "Dren", "İğne ucu"],
+        answer: 2,
+        hint: "En sık kalan cerrahi malzeme spançtır.",
+        desc: "Ameliyat sahasında unutulan yabancı cisimler arasında açık ara <strong>en sık görüleni spançtır</strong>."
     },
     {
-      emoji: "🌊",
-      title: "Make You Feel My Love",
-      artist: "Adele",
-      desc: "Adele'nin eşsiz sesiyle taçlanan derin bir aşk vaadi.",
-      url: "https://music.youtube.com/search?q=Adele+Make+You+Feel+My+Love"
+        q: "Bilgisizlik, deneyimsizlik veya ilgisizlik nedeniyle yanlış-eksik tanı ve tedavi sonucunda hastanın zarar görmesine ne denir?",
+        options: ["İhmal", "Malpraktis", "Komplikasyon", "Yan etki", "Kaza"],
+        answer: 1,
+        hint: "Malpraktis: bilgisizlik, deneyimsizlik, ilgisizlik nedeniyle yanlış-eksik tanı ve tedavi sonucunda hastanın zarar görmesidir.",
+        desc: "Hekimin standart uygulamadan sapması ve bu sapma nedeniyle hastanın zarar görmesi <strong>Malpraktis (Hatalı Tıbbi Uygulama)</strong>'dır."
     },
     {
-      emoji: "🔥",
-      title: "Aşkın Olayım",
-      artist: "Tarkan",
-      desc: "Tarkan'ın ikonik sesiyle dans ettiren tutkulu bir şarkı.",
-      url: "https://music.youtube.com/search?q=Tarkan+Askin+Olayim"
+        q: "Aydınlatılmış onam (rızanın) dayandığı en temel kavram aşağıdakilerden hangisidir?",
+        options: ["İyilikseverlik", "Adalet", "Özerkliğe saygı", "Zarar vermeme", "Dürüstlük"],
+        answer: 2,
+        hint: "AYDINLATILMIŞ ONAM = Özerkliğe saygı",
+        desc: "Aydınlatılmış onam, hastanın kendi vücudu üzerindeki karar verme hakkını, yani <strong>Özerklik (Otonomi)</strong> ilkesini temsil eder."
     },
     {
-      emoji: "🎵",
-      title: "La Vie en Rose",
-      artist: "Édith Piaf",
-      desc: "Aşkın hayatı gül rengi göstermesini anlatan Fransız klasiği.",
-      url: "https://music.youtube.com/search?q=Edith+Piaf+La+Vie+en+Rose"
+        q: "Aşağıdakilerden hangisi Aydınlatılmış Onam sürecinin bileşenleri arasında yer almaz?",
+        options: ["Hastalık tanısı", "Önerilen prosedür", "Ameliyatın maliyeti", "Prosedürle ilgili riskler", "Alternatif tedavi seçenekleri"],
+        answer: 2,
+        hint: "Bileşenler: Tanı, prosedür, riskler, başarı olasılığı, zihinsel kapasite, alternatifler.",
+        desc: "Onam süreci tıbbi bilgilendirmeyi kapsar; <strong>maliyet</strong> onamın tıbbi etik bileşenlerinden biri değildir."
     },
     {
-      emoji: "🌺",
-      title: "Unutamam",
-      artist: "Mustafa Ceceli",
-      desc: "Türk pop müziğinin en sevilen aşk şarkılarından biri.",
-      url: "https://music.youtube.com/search?q=Mustafa+Ceceli+Unutamam"
+        q: "Tıp etiğinde onamı istenen hastanın kendi kararı verebilme hakkına ne ad verilir?",
+        options: ["Yararlılık", "Özerklik (Otonomi)", "Zarar vermeme", "Adalet", "Vebal"],
+        answer: 1,
+        hint: "Özerklik (Otonomi): onamı istenen hastanın özgür iradesi ile bu konudaki kararı verebilme hakkıdır.",
+        desc: "Hastanın kendi kaderini tayin etme gücü <strong>Özerklik</strong> olarak adlandırılır."
     },
-  ];
+    {
+        q: "Özerklik (Otonomi) ilkesinin aydınlatılmış onam kavramındaki önemi nedir?",
+        options: ["En az önemli ilkedir", "Sadece çocuklarda geçerlidir", "Dayandığı en önemli etik ilkedir", "Yararlılık ilkesinden sonra gelir", "Hekimin otoritesini artırır"],
+        answer: 2,
+        hint: "Özerklik aydınlatılmış onam kavramının dayandığı en önemli etik ilkedir.",
+        desc: "Aydınlatılmış onamın <strong>etik temeli</strong> doğrudan <strong>Özerklik</strong> ilkesine dayanır."
+    },
+    {
+        q: "Tıp etiğinde 'Primum non nocere' (önce zarar verme) ilkesi aşağıdakilerden hangisidir?",
+        options: ["Yararlılık", "Adalet", "Zarar vermeme", "Özerklik", "Sadakat"],
+        answer: 2,
+        hint: "Zarar vermeme... primum non nocere=önce zarar verme.",
+        desc: "Hekimliğin en eski ve temel ilkesi olan <strong>Zarar Vermeme</strong>, yapılacak müdahalenin hastaya zarar getirmemesini önceler."
+    },
+    {
+        q: "Tıp etiğinde 'Zarar vermeme' ve 'Yararlılık' ilkeleri arasındaki hiyerarşik ilişki nasıldır?",
+        options: ["Yararlılık her zaman önce gelir", "Zarar vermeme yararlılık ilkesinden önce gelir", "İkisi aynı şeydir", "Adalet hepsinden önce gelir", "Cerrahi branşlarda geçerli değildir"],
+        answer: 1,
+        hint: "Zarar vermeme yararlılık ilkesinden önce gelir.",
+        desc: "Etik öncelik sıralamasında, bir hastaya fayda sağlamadan önce ona <strong>zarar vermemek (Non-maleficence)</strong> zorunludur."
+    },
+    {
+        q: "İnsanlar üzerindeki tıbbi çalışmalarda uyulması zorunlu etik ilkeleri belirleyen bildirge hangisidir?",
+        options: ["Cenevre Bildirgesi", "Helsinki Bildirgesi", "Lizbon Bildirgesi", "Madrid Bildirgesi", "İstanbul Bildirgesi"],
+        answer: 1,
+        hint: "İnsanlar üzerindeki tıbbi çalışmalarda uyulması zorunlu etik ilkeleri Helsinki Bildirgesi belirlemiştir.",
+        desc: "<strong>Helsinki Bildirgesi</strong>, tıbbi araştırmalarda etik standartları belirleyen en temel uluslararası belgedir."
+    },
+    {
+        q: "Yaşlanma ile birlikte solunum sisteminde saptanan en temel arter kan gazı değişimi nedir?",
+        options: ["PaO2 artar", "PaO2 ve PaCO2 azalır", "PaO2 azalır, PaCO2'de değişiklik yok", "PaO2 değişmez, PaCO2 artar", "İkisi de değişmez"],
+        answer: 2,
+        hint: "Yaşlanma: PaO2'de azalma, PaCO2'de değişiklik yok.",
+        desc: "Yaşlandıkça akciğer elastikiyeti azaldığı için <strong>PaO2 (oksijen) düşer</strong>, ancak <strong>PaCO2 (karbondioksit)</strong> seviyesi genellikle sabit kalır."
+    },
+    {
+        q: "Yaşlanma ile birlikte hepatobiliyer sistemde 'Sentez kapasitesi'ndeki değişim nasıldır?",
+        options: ["Belirgin azalır", "Artar", "Değişmez", "Sadece kadınlarda azalır", "Sadece protein sentezi azalır"],
+        answer: 2,
+        hint: "Hepatobiliyer: Sentez kapasite değişmez.",
+        desc: "Karaciğer hacmi ve kan akımı azalsa da, karaciğerin <strong>sentez kapasitesi</strong> (albümin üretimi vb.) yaşla beraber <strong>değişmez</strong>."
+    },
+    {
+        q: "Yaşlanma ile immün sistemde involutiona uğrayan ve T hücre fonksiyonunu etkileyen bez hangisidir?",
+        options: ["Tiroid", "Pankreas", "Timus bezi", "Adrenal bez", "Hipofiz"],
+        answer: 2,
+        hint: "İmmün Fonksiyon: Timus bezi involüsyonu.",
+        desc: "Yaşla beraber <strong>Timus bezinin körelmesi (involüsyon)</strong>, T hücresi üretim ve diferansiyasyonunda azalmaya yol açar."
+    },
+    {
+        q: "Delirium risk faktörleri arasında aşağıdakilerden hangisi yer almaz?",
+        options: ["İleri yaş (>65)", "Çoklu komorbidite", "Yetersiz ağrı kontrolü", "Hastanede yatış süresinin kısalığı", "Görme-işitme bozukluğu"],
+        answer: 3,
+        hint: "Risk Faktörleri: İleri yaş, yetersiz ağrı kontrolü, duyusal bozukluklar...",
+        desc: "Hastanede yatış süresinin uzaması riski artırırken, <strong>kısa yatış süresi</strong> bir risk faktörü değildir."
+    },
+    {
+        q: "Ameliyat sonrası hastanın bilincinin geçici olarak bozulması, çevresine uyum sağlayamaması durumu öncelikle hangisidir?",
+        options: ["İnme", "Delirium", "Diyabetik koma", "Uyku apnesi", "Anestezi etkisi"],
+        answer: 1,
+        hint: "Postoperatif Delirium: genellikle geçicidir.",
+        desc: "Postoperatif <strong>Delirium</strong>, özellikle yaşlılarda cerrahi stres sonrası gelişen akut, dalgalı seyirli ve geçici bilinç değişikliğidir."
+    },
+    {
+        q: "Yaşlanan bir hastada böbrek fonksiyonları ile ilgili hangisi doğrudur?",
+        options: ["Fonksiyonel nefron sayısı artar", "Renal kan akımı artar", "Serum kreatinin düzeyi her zaman çok yüksektir", "Normal serum kreatinine rağmen kreatinin klirensinde azalma olabilir", "İdrar yolu enfeksiyonu hiç görülmez"],
+        answer: 3,
+        hint: "Normal serum kreatinin düzeyine rağmen kreatinin klirensinde azalma (Yaşlanma - Renal).",
+        desc: "Kas kitlesi azaldığı için <strong>serum kreatinini normal</strong> görünebilir, ancak gerçek filtrasyon gücü olan <strong>kreatinin klirensi</strong> yaşla beraber düşer."
+    },
+    {
+        q: "Aşağıdakilerden hangisi 'Aydınlatılmış Onam' sürecinin etik dayanağı olan özerkliğe aykırıdır?",
+        options: ["Hastanın reddetme hakkı", "Hastanın istediği tedaviyi seçmesi", "Hekimin hasta adına en iyisini bildiğini söyleyip kararı kendisinin vermesi", "Zihinsel kapasite değerlendirmesi", "Risklerin tam anlatılması"],
+        answer: 2,
+        hint: "Özerklik: hastanın istenen rıza ile kararı verebilme hakkıdır.",
+        desc: "Hekimin 'babacı' (paternalist) yaklaşımı, yani hasta adına kararı vermesi <strong>Özerklik</strong> ilkesine aykırıdır."
+    },
+    {
+        q: "Yaşlanma ile kardiyovasküler sistemde saptanan değişikliklerden hangisi yanlıştır?",
+        options: ["Miyosit sayısında azalma", "Arteriyel kompliyansta artma", "Beta-adrenerjik yanıtta azalma", "Diyastolik disfonksiyon", "Sessiz iskemi riski"],
+        answer: 1,
+        hint: "Kardiyovasküler: Ventriküler ve arteriyel kompliyansta azalma.",
+        desc: "Yaşla beraber damar duvarları sertleşir, bu nedenle arteriyel <strong>kompliyansta artma değil, azalma</strong> görülür."
+    },
+    {
+        q: "Yaşlanan cerrahi hastalarda karaciğer ile ilgili hangisi doğrudur?",
+        options: ["Hepatosit sayısı artar", "Hepatik kan akımı azalır", "İlaçların klirensi hızlanır", "Safra taşı sıklığı azalır", "Hepsi yanlıştır"],
+        answer: 1,
+        hint: "Hepatobiliyer: Hepatik kan akımında azalma.",
+        desc: "Yaşlılarda karaciğere gelen <strong>kan akımı azalır</strong>, bu da bazı ilaçların metabolizmasını yavaşlatabilir."
+    },
+    {
+        q: "Hangi durum sentinel bir olayın derhal yapılmasını gerektiren bir süreçtir?",
+        options: ["İlaç dozunun ayarlanması", "Hastanenin temizlenmesi", "Derhal soruşturma ve müdahale", "Hasta yakınlarının uyarılması", "Hemşire sayısının artırılması"],
+        answer: 2,
+        hint: "Sentinel olay: Bu tür bir olay derhal soruşturma ve müdahale gerektirir.",
+        desc: "<strong>Sentinel olaylar</strong> ağır ihmal veya sistem hatası gösterdiği için kök-neden analizi ve <strong>derhal müdahale</strong> zorunludur."
+    },
+    {
+        q: "Tıbbi etik ilkelerinden 'Adalet' neyi ifade eder?",
+        options: ["Hastaya zarar vermemeyi", "Kaynakların dürüstçe ve hakkaniyetli dağıtılmasını", "Hastanın karar hakkını", "Hekimin maaşının ödenmesini", "Ameliyatın başarısını"],
+        answer: 1,
+        hint: "Etik İlkeler: 4- Adalet.",
+        desc: "<strong>Adalet</strong> ilkesi, sağlık hizmetlerine erişimde ve kaynak kullanımında <strong>hakkaniyeti</strong> temsil eder."
+    },
+    {
+        q: "Onam formunda 'Hastalık tanısı' neden bulunmalıdır?",
+        options: ["Hekimin bilgisini kanıtlamak için", "Hastanın ne için tedavi edildiğini bilmesi için", "Ameliyat masraflarını belirlemek için", "Hastanenin adını korumak için", "İlaç firmalarını bilgilendirmek için"],
+        answer: 1,
+        hint: "Aydınlatılmış Onam Bileşenleri: 1: Hastalık tanısı.",
+        desc: "Aydınlatılmış onamın ilk adımı hastaya <strong>mevcut tanısının</strong> açıkça bildirilmesidir."
+    },
+    {
+        q: "Tıbbi araştırmalarda 'zarar-yarar' dengesi gözetilmesi hangi ilkenin bir gereğidir?",
+        options: ["Sadece özerklik", "Zarar vermeme ve Yararlılık", "Sadece adalet", "Ekonomi", "Siyaset"],
+        answer: 1,
+        hint: "Zarar vermeme ve Yararlılık ilkeleri beraber değerlendirilir.",
+        desc: "Tıbbi girişimlerde risklerin faydadan az olması (<strong>Yararlılık</strong>) ve hastanın zarar görmemesi (<strong>Zarar vermeme</strong>) dengesi etik bir zorunluluktur."
+    },
+    {
+        q: "Sentinel olay saptandığında kurumun önceliği ne olmalıdır?",
+        options: ["Olayı gizlemek", "Hata yapan personeli hemen kovmak", "Olayın kök nedenini bulmak ve tekrarlanmasını önlemek", "Hastayı başka bir hastaneye sevk etmek", "Cihazları satmak"],
+        answer: 2,
+        hint: "Sentinel olay: derhal soruşturma ve müdahale gerektirir.",
+        desc: "Kurumsal güvenlik kültürü, sentinel olaylarda kişileri suçlamak yerine <strong>sistem hatalarını (kök neden)</strong> bularak düzeltmeyi amaçlar."
+    },
+    {
+        q: "Yaşlı bir hastada PaCO2 değerinin normal olması neyi gösterir?",
+        options: ["Hastanın çok genç olduğunu", "Ventilasyonun (soluk alıp verme) korunduğunu", "Hastalığın ağırlaştığını", "Kalp yetmezliğini", "Böbrek taşı olduğunu"],
+        answer: 1,
+        hint: "PaCO2'de değişiklik yok (Yaşlanma).",
+        desc: "Yaşlanma ile oksijenasyon azalsa da, CO2 atılımını sağlayan <strong>ventilasyon</strong> yeteneği (PaCO2) genellikle korunur."
+    },
+    {
+        q: "Aşağıdakilerden hangisi cerrahi onamın geçerli olması için şarttır?",
+        options: ["Hastanın en az üniversite mezunu olması", "Hastanın karar verme (zihinsel) kapasitesinin olması", "Hekimin uzmanlık belgesinin fotokopisi", "Ameliyatın bedava olması", "Hastanın mutlaka yaşlı olması"],
+        answer: 1,
+        hint: "Aydınlatılmış onam bileşenleri: 5: Hastanın zihinsel kapasitesi.",
+        desc: "Geçerli bir onam için hastanın bilincinin açık olması ve <strong>karar verme (temyiz) kapasitesine</strong> sahip olması hukuki ve etik bir şarttır."
+    }
+];
 
-  // ── Render cards ──
-  const grid = document.getElementById('songs');
+let questions = [...rawQuestions];
+let currentIdx = 0;
+let userAnswers = new Array(questions.length).fill(null);
+let score = 0;
 
-  songs.forEach(song => {
-    const card = document.createElement('a');
-    card.href = song.url;
-    card.target = '_blank';
-    card.rel = 'noopener noreferrer';
-    card.className = 'song-card';
+function renderQuestion() {
+    const qWrapper = document.getElementById('questions-wrapper');
+    qWrapper.innerHTML = '';
+    
+    const q = questions[currentIdx];
+    const card = document.createElement('div');
+    card.className = 'question-card active';
+    
     card.innerHTML = `
-      <span class="card-emoji">${song.emoji}</span>
-      <div class="card-title">${song.title}</div>
-      <div class="card-artist">${song.artist}</div>
-      <div class="card-desc">${song.desc}</div>
-      <button class="card-btn" tabindex="-1">
-        <svg class="yt-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
-        </svg>
-        YouTube Music'te Dinle
-      </button>
+        <div class="hint-box" id="hint-${currentIdx}">${q.hint}</div>
+        <div style="font-size: 1.2rem; font-weight: 500; margin-bottom: 1.5rem;">${q.q}</div>
+        <div class="options-container">
+            ${q.options.map((opt, i) => `
+                <button class="option-btn ${userAnswers[currentIdx] !== null ? (i === q.answer ? 'correct' : (i === userAnswers[currentIdx] ? 'wrong' : '')) : ''}" 
+                        onclick="checkAnswer(${i})" 
+                        ${userAnswers[currentIdx] !== null ? 'disabled' : ''}>
+                    ${String.fromCharCode(65 + i)}) ${opt}
+                </button>
+            `).join('')}
+        </div>
+        <div class="explanation" id="exp-${currentIdx}" style="display: ${userAnswers[currentIdx] !== null ? 'block' : 'none'}">
+            ${q.desc}
+        </div>
     `;
-    grid.appendChild(card);
-  });
+    qWrapper.appendChild(card);
+    
+    document.getElementById('progress-fill').style.width = `${((currentIdx + 1) / questions.length) * 100}%`;
+    document.getElementById('progress-text').innerText = `Soru: ${currentIdx + 1} / ${questions.length}`;
+    document.getElementById('prev-btn').disabled = currentIdx === 0;
+    document.getElementById('next-btn').innerText = currentIdx === questions.length - 1 ? "Bitir" : "İleri";
+}
 
-  // ── Floating heart particles ──
-  const emojis = ['💕','💖','💗','💓','❤️','🌹','✨','💫'];
-  const bg = document.getElementById('heartsBg');
+function checkAnswer(choice) {
+    if (userAnswers[currentIdx] !== null) return;
+    
+    userAnswers[currentIdx] = choice;
+    const q = questions[currentIdx];
+    if (choice === q.answer) score++;
+    
+    renderQuestion();
+    const exp = document.getElementById(`exp-${currentIdx}`);
+    exp.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
 
-  function spawnHeart() {
-    const el = document.createElement('span');
-    el.className = 'heart-particle';
-    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-    el.style.left = Math.random() * 100 + 'vw';
-    const dur = 7 + Math.random() * 9;
-    const delay = Math.random() * 5;
-    el.style.animationDuration = dur + 's';
-    el.style.animationDelay = delay + 's';
-    el.style.fontSize = (0.9 + Math.random() * 1.2) + 'rem';
-    bg.appendChild(el);
-    setTimeout(() => el.remove(), (dur + delay + 1) * 1000);
-  }
+function changeQuestion(step) {
+    if (step === 1 && currentIdx === questions.length - 1) {
+        showScore();
+        return;
+    }
+    currentIdx += step;
+    renderQuestion();
+    document.getElementById('hint-toggle').innerText = "İpucu Göster";
+}
 
-  // Spawn initial batch then continue
-  for (let i = 0; i < 18; i++) spawnHeart();
-  setInterval(spawnHeart, 700);
+function toggleHint() {
+    const hint = document.getElementById(`hint-${currentIdx}`);
+    const btn = document.getElementById('hint-toggle');
+    if (hint.style.display === 'block') {
+        hint.style.display = 'none';
+        btn.innerText = "İpucu Göster";
+    } else {
+        hint.style.display = 'block';
+        btn.innerText = "İpucu Gizle";
+    }
+}
+
+function showScore() {
+    document.getElementById('quiz-view').style.display = 'none';
+    document.getElementById('score-screen').style.display = 'block';
+    document.getElementById('final-score').innerText = score;
+    document.getElementById('final-percent').innerText = Math.round((score / questions.length) * 100) + '%';
+}
+
+renderQuestion();
 </script>
+
 </body>
 </html>

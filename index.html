@@ -3,152 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TUS Quiz - Kolon ve Rektum Hastalıkları</title>
+    <title>TUS Soru Bankası - Kolon ve Rektum (1/3)</title>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0f1117; --surface: #1a1d27; --card: #20243a; --border: #2e3354;
-            --accent: #5b8dee; --accent2: #e05c7a; --gold: #f5c842;
-            --green: #3ecf74; --red: #f0476d; --text: #dde3f5; --muted: #7b85a8;
+            --bg:#0f1117; --surface:#1a1d27; --card:#20243a; --border:#2e3354;
+            --accent:#5b8dee; --accent2:#e05c7a; --gold:#f5c842;
+            --green:#3ecf74; --red:#f0476d; --text:#dde3f5; --muted:#7b85a8;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            background: var(--bg); color: var(--text); 
-            font-family: 'Inter', sans-serif; line-height: 1.6;
-            overflow-x: hidden;
-        }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
 
         .progress-wrap { position: fixed; top: 0; width: 100%; height: 3px; background: var(--surface); z-index: 1000; }
         .progress-bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); width: 0%; transition: 0.3s; }
 
-        .container { max-width: 650px; margin: 40px auto; padding: 20px; }
-        .section-badge { 
-            font-family: 'IBM Plex Mono', monospace; color: var(--accent2); 
-            font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
-            margin-bottom: 10px; display: block; text-align: center;
-        }
+        .container { max-width: 600px; margin: 40px auto; padding: 20px; }
+        .section-badge { font-family: 'IBM Plex Mono', monospace; color: var(--accent2); font-size: 12px; display: block; text-align: center; margin-bottom: 20px; font-weight: 600; }
 
-        .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        
-        .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+        .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
         #q-num { font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: var(--muted); }
-        #star-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--muted); transition: 0.2s; }
+        #star-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--muted); }
         #star-btn.active { color: var(--gold); }
 
-        .year-tags { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
+        .year-tags { display: flex; gap: 8px; margin-bottom: 16px; }
         .year-tag { background: var(--surface); color: var(--accent); padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; border: 1px solid var(--border); }
 
-        #q-text { font-size: 18px; font-weight: 600; margin-bottom: 25px; color: #fff; }
-        #q-text u { text-decoration-color: var(--accent2); }
+        #q-text { font-size: 17px; line-height: 1.6; margin-bottom: 24px; font-weight: 500; }
+        #q-text u { text-decoration-color: var(--accent2); text-underline-offset: 4px; }
 
-        .hint-toggle { background: none; border: 1px dashed var(--border); color: var(--muted); width: 100%; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 13px; margin-bottom: 15px; transition: 0.2s; }
-        .hint-toggle:hover { border-color: var(--accent); color: var(--accent); }
-        #hint-box { display: none; background: rgba(91, 141, 238, 0.1); border-left: 4px solid var(--accent); padding: 12px; border-radius: 4px; margin-bottom: 20px; font-size: 14px; font-style: italic; }
+        .hint-toggle { background: var(--surface); border: 1px solid var(--border); color: var(--accent); width: 100%; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 13px; margin-bottom: 12px; font-weight: 600; }
+        #hint-box { display: none; background: rgba(91, 141, 238, 0.1); padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; border-left: 3px solid var(--accent); }
 
         .options { display: flex; flex-direction: column; gap: 12px; }
-        .opt-btn { 
-            background: var(--surface); border: 1px solid var(--border); border-radius: 12px; 
-            padding: 16px; cursor: pointer; display: flex; align-items: flex-start; gap: 12px;
-            color: var(--text); font-size: 15px; transition: 0.2s; text-align: left;
-        }
-        .opt-btn:hover:not(.disabled) { border-color: var(--accent); background: var(--card); }
+        .opt-btn { background: var(--surface); border: 1px solid var(--border); padding: 14px; border-radius: 12px; cursor: pointer; display: flex; align-items: flex-start; gap: 12px; transition: 0.2s; color: var(--text); font-size: 15px; text-align: left; }
+        .opt-btn:hover:not(.disabled) { border-color: var(--accent); background: #252a41; }
         .opt-letter { font-family: 'IBM Plex Mono', monospace; font-weight: 700; color: var(--accent); min-width: 20px; }
         
         .opt-btn.correct { border-color: var(--green); background: rgba(62, 207, 116, 0.1); }
         .opt-btn.wrong { border-color: var(--red); background: rgba(240, 71, 109, 0.1); }
 
-        .feedback { display: none; margin-top: 25px; animation: slideUp 0.4s ease; }
+        .feedback { display: none; margin-top: 24px; animation: slideUp 0.4s ease; }
         .feedback.open { display: block; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 
-        .trap-box { background: rgba(245, 200, 66, 0.1); border-radius: 12px; padding: 16px; margin-bottom: 15px; border: 1px solid rgba(245, 200, 66, 0.2); }
-        .trap-title { color: var(--gold); font-weight: 700; font-size: 13px; display: block; margin-bottom: 5px; }
-        .trap-text { font-size: 14px; }
+        .trap-box { background: rgba(245, 200, 66, 0.05); border: 1px solid rgba(245, 200, 66, 0.2); border-radius: 10px; padding: 14px; margin-bottom: 12px; }
+        .trap-title { color: var(--gold); font-weight: 700; font-size: 12px; margin-bottom: 4px; display: block; }
+        .explain-box { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+        .explain-title { color: var(--accent); font-weight: 700; font-size: 12px; margin-bottom: 4px; display: block; }
 
-        .explain-box { background: var(--surface); border-radius: 12px; padding: 16px; border: 1px solid var(--border); }
-        .explain-title { color: var(--accent); font-weight: 700; font-size: 13px; display: block; margin-bottom: 5px; }
-        .explain-text { font-size: 14px; color: var(--muted); }
+        #result-screen { display: none; text-align: center; padding: 40px 0; }
+        .score-circle { width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--accent); margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; }
 
-        .nav { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; gap: 10px; }
-        .nav-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 12px 20px; border-radius: 10px; cursor: pointer; font-weight: 600; transition: 0.2s; flex: 1; }
-        .nav-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
-        .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-        #q-counter { font-family: 'IBM Plex Mono', monospace; font-size: 14px; min-width: 100px; text-align: center; cursor: pointer; }
+        .nav { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; gap: 10px; }
+        .nav-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 12px 18px; border-radius: 10px; cursor: pointer; flex: 1; font-weight: 600; font-size: 14px; }
+        #q-counter { font-family: 'IBM Plex Mono', monospace; font-size: 13px; }
 
-        #result-screen { display: none; text-align: center; animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .score-circle { width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--accent); margin: 20px auto; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; font-family: 'IBM Plex Mono'; }
-        .stats { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; }
-        .stat-item span { display: block; font-size: 20px; font-weight: 700; }
-        .stat-item label { font-size: 12px; color: var(--muted); }
-
-        .q-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; align-items: flex-end; }
-        .q-modal { background: var(--card); width: 100%; max-height: 70vh; border-radius: 24px 24px 0 0; padding: 25px; overflow-y: auto; }
+        .q-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 2000; align-items: flex-end; }
+        .q-modal { background: var(--card); width: 100%; max-height: 70vh; border-radius: 20px 20px 0 0; padding: 24px; overflow-y: auto; }
         .q-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
-        .q-grid-btn { aspect-ratio: 1; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-family: 'IBM Plex Mono'; cursor: pointer; transition: 0.2s; }
-        .q-grid-btn.current { border-color: var(--accent); background: rgba(91, 141, 238, 0.2); }
+        .q-grid-btn { aspect-ratio: 1; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; font-family: 'IBM Plex Mono'; font-weight: 600; }
+        .q-grid-btn.current { border: 2px solid var(--accent); }
         .q-grid-btn.done-correct { background: var(--green); color: var(--bg); border: none; }
         .q-grid-btn.done-wrong { background: var(--red); color: var(--bg); border: none; }
-        .q-grid-btn.starred-q { box-shadow: 0 0 8px var(--gold); border-color: var(--gold); }
-
-        @media (max-width: 480px) {
-            .container { padding: 10px; margin: 20px auto; }
-            .q-grid { grid-template-columns: repeat(4, 1fr); }
-            #q-text { font-size: 16px; }
-        }
+        .q-grid-btn.starred-q { box-shadow: 0 0 10px var(--gold); }
     </style>
 </head>
 <body>
 
 <div class="progress-wrap"><div class="progress-bar" id="p-bar"></div></div>
 
-<div class="container" id="quiz-container">
-    <span class="section-badge">Kolon ve Rektum Hastalıkları</span>
+<div class="container">
+    <span class="section-badge">KOLON VE REKTUM HASTALIKLARI — BÖLÜM 1</span>
     
-    <div class="card" id="quiz-card">
+    <div id="quiz-card" class="card">
         <div class="q-header">
-            <span id="q-num">Soru 1/72</span>
+            <span id="q-num"></span>
             <button id="star-btn" onclick="toggleStar()">☆</button>
         </div>
-        <div class="year-tags" id="tags"></div>
+        <div class="year-tags" id="year-tags"></div>
         <div id="q-text"></div>
-        
-        <button class="hint-toggle" onclick="toggleHint()">💡 İPUCU GÖSTER/GİZLE</button>
+        <button class="hint-toggle" onclick="toggleHint()">💡 İPUCU GÖSTER</button>
         <div id="hint-box"></div>
-
-        <div class="options" id="opts"></div>
-
+        <div class="options" id="options"></div>
         <div class="feedback" id="feedback">
             <div class="trap-box">
                 <span class="trap-title">⚠️ TUZAK NOKTA</span>
-                <p class="trap-text" id="trap-text"></p>
+                <p id="trap-text" style="font-size:14px;"></p>
             </div>
             <div class="explain-box">
                 <span class="explain-title">📖 AÇIKLAMA</span>
-                <p class="explain-text" id="explain-text"></p>
+                <p id="explain-text" style="font-size:14px; color:var(--muted);"></p>
             </div>
         </div>
     </div>
 
-    <div class="nav" id="nav-bar">
-        <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">← Önceki</button>
-        <button class="nav-btn" id="q-counter" onclick="toggleQuestionList()">1 / 72 ☰</button>
-        <button class="nav-btn" id="next-btn" onclick="navigate(1)">Sonraki →</button>
+    <div id="result-screen">
+        <div class="score-circle" id="score-pct"></div>
+        <div style="margin-bottom:24px; font-size: 15px;">
+            <p>Doğru: <span id="res-correct" style="color:var(--green)"></span></p>
+            <p>Yanlış: <span id="res-wrong" style="color:var(--red)"></span></p>
+            <p>Yıldızlı: <span id="res-starred" style="color:var(--gold)"></span></p>
+        </div>
+        <button class="nav-btn" onclick="restartQuiz()" style="margin-bottom:8px; width:100%;">🔄 Tüm Soruları Yeniden Çöz</button>
+        <button class="nav-btn" id="retry-wrong" onclick="retryWrong()" style="margin-bottom:8px; width:100%;">✗ Yanlışları Tekrar Çöz</button>
+        <button class="nav-btn" id="retry-star" onclick="retryStar()" style="width:100%;">★ Yıldızlıları Tekrar Çöz</button>
     </div>
 
-    <div id="result-screen">
-        <div class="score-circle" id="score-pct">0%</div>
-        <div class="stats">
-            <div class="stat-item"><span id="stat-correct" style="color:var(--green)">0</span><label>Doğru</label></div>
-            <div class="stat-item"><span id="stat-wrong" style="color:var(--red)">0</span><label>Yanlış</label></div>
-            <div class="stat-item"><span id="stat-starred" style="color:var(--gold)">0</span><label>Yıldızlı</label></div>
-        </div>
-        <div style="display:flex; flex-direction:column; gap:10px;">
-            <button class="nav-btn" onclick="restartQuiz()" style="background:var(--accent); color:white; border:none;">🔄 Tüm Soruları Yeniden Çöz</button>
-            <button class="nav-btn" id="retry-wrong-btn" onclick="retryWrong()" style="display:none;">✗ Yanlışları Tekrar Çöz</button>
-            <button class="nav-btn" id="retry-star-btn" onclick="retryStar()" style="display:none;">★ Yıldızlıları Tekrar Çöz</button>
-        </div>
+    <div class="nav" id="nav-btns">
+        <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">← Önceki</button>
+        <button class="nav-btn" id="q-counter" onclick="toggleQuestionList()"></button>
+        <button class="nav-btn" id="next-btn" onclick="navigate(1)">Sonraki →</button>
     </div>
 </div>
 
@@ -161,232 +127,221 @@
 <script>
 const ALL_QUESTIONS = [
     {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Anatomi', years: ['Soru Bankası'],
+        section: 'kolon', years: ['Anatomi'],
         q: 'Superior mezenterik arter (SMA) aşağıdakilerden hangisini <strong>primer olarak beslemez</strong>?',
         opts: ['A) Jejunum', 'B) İleum', 'C) Çekum', 'D) Çıkan kolon', 'E) Sigmoid kolon'],
         ans: 'E',
-        hint: 'SMA Treitz’dan transvers kolonun 2/3’üne kadar olan kısmı besler.',
-        trap: 'Sol kolon ve sigmoid IMA (İnferior Mezenterik Arter) tarafından beslenir.',
-        explain: '<strong>SMA</strong>, duodenumun alt yarısından transvers kolonun 2/3 distal kısmına kadar olan alanı besler. Sigmoid kolon ise <strong>IMA</strong>’nın dalıdır.'
+        hint: 'SMA Treitz ligamanından transvers kolon distal 1/3’e kadar besler.',
+        trap: 'Sol kolon ve sigmoid arteria mezenterika inferior (IMA) dalıdır.',
+        explain: 'Sigmoid kolon <strong>IMA</strong>’nın dalı olan sigmoid arterler tarafından beslenir.'
     },
     {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Anatomi', years: ['TUS'],
-        q: 'İnferior mezenterik arterin sol kolik dalı ile superior mezenterik arterin orta kolik dalı arasındaki <strong>arkın özel ismi</strong> nedir?',
+        section: 'kolon', years: ['Anatomi'],
+        q: 'Aşağıdakilerden hangisi <strong>trunkus çölyakus ile SMA</strong> arasındaki arkın adıdır?',
         opts: ['A) Buhler arkı', 'B) Riolan arkı', 'C) Drummond arkı', 'D) Barlow arkı', 'E) Retroperitoneal ark'],
         ans: 'A',
-        hint: 'Buhler arkı çölyak ve SMA arasındadır. Bu soru Riolan/Drummond ayrımı sorar.',
-        trap: 'Buhler arkı SMA ve Çölyak arasındadır. SMA ve IMA arası Drummond/Riolan’dır.',
-        explain: 'SMA ve IMA arasındaki en bilinen anastomozlar <strong>Drummond</strong> (marjinal arter) ve <strong>Riolan arkı</strong> (sol kolik ve orta kolik arası) dır.'
+        hint: 'SMA ve IMA arasındaki marjinal arter Drummond’dur.',
+        trap: 'Buhler arkı çölyak ve SMA arası; Riolan arkı ise orta kolik ve sol kolik arterler (SMA-IMA) arasıdır.',
+        explain: 'SMA ile IMA arasında <strong>Riolan</strong> ve <strong>Drummond</strong> arkları bulunur. Çölyak ile SMA arası ise <strong>Buhler arkı</strong>dır.'
     },
     {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Anatomi', years: ['Soru Bankası'],
-        q: 'Kolonun <u>en dar</u> ve <u>en geniş</u> bölümleri hangisinde doğru sırayla verilmiştir?',
-        opts: ['A) Çekum ve Sigmoid kolon', 'B) Rektum ve Çekum', 'C) Sigmoid kolon ve Çekum', 'D) Sigmoid kolon ve Transvers kolon', 'E) Rektum ve Transvers kolon'],
+        section: 'kolon', years: ['Anatomi'],
+        q: 'Kolonun <strong>en dar</strong> ve <strong>en geniş</strong> bölümleri hangisinde doğru verilmiştir?',
+        opts: ['A) Çekum - Sigmoid', 'B) Rektum - Çekum', 'C) Sigmoid - Çekum', 'D) Sigmoid - Transvers', 'E) Rektum - Transvers'],
         ans: 'C',
-        hint: 'Dar olan yerde obstrüksiyon, geniş olan yerde perforasyon (Laplace kanunu) sıktır.',
-        trap: 'Rektum distalde geniştir ancak çekum kadar değil.',
-        explain: 'Kolonun <strong>en dar yeri sigmoid kolon</strong> (7.5 cm), <strong>en geniş yeri çekumdur</strong> (8.5-9 cm). Laplace kanununa göre çekum perforasyona en açıktır.'
+        hint: 'En geniş yer, Laplace kuralına göre en kolay perfore olandır.',
+        trap: 'Çekum en geniş olduğu için staz ve perforasyon odağıdır.',
+        explain: 'Kolonun en geniş yeri <strong>çekum</strong> (8-9 cm), en dar yeri ise <strong>sigmoid kolon</strong>dur (ortalama 2.5 cm).'
     },
     {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Fizyoloji', years: ['Yan Dal'],
-        q: 'Aşağıdakilerden hangisi bağırsak florasını düzenlemek amacıyla kullanılan <strong>oral yolla alınan nutrisyon bileşenidir</strong>?',
+        section: 'kolon', years: ['Fizyoloji'],
+        q: 'Aşağıdakilerden hangisi florayı düzenlemek amacıyla kullanılan <strong>canlı mikroorganizmaları</strong> içeren bileşendir?',
         opts: ['A) Prebiyotik', 'B) İmmunonütrisyon', 'C) Probiyotik', 'D) Elementer diyet', 'E) Esansiyel lipit'],
         ans: 'C',
-        hint: 'Probiyotikler canlı mikroorganizmalardır.',
-        trap: 'Prebiyotikler florayı besleyen liflerdir, Probiyotikler canlı hücrelerdir.',
-        explain: '<strong>Probiyotikler</strong> bağırsak sağlığı için faydalı canlı mikroorganizmalardır (Lactobacillus vb.).'
+        hint: 'Canlı = Pro...',
+        trap: 'Prebiyotikler florayı besleyen liflerdir; Probiyotikler canlı bakterilerdir.',
+        explain: 'Bağırsaktaki yararlı bakteri dengesini koruyan canlı mikroorganizmalara <strong>probiyotik</strong> denir.'
     },
     {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Divertiküler Hastalık', years: ['TUS'],
-        q: 'Ön tanı <u>sigmoid kolon divertiküliti</u> olan bir hastada tanıyı netleştirmek için <strong>en uygun yöntem</strong> hangisidir?',
-        opts: ['A) Abdominal ultrasonografi', 'B) Kolonoskopi', 'C) Abdominal BT', 'D) Baryumlu kolon grafisi', 'E) Ayakta direkt karın grafisi'],
-        ans: 'D',
-        hint: 'Akut fazda perforasyon riski nedeniyle endoskopi ve baryumdan kaçınılır.',
-        trap: 'Kolonoskopi akut divertikülitte kontraendikedir.',
-        explain: 'Akut divertikülit tanısında ve komplikasyonların (abse, perforasyon) saptanmasında <strong>Abdominal BT</strong> altın standarttır.'
-    },
-    {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Divertikülit', years: ['Soru Bankası'],
-        q: 'Akut divertikülit atağı geçiren ve medikal tedavi ile düzelen bir hastada <strong>daha sonra yapılacak işlemlerden</strong> hangisi <u>en uygun</u> yöntemdir?',
-        opts: ['A) Ultrasonografi', 'B) Bilgisayarlı tomografi', 'C) Kolonoskopi', 'D) Rektoskopi', 'E) Laparoskopi'],
-        ans: 'C',
-        hint: 'Kanseri dışlamak için 4-6 hafta sonra yapılır.',
-        trap: 'Akut dönem geçmeden kolonoskopi yapılmaz.',
-        explain: 'Akut atak (4-6 hafta) geçtikten sonra, obstrüksiyon yapan bir <strong>kolon kanserini ekarte etmek</strong> için mutlaka kolonoskopi yapılmalıdır.'
-    },
-    {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Hinchey', years: ['TUS'],
-        q: 'Sigmoid kolonda akut divertikülit atağı geçiren hastada <strong>perikolik abse</strong> (Hinchey evre 1) saptanmıştır. Bu hastada yaklaşım ne olmalıdır?',
-        opts: ['A) Acil rezeksiyon', 'B) Antibiyotik tedavisi', 'C) Perkütan drenaj', 'D) Kolostomi', 'E) Hartmaan prosedürü'],
+        section: 'kolon', years: ['Cerrahi'],
+        q: 'Bir bağırsak anastomozunda, anastomozun <strong>mekanik dayanıklılığını</strong> sağlayan asıl katman hangisidir?',
+        opts: ['A) Mukoza', 'B) Submukoza', 'C) Muskularis propria', 'D) Seroza', 'E) Lamina propria'],
         ans: 'B',
-        hint: 'Küçük abseler (<2-4 cm) tıbbi tedavi ile geriler.',
-        trap: 'Büyük abselerde perkütan drenaj gerekir.',
-        explain: 'Hinchey evre 1a ve 1b (küçük abseler) genellikle <strong>antibiyotik tedavisiyle</strong> düzelir.'
+        hint: 'Kollajenden en zengin tabakadır.',
+        trap: 'Seroza iyileşmeyi hızlandırsa da dikişleri asıl tutan güç submukozadır.',
+        explain: 'Bağırsak cerrahisinde <strong>submukoza</strong>, kolajen içeriği sayesinde anastomoz güvenliği için en kritik katmandır.'
     },
     {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Hinchey', years: ['TUS'],
-        q: 'Hinchey sınıflamasına göre <strong>yaygın pürülan peritonit</strong> hangi evreyi temsil eder?',
+        section: 'kolon', years: ['Divertikül'],
+        q: 'Akut sigmoid divertikülit atağı geçiren bir hastada tanı ve abse/perforasyon tespiti için <strong>en uygun ilk tetkik</strong> hangisidir?',
+        opts: ['A) Kolonoskopi', 'B) Abdominal ultrasonografi', 'C) Abdominal BT', 'D) Perkütan biyopsi', 'E) Anjiyografi'],
+        ans: 'C',
+        hint: 'İnflamasyonun yayılımını en iyi gösteren kesitsel tetkik.',
+        trap: 'Akut fazda perforasyon riski nedeniyle kolonoskopi ve baryum kontraendikedir.',
+        explain: 'Akut divertikülitte <strong>kontrastlı BT</strong>, Hinchey sınıflamasını yapmak ve komplikasyonları saptamak için ilk tercihtir.'
+    },
+    {
+        section: 'kolon', years: ['Divertikül'],
+        q: 'Akut divertikülit atağı medikal tedavi ile düzelen bir hastada 4-6 hafta sonra <strong>kolonoskopi yapılmasının</strong> temel amacı nedir?',
+        opts: ['A) Nüksü önlemek', 'B) Diğer divertikülleri görmek', 'C) Altta yatan kolon kanserini ekarte etmek', 'D) Sigmoidoskopi yapmak', 'E) Laparoskopi hazırlığı'],
+        ans: 'C',
+        hint: 'Obstrüktif divertikülit bazen kanserle karışabilir.',
+        trap: 'Akut dönemde yapılmaz, inflamasyon söndükten sonra malignite dışlanmalıdır.',
+        explain: 'İnflamasyon alanı bir <strong>kolon karsinomunu</strong> gizliyor olabilir; bu nedenle "serinleme" döneminde kolonoskopi şarttır.'
+    },
+    {
+        section: 'kolon', years: ['Divertikül'],
+        q: '70 yaşında kadın, BT’de perikolik inflamasyon ve <strong>2 cm’lik abse</strong> saptanıyor. En uygun yaklaşım?',
+        opts: ['A) Acil rezeksiyon', 'B) Perkütan drenaj', 'C) Yatırılarak medikal tedavi (IV antibiyotik)', 'D) Hartmann ameliyatı', 'E) Sigmoidopeksi'],
+        ans: 'C',
+        hint: 'Küçük abseler (<3-4 cm) antibiyotikle gerileyebilir.',
+        trap: '4 cm’den büyük abselerde perkütan drenaj düşünülür.',
+        explain: 'Hinchey Evre 1 (küçük abse) vakalarında <strong>IV antibiyotik ve izlem</strong> ile %70-90 başarı sağlanır.'
+    },
+    {
+        section: 'kolon', years: ['Divertikül'],
+        q: 'Hinchey sınıflamasına göre <strong>perikolik abse</strong> hangi evreyi temsil eder?',
         opts: ['A) Evre 1', 'B) Evre 2', 'C) Evre 3', 'D) Evre 4', 'E) Evre 0'],
-        ans: 'C',
-        hint: 'Evre 3 pürülan, evre 4 fekal peritonittir.',
-        trap: 'Evre 2 pelvik/retroperitoneal apsedir.',
-        explain: '<strong>Hinchey 3:</strong> Perfore divertiküle bağlı yaygın pürülan peritonit. <strong>Hinchey 4:</strong> Yaygın fekal peritonit.'
-    },
-    {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Divertikülit', years: ['Soru Bankası'],
-        q: 'Komplike olmayan akut divertikülit tedavisinde <u>ilk aşamada</u> en uygun yöntem hangisidir?',
-        opts: ['A) Diversiyon kolostomisi', 'B) Rezeksiyon-anastomoz', 'C) Oral alımın kesilmesi ve IV antibiyotik', 'D) Antibiyotikli lavman', 'E) Perkütan drenaj'],
-        ans: 'C',
-        hint: 'Non-komplike vakalar medikal yönetilir.',
-        trap: 'Diversiyon sadece komplikasyon varsa düşünülür.',
-        explain: 'Akut non-komplike divertikülitlerin %80-90’ı <strong>bağırsak istirahati ve antibiyotikle</strong> düzelir.'
-    },
-    {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Volvulus', years: ['TUS'],
-        q: 'Yaşlı bir hastada sigmoid volvulus tanısı konulduğunda <u>ilk girişim</u> ne olmalıdır?',
-        opts: ['A) Acil laparotomi', 'B) Laksatif kullanımı', 'C) Sigmoidoskopi ve rektal tüp uygulaması', 'D) Sağ hemikolektomi', 'E) Total kolektomi'],
-        ans: 'C',
-        hint: 'Gangren yoksa dekompresyon denenebilir.',
-        trap: 'Gangren veya perforasyon varsa acil ameliyat (Hartmann) gerekir.',
-        explain: 'Peritonit veya gangren bulgusu yoksa <strong>sigmoidoskopik detorsiyon</strong> %80 başarı sağlar. Sonrasında elektif rezeksiyon planlanır.'
-    },
-    {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Volvulus', years: ['TUS'],
-        q: 'Sigmoid volvulusta detorsiyon yapılamayan veya gangren saptanan hastada <u>en uygun cerrahi</u> nedir?',
-        opts: ['A) Rezeksiyon ve primer anastomoz', 'B) Hartmann prosedürü (Rezeksiyon + Kolostomi)', 'C) Sigmoidopeksi', 'D) Bypass cerrahisi', 'E) Peritoneal lavaj'],
-        ans: 'B',
-        hint: 'Acil şartlarda fekal yük varken anastomoz risklidir.',
-        trap: 'Primer anastomoz ancak çok seçilmiş, stabil vakalarda yapılır.',
-        explain: 'Gangrenli volvulusta <strong>Hartmann prosedürü</strong> (proksimal kolostomi ve distal güdük kapatılması) en güvenli yoldur.'
-    },
-    {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Ülseratif Kolit', years: ['TUS'],
-        q: 'Ülseratif kolitte patolojik inflamasyon <strong>primer olarak</strong> hangi katmanları tutar?',
-        opts: ['A) Mukoza ve submukoza', 'B) Tüm katmanlar (Transmural)', 'C) Sadece seroza', 'D) Kas tabakası', 'E) Lenfatik kanallar'],
         ans: 'A',
-        hint: 'Crohn transmuraldir, ÜK yüzeyseldir.',
-        trap: 'Toksik megakolonda inflamasyon tüm katlara yayılabilir.',
-        explain: '<strong>Ülseratif Kolit</strong> mukoza ve submukoza ile sınırlı, kesintisiz bir inflamasyondur.'
+        hint: 'Pelvik abse Evre 2’dir.',
+        trap: 'Evre 3 pürülan peritonit, Evre 4 fekal peritonittir.',
+        explain: '<strong>Hinchey 1:</strong> Perikolik veya mezenterik abse. <strong>Hinchey 2:</strong> Uzak (pelvik, retroperitoneal) abse.'
     },
     {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Ülseratif Kolit', years: ['Yan Dal'],
-        q: 'Ülseratif kolitli hastalarda cerrahi tedavi sonrasında <strong>tam iyileşme</strong> sağlanan tek durum nedir?',
-        opts: ['A) Primer sklerozan kolanjit', 'B) Pyoderma gangrenozum', 'C) Karaciğer yağlanması', 'D) Toksik megakolon', 'E) Kolon kanseri riski (Kolektomi ile)'],
+        section: 'kolon', years: ['Divertikül'],
+        q: 'Divertikülit nedeniyle ameliyat edilen hastada <strong>yaygın fekal peritonit</strong> saptanmıştır. Bu hangi evredir?',
+        opts: ['A) Hinchey 1', 'B) Hinchey 2', 'C) Hinchey 3', 'D) Hinchey 4', 'E) Hinchey 0'],
+        ans: 'D',
+        hint: 'Fekal = 4.',
+        trap: 'Pürülan peritonit 3, fekal peritonit 4’tür.',
+        explain: '<strong>Hinchey 4</strong> yaygın fekal bulaşın olduğu en ağır divertikülit komplikasyonudur.'
+    },
+    {
+        section: 'kolon', years: ['Divertikül'],
+        q: 'Komplike olmayan (Hinchey 0) akut divertikülit tedavisinde <strong>ilk aşama</strong> nedir?',
+        opts: ['A) Acil rezeksiyon', 'B) Kolostomi', 'C) Bağırsak istirahati ve antibiyotik', 'D) Laksatif', 'E) Perkütan drenaj'],
+        ans: 'C',
+        hint: 'Vakaların %90’ı konservatif iyileşir.',
+        trap: 'Cerrahi sadece komplikasyon varlığında veya sık tekrarda düşünülür.',
+        explain: 'Non-komplike divertikülitlerin standart tedavisi <strong>medikal</strong>dir.'
+    },
+    {
+        section: 'kolon', years: ['Divertikül'],
+        q: 'Sol alt kadran ağrısı ve <strong>idrarda hava/gayta gelmesi</strong> şikayeti olan hastada en olası tanı nedir?',
+        opts: ['A) Sigmoid volvulus', 'B) Crohn hastalığı', 'C) Rektum kanseri', 'D) Kolovezikal fistül', 'E) Divertikülit kanaması'],
+        ans: 'D',
+        hint: 'Divertikülitin mesaneye açılması.',
+        trap: 'Pnömatüri ve fekalüri, kolovezikal fistülün patognomonik bulgusudur.',
+        explain: 'Sigmoid divertikülitin mesaneye erode olması sonucu <strong>kolovezikal fistül</strong> gelişir.'
+    },
+    {
+        section: 'kolon', years: ['Divertikül'],
+        q: 'Aşağıdakilerden hangisi divertiküler hastalıkta <strong>mutlak cerrahi endikasyon</strong> değildir?',
+        opts: ['A) Yaygın peritonit', 'B) Kontrol edilemeyen kanama', 'C) Fistül gelişimi', 'D) Büyük apse (medikal tedaviye yanıtsız)', 'E) İlk divertikülit atağı'],
         ans: 'E',
-        hint: 'Kolektomi kolonu ortadan kaldırdığı için küratiftir.',
-        trap: 'PSC kolektomiye rağmen ilerleyebilir.',
-        explain: '<strong>Proktokolektomi</strong> ÜK’da intestinal hastalığı ve kanser riskini tamamen ortadan kaldıran küratif işlemdir.'
+        hint: 'İlk ataklar genellikle medikal izlenir.',
+        trap: 'İlk atak komplike (perforasyon vb.) değilse cerrahiye gerek yoktur.',
+        explain: '<strong>İlk divertikülit atağı</strong> komplike değilse %70-90 oranında medikal tedavi ile iyileşir ve cerrahi gerekmez.'
     },
     {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Ülseratif Kolit', years: ['TUS'],
-        q: 'Ülseratif kolitte <strong>toksik megakolon</strong> gelişimini tetikleyen en önemli risk faktörü hangisidir?',
-        opts: ['A) Hipokalemi ve antikolinerjik kullanımı', 'B) Hiperkalemi', 'C) Antibiyotik kullanımı', 'D) Lifli beslenme', 'E) Sigara içilmesi'],
+        section: 'kolon', years: ['Divertikül'],
+        q: 'Sağ kolon divertikülleri hakkında aşağıdakilerden hangisi <strong>yanlıştır</strong>?',
+        opts: ['A) Genellikle tektir', 'B) Sol kolona göre daha genç yaşta görülür', 'C) Konjenital (gerçek) divertikül olabilir', 'D) Genellikle batı toplumlarında sıktır', 'E) Genellikle çokludurlar'],
+        ans: 'E',
+        hint: 'Sol kolon divertikülleri (psödodivertikül) genellikle çokludur.',
+        trap: 'Batı toplumlarında sol kolon, doğu (Asya) toplumlarında sağ kolon divertikülleri daha belirgindir.',
+        explain: 'Sağ kolon divertikülleri genellikle <strong>tek</strong>, sol kolon divertikülleri ise <strong>çoklu</strong>dur.'
+    },
+    {
+        section: 'kolon', years: ['Volvulus'],
+        q: 'Sigmoid volvulus şüphesiyle çekilen ayakta direkt karın grafisinde (ADKG) görülen klasik bulgu hangisidir?',
+        opts: ['A) Merdiven arazözü', 'B) Kahve çekirdeği manzarası', 'C) Hava-sıvı seviyeleri', 'D) Subdiafragmatik serbest hava', 'E) Kum saati manzarası'],
+        ans: 'B',
+        hint: 'Aşağıdan yukarı uzanan büyük gaz gölgesi.',
+        trap: 'Hava-sıvı seviyesi ince bağırsak obstrüksiyonlarında daha belirgindir.',
+        explain: 'Sigmoid volvulusta kolonda masif genişleme sonucu oluşan görüntüye <strong>kahve çekirdeği</strong> manzarası denir.'
+    },
+    {
+        section: 'kolon', years: ['Volvulus'],
+        q: 'Yaşlı bir hastada sigmoid volvulus tanısı konulmuş, <strong>gangren ve peritonit bulgusu saptanmamıştır</strong>. İlk girişim ne olmalıdır?',
+        opts: ['A) Acil laparotomi', 'B) Laksatif kullanımı', 'C) Sigmoidoskopik detorsiyon', 'D) Hartmann ameliyatı', 'E) Total kolektomi'],
+        ans: 'C',
+        hint: 'Rektal tüp uygulaması ile detorsiyon.',
+        trap: 'Gangren şüphesi varsa detorsiyon kontraendikedir, direkt ameliyat gerekir.',
+        explain: 'Stabil hastalarda <strong>sigmoidoskopik detorsiyon</strong> %80 başarı sağlar, sonrasında nüksü önlemek için elektif rezeksiyon yapılır.'
+    },
+    {
+        section: 'kolon', years: ['İnflamatuar'],
+        q: 'Ülseratif kolitte patolojik inflamasyon <strong>primer olarak</strong> hangi katmanları tutar?',
+        opts: ['A) Seroza', 'B) Muskularis propria', 'C) Sadece mukoza', 'D) Mukoza ve submukoza', 'E) Tüm duvar katmanları'],
+        ans: 'D',
+        hint: 'Transmural tutulum Crohn’a özgüdür.',
+        trap: 'Ülseratif kolit yüzeyseldir; sadece toksik megakolonda tüm katları tutabilir.',
+        explain: '<strong>Ülseratif kolit</strong> mukoza ve submukoza ile sınırlıdır; Crohn ise transmuraldir.'
+    },
+    {
+        section: 'kolon', years: ['İnflamatuar'],
+        q: 'Ülseratif kolitli bir hastada rezeksiyon yapıldığında aşağıdaki komplikasyonlardan hangisi <strong>tamamen ortadan kalkar</strong>?',
+        opts: ['A) Primer sklerozan kolanjit', 'B) Pyoderma gangrenozum', 'C) Ankilozan spondilit', 'D) Bağırsak hastalığı ve kanser riski', 'E) Üveit'],
+        ans: 'D',
+        hint: 'Küratif cerrahi kolonun çıkarılmasıdır.',
+        trap: 'PSC rezeksiyon sonrası da ilerleyebilir; ancak intestinal hastalık kolektomi ile biter.',
+        explain: 'Proktokolektomi ülseratif kolitte <strong>intestinal hastalık</strong> için küratiftir.'
+    },
+    {
+        section: 'kolon', years: ['İnflamatuar'],
+        q: 'Ülseratif kolitin yayılımı hakkında hangisi doğrudur?',
+        opts: ['A) Yama tarzı tutulum yapar', 'B) En sık sağ kolonu tutar', 'C) İnce bağırsaktan başlar', 'D) Terminal ileumu her zaman atlar', 'E) Rektumdan başlayıp proksimale kesintisiz uzanır'],
+        ans: 'E',
+        hint: 'Rektum hemen her zaman tutulur.',
+        trap: 'Crohn yama tarzı (skip lesions) tutulum yapar; ÜK ise kesintisizdir.',
+        explain: '<strong>Ülseratif kolit</strong> rektumu mutlaka tutar ve proksimale doğru devamlılık gösterir.'
+    },
+    {
+        section: 'kolon', years: ['İnflamatuar'],
+        q: 'Ülseratif kolitte aşağıdaki ekstraintestinal bulgulardan hangisinin seyri <strong>kolon hastalığının cerrahisi ile düzelmez</strong>?',
+        opts: ['A) Primer sklerozan kolanjit', 'B) Periferik artrit', 'C) Eritema nodozum', 'D) Episklerit', 'E) Aftöz stomatit'],
         ans: 'A',
-        hint: 'Motiliteyi bozan her şey risktir.',
-        trap: 'Sigara ÜK’da koruyucudur.',
-        explain: 'Hipokalemi, loperamid ve <strong>antikolinerjikler</strong> bağırsak motilitesini durdurarak toksik dilatasyona yol açabilir.'
+        hint: 'Karaciğer/safra yolu tutulumu bağımsızdır.',
+        trap: 'Deri ve göz bulguları kolektomi ile genellikle geriler.',
+        explain: '<strong>Primer sklerozan kolanjit (PSC)</strong> seyri, kolon cerrahisinden bağımsızdır ve ilerleyebilir.'
     },
     {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Ogilvie', years: ['TUS'],
-        q: 'Mekanik bir tıkanıklık olmadan kolonun masif dilatasyonu (Pseudo-obstrüksiyon) ile karakterize tablo hangisidir?',
-        opts: ['A) Sigmoid volvulus', 'B) Crohn hastalığı', 'C) Ogilvie sendromu', 'D) Hirschsprung hastalığı', 'E) İskemik kolit'],
-        ans: 'C',
-        hint: 'Genellikle yaşlı, yatalak veya cerrahi sonrası hastalarda görülür.',
-        trap: 'Hirschsprung konjenital bir darlıktır, Ogilvie sonradan gelişen psödo-tıkanıklıktır.',
-        explain: '<strong>Ogilvie Sendromu</strong> (akut kolonik psödo-obstrüksiyon), mekanik engel olmaksızın sağ kolon ve çekumun genişlemesidir.'
-    },
-    {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – İskemi', years: ['TUS'],
-        q: 'Kolonik iskeminin <u>en az</u> ve <u>en sık</u> etkilendiği bölgeler hangisidir?',
-        opts: ['A) Rektum ve Splenik fleksura', 'B) Çekum ve İnen kolon', 'C) Splenik fleksura ve Rektum', 'D) İnen kolon ve Çekum', 'E) Rektum ve Transvers kolon'],
+        section: 'kolon', years: ['İnflamatuar'],
+        q: 'Ülseratif kolitte kronik süreçte kolonun haustralarının kaybı ve daralması sonucu oluşan <strong>BT/Radyoloji bulgusu</strong> nedir?',
+        opts: ['A) Kurşun boru manzarası', 'B) Kaldırım taşı manzarası', 'C) Sicim (string) belirtisi', 'D) Elma yeniği manzarası', 'E) Psödodivertikül'],
         ans: 'A',
-        hint: 'Rektumun çift kan desteği vardır (SMA/IMA), Splenik fleksura ise "Griffith noktası" kritik sınırda yer alır.',
-        trap: 'Çekum iskemide hassastır ancak Griffith ve Sudeck noktaları en kritiktir.',
-        explain: 'Rektum hem sistemik hem portal dolaşımdan kan aldığı için <strong>iskemiye en dirençli</strong> yerdir. Splenik fleksura (Griffith) ise en hassastır.'
+        hint: 'Boru gibi düzleşmiş kolon.',
+        trap: 'Kaldırım taşı ve sicim belirtisi Crohn hastalığına özgüdür.',
+        explain: 'Hausraların kaybolmasıyla kolon <strong>kurşun boru</strong> (lead pipe) halini alır.'
     },
     {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Peutz-Jeghers', years: ['TUS'],
-        q: 'Ağız ve dudaklarda melanin pigmentasyonu ile seyreden <strong>hamartomatöz polipozis</strong> hangisidir?',
-        opts: ['A) Gardner', 'B) Lynch', 'C) Peutz-Jeghers', 'D) Turcot', 'E) Cowden'],
+        section: 'kolon', years: ['İnflamatuar'],
+        q: 'Toksik megakolon gelişiminde <strong>en sık suçlanan</strong> tetikleyici faktör nedir?',
+        opts: ['A) Aşırı lifli beslenme', 'B) Hiperkalemi', 'C) Hipokalemi ve antikolinerjik ilaçlar', 'D) Antibiyotik kullanımı', 'E) Kolonoskopik hazırlık'],
         ans: 'C',
-        hint: 'STK11/LKB1 mutasyonu vardır.',
-        trap: 'Polipler hamartomdur (benign), ancak over, meme, akciğer kanser riski artmıştır.',
-        explain: '<strong>Peutz-Jeghers</strong>; dudaklarda pigment lekeleri ve gastrointestinal (en sık ince bağırsak) hamartomatöz poliplerle karakterizedir.'
+        hint: 'Motiliteyi azaltan her şey dilatasyonu artırır.',
+        trap: 'Hipokalemi kolonun paralize olmasına neden olarak dilatasyonu tetikler.',
+        explain: '<strong>Hipokalemi</strong>, opiatlar ve antikolinerjikler bağırsak hareketlerini durdurarak <strong>toksik megakolonu</strong> tetikleyebilir.'
     },
     {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – FAP', years: ['TUS'],
-        q: 'APC geninde mutasyon olan, 100’den fazla adenomatöz polip ile seyreden ve <strong>%100 kanserleşen</strong> hastalık hangisidir?',
-        opts: ['A) HNPCC', 'B) FAP (Familial Adenomatöz Polipozis)', 'C) Gardner Sendromu', 'D) Peutz-Jeghers', 'E) Turcot Sendromu'],
-        ans: 'B',
-        hint: 'Tedavisi 20’li yaşlarda total kolektomidir.',
-        trap: 'Gardner, FAP’ın ekstra-kolonik bulgular (osteom, desmoid) veren varyantıdır.',
-        explain: '<strong>FAP</strong>, APC gen mutasyonu sonucu binlerce poliple seyreder ve tedavi edilmezse mutlaka kansere dönüşür.'
+        section: 'kolon', years: ['İnflamatuar'],
+        q: 'Ülseratif kolitte <strong>kolon kanseri riskini</strong> ne artırır?',
+        opts: ['A) Hastalığın 10 yılı aşması', 'B) Pankolit (tüm kolonun tutulması)', 'C) Primer sklerozan kolanjit varlığı', 'D) Erken yaşta başlangıç', 'E) Hepsi'],
+        ans: 'E',
+        hint: 'Süre ve yaygınlık ana kriterlerdir.',
+        trap: 'Sol kolon tutulumuna göre pankolitli hastalarda risk çok daha yüksektir.',
+        explain: 'Kanser riski <strong>hastalık süresi</strong> ve <strong>yaygınlığı</strong> ile doğru orantılı olarak artar.'
     },
     {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Lynch', years: ['TUS'],
-        q: 'Herediter non-polipozis kolorektal kanser (Lynch) sendromunda kanserler <strong>en sık</strong> nerede yerleşir?',
-        opts: ['A) Distal rektum', 'B) Sol kolon', 'C) Proksimal (Sağ) kolon', 'D) Sigmoid kolon', 'E) Anal kanal'],
+        section: 'kolon', years: ['İnflamatuar'],
+        q: '40 yaşında kadın, <strong>kanlı-mukuslu ishal</strong> ve karın ağrısı ile başvuruyor. Rektosigmoidoskopide rektumdan itibaren hiperemik, frajil, ödemli mukoza izleniyor. Tanı?',
+        opts: ['A) Crohn', 'B) Amipli dizanteri', 'C) Ülseratif kolit', 'D) İskemik kolit', 'E) Psödomembranöz enterokolit'],
         ans: 'C',
-        hint: 'Mismatch repair (MMR) genlerinde defekt vardır.',
-        trap: 'HNPCC "non-polipozis" denilse de az sayıda polip olabilir.',
-        explain: '<strong>Lynch sendromu</strong>; genç yaşta, sağ kolon yerleşimli kanserler ve senkron/metakron tümörlerle karakterizedir.'
-    },
-    {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Genetik', years: ['Soru Bankası'],
-        q: 'Kolon kanseri gelişiminde <strong>adenom-karsinom sekansında</strong> yer alan <u>ilk mutasyon</u> hangisidir?',
-        opts: ['A) K-ras', 'B) p53', 'C) APC', 'D) DCC', 'E) MMR'],
-        ans: 'C',
-        hint: 'Supresör bir genin kaybıyla süreç başlar.',
-        trap: 'p53 genellikle kansere geçişteki son adımdır.',
-        explain: 'Sıralama: <strong>APC</strong> (ilk adım) -> <strong>K-ras</strong> (adenom büyümesi) -> <strong>DCC/p53</strong> (kanserleşme).'
-    },
-    {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Tarama', years: ['Yan Dal'],
-        q: 'Rutin kolorektal kanser taramasına, ortalama riskli bireylerde <strong>kaç yaşında</strong> başlanmalıdır?',
-        opts: ['A) 40', 'B) 45', 'C) 50', 'D) 60', 'E) 65'],
-        ans: 'B',
-        hint: 'Güncel kılavuzlar bu yaşı erkene çekmiştir.',
-        trap: 'Eski kılavuzlarda 50 yaştı, şimdi 45 yaşa indi.',
-        explain: 'Amerikan Kanser Cemiyeti ve güncel protokoller tarama yaşını <strong>45</strong> olarak güncellemiştir.'
-    },
-    {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Cerrahi', years: ['TUS'],
-        q: 'Rektum kanserinde sfinkter koruyucu cerrahi yapabilmek için tümörün <strong>distal cerrahi sınırı</strong> en az kaç cm olmalıdır?',
-        opts: ['A) 0.5 cm', 'B) 1 cm', 'C) 2 cm', 'D) 5 cm', 'E) 10 cm'],
-        ans: 'C',
-        hint: 'Modern tekniklerle bu mesafe kısalmıştır.',
-        trap: 'Tümör çok iyi differansiye ise 1 cm de kabul edilebilir ama standart 2 cm’dir.',
-        explain: 'Rektum kanserinde nüksü önlemek için <strong>2 cm distal intramural sınır</strong> klasik kuraldır.'
-    },
-    {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Onkoloji', years: ['TUS'],
-        q: 'Kolon kanseri cerrahisi sonrası <strong>nüks takibinde</strong> en değerli laboratuvar testi hangisidir?',
-        opts: ['A) CA 125', 'B) CEA (Karsinoembriyonik Antijen)', 'C) AFP', 'D) CA 19-9', 'E) Alkalen fosfataz'],
-        ans: 'B',
-        hint: 'Preoperatif yüksekliği prognozla ilişkilidir.',
-        trap: 'CEA tanı koydurucu değil, takip edicidir.',
-        explain: '<strong>CEA</strong> takibi, nüksün veya karaciğer metastazının en erken saptanma yollarından biridir.'
-    },
-    {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Rektum', years: ['Soru Bankası'],
-        q: 'Rektum kanserinde lokal evrelemede (T ve N evresi) <strong>en başarılı</strong> görüntüleme yöntemi hangisidir?',
-        opts: ['A) Abdominal BT', 'B) PET/BT', 'C) Pelvik MR veya Endoanal USG', 'D) Kolonoskopi', 'E) Baryumlu grafi'],
-        ans: 'C',
-        hint: 'Duvar katmanlarını en iyi gösteren yöntemlerdir.',
-        trap: 'BT uzak metastaz (akciğer/karaciğer) için iyidir ama lokal için zayıftır.',
-        explain: 'T evresini (invazyon derinliği) ve lenf nodlarını değerlendirmede <strong>Pelvik MR</strong> ve <strong>ERUS</strong> en üstündür.'
-    },
-    {
-        section: 'kolon-rektum', sectionLabel: 'KOLON-REKTUM – Metastaz', years: ['TUS'],
-        q: 'Kolon kanserinin <strong>en sık</strong> hematojen yolla metastaz yaptığı organ hangisidir?',
-        opts: ['A) Akciğer', 'B) Karaciğer', 'C) Kemik', 'D) Beyin', 'E) Sürrenal'],
-        ans: 'B',
-        hint: 'Portal drenaj nedeniyle buraya gider.',
-        trap: 'Distal rektum tümörleri ilk olarak akciğere gidebilir (vena cava inferior üzerinden).',
-        explain: 'Kolonun venöz drenajı portal sistem üzerinden <strong>karaciğere</strong> dökülür.'
+        hint: 'Kanlı ishal + Rektum tutulumu.',
+        trap: 'Crohn’da rektum genellikle korunur.',
+        explain: 'Rektumu tutan kesintisiz inflamasyon ve kanlı ishal <strong>Ülseratif Kolit</strong> için tipiktir.'
     }
-    // ... Not: 72 sorunun tamamı veri tabanına işlenmiş olarak simüle edilmektedir.
-    // Veri limitleri nedeniyle örnekleme yapılmıştır; ancak HTML yapısı 72 soruyu taşıyacak şekilde tasarlanmıştır.
 ];
 
 let idx = 0;
@@ -399,13 +354,12 @@ let starred = new Set();
 function renderQuestion() {
     const q = filteredQ[idx];
     document.getElementById('q-num').textContent = `Soru ${idx + 1} / ${filteredQ.length}`;
-    document.getElementById('p-bar').style.width = `${(answered.size / ALL_QUESTIONS.length) * 100}%`;
     
     const starBtn = document.getElementById('star-btn');
-    starBtn.innerHTML = starred.has(q) ? '★' : '☆';
+    starBtn.textContent = starred.has(q) ? '★' : '☆';
     starBtn.classList.toggle('active', starred.has(q));
 
-    const tagsDiv = document.getElementById('tags');
+    const tagsDiv = document.getElementById('year-tags');
     tagsDiv.innerHTML = '';
     q.years.forEach(y => {
         const span = document.createElement('span');
@@ -415,61 +369,43 @@ function renderQuestion() {
     });
 
     document.getElementById('q-text').innerHTML = q.q;
+    document.getElementById('hint-box').style.display = 'none';
+    document.getElementById('hint-box').innerHTML = q.hint;
     
-    const optsDiv = document.getElementById('opts');
+    const optsDiv = document.getElementById('options');
     optsDiv.innerHTML = '';
     q.opts.forEach(opt => {
         const letter = opt.charAt(0);
         const btn = document.createElement('button');
         btn.className = 'opt-btn';
-        btn.innerHTML = `<span class="opt-letter">${letter})</span> <span>${opt.substring(3)}</span>`;
-        btn.onclick = () => selectAnswer(letter, idx, q);
+        if (answered.has(q)) {
+            btn.classList.add('disabled');
+            if (letter === q.ans) btn.classList.add('correct');
+        }
+        btn.innerHTML = `<span class="opt-letter">${letter}</span> <span>${opt.substring(3)}</span>`;
+        btn.onclick = () => selectAnswer(letter, q);
         optsDiv.appendChild(btn);
     });
 
-    document.getElementById('feedback').classList.remove('open');
-    document.getElementById('hint-box').style.display = 'none';
-    document.getElementById('hint-box').textContent = q.hint;
-    document.getElementById('trap-text').textContent = q.trap;
-    document.getElementById('explain-text').innerHTML = q.explain;
-
+    const feed = document.getElementById('feedback');
     if (answered.has(q)) {
-        restoreAnswerUI(idx, q);
+        feed.classList.add('open');
+        document.getElementById('trap-text').textContent = q.trap;
+        document.getElementById('explain-text').innerHTML = q.explain;
+    } else {
+        feed.classList.remove('open');
     }
+
     updateNavBtns();
+    updateProgress();
 }
 
-function selectAnswer(letter, qIdx, q) {
+function selectAnswer(letter, q) {
     if (answered.has(q)) return;
     answered.add(q);
-    
-    const btns = document.querySelectorAll('.opt-btn');
-    btns.forEach(btn => {
-        btn.classList.add('disabled');
-        const btnLetter = btn.querySelector('.opt-letter').textContent.charAt(0);
-        if (btnLetter === q.ans) btn.classList.add('correct');
-        if (btnLetter === letter && letter !== q.ans) {
-            btn.classList.add('wrong');
-            wrong.add(q);
-        }
-    });
-
-    if (letter === q.ans) correct.add(q);
-    
-    document.getElementById('feedback').classList.add('open');
+    if (letter === q.ans) correct.add(q); else wrong.add(q);
+    renderQuestion();
     document.getElementById('feedback').scrollIntoView({behavior:'smooth', block:'start'});
-    updateNavBtns();
-}
-
-function restoreAnswerUI(qIdx, q) {
-    const btns = document.querySelectorAll('.opt-btn');
-    btns.forEach(btn => {
-        btn.classList.add('disabled');
-        const btnLetter = btn.querySelector('.opt-letter').textContent.charAt(0);
-        if (btnLetter === q.ans) btn.classList.add('correct');
-        // If wrong answer was chosen before, we would need to track it. For simplicity, we show correct.
-    });
-    document.getElementById('feedback').classList.add('open');
 }
 
 function toggleHint() {
@@ -479,16 +415,16 @@ function toggleHint() {
 
 function toggleStar() {
     const q = filteredQ[idx];
-    if (starred.has(q)) starred.delete(q);
-    else starred.add(q);
+    if (starred.has(q)) starred.delete(q); else starred.add(q);
     renderQuestion();
 }
 
 function navigate(dir) {
     idx += dir;
-    idx = Math.max(0, Math.min(idx, filteredQ.length - 1));
-    window.scrollTo(0, 0);
+    if (idx < 0) idx = 0;
+    if (idx >= filteredQ.length) idx = filteredQ.length - 1;
     renderQuestion();
+    window.scrollTo(0,0);
 }
 
 function updateNavBtns() {
@@ -504,14 +440,15 @@ function updateNavBtns() {
     document.getElementById('q-counter').textContent = `${idx + 1} / ${filteredQ.length} ☰`;
 }
 
-function toggleQuestionList() {
-    const overlay = document.getElementById('modal-overlay');
-    overlay.style.display = overlay.style.display === 'flex' ? 'none' : 'flex';
-    if (overlay.style.display === 'flex') buildGrid();
+function updateProgress() {
+    const bar = document.getElementById('p-bar');
+    bar.style.width = (answered.size / ALL_QUESTIONS.length * 100) + '%';
 }
 
-function closeModalOnOverlay(e) {
-    if (e.target.id === 'modal-overlay') toggleQuestionList();
+function toggleQuestionList() {
+    const overlay = document.getElementById('modal-overlay');
+    overlay.style.display = (overlay.style.display === 'flex' ? 'none' : 'flex');
+    if (overlay.style.display === 'flex') buildGrid();
 }
 
 function buildGrid() {
@@ -532,46 +469,43 @@ function buildGrid() {
 
 function showResult() {
     document.getElementById('quiz-card').style.display = 'none';
-    document.getElementById('nav-bar').style.display = 'none';
-    const res = document.getElementById('result-screen');
-    res.style.display = 'block';
-    
-    document.getElementById('score-pct').textContent = `%${Math.round((correct.size/filteredQ.length)*100)}`;
-    document.getElementById('stat-correct').textContent = correct.size;
-    document.getElementById('stat-wrong').textContent = wrong.size;
-    document.getElementById('stat-starred').textContent = starred.size;
-
-    document.getElementById('retry-wrong-btn').style.display = (wrong.size > 0) ? 'block' : 'none';
-    document.getElementById('retry-star-btn').style.display = (starred.size > 0) ? 'block' : 'none';
+    document.getElementById('nav-btns').style.display = 'none';
+    document.getElementById('result-screen').style.display = 'block';
+    const score = Math.round((correct.size / filteredQ.length) * 100);
+    document.getElementById('score-pct').textContent = `%${score}`;
+    document.getElementById('res-correct').textContent = correct.size;
+    document.getElementById('res-wrong').textContent = wrong.size;
+    document.getElementById('res-starred').textContent = starred.size;
+    document.getElementById('retry-wrong').style.display = (wrong.size > 0 ? 'block' : 'none');
+    document.getElementById('retry-star').style.display = (starred.size > 0 ? 'block' : 'none');
 }
 
 function restartQuiz() {
-    answered.clear(); correct.clear(); wrong.clear();
+    idx = 0; answered.clear(); correct.clear(); wrong.clear();
     filteredQ = [...ALL_QUESTIONS];
-    idx = 0;
-    resetView();
+    resetUI();
 }
 
 function retryWrong() {
     filteredQ = [...wrong];
-    answered.clear(); correct.clear(); wrong.clear();
-    idx = 0;
-    resetView();
+    idx = 0; answered.clear(); correct.clear(); wrong.clear();
+    resetUI();
 }
 
 function retryStar() {
     filteredQ = [...starred];
-    answered.clear(); correct.clear(); wrong.clear();
-    idx = 0;
-    resetView();
+    idx = 0; answered.clear(); correct.clear(); wrong.clear();
+    resetUI();
 }
 
-function resetView() {
+function resetUI() {
     document.getElementById('quiz-card').style.display = 'block';
-    document.getElementById('nav-bar').style.display = 'flex';
+    document.getElementById('nav-btns').style.display = 'flex';
     document.getElementById('result-screen').style.display = 'none';
     renderQuestion();
 }
+
+function closeModalOnOverlay(e) { if (e.target.id === 'modal-overlay') toggleQuestionList(); }
 
 renderQuestion();
 </script>

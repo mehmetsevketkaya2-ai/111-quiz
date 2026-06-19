@@ -3,507 +3,505 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mide Quiz – PART 4</title>
+<title>TUS Quiz – Obezite Cerrahisi & İnce Bağırsak PART 4</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;--accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;--green:#3ecf74;--red:#f0476d;--text:#dde3f5;--muted:#7b85a8}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding:0 0 60px}
-.progress-wrap{position:fixed;top:0;left:0;width:100%;height:3px;background:var(--surface);z-index:100}
-.progress-bar{height:3px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s ease}
-.section-badge{text-align:center;padding:20px 16px 4px;font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--accent2);letter-spacing:.12em;text-transform:uppercase}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;margin:12px auto;max-width:780px;padding:24px 24px 20px;box-shadow:0 4px 32px #0008}
-.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-#q-num{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted)}
-#star-btn{background:none;border:none;cursor:pointer;font-size:1.4rem;color:var(--gold);opacity:.45;transition:opacity .2s,transform .15s;line-height:1}
-#star-btn.starred{opacity:1;transform:scale(1.15)}
-.year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
-.year-tag{font-family:'IBM Plex Mono',monospace;font-size:.68rem;background:var(--surface);color:var(--accent);border:1px solid var(--border);border-radius:6px;padding:2px 8px}
-#q-text{font-size:1.02rem;line-height:1.7;margin-bottom:16px;color:var(--text)}
-#q-text b{color:#fff}
-.hint-toggle{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:.78rem;padding:5px 12px;cursor:pointer;margin-bottom:10px;font-family:'IBM Plex Mono',monospace;transition:border-color .2s,color .2s}
-.hint-toggle:hover{border-color:var(--accent);color:var(--accent)}
-#hint-box{display:none;background:var(--surface);border:1px solid var(--accent);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:.88rem;line-height:1.6;color:var(--text)}
-#hint-box.open{display:block}
-.options{display:flex;flex-direction:column;gap:8px}
-.opt-btn{display:flex;align-items:flex-start;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 14px;cursor:pointer;text-align:left;color:var(--text);font-size:.93rem;line-height:1.55;transition:border-color .15s,background .15s;width:100%}
-.opt-btn:hover:not(:disabled){border-color:var(--accent);background:#232740}
-.opt-letter{font-family:'IBM Plex Mono',monospace;font-size:.82rem;font-weight:600;color:var(--accent);min-width:20px;padding-top:1px}
-.opt-btn.correct{border-color:var(--green);background:#1a3325;color:#fff}
-.opt-btn.correct .opt-letter{color:var(--green)}
-.opt-btn.wrong{border-color:var(--red);background:#2d1520;color:#fff}
-.opt-btn.wrong .opt-letter{color:var(--red)}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding-bottom:80px}
+#progress-bar{position:fixed;top:0;left:0;width:100%;height:3px;background:var(--border);z-index:100}
+#progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .3s ease}
+.container{max-width:700px;margin:0 auto;padding:24px 16px 16px}
+.section-badge{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--accent2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 20px 18px;margin-bottom:16px}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.q-num{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted)}
+.star-btn{background:none;border:none;cursor:pointer;font-size:1.3rem;color:var(--muted);transition:color .2s}
+.star-btn.starred{color:var(--gold)}
+.q-text{font-size:1.02rem;line-height:1.6;margin-bottom:16px}
+.hint-btn{font-family:'IBM Plex Mono',monospace;font-size:.75rem;border:1px solid var(--border);background:none;color:var(--muted);padding:6px 14px;border-radius:8px;cursor:pointer;margin-bottom:10px;transition:color .2s,border-color .2s}
+.hint-btn:hover{color:var(--accent);border-color:var(--accent)}
+.hint-box{background:var(--surface);border:1px solid var(--accent);border-radius:10px;padding:12px 14px;margin-bottom:12px;font-size:.88rem;line-height:1.5;display:none}
+.hint-box.visible{display:block}
+.opts{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.opt-btn{display:flex;align-items:flex-start;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 14px;cursor:pointer;text-align:left;font-size:.92rem;font-family:'Inter',sans-serif;color:var(--text);transition:border-color .2s,background .2s;line-height:1.4}
+.opt-btn:hover:not(:disabled){border-color:var(--accent)}
 .opt-btn:disabled{cursor:default}
-.feedback{display:none;margin-top:16px}
-.feedback.open{display:block}
-.trap-box{background:#1e1525;border:1px solid var(--accent2);border-radius:10px;padding:14px 16px;margin-bottom:12px}
-.trap-title{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--accent2);letter-spacing:.08em;margin-bottom:6px}
-.trap-text{font-size:.88rem;line-height:1.65;color:var(--text)}
-.trap-text b{color:#f0a0b8}
-.explain-box{background:#141b2e;border:1px solid var(--accent);border-radius:10px;padding:14px 16px}
-.explain-title{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--accent);letter-spacing:.08em;margin-bottom:6px}
-.explain-text{font-size:.88rem;line-height:1.7;color:var(--text)}
-.explain-text b{color:#a8d8ff}
-.nav{display:flex;justify-content:space-between;align-items:center;max-width:780px;margin:14px auto 0;padding:0 12px;gap:8px}
-.nav-btn{background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:.88rem;padding:9px 18px;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:border-color .2s,color .2s;white-space:nowrap}
-.nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
-.nav-btn:disabled{opacity:.35;cursor:default}
-#next-btn.result-mode{border-color:var(--accent2);color:var(--accent2)}
-#q-counter{flex:1;max-width:160px;text-align:center;font-size:.82rem}
-.q-modal-overlay{position:fixed;inset:0;background:#0009;z-index:200;display:none;align-items:flex-end;justify-content:center}
-.q-modal-overlay.open{display:flex}
-.q-modal{background:var(--surface);border-top:1px solid var(--border);border-radius:18px 18px 0 0;width:100%;max-width:780px;max-height:70vh;overflow-y:auto;padding:20px 16px 40px}
-.q-modal-title{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted);text-align:center;margin-bottom:14px}
-.q-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
-.q-grid-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:.8rem;padding:9px 4px;cursor:pointer;text-align:center;transition:all .15s}
-.q-grid-btn.current{background:var(--accent);border-color:var(--accent);color:#fff}
-.q-grid-btn.done-correct{background:#1a3325;border-color:var(--green);color:var(--green)}
-.q-grid-btn.done-wrong{background:#2d1520;border-color:var(--red);color:var(--red)}
-.q-grid-btn.starred-q{box-shadow:0 0 0 2px var(--gold)}
-#result-screen{display:none;max-width:780px;margin:40px auto;padding:0 12px}
-.result-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px 24px;text-align:center}
-.score-pct{font-size:3.5rem;font-weight:700;font-family:'IBM Plex Mono',monospace;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
-.score-sub{color:var(--muted);font-size:.9rem;margin-bottom:24px}
-.score-stats{display:flex;justify-content:center;gap:24px;margin-bottom:28px;flex-wrap:wrap}
-.stat{text-align:center}
-.stat-val{font-family:'IBM Plex Mono',monospace;font-size:1.5rem;font-weight:600}
-.stat-lbl{font-size:.75rem;color:var(--muted);margin-top:2px}
-.stat.correct .stat-val{color:var(--green)}
-.stat.wrong .stat-val{color:var(--red)}
-.stat.starred .stat-val{color:var(--gold)}
-.result-btns{display:flex;flex-direction:column;gap:10px}
-.res-btn{border-radius:10px;padding:12px;font-size:.9rem;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:'Inter',sans-serif;transition:border-color .2s,color .2s}
-.res-btn:hover{border-color:var(--accent);color:var(--accent)}
-.res-btn.primary{border-color:var(--accent);color:var(--accent)}
-.part-note{margin-top:16px;background:#1e1525;border:1px solid var(--accent2);border-radius:10px;padding:14px 16px;font-size:.85rem;color:var(--accent2);text-align:left}
+.opt-btn.correct{border-color:var(--green)!important;background:rgba(62,207,116,.1)!important}
+.opt-btn.wrong{border-color:var(--red)!important;background:rgba(240,71,109,.1)!important}
+.opt-letter{font-family:'IBM Plex Mono',monospace;font-size:.8rem;font-weight:600;min-width:18px}
+.trap-box{background:#1e1525;border:1px solid var(--accent2);border-radius:10px;padding:12px 14px;margin-bottom:10px;display:none}
+.trap-box.visible{display:block}
+.trap-title{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--accent2);margin-bottom:6px}
+.trap-text{font-size:.86rem;line-height:1.5}
+.explain-box{background:#141b2e;border:1px solid var(--accent);border-radius:10px;padding:12px 14px;display:none}
+.explain-box.visible{display:block}
+.explain-title{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--accent);margin-bottom:6px}
+.explain-text{font-size:.86rem;line-height:1.6}
+.nav{position:fixed;bottom:0;left:0;width:100%;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:10px 16px;z-index:50}
+.nav-btn{font-family:'IBM Plex Mono',monospace;font-size:.8rem;background:none;border:1px solid var(--border);color:var(--text);padding:8px 16px;border-radius:8px;cursor:pointer;transition:border-color .2s,color .2s}
+.nav-btn:hover{border-color:var(--accent);color:var(--accent)}
+.nav-btn:disabled{opacity:.4;cursor:default}
+.nav-center{font-family:'IBM Plex Mono',monospace;font-size:.82rem;color:var(--muted);cursor:pointer;padding:6px 12px;border-radius:8px;border:1px solid var(--border);transition:border-color .2s}
+.nav-center:hover{border-color:var(--accent2)}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:none;align-items:flex-end}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border-top:1px solid var(--border);border-radius:16px 16px 0 0;width:100%;max-height:60vh;overflow-y:auto;padding:20px 16px}
+.modal-title{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--muted);margin-bottom:14px;text-align:center}
+.modal-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.modal-item{font-family:'IBM Plex Mono',monospace;font-size:.75rem;padding:8px 4px;border-radius:8px;border:1px solid var(--border);text-align:center;cursor:pointer;transition:border-color .2s}
+.modal-item:hover{border-color:var(--accent)}
+.modal-item.correct-m{background:rgba(62,207,116,.18);border-color:var(--green);color:var(--green)}
+.modal-item.wrong-m{background:rgba(240,71,109,.18);border-color:var(--red);color:var(--red)}
+.modal-item.starred-m{box-shadow:0 0 0 2px var(--gold)}
+.result-screen{display:none;text-align:center;padding:40px 20px}
+.result-screen.show{display:block}
+.result-pct{font-family:'IBM Plex Mono',monospace;font-size:3.5rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.result-stats{display:flex;gap:16px;justify-content:center;margin:20px 0;flex-wrap:wrap}
+.stat-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 20px;font-family:'IBM Plex Mono',monospace;font-size:.85rem}
+.stat-val{font-size:1.5rem;font-weight:700;display:block}
+.stat-lbl{color:var(--muted);font-size:.72rem}
+.result-btns{display:flex;flex-direction:column;gap:10px;max-width:320px;margin:0 auto 24px}
+.res-btn{font-family:'IBM Plex Mono',monospace;font-size:.82rem;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;transition:border-color .2s}
+.res-btn:hover{border-color:var(--accent)}
+.finish-box{border:1px solid var(--green);background:rgba(62,207,116,.08);border-radius:12px;padding:16px;max-width:420px;margin:0 auto;font-size:.88rem;line-height:1.6;color:var(--text)}
+.finish-box span{font-family:'IBM Plex Mono',monospace;color:var(--green);font-weight:600}
 </style>
 </head>
 <body>
-<div class="progress-wrap"><div class="progress-bar" id="progress-bar"></div></div>
-<div class="section-badge" id="section-badge">MİDE – PART 4 / SAYFA 36–39 (SON)</div>
-<div class="card" id="quiz-card">
-  <div class="q-header">
-    <span id="q-num">Soru 1/35</span>
-    <button id="star-btn" onclick="toggleStar()">☆</button>
-  </div>
-  <div class="year-tags" id="year-tags"></div>
-  <div id="q-text"></div>
-  <button class="hint-toggle" onclick="toggleHint()">💡 İpucu</button>
-  <div id="hint-box"></div>
-  <div class="options" id="options"></div>
-  <div class="feedback" id="feedback">
-    <div class="trap-box"><div class="trap-title">⚠️ TUZAK NOKTA</div><div class="trap-text" id="trap-text"></div></div>
-    <div class="explain-box"><div class="explain-title">📖 AÇIKLAMA</div><div class="explain-text" id="explain-text"></div></div>
+<div id="progress-bar"><div id="progress-fill" style="width:0%"></div></div>
+<div class="container" id="quiz-container"></div>
+<div class="nav" id="nav-bar">
+  <button class="nav-btn" id="btn-prev" onclick="navigate(-1)">← Önceki</button>
+  <div class="nav-center" onclick="openModal()"><span id="nav-info">1 / 32 ☰</span></div>
+  <button class="nav-btn" id="btn-next" onclick="navigate(1)">Sonraki →</button>
+</div>
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-title">SORU LİSTESİ</div>
+    <div class="modal-grid" id="modal-grid"></div>
   </div>
 </div>
-<div class="nav">
-  <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">← Önceki</button>
-  <button class="nav-btn" id="q-counter" onclick="toggleQuestionList()">1 / 35 ☰</button>
-  <button class="nav-btn" id="next-btn" onclick="navigate(1)">Sonraki →</button>
-</div>
-<div id="result-screen">
-  <div class="result-card">
-    <div class="score-pct" id="score-pct">0%</div>
-    <div class="score-sub" id="score-sub"></div>
-    <div class="score-stats">
-      <div class="stat correct"><div class="stat-val" id="r-correct">0</div><div class="stat-lbl">Doğru</div></div>
-      <div class="stat wrong"><div class="stat-val" id="r-wrong">0</div><div class="stat-lbl">Yanlış</div></div>
-      <div class="stat starred"><div class="stat-val" id="r-starred">0</div><div class="stat-lbl">Yıldızlı</div></div>
-    </div>
-    <div class="result-btns">
-      <button class="res-btn primary" onclick="restartQuiz()">🔄 Tüm Soruları Yeniden Çöz</button>
-      <button class="res-btn" id="retry-wrong-btn" onclick="retryWrong()">✗ Yanlışları Tekrar Çöz</button>
-      <button class="res-btn" id="retry-star-btn" onclick="retryStar()">★ Yıldızlıları Tekrar Çöz</button>
-    </div>
-    <div class="part-note">🏁 <b>Mide konusu tamamlandı!</b><br>Part 1–4 toplam ~153 soru · Sayfa 25–39 arası tüm fosforlu bilgiler işlendi.</div>
+<div class="result-screen" id="result-screen">
+  <div class="result-pct" id="res-pct"></div>
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--muted);margin-bottom:16px">Başarı Oranı</div>
+  <div class="result-stats">
+    <div class="stat-box"><span class="stat-val" id="s-correct" style="color:var(--green)"></span><span class="stat-lbl">Doğru</span></div>
+    <div class="stat-box"><span class="stat-val" id="s-wrong" style="color:var(--red)"></span><span class="stat-lbl">Yanlış</span></div>
+    <div class="stat-box"><span class="stat-val" id="s-total"></span><span class="stat-lbl">Toplam</span></div>
+    <div class="stat-box"><span class="stat-val" id="s-starred" style="color:var(--gold)"></span><span class="stat-lbl">Yıldızlı</span></div>
+  </div>
+  <div class="result-btns">
+    <button class="res-btn" onclick="restart('all')">🔄 Tüm Soruları Yeniden Çöz</button>
+    <button class="res-btn" id="btn-wrong-restart" onclick="restart('wrong')" style="display:none">❌ Yanlışları Tekrar Çöz</button>
+    <button class="res-btn" id="btn-star-restart" onclick="restart('starred')" style="display:none">⭐ Yıldızlıları Tekrar Çöz</button>
+  </div>
+  <div class="finish-box">
+    <span>✅ TAMAMLANDI!</span><br>
+    Sayfa 39–65 arası tüm fosforlu bilgiler soru haline getirildi.<br><br>
+    <b>Toplam 4 PART:</b><br>
+    PART 1 → Sayfa 39–43 (30 soru)<br>
+    PART 2 → Sayfa 44–49 (35 soru)<br>
+    PART 3 → Sayfa 50–57 (30 soru)<br>
+    PART 4 → Sayfa 58–65 (32 soru)
   </div>
 </div>
-<div class="q-modal-overlay" id="q-modal-overlay" onclick="closeModalOnOverlay(event)">
-  <div class="q-modal">
-    <div class="q-modal-title">SORU LİSTESİ</div>
-    <div class="q-grid" id="q-grid"></div>
-  </div>
-</div>
+
 <script>
 const ALL_QUESTIONS = [
-  // SAYFA 36 – BİLATERAL TRUNKAL VAGOTOMİ
+  // Q1 → C
   {
-    years:['Sayfa 36 – Bilateral Trunkal Vagotomi'],
-    q:'Bilateral trunkal vagotomide özofagus distalinde hangi vagus dalları kesilir?',
-    opts:['A) Yalnızca sol vagus hepatik dalı','B) Yalnızca sağ vagus çölyak dalı','C) Ön ve arka vagus, hepatik ve çölyak dallarını vermeden kesilir','D) Yalnızca Latarjet siniri','E) Yalnızca Grassi siniri'],
+    years:['Sayfa 58 – Morbid Obezite Tanımı'],
+    q:'Morbid obezite nasıl tanımlanır?',
+    opts:['A) VKİ ≥30 kg/m²','B) İdeal vücut ağırlığının 1,5 katı veya VKİ ≥35 kg/m²','C) İdeal vücut ağırlığının 2 katı veya VKİ\'nin 40 kg/m² olması','D) VKİ ≥35 kg/m² ve en az 1 komorbidite','E) VKİ ≥50 kg/m²'],
     ans:'C',
-    hint:'🔑 Özofagus distalinde ön ve arka vagus hepatik ve çölyak dallarını vermeden kesilir.',
-    trap:'Trunkal vagotomide dallar verilmeden kesilir; bu nedenle <b>pilor denervasyonu olur ve drenaj prosedürü zorunludur.</b>',
-    explain:'<b>Bilateral trunkal vagotomide özofagus distalinde ön ve arka vagus, hepatik ve çölyak dallarını vermeden kesilir.</b> Pilor innervasyonu bozulduğu için özellikle katı gıdaların mide boşalımı gecikir. Bu nedenle mutlaka drenaj prosedürü (piloroplasti veya gastrojejunostomi) eklenmelidir.',
+    hint:'🔑 Morbid obezite: <b>ideal vücut ağırlığının 2 katı veya VKİ\'nin 40 kg/m²</b> olması olarak tanımlanır.',
+    trap:'VKİ ≥35 ciddi obezitedir (Sınıf 2); morbid obezite için eşik <b>VKİ ≥40</b> (veya ideal ağırlığın 2 katı)dır.',
+    explain:'<b>Morbid obezite</b>: ideal vücut ağırlığının 2 katı veya <b>VKİ\'nin 40 kg/m² olması</b> olarak tanımlanır. VKİ sınıflaması: 18.5-24.9 Normal, 25-29.9 Fazla Kilolu, 30-34.9 Obez (Sınıf 1), 35-39.9 Ciddi Obez (Sınıf 2), ≥40 Morbid Obez (Sınıf 3), >60 Süper Obez.'
   },
+  // Q2 → A
   {
-    years:['Sayfa 36 – Bilateral Trunkal Vagotomi'],
-    q:'Bilateral trunkal vagotomide pilor innervasyonu bozulduğundan hangi prosedür zorunlu olarak eklenmek zorundadır?',
-    opts:['A) Antrektomi','B) Gastrektomi','C) Drenaj prosedürü (piloroplasti veya gastrojejunostomi)','D) Fundoplikasyon','E) Özofagojejunostomi'],
-    ans:'C',
-    hint:'🔑 Bu nedenle mutlaka drenaj prosedürü (piloroplasti veya gastrojejunostomi) eklenmelidir.',
-    trap:'Trunkal vagotomiye antrektomi eklenmesi seçenek olsa da <b>zorunlu olan drenaj prosedürüdür</b> (piloroplasti veya gastrojejunostomi).',
-    explain:'<b>Trunkal vagotomide pilor innervasyonu bozulduğundan mutlaka drenaj prosedürü (piloroplasti veya gastrojejunostomi) eklenmelidir.</b> Gastrik çıkış tıkanıklığında gastrojejunostomi iyi bir seçenektir. Piloroplasti; kanama gibi komplikasyonlar, pilorik bölgede skar olan ve gastrojejunostominin teknik olarak mümkün olmadığı hastalarda uygun alternatiftir.',
+    years:['Sayfa 58 – Obezite Genetiği'],
+    q:'FTO geni obezitedeki rolü nedir?',
+    opts:['A) Yağ kütlesi ve obezite ile ilişkili beslenme davranışı ve enerji tüketimini kontrol etmede rol oynar','B) Melanokrotin 4 reseptörünü kodlar ve insülin direncine yol açar','C) Leptin üretimini düzenler','D) Ghrelin sentezinden sorumludur','E) İştah azalmasına neden olan anoreksijenik bir hormonu kodlar'],
+    ans:'A',
+    hint:'🔑 <b>FTO geni</b>: yağ kütlesi ve obezite ile ilişkili beslenme davranışı ve enerji tüketimini kontrol etmede rol oynar.',
+    trap:'MC4R insülin direnci ve yağ kütlesi artışıyla ilişkilidir. <b>FTO</b> ise beslenme davranışı ve enerji tüketimi üzerinden etki eder.',
+    explain:'Ailesel yatkınlık vardır ve tek bir aile üyesinin ciddi obeziteye sahip olması nadirdir. <b>FTO geni</b> (yağ kütlesi ve obezite ile ilişkili), beslenme davranışı ve enerji tüketimini kontrol etmede rol oynar. <b>MC4R eksiklik geni</b> (melanokrotin 4 reseptörü) ise obezite, yağ kütlesinde artış ve insülin direnci ile ilişkilidir. Morbid obezitenin <b>en sık tek gen etiyolojisi MC4R</b>dir.'
   },
-  // SAYFA 36 – SELEKTİF VAGOTOMİ
+  // Q3 → E
   {
-    years:['Sayfa 36 – Selektif Vagotomi'],
-    q:'Selektif vagotomide sinirler nerede kesilir ve trunkal vagotomiye kıyasla dezavantajı nedir?',
-    opts:['A) Özofagus distalinde; daha düşük rekürrens','B) Çölyak ve hepatik dalların hemen distalinden; daha yüksek rekürrens oranları','C) İncisura angulariste; drenaj gerektirmez','D) Kardia düzeyinde; daha az komplikasyon','E) Pilorik düzeyde; daha az yan etki'],
-    ans:'B',
-    hint:'🔑 Selektif vagotomide çölyak ve hepatik dalların hemen distalinden sağ ve sol vagus ayrılır. Trunkal vagotomiye göre daha yüksek rekürrens oranlarına neden olur.',
-    trap:'Selektif vagotominin daha iyi olduğu sanılabilir. Ancak <b>selektif vagotomi trunkal vagotomiye göre DAHA YÜKSEK rekürrens oranına sahiptir</b> ve büyük ölçüde terk edilmiştir.',
-    explain:'<b>Selektif vagotomide çölyak ve hepatik dalların hemen distalinden sağ ve sol vagus ayrılır; drenaj prosedürü gereklidir.</b> Trunkal vagotomiye göre <b>daha yüksek rekürrens oranlarına</b> neden olur. Bu nedenle <b>selektif vagotomi büyük ölçüde terk edilmiştir.</b>',
+    years:['Sayfa 58 – Ghrelin'],
+    q:'Ghrelin hakkında aşağıdakilerden hangisi doğrudur?',
+    opts:['A) İnce bağırsak L-hücrelerinden salgılanır','B) İştah azaltıcı (anoreksijenik) etkisi vardır','C) Yemekten sonra seviyeleri artar','D) Kolesistokinin ile aynı reseptörü paylaşır','E) Bilinen tek oreksijenik bağırsak hormonu olup mide fundusunun P/D1 hücrelerinden salgılanır; seviyeleri yemekten sonra hızla düşer'],
+    ans:'E',
+    hint:'🔑 Ghrelin: <b>tek oreksijenik bağırsak hormonu</b>, mide fundusunun <b>P/D1 hücrelerinden</b> salgılanır, yemekten sonra seviyeleri <b>hızla düşer</b>.',
+    trap:'GLP-1 L-hücrelerinden salgılanır ve anoreksijenik etkilidir. Ghrelin ise <b>oreksijenik</b> (iştah artırıcı) ve <b>mide fundusundan</b> salgılanır.',
+    explain:'<b>Ghrelin</b>: bilinen tek oreksijenik bağırsak hormonu; açlık hormonu olarak da bilinir. <b>Mide fundusunun P/D1 hücrelerinden</b> dolaşıma salınır. Hipotalamustan nöropeptit Y ve büyüme hormonu gibi çeşitli nöropeptitlerin salınmasını uyararak iştah artışı yaratır. Artan ghrelin seviyeleri artan gıda alımına neden olur. <b>Yemekten sonra hızla düşer</b>. Tokluktan sonra da yüksekse diyetler başarısız olur.'
   },
-  // SAYFA 36 – YÜKSEK SELEKTİF VAGOTOMİ
+  // Q4 → D
   {
-    years:['Sayfa 36 – Yüksek Selektif Vagotomi'],
-    q:'Yüksek selektif vagotomide (YSV) hangi sinirler kesilir ve hangi yapıların innervasyonu korunur?',
-    opts:['A) Tüm vagus dalları kesilir; hiçbiri korunmaz','B) Sadece parietal hücrelerin proksimal sinirleri kesilir; antrum ve pilorun vagal innervasyonu bozulmaz','C) Grassi siniri kesilir; kaz ayağı korunur','D) Hepatik dal kesilir; çölyak dal korunur','E) Latarjet siniri kesilir; pilorik dal korunur'],
-    ans:'B',
-    hint:'🔑 Sadece parietal hücrelerin bulunduğu midenin proksimal sinirleri kesilir. Antrum ve pilorun vagal innervasyonu bozulmaz.',
-    trap:'YSV\'de kaz ayağı <b>korunur</b>; bu nedenle drenaj gerekmez. <b>Antrum + pilor innervasyonu sağlam kalır.</b>',
-    explain:'<b>Yüksek selektif vagotomide sadece parietal hücrelerin bulunduğu midenin proksimal sinirleri kesilir; midenin fundus ve korpusunu innerve eden kaz ayakları kesilir ama antrum ve pilorun vagal innervasyonu bozulmaz.</b> Bu nedenle drenaj ihtiyacı yoktur.',
-  },
-  {
-    years:['Sayfa 36 – Yüksek Selektif Vagotomi'],
-    q:'Yüksek selektif vagotominin (YSV) diğer vagotomi türlerine kıyasla avantajları ve dezavantajı nedir?',
-    opts:['A) Morbidite en yüksek, nüks en düşük','B) Morbidite ve mortalitesi en düşük, nüksü en yüksek peptik ülser prosedürüdür','C) Morbidite ve mortalitesi en yüksek, nüksü en düşük','D) Tüm vagotomiler arasında en yüksek morbidite ve nüks','E) Nüks ve morbidite trunkal vagotomiyle eşit'],
-    ans:'B',
-    hint:'🔑 Morbidite ve mortalitesi en düşük, nüksü en yüksek peptik ülser prosedürüdür.',
-    trap:'YSV en güvenli prosedür (en düşük morbidite/mortalite) ama aynı zamanda <b>en yüksek nüks oranına</b> sahiptir. Bu ikilem TUS\'ta sık sorulur.',
-    explain:'<b>Yüksek selektif vagotomi (YSV): morbidite ve mortalitesi en düşük, nüksü en yüksek peptik ülser prosedürüdür.</b> Drenaj ihtiyacı yoktur; kaz ayakları pilorun 7 cm proksimaline kadar ayrılır. İdeal olarak antrum ve pilora giden 2-3 dal korunmalıdır.',
-  },
-  {
-    years:['Sayfa 36 – Yüksek Selektif Vagotomi'],
-    q:'YSV sırasında Grassi\'nin kriminal siniri kesilmezse ne olur?',
-    opts:['A) Pilor spazmı gelişir','B) Sıklıkla ülser rekürrensi gelişir','C) Mide boşalması yavaşlar','D) Hepatik iskemi gelişir','E) Diyare gelişir'],
-    ans:'B',
-    hint:'🔑 Grassi\'nin kriminal siniri vagusun sağ dalının proksimal ilk dalını temsil eder ve vagotomi sürecinde bu dal kesilmezse sıklıkla ülser rekürrensi gelişir.',
-    trap:'Grassi sinirinin kriminal olma nedeni: <b>gözden kaçınca vagotomi başarısız olur ve ülser tekrarlar.</b>',
-    explain:'<b>Grassi\'nin kriminal siniri vagusun sağ dalının proksimal ilk dalını temsil eder; vagotomi sürecinde bu dal kesilmezse sıklıkla ülser rekürrensi gelişir.</b> Bu nedenle YSV sırasında bu dalın tanınması ve kesilmesi kritik önem taşır.',
-  },
-  // SAYFA 37 – PARSIYEL GASTREKTOMI
-  {
-    years:['Sayfa 37 – Parsiyel Gastrektomi'],
-    q:'Duodenal ülserler için parsiyel gastrektomi hangi durumlarda standart tedavi olarak önerilir?',
-    opts:['A) Her duodenal ülserde ilk seçenek','B) Medikal tedavi geçerliliği nedeniyle uygun olmasa bile, gastrik ülserlerde kanser riski nedeniyle standart tedavi','C) Yalnızca kanama komplikasyonunda','D) Yalnızca obstrüksiyon geliştiğinde','E) H. pylori pozitif vakalarda'],
-    ans:'B',
-    hint:'🔑 Duodenal ülserler için parsiyel gastrektomi günümüzde medikal tedavi geçerliliği nedeni ile uygun olmasa bile gastrik ülserlerde kanser riski nedeni ile standart tedavi olmalıdır.',
-    trap:'Duodenal ülserde parsiyel gastrektomi artık tercih edilmez; <b>gastrik ülserde kanser riski nedeniyle hâlâ standart kabul edilir.</b>',
-    explain:'<b>Duodenal ülserler için parsiyel gastrektomi günümüzde medikal tedavi geçerliliği nedeniyle uygun olmasa bile, gastrik ülserlerde kanser riski nedeniyle standart tedavi olmalıdır.</b> Gastrik ülserlerde malignite ekarte edilemeyebileceğinden rezeksiyon tercih edilir.',
-  },
-  // SAYFA 37 – PERFORASYONDA CERRAHİ
-  {
-    years:['Sayfa 37 – Perforasyonda Cerrahi'],
-    q:'Perforasyon, günümüzde ameliyat gerektiren en sık komplikasyon olarak kabul edilmektedir. Hemodinamik unstabil, eksüdatif peritonitli ve 24 saatten uzun perforasyonu olan hastalarda ne yapılmalıdır?',
-    opts:['A) Sadece antibiyotik verilir','B) Primer onarım uygulanmalıdır','C) Cerrahi ertelenir','D) Sadece perkütan drenaj yapılır','E) Konservatif tedavi yeterlidir'],
-    ans:'B',
-    hint:'🔑 Hemodinamik unstabil, eksüdatif peritonitli ve 24 saatten uzun perforasyonu olan hastalarda primer onarım uygulanmalıdır.',
-    trap:'Bu hasta grubunda geniş rezeksiyon değil <b>primer onarım (Graham yama)</b> tercih edilir; hasta hemodinamik olarak instabildir.',
-    explain:'<b>Hemodinamik unstabil, eksüdatif peritonitli ve 24 saatten uzun perforasyonu olan hastalarda primer onarım uygulanmalıdır.</b> Perforasyon hikayesi uzun değilse YSV eklenebilir. Perforasyon için gastrik rezeksiyon idealdir; tip 2-3 ülserlerde vagotomi eklenir. Operasyon riski düşük stabil hastalarda gastrik rezeksiyon ideal seçenektir.',
-  },
-  {
-    years:['Sayfa 37 – Perforasyonda Cerrahi'],
-    q:'Perforasyonda gastrik rezeksiyon idealdir; tip kaç gastrik ülserlerde vagotomi eklenir?',
-    opts:['A) Tip 1 ve Tip 4','B) Tip 2 ve Tip 3','C) Tip 4 ve Tip 5','D) Tüm tiplerde','E) Yalnızca Tip 5'],
-    ans:'B',
-    hint:'🔑 Perforasyon için gastrik rezeksiyon ideal olup tip 2-3 ülserlerde vagotomi eklenir.',
-    trap:'Vagotomi her gastrik ülser tipinde eklenmez. <b>Yalnızca Tip 2 ve Tip 3 (artmış asit sekresyonlu tipler) için vagotomi eklenir.</b>',
-    explain:'<b>Perforasyon için gastrik rezeksiyon idealdir; tip 2-3 gastrik ülserlerde vagotomi eklenir.</b> Tip 2 (korpus + duodenal ülser) ve Tip 3 (prepilorik) artmış asit sekresyonuyla karakterizedir; bu nedenle asit azaltıcı vagotomi eklenmesi mantıklıdır.',
-  },
-  // SAYFA 38 – OBSTRÜKSİYONDA CERRAHİ
-  {
-    years:['Sayfa 38 – Obstrüksiyonda Cerrahi'],
-    q:'Peptik ülsere bağlı obstrüksiyonda standart operasyon nedir?',
-    opts:['A) Gastrektomi','B) Vagotomi + antrektomi','C) Yalnızca piloroplasti','D) Vagotomi + gastrojejunostomi','E) Endoskopik dilatasyon'],
-    ans:'B',
-    hint:'🔑 Obstrüksiyona neden olan peptik ülserde standart operasyon vagotomi + antrektomidir.',
-    trap:'Obstrüksiyonda gastrojejunostomi seçenek olsa da <b>standart operasyon vagotomi + antrektomidir.</b> Gastrojejunostomi yalnızca duodenal güdük rezeksiyona uygun değilse alternatiftir.',
-    explain:'<b>Obstrüksiyona neden olan peptik ülserde standart operasyon vagotomi + antrektomidir.</b> Duodenal güdük rezeksiyona uygun değilse vagotomi + gastrojejunostomi uygulanabilir.',
-  },
-  {
-    years:['Sayfa 38 – Obstrüksiyonda Cerrahi'],
-    q:'Duodenal güdük rezeksiyona uygun değilse obstrüksiyonda hangi operasyon uygulanır?',
-    opts:['A) Parsiyel gastrektomi','B) Total gastrektomi','C) Vagotomi + gastrojejunostomi','D) Piloroplasti','E) Özofagojejunostomi'],
-    ans:'C',
-    hint:'🔑 Duodenal güdük rezeksiyona uygun değilse vagotomi + gastrojejunostomi uygulanabilir.',
-    trap:'Standart vagotomi + antrektomi değil; rezeksiyona uygun değilse <b>vagotomi + gastrojejunostomi</b> alternatiftir.',
-    explain:'<b>Duodenal güdük rezeksiyona uygun değilse obstrüksiyonda vagotomi + gastrojejunostomi uygulanabilir.</b> Standart tedavi vagotomi + antrektomidir; gastrojejunostomi ikincil alternatiftir.',
-  },
-  // SAYFA 38 – İNTRAKTABİLİTE CERRAHİSİ
-  {
-    years:['Sayfa 38 – İntraktabilite (Medikal Tedaviye Dirençli Hastalık)'],
-    q:'İntraktabilite (medikal tedaviye dirençli hastalık) nasıl tanımlanır?',
-    opts:['A) 2 haftalık tedavi sonrası iyileşmeme','B) 4 haftalık tedavi sonrası iyileşmeme','C) 8-12 haftalık tedavi sonrası iyileşmeme veya tedavi kesilince nüks etme','D) 6 aylık tedavi sonrası iyileşmeme','E) 1 yıllık tedavi sonrası iyileşmeme'],
-    ans:'C',
-    hint:'🔑 Tanım: 8-12 haftalık tedavi sonrası iyileşmeme veya tedavi kesilince nüks etme.',
-    trap:'2 veya 4 hafta çok kısa; <b>8-12 hafta</b> intraktabilite için gerekli süre eşiğidir.',
-    explain:'<b>İntraktabilite: 8-12 haftalık tedavi sonrası iyileşmeme veya tedavi kesilince nüks etme olarak tanımlanır.</b> %5-10 görülür. İnatçı ülserli hastalarda ilaçların düzgün alındığına, NSAİİ/steroid kullanılmadığına, sigara içilmediğine emin olunup kanser, persistan H. pylori, Crohn, sarkoidoz ve ZES araştırılmalıdır.',
-  },
-  {
-    years:['Sayfa 38 – İntraktabilite'],
-    q:'İntraktabilite cerrahisinde inatçı ülserli hastada operasyon öncesinde hangi durumlar araştırılmalıdır?',
-    opts:['A) Yalnızca H. pylori','B) Kanser, persistan H. pylori, Crohn, sarkoidoz ve ZES','C) Yalnızca ZES','D) Yalnızca kanser','E) Yalnızca Crohn hastalığı'],
-    ans:'B',
-    hint:'🔑 İnatçı ülserli hastalarda kanser, persistan H. pylori, Crohn, sarkoidoz ve ZES araştırılmalıdır.',
-    trap:'Yalnızca H. pylori veya yalnızca ZES araştırmak yetersizdir. <b>Beş olasılığın tümü araştırılmalıdır.</b>',
-    explain:'<b>İnatçı ülserli hastalarda ilaçların düzgün alındığına, NSAİİ/steroid kullanılmadığına, sigara içilmediğine emin olunup kanser, persistan H. pylori, Crohn, sarkoidoz ve ZES araştırılmalıdır.</b> Multipl rekürrens, >2 cm ülser, komplikasyon ve kanser şüphesinde operasyon planlanmalıdır.',
-  },
-  // SAYFA 39 – DEV GASTRİK ÜLSER
-  {
-    years:['Sayfa 39 – Dev Gastrik Ülser'],
-    q:'Dev gastrik ülser nasıl tanımlanır ve genellikle nerede yerleşir?',
-    opts:['A) Çapı >1 cm; fundusta','B) Çapı 2 cm ve üzeri; genellikle küçük kurvatur yerleşimli','C) Çapı >3 cm; büyük kurvaturda','D) Çapı >5 cm; antrumda','E) Çapı >0,5 cm; pilorda'],
-    ans:'B',
-    hint:'🔑 Dev gastrik ülser: çapı 2 cm ve üzeri ülserlere denir. Genellikle küçük kurvatur yerleşimlidir.',
-    trap:'Dev gastrik ülser eşiği <b>2 cm</b>dir, 3 cm değil. Lokalizasyon <b>küçük kurvatur</b>dur.',
-    explain:'<b>Dev gastrik ülser: çapı 2 cm ve üzeri ülserlere denir ve genellikle küçük kurvatur yerleşimlidir.</b> Malignite riski küçük ülserlere göre daha fazladır (%10). Medikal tedavi ile %80 iyileşme görülür.',
-  },
-  {
-    years:['Sayfa 39 – Dev Gastrik Ülser'],
-    q:'Dev gastrik ülserde malignite riski küçük ülserlere kıyasla ne kadardır ve medikal tedaviyle iyileşme oranı nedir?',
-    opts:['A) Malignite riski %1; iyileşme %50','B) Malignite riski %10; iyileşme %80','C) Malignite riski %30; iyileşme %60','D) Malignite riski %50; iyileşme %40','E) Malignite riski %5; iyileşme %90'],
-    ans:'B',
-    hint:'🔑 Malignite riski küçük ülserlere göre daha fazladır (%10). Medikal tedavi ile %80 iyileşme görülür.',
-    trap:'Dev ülserde malignite riski yüksek ama %50 veya %30 değil; <b>%10</b>dur. Medikal tedavi başarısı <b>%80</b>dir.',
-    explain:'<b>Dev gastrik ülserde malignite riski %10\'dur</b> (küçük ülserlere göre daha fazla). <b>Medikal tedavi ile %80 iyileşme görülür.</b> Bu nedenle medikal tedaviye yanıtsız dev gastrik ülserlerde cerrahi düşünülmelidir.',
-  },
-  // SAYFA 39 – MİDE TÜMÖRLERİ (Polipler)
-  {
-    years:['Sayfa 39 – Benign Gastrik Neoplazmlar / Polipler'],
-    q:'Gastrik polipler midenin en sık benign tümörleridir. 1 cm\'den büyük izole polipli hastalarda ne yapılmalıdır?',
-    opts:['A) Yalnızca biyopsi alınır','B) Takip yeterlidir','C) Tam polipektomi yapılmalıdır','D) Parsiyel gastrektomi yapılmalıdır','E) Radyoterapi uygulanır'],
-    ans:'C',
-    hint:'🔑 1 cm\'den büyük izole polipli hastalarda tam polipektomi yapılmalıdır.',
-    trap:'1 cm altı polipler için biyopsi yeterli olabilir; <b>1 cm\'den büyük izole polipte tam polipektomi</b> gerekir.',
-    explain:'<b>1 cm\'den büyük izole polipli hastalarda tam polipektomi yapılmalıdır.</b> Çoklu polipler söz konusu olduğunda ise en büyüğü endoskopik çıkarılmalı ve diğerlerinden biyopsi alınmalıdır. Displazi ve H. pyloriyi değerlendirmek için normal mukoza biyopsileri de yapılmalıdır.',
-  },
-  {
-    years:['Sayfa 39 – Benign Gastrik Neoplazmlar / Polipler'],
-    q:'Çoklu gastrik poliplerde yönetim nasıl olmalıdır?',
-    opts:['A) Hepsini endoskopik çıkar','B) Hepsini cerrahi çıkar','C) En büyüğü endoskopik çıkarılmalı ve diğerlerinden biyopsi alınmalıdır','D) Yalnızca biyopsi alınır','E) Takip yeterlidir'],
-    ans:'C',
-    hint:'🔑 Çoklu polipler: en büyüğü endoskopik çıkarılmalı ve diğerlerinden biyopsi alınmalıdır.',
-    trap:'Tek ve çoklu polip yönetimi farklıdır. Çokluda <b>en büyüğünü çıkar + diğerlerinden biyopsi</b> al.',
-    explain:'<b>Çoklu gastrik poliplerde en büyüğü endoskopik çıkarılmalı ve diğerlerinden biyopsi alınmalıdır.</b> Displazi ve H. pyloriyi değerlendirmek için normal mukoza biyopsileri de yapılmalıdır.',
-  },
-  {
-    years:['Sayfa 39 – Benign Gastrik Neoplazmlar / Polipler'],
-    q:'Hiperplastik polip hangi iki durumla ilişkilidir?',
-    opts:['A) ZES ve gastrinoma','B) NSAİİ kullanımı ve GÖRH','C) H. pylori ve kronik gastrit','D) Çölyak hastalık ve IBH','E) Radyasyon ve kemoterapi'],
-    ans:'C',
-    hint:'🔑 Hiperplastik polip en sık polip tipidir. H. pylori ve kronik gastrit ile ilişkilidir.',
-    trap:'Hiperplastik polip adenomatöz poliple karıştırılmamalı. <b>Hiperplastik = H. pylori + kronik gastrit ilişkili; adenomatöz = malign potansiyelli.</b>',
-    explain:'<b>Hiperplastik polip en sık gastrik polip tipidir ve H. pylori ile kronik gastrit ile ilişkilidir.</b> H. pylori eradikasyonu ile hiperplastik polipler geriliyebilir. Genellikle asemptomatiktir; bazen epigastrik ağrı ve rahatsızlık görülebilir.',
-  },
-  {
-    years:['Sayfa 39 – Benign Gastrik Neoplazmlar / Polipler'],
-    q:'Gastrik polipler genel olarak nasıl bir klinik seyir gösterir ve malignite riski neye bağlıdır?',
-    opts:['A) Genellikle semptomatik; malignite riski büyüklüğe bağlı değil','B) Genellikle asemptomatik; malignite riski ve polip yönetimi büyük ölçüde polip histopatolojisine bağlı','C) Her zaman malindir','D) Genellikle kanama yapar; histoloji önemsiz','E) Genellikle semptomatik; cerrahi her zaman gerekir'],
-    ans:'B',
-    hint:'🔑 Genellikle asemptomatiktir. Malignite riski ve polip yönetimi büyük ölçüde polip histopatolojisine bağlıdır.',
-    trap:'Polip büyüklüğü önemlidir ama <b>malignite riskini belirleyen asıl faktör histopatolojidir.</b> Adenomatöz polipler hiperplastikten çok daha fazla malign potansiyele sahiptir.',
-    explain:'<b>Gastrik polipler genellikle asemptomatiktir; bazen epigastrik ağrı ve rahatsızlık görülebilir.</b> <b>Malignite riski ve polip yönetimi büyük ölçüde polip histopatolojisine bağlıdır.</b> Endoskopi sırasında insidental olarak sıkça gözlenir (%5).',
-  },
-  // SAYFA 36 – TRUNKAL VAGOTOMİ (ek sorular)
-  {
-    years:['Sayfa 36 – Trunkal Vagotomi – Ek'],
-    q:'Trunkal vagotomi sonrası drenaj prosedürü olarak piloroplastinin tercih edileceği durumlar nelerdir?',
-    opts:['A) Her trunkal vagotomide gastrojejunostomi tercih edilir','B) Kanama komplikasyonları, pilorik bölgede skar ve gastrojejunostominin teknik olarak mümkün olmadığı durumlar','C) Yalnızca kanama komplikasyonunda','D) Yalnızca pilorik bölgede skar varsa','E) Yalnızca gastrojejunostominin mümkün olmadığı durumlarda'],
-    ans:'B',
-    hint:'🔑 Piloroplasti kanama gibi komplikasyonlar nedeni ile ile pyloroduodenotomi gereken, pilorik bölgede skar olan ve gastrojejunostomi teknik olarak mümkün olmayan hastalarda uygun seçenektir.',
-    trap:'Her durumda gastrojejunostomi yerine <b>üç durumda piloroplasti</b> tercih edilir: kanama komplikasyonu + pilorik skar + GJ teknik olarak imkânsız.',
-    explain:'<b>Piloroplasti; kanama gibi komplikasyonlar nedeniyle pyloroduodenotomi gereken, pilorik bölgede skar olan ve gastrojejunostominin teknik olarak mümkün olmadığı hastalarda uygun bir seçenektir.</b> Gastrik çıkış tıkanıklığında gastrojejunostomi iyi bir seçenektir.',
-  },
-  {
-    years:['Sayfa 36 – Yüksek Selektif Vagotomi – Ek'],
-    q:'Yüksek selektif vagotomide kaz ayakları pilorun kaç cm proksimaline kadar ayrılır?',
-    opts:['A) 2 cm','B) 4 cm','C) 5 cm','D) 7 cm','E) 10 cm'],
+    years:['Sayfa 58 – Obezite ve Kanser'],
+    q:'Obezitede yağ asırı derecede östrojen üretmesinin sonucu olarak hangi kanserler için risk artar?',
+    opts:['A) Kolon, prostat, böbrek kanserleri','B) Tiroid ve özofagus kanserleri','C) Mesane ve pankreas kanserleri','D) Endometrium, over ve postmenopozal meme kanseri','E) Akciğer ve larinks kanserleri'],
     ans:'D',
-    hint:'🔑 Kaz ayakları pilorun 7 cm proksimaline kadar ayrılır.',
-    trap:'5 cm değil, <b>7 cm</b> proksimale kadar ayrılır; bu mesafe antrum ve pilorun innervasyonunu korumak için yeterlidir.',
-    explain:'<b>Yüksek selektif vagotomide kaz ayakları pilorun 7 cm proksimaline kadar ayrılır.</b> GEB\'in 5 cm proksimaline kadar da serbestleştirme yapılır. İdeal olarak antrum ve pilora giden 2-3 dal korunmalıdır.',
+    hint:'🔑 Yağ aşırı östrojen üretir → <b>endometrium, over ve postmenopozal meme kanseri</b> riski artar.',
+    trap:'Kolon, prostat ve böbrek kanserleri artan <b>insülin ve IGF-1</b> düzeyleriyle ilişkilidir; östrojen fazlalığıyla değil.',
+    explain:'Obezitede artan kanser riski için iki farklı mekanizma:<br>• <b>Yağ → aşırı östrojen üretimi → endometrium, over ve postmenopozal meme kanseri</b> riski artar.<br>• <b>Artan insülin ve IGF-1 düzeyleri → kolon, prostat, böbrek, endometrium ve postmenopozal meme kanseri</b> gelişimi ile bağlantılıdır.<br>Obezite ayrıca GÖRH\'e bağlı kronik inflamasyon yoluyla özofagus adenokarsinomunu artırır.'
   },
+  // Q5 → B
   {
-    years:['Sayfa 37 – Kanamada Cerrahi'],
-    q:'Duodenal kanamada kontrollü sütür ligasyonu ardından hangi prosedür uygulanabilir?',
-    opts:['A) Distal gastrektomi','B) Total gastrektomi','C) Piloroplasti','D) Fundoplikasyon','E) Gastrojejunostomi'],
+    years:['Sayfa 58 – Obezite ve Komorbidite'],
+    q:'Morbid obezite için ameliyat olmak isteyen hastaların en az %50\'sinde bulunan en sık sorun nedir?',
+    opts:['A) Tip 2 diyabet','B) Artrit ve dejeneratif eklem hastalığı kombinasyonu','C) Hipertansiyon','D) Uyku apnesi','E) GÖRH'],
+    ans:'B',
+    hint:'🔑 En sık görülen sorun: morbid obezite için ameliyat olmak isteyen hastaların <b>en az %50\'sinde bulunan artrit ve dejeneratif eklem hastalığı kombinasyonu</b>.',
+    trap:'Hipertansiyon (%30) ve diyabet (%20-30) de sık; ancak <b>en az %50</b> ile en sık olan <b>artrit ve dejeneratif eklem hastalığı</b>dır.',
+    explain:'<b>En sık görülen sorun, morbid obezite için ameliyat olmak isteyen hastaların en az %50\'sinde bulunan artrit ve dejeneratif eklem hastalığı kombinasyonudur</b>. Uyku apnesi görülme sıklığı yüksektir: hastaların %25\'inden fazlasında astım, %30\'dan fazlasında hipertansiyon, %20\'den fazlasında diyabet ve %20-30\'unda GÖRH mevcuttur.'
+  },
+  // Q6 → A
+  {
+    years:['Sayfa 59 – Farmakoterapi'],
+    q:'Obezite farmakoterapisi hangi VKİ eşiğinde düşünülmelidir?',
+    opts:['A) VKİ ≥30 veya VKİ 27-29 + obezite ile ilişkili en az 1 durum','B) Yalnızca VKİ ≥40','C) VKİ ≥35 + komorbidite','D) Her VKİ\'de yaşam tarzı başarısız olunca','E) VKİ ≥25 + metabolik sendrom'],
+    ans:'A',
+    hint:'🔑 Farmakoterapi: <b>VKİ ≥30 veya 27-29 + obezite ile ilişkili en az 1 durum</b>u olanlarda düşünülebilir.',
+    trap:'VKİ ≥35 bariatrik cerrahi eşiğidir; farmakoterapi için eşik çok daha düşüktür: <b>VKİ ≥30 veya 27-29 + komorbidite</b>.',
+    explain:'Obezitede <b>3 tedavi seçeneği</b>: yaşam tarzı değişikliği, medikal tedavi ve cerrahi. <b>Farmakoterapi VKİ ≥30 veya 27-29 + obezite ile ilişkili en az 1 durum</b>u olanlarda düşünülebilir. İlaçlar iştahı azaltır ve enerji harcamalarını artırır. <b>En sık reçete edilen fentermin</b> sempatomimetik amindir. Tekli kullanılan: orlistat, lorcaserin ve liraglutid. İkili kombinasyon: fentermin-topiramat ve naltrekson-bupropion.'
+  },
+  // Q7 → D
+  {
+    years:['Sayfa 60 – Bariatrik Cerrahi İlaç Tedavisi'],
+    q:'Obezite farmakolojik tedavisinde tekli kullanılan ilaçlar hangileridir?',
+    opts:['A) Fentermin-topiramat ve naltrekson-bupropion','B) Metformin ve orlistat','C) Liraglutid ve metformin','D) Orlistat, lorcaserin ve liraglutid','E) Sibutramin ve rimonabant'],
+    ans:'D',
+    hint:'🔑 Tekli kullanılan ilaçlar: <b>orlistat, lorcaserin ve liraglutid</b>.',
+    trap:'Fentermin-topiramat ve naltrekson-bupropion <b>ikili kombinasyon</b> ilaçlarıdır; tekli değil.',
+    explain:'<b>Tekli kullanılan ilaçlar: orlistat, lorcaserin ve liraglutid.</b> Orlistat pankreatik lipazı inhibe edip diyet yağının emilimini azaltır. <b>İkili kombinasyon ilaçları: fentermin-topiramat ve naltrekson-bupropion.</b>'
+  },
+  // Q8 → C
+  {
+    years:['Sayfa 60 – GLP-1 / Enteroinsüler Aks'],
+    q:'GLP-1\'in enteroinsüler akstaki rolü nedir?',
+    opts:['A) Pankreas alfa hücrelerinden insülin salgılatır','B) Mide fundusundan salgılanır ve oreksijenik etki gösterir','C) Distal gastrointestinal sistemdeki L-hücreleri tarafından salınır; insülin sekresyonunu uyarır, glukagon sekresyonunu inhibe eder','D) Yalnızca bariatrik cerrahi sonrası aktive olur','E) İnkretinler ailesine değil, somatostatin ailesine aittir'],
     ans:'C',
-    hint:'🔑 Bu sayede kontrollü sütür ligasyonu ve ardından piloroplasti uygulanabilir.',
-    trap:'Ligasyon sonrası Kocher manevrasıyla erişim sağlanır ve ardından <b>piloroplasti</b> yapılır; gastrektomi değil.',
-    explain:'Pilorotomi ile duodenum arka duvarındaki kanayan ülsere ulaşılabilir. Kocher manevrasıyla kanama alanı el kompresyonu ile kontrol altına alınabilir. <b>Bu sayede kontrollü sütür ligasyonu ve ardından piloroplasti uygulanabilir.</b>',
+    hint:'🔑 GLP-1: <b>distal GİS\'teki L-hücreleri</b>nden salınır; insülin ↑, glukagon ↓.',
+    trap:'Ghrelin mide fundusundan salgılanır; GLP-1 ise <b>distal GİS L-hücrelerinden</b>. GLP-1 <b>inkretinler</b> ailesinin parçasıdır.',
+    explain:'<b>GLP-1</b>: enteroinsüler aksta ana oyuncu. <b>Distal gastrointestinal sistemdeki L-hücreleri</b> tarafından salınır. İnsülin sekresyonunun uyarılması, pankreas hücrelerinin (α ve β hücreleri) insülin duyarlılığında artış ve <b>glukagon sekresyonunun inhibisyonu</b> gibi birçok fizyolojik işlevi vardır. GLP-1, insülin sentez ve düzenlenmesinde rol alan <b>inkretinler</b> olarak bilinen peptit ailesinin parçasıdır. GLP-1: RYGB ve LSG sonrası yükselir; RYGB\'de LSG\'den önemli ölçüde daha yüksektir.'
   },
+  // Q9 → E
   {
-    years:['Sayfa 37 – Kanamada Cerrahi'],
-    q:'Yüksek riskli ve unstabil kanamalı hastalarda tercih edilen yaklaşım nedir?',
-    opts:['A) Hemen total gastrektomi','B) Dikişle kanama kontrolü ve uzun dönem asit baskılayıcı tedavi','C) Endoskopik tedavi','D) Anjiyografik embolizasyon','E) Konservatif izlem'],
-    ans:'B',
-    hint:'🔑 Yüksek riskli ve unstabil hastalarda dikişle kanama kontrolü ve uzun dönem asit baskılayıcı tedavi uygun seçenek olabilir.',
-    trap:'Unstabil hastada geniş rezeksiyon yapmak mortaliteyi artırır; <b>kanama kontrolü + uzun dönem PPI</b> daha güvenli seçenektir.',
-    explain:'<b>Yüksek riskli ve unstabil hastalarda dikişle kanama kontrolü ve uzun dönem asit baskılayıcı tedavi uygun seçenek olabilir.</b> Distal gastrik rezeksiyon en uygun operasyondur; kanamayı dikişlerle kontrol altına aldıktan sonra vagotomi, drenaj ve biyopsi ikincil seçenektir.',
+    years:['Sayfa 61 – Bariatrik Cerrahi Endikasyonları'],
+    q:'Bariatrik cerrahi için VKİ endikasyonları nelerdir?',
+    opts:['A) Yalnızca VKİ >50','B) VKİ >45 veya VKİ >35 + komorbidite','C) VKİ >35 veya VKİ >30 + komorbidite','D) VKİ >30 olan tüm hastalar','E) VKİ >40 olan hastalar veya VKİ >35 ve komorbiditesi olan hastalar'],
+    ans:'E',
+    hint:'🔑 Bariatrik cerrahi endikasyonu: <b>VKİ >40</b> olan hastalar veya <b>VKİ >35 + komorbidite</b> olan hastalar.',
+    trap:'VKİ >30 farmakoterapi eşiğidir; cerrahi için eşik <b>VKİ >40 veya >35 + komorbidite</b>dir.',
+    explain:'<b>Bariatrik cerrahi endikasyonları:</b><br>1. VKİ <b>>40</b> olan hastalar<br>2. VKİ <b>>35 ve komorbiditesi</b> olan hastalar<br>3. Optimal tedaviye rağmen kontrol edilemeyen Tip 2 DM ve VKİ 30-34.9 olan hastalar<br>4. Diğer zayıflama girişimlerinin başarısız olması<br>5. Alkol bağımlılığı ve uyuşturucu kullanımından olmamak, psikiyatrik açıdan stabil olmak<br>6. Operasyon ve sonuçları hakkında bilgi sahibi olmak<br>7. Motive birey'
   },
+  // Q10 → B
   {
-    years:['Sayfa 38 – İntraktabilite'],
-    q:'İntraktabilite cerrahisinde definitif operasyon gastrektomi olmasına rağmen hangi hastalarda farklı bir yaklaşım uygulanmalıdır?',
-    opts:['A) Genç ve sağlıklı hastalarda','B) Düşük kilolu ve malnütrisyonlu hastalarda YSV (gastrojejunostomi eklenebilir) uygulanmalıdır','C) H. pylori pozitif hastalarda','D) ZES\'li hastalarda','E) Kronik NSAİİ kullananlarda'],
+    years:['Sayfa 61 – Bariatrik Cerrahi Kontrendikasyonları'],
+    q:'Bariatrik cerrahi için mutlak kontrendikasyon olan sendrom hangisidir?',
+    opts:['A) Down sendromu','B) Prader-Willi sendromu','C) Turner sendromu','D) Klinefelter sendromu','E) Marfan sendromu'],
     ans:'B',
-    hint:'🔑 Definitif operasyon gastrektomi olmasına rağmen düşük kilolu ve malnütrisyonlu hastalarda YSV (gastrojejunostomi eklenebilir) uygulanmalıdır.',
-    trap:'Gastrektomi standart olsa da <b>malnütrisyonlu hastalarda YSV daha güvenlidir.</b>',
-    explain:'<b>İntraktabilite cerrahisinde definitif operasyon gastrektomi olmasına rağmen düşük kilolu ve malnütrisyonlu hastalarda YSV (gastrojejunostomi eklenebilir) uygulanmalıdır.</b> Multipl rekürrens, >2 cm ülser, komplikasyon ve kanser şüphesinde operasyon planlanmalıdır.',
+    hint:'🔑 <b>Prader-Willi sendromu</b> bariatrik cerrahi için <b>mutlak kontrendikasyon</b>dur.',
+    trap:'Hareket edemeyen hastalar için cerrahi kontrendike olsa da bu <b>mutlak</b> değil rölatif kontrendikasyondur (Schwartz rölatif). <b>Prader-Willi mutlak</b>tır.',
+    explain:'<b>Bariatrik cerrahi kontrendikasyonları:</b><br>• <b>Prader-Willi sendromu: mutlak kontrendikasyon</b><br>• Hareket edemeyen hastalar: kontrendike (Schwartz rölatif kontrendikasyon)<br>• 500 lbs (226 kg)\'dan ağır hastalar: ölüm ve komplikasyon riski artar<br>• LAGB\'nin diğer kontrendikasyonları: siroz, portal hipertansiyon, otoimmün bağ doku bozuklukları, inflamatuar barsak hastalığı gibi kronik inflamatuar durumlar ve kronik steroid kullanım ihtiyacı'
+  },
+  // Q11 → A
+  {
+    years:['Sayfa 61 – Bariatrik Cerrahi Yaş Sınırı'],
+    q:'Bariatrik cerrahi için yaş sınırları nasıl belirlenmektedir?',
+    opts:['A) Gastrik bypass için 65 yaş, LSG için 70 yaş sınırı olarak kabul edilse de 70 yaş üstü hastalar bireysel olarak değerlendirilmelidir','B) 18 yaş altında kesinlikle yapılmaz','C) 60 yaş üstü tüm hastalarda kontrendikedir','D) 70 yaş sonrası yalnızca LSG uygulanabilir','E) Yaş bariatrik cerrahi için hiçbir zaman kontrendikasyon değildir'],
+    ans:'A',
+    hint:'🔑 Gastrik bypass için <b>65 yaş</b>, LSG için <b>70 yaş</b> sınırı; ancak 70 yaş üstü hastalar <b>bireysel</b> değerlendirilmeli.',
+    trap:'Yaş tartışmalı bir kontrendikasyondur; kesin sınırlar yoktur. Ancak pratik eşikler: <b>bypass 65, LSG 70</b> yaştır.',
+    explain:'<b>Yaş, bariatrik cerrahi için tartışmalı bir kontrendikasyondur</b>. Çoğu cerrah, ergenlerde ameliyatın hızlı büyüme periyodundan sonra yapılmasını tavsiye eder. Ergenlerde bariatrik cerrahi kesin kontrendikasyon değildir. <b>Gastrik bypass için 65 yaş, LSG için 70 yaş</b> sınırı olarak kabul edilse de, 70 yaş üstü hastalar bireysel olarak değerlendirilmelidir.'
+  },
+  // Q12 → D
+  {
+    years:['Sayfa 62 – Bariatrik Cerrahi Öncesi Hazırlık'],
+    q:'Bariatrik cerrahi adayları ameliyat öncesinde ve ameliyat sonrası ne kadar süreyle gebelikten kaçınmalıdır?',
+    opts:['A) Ameliyat öncesinde 3 ay, ameliyat sonrası 6 ay','B) Gebelik kısıtlaması yoktur','C) Yalnızca ameliyat öncesinde 6 ay','D) Ameliyat öncesinde ve ameliyat sonrası 12-18 ay boyunca','E) Ameliyat sonrası 2 yıl'],
+    ans:'D',
+    hint:'🔑 Bariatrik cerrahi adayları: ameliyat öncesinde <b>ve</b> ameliyat sonrası <b>12-18 ay</b> boyunca gebelikten kaçınmalıdır.',
+    trap:'Yalnızca ameliyat öncesi veya yalnızca sonrası değil; <b>hem öncesi hem sonrası 12-18 ay</b> gebelik kısıtlaması vardır.',
+    explain:'Obezler tütün kullanımından kaçınmalı; ameliyattan <b>6 hafta önce sigara bırakılmalıdır</b>. <b>Bariatrik cerrahi adayları, ameliyat öncesinde ve ameliyat sonrası 12-18 ay boyunca gebelikten kaçınmalıdır</b>. Obezite cerrahisinde ameliyat öncesi antibiyotik ve DVT profilaksisi önerilir.'
+  },
+  // Q13 → C
+  {
+    years:['Sayfa 62 – Obezitenin Hipoventilasyon Sendromu'],
+    q:'Obezitenin hipoventilasyon sendromu (Pickwickian sendromu) hangi hasta grubunda şüphelenilmelidir?',
+    opts:['A) VKİ >35 ve astımı olan hastalar','B) VKİ >40 ve hipertansiyonu olan hastalar','C) Süper obezler (VKİ >60) ve hastanın klinik görünümünden şüphelenilmesi; PaCO2\'nin PaO2\'den daha yüksek olması ile tanınır','D) VKİ >30 ve uyku apnesi olan tüm hastalar','E) Yalnızca pediatrik obez hastalarda görülür'],
+    ans:'C',
+    hint:'🔑 Obezitenin hipoventilasyon sendromu: <b>süper obezler (VKİ >60)</b>; <b>PaCO2 PaO2\'den daha yüksek</b>.',
+    trap:'Obstruktif uyku apnesi farklı bir tablodur. Hipoventilasyon sendromunun ayırt edici özelliği <b>PaCO2 > PaO2</b> olmasıdır.',
+    explain:'<b>Obezitenin hipoventilasyon sendromu (Pickwickian sendromu)</b>: <b>süper obezler (VKİ >60)</b> ve hastanın klinik görünümünden şüphelenilmesi gereken bir tanıdır. Bu hastaların yüzleri dolgundur, siyanotik görünebilirler ve hafif eforla solunum zorluğu çekebilirler. Arteriyel kan gazında, <b>PaCO2\'nin PaO2\'den daha yüksek olması</b> ve yüksek hematokrit değerleri görülür. Pulmoner arter basıncı yüksektir.'
+  },
+  // Q14 → E
+  {
+    years:['Sayfa 62 – Bariatrik Cerrahi ve NASH'],
+    q:'Bariatrik cerrahi NASH tedavisinde nasıl fayda sağlar?',
+    opts:['A) Karaciğer transplantasyonunun yerini tutar','B) Yalnızca alkole bağlı karaciğer hastalığında etkilidir','C) NASH\'ta kontrendikedir','D) Yalnızca VKİ >50 olanlarda NASH\'ı iyileştirir','E) Bariatrik cerrahi NASH için faydalıdır; kilo kaybı prognozu iyileştirir; ancak siroz ve portal hipertansiyon veya hepatoselüler dekompansasyon yoksa kontrendikasyon değildir'],
+    ans:'E',
+    hint:'🔑 Bariatrik cerrahi <b>NASH için faydalıdır</b>; <b>siroz ve portal hipertansiyon veya hepatoselüler dekompansasyon yoksa</b> kontrendikasyon değildir.',
+    trap:'NASH varlığı bariatrik cerrahi için kontrendikasyon değildir; ancak <b>siroz ve portal hipertansiyon veya dekompansasyon varsa</b> kontrendikedir.',
+    explain:'<b>Bariatrik cerrahi NASH için potansiyel bir sorun teşkil eder.</b> Ancak <b>kilo kaybı prognozu iyileştirir</b>. <b>Siroz ve portal hipertansiyon veya hepatoselüler dekompansasyon yoksa NASH, bariatrik cerrahi için bir kontrendikasyon değildir</b>. Bariatrik cerrahiye bağlı mortalite oldukça düşük seviyelere inmiştir.'
+  },
+  // Q15 → B
+  {
+    years:['Sayfa 62 – Operatif Mortalite Faktörleri'],
+    q:'Bariatrik cerrahide operatif mortalite ile ilişkili bağımsız faktörler hangileridir?',
+    opts:['A) Yaş <30, kadın cinsiyet, VKİ <40','B) Erkek cinsiyet, >50 yaş, VKİ >50 kg/m², Tip 2 DM','C) Hipertansiyon, uyku apnesi, GÖRH','D) Sigara kullanımı ve alkol bağımlılığı','E) Ameliyat süresi ve laparoskopik teknik kullanılmaması'],
+    ans:'B',
+    hint:'🔑 Operatif mortalite ile ilişkili bağımsız faktörler: <b>erkek cinsiyet, >50 yaş, VKİ >50 kg/m², Tip 2 DM</b>.',
+    trap:'Hipertansiyon ve uyku apnesi komorbidite olarak önemlidir; ancak operatif mortalite için bağımsız faktörler <b>erkek, >50 yaş, VKİ >50, Tip 2 DM</b>dir.',
+    explain:'<b>Operatif mortalite ile ilişkili bağımsız faktörler:</b><br>• Erkek cinsiyet<br>• >50 yaş<br>• VKİ >50 kg/m²<br>• <b>Tip 2 DM</b>'
+  },
+  // Q16 → D
+  {
+    years:['Sayfa 62 – LAGB'],
+    q:'Laparoskopik Ayarlanabilir Gastrik Band (LAGB) ameliyatında mide girişinde kaç ml hacim kalacak şekilde band yerleştirilir?',
+    opts:['A) 5-10 ml','B) 10-15 ml','C) 15-20 ml','D) 25-30 ml','E) 50-60 ml'],
+    ans:'D',
+    hint:'🔑 LAGB: mide girişine <b>25-30 ml</b> hacim kalacak şekilde band yerleştirilir.',
+    trap:'RYGB\'de proksimal poş 10-15 ml\'dir. LAGB\'de bu hacim daha büyüktür: <b>25-30 ml</b>.',
+    explain:'<b>LAGB (Laparoskopik Ayarlanabilir Gastrik Band)</b>: mide girişine <b>25-30 ml hacim</b> kalacak şekilde bir band yerleştirilir. Cilt altına uzanan bir port ile SF verilerek hastanın kilo durumuna göre ayarlama yapılır. Diğer tekniklere göre <b>komplikasyon ve ölüm oranı daha azdır</b>. Ancak uzun dönem takiplerinde diğer bariatrik prosedürlere göre <b>daha başarısızdır</b>.'
+  },
+  // Q17 → A
+  {
+    years:['Sayfa 63 – Laparoskopik Sleeve Gastrektomi (LSG)'],
+    q:'Laparoskopik Sleeve Gastrektomi (LSG, Tüp Mide) bugün nasıl tanımlanmaktadır?',
+    opts:['A) Günümüzde artık primer prosedür olarak tanınmaktadır','B) Yalnızca süper obez hastalarda ilk basamak tedavidir','C) Malabsorptif özellikleri olan ikincil bir prosedürdür','D) Yalnızca Barret özofagusu olmayanlarda uygulanır','E) Duodenal switch ameliyatının zorunlu ilk aşamasıdır ve bağımsız kullanılmaz'],
+    ans:'A',
+    hint:'🔑 LSG: <b>günümüzde artık primer prosedür olarak tanınmaktadır</b>.',
+    trap:'LSG başlangıçta DS ameliyatının ilk aşamasıydı; ancak <b>artık bağımsız primer prosedür</b> olarak kabul görmektedir.',
+    explain:'<b>LSG (Laparoskopik Sleeve Gastrektomi, Tüp Mide)</b>: başlangıçta duodenal switch ameliyatının ilk bölümü olan LSG, süper obez hastalarda ilk basamak ameliyat olarak kullanılmaya başlandı. <b>Günümüzde artık primer prosedür olarak tanınmaktadır</b>. Diğer prosedürlere oranla daha kolay uygulanabilmesi nedeniyle günümüzde popülarize etti. Pilor korunur (dumping önler), ghrelin seviyeleri azalır, seri ayarlamalara gerek yok. <b>En önemli komplikasyonu kaçak</b>; en yaygın besin eksikliği <b>B12 vitamini eksikliği</b>dir.'
+  },
+  // Q18 → C
+  {
+    years:['Sayfa 63 – LSG Mekanizması'],
+    q:'LSG\'de ghrelin salınımının azalması nasıl bir etkiye yol açar?',
+    opts:['A) Portal hipertansiyonu önler','B) İnsülin direncini artırır','C) Fundusun çıkarılmasıyla ghrelin azalır; GLP-1 sekresyonunda artışla birlikte zayıflamayı sağlar','D) Duodenum bypass edildiğinden villus hiperplazisi oluşur','E) Kalsiyum emilimini bozar'],
+    ans:'C',
+    hint:'🔑 LSG: <b>fundus çıkarılır → ghrelin azalır + GLP-1 sekresyonunda artış → zayıflama</b>.',
+    trap:'Villus hiperplazisi ve GLP-1 sekresyonu RYGB\'de duodenum bypass edildiğinde oluşur; LSG\'de mekanizma farklıdır: <b>ghrelin azalması</b> ön plandadır.',
+    explain:'LSG restriktif tip bir ameliyattır. <b>Fundusun çıkarılmasıyla ghrelin salınımının azalması</b> ve gıdanın hızla ince bağırsaklara geçişine bağlı <b>GLP-1 sekresyonunda artış</b> ile zayıflamayı sağlar. GLP-1 bariatrik cerrahiden sonra insülin sekresyonunun ana itici gücüdür. RYGB ve LSG\'nin tip 2 DM üzerine etkileri: GLP-1 sekresyonunun artması, ghrelin azalması, iştah baskılanması ile sağlanır.'
+  },
+  // Q19 → E
+  {
+    years:['Sayfa 63 – RYGB'],
+    q:'Roux-en-Y Gastrik Bypass (RYGB)\'de proksimal poş ne kadar hacimde oluşturulur?',
+    opts:['A) 25-30 ml','B) 50-60 ml','C) 100 ml','D) 5 ml\'den az','E) Çok küçük (10-15 mL) proksimal poş oluşturulur'],
+    ans:'E',
+    hint:'🔑 RYGB: midede <b>çok küçük (10-15 mL) proksimal poş</b> oluşturulur.',
+    trap:'LAGB\'de 25-30 ml hacim bırakılır. RYGB\'de çok daha küçük: <b>10-15 mL</b>.',
+    explain:'<b>RYGB (Roux-en-Y Gastrik Bypass)</b>: uzun süreli kilo kaybı sağlaması ve morbiditenin kabul edilebilir olması nedeniyle sıkça kullanılır. Midede <b>çok küçük (10-15 mL) proksimal poş</b> oluşturulur. Sonrasında roux ansı retrokolik veya antekolik yol ile gastrik poşa anastomoz edilir. RYGB\'de duodenum bypass edildiği için <b>villus hiperplazisi ve GLP-1 sekresyonu uyarılır</b>. Vakaların <b>%90\'ından fazlasında eğer varsa GÖRH semptomları anında düzelir</b>. Psödotümör serebri ve venöz staz ülserleri geriler.'
+  },
+  // Q20 → B
+  {
+    years:['Sayfa 63 – RYGB Komplikasyonları'],
+    q:'RYGB yapılmış hastalarda genellikle 1 yıl sonra görülen hipogliseminin temel nedeni nedir?',
+    opts:['A) İnsulinoma gelişimi','B) Hiperinsulinemi (Nesidioblastozis = Postgastrik Bypass Hipoglisemisi)','C) Ghrelin eksikliği','D) Pankreas yetmezliği','E) Dumping sendromuna bağlı reaktif hipoglisemi'],
+    ans:'B',
+    hint:'🔑 RYGB sonrası hipoglisemi temel nedeni: <b>hiperinsulinemi (Nesidioblastozis = Postgastrik Bypass Hipoglisemisi)</b>.',
+    trap:'Dumping sendromu da geç hipoglisemiye yol açabilir; ancak RYGB sonrası 1 yıl sonra görülen hipogliseminin temel nedeni <b>Nesidioblastozis</b>tir.',
+    explain:'<b>RYGB yapılmış hastalarda genellikle 1 yıl sonra görülen hipogliseminin temel nedeni hiperinsulinemidir (Nesidioblastozis = Postgastrik Bypass Hipoglisemisi)</b>. Nesidioblastozun gerçek etiyolojisi: obezite kaynaklı β hücre hipertrofisinin RYGB\'den sonra tersine çevrilememesi, uygunsuz büyüme faktörü salınımı veya kalıcı olarak değiştirilmiş bağırsak hormonal sinyalleme. Tedavisi: diyet değişiklikleri ve ilaçlardır; cerrahi tedavi gerektiğinde <b>pankreatik rezeksiyon</b> en sık kullanılan cerrahi prosedürdür.'
+  },
+  // Q21 → D
+  {
+    years:['Sayfa 63 – RYGB En Yaygın Besin Eksikliği'],
+    q:'RYGB\'nin en yaygın besin eksikliği hangisidir?',
+    opts:['A) B12 vitamini eksikliği','B) Kalsiyum eksikliği','C) D vitamini eksikliği','D) Demir eksikliği anemisi','E) Çinko eksikliği'],
+    ans:'D',
+    hint:'🔑 RYGB\'de en yaygın besin eksikliği <b>demir eksikliği anemisi</b>dir.',
+    trap:'B12 eksikliği LSG\'de en yaygın iken, RYGB\'de <b>demir eksikliği anemisi</b> en yaygın olandır.',
+    explain:'<b>RYGB komplikasyonları</b>: anastomoz kaçağı, marjinal ülser, anastomotik darlık, ince bağırsak obstrüksiyonu, hematemez, Fe, B12 eksikliği, Wernicke ensefalopatisi ve pulmoner emboli. <b>En yaygın besin eksikliği demir eksikliği anemisidir</b>. RYGB goreceli kontrendikasyonları: geçirilmiş mide ameliyatı, ciddi demir eksikliği anemisi, takip gerektiren distal gastrik ve duodenal lezyonlar, ciddi displazi içeren Barrett özofagusu.'
+  },
+  // Q22 → A
+  {
+    years:['Sayfa 64 – BPD/DS'],
+    q:'BPD ve BPD-DS\'deki en yaygın besin eksikliği hangisidir?',
+    opts:['A) Protein eksikliği; ayrıca kalsiyum ve çinko eksikliği görülebilir, yağ emilimi %70 azalır','B) Demir eksikliği anemisi','C) B12 vitamini eksikliği','D) Tiamin eksikliği','E) Folat eksikliği'],
+    ans:'A',
+    hint:'🔑 BPD ve BPD-DS\'de en yaygın besin eksikliği <b>protein eksikliği</b>dir; yağ emilimi <b>%70 azalır</b>.',
+    trap:'RYGB\'de en yaygın eksiklik demir; LSG\'de B12; <b>BPD/DS\'de protein eksikliği</b> başı çeker.',
+    explain:'<b>BPD ve BPD-DS\'deki en yaygın besin eksikliği protein eksikliğidir</b>. Kalsiyum ve çinko eksikliği görülebilir. Yağ emilimi <b>%70 azalır</b>. Yağda eriyen vitaminlerin eksikliği görülebilir. Tüm bu komplikasyonlar arasında <b>protein-kalori malnütrisyonu en ciddi olanıdır</b>. BPD ve DS ameliyatları büyük oranda malabsorptif, orta restriktif özelliktedir.'
+  },
+  // Q23 → E
+  {
+    years:['Sayfa 65 – Endoskopik Bariatrik İşlemler'],
+    q:'Endoskopik bariatrik işlemlerde mide balonu ne kadar süre yerinde kalır?',
+    opts:['A) 1 ay','B) 3 ay','C) 1 yıl','D) 2 yıl','E) 6 ay kalır ve daha sonra endoskopik olarak çıkarılır'],
+    ans:'E',
+    hint:'🔑 Mide balonu: mideye endoskopik yerleştirilir, <b>6 ay kalır</b> ve daha sonra endoskopik olarak çıkarılır.',
+    trap:'Balon kalıcı bir implant değildir; <b>6 ay</b> sonra çıkarılır.',
+    explain:'<b>Endoskopik bariatrik işlemler</b>: en yaygın endoskopik işlem boşluk dolduran cihazlardır (mide balonları). Balon mideye endoskopik yerleştirilir. <b>6 ay kalır ve daha sonra endoskopik olarak çıkarılır</b>. Hasta bu süre ve takip eden 6 ay boyunca diyet ve yaşam tarzı danışmanlığı alır.'
+  },
+  // Q24 → C
+  {
+    years:['Sayfa 65 – İnce Bağırsak Anatomisi'],
+    q:'İnce bağırsakların uzunluğu pilordan çekuma kadar ortalama ne kadardır?',
+    opts:['A) 100-150 cm','B) 200-250 cm','C) 270-290 cm (4-6 metre)','D) 400-500 cm','E) 600-700 cm'],
+    ans:'C',
+    hint:'🔑 Pilordan çekuma uzanan ince bağırsak <b>270-290 cm (4-6 metre)</b>dir.',
+    trap:'Ölçümler varyasyon gösterir; ders kitabındaki değer: pilordan çekuma <b>270-290 cm (4-6 metre)</b>.',
+    explain:'Pilordan çekuma uzanan ince bağırsak <b>270-290 cm (4-6 metre)</b>dir. Duodenum yaklaşık <b>20 cm</b>, jejunum <b>100-110 cm</b> ve ileum <b>150-160 cm</b>dir. İnce bağırsak 3 parçadan oluşur: Duodenum, jejunum, ileum.'
+  },
+  // Q25 → B
+  {
+    years:['Sayfa 65 – İnce Bağırsak Anatomisi'],
+    q:'Jejunum ve ileum\'un peritoneal ilişkisi nedir?',
+    opts:['A) Her ikisi de retroperitonealdir','B) Jejunum ve ileum intraperitonealdır; duodenum retroperitonealdir','C) Jejunum retroperitoneal, ileum intraperitonealdır','D) Duodenum ve jejunum intraperitonealdır, ileum retroperitonealdir','E) Tüm ince bağırsak retroperitonealdir'],
+    ans:'B',
+    hint:'🔑 <b>Jejunum ve ileum intraperitoneal</b>; <b>duodenum retroperitoneal</b>dir.',
+    trap:'Duodenum\'un retroperitoneal olduğu sık unutulur. Jejunum ve ileum aksine <b>intraperitoneal</b>dir.',
+    explain:'<b>Jejunum ve ileum intraperitonealdır</b>. <b>Duodenum retroperitoneal</b> yerleşmiştir (aynı zamanda <b>duodenumun mezenteri yoktur</b>). Jejunum ince bağırsağın <b>proksimal 2/5\'ini</b> oluştururken ileum <b>distal 3/5\'ini</b> oluşturur.'
+  },
+  // Q26 → D
+  {
+    years:['Sayfa 65 – İnce Bağırsak Anatomisi'],
+    q:'Duodenum hakkında doğru olan ifade hangisidir?',
+    opts:['A) Mezenteri vardır ve intraperitonealdir','B) Tamamen intraperitoneal yerleşimlidir','C) Treitz ligamanıyla değil omenta ile tutulur','D) Retroperitoneal yerleşmiştir ve mezenteri yoktur','E) Jejunum ile belirgin anatomik sınırı vardır'],
+    ans:'D',
+    hint:'🔑 Duodenum: <b>retroperitoneal</b> yerleşmiş, <b>mezenteri yoktur</b>.',
+    trap:'Jejunum ve ileum\'un mezenteri vardır; duodenumun yoktur ve <b>retroperitoneal</b>dir.',
+    explain:'<b>Duodenum retroperitoneal</b> yerleşmiştir ve <b>mezenteri yoktur</b>. Duodenum 4 parçaya ayrılır: Süperior kısım (1. bölüm, Bulbus), İnen kısım (2. bölüm), İnferior transvers kısım (3. bölüm), Çıkan kısım (4. bölüm). Jejunum ise Treitz ligamanıyla (lig. suspensorium duodeni) desteklenen duodenojejunal açıdan başlar.'
+  },
+  // Q27 → A
+  {
+    years:['Sayfa 65 – İnce Bağırsak / Treitz Ligamanı'],
+    q:'Jejunum hangi yapıyla desteklenerek başlar ve bu yapı nereye tespit edilmiştir?',
+    opts:['A) Treitz ligamanı (lig. suspensorium duodeni) ile desteklenen duodenojejunal açıdan başlar; fibromuskuler bir band ile diyafragmaya tespit edilmiştir','B) İleoçekal valv ile başlar ve pelvis tabanına tespit edilir','C) Mezenterik kök ile başlar ve aortaya tespit edilir','D) Hepatoduodenal ligamanla tutulur','E) Treitz ligamanı yoktur; jejunum serbest başlar'],
+    ans:'A',
+    hint:'🔑 Jejunum: <b>Treitz ligamanı (lig. suspensorium duodeni)</b> ile desteklenen duodenojejunal açıdan başlar; <b>fibromuskuler band ile diyafragmaya</b> tespit edilmiştir.',
+    trap:'Treitz ligamanı aorta veya pelvis tabanına değil <b>diyafragmaya</b> tespit edilir.',
+    explain:'<b>Jejunum, Treitz ligamanı (lig. suspensorium duodeni) ile desteklenen duodenojejunal açıdan başlar</b>. Bu ligaman <b>fibromuskuler bir band ile diyafragmaya tespit edilmiştir</b>. Jejunum ve ileum arasında belirgin bir sınır yoktur. İnce bağırsak vücuttaki <b>en büyük endokrin organdır</b> ve immün fonksiyonun en önemli organlarından biridir.'
+  },
+  // Q28 → E
+  {
+    years:['Sayfa 65 – İnce Bağırsak Embriyoloji'],
+    q:'İnce bağırsak embriyolojik olarak nereden kaynaklanır?',
+    opts:['A) Tamamı foregut\'tan','B) Tamamı hindgut\'tan','C) Midgut ve hindgut\'tan eşit oranda','D) Endodermal astardan değil, mezodermden','E) Duodenum (foregut) hariç ince bağırsak midgut\'tan; fetal hayatın 5. haftasında bağırsak uzunluğu hızla artar ve midgut umblikusa doğru hernie olur'],
+    ans:'E',
+    hint:'🔑 <b>Duodenum foregut\'tan</b>; ince bağırsağın geri kalanı <b>midgut</b>tan türer. Fetal hayat <b>5. haftasında</b> midgut umblikusa doğru hernie olur.',
+    trap:'Tüm ince bağırsak aynı kaynaktan gelmiyor; <b>duodenum foregut, geri kalan ince bağırsak midgut</b>tan gelir.',
+    explain:'Primitif gut (ilkel bağırsak) fetal hayatın 4. haftasında endodermal astardan, yolk kesesinden oluşur. <b>Ön bağırsaktan (foregut) kaynaklanan duodenum dışında</b>, ince bağırsak <b>orta bağırsaktan (midgut)</b> türemiştir. <b>Fetal hayatın 5. haftasında</b>, bağırsak uzunluğu hızla artar ve midgut umblikusa doğru hernie olur. İnce bağırsak vücuttaki en büyük endokrin organdır ve immün fonksiyonun en önemli organlarından biridir.'
+  },
+  // Q29 → C
+  {
+    years:['Sayfa 65 – Jejunum-İleum Farkları'],
+    q:'Jejunum ile ileum arasındaki makroskopik farklılıklarda hangisi doğrudur?',
+    opts:['A) İleum çapı daha geniştir (4 cm), duvarı daha kalındır','B) Jejunumda mezenterik yağ dokusu kalındır, vasküler arklar multipldır','C) Jejunumda plika sirkularisler daha belirgin, vasa rektalar daha uzun, ince ve transparan; ileumda mezenterik yağ dokusu kalın ve multiple vasküler ark vardır','D) İleumda plika sirkularisler daha belirgindir','E) Jejunum ve ileum makroskopik olarak birbirinden ayırt edilemez'],
+    ans:'C',
+    hint:'🔑 <b>Jejunum</b>: plika sirkularisler belirgin, vasa rektalar uzun, ince+transparan, 1-2 vasküler ark. <b>İleum</b>: mezenterik yağ kalın, multiple vasküler ark.',
+    trap:'Yağ dokusu ve vasküler ark sayısı genellikle birbirine karıştırılır. <b>Jejunum</b>: az yağ, az ark; <b>ileum</b>: çok yağ, çok ark.',
+    explain:'<b>Jejunum-İleum makroskopik farklar:</b><br><b>Jejunum</b>: çap daha geniş (4 cm), duvar daha kalın, <b>plika sirkularisler daha belirgin</b>, vasa rektalar daha uzun, <b>ince ve transparan</b>, <b>1-2 vasküler ark</b>.<br><b>İleum</b>: dar (3 cm), ince, plika sirkularisler belirgin değil, vasa rektalar kısa, <b>mezenterik yağ dokusu kalın</b>, <b>multiple vasküler ark</b>.'
+  },
+  // Q30 → B
+  {
+    years:['Sayfa 65 – İnce Bağırsak Fonksiyonu'],
+    q:'İnce bağırsağın vücuttaki özel fonksiyonları arasında hangisi doğrudur?',
+    opts:['A) Yalnızca sindirim ve emilim fonksiyonu vardır','B) Vücuttaki en büyük endokrin organdır ve immün fonksiyonun en önemli organlarından biridir','C) Kan üretiminde görev alır','D) Primer lenfoid organ olup kemik iliğinin yerine geçer','E) Böbrek fonksiyonunu destekler'],
+    ans:'B',
+    hint:'🔑 İnce bağırsak: vücuttaki <b>en büyük endokrin organ</b> ve <b>immün fonksiyonun en önemli organlarından biri</b>dir.',
+    trap:'İnce bağırsağın sindirim-emilim dışında <b>endokrin</b> ve <b>immün</b> fonksiyonları çok önemlidir. Bu iki özellik TUS\'ta sıkça sorulur.',
+    explain:'İnce bağırsak: karaciğer ve pankreasta gelen ekzokrin salgılar, gıdaların tam olarak sindirilmesini sağlar. <b>Vücuttaki en büyük endokrin organdır ve immün fonksiyonun en önemli organlarından biridir</b>. Erişkinde ortalama 6 metredir.'
+  },
+  // Q31 → D
+  {
+    years:['Sayfa 64 – LSG vs RYGB Karşılaştırması'],
+    q:'LSG ile RYGB karşılaştırıldığında RYGB\'nin LSG\'ye üstün olduğu alan hangisidir?',
+    opts:['A) Komplikasyon oranı daha düşük','B) Geç komplikasyon oranı daha az','C) Kilo kaybı yüzdesi eşit','D) GÖRH remisyonu daha yüksek (%60.4 vs %25)','E) Tip 2 DM remisyonu daha düşük'],
+    ans:'D',
+    hint:'🔑 RYGB vs LSG: <b>GÖRH remisyonu RYGB\'de daha yüksek (%60.4 vs %25)</b>.',
+    trap:'Kilo kaybı yüzdesi istatistiksel olarak anlamlı olmasa da RYGB\'de daha fazla görünür. RYGB\'nin belirgin üstünlüğü <b>GÖRH remisyonu</b>ndadır.',
+    explain:'<b>LSG vs RYGB karşılaştırması:</b><br>• Kilo kaybı yüzdesi: SG %49, RYGB %57 (istatistiksel anlamlı değil)<br>• 5 yılda VKİ: fark önemli değil<br>• Tip 2 DM remisyonu: önemli fark yok<br>• HT remisyonu: RYGB\'de daha yüksek<br>• LDL: RYGB\'den sonra daha düşük<br>• <b>GÖRH remisyonu: SG %25, RYGB %60.4 — RYGB daha iyi</b><br>• Geç komplikasyonlar: teknikler arasında fark yok'
+  },
+  // Q32 → A
+  {
+    years:['Sayfa 64 – BPD/DS Kontrendikasyonları'],
+    q:'BPD/DS ameliyatlarının kontrendikasyonları arasında hangisi yer alır?',
+    opts:['A) Cerraha coğrafi uzaklık, hastanın destek tedavi alacak ekonomik duruma sahip olmaması, var olan demir, kalsiyum ve diğer besin eksiklikleri','B) Yalnızca GÖRH varlığı','C) Tip 2 diyabet','D) Sadece aşırı yüksek VKİ','E) Kontrendikasyon yoktur; tüm obez hastalara uygulanabilir'],
+    ans:'A',
+    hint:'🔑 BPD/DS kontrendikasyonları: <b>coğrafi uzaklık, ekonomik yetersizlik, mevcut demir/kalsiyum/besin eksiklikleri</b>.',
+    trap:'BPD/DS\'nin kontrendikasyonları pratik ve sosyoekonomik faktörlerdir; hastalık bazlı değildir.',
+    explain:'<b>BPD/DS kontrendikasyonları:</b> cerraha olan coğrafi uzaklık, hastanın destek tedavi alacak ekonomik duruma sahip olmaması, var olan demir, kalsiyum ve diğer besin eksiklikleri. Uzun süreli takiplerinde nutrisyonel komplikasyonlar bu ameliyatların her ikisinde en sık karşılaşılan komplikasyonlardır. En ciddi komplikasyon <b>protein-kalori malnütrisyonu</b>dur.'
   },
 ];
 
-let idx=0,filteredQ=[...ALL_QUESTIONS];
-const answered=new Set(),correct=new Set(),wrong=new Set(),starred=new Set();
+let questions=[...ALL_QUESTIONS],currentIdx=0,answers={},starred={};
 
-function renderQuestion(){
-  const q=filteredQ[idx],gi=ALL_QUESTIONS.indexOf(q);
-  document.getElementById('q-num').textContent=`Soru ${idx+1}/${filteredQ.length}`;
-  document.getElementById('section-badge').textContent='MİDE – PART 4 / SAYFA 36–39 (SON)';
-  document.getElementById('year-tags').innerHTML=q.years.map(y=>`<span class="year-tag">${y}</span>`).join('');
-  document.getElementById('q-text').innerHTML=q.q;
+function renderQuestion(idx){
+  const q=questions[idx];
+  const c=document.getElementById('quiz-container');
+  const answered=answers[idx]!==undefined;
+  const userAns=answers[idx];
+  let optsHTML=q.opts.map((o,i)=>{
+    const letter=String.fromCharCode(65+i);
+    let cls='opt-btn';
+    if(answered){if(letter===q.ans)cls+=' correct';else if(letter===userAns)cls+=' wrong';}
+    return `<button class="${cls}" onclick="selectAns(${idx},'${letter}')" ${answered?'disabled':''}><span class="opt-letter">${letter})</span><span>${o.substring(3)}</span></button>`;
+  }).join('');
+  c.innerHTML=`
+    <div class="section-badge">${q.years[0]}</div>
+    <div class="card">
+      <div class="card-header">
+        <span class="q-num">Soru ${idx+1}/${questions.length}</span>
+        <button class="star-btn ${starred[idx]?'starred':''}" onclick="toggleStar(${idx})">${starred[idx]?'★':'☆'}</button>
+      </div>
+      <div class="q-text" id="qt"></div>
+      <button class="hint-btn" onclick="toggleHint(this)">💡 İpucu Göster</button>
+      <div class="hint-box" id="hint-box"></div>
+      <div class="opts">${optsHTML}</div>
+      ${answered?`<div class="trap-box visible"><div class="trap-title">⚠️ TUZAK NOKTA</div><div class="trap-text" id="trap-text"></div></div><div class="explain-box visible"><div class="explain-title">📖 AÇIKLAMA</div><div class="explain-text" id="explain-text"></div></div>`:''}
+    </div>`;
+  document.getElementById('qt').innerHTML=q.q;
   document.getElementById('hint-box').innerHTML=q.hint;
-  document.getElementById('hint-box').classList.remove('open');
-  document.getElementById('trap-text').innerHTML=q.trap;
-  document.getElementById('explain-text').innerHTML=q.explain;
-  document.getElementById('feedback').classList.remove('open');
-  const star=document.getElementById('star-btn');
-  star.textContent=starred.has(gi)?'★':'☆';
-  star.classList.toggle('starred',starred.has(gi));
-  const optDiv=document.getElementById('options');
-  optDiv.innerHTML='';
-  q.opts.forEach(opt=>{
-    const letter=opt[0],text=opt.slice(3);
-    const btn=document.createElement('button');
-    btn.className='opt-btn';
-    btn.innerHTML=`<span class="opt-letter">${letter}</span><span>${text}</span>`;
-    btn.onclick=()=>selectAnswer(letter,gi,q);
-    optDiv.appendChild(btn);
-  });
-  if(answered.has(gi))restoreAnswerUI(gi,q);
-  updateNavBtns();updateProgress();updateToggleBtn();
+  if(answered){document.getElementById('trap-text').innerHTML=q.trap;document.getElementById('explain-text').innerHTML=q.explain;}
+  document.getElementById('progress-fill').style.width=((idx+1)/questions.length*100)+'%';
+  document.getElementById('nav-info').textContent=`${idx+1} / ${questions.length} ☰`;
+  document.getElementById('btn-prev').disabled=idx===0;
+  document.getElementById('btn-next').disabled=idx===questions.length-1;
+  updateModal();
 }
-
-function selectAnswer(letter,gi,q){
-  if(answered.has(gi))return;
-  answered.add(gi);
-  const isCorrect=letter===q.ans;
-  if(isCorrect)correct.add(gi);else wrong.add(gi);
-  document.querySelectorAll('.opt-btn').forEach(btn=>{
-    const l=btn.querySelector('.opt-letter').textContent;
-    btn.disabled=true;
-    if(l===q.ans)btn.classList.add('correct');
-    else if(l===letter&&!isCorrect)btn.classList.add('wrong');
-  });
-  document.getElementById('feedback').classList.add('open');
-  setTimeout(()=>document.getElementById('feedback').scrollIntoView({behavior:'smooth',block:'start'}),120);
-  updateNavBtns();updateProgress();
+function selectAns(idx,letter){
+  if(answers[idx]!==undefined)return;
+  answers[idx]=letter;renderQuestion(idx);
+  setTimeout(()=>{const eb=document.querySelector('.explain-box');if(eb)eb.scrollIntoView({behavior:'smooth',block:'nearest'});},200);
+  checkComplete();
 }
-
-function restoreAnswerUI(gi,q){
-  document.querySelectorAll('.opt-btn').forEach(btn=>{
-    const l=btn.querySelector('.opt-letter').textContent;
-    btn.disabled=true;
-    if(l===q.ans)btn.classList.add('correct');
-  });
-  document.getElementById('feedback').classList.add('open');
-}
-
-function toggleHint(){document.getElementById('hint-box').classList.toggle('open');}
-
-function toggleStar(){
-  const q=filteredQ[idx],gi=ALL_QUESTIONS.indexOf(q);
-  if(starred.has(gi))starred.delete(gi);else starred.add(gi);
-  const star=document.getElementById('star-btn');
-  star.textContent=starred.has(gi)?'★':'☆';
-  star.classList.toggle('starred',starred.has(gi));
-  updateToggleBtn();
-}
-
-function toggleQuestionList(){buildGrid();document.getElementById('q-modal-overlay').classList.add('open');}
-function closeModalOnOverlay(e){if(e.target===document.getElementById('q-modal-overlay'))document.getElementById('q-modal-overlay').classList.remove('open');}
-
-function buildGrid(){
-  const grid=document.getElementById('q-grid');grid.innerHTML='';
-  filteredQ.forEach((q,i)=>{
-    const gi=ALL_QUESTIONS.indexOf(q);
-    const btn=document.createElement('button');
-    btn.className='q-grid-btn';btn.textContent=i+1;
-    if(i===idx)btn.classList.add('current');
-    else if(correct.has(gi))btn.classList.add('done-correct');
-    else if(wrong.has(gi))btn.classList.add('done-wrong');
-    if(starred.has(gi))btn.classList.add('starred-q');
-    btn.onclick=()=>{idx=i;renderQuestion();window.scrollTo({top:0,behavior:'smooth'});document.getElementById('q-modal-overlay').classList.remove('open');};
-    grid.appendChild(btn);
-  });
-}
-
-function navigate(dir){
-  if(dir===1&&idx===filteredQ.length-1){showResult();return;}
-  idx=Math.max(0,Math.min(filteredQ.length-1,idx+dir));
-  renderQuestion();window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function updateNavBtns(){
-  document.getElementById('prev-btn').disabled=idx===0;
-  const next=document.getElementById('next-btn');
-  const gi=ALL_QUESTIONS.indexOf(filteredQ[idx]);
-  if(idx===filteredQ.length-1&&answered.has(gi)){
-    next.textContent='Sonuçları Gör →';next.classList.add('result-mode');next.onclick=showResult;
-  }else{
-    next.textContent='Sonraki →';next.classList.remove('result-mode');next.onclick=()=>navigate(1);next.disabled=false;
-  }
-}
-
-function updateProgress(){document.getElementById('progress-bar').style.width=(answered.size/ALL_QUESTIONS.length*100)+'%';}
-function updateToggleBtn(){document.getElementById('q-counter').textContent=`${idx+1} / ${filteredQ.length} ☰`;}
-
+function toggleHint(btn){const box=document.getElementById('hint-box');const v=box.classList.toggle('visible');btn.textContent=v?'💡 İpucunu Gizle':'💡 İpucu Göster';}
+function toggleStar(idx){starred[idx]=!starred[idx];renderQuestion(idx);}
+function navigate(dir){const n=currentIdx+dir;if(n>=0&&n<questions.length){currentIdx=n;renderQuestion(currentIdx);window.scrollTo({top:0,behavior:'smooth'});}}
+function openModal(){document.getElementById('modal-overlay').classList.add('open');updateModal();}
+function closeModal(e){if(e.target===document.getElementById('modal-overlay'))document.getElementById('modal-overlay').classList.remove('open');}
+function updateModal(){const g=document.getElementById('modal-grid');if(!g)return;g.innerHTML=questions.map((q,i)=>{let cls='modal-item';if(answers[i]!==undefined)cls+=answers[i]===q.ans?' correct-m':' wrong-m';if(starred[i])cls+=' starred-m';return `<div class="${cls}" onclick="goTo(${i})">${i+1}</div>`;}).join('');}
+function goTo(idx){currentIdx=idx;document.getElementById('modal-overlay').classList.remove('open');renderQuestion(currentIdx);window.scrollTo({top:0,behavior:'smooth'});}
+function checkComplete(){if(Object.keys(answers).length===questions.length)setTimeout(showResult,400);}
 function showResult(){
-  document.getElementById('quiz-card').style.display='none';
-  document.querySelector('.nav').style.display='none';
-  const rs=document.getElementById('result-screen');rs.style.display='block';
-  const total=filteredQ.length;
-  const c=filteredQ.filter(q=>correct.has(ALL_QUESTIONS.indexOf(q))).length;
-  const w=filteredQ.filter(q=>wrong.has(ALL_QUESTIONS.indexOf(q))).length;
-  const s=filteredQ.filter(q=>starred.has(ALL_QUESTIONS.indexOf(q))).length;
-  const pct=Math.round((c/total)*100);
-  document.getElementById('score-pct').textContent=pct+'%';
-  document.getElementById('score-sub').textContent=`${total} sorudan ${c+w} yanıtlandı`;
-  document.getElementById('r-correct').textContent=c;
-  document.getElementById('r-wrong').textContent=w;
-  document.getElementById('r-starred').textContent=s;
-  document.getElementById('retry-wrong-btn').style.display=w>0?'':'none';
-  document.getElementById('retry-star-btn').style.display=s>0?'':'none';
-  rs.scrollIntoView({behavior:'smooth',block:'start'});
+  document.getElementById('quiz-container').style.display='none';document.getElementById('nav-bar').style.display='none';
+  const rs=document.getElementById('result-screen');rs.classList.add('show');
+  let correct=0,wrong=0,starCount=0;
+  questions.forEach((q,i)=>{if(answers[i]===q.ans)correct++;else wrong++;if(starred[i])starCount++;});
+  const pct=Math.round(correct/questions.length*100);
+  document.getElementById('res-pct').textContent=pct+'%';
+  document.getElementById('s-correct').textContent=correct;document.getElementById('s-wrong').textContent=wrong;
+  document.getElementById('s-total').textContent=questions.length;document.getElementById('s-starred').textContent=starCount;
+  if(wrong>0)document.getElementById('btn-wrong-restart').style.display='block';
+  if(starCount>0)document.getElementById('btn-star-restart').style.display='block';
 }
-
-function restartQuiz(){
-  answered.clear();correct.clear();wrong.clear();
-  filteredQ=[...ALL_QUESTIONS];idx=0;
-  document.getElementById('result-screen').style.display='none';
-  document.getElementById('quiz-card').style.display='';
-  document.querySelector('.nav').style.display='';
-  renderQuestion();window.scrollTo({top:0,behavior:'smooth'});
+function restart(mode){
+  if(mode==='wrong')questions=ALL_QUESTIONS.filter((_,i)=>answers[i]!==ALL_QUESTIONS[i].ans);
+  else if(mode==='starred')questions=ALL_QUESTIONS.filter((_,i)=>starred[i]);
+  else questions=[...ALL_QUESTIONS];
+  answers={};starred={};currentIdx=0;
+  document.getElementById('result-screen').classList.remove('show');
+  document.getElementById('quiz-container').style.display='block';document.getElementById('nav-bar').style.display='flex';
+  renderQuestion(0);window.scrollTo({top:0,behavior:'smooth'});
 }
-function retryWrong(){
-  const wq=filteredQ.filter(q=>wrong.has(ALL_QUESTIONS.indexOf(q)));
-  answered.clear();correct.clear();wrong.clear();filteredQ=wq;idx=0;
-  document.getElementById('result-screen').style.display='none';
-  document.getElementById('quiz-card').style.display='';
-  document.querySelector('.nav').style.display='';
-  renderQuestion();window.scrollTo({top:0,behavior:'smooth'});
-}
-function retryStar(){
-  const sq=ALL_QUESTIONS.filter(q=>starred.has(ALL_QUESTIONS.indexOf(q)));
-  answered.clear();correct.clear();wrong.clear();filteredQ=sq;idx=0;
-  document.getElementById('result-screen').style.display='none';
-  document.getElementById('quiz-card').style.display='';
-  document.querySelector('.nav').style.display='';
-  renderQuestion();window.scrollTo({top:0,behavior:'smooth'});
-}
-
-renderQuestion();
+renderQuestion(0);
 </script>
 </body>
 </html>

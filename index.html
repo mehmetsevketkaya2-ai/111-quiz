@@ -3,1140 +3,507 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Karaciğer Hastalıkları – TUS Quiz</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<title>Mide Quiz – PART 4</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:#0f1117; --surface:#1a1d27; --card:#20243a; --border:#2e3354;
-    --accent:#5b8dee; --accent2:#e05c7a; --gold:#f5c842;
-    --green:#3ecf74; --red:#f0476d; --text:#dde3f5; --muted:#7b85a8;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; padding: 0 0 80px; }
-
-  .progress-wrap { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: var(--border); z-index: 100; }
-  .progress-bar { height: 3px; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width .4s ease; }
-
-  .container { max-width: 760px; margin: 0 auto; padding: 32px 16px 0; }
-
-  .section-badge {
-    font-family: 'IBM Plex Mono', monospace;
-    color: var(--accent2);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    margin-bottom: 14px;
-    display: block;
-  }
-
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 24px 24px 20px;
-    margin-bottom: 16px;
-  }
-
-  .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-  #q-num { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); }
-  #star-btn {
-    background: none; border: none; cursor: pointer;
-    font-size: 20px; color: var(--muted); transition: color .2s, transform .15s;
-    padding: 4px;
-  }
-  #star-btn:hover { transform: scale(1.2); }
-  #star-btn.active { color: var(--gold); }
-
-  .year-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
-  .year-tag {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px; font-weight: 500;
-    background: rgba(91,141,238,.12);
-    color: var(--accent);
-    border: 1px solid rgba(91,141,238,.25);
-    border-radius: 4px;
-    padding: 2px 8px;
-    letter-spacing: .06em;
-  }
-
-  #q-text { font-size: 15px; line-height: 1.7; margin-bottom: 18px; }
-  #q-text b { color: var(--accent2); }
-
-  .hint-toggle {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px; font-weight: 600;
-    color: var(--gold); background: rgba(245,200,66,.08);
-    border: 1px solid rgba(245,200,66,.2);
-    border-radius: 6px; padding: 6px 12px; cursor: pointer;
-    margin-bottom: 16px; transition: background .2s;
-  }
-  .hint-toggle:hover { background: rgba(245,200,66,.16); }
-  #hint-box {
-    display: none;
-    background: rgba(245,200,66,.06);
-    border: 1px solid rgba(245,200,66,.2);
-    border-radius: 8px;
-    padding: 12px 14px;
-    margin-bottom: 16px;
-    font-size: 13.5px;
-    line-height: 1.65;
-    color: var(--text);
-  }
-  #hint-box.open { display: block; }
-
-  .options { display: flex; flex-direction: column; gap: 8px; }
-  .opt-btn {
-    display: flex; align-items: flex-start; gap: 10px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 9px;
-    padding: 11px 14px;
-    cursor: pointer;
-    text-align: left;
-    color: var(--text);
-    font-size: 14px;
-    line-height: 1.55;
-    transition: border-color .18s, background .18s;
-    width: 100%;
-  }
-  .opt-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(91,141,238,.07); }
-  .opt-letter {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px; font-weight: 600;
-    color: var(--accent);
-    min-width: 18px; margin-top: 1px;
-  }
-  .opt-btn.correct { border-color: var(--green); background: rgba(62,207,116,.1); }
-  .opt-btn.correct .opt-letter { color: var(--green); }
-  .opt-btn.wrong { border-color: var(--red); background: rgba(240,71,109,.1); }
-  .opt-btn.wrong .opt-letter { color: var(--red); }
-  .opt-btn:disabled { cursor: default; }
-
-  .feedback { display: none; margin-top: 18px; }
-  .feedback.open { display: block; }
-  .trap-box {
-    background: rgba(240,71,109,.07);
-    border: 1px solid rgba(240,71,109,.2);
-    border-radius: 8px;
-    padding: 13px 15px;
-    margin-bottom: 10px;
-  }
-  .trap-title { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; color: var(--red); letter-spacing: .08em; margin-bottom: 7px; }
-  .trap-text { font-size: 13.5px; line-height: 1.65; }
-  .explain-box {
-    background: rgba(91,141,238,.07);
-    border: 1px solid rgba(91,141,238,.2);
-    border-radius: 8px;
-    padding: 13px 15px;
-  }
-  .explain-title { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: .08em; margin-bottom: 7px; }
-  .explain-text { font-size: 13.5px; line-height: 1.7; }
-  .explain-text b { color: var(--accent2); }
-
-  .nav {
-    display: flex; justify-content: space-between; align-items: center;
-    max-width: 760px; margin: 0 auto;
-    padding: 0 16px;
-  }
-  .nav-btn {
-    background: var(--surface); border: 1px solid var(--border);
-    color: var(--text); border-radius: 9px;
-    padding: 10px 18px; font-size: 13px; font-weight: 600;
-    cursor: pointer; transition: border-color .2s, background .2s;
-    font-family: 'Inter', sans-serif;
-  }
-  .nav-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(91,141,238,.1); }
-  .nav-btn:disabled { opacity: .35; cursor: default; }
-  .nav-btn.result-btn { background: var(--accent2); border-color: var(--accent2); color: #fff; }
-  .nav-btn.result-btn:hover { background: #c44d6a; border-color: #c44d6a; }
-
-  #q-counter {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px; font-weight: 600;
-    background: var(--surface); border: 1px solid var(--border);
-    color: var(--muted); border-radius: 8px;
-    padding: 8px 14px; cursor: pointer;
-    transition: border-color .2s;
-  }
-  #q-counter:hover { border-color: var(--accent); color: var(--text); }
-
-  .q-modal-overlay {
-    display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,.6); backdrop-filter: blur(4px);
-    z-index: 200; align-items: flex-end; justify-content: center;
-  }
-  .q-modal-overlay.open { display: flex; }
-  .q-modal {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 16px 16px 0 0;
-    width: 100%; max-width: 760px;
-    max-height: 70vh; overflow-y: auto;
-    padding: 20px 16px 32px;
-  }
-  .q-modal-title {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px; font-weight: 600; color: var(--muted);
-    letter-spacing: .1em; text-transform: uppercase;
-    margin-bottom: 14px; text-align: center;
-  }
-  .q-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
-  .q-grid-btn {
-    aspect-ratio: 1; border-radius: 8px;
-    background: var(--card); border: 1px solid var(--border);
-    color: var(--muted); font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px; font-weight: 600; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: all .15s;
-  }
-  .q-grid-btn.current { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .q-grid-btn.done-correct { background: rgba(62,207,116,.15); border-color: var(--green); color: var(--green); }
-  .q-grid-btn.done-wrong { background: rgba(240,71,109,.15); border-color: var(--red); color: var(--red); }
-  .q-grid-btn.starred-q { box-shadow: 0 0 0 2px var(--gold); }
-  .q-grid-btn:hover { transform: scale(1.08); }
-
-  #result-screen {
-    display: none;
-    max-width: 760px; margin: 0 auto; padding: 40px 16px;
-  }
-  .result-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 16px; padding: 36px 28px; text-align: center;
-  }
-  .score-ring {
-    width: 120px; height: 120px;
-    border-radius: 50%;
-    background: conic-gradient(var(--accent) 0%, var(--accent2) var(--pct, 0%), var(--border) var(--pct, 0%) 100%);
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 24px;
-    position: relative;
-  }
-  .score-inner {
-    width: 92px; height: 92px; border-radius: 50%;
-    background: var(--card);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-  }
-  .score-pct { font-family: 'IBM Plex Mono', monospace; font-size: 24px; font-weight: 700; color: var(--text); }
-  .score-label { font-size: 11px; color: var(--muted); }
-  .result-stats { display: flex; justify-content: center; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
-  .stat-item { text-align: center; }
-  .stat-num { font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 700; }
-  .stat-num.green { color: var(--green); }
-  .stat-num.red { color: var(--red); }
-  .stat-num.gold { color: var(--gold); }
-  .stat-lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
-  .result-btns { display: flex; flex-direction: column; gap: 10px; }
-  .res-btn {
-    width: 100%; padding: 12px; border-radius: 10px;
-    font-size: 14px; font-weight: 600; cursor: pointer;
-    border: 1px solid var(--border); color: var(--text);
-    background: var(--surface); transition: all .2s;
-    font-family: 'Inter', sans-serif;
-  }
-  .res-btn:hover { border-color: var(--accent); background: rgba(91,141,238,.12); }
-  .res-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .res-btn.primary:hover { background: #4a7cdb; }
-  .res-btn.share { background: rgba(245,200,66,.1); border-color: rgba(245,200,66,.3); color: var(--gold); }
-  .res-btn.share:hover { background: rgba(245,200,66,.2); }
+:root{--bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;--accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;--green:#3ecf74;--red:#f0476d;--text:#dde3f5;--muted:#7b85a8}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding:0 0 60px}
+.progress-wrap{position:fixed;top:0;left:0;width:100%;height:3px;background:var(--surface);z-index:100}
+.progress-bar{height:3px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s ease}
+.section-badge{text-align:center;padding:20px 16px 4px;font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--accent2);letter-spacing:.12em;text-transform:uppercase}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;margin:12px auto;max-width:780px;padding:24px 24px 20px;box-shadow:0 4px 32px #0008}
+.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+#q-num{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted)}
+#star-btn{background:none;border:none;cursor:pointer;font-size:1.4rem;color:var(--gold);opacity:.45;transition:opacity .2s,transform .15s;line-height:1}
+#star-btn.starred{opacity:1;transform:scale(1.15)}
+.year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.year-tag{font-family:'IBM Plex Mono',monospace;font-size:.68rem;background:var(--surface);color:var(--accent);border:1px solid var(--border);border-radius:6px;padding:2px 8px}
+#q-text{font-size:1.02rem;line-height:1.7;margin-bottom:16px;color:var(--text)}
+#q-text b{color:#fff}
+.hint-toggle{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:.78rem;padding:5px 12px;cursor:pointer;margin-bottom:10px;font-family:'IBM Plex Mono',monospace;transition:border-color .2s,color .2s}
+.hint-toggle:hover{border-color:var(--accent);color:var(--accent)}
+#hint-box{display:none;background:var(--surface);border:1px solid var(--accent);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:.88rem;line-height:1.6;color:var(--text)}
+#hint-box.open{display:block}
+.options{display:flex;flex-direction:column;gap:8px}
+.opt-btn{display:flex;align-items:flex-start;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 14px;cursor:pointer;text-align:left;color:var(--text);font-size:.93rem;line-height:1.55;transition:border-color .15s,background .15s;width:100%}
+.opt-btn:hover:not(:disabled){border-color:var(--accent);background:#232740}
+.opt-letter{font-family:'IBM Plex Mono',monospace;font-size:.82rem;font-weight:600;color:var(--accent);min-width:20px;padding-top:1px}
+.opt-btn.correct{border-color:var(--green);background:#1a3325;color:#fff}
+.opt-btn.correct .opt-letter{color:var(--green)}
+.opt-btn.wrong{border-color:var(--red);background:#2d1520;color:#fff}
+.opt-btn.wrong .opt-letter{color:var(--red)}
+.opt-btn:disabled{cursor:default}
+.feedback{display:none;margin-top:16px}
+.feedback.open{display:block}
+.trap-box{background:#1e1525;border:1px solid var(--accent2);border-radius:10px;padding:14px 16px;margin-bottom:12px}
+.trap-title{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--accent2);letter-spacing:.08em;margin-bottom:6px}
+.trap-text{font-size:.88rem;line-height:1.65;color:var(--text)}
+.trap-text b{color:#f0a0b8}
+.explain-box{background:#141b2e;border:1px solid var(--accent);border-radius:10px;padding:14px 16px}
+.explain-title{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--accent);letter-spacing:.08em;margin-bottom:6px}
+.explain-text{font-size:.88rem;line-height:1.7;color:var(--text)}
+.explain-text b{color:#a8d8ff}
+.nav{display:flex;justify-content:space-between;align-items:center;max-width:780px;margin:14px auto 0;padding:0 12px;gap:8px}
+.nav-btn{background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:.88rem;padding:9px 18px;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:border-color .2s,color .2s;white-space:nowrap}
+.nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.nav-btn:disabled{opacity:.35;cursor:default}
+#next-btn.result-mode{border-color:var(--accent2);color:var(--accent2)}
+#q-counter{flex:1;max-width:160px;text-align:center;font-size:.82rem}
+.q-modal-overlay{position:fixed;inset:0;background:#0009;z-index:200;display:none;align-items:flex-end;justify-content:center}
+.q-modal-overlay.open{display:flex}
+.q-modal{background:var(--surface);border-top:1px solid var(--border);border-radius:18px 18px 0 0;width:100%;max-width:780px;max-height:70vh;overflow-y:auto;padding:20px 16px 40px}
+.q-modal-title{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted);text-align:center;margin-bottom:14px}
+.q-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.q-grid-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:.8rem;padding:9px 4px;cursor:pointer;text-align:center;transition:all .15s}
+.q-grid-btn.current{background:var(--accent);border-color:var(--accent);color:#fff}
+.q-grid-btn.done-correct{background:#1a3325;border-color:var(--green);color:var(--green)}
+.q-grid-btn.done-wrong{background:#2d1520;border-color:var(--red);color:var(--red)}
+.q-grid-btn.starred-q{box-shadow:0 0 0 2px var(--gold)}
+#result-screen{display:none;max-width:780px;margin:40px auto;padding:0 12px}
+.result-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px 24px;text-align:center}
+.score-pct{font-size:3.5rem;font-weight:700;font-family:'IBM Plex Mono',monospace;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+.score-sub{color:var(--muted);font-size:.9rem;margin-bottom:24px}
+.score-stats{display:flex;justify-content:center;gap:24px;margin-bottom:28px;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-val{font-family:'IBM Plex Mono',monospace;font-size:1.5rem;font-weight:600}
+.stat-lbl{font-size:.75rem;color:var(--muted);margin-top:2px}
+.stat.correct .stat-val{color:var(--green)}
+.stat.wrong .stat-val{color:var(--red)}
+.stat.starred .stat-val{color:var(--gold)}
+.result-btns{display:flex;flex-direction:column;gap:10px}
+.res-btn{border-radius:10px;padding:12px;font-size:.9rem;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:'Inter',sans-serif;transition:border-color .2s,color .2s}
+.res-btn:hover{border-color:var(--accent);color:var(--accent)}
+.res-btn.primary{border-color:var(--accent);color:var(--accent)}
+.part-note{margin-top:16px;background:#1e1525;border:1px solid var(--accent2);border-radius:10px;padding:14px 16px;font-size:.85rem;color:var(--accent2);text-align:left}
 </style>
 </head>
 <body>
-
 <div class="progress-wrap"><div class="progress-bar" id="progress-bar"></div></div>
-
-<div class="container">
-  <span class="section-badge" id="section-badge">KARACİĞER HASTALIKLARI VE CERRAHİSİ</span>
-
-  <div class="card" id="quiz-card">
-    <div class="q-header">
-      <span id="q-num">Soru 1 / 39</span>
-      <button id="star-btn" onclick="toggleStar()" title="Yıldızla">☆</button>
-    </div>
-    <div class="year-tags" id="year-tags"></div>
-    <div id="q-text"></div>
-    <button class="hint-toggle" onclick="toggleHint()">💡 İpucu Göster</button>
-    <div id="hint-box"></div>
-    <div class="options" id="options"></div>
-    <div class="feedback" id="feedback">
-      <div class="trap-box">
-        <div class="trap-title">⚠️ TUZAK NOKTA</div>
-        <div class="trap-text" id="trap-text"></div>
-      </div>
-      <div class="explain-box">
-        <div class="explain-title">📖 AÇIKLAMA</div>
-        <div class="explain-text" id="explain-text"></div>
-      </div>
-    </div>
+<div class="section-badge" id="section-badge">MİDE – PART 4 / SAYFA 36–39 (SON)</div>
+<div class="card" id="quiz-card">
+  <div class="q-header">
+    <span id="q-num">Soru 1/35</span>
+    <button id="star-btn" onclick="toggleStar()">☆</button>
+  </div>
+  <div class="year-tags" id="year-tags"></div>
+  <div id="q-text"></div>
+  <button class="hint-toggle" onclick="toggleHint()">💡 İpucu</button>
+  <div id="hint-box"></div>
+  <div class="options" id="options"></div>
+  <div class="feedback" id="feedback">
+    <div class="trap-box"><div class="trap-title">⚠️ TUZAK NOKTA</div><div class="trap-text" id="trap-text"></div></div>
+    <div class="explain-box"><div class="explain-title">📖 AÇIKLAMA</div><div class="explain-text" id="explain-text"></div></div>
   </div>
 </div>
-
-<div class="nav" id="nav">
+<div class="nav">
   <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">← Önceki</button>
-  <button id="q-counter" onclick="toggleQuestionList()">1 / 39 ☰</button>
+  <button class="nav-btn" id="q-counter" onclick="toggleQuestionList()">1 / 35 ☰</button>
   <button class="nav-btn" id="next-btn" onclick="navigate(1)">Sonraki →</button>
 </div>
-
 <div id="result-screen">
   <div class="result-card">
-    <div class="score-ring" id="score-ring">
-      <div class="score-inner">
-        <span class="score-pct" id="score-pct">0%</span>
-        <span class="score-label">Başarı</span>
-      </div>
-    </div>
-    <div class="result-stats">
-      <div class="stat-item"><div class="stat-num green" id="r-correct">0</div><div class="stat-lbl">Doğru</div></div>
-      <div class="stat-item"><div class="stat-num red" id="r-wrong">0</div><div class="stat-lbl">Yanlış</div></div>
-      <div class="stat-item"><div class="stat-num gold" id="r-star">0</div><div class="stat-lbl">Yıldızlı</div></div>
+    <div class="score-pct" id="score-pct">0%</div>
+    <div class="score-sub" id="score-sub"></div>
+    <div class="score-stats">
+      <div class="stat correct"><div class="stat-val" id="r-correct">0</div><div class="stat-lbl">Doğru</div></div>
+      <div class="stat wrong"><div class="stat-val" id="r-wrong">0</div><div class="stat-lbl">Yanlış</div></div>
+      <div class="stat starred"><div class="stat-val" id="r-starred">0</div><div class="stat-lbl">Yıldızlı</div></div>
     </div>
     <div class="result-btns">
       <button class="res-btn primary" onclick="restartQuiz()">🔄 Tüm Soruları Yeniden Çöz</button>
       <button class="res-btn" id="retry-wrong-btn" onclick="retryWrong()">✗ Yanlışları Tekrar Çöz</button>
       <button class="res-btn" id="retry-star-btn" onclick="retryStar()">★ Yıldızlıları Tekrar Çöz</button>
-      <button class="res-btn share" id="share-star-btn" onclick="shareStarred()">📤 Yıldızlı Soruları Paylaş</button>
     </div>
+    <div class="part-note">🏁 <b>Mide konusu tamamlandı!</b><br>Part 1–4 toplam ~153 soru · Sayfa 25–39 arası tüm fosforlu bilgiler işlendi.</div>
   </div>
 </div>
-
-<div class="q-modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
+<div class="q-modal-overlay" id="q-modal-overlay" onclick="closeModalOnOverlay(event)">
   <div class="q-modal">
-    <div class="q-modal-title">Soru Listesi</div>
+    <div class="q-modal-title">SORU LİSTESİ</div>
     <div class="q-grid" id="q-grid"></div>
   </div>
 </div>
-
 <script>
 const ALL_QUESTIONS = [
-  // ── ANATOMİ ──────────────────────────────────────────────
+  // SAYFA 36 – BİLATERAL TRUNKAL VAGOTOMİ
   {
-    section: 'karaciger_anatomi',
-    sectionLabel: 'KARACİĞER – Anatomi',
-    years: ['Meditus 7. Baskı'],
-    q: 'Karaciğer aşağıdakilerden hangisine göre anatomik segmentlere ayrılır?',
-    opts: ['A) Safra yolu drenajı', 'B) Hepatik arter dolaşımı', 'C) Hepatik venöz drenaj', 'D) Portal ven dağılımı', 'E) Umbilikal fissür'],
-    ans: 'C',
-    hint: '🔑 Karaciğer <b>hepatik venöz sisteme</b> göre 8 segmente ayrılır (Couinaud). Sağ lob 5-8, sol lob 2-4, segment 1 kaudat lobdur.',
-    trap: 'Portal ven dağılımı ile hepatik venöz drenaj karıştırılabilir. Segmentasyonun temeli <b>hepatik venöz drenaj</b>tır; portal ven değil.',
-    explain: 'Karaciğer, <b>inferior vena kavaya drene olan hepatik venöz sisteme</b> göre Couinaud sınıflamasıyla 8 segmente ayrılır. Sağ lob segment 5-8\'i, sol lob segment 2-4\'ü, kaudat lob ise segment 1\'i kapsar. Sağ hepatik ven 5,6,7,8\'i; middle hepatik ven 4A,4B,5,8\'i; sol hepatik ven 2-3\'ü drene eder.'
+    years:['Sayfa 36 – Bilateral Trunkal Vagotomi'],
+    q:'Bilateral trunkal vagotomide özofagus distalinde hangi vagus dalları kesilir?',
+    opts:['A) Yalnızca sol vagus hepatik dalı','B) Yalnızca sağ vagus çölyak dalı','C) Ön ve arka vagus, hepatik ve çölyak dallarını vermeden kesilir','D) Yalnızca Latarjet siniri','E) Yalnızca Grassi siniri'],
+    ans:'C',
+    hint:'🔑 Özofagus distalinde ön ve arka vagus hepatik ve çölyak dallarını vermeden kesilir.',
+    trap:'Trunkal vagotomide dallar verilmeden kesilir; bu nedenle <b>pilor denervasyonu olur ve drenaj prosedürü zorunludur.</b>',
+    explain:'<b>Bilateral trunkal vagotomide özofagus distalinde ön ve arka vagus, hepatik ve çölyak dallarını vermeden kesilir.</b> Pilor innervasyonu bozulduğu için özellikle katı gıdaların mide boşalımı gecikir. Bu nedenle mutlaka drenaj prosedürü (piloroplasti veya gastrojejunostomi) eklenmelidir.',
   },
   {
-    section: 'karaciger_anatomi',
-    sectionLabel: 'KARACİĞER – Anatomi',
-    years: ['Meditus 7. Baskı'],
-    q: 'Aşağıdaki karaciğer segmentlerinden hangisinin venöz drenajı hepatik venler yerine direkt olarak vena kavaya olur?',
-    opts: ['A) 1', 'B) 2', 'C) 3', 'D) 4', 'E) 5'],
-    ans: 'A',
-    hint: '🔑 <b>Segment 1 = Kaudat lob.</b> Hepatik venöz ve portal dallanmadan bağımsız; direkt IVC\'ye drene olur.',
-    trap: 'Diğer tüm segmentler sağ, middle veya sol hepatik ven üzerinden IVC\'ye drene olur. Yalnızca kaudat lob (segment 1) bu kurala istisnadır.',
-    explain: '<b>Segment 1 (Kaudat lob)</b> hepatik venöz ve portal dallanmadan bağımsız olup venöz drenajı doğrudan inferior vena kavaya olur. Bu anatomik özellik nedeniyle Budd-Chiari sendromundan görece korunur.'
+    years:['Sayfa 36 – Bilateral Trunkal Vagotomi'],
+    q:'Bilateral trunkal vagotomide pilor innervasyonu bozulduğundan hangi prosedür zorunlu olarak eklenmek zorundadır?',
+    opts:['A) Antrektomi','B) Gastrektomi','C) Drenaj prosedürü (piloroplasti veya gastrojejunostomi)','D) Fundoplikasyon','E) Özofagojejunostomi'],
+    ans:'C',
+    hint:'🔑 Bu nedenle mutlaka drenaj prosedürü (piloroplasti veya gastrojejunostomi) eklenmelidir.',
+    trap:'Trunkal vagotomiye antrektomi eklenmesi seçenek olsa da <b>zorunlu olan drenaj prosedürüdür</b> (piloroplasti veya gastrojejunostomi).',
+    explain:'<b>Trunkal vagotomide pilor innervasyonu bozulduğundan mutlaka drenaj prosedürü (piloroplasti veya gastrojejunostomi) eklenmelidir.</b> Gastrik çıkış tıkanıklığında gastrojejunostomi iyi bir seçenektir. Piloroplasti; kanama gibi komplikasyonlar, pilorik bölgede skar olan ve gastrojejunostominin teknik olarak mümkün olmadığı hastalarda uygun alternatiftir.',
+  },
+  // SAYFA 36 – SELEKTİF VAGOTOMİ
+  {
+    years:['Sayfa 36 – Selektif Vagotomi'],
+    q:'Selektif vagotomide sinirler nerede kesilir ve trunkal vagotomiye kıyasla dezavantajı nedir?',
+    opts:['A) Özofagus distalinde; daha düşük rekürrens','B) Çölyak ve hepatik dalların hemen distalinden; daha yüksek rekürrens oranları','C) İncisura angulariste; drenaj gerektirmez','D) Kardia düzeyinde; daha az komplikasyon','E) Pilorik düzeyde; daha az yan etki'],
+    ans:'B',
+    hint:'🔑 Selektif vagotomide çölyak ve hepatik dalların hemen distalinden sağ ve sol vagus ayrılır. Trunkal vagotomiye göre daha yüksek rekürrens oranlarına neden olur.',
+    trap:'Selektif vagotominin daha iyi olduğu sanılabilir. Ancak <b>selektif vagotomi trunkal vagotomiye göre DAHA YÜKSEK rekürrens oranına sahiptir</b> ve büyük ölçüde terk edilmiştir.',
+    explain:'<b>Selektif vagotomide çölyak ve hepatik dalların hemen distalinden sağ ve sol vagus ayrılır; drenaj prosedürü gereklidir.</b> Trunkal vagotomiye göre <b>daha yüksek rekürrens oranlarına</b> neden olur. Bu nedenle <b>selektif vagotomi büyük ölçüde terk edilmiştir.</b>',
+  },
+  // SAYFA 36 – YÜKSEK SELEKTİF VAGOTOMİ
+  {
+    years:['Sayfa 36 – Yüksek Selektif Vagotomi'],
+    q:'Yüksek selektif vagotomide (YSV) hangi sinirler kesilir ve hangi yapıların innervasyonu korunur?',
+    opts:['A) Tüm vagus dalları kesilir; hiçbiri korunmaz','B) Sadece parietal hücrelerin proksimal sinirleri kesilir; antrum ve pilorun vagal innervasyonu bozulmaz','C) Grassi siniri kesilir; kaz ayağı korunur','D) Hepatik dal kesilir; çölyak dal korunur','E) Latarjet siniri kesilir; pilorik dal korunur'],
+    ans:'B',
+    hint:'🔑 Sadece parietal hücrelerin bulunduğu midenin proksimal sinirleri kesilir. Antrum ve pilorun vagal innervasyonu bozulmaz.',
+    trap:'YSV\'de kaz ayağı <b>korunur</b>; bu nedenle drenaj gerekmez. <b>Antrum + pilor innervasyonu sağlam kalır.</b>',
+    explain:'<b>Yüksek selektif vagotomide sadece parietal hücrelerin bulunduğu midenin proksimal sinirleri kesilir; midenin fundus ve korpusunu innerve eden kaz ayakları kesilir ama antrum ve pilorun vagal innervasyonu bozulmaz.</b> Bu nedenle drenaj ihtiyacı yoktur.',
   },
   {
-    section: 'karaciger_anatomi',
-    sectionLabel: 'KARACİĞER – Anatomi',
-    years: ['Meditus 7. Baskı'],
-    q: 'Falsiform ligaman hangi karaciğer segmentlerini ayırmaktadır?',
-    opts: ['A) Segment 1 ve 2', 'B) Segment 2-3 ve 4', 'C) Segment 4 ve 5', 'D) Segment 5 ve 6', 'E) Segment 5-8 ile Segment 4'],
-    ans: 'B',
-    hint: '🔑 Falsiform ligaman sol lob içinde medial ve lateral segmentleri ayırır: <b>Segment 2-3 (lateral) | Segment 4 (medial)</b>.',
-    trap: 'Falsiform ligaman sağ ve sol lobu ayırmaz! Sağ-sol lobu ayıran <b>Cantlie çizgisidir</b> (IVC – safra kesesi yatağı arası düzlem).',
-    explain: '<b>Falsiform ligaman</b>, sol lobun medial ve lateral segmentlerini yani segment 2-3 ile segment 4\'ü birbirinden ayırır ve karaciğeri karın ön duvarına asar. Karaciğerin sağ ve sol lobları ise inferior vena kava ile safra kesesi yatağı arasındaki <b>Cantlie çizgisi</b> boyunca ayrılır.'
+    years:['Sayfa 36 – Yüksek Selektif Vagotomi'],
+    q:'Yüksek selektif vagotominin (YSV) diğer vagotomi türlerine kıyasla avantajları ve dezavantajı nedir?',
+    opts:['A) Morbidite en yüksek, nüks en düşük','B) Morbidite ve mortalitesi en düşük, nüksü en yüksek peptik ülser prosedürüdür','C) Morbidite ve mortalitesi en yüksek, nüksü en düşük','D) Tüm vagotomiler arasında en yüksek morbidite ve nüks','E) Nüks ve morbidite trunkal vagotomiyle eşit'],
+    ans:'B',
+    hint:'🔑 Morbidite ve mortalitesi en düşük, nüksü en yüksek peptik ülser prosedürüdür.',
+    trap:'YSV en güvenli prosedür (en düşük morbidite/mortalite) ama aynı zamanda <b>en yüksek nüks oranına</b> sahiptir. Bu ikilem TUS\'ta sık sorulur.',
+    explain:'<b>Yüksek selektif vagotomi (YSV): morbidite ve mortalitesi en düşük, nüksü en yüksek peptik ülser prosedürüdür.</b> Drenaj ihtiyacı yoktur; kaz ayakları pilorun 7 cm proksimaline kadar ayrılır. İdeal olarak antrum ve pilora giden 2-3 dal korunmalıdır.',
   },
   {
-    section: 'karaciger_anatomi',
-    sectionLabel: 'KARACİĞER – Anatomi',
-    years: ['Meditus 7. Baskı'],
-    q: 'Karaciğer rezeksiyonunda 5. ve 8. segmentler çıkarılmışsa rezeke edilen bölüm aşağıdakilerden hangisidir?',
-    opts: ['A) Sol lob medial', 'B) Sol lob lateral', 'C) Kaudat lob', 'D) Sağ lob anterior', 'E) Sol lob posterior'],
-    ans: 'D',
-    hint: '🔑 Sağ <b>anterior</b> segment = 5 ve 8. Sağ <b>posterior</b> segment = 6 ve 7.',
-    trap: 'Anterior/posterior, sağ/sol karışıklığı klasik tuzaktır. Sağ lob içinde: önde 5-8, arkada 6-7 yer alır.',
-    explain: 'Couinaud sınıflamasına göre <b>sağ anterior segment segmentler 5 ve 8\'i</b>, sağ posterior segment ise segmentler 6 ve 7\'yi kapsar. 5+8 rezeksiyonu = Sağ lob anterior seksiyonektomidir.'
+    years:['Sayfa 36 – Yüksek Selektif Vagotomi'],
+    q:'YSV sırasında Grassi\'nin kriminal siniri kesilmezse ne olur?',
+    opts:['A) Pilor spazmı gelişir','B) Sıklıkla ülser rekürrensi gelişir','C) Mide boşalması yavaşlar','D) Hepatik iskemi gelişir','E) Diyare gelişir'],
+    ans:'B',
+    hint:'🔑 Grassi\'nin kriminal siniri vagusun sağ dalının proksimal ilk dalını temsil eder ve vagotomi sürecinde bu dal kesilmezse sıklıkla ülser rekürrensi gelişir.',
+    trap:'Grassi sinirinin kriminal olma nedeni: <b>gözden kaçınca vagotomi başarısız olur ve ülser tekrarlar.</b>',
+    explain:'<b>Grassi\'nin kriminal siniri vagusun sağ dalının proksimal ilk dalını temsil eder; vagotomi sürecinde bu dal kesilmezse sıklıkla ülser rekürrensi gelişir.</b> Bu nedenle YSV sırasında bu dalın tanınması ve kesilmesi kritik önem taşır.',
+  },
+  // SAYFA 37 – PARSIYEL GASTREKTOMI
+  {
+    years:['Sayfa 37 – Parsiyel Gastrektomi'],
+    q:'Duodenal ülserler için parsiyel gastrektomi hangi durumlarda standart tedavi olarak önerilir?',
+    opts:['A) Her duodenal ülserde ilk seçenek','B) Medikal tedavi geçerliliği nedeniyle uygun olmasa bile, gastrik ülserlerde kanser riski nedeniyle standart tedavi','C) Yalnızca kanama komplikasyonunda','D) Yalnızca obstrüksiyon geliştiğinde','E) H. pylori pozitif vakalarda'],
+    ans:'B',
+    hint:'🔑 Duodenal ülserler için parsiyel gastrektomi günümüzde medikal tedavi geçerliliği nedeni ile uygun olmasa bile gastrik ülserlerde kanser riski nedeni ile standart tedavi olmalıdır.',
+    trap:'Duodenal ülserde parsiyel gastrektomi artık tercih edilmez; <b>gastrik ülserde kanser riski nedeniyle hâlâ standart kabul edilir.</b>',
+    explain:'<b>Duodenal ülserler için parsiyel gastrektomi günümüzde medikal tedavi geçerliliği nedeniyle uygun olmasa bile, gastrik ülserlerde kanser riski nedeniyle standart tedavi olmalıdır.</b> Gastrik ülserlerde malignite ekarte edilemeyebileceğinden rezeksiyon tercih edilir.',
+  },
+  // SAYFA 37 – PERFORASYONDA CERRAHİ
+  {
+    years:['Sayfa 37 – Perforasyonda Cerrahi'],
+    q:'Perforasyon, günümüzde ameliyat gerektiren en sık komplikasyon olarak kabul edilmektedir. Hemodinamik unstabil, eksüdatif peritonitli ve 24 saatten uzun perforasyonu olan hastalarda ne yapılmalıdır?',
+    opts:['A) Sadece antibiyotik verilir','B) Primer onarım uygulanmalıdır','C) Cerrahi ertelenir','D) Sadece perkütan drenaj yapılır','E) Konservatif tedavi yeterlidir'],
+    ans:'B',
+    hint:'🔑 Hemodinamik unstabil, eksüdatif peritonitli ve 24 saatten uzun perforasyonu olan hastalarda primer onarım uygulanmalıdır.',
+    trap:'Bu hasta grubunda geniş rezeksiyon değil <b>primer onarım (Graham yama)</b> tercih edilir; hasta hemodinamik olarak instabildir.',
+    explain:'<b>Hemodinamik unstabil, eksüdatif peritonitli ve 24 saatten uzun perforasyonu olan hastalarda primer onarım uygulanmalıdır.</b> Perforasyon hikayesi uzun değilse YSV eklenebilir. Perforasyon için gastrik rezeksiyon idealdir; tip 2-3 ülserlerde vagotomi eklenir. Operasyon riski düşük stabil hastalarda gastrik rezeksiyon ideal seçenektir.',
   },
   {
-    section: 'karaciger_anatomi',
-    sectionLabel: 'KARACİĞER – Anatomi',
-    years: ['Meditus 7. Baskı'],
-    q: 'Karaciğer segment 5,6,7,8 rezeksiyonu yapılan bir hastanın Brisbane 2000 terminolojisine göre yapılan ameliyat aşağıdakilerden hangisidir?',
-    opts: ['A) Sağ hemihepatektomi', 'B) Sağ triseksiyonektomi', 'C) Sol hemihepatektomi', 'D) Sol lateral seksiyonektomi', 'E) Sol triseksiyonektomi'],
-    ans: 'A',
-    hint: '🔑 Segment 5-6-7-8 = <b>Sağ lob</b> → Sağ hemihepatektomi (Brisbane 2000).',
-    trap: 'Triseksiyonektomi segment 4 de dahil olmak üzere yapılan genişletilmiş rezeksiyondur. Yalnızca 5-8 → sağ hemihepatektomidir.',
-    explain: '<b>Brisbane 2000 terminolojisine</b> göre segment 5,6,7,8 rezeksiyonu <b>sağ hemihepatektomi</b> olarak adlandırılır. Segment 4 de eklenirse sağ triseksiyonektomi, sol lateral (2-3) rezeksiyonu sol lateral seksiyonektomi, 2-3-4 rezeksiyonu ise sol hemihepatektomidir.'
+    years:['Sayfa 37 – Perforasyonda Cerrahi'],
+    q:'Perforasyonda gastrik rezeksiyon idealdir; tip kaç gastrik ülserlerde vagotomi eklenir?',
+    opts:['A) Tip 1 ve Tip 4','B) Tip 2 ve Tip 3','C) Tip 4 ve Tip 5','D) Tüm tiplerde','E) Yalnızca Tip 5'],
+    ans:'B',
+    hint:'🔑 Perforasyon için gastrik rezeksiyon ideal olup tip 2-3 ülserlerde vagotomi eklenir.',
+    trap:'Vagotomi her gastrik ülser tipinde eklenmez. <b>Yalnızca Tip 2 ve Tip 3 (artmış asit sekresyonlu tipler) için vagotomi eklenir.</b>',
+    explain:'<b>Perforasyon için gastrik rezeksiyon idealdir; tip 2-3 gastrik ülserlerde vagotomi eklenir.</b> Tip 2 (korpus + duodenal ülser) ve Tip 3 (prepilorik) artmış asit sekresyonuyla karakterizedir; bu nedenle asit azaltıcı vagotomi eklenmesi mantıklıdır.',
+  },
+  // SAYFA 38 – OBSTRÜKSİYONDA CERRAHİ
+  {
+    years:['Sayfa 38 – Obstrüksiyonda Cerrahi'],
+    q:'Peptik ülsere bağlı obstrüksiyonda standart operasyon nedir?',
+    opts:['A) Gastrektomi','B) Vagotomi + antrektomi','C) Yalnızca piloroplasti','D) Vagotomi + gastrojejunostomi','E) Endoskopik dilatasyon'],
+    ans:'B',
+    hint:'🔑 Obstrüksiyona neden olan peptik ülserde standart operasyon vagotomi + antrektomidir.',
+    trap:'Obstrüksiyonda gastrojejunostomi seçenek olsa da <b>standart operasyon vagotomi + antrektomidir.</b> Gastrojejunostomi yalnızca duodenal güdük rezeksiyona uygun değilse alternatiftir.',
+    explain:'<b>Obstrüksiyona neden olan peptik ülserde standart operasyon vagotomi + antrektomidir.</b> Duodenal güdük rezeksiyona uygun değilse vagotomi + gastrojejunostomi uygulanabilir.',
   },
   {
-    section: 'karaciger_anatomi',
-    sectionLabel: 'KARACİĞER – Anatomi',
-    years: ['Meditus 7. Baskı'],
-    q: 'Portal triadı oluşturan yapılar aşağıdakilerden hangisinde doğru olarak verilmiştir?\n\nI. Portal ven\nII. Hepatik ven\nIII. Hepatik arter\nIV. Ana safra kanalı',
-    opts: ['A) I, II ve III', 'B) I, II ve IV', 'C) I, III ve IV', 'D) I, III ve IV', 'E) I, II, III ve IV'],
-    ans: 'C',
-    hint: '🔑 Portal triad: <b>Portal ven + Hepatik arter + Ana safra kanalı.</b> Hepatik ven portal triadda yer almaz.',
-    trap: 'Hepatik ven santral venlerden oluşan ayrı bir sistemdir; hepatoduodenal ligaman içinde değil, karaciğer posteriorunda IVC\'ye drene olur.',
-    explain: '<b>Portal triadı</b> portal ven, hepatik arter ve ana safra kanalından oluşur; bunlar hepatoduodenal ligaman içinde yer alır. <b>Hepatik ven</b> ise portal triadın parçası değildir; sağ, orta ve sol hepatik venler karaciğerin posteriorunda inferior vena kavaya drene olur.'
+    years:['Sayfa 38 – Obstrüksiyonda Cerrahi'],
+    q:'Duodenal güdük rezeksiyona uygun değilse obstrüksiyonda hangi operasyon uygulanır?',
+    opts:['A) Parsiyel gastrektomi','B) Total gastrektomi','C) Vagotomi + gastrojejunostomi','D) Piloroplasti','E) Özofagojejunostomi'],
+    ans:'C',
+    hint:'🔑 Duodenal güdük rezeksiyona uygun değilse vagotomi + gastrojejunostomi uygulanabilir.',
+    trap:'Standart vagotomi + antrektomi değil; rezeksiyona uygun değilse <b>vagotomi + gastrojejunostomi</b> alternatiftir.',
+    explain:'<b>Duodenal güdük rezeksiyona uygun değilse obstrüksiyonda vagotomi + gastrojejunostomi uygulanabilir.</b> Standart tedavi vagotomi + antrektomidir; gastrojejunostomi ikincil alternatiftir.',
+  },
+  // SAYFA 38 – İNTRAKTABİLİTE CERRAHİSİ
+  {
+    years:['Sayfa 38 – İntraktabilite (Medikal Tedaviye Dirençli Hastalık)'],
+    q:'İntraktabilite (medikal tedaviye dirençli hastalık) nasıl tanımlanır?',
+    opts:['A) 2 haftalık tedavi sonrası iyileşmeme','B) 4 haftalık tedavi sonrası iyileşmeme','C) 8-12 haftalık tedavi sonrası iyileşmeme veya tedavi kesilince nüks etme','D) 6 aylık tedavi sonrası iyileşmeme','E) 1 yıllık tedavi sonrası iyileşmeme'],
+    ans:'C',
+    hint:'🔑 Tanım: 8-12 haftalık tedavi sonrası iyileşmeme veya tedavi kesilince nüks etme.',
+    trap:'2 veya 4 hafta çok kısa; <b>8-12 hafta</b> intraktabilite için gerekli süre eşiğidir.',
+    explain:'<b>İntraktabilite: 8-12 haftalık tedavi sonrası iyileşmeme veya tedavi kesilince nüks etme olarak tanımlanır.</b> %5-10 görülür. İnatçı ülserli hastalarda ilaçların düzgün alındığına, NSAİİ/steroid kullanılmadığına, sigara içilmediğine emin olunup kanser, persistan H. pylori, Crohn, sarkoidoz ve ZES araştırılmalıdır.',
   },
   {
-    section: 'karaciger_anatomi',
-    sectionLabel: 'KARACİĞER – Anatomi',
-    years: ['Meditus 7. Baskı'],
-    q: 'Hepatoduodenal ligaman içerisindeki portal ven – hepatik arter – ana safra kanalının komprese edildiği manevranın adı aşağıdakilerden hangisidir?',
-    opts: ['A) Pringle manevrası', 'B) Cattle-Braasch manevrası', 'C) Kocher manevrası', 'D) Mattox manevrası', 'E) Leopold manevrası'],
-    ans: 'A',
-    hint: '🔑 <b>Pringle</b> = karaciğer pedikülü (hepatoduodenal ligaman) kompresyonu → karaciğer kanamasında zaman kazandırır.',
-    trap: 'Kocher manevrası duodenumun mobilizasyonudur. Mattox sol taraflı retroperitoneal hematomlarda uygulanır. Sadece Pringle hepatoduodenal ligamanla ilgilidir.',
-    explain: 'Karaciğer kanamasını kontrol etmek için hepatoduodenal ligamanın (portal ven + hepatik arter + ana safra kanalı) vasküler klemple ya da turnike ile komprese edilmesine <b>Pringle manevrası</b> denir. Hemodinamik instabilite nedeni karaciğer olan travma hastalarında uygulanır.'
+    years:['Sayfa 38 – İntraktabilite'],
+    q:'İntraktabilite cerrahisinde inatçı ülserli hastada operasyon öncesinde hangi durumlar araştırılmalıdır?',
+    opts:['A) Yalnızca H. pylori','B) Kanser, persistan H. pylori, Crohn, sarkoidoz ve ZES','C) Yalnızca ZES','D) Yalnızca kanser','E) Yalnızca Crohn hastalığı'],
+    ans:'B',
+    hint:'🔑 İnatçı ülserli hastalarda kanser, persistan H. pylori, Crohn, sarkoidoz ve ZES araştırılmalıdır.',
+    trap:'Yalnızca H. pylori veya yalnızca ZES araştırmak yetersizdir. <b>Beş olasılığın tümü araştırılmalıdır.</b>',
+    explain:'<b>İnatçı ülserli hastalarda ilaçların düzgün alındığına, NSAİİ/steroid kullanılmadığına, sigara içilmediğine emin olunup kanser, persistan H. pylori, Crohn, sarkoidoz ve ZES araştırılmalıdır.</b> Multipl rekürrens, >2 cm ülser, komplikasyon ve kanser şüphesinde operasyon planlanmalıdır.',
+  },
+  // SAYFA 39 – DEV GASTRİK ÜLSER
+  {
+    years:['Sayfa 39 – Dev Gastrik Ülser'],
+    q:'Dev gastrik ülser nasıl tanımlanır ve genellikle nerede yerleşir?',
+    opts:['A) Çapı >1 cm; fundusta','B) Çapı 2 cm ve üzeri; genellikle küçük kurvatur yerleşimli','C) Çapı >3 cm; büyük kurvaturda','D) Çapı >5 cm; antrumda','E) Çapı >0,5 cm; pilorda'],
+    ans:'B',
+    hint:'🔑 Dev gastrik ülser: çapı 2 cm ve üzeri ülserlere denir. Genellikle küçük kurvatur yerleşimlidir.',
+    trap:'Dev gastrik ülser eşiği <b>2 cm</b>dir, 3 cm değil. Lokalizasyon <b>küçük kurvatur</b>dur.',
+    explain:'<b>Dev gastrik ülser: çapı 2 cm ve üzeri ülserlere denir ve genellikle küçük kurvatur yerleşimlidir.</b> Malignite riski küçük ülserlere göre daha fazladır (%10). Medikal tedavi ile %80 iyileşme görülür.',
   },
   {
-    section: 'karaciger_anatomi',
-    sectionLabel: 'KARACİĞER – Anatomi',
-    years: ['Meditus 7. Baskı'],
-    q: 'Yirmi yaşında kadın hasta karın ağrısı şikayeti ile başvuruyor. Abdominal BT raporunda "sağ karaciğerden inferiora doğru uzanan küçük bir dil şeklinde karaciğer dokusu" tanımlanmıştır.\n\nBu hastadaki bu yapının özel adı aşağıdakilerden hangisidir?',
-    opts: ['A) Riedel lobu', 'B) Kuadrat lob', 'C) Kaudat lob', 'D) Cantlie çizgisi', 'E) Falsiform ligament'],
-    ans: 'A',
-    hint: '🔑 Sağ karaciğerden aşağı uzanan dil şeklinde çıkıntı = <b>Riedel lobu</b> (normal anatomik varyant).',
-    trap: 'Kuadrat lob = segment 4; Kaudat lob = segment 1. Riedel lobu sağ lobun aşağı doğru uzantısıdır, patolojik değildir.',
-    explain: '<b>Riedel lobu</b>, sağ karaciğerin inferiora doğru uzanan dil biçimindeki anatomik varyantıdır; klinik önemi yoktur. Segment 4, "kuadrat lob" (4A superiorda, 4B inferiorda) olarak bilinir. Segment 1 ise kaudat lobtur ve hepatik venöz/portal dallanmadan bağımsız drenajı vardır.'
+    years:['Sayfa 39 – Dev Gastrik Ülser'],
+    q:'Dev gastrik ülserde malignite riski küçük ülserlere kıyasla ne kadardır ve medikal tedaviyle iyileşme oranı nedir?',
+    opts:['A) Malignite riski %1; iyileşme %50','B) Malignite riski %10; iyileşme %80','C) Malignite riski %30; iyileşme %60','D) Malignite riski %50; iyileşme %40','E) Malignite riski %5; iyileşme %90'],
+    ans:'B',
+    hint:'🔑 Malignite riski küçük ülserlere göre daha fazladır (%10). Medikal tedavi ile %80 iyileşme görülür.',
+    trap:'Dev ülserde malignite riski yüksek ama %50 veya %30 değil; <b>%10</b>dur. Medikal tedavi başarısı <b>%80</b>dir.',
+    explain:'<b>Dev gastrik ülserde malignite riski %10\'dur</b> (küçük ülserlere göre daha fazla). <b>Medikal tedavi ile %80 iyileşme görülür.</b> Bu nedenle medikal tedaviye yanıtsız dev gastrik ülserlerde cerrahi düşünülmelidir.',
   },
-
-  // ── KİSTİK HASTALIKLAR ──────────────────────────────────
+  // SAYFA 39 – MİDE TÜMÖRLERİ (Polipler)
   {
-    section: 'karaciger_kistik',
-    sectionLabel: 'KARACİĞER – Kistik Hastalıklar',
-    years: ['Meditus 7. Baskı'],
-    q: 'Piyojenik karaciğer abselerinin en sık nedeni aşağıdakilerden hangisidir?',
-    opts: ['A) Asendan biliyer enfeksiyon (kolanjit)', 'B) Portal ven yolu ile hematojen yayılım', 'C) Jeneralize septisemi', 'D) İntraperitoneal enfeksiyonlardan direkt yayılım', 'E) Karaciğer travması'],
-    ans: 'A',
-    hint: '🔑 Piyojenik apse en sık sebebi: <b>Biliyer obstrüksiyon → kolanjit</b> ya da kriptojenik.',
-    trap: 'Portal ven yolu ile yayılım eskiden en sık neden sayılırdı; günümüzde biliyer sistem kökenli enfeksiyonlar (kolanjit) veya kriptojenik nedenler öne geçmiştir.',
-    explain: 'Karaciğer piyojenik abselerinin en sık nedeni, ekstrahepatik biliyer sistemdeki obstrüksiyona ikincil <b>kolanjit</b> ya da <b>kriptojenik</b> (nedeni bilinmeyen) etkenlerdir. Portal ven yolu ile hematojen yayılım, intraperitoneal enfeksiyonlardan direkt yayılım ve karaciğer travması daha nadir nedenler arasındadır.'
+    years:['Sayfa 39 – Benign Gastrik Neoplazmlar / Polipler'],
+    q:'Gastrik polipler midenin en sık benign tümörleridir. 1 cm\'den büyük izole polipli hastalarda ne yapılmalıdır?',
+    opts:['A) Yalnızca biyopsi alınır','B) Takip yeterlidir','C) Tam polipektomi yapılmalıdır','D) Parsiyel gastrektomi yapılmalıdır','E) Radyoterapi uygulanır'],
+    ans:'C',
+    hint:'🔑 1 cm\'den büyük izole polipli hastalarda tam polipektomi yapılmalıdır.',
+    trap:'1 cm altı polipler için biyopsi yeterli olabilir; <b>1 cm\'den büyük izole polipte tam polipektomi</b> gerekir.',
+    explain:'<b>1 cm\'den büyük izole polipli hastalarda tam polipektomi yapılmalıdır.</b> Çoklu polipler söz konusu olduğunda ise en büyüğü endoskopik çıkarılmalı ve diğerlerinden biyopsi alınmalıdır. Displazi ve H. pyloriyi değerlendirmek için normal mukoza biyopsileri de yapılmalıdır.',
   },
   {
-    section: 'karaciger_kistik',
-    sectionLabel: 'KARACİĞER – Kistik Hastalıklar',
-    years: ['Meditus 7. Baskı'],
-    q: 'Yetmiş yaşında erkek hasta titreme ile yükselen ateş, halsizlik, bulantı, kusma ve sağ üst kadranda ağrı ile başvuruyor. BT\'de karaciğer sağ lobda posteriorda 4 cm çaplı abse ile uyumlu lezyon saptanmıştır. Karın içinde ek patoloji saptanmıyor.\n\nBu hastada en uygun tedavi aşağıdakilerden hangisidir?',
-    opts: ['A) 6-8 hafta geniş spektrumlu antibiyotik tedavisi', 'B) Posterior yaklaşımla açık drenaj + antibiyotik', 'C) Perkütan drenaj + antibiyotik', 'D) Anterior yaklaşımla açık drenaj + antibiyotik', 'E) Laparoskopik drenaj'],
-    ans: 'C',
-    hint: '🔑 Tek, erişilebilir piyojenik apse + ek intraabdominal patoloji yok → <b>Perkütan drenaj + antibiyotik</b>.',
-    trap: 'Yalnızca antibiyotik tedavisi yetersizdir. Ek intraabdominal patoloji olsaydı cerrahi drenaj (laparotomi) tercih edilirdi. Laparoskopik drenaj rutin değildir.',
-    explain: 'Piyojenik apse tedavisinde <b>uygun antibiyotik + perkütan drenaj</b> (USG/BT rehberliğinde) standart yaklaşımdır. Perkütan drenaj lokalizasyonu uygun tek apsede ilk tercihtir. Çok sayıda apse veya ek intraabdominal patoloji varlığında cerrahi drenaj öne çıkar.'
+    years:['Sayfa 39 – Benign Gastrik Neoplazmlar / Polipler'],
+    q:'Çoklu gastrik poliplerde yönetim nasıl olmalıdır?',
+    opts:['A) Hepsini endoskopik çıkar','B) Hepsini cerrahi çıkar','C) En büyüğü endoskopik çıkarılmalı ve diğerlerinden biyopsi alınmalıdır','D) Yalnızca biyopsi alınır','E) Takip yeterlidir'],
+    ans:'C',
+    hint:'🔑 Çoklu polipler: en büyüğü endoskopik çıkarılmalı ve diğerlerinden biyopsi alınmalıdır.',
+    trap:'Tek ve çoklu polip yönetimi farklıdır. Çokluda <b>en büyüğünü çıkar + diğerlerinden biyopsi</b> al.',
+    explain:'<b>Çoklu gastrik poliplerde en büyüğü endoskopik çıkarılmalı ve diğerlerinden biyopsi alınmalıdır.</b> Displazi ve H. pyloriyi değerlendirmek için normal mukoza biyopsileri de yapılmalıdır.',
   },
   {
-    section: 'karaciger_kistik',
-    sectionLabel: 'KARACİĞER – Kistik Hastalıklar',
-    years: ['Meditus 7. Baskı'],
-    q: 'Karaciğer apseleri ile ilgili olarak aşağıdakilerden hangisi yanlıştır?',
-    opts: ['A) Piyojenik apseler genellikle >50 yaşında görülür', 'B) Piyojenik apseler genellikle multipledir', 'C) Amebik apseler genellikle kadınlarda görülür', 'D) Amebik apselerde genellikle kan kültürü negatiftir', 'E) Amebik apselerde abse içeriği ançüez benzeridir'],
-    ans: 'C',
-    hint: '🔑 Amebik apse → <b>20-40 yaş erkekler.</b> Piyojenik apse → <b>>50 yaş, her iki cinsiyet</b>, sıklıkla multipl.',
-    trap: '"Enfeksiyon = yaşlı = kadın" refleksi yanlıştır. Amebik apse cinsiyet açısından <b>erkeklerde</b> belirgin ağırlıktadır.',
-    explain: 'Amebik apseler <b>20-40 yaş erkeklerde</b> daha sık görülür; kadınlarda değil. Piyojenik apseler >50 yaşta, genellikle multipl yerleşimli ve kan kültürü genellikle pozitifken; amebik apselerde kan kültürü genellikle negatiftir ve abse içeriği <b>ançüez (balık ezmesi) benzeri</b> görünümdedir.'
+    years:['Sayfa 39 – Benign Gastrik Neoplazmlar / Polipler'],
+    q:'Hiperplastik polip hangi iki durumla ilişkilidir?',
+    opts:['A) ZES ve gastrinoma','B) NSAİİ kullanımı ve GÖRH','C) H. pylori ve kronik gastrit','D) Çölyak hastalık ve IBH','E) Radyasyon ve kemoterapi'],
+    ans:'C',
+    hint:'🔑 Hiperplastik polip en sık polip tipidir. H. pylori ve kronik gastrit ile ilişkilidir.',
+    trap:'Hiperplastik polip adenomatöz poliple karıştırılmamalı. <b>Hiperplastik = H. pylori + kronik gastrit ilişkili; adenomatöz = malign potansiyelli.</b>',
+    explain:'<b>Hiperplastik polip en sık gastrik polip tipidir ve H. pylori ile kronik gastrit ile ilişkilidir.</b> H. pylori eradikasyonu ile hiperplastik polipler geriliyebilir. Genellikle asemptomatiktir; bazen epigastrik ağrı ve rahatsızlık görülebilir.',
   },
   {
-    section: 'karaciger_kistik',
-    sectionLabel: 'KARACİĞER – Kistik Hastalıklar',
-    years: ['Meditus 7. Baskı'],
-    q: 'Karaciğer hidatik kistinin en sık komplikasyonu aşağıdakilerden hangisidir?',
-    opts: ['A) Süpürasyon', 'B) Safra yollarına açılma', 'C) Periton boşluğuna açılma', 'D) Ampiyem', 'E) Bronkobiliyer fistül'],
-    ans: 'B',
-    hint: '🔑 Hidatik kist komplikasyonu sıklık sırası: <b>Safra yollarına açılma (1.) → Sekonder enfeksiyon (2.)</b>',
-    trap: 'Periton boşluğuna açılma en tehlikeli komplikasyondur ama en sık değildir. En sık komplikasyon biliyer açılmadır.',
-    explain: '<b>Safra yollarına açılma</b>, karaciğer hidatik kistinin en sık komplikasyonudur; biliyer kolik, sarılık ve ürtiker ile belirir. İkinci sırada <b>sekonder enfeksiyon (süpürasyon)</b> gelir. Periton boşluğuna açılma anafilaksi riski nedeniyle en tehlikeli komplikasyondur.'
+    years:['Sayfa 39 – Benign Gastrik Neoplazmlar / Polipler'],
+    q:'Gastrik polipler genel olarak nasıl bir klinik seyir gösterir ve malignite riski neye bağlıdır?',
+    opts:['A) Genellikle semptomatik; malignite riski büyüklüğe bağlı değil','B) Genellikle asemptomatik; malignite riski ve polip yönetimi büyük ölçüde polip histopatolojisine bağlı','C) Her zaman malindir','D) Genellikle kanama yapar; histoloji önemsiz','E) Genellikle semptomatik; cerrahi her zaman gerekir'],
+    ans:'B',
+    hint:'🔑 Genellikle asemptomatiktir. Malignite riski ve polip yönetimi büyük ölçüde polip histopatolojisine bağlıdır.',
+    trap:'Polip büyüklüğü önemlidir ama <b>malignite riskini belirleyen asıl faktör histopatolojidir.</b> Adenomatöz polipler hiperplastikten çok daha fazla malign potansiyele sahiptir.',
+    explain:'<b>Gastrik polipler genellikle asemptomatiktir; bazen epigastrik ağrı ve rahatsızlık görülebilir.</b> <b>Malignite riski ve polip yönetimi büyük ölçüde polip histopatolojisine bağlıdır.</b> Endoskopi sırasında insidental olarak sıkça gözlenir (%5).',
+  },
+  // SAYFA 36 – TRUNKAL VAGOTOMİ (ek sorular)
+  {
+    years:['Sayfa 36 – Trunkal Vagotomi – Ek'],
+    q:'Trunkal vagotomi sonrası drenaj prosedürü olarak piloroplastinin tercih edileceği durumlar nelerdir?',
+    opts:['A) Her trunkal vagotomide gastrojejunostomi tercih edilir','B) Kanama komplikasyonları, pilorik bölgede skar ve gastrojejunostominin teknik olarak mümkün olmadığı durumlar','C) Yalnızca kanama komplikasyonunda','D) Yalnızca pilorik bölgede skar varsa','E) Yalnızca gastrojejunostominin mümkün olmadığı durumlarda'],
+    ans:'B',
+    hint:'🔑 Piloroplasti kanama gibi komplikasyonlar nedeni ile ile pyloroduodenotomi gereken, pilorik bölgede skar olan ve gastrojejunostomi teknik olarak mümkün olmayan hastalarda uygun seçenektir.',
+    trap:'Her durumda gastrojejunostomi yerine <b>üç durumda piloroplasti</b> tercih edilir: kanama komplikasyonu + pilorik skar + GJ teknik olarak imkânsız.',
+    explain:'<b>Piloroplasti; kanama gibi komplikasyonlar nedeniyle pyloroduodenotomi gereken, pilorik bölgede skar olan ve gastrojejunostominin teknik olarak mümkün olmadığı hastalarda uygun bir seçenektir.</b> Gastrik çıkış tıkanıklığında gastrojejunostomi iyi bir seçenektir.',
   },
   {
-    section: 'karaciger_kistik',
-    sectionLabel: 'KARACİĞER – Kistik Hastalıklar',
-    years: ['Meditus 7. Baskı'],
-    q: 'Karaciğer Kist Hidatiklerinde kullanılan Gharbi sınıflamasında Tip 3 Kist Hidatik hangisi ile uyumludur?',
-    opts: ['A) Pür Kistik', 'B) Membran ayrışması olan', 'C) Septal', 'D) Heterojen', 'E) Kalsifiye'],
-    ans: 'C',
-    hint: '🔑 Gharbi sınıflaması: Tip1=Pür Kistik, Tip2=Membran Ayrışması, <b>Tip3=Septalı</b>, Tip4=Heterojen, Tip5=Kalsifiye.',
-    trap: '"Tip 3 = üçüncü en ileri evre" sanılabilir ama sınıflama doğrusal bir progresyon göstermez; ezberlenmesi gerekir.',
-    explain: 'Gharbi sınıflaması: <b>Tip 1</b> = Pür kistik, <b>Tip 2</b> = Membran ayrışması olan, <b>Tip 3</b> = Septalı (bal peteği görünümü), <b>Tip 4</b> = Heterojen, <b>Tip 5</b> = Kalsifiye. Tip 5 en inaktif (kalsifiye) formdur.'
+    years:['Sayfa 36 – Yüksek Selektif Vagotomi – Ek'],
+    q:'Yüksek selektif vagotomide kaz ayakları pilorun kaç cm proksimaline kadar ayrılır?',
+    opts:['A) 2 cm','B) 4 cm','C) 5 cm','D) 7 cm','E) 10 cm'],
+    ans:'D',
+    hint:'🔑 Kaz ayakları pilorun 7 cm proksimaline kadar ayrılır.',
+    trap:'5 cm değil, <b>7 cm</b> proksimale kadar ayrılır; bu mesafe antrum ve pilorun innervasyonunu korumak için yeterlidir.',
+    explain:'<b>Yüksek selektif vagotomide kaz ayakları pilorun 7 cm proksimaline kadar ayrılır.</b> GEB\'in 5 cm proksimaline kadar da serbestleştirme yapılır. İdeal olarak antrum ve pilora giden 2-3 dal korunmalıdır.',
   },
   {
-    section: 'karaciger_kistik',
-    sectionLabel: 'KARACİĞER – Kistik Hastalıklar',
-    years: ['Meditus 7. Baskı'],
-    q: 'Karaciğer kist hidatiği ile ilgili olarak aşağıdakilerden hangisi yanlıştır?',
-    opts: ['A) Sistemik bulgu genellikle görülmez', 'B) En sık komplikasyonu safra yollarına açılmasıdır', 'C) Cerrahi tedavisinde kapitonaj ve omentoplasti sık uygulanan tekniklerdendir', 'D) Cerrahi tedavide germinatif membran yerinde bırakılır', 'E) İnsan ara konaktır'],
-    ans: 'D',
-    hint: '🔑 Cerrahide kural: <b>Germinatif membran + laminar membran çıkarılır</b>, yerinde bırakılmaz.',
-    trap: '"Germinatif membran enfeksiyözdür, çıkarılır" bilgisi atlanarak "bırakılır" seçilmesi yaygın hatadır.',
-    explain: 'Hidatik kist cerrahisinin ilkeleri: paraziti inaktive et, <b>germinatif ve laminar membranı çıkar</b>, geride kalan kaviteyi oblitere et (kapitonaj veya omentoplasti). Germinatif membranın yerinde bırakılması <b>yanlıştır</b>. İnsan ara konaktır; kesin konak köpek, tilki gibi kanidlerdir.'
+    years:['Sayfa 37 – Kanamada Cerrahi'],
+    q:'Duodenal kanamada kontrollü sütür ligasyonu ardından hangi prosedür uygulanabilir?',
+    opts:['A) Distal gastrektomi','B) Total gastrektomi','C) Piloroplasti','D) Fundoplikasyon','E) Gastrojejunostomi'],
+    ans:'C',
+    hint:'🔑 Bu sayede kontrollü sütür ligasyonu ve ardından piloroplasti uygulanabilir.',
+    trap:'Ligasyon sonrası Kocher manevrasıyla erişim sağlanır ve ardından <b>piloroplasti</b> yapılır; gastrektomi değil.',
+    explain:'Pilorotomi ile duodenum arka duvarındaki kanayan ülsere ulaşılabilir. Kocher manevrasıyla kanama alanı el kompresyonu ile kontrol altına alınabilir. <b>Bu sayede kontrollü sütür ligasyonu ve ardından piloroplasti uygulanabilir.</b>',
   },
   {
-    section: 'karaciger_kistik',
-    sectionLabel: 'KARACİĞER – Kistik Hastalıklar',
-    years: ['Meditus 7. Baskı'],
-    q: 'Karaciğerin Echinococcus granulosus\'a bağlı gelişen kistlerinde medikal tedavide öncelikle tercih edilen ilaç aşağıdakilerden hangisidir?',
-    opts: ['A) Albendazol', 'B) Pirenzepin', 'C) Piperazin', 'D) Klorheksidin', 'E) Metronidazol'],
-    ans: 'A',
-    hint: '🔑 Kist hidatik medikal tedavisi: <b>Albendazol</b> (birinci seçim), mebendazol (alternatif).',
-    trap: 'Metronidazol amebik apse tedavisinde kullanılır. Kist hidatikte değil. Klorheksidin cerrahide irrigasyon ajanıdır.',
-    explain: 'Karaciğer kist hidatiğinde perkütan veya cerrahi girişim öncesi enfektiviteyi azaltmak ya da direkt küratif amaçlı olarak medikal tedavide <b>albendazol</b> öncelikle tercih edilir; <b>mebendazol</b> de kullanılabilir. Metronidazol amebik apse, piperazin ise bağırsak parazit tedavisinde tercih edilir.'
+    years:['Sayfa 37 – Kanamada Cerrahi'],
+    q:'Yüksek riskli ve unstabil kanamalı hastalarda tercih edilen yaklaşım nedir?',
+    opts:['A) Hemen total gastrektomi','B) Dikişle kanama kontrolü ve uzun dönem asit baskılayıcı tedavi','C) Endoskopik tedavi','D) Anjiyografik embolizasyon','E) Konservatif izlem'],
+    ans:'B',
+    hint:'🔑 Yüksek riskli ve unstabil hastalarda dikişle kanama kontrolü ve uzun dönem asit baskılayıcı tedavi uygun seçenek olabilir.',
+    trap:'Unstabil hastada geniş rezeksiyon yapmak mortaliteyi artırır; <b>kanama kontrolü + uzun dönem PPI</b> daha güvenli seçenektir.',
+    explain:'<b>Yüksek riskli ve unstabil hastalarda dikişle kanama kontrolü ve uzun dönem asit baskılayıcı tedavi uygun seçenek olabilir.</b> Distal gastrik rezeksiyon en uygun operasyondur; kanamayı dikişlerle kontrol altına aldıktan sonra vagotomi, drenaj ve biyopsi ikincil seçenektir.',
   },
   {
-    section: 'karaciger_kistik',
-    sectionLabel: 'KARACİĞER – Kistik Hastalıklar',
-    years: ['Meditus 7. Baskı'],
-    q: 'Kist hidatik için aşağıdaki bilgilerden hangisi yanlıştır?\n\nI. Echinococcus granulosus etkendir\nII. Koyun ara, köpek kesin konaktır\nIII. Scoleks parazit larvasıdır\nIV. En sık karaciğer ve akciğere yerleşir',
-    opts: ['A) I', 'B) II', 'C) III', 'D) IV', 'E) Hepsi doğru'],
-    ans: 'C',
-    hint: '🔑 Scoleks larva değil, <b>kist içindeki eğrelti otu yaprağına benzer yapıdır</b> (parazit başı / çengel taşıyan yapı).',
-    trap: 'Scoleks terimi "larva" olarak yorumlanabilir; aslında skoleks kist içindeki çocuk kist tohumlarını içeren yapıdır.',
-    explain: 'Kist hidatiğin etkeni <b>Echinococcus granulosus</b>\'tur. Koyun ara konak, köpek kesin konaktır. En sık yerleşim yerleri sırasıyla <b>karaciğer (%60-70) ve akciğer</b>\'dir. <b>Scoleks</b> ise larva olmayıp kist içindeki protoskoleks (parazit başı)\'tir. Cevap C yanlıştır.'
+    years:['Sayfa 38 – İntraktabilite'],
+    q:'İntraktabilite cerrahisinde definitif operasyon gastrektomi olmasına rağmen hangi hastalarda farklı bir yaklaşım uygulanmalıdır?',
+    opts:['A) Genç ve sağlıklı hastalarda','B) Düşük kilolu ve malnütrisyonlu hastalarda YSV (gastrojejunostomi eklenebilir) uygulanmalıdır','C) H. pylori pozitif hastalarda','D) ZES\'li hastalarda','E) Kronik NSAİİ kullananlarda'],
+    ans:'B',
+    hint:'🔑 Definitif operasyon gastrektomi olmasına rağmen düşük kilolu ve malnütrisyonlu hastalarda YSV (gastrojejunostomi eklenebilir) uygulanmalıdır.',
+    trap:'Gastrektomi standart olsa da <b>malnütrisyonlu hastalarda YSV daha güvenlidir.</b>',
+    explain:'<b>İntraktabilite cerrahisinde definitif operasyon gastrektomi olmasına rağmen düşük kilolu ve malnütrisyonlu hastalarda YSV (gastrojejunostomi eklenebilir) uygulanmalıdır.</b> Multipl rekürrens, >2 cm ülser, komplikasyon ve kanser şüphesinde operasyon planlanmalıdır.',
   },
-
-  // ── BENİGN TÜMÖRLER ──────────────────────────────────────
-  {
-    section: 'karaciger_benign',
-    sectionLabel: 'KARACİĞER – Benign Tümörler',
-    years: ['Meditus 7. Baskı'],
-    q: 'Karaciğerin en sık görülen benign tümörü aşağıdakilerden hangisidir?',
-    opts: ['A) Fokal nodüler hiperplazi', 'B) Hemanjiyom', 'C) Adenom', 'D) Adenomatozis', 'E) Hepatoma'],
-    ans: 'B',
-    hint: '🔑 Karaciğer benign tümör sıklığı: <b>Hemanjiyom (1.) > FNH (2.) > Adenom (3.)</b>',
-    trap: 'Hepatoma malign tümördür, benign değil. FNH ikinci sıktır ama birinci hemanjiyomdur.',
-    explain: 'Karaciğerin en sık görülen benign tümörü <b>hemanjiyom</b>dur. Sırasıyla fokal nodüler hiperplazi (FNH) ve hepatik adenom gelir. Hepatoma ise malign primer karaciğer tümörüdür.'
-  },
-  {
-    section: 'karaciger_benign',
-    sectionLabel: 'KARACİĞER – Benign Tümörler',
-    years: ['Meditus 7. Baskı'],
-    q: 'Otuz yaşında kadın hastanın USG\'sinde karaciğer sağ lobunda 4 cm hemanjiyom saptanıyor.\n\nI. Spontan rüptür riski yüksektir\nII. Kesin tanı için ince iğne aspirasyon biyopsisi gerekir\nIII. Kasabach-Merritt sendromuna yol açabilir\nIV. Hasta asemptomatikse ameliyat gerekmez\nV. Malign transformasyon riski yüksektir\n\nHangisi/hangileri doğrudur?',
-    opts: ['A) IV ve II', 'B) II ve III', 'C) III ve IV', 'D) II ve V', 'E) I ve V'],
-    ans: 'C',
-    hint: '🔑 Hemanjiyom: <b>rüptür riski düşük, iğne biyopsisi kontrendike, malign dönüşüm yok</b>. Asemptomatik → izlem yeterli.',
-    trap: 'Kasabach-Merritt = hemanjiyoma bağlı trombositopeni. Bu doğrudur. Ama rüptür riski yüksektir ve biyopsi gerekir ifadeleri yanlıştır.',
-    explain: 'Karaciğer hemanjiyomunda <b>rüptür riski düşük</b>tür, <b>iğne biyopsisi kontrendike</b>dir (kanama riski). <b>Kasabach-Merritt sendromu</b> hemanjiyomun trombositopeniye yol açmasıdır → doğru. Asemptomatikse <b>ameliyat gerekmez</b> → doğru. Malign dönüşüm riski ise yüksek değildir. Doğrular: III ve IV.'
-  },
-  {
-    section: 'karaciger_benign',
-    sectionLabel: 'KARACİĞER – Benign Tümörler',
-    years: ['Meditus 7. Baskı'],
-    q: 'Kasabach-Merritt sendromu aşağıdaki karaciğer lezyonlarından hangisinde görülebilir?',
-    opts: ['A) Hemanjiyom', 'B) Piyojenik karaciğer apsesi', 'C) Amip apsesi', 'D) Kist hidatik', 'E) Fokal nodüler hiperplazi'],
-    ans: 'A',
-    hint: '🔑 Kasabach-Merritt = <b>Hemanjiyoma bağlı trombositopeni ve tüketim koagülopatisi</b>. Yalnızca hemanjiyomda görülür.',
-    trap: 'FNH, adenom gibi diğer lezyonlar trombositopeni yapmaz. Bu sendrom sadece hemanjiyoma özgüdür.',
-    explain: '<b>Kasabach-Merritt sendromunda</b> trombositopeni ve tüketim koagülopatisi görülür. Karaciğer lezyonları arasında trombositopeni yapabilen tek patoloji <b>hemanjiyom</b>dur.'
-  },
-  {
-    section: 'karaciger_benign',
-    sectionLabel: 'KARACİĞER – Benign Tümörler',
-    years: ['Meditus 7. Baskı'],
-    q: 'Aşağıdaki karaciğer lezyonlarından hangisi görüntülemede fibrolamellar karaciğer kanserine benzer?',
-    opts: ['A) Adenom', 'B) Fokal nodüler hiperplazi', 'C) Hepatoselüler karsinom', 'D) Hemanjiyom', 'E) Hamartom'],
-    ans: 'B',
-    hint: '🔑 FNH\'nin <b>santral skar dokusu</b> görüntülemede fibrolamellar kansere benzer. Her ikisinde de santral skar mevcuttur.',
-    trap: 'Adenom ve HCC farklı görüntüleme özelliklerine sahiptir; santral skar FNH ve fibrolamellar karsinom için karakteristiktir.',
-    explain: '<b>Fokal nodüler hiperplazi (FNH)</b>, görüntülemede santral skar dokusu ile fibrolamellar hepatoselüler karsinom ile benzerlik gösterir. FNH hastaları çoğunlukla asemptomatik olup laparotomi sırasında tesadüfen saptanır. Spontan kanama nadirdir.'
-  },
-  {
-    section: 'karaciger_benign',
-    sectionLabel: 'KARACİĞER – Benign Tümörler',
-    years: ['Meditus 7. Baskı'],
-    q: 'Yaklaşık 17 yıldır oral kontraseptif kullanan 30 yaşında kadın hasta sağ üst kadran ağrısı ile başvuruyor. Abdominal tomografide karaciğer sağ lob yerleşimli 4 cm çaplı lezyon saptanıyor.\n\nBu hastada en olası tanı aşağıdakilerden hangisidir?',
-    opts: ['A) Fokal nodüler hiperplazi', 'B) Hemanjiyom', 'C) Hepatoselüler karsinom', 'D) Metastatik tümör', 'E) Hepatik adenom'],
-    ans: 'E',
-    hint: '🔑 <b>Oral kontraseptif + karaciğer kitlesi</b> → Hepatik adenom. OKS kullanımıyla en sık ilişkili hepatik tümördür.',
-    trap: 'FNH de OKS ile ilişkili görünse de kanıtlanmış ilişki daha zayıftır. OKS + semptomatik kitle → adenom.',
-    explain: 'Oral kontraseptif kullanımıyla en sık ilişkili hepatik tümör <b>adenom</b>dur; hastaların %95\'inden fazlasında 5 yıldan uzun süren OKS kullanımı saptanmıştır. OKS kesildiğinde adenom gerileme gösterebilir; ancak kanaması olan veya büyük adenomlar rezeksiyon endikasyonudur.'
-  },
-  {
-    section: 'karaciger_benign',
-    sectionLabel: 'KARACİĞER – Benign Tümörler',
-    years: ['Meditus 7. Baskı'],
-    q: 'OKS kullanan 25 yaşında kadın hastada karaciğer sağ lob yerleşimli 6 cm çaplı hipovaskülize kitle saptanıyor.\n\nBu hasta için en uygun yaklaşım aşağıdakilerden hangisidir?',
-    opts: ['A) OKS kullanımını durdur ve BT ile izle', 'B) Perkütan iğne biyopsisi', 'C) Karaciğer rezeksiyonu', 'D) Arter embolizasyonu', 'E) Radyoterapi'],
-    ans: 'C',
-    hint: '🔑 Hepatik adenom: <b>6 cm üzeri veya semptomatik → rezeksiyon.</b> Kanama ve malign dönüşüm riski taşır.',
-    trap: 'Küçük adenomda OKS kesimi + izlem yeterli olabilir. Ancak 6 cm ve semptomatik lezyonda izlem yeterli değil, rezeksiyon gerekir.',
-    explain: 'Hepatik adenom <b>kanama ve malign dönüşüm riski</b> taşıdığından 5 cm ve üzeri veya semptomatik adenomlarda <b>rezeksiyon</b> endikasyonu vardır. Bu hastada 6 cm kitle ve ağrı mevcuttur → cerrahi rezeksiyon. OKS kesilmeli, ancak bu tek başına yeterli değildir.'
-  },
-
-  // ── MALİGN TÜMÖRLER ──────────────────────────────────────
-  {
-    section: 'karaciger_malign',
-    sectionLabel: 'KARACİĞER – Malign Tümörler',
-    years: ['Meditus 7. Baskı'],
-    q: 'Karaciğerin en sık görülen malign tümörü aşağıdakilerden hangisidir?',
-    opts: ['A) Metastatik tümörler', 'B) Hepatoselüler karsinom', 'C) Hepatoblastoma', 'D) Anjiosarkom', 'E) Adenom'],
-    ans: 'A',
-    hint: '🔑 Karaciğer malign tümör sıklığı: <b>Metastatik (1.) > HCC (2.)</b>. En sık metastaz kaynağı: kolon kanseri.',
-    trap: 'HCC en sık primer malign tümördür; ancak genel sıralamada metastatik tümörler çok daha sıktır. Adenom malign değildir.',
-    explain: 'Karaciğerin en sık görülen malign tümörleri <b>metastatik tümörler</b>dir. En sık karaciğer metastazı <b>kolon karsinomunda</b> bulunur. Çocuklarda en sık metastaz nöroblastom yapar. Karaciğerin en sık <b>primer malign</b> tümörü ise hepatoselüler karsinom (HCC)\'dur.'
-  },
-  {
-    section: 'karaciger_malign',
-    sectionLabel: 'KARACİĞER – Malign Tümörler',
-    years: ['Meditus 7. Baskı'],
-    q: 'Aşağıdaki lezyonlardan hangisi daha çok karaciğerin sol lobunda yerleşir?',
-    opts: ['A) Kist hidatik', 'B) Amip apsesi', 'C) Fibrolamellar hepatoselüler karsinom', 'D) Piyojenik apse', 'E) Fokal nodüler hiperplazi'],
-    ans: 'C',
-    hint: '🔑 İki istisna: <b>Hemanjiyom</b> her iki lobda eşit, <b>Fibrolamellar HCC</b> sol lobda daha sık.',
-    trap: 'Karaciğer sağ lob hacimce daha büyük (%70), bu yüzden lezyonların büyük çoğunluğu sağ lobda görülür. Sol lob daha sık diyebileceğimiz tek tümör fibrolamellar karsinomdur.',
-    explain: 'Karaciğer sağ lob kütlesel olarak %70, sol lob %30 hacmi kaplar. Bu nedenle iki istisna dışında tüm lezyonlar sağ lobda daha sık görülür: <b>Hemanjiyom</b> her iki lobda eşit, <b>Fibrolamellar hepatoselüler karsinom</b> ise daha çok <b>sol lobta</b> yerleşir.'
-  },
-  {
-    section: 'karaciger_malign',
-    sectionLabel: 'KARACİĞER – Malign Tümörler',
-    years: ['Meditus 7. Baskı'],
-    q: 'Fibrolamellar hepatoselüler kanser ile ilgili aşağıdaki ifadelerden hangisi yanlıştır?',
-    opts: ['A) Karaciğer sol lobda daha sık görülür', 'B) Genelde siroz öyküsü olmayan hastalarda görülür', 'C) Olguların %75\'inde sol lobda, tek, büyük bir lezyon olarak bulunur', 'D) AFP hepsinde yüksek bulunur ve tanısaldır', 'E) Klasik hepatoselüler kanserlerden daha iyi prognoza sahiptir'],
-    ans: 'D',
-    hint: '🔑 Fibrolamellar HCC\'de <b>AFP genellikle normal</b>, <b>nörotensin yüksek</b> bulunabilir. AFP artışı klasik HCC\'ye özgüdür.',
-    trap: '"Kanser = AFP yüksek" kalıplaşmış düşüncedir; oysa fibrolamellar karsinomda AFP yüksekliği beklenmez.',
-    explain: 'Fibrolamellar HCC genellikle <b>genç hastalarda</b>, siroz zemininde olmaksızın, sol lobda tek büyük lezyon olarak görülür ve <b>klasik HCC\'ye göre daha iyi prognozludur.</b> Ancak <b>AFP genellikle normal ya da düşük</b>tür; nörotensin yüksek bulunabilir. AFP tanısal değildir.'
-  },
-  {
-    section: 'karaciger_malign',
-    sectionLabel: 'KARACİĞER – Malign Tümörler',
-    years: ['Meditus 7. Baskı'],
-    q: 'Kırk yaşında erkek hasta, bilinen karaciğer hastalığı öyküsü olmaksızın başvuruyor. Görüntülemede karaciğer sol lobunda 3 cm malign görünümlü kitle izleniyor. Kan tahlillerinde AFP normal, CEA normal.\n\nBu hastada daha olası tanı aşağıdakilerden hangisidir?',
-    opts: ['A) Piyojenik karaciğer apsesi', 'B) Kist hidatik', 'C) Fokal nodüler hiperplazi', 'D) Hepatoselüler karsinom', 'E) Fibrolamellar hepatoselüler karsinom'],
-    ans: 'E',
-    hint: '🔑 <b>Genç hasta + sol lob + AFP normal + siroz yok + malign görünüm</b> → Fibrolamellar HCC.',
-    trap: 'Klasik HCC siroz zemininde ve AFP yüksekliğiyle birlikte görülür. Bu vakada bunların ikisi de yok → fibrolamellar karsinom.',
-    explain: '<b>Fibrolamellar HCC</b>: genç yaş, sol lob yerleşim, siroz öyküsü yok, AFP normal/düşük, malign görünüm. Klasik HCC\'den iyi prognozlu ve farklı klinik özellikler taşır. Bu tabloya en uygun tanı fibrolamellar hepatoselüler karsinomdur.'
-  },
-  {
-    section: 'karaciger_malign',
-    sectionLabel: 'KARACİĞER – Malign Tümörler',
-    years: ['Meditus 7. Baskı'],
-    q: 'HCC tedavisi ile ilgili olarak aşağıdakilerden hangisi yanlıştır?',
-    opts: [
-      'A) Hepatoselüler kanserde en uygun tedavi kitlenin rezeksiyonudur',
-      'B) Kronik karaciğer hastalığı olan hastalarda Milan kriterlerine uygun ise transplantasyon uygun tedavidir',
-      'C) Yapılabilirse canlı vericili transplantasyon daha hızlı ve daha uygun tedavi yöntemidir',
-      'D) Sorafenib hepatoselüler kanserde kullanılan hedefe yönelik tedavidir',
-      'E) Radyofrekans ablasyon çoklu lezyonlar için, transarteriyel kemoembolizasyon tek lezyon için uygundur'
-    ],
-    ans: 'E',
-    hint: '🔑 <b>RFA = tek lezyon, TAKE = çoklu lezyon</b>. Seçenekte bunlar ters yazılmış.',
-    trap: 'Sorafenib, Milan kriterleri ve transplantasyon bilgisi doğru. Sadece RFA/TACE endikasyonları ters.',
-    explain: '<b>Radyofrekans ablasyon (RFA)</b> tek lezyon için, <b>transarteriyel kemoembolizasyon (TACE)</b> ise çoklu lezyonlar için uygundur. Milan kriterlerine uygun ve siroz olan hastalarda transplantasyon tercih edilir. <b>Sorafenib</b> hedefe yönelik tedavidir. Şıkta RFA/TACE endikasyonları ters verildiğinden E yanlıştır.'
-  },
-
-  // ── KARACİĞER YETMEZLİĞİ & TRANSPLANTASYON ────────────
-  {
-    section: 'karaciger_transplant',
-    sectionLabel: 'KARACİĞER – Yetmezlik & Transplantasyon',
-    years: ['Meditus 7. Baskı'],
-    q: 'Şuur bulanıklığı nedeniyle başvuran 58 yaşındaki erkek hastada alkolik siroz zemininde 3 cm HCC saptanıyor. Görüntülemelerde karında asit saptanıyor.\n\nBu hasta için en uygun tedavi yöntemi aşağıdakilerden hangisidir?',
-    opts: ['A) Kemoterapi', 'B) Transarteriyel kemoembolizasyon', 'C) Kemoterapi + radyoterapi', 'D) Sağ hepatektomi', 'E) Karaciğer transplantasyonu'],
-    ans: 'E',
-    hint: '🔑 Siroz + asit + ensefalopati = Child B/C → Rezeksiyon uygun değil. <b>Milan kriterleri</b> karşılıyor (tek, <5 cm) → <b>Transplantasyon.</b>',
-    trap: 'Rezeksiyon sirozu olmayan Child A hastalara uygulanır. Asit + ensefalopati varlığı rezeksiyonu engeller; bu hasta transplantasyon adayıdır.',
-    explain: 'Siroz zemininde gelişen HCC\'de rezeksiyon yalnızca <b>sirozu olmayan Child A</b> hastalara uygundur. Bu hastada asit ve ensefalopati mevcuttur (Child B/C). Tümör 3 cm, tek odak → <b>Milan kriterlerini</b> karşılıyor → <b>Karaciğer transplantasyonu</b> en uygun tedavidir. TACE/RFA yalnızca transplant adayı olmayan vakalara yapılır.'
-  },
-  {
-    section: 'karaciger_transplant',
-    sectionLabel: 'KARACİĞER – Yetmezlik & Transplantasyon',
-    years: ['Meditus 7. Baskı'],
-    q: 'Yetişkinlerde ve çocuklarda karaciğer transplantasyonunun en sık görülen nedeni sırasıyla aşağıdakilerden hangisidir?',
-    opts: ['A) Hemokromatozis – Neonatal hepatit', 'B) Primer sklerozan kolanjit – Kronik aktif hepatit', 'C) Sekonder biliyer siroz – Hepatik fibrozis', 'D) Alkolik siroz – Ekstrahepatik biliyer atrezi', 'E) Alkolik siroz – Otoimmün karaciğer hastalıkları'],
-    ans: 'D',
-    hint: '🔑 Erişkin: <b>Alkolik siroz</b> (1.). Çocuk: <b>Ekstrahepatik biliyer atrezi</b> (1.).',
-    trap: 'Viral hepatit ve otoimmün hastalık da sık nedenlerdir ama en sık birinci değil.',
-    explain: 'Karaciğer transplantasyon endikasyonları: Erişkinlerde en sık <b>alkolik siroz</b>, çocuklarda ise en sık <b>ekstrahepatik biliyer atrezi</b>dir.'
-  },
-  {
-    section: 'karaciger_transplant',
-    sectionLabel: 'KARACİĞER – Yetmezlik & Transplantasyon',
-    years: ['Meditus 7. Baskı'],
-    q: 'Akut karaciğer yetmezliği ile ilgili aşağıdaki ifadelerden hangileri doğrudur?\n\nI. Ani başlayan ve hızlı ilerleyen ensefalopati, koagülasyon bozukluğu ve INR yüksekliği ile ortaya çıkar\nII. Asetaminofen en sık farmakolojik etkendir\nIII. Transplantasyon kararında etyolojik faktör göz önünde bulundurulur',
-    opts: ['A) Yalnız I', 'B) Yalnız II', 'C) I ve II', 'D) II ve III', 'E) I, II ve III'],
-    ans: 'E',
-    hint: '🔑 Üç önerme de doğru: Akut karaciğer yetmezliği tanımı, asetaminofen (gelişmiş ülkelerde 1. sıra), etyoloji transplant kararını etkiler.',
-    trap: 'Gelişmekte olan ülkelerde en sık neden viral hepatit (B, A, E); gelişmiş ülkelerde asetaminofen. Her iki bilgi de doğru; soru gelişmiş ülke bağlamında değerlendirilebilir.',
-    explain: 'Akut karaciğer yetmezliği (AKY): önceden karaciğer hastalığı olmayan bir hastada 26 hafta içinde ciddi karaciğer hasarı + <b>hepatik ensefalopati</b>. Gelişmiş ülkelerde en sık neden <b>asetaminofen (parasetamol)</b>. Koagülopati (INR yüksekliği) ve ensefalopati temel bulgulardır. Transplantasyon kararında etyoloji (örn. Wilson hastalığı, viral etken) önemlidir.'
-  },
-  {
-    section: 'karaciger_transplant',
-    sectionLabel: 'KARACİĞER – Yetmezlik & Transplantasyon',
-    years: ['Meditus 7. Baskı'],
-    q: 'Karaciğer transplantasyonundan sonra erken postoperatif dönemde ilerleyici hemodinamik bozukluk, multiorgan yetmezliği, ensefalopati, şiddetli asidoz ve yüksek AST/ALT olan bir hastada aşağıdakilerden hangisi düşünülmelidir?',
-    opts: ['A) Postoperatif intraabdominal kanama', 'B) Primer disfonksiyon', 'C) Vasküler tromboz', 'D) Kronik rejeksiyon', 'E) Akut rejeksiyon'],
-    ans: 'B',
-    hint: '🔑 Erken postop dönem + multiorgan yetmezliği + asidoz → <b>Primer disfonksiyon</b> (en ağır komplikasyon, %80 mortalite).',
-    trap: 'Akut rejeksiyon genellikle 5-10. günlerde görülür ve biyopsi ile tanınır. Erken dönem multiorgan tablosu primer disfonksiyon lehine.',
-    explain: '<b>Primer disfonksiyon</b>: transplant sonrası karaciğerin işlev gösterememesidir. Mortalitesi acil retransplantasyon yapılmazsa %80\'in üzerindedir. Risk faktörleri: yüksek donör yaşı, uzamış soğuk iskemi, donör karaciğerinde belirgin yağlanma.'
-  },
-  {
-    section: 'karaciger_transplant',
-    sectionLabel: 'KARACİĞER – Yetmezlik & Transplantasyon',
-    years: ['Meditus 7. Baskı'],
-    q: 'Karaciğer transplantasyonu sonrası en sık vasküler komplikasyon hangisidir?',
-    opts: ['A) Hepatik ven trombozu', 'B) Hepatik arter trombozu', 'C) Portal ven trombozu', 'D) İnferior vena kava trombozu', 'E) Süperior vena kava trombozu'],
-    ans: 'B',
-    hint: '🔑 Karaciğer transplantasyonunda: En sık komplikasyon = <b>kanama</b>. En sık vasküler komplikasyon = <b>Hepatik arter trombozu</b>.',
-    trap: 'Portal ven trombozu ve hepatik ven trombozu da görülür ama en sık vasküler komplikasyon hepatik arter trombozudur.',
-    explain: 'Karaciğer transplantasyonu sonrası en sık genel komplikasyon <b>kanama</b>dır. En sık vasküler komplikasyon ise <b>hepatik arter trombozu</b>dur; erken dönemde karaciğer iskemisine yol açar ve acil revizyon/retransplantasyon gerektirebilir.'
-  },
-  {
-    section: 'karaciger_transplant',
-    sectionLabel: 'KARACİĞER – Yetmezlik & Transplantasyon',
-    years: ['Meditus 7. Baskı'],
-    q: 'Karaciğer transplantasyonu yapılmış hastada viral enfeksiyon, kolanjit ve rejeksiyon arasında ayırıcı tanı en iyi aşağıdaki yöntemlerden hangisi ile yapılır?',
-    opts: ['A) Serum LDH, AP ve bilirubin düzeyleri', 'B) Hepatobiliyer sintigrafi', 'C) Perkütan karaciğer biyopsisi', 'D) Karaciğer MRI', 'E) Kan kültürü'],
-    ans: 'C',
-    hint: '🔑 Transplant sonrası organ disfonksiyonunda rejeksiyon şüphesinde altın standart = <b>Biyopsi</b>.',
-    trap: 'Kan kültürü sepsis için, sintigrafi safra kaçağı için, LDH/bilirubin nonspesifiktir. Kesin ayırıcı tanı için biyopsi şarttır.',
-    explain: 'Transplantasyon sonrasında viral enfeksiyon, kolanjit ve rejeksiyon klinik olarak birbirine benzer; kesin <b>ayırıcı tanı perkütan karaciğer biyopsisi</b> ile konur.'
-  },
-
-  // ── KARACİĞER SKORSİSTEMLERİ ──────────────────────────
-  {
-    section: 'karaciger_skor',
-    sectionLabel: 'KARACİĞER – Yetmezlik Skorları',
-    years: ['Meditus 7. Baskı'],
-    q: 'Aşağıdakilerden hangisi kronik karaciğer hastalıklarında kullanılan Child-Turcote-Pugh skorlaması parametrelerinden birisi değildir?',
-    opts: ['A) Asit', 'B) Ensefalopati', 'C) INR', 'D) Amonyak', 'E) Bilirubin'],
-    ans: 'D',
-    hint: '🔑 Child-Pugh 5 parametresi: <b>Bilirubin – Albumin – INR – Asit – Ensefalopati</b>. Amonyak dahil değil.',
-    trap: 'Ensefalopati değerlendirilir ama amonyak düzeyi değil. Amonyak pratikte kullanılır ancak CTP skoruna girmez.',
-    explain: '<b>Child-Turcote-Pugh (CTP)</b> parametreleri: INR, Albümin, Bilirubin, Asit ve Ensefalopati. <b>Amonyak bu sınıflamada yer almaz.</b> CTP skoru 5-6 = Child A (iyi prognoz), 7-9 = Child B, 10-15 = Child C (kötü prognoz).'
-  },
-  {
-    section: 'karaciger_skor',
-    sectionLabel: 'KARACİĞER – Yetmezlik Skorları',
-    years: ['Meditus 7. Baskı'],
-    q: 'Aşağıdakilerden hangisi son evre karaciğer hastalığı modeli (MELD) skoru değişkenlerinden biridir?',
-    opts: ['A) Yaş', 'B) Kreatinin', 'C) Ensefalopatinin derecesi', 'D) Asit düzeyi', 'E) Hepatik yetmezliğin nedeni'],
-    ans: 'B',
-    hint: '🔑 MELD = <b>Bilirubin + INR + Kreatinin (+ Na)</b>. Yaş, ensefalopati ve asit MELD\'e girmez.',
-    trap: 'CTP\'de ensefalopati ve asit var, MELD\'de yok. MELD laboratuvar değerlerine dayanır.',
-    explain: '<b>MELD skoru</b> formülü: 3.8 × loge(bilirubin) + 11.2 × loge(INR) + 9.6 × loge(<b>kreatinin</b>) + 6.4. Kreatinin, bilirubin ve INR kullanılır; yaş, ensefalopati, asit yer almaz. MELD ≥15 → transplantasyon endikasyonu güçlenir.'
-  },
-
-  // ── PORTAL HİPERTANSİYON ────────────────────────────────
-  {
-    section: 'portal_hiper',
-    sectionLabel: 'PORTAL HİPERTANSİYON',
-    years: ['Meditus 7. Baskı'],
-    q: 'Superior mezenterik ven ve splenik venin birleşmesiyle ortaya çıkan ven aşağıdakilerden hangisidir?',
-    opts: ['A) Hepatik ven', 'B) İnferior mezenterik ven', 'C) Portal ven', 'D) Sol gastrik ven', 'E) İnferior vena kava'],
-    ans: 'C',
-    hint: '🔑 <b>Splenik ven + SMV = Portal ven.</b> İMV splenik vene drene olur.',
-    trap: 'İnferior mezenterik ven doğrudan portal vene değil, splenik vene drene olur. Hepatik venler porta ile ilgili değil.',
-    explain: '<b>Portal ven</b>, splenik ven ve superior mezenterik venin birleşmesiyle oluşur. İnferior mezenterik ven splenik vene drene olarak dolaylı yoldan portal vene katkı sağlar.'
-  },
-  {
-    section: 'portal_hiper',
-    sectionLabel: 'PORTAL HİPERTANSİYON',
-    years: ['Meditus 7. Baskı'],
-    q: 'Aşağıdakilerden hangisi posthepatik portal hipertansiyon nedenlerinden birisidir?',
-    opts: ['A) Konjestif kalp yetmezliği', 'B) Splenik ven trombozu', 'C) Sistozomiazis', 'D) Otoimmün hepatit', 'E) Gaucher hastalığı'],
-    ans: 'A',
-    hint: '🔑 <b>Posthepatik</b> (ekstrahepatik): Konjestif KY, konstriktif perikardit, Budd-Chiari, IVC webi.',
-    trap: 'Sistozomiazis presinüzoidal intrahepatik, siroz sinüzoidal intrahepatik, splenik ven trombozu prehepatik nedendir.',
-    explain: '<b>Posthepatik (ekstrahepatik) portal HT nedenleri</b>: Konjestif kalp yetmezliği, konstriktif perikardit, Budd-Chiari sendromu, IVC webi. Splenik ven trombozu prehepatik, sistozomiazis presinüzoidal intrahepatik, siroz sinüzoidal intrahepatik nedendir.'
-  },
-  {
-    section: 'portal_hiper',
-    sectionLabel: 'PORTAL HİPERTANSİYON',
-    years: ['Meditus 7. Baskı'],
-    q: 'Aşağıdakilerden hangisi portal hipertansiyonun intrahepatik presinüzoidal bir nedenidir?',
-    opts: ['A) Splenik ven trombozu', 'B) Sistozomiazis', 'C) Siroz', 'D) Alkolik hepatit', 'E) Budd-Chiari sendromu'],
-    ans: 'B',
-    hint: '🔑 Sistozomiazis → portal fibrozis → <b>intrahepatik presinüzoidal</b> portal HT.',
-    trap: 'Siroz ve alkolik hepatit sinüzoidal intrahepatik nedendir. Budd-Chiari posthepatik, splenik ven trombozu ise prehepatiktir.',
-    explain: '<b>İntrahepatik presinüzoidal</b> nedenler: Sistozomiazis, konjenital hepatik fibrozis, sarkoidoz, Gaucher hastalığı, nodüler rejeneratif hiperplazi. Siroz en sık sinüzoidal intrahepatik nedendir; Budd-Chiari posthepatik, splenik ven trombozu ise prehepatiktir.'
-  },
-  {
-    section: 'portal_hiper',
-    sectionLabel: 'PORTAL HİPERTANSİYON',
-    years: ['Meditus 7. Baskı'],
-    q: 'Portal hipertansiyonun nedeni ve tipi eşleştirmelerinden hangisi yanlıştır?',
-    opts: [
-      'A) Budd-Chiari sendromu – Posthepatik',
-      'B) Splenik arteriovenöz fistül – Prehepatik',
-      'C) Venooklüzif hastalık – İntrahepatik presinüzoidal',
-      'D) Konjenital hepatik fibrozis – İntrahepatik presinüzoidal',
-      'E) Wilson hastalığı – Sinüzoidal'
-    ],
-    ans: 'C',
-    hint: '🔑 Venooklüzif hastalık (santral ven trombozu) = <b>intrahepatik postsinüzoidal</b>; presinüzoidal değil.',
-    trap: '"Oklüzif = tıkayıcı = sinüzoid öncesi" gibi düşünülebilir; ancak veno-oklüzif hastalık santral venleri tutar, bu nedenle postsinüzoidal intrahepatik nedendir.',
-    explain: '<b>Venooklüzif hastalık</b>, santral venlerin trombozu ile karakterize olup <b>intrahepatik postsinüzoidal</b> portal HT nedenidir; presinüzoidal değil. Budd-Chiari posthepatik, konjenital hepatik fibrozis presinüzoidal intrahepatik, Wilson sinüzoidal intrahepatiktir.'
-  },
-  {
-    section: 'portal_hiper',
-    sectionLabel: 'PORTAL HİPERTANSİYON',
-    years: ['Meditus 7. Baskı'],
-    q: 'Splenik ven trombozu ile ilgili aşağıdaki ifadelerden hangisi yanlıştır?',
-    opts: [
-      'A) Prehepatik presinüzoidal portal hipertansiyon sebebidir',
-      'B) Komplikasyon gelişen hastalarda splenektomi endikasyonu vardır',
-      'C) Portal ven basıncı artmıştır',
-      'D) Ana kollateral sol gastroepiploik vendir',
-      'E) Akut pankreatitin bir komplikasyonu olarak görülebilir'
-    ],
-    ans: 'C',
-    hint: '🔑 Splenik ven trombozunda <b>portal ven basıncı normaldir</b>; yalnızca gastrosplenik hipertansiyon gelişir.',
-    trap: '"Portal HT = portal ven basıncı yüksek" şeklinde düşünmek kolaydır; ancak bu özel durumda yalnızca splenik taraf hipertansiftir.',
-    explain: 'Splenik ven trombozunda yalnızca <b>gastrosplenik venöz hipertansiyon</b> gelişir; portal ven basıncı normaldir. Ana kollateral sol gastroepiploik vendir; mide fundus varisleri gelişir. Akut pankreatit en sık nedenidir. Tedavisi <b>splenektomi</b>dir; bu portal HT\'da splenektominin tek endikasyon olduğu durumdur.'
-  },
-  {
-    section: 'portal_hiper',
-    sectionLabel: 'PORTAL HİPERTANSİYON',
-    years: ['Meditus 7. Baskı'],
-    q: 'Splenik ven trombozu olan bir hastadaki varis kanamasını önlemek için en uygun tedavi aşağıdakilerden hangisidir?',
-    opts: ['A) Yan-yan portokaval şant', 'B) Uç-yan portokaval şant', 'C) Mezokaval şant', 'D) Distal splenorenal şant', 'E) Splenektomi'],
-    ans: 'E',
-    hint: '🔑 Splenik ven trombozu → sadece gastrosplenik hipertansiyon → <b>splenektomi</b> ile tedavi edilir.',
-    trap: 'Şant prosedürleri genel portal HT için kullanılır; splenik ven trombozu izole bir durum olup splenektomi yeterlidir.',
-    explain: 'İzole splenik ven trombozu pankreatit/pankreas kanseri gibi patolojilere sekonder gelişir; portal venöz basınç normaldir. Mide fundus varisleri gelişir. Tedavisi <b>splenektomi</b>dir. Şant prosedürü gerektirmez.'
-  },
-  {
-    section: 'portal_hiper',
-    sectionLabel: 'PORTAL HİPERTANSİYON',
-    years: ['Meditus 7. Baskı'],
-    q: 'Portal hipertansiyona bağlı kanamalarla ilişkili olarak aşağıdakilerden hangisi yanlıştır?',
-    opts: [
-      'A) Resüsitasyondan hemen sonra octreotide infüzyonu başlanmalıdır',
-      'B) Varis kanaması olduğu endoskopik açıdan kanıtlanmalıdır',
-      'C) Varis kanamasında ilk yaklaşım balon tamponadıdır',
-      'D) Medikal tedaviden sonra endoskopik bant ligasyonu yapılmalıdır',
-      'E) Ciddi varis kanamalarında acil şartlarda TIPS yapılabilir'
-    ],
-    ans: 'C',
-    hint: '🔑 Varis kanaması yönetimi sırası: <b>Resüsitasyon → Vazopressin/Oktreotid → Endoskopik bant ligasyonu → Balon tamponad → TIPS/Cerrahi</b>.',
-    trap: 'Balon tamponad ilk yaklaşım değil, endoskopik tedaviye yanıt vermeyenlerde uygulanır.',
-    explain: 'Akut varis kanamasında yönetim sırası: Resüssitasyon + YBÜ → vazopressin/oktreotid → <b>endoskopik bant ligasyonu veya skleroterapi</b> (ilk endoskopik tedavi) → kanama devam ederse balon tamponad → TIPS veya cerrahi şant. <b>Balon tamponad ilk yaklaşım değildir</b>, endoskopik başarısızlıkta uygulanır.'
-  },
-  {
-    section: 'portal_hiper',
-    sectionLabel: 'PORTAL HİPERTANSİYON',
-    years: ['Meditus 7. Baskı'],
-    q: 'Şiddetli özofagus kanamalarında kanamayı durdurabilmek için kullanılan özel balonlu tüp aşağıdakilerden hangisidir?',
-    opts: ['A) Levine', 'B) Foley', 'C) Sengstaken-Blakemore', 'D) Müller-Abbot', 'E) Swan-Ganz'],
-    ans: 'C',
-    hint: '🔑 <b>Sengstaken-Blakemore</b> tüpü = 2 balon (gastrik + özofageal) + 3 lümen → varis kanamasında geçici tamponad.',
-    trap: 'Levine = nazogastrik sonda. Foley = idrar katateri. Swan-Ganz = kardiyak kateter. Sadece Sengstaken-Blakemore balonlu tamponad sağlar.',
-    explain: '<b>Sengstaken-Blakemore tüpü</b>: 2 balonlu (gastrik ve özofageal), 3 lümenli özel bir tüptür. Varis kanamasında geçici tamponad aracı olarak kullanılır. Uzun süre kullanılırsa mukoza nekrozu yapabilir; bu nedenle kısa süreli geçici uygulamadır.'
-  },
-  {
-    section: 'portal_hiper',
-    sectionLabel: 'PORTAL HİPERTANSİYON',
-    years: ['Meditus 7. Baskı'],
-    q: 'Özofagus varislerinden kanaması olan ve endoskopik olarak tedavi başarısız olan bir hasta için sonraki en uygun yaklaşım hangisidir?',
-    opts: ['A) Özofagus transeksiyonu', 'B) Transözofageal ligasyon', 'C) Band ligasyonu', 'D) TIPS (Transjuguler intrahepatik portosistemik şant)', 'E) Sengstaken-Blakemore tüpü'],
-    ans: 'D',
-    hint: '🔑 Endoskopik tedavi başarısız → <b>TIPS</b> (portal dekompresyon). Cerrahi şant en son basamaktır.',
-    trap: 'Band ligasyonu endoskopik tedavidir; başarısız olmuş. Balon tamponad geçici köprüdür. TIPS ise endoskopi sonrası standart sonraki basamaktır.',
-    explain: 'Endoskopik tedaviye (bant ligasyonu/skleroterapi) dirençli aktif varis kanamasında <b>TIPS</b> uygulanır. TIPS %95 oranında portal dekompresyon sağlar; 1-1,5 yılda tıkanma riski mevcuttur. Ensefalopati varlığında kontrendikedir. Cerrahi şant en son seçenektir.'
-  },
-  {
-    section: 'portal_hiper',
-    sectionLabel: 'PORTAL HİPERTANSİYON',
-    years: ['Meditus 7. Baskı'],
-    q: 'TIPS (Transjuguler intrahepatik portosistemik şant) uygulandıktan sonra en sık görülen komplikasyon aşağıdakilerden hangisidir?',
-    opts: ['A) Hepatik iskemi', 'B) Ensefalopati', 'C) Enfeksiyon', 'D) Hayatı tehdit edici kanama', 'E) Hepatopulmoner sendrom'],
-    ans: 'B',
-    hint: '🔑 TIPS sonrası en sık komplikasyon: <b>Ensefalopati (%25-30)</b>. Non-selektif şant gibi çalışır → beyin detoks azalır.',
-    trap: 'Kanama ve enfeksiyon da görülür ama sıklık açısından ensefalopati en başta gelir.',
-    explain: 'TIPS non-selektif portal dekompresyon sağlar; hastaların <b>%25-30\'unda ensefalopati</b> gelişir ve bu en sık komplikasyonudur. Diğer komplikasyonlar: hepatik iskemi, enfeksiyon, böbrek yetmezliği, kanama. TIPS\'in mutlak kontrendikasyonları: sağ kalp yetmezliği ve polikistik karaciğer hastalığı.'
-  },
-  {
-    section: 'portal_hiper',
-    sectionLabel: 'PORTAL HİPERTANSİYON',
-    years: ['Meditus 7. Baskı'],
-    q: 'Asit tedavisinde ilk basamak aşağıdakilerden hangisidir?',
-    opts: ['A) Porto sistemik şant', 'B) Su kısıtlanması', 'C) Albümin verilmesi', 'D) Parasentez', 'E) Tuz kısıtlanması ve diüretik kullanılması'],
-    ans: 'E',
-    hint: '🔑 Asit tedavisi 1. basamak: <b>Sodyum kısıtlaması (2g/gün) + Spironolakton</b>. Sekonder hiperaldosteronizm nedeniyle spironolakton tercih edilir.',
-    trap: 'Parasentez diüretiğe dirençli (refrakter) asit için kullanılır. Su kısıtlaması çok ağır hiponatremi durumunda eklenir. Birinci basamak tuz kısıtlaması + diüretiktir.',
-    explain: 'Asit tedavisinin ilk basamağı <b>sodyum alımının kısıtlanması (2g/gün) ve diüretik (spironolakton)</b>tir. Hastaların çoğunda sekonder hiperaldosteronizm olduğundan spironolakton tercih edilir. Diüretiğe yanıtsız refrakter asitte parasentez veya TIPS değerlendirilebilir.'
-  },
-  {
-    section: 'portal_hiper',
-    sectionLabel: 'PORTAL HİPERTANSİYON',
-    years: ['Meditus 7. Baskı'],
-    q: 'Aşağıdaki hangi şant operasyonundan sonra ensefalopati riski en yüksektir?',
-    opts: ['A) Warren şantı', 'B) Uç-yan portokaval şant', 'C) H-grefti mezokaval şant', 'D) Proksimal splenorenal şant', 'E) Distal splenorenal şant'],
-    ans: 'B',
-    hint: '🔑 <b>Uç-yan portokaval şant</b> = en iyi kanama kontrolü ama <b>ensefalopati riski en yüksek</b>. <b>Warren (distal splenorenal)</b> = ensefalopati riski en düşük.',
-    trap: 'Warren şantı ve distal splenorenal şant aynı şeydir; ensefalopati riski en düşüktür. Yan-yan portokaval şant asiti en iyi kontrol eder.',
-    explain: '<b>Uç-yan portokaval şant</b>: Kanamayı kontrol etmede çok etkili fakat ensefalopati riski en yüksek şanttır. <b>Yan-yan portokaval şant</b>: Asiti en iyi kontrol eder. <b>Distal splenorenal şant (Warren şantı)</b>: Ensefalopati riski en düşük; splenik venin distali sol renal vene anastomoze edilir.'
-  },
-  {
-    section: 'portal_hiper',
-    sectionLabel: 'PORTAL HİPERTANSİYON',
-    years: ['Meditus 7. Baskı'],
-    q: 'Aşağıdakilerden hangisi hepatik ensefalopatiyi tetikleyen faktörlerden biri değildir?',
-    opts: ['A) Gastrointestinal kanama', 'B) Azotemi', 'C) Diyetle aşırı protein alımı', 'D) Konstipasyon', 'E) Hiperglisemi'],
-    ans: 'E',
-    hint: '🔑 Hepatik ensefalopati tetikleyicileri: <b>GİS kanama, yüksek protein, konstipasyon, azotemi, enfeksiyon, elektrolit bozukluğu, diüretik, sedatif, alkol, HİPOglisemi, HİPOkalsemi.</b> Hiperglisemi değil.',
-    trap: 'Hipoglisemi tetikleyicidir; hiperglisemi değil. Kanda şeker düşüklüğü beyin fonksiyonunu bozar.',
-    explain: 'Hepatik ensefalopati tetikleyicileri: GİS kanamaları, diyette aşırı protein, konstipasyon, azotemi, enfeksiyon, elektrolit bozuklukları, diüretikler, sedatifler, alkol, <b>hipoglisemi</b>, hipoksemi. <b>Hiperglisemi</b> hepatik ensefalopati tetikleyicisi değildir.'
-  }
 ];
 
-// STATE
-let idx = 0;
-let filteredQ = [...ALL_QUESTIONS];
-let answered = new Set();
-let correct = new Set();
-let wrong = new Set();
-let starred = new Set();
+let idx=0,filteredQ=[...ALL_QUESTIONS];
+const answered=new Set(),correct=new Set(),wrong=new Set(),starred=new Set();
 
-(function() {
-  ALL_QUESTIONS.forEach((q, i) => q._gi = i);
-  filteredQ = ALL_QUESTIONS.map(q => q);
-  renderQuestion();
-})();
-
-function renderQuestion() {
-  const q = filteredQ[idx];
-  const globalIdx = q._gi;
-
-  document.getElementById('q-num').textContent = `Soru ${idx + 1} / ${filteredQ.length}`;
-  document.getElementById('section-badge').textContent = q.sectionLabel || 'KARACİĞER HASTALIKLARI VE CERRAHİSİ';
-
-  const ytEl = document.getElementById('year-tags');
-  ytEl.innerHTML = '';
-  (q.years || []).forEach(y => {
-    const sp = document.createElement('span');
-    sp.className = 'year-tag';
-    sp.textContent = y;
-    ytEl.appendChild(sp);
-  });
-
-  document.getElementById('q-text').innerHTML = q.q.replace(/\n/g, '<br>');
-  document.getElementById('hint-box').innerHTML = q.hint || '';
+function renderQuestion(){
+  const q=filteredQ[idx],gi=ALL_QUESTIONS.indexOf(q);
+  document.getElementById('q-num').textContent=`Soru ${idx+1}/${filteredQ.length}`;
+  document.getElementById('section-badge').textContent='MİDE – PART 4 / SAYFA 36–39 (SON)';
+  document.getElementById('year-tags').innerHTML=q.years.map(y=>`<span class="year-tag">${y}</span>`).join('');
+  document.getElementById('q-text').innerHTML=q.q;
+  document.getElementById('hint-box').innerHTML=q.hint;
   document.getElementById('hint-box').classList.remove('open');
-
-  const optEl = document.getElementById('options');
-  optEl.innerHTML = '';
-  (q.opts || []).forEach(opt => {
-    const btn = document.createElement('button');
-    btn.className = 'opt-btn';
-    const letter = opt[0];
-    btn.innerHTML = `<span class="opt-letter">${letter}</span><span>${opt.slice(3)}</span>`;
-    btn.onclick = () => selectAnswer(letter, globalIdx, q);
-    optEl.appendChild(btn);
-  });
-
-  document.getElementById('trap-text').textContent = q.trap || '';
-  document.getElementById('explain-text').innerHTML = q.explain || '';
+  document.getElementById('trap-text').innerHTML=q.trap;
+  document.getElementById('explain-text').innerHTML=q.explain;
   document.getElementById('feedback').classList.remove('open');
-
-  const starBtn = document.getElementById('star-btn');
-  starBtn.textContent = starred.has(globalIdx) ? '★' : '☆';
-  starBtn.classList.toggle('active', starred.has(globalIdx));
-
-  if (answered.has(globalIdx)) {
-    restoreAnswerUI(globalIdx, q);
-  }
-
-  updateNavBtns();
-  updateProgress();
-  updateToggleBtn();
-}
-
-function selectAnswer(letter, globalIdx, q) {
-  if (answered.has(globalIdx)) return;
-  answered.add(globalIdx);
-
-  const isCorrect = letter === q.ans;
-  if (isCorrect) correct.add(globalIdx);
-  else wrong.add(globalIdx);
-
-  const optEls = document.querySelectorAll('.opt-btn');
-  optEls.forEach(btn => {
-    btn.disabled = true;
-    const l = btn.querySelector('.opt-letter').textContent;
-    if (l === q.ans) btn.classList.add('correct');
-    else if (l === letter && !isCorrect) btn.classList.add('wrong');
+  const star=document.getElementById('star-btn');
+  star.textContent=starred.has(gi)?'★':'☆';
+  star.classList.toggle('starred',starred.has(gi));
+  const optDiv=document.getElementById('options');
+  optDiv.innerHTML='';
+  q.opts.forEach(opt=>{
+    const letter=opt[0],text=opt.slice(3);
+    const btn=document.createElement('button');
+    btn.className='opt-btn';
+    btn.innerHTML=`<span class="opt-letter">${letter}</span><span>${text}</span>`;
+    btn.onclick=()=>selectAnswer(letter,gi,q);
+    optDiv.appendChild(btn);
   });
-
-  document.getElementById('feedback').classList.add('open');
-  setTimeout(() => {
-    document.getElementById('feedback').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 80);
-
-  updateNavBtns();
-  updateProgress();
+  if(answered.has(gi))restoreAnswerUI(gi,q);
+  updateNavBtns();updateProgress();updateToggleBtn();
 }
 
-function restoreAnswerUI(globalIdx, q) {
-  const optEls = document.querySelectorAll('.opt-btn');
-  optEls.forEach(btn => {
-    btn.disabled = true;
-    const l = btn.querySelector('.opt-letter').textContent;
-    if (l === q.ans) btn.classList.add('correct');
+function selectAnswer(letter,gi,q){
+  if(answered.has(gi))return;
+  answered.add(gi);
+  const isCorrect=letter===q.ans;
+  if(isCorrect)correct.add(gi);else wrong.add(gi);
+  document.querySelectorAll('.opt-btn').forEach(btn=>{
+    const l=btn.querySelector('.opt-letter').textContent;
+    btn.disabled=true;
+    if(l===q.ans)btn.classList.add('correct');
+    else if(l===letter&&!isCorrect)btn.classList.add('wrong');
+  });
+  document.getElementById('feedback').classList.add('open');
+  setTimeout(()=>document.getElementById('feedback').scrollIntoView({behavior:'smooth',block:'start'}),120);
+  updateNavBtns();updateProgress();
+}
+
+function restoreAnswerUI(gi,q){
+  document.querySelectorAll('.opt-btn').forEach(btn=>{
+    const l=btn.querySelector('.opt-letter').textContent;
+    btn.disabled=true;
+    if(l===q.ans)btn.classList.add('correct');
   });
   document.getElementById('feedback').classList.add('open');
 }
 
-function toggleHint() {
-  document.getElementById('hint-box').classList.toggle('open');
-}
+function toggleHint(){document.getElementById('hint-box').classList.toggle('open');}
 
-function toggleStar() {
-  const q = filteredQ[idx];
-  const globalIdx = q._gi;
-  if (starred.has(globalIdx)) starred.delete(globalIdx);
-  else starred.add(globalIdx);
-  const starBtn = document.getElementById('star-btn');
-  starBtn.textContent = starred.has(globalIdx) ? '★' : '☆';
-  starBtn.classList.toggle('active', starred.has(globalIdx));
+function toggleStar(){
+  const q=filteredQ[idx],gi=ALL_QUESTIONS.indexOf(q);
+  if(starred.has(gi))starred.delete(gi);else starred.add(gi);
+  const star=document.getElementById('star-btn');
+  star.textContent=starred.has(gi)?'★':'☆';
+  star.classList.toggle('starred',starred.has(gi));
   updateToggleBtn();
 }
 
-function toggleQuestionList() {
-  document.getElementById('modal-overlay').classList.add('open');
-  buildGrid();
-}
+function toggleQuestionList(){buildGrid();document.getElementById('q-modal-overlay').classList.add('open');}
+function closeModalOnOverlay(e){if(e.target===document.getElementById('q-modal-overlay'))document.getElementById('q-modal-overlay').classList.remove('open');}
 
-function closeModalOnOverlay(e) {
-  if (e.target === document.getElementById('modal-overlay')) {
-    document.getElementById('modal-overlay').classList.remove('open');
-  }
-}
-
-function buildGrid() {
-  const grid = document.getElementById('q-grid');
-  grid.innerHTML = '';
-  filteredQ.forEach((q, i) => {
-    const gi = q._gi;
-    const btn = document.createElement('button');
-    btn.className = 'q-grid-btn';
-    btn.textContent = i + 1;
-    if (i === idx) btn.classList.add('current');
-    else if (correct.has(gi)) btn.classList.add('done-correct');
-    else if (wrong.has(gi)) btn.classList.add('done-wrong');
-    if (starred.has(gi)) btn.classList.add('starred-q');
-    btn.onclick = () => {
-      idx = i;
-      renderQuestion();
-      document.getElementById('modal-overlay').classList.remove('open');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+function buildGrid(){
+  const grid=document.getElementById('q-grid');grid.innerHTML='';
+  filteredQ.forEach((q,i)=>{
+    const gi=ALL_QUESTIONS.indexOf(q);
+    const btn=document.createElement('button');
+    btn.className='q-grid-btn';btn.textContent=i+1;
+    if(i===idx)btn.classList.add('current');
+    else if(correct.has(gi))btn.classList.add('done-correct');
+    else if(wrong.has(gi))btn.classList.add('done-wrong');
+    if(starred.has(gi))btn.classList.add('starred-q');
+    btn.onclick=()=>{idx=i;renderQuestion();window.scrollTo({top:0,behavior:'smooth'});document.getElementById('q-modal-overlay').classList.remove('open');};
     grid.appendChild(btn);
   });
 }
 
-function navigate(dir) {
-  const newIdx = idx + dir;
-  if (newIdx < 0 || newIdx >= filteredQ.length) return;
-  idx = newIdx;
-  renderQuestion();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+function navigate(dir){
+  if(dir===1&&idx===filteredQ.length-1){showResult();return;}
+  idx=Math.max(0,Math.min(filteredQ.length-1,idx+dir));
+  renderQuestion();window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function updateNavBtns() {
-  const prevBtn = document.getElementById('prev-btn');
-  const nextBtn = document.getElementById('next-btn');
-  prevBtn.disabled = idx === 0;
-
-  const q = filteredQ[idx];
-  const globalIdx = q._gi;
-  const isLast = idx === filteredQ.length - 1;
-  const isAnswered = answered.has(globalIdx);
-
-  if (isLast && isAnswered) {
-    nextBtn.textContent = 'Sonuçları Gör →';
-    nextBtn.classList.add('result-btn');
-    nextBtn.onclick = showResult;
-  } else {
-    nextBtn.textContent = 'Sonraki →';
-    nextBtn.classList.remove('result-btn');
-    nextBtn.onclick = () => navigate(1);
-    nextBtn.disabled = false;
+function updateNavBtns(){
+  document.getElementById('prev-btn').disabled=idx===0;
+  const next=document.getElementById('next-btn');
+  const gi=ALL_QUESTIONS.indexOf(filteredQ[idx]);
+  if(idx===filteredQ.length-1&&answered.has(gi)){
+    next.textContent='Sonuçları Gör →';next.classList.add('result-mode');next.onclick=showResult;
+  }else{
+    next.textContent='Sonraki →';next.classList.remove('result-mode');next.onclick=()=>navigate(1);next.disabled=false;
   }
 }
 
-function updateProgress() {
-  const pct = (answered.size / ALL_QUESTIONS.length) * 100;
-  document.getElementById('progress-bar').style.width = pct + '%';
+function updateProgress(){document.getElementById('progress-bar').style.width=(answered.size/ALL_QUESTIONS.length*100)+'%';}
+function updateToggleBtn(){document.getElementById('q-counter').textContent=`${idx+1} / ${filteredQ.length} ☰`;}
+
+function showResult(){
+  document.getElementById('quiz-card').style.display='none';
+  document.querySelector('.nav').style.display='none';
+  const rs=document.getElementById('result-screen');rs.style.display='block';
+  const total=filteredQ.length;
+  const c=filteredQ.filter(q=>correct.has(ALL_QUESTIONS.indexOf(q))).length;
+  const w=filteredQ.filter(q=>wrong.has(ALL_QUESTIONS.indexOf(q))).length;
+  const s=filteredQ.filter(q=>starred.has(ALL_QUESTIONS.indexOf(q))).length;
+  const pct=Math.round((c/total)*100);
+  document.getElementById('score-pct').textContent=pct+'%';
+  document.getElementById('score-sub').textContent=`${total} sorudan ${c+w} yanıtlandı`;
+  document.getElementById('r-correct').textContent=c;
+  document.getElementById('r-wrong').textContent=w;
+  document.getElementById('r-starred').textContent=s;
+  document.getElementById('retry-wrong-btn').style.display=w>0?'':'none';
+  document.getElementById('retry-star-btn').style.display=s>0?'':'none';
+  rs.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-function updateToggleBtn() {
-  document.getElementById('q-counter').textContent = `${idx + 1} / ${filteredQ.length} ☰`;
+function restartQuiz(){
+  answered.clear();correct.clear();wrong.clear();
+  filteredQ=[...ALL_QUESTIONS];idx=0;
+  document.getElementById('result-screen').style.display='none';
+  document.getElementById('quiz-card').style.display='';
+  document.querySelector('.nav').style.display='';
+  renderQuestion();window.scrollTo({top:0,behavior:'smooth'});
+}
+function retryWrong(){
+  const wq=filteredQ.filter(q=>wrong.has(ALL_QUESTIONS.indexOf(q)));
+  answered.clear();correct.clear();wrong.clear();filteredQ=wq;idx=0;
+  document.getElementById('result-screen').style.display='none';
+  document.getElementById('quiz-card').style.display='';
+  document.querySelector('.nav').style.display='';
+  renderQuestion();window.scrollTo({top:0,behavior:'smooth'});
+}
+function retryStar(){
+  const sq=ALL_QUESTIONS.filter(q=>starred.has(ALL_QUESTIONS.indexOf(q)));
+  answered.clear();correct.clear();wrong.clear();filteredQ=sq;idx=0;
+  document.getElementById('result-screen').style.display='none';
+  document.getElementById('quiz-card').style.display='';
+  document.querySelector('.nav').style.display='';
+  renderQuestion();window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function showResult() {
-  document.getElementById('quiz-card').style.display = 'none';
-  document.getElementById('nav').style.display = 'none';
-  document.getElementById('result-screen').style.display = 'block';
-
-  const total = filteredQ.length;
-  const c = filteredQ.filter(q => correct.has(q._gi)).length;
-  const w = filteredQ.filter(q => wrong.has(q._gi)).length;
-  const s = filteredQ.filter(q => starred.has(q._gi)).length;
-  const pct = total > 0 ? Math.round((c / total) * 100) : 0;
-
-  document.getElementById('score-pct').textContent = pct + '%';
-  document.getElementById('r-correct').textContent = c;
-  document.getElementById('r-wrong').textContent = w;
-  document.getElementById('r-star').textContent = s;
-  document.getElementById('score-ring').style.setProperty('--pct', pct + '%');
-
-  document.getElementById('retry-wrong-btn').style.display = w === 0 ? 'none' : '';
-  document.getElementById('retry-star-btn').style.display = s === 0 ? 'none' : '';
-  document.getElementById('share-star-btn').style.display = s === 0 ? 'none' : '';
-}
-
-function shareStarred() {
-  const lines = [];
-  ALL_QUESTIONS.forEach((q, i) => {
-    if (!starred.has(q._gi)) return;
-    lines.push(`Soru ${i + 1}:`);
-    lines.push(q.q.replace(/<[^>]+>/g, ''));
-    lines.push(`Doğru Cevap: ${q.ans}`);
-    lines.push('Açıklama: ' + (q.explain || '').replace(/<[^>]+>/g, ''));
-    lines.push('---');
-  });
-  const text = lines.join('\n');
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.getElementById('share-star-btn');
-    const orig = btn.textContent;
-    btn.textContent = '✅ Kopyalandı!';
-    setTimeout(() => btn.textContent = orig, 2000);
-  });
-}
-
-function restartQuiz() {
-  answered.clear(); correct.clear(); wrong.clear();
-  filteredQ = ALL_QUESTIONS.map(q => q);
-  idx = 0;
-  document.getElementById('result-screen').style.display = 'none';
-  document.getElementById('quiz-card').style.display = '';
-  document.getElementById('nav').style.display = '';
-  renderQuestion();
-  window.scrollTo({ top: 0 });
-}
-
-function retryWrong() {
-  const wrongQs = ALL_QUESTIONS.filter(q => wrong.has(q._gi));
-  if (!wrongQs.length) return;
-  answered.clear(); correct.clear(); wrong.clear();
-  filteredQ = wrongQs;
-  idx = 0;
-  document.getElementById('result-screen').style.display = 'none';
-  document.getElementById('quiz-card').style.display = '';
-  document.getElementById('nav').style.display = '';
-  renderQuestion();
-  window.scrollTo({ top: 0 });
-}
-
-function retryStar() {
-  const starQs = ALL_QUESTIONS.filter(q => starred.has(q._gi));
-  if (!starQs.length) return;
-  answered.clear(); correct.clear(); wrong.clear();
-  filteredQ = starQs;
-  idx = 0;
-  document.getElementById('result-screen').style.display = 'none';
-  document.getElementById('quiz-card').style.display = '';
-  document.getElementById('nav').style.display = '';
-  renderQuestion();
-  window.scrollTo({ top: 0 });
-}
+renderQuestion();
 </script>
 </body>
 </html>

@@ -1,318 +1,629 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nöroloji Quiz - Bölüm 1</title>
-    <style>
-        :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --text-color: #e0e0e0;
-            --primary-color: #bb86fc;
-            --secondary-color: #03dac6;
-            --error-color: #cf6679;
-            --success-color: #4caf50;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        #quiz-container {
-            width: 90%;
-            max-width: 600px;
-            margin-top: 50px;
-            padding: 20px;
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-
-        .progress-container {
-            width: 100%;
-            background-color: #333;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        #progress-bar {
-            width: 0%;
-            height: 10px;
-            background-color: var(--primary-color);
-            border-radius: 5px;
-            transition: width 0.3s ease;
-        }
-
-        .question {
-            display: none;
-        }
-
-        .question.active {
-            display: block;
-        }
-
-        .question-text {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .option {
-            padding: 12px;
-            background-color: #333;
-            border: 2px solid transparent;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .option:hover {
-            background-color: #444;
-        }
-
-        .option.correct {
-            border-color: var(--success-color);
-            background-color: rgba(76, 175, 80, 0.2);
-        }
-
-        .option.wrong {
-            border-color: var(--error-color);
-            background-color: rgba(207, 102, 121, 0.2);
-        }
-
-        #result-container {
-            display: none;
-            text-align: center;
-        }
-
-        .btn {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: var(--primary-color);
-            color: #000;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .source-info {
-            font-size: 0.8rem;
-            color: #888;
-            margin-bottom: 10px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NÖROLOJİ TTS Quiz – Part 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;
+  --accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;
+  --green:#3ecf74;--red:#f0476d;--text:#dde3f5;--muted:#7b85a8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding-bottom:80px}
+.progress-wrap{position:fixed;top:0;left:0;width:100%;z-index:100;height:3px;background:var(--border)}
+.progress-bar{height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%;transition:width .3s}
+.section-badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--accent2);border:1px solid var(--accent2);padding:3px 10px;border-radius:4px;margin:18px 0 8px 0;letter-spacing:.05em;text-transform:uppercase}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 20px;max-width:720px;margin:0 auto}
+.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+#q-num{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--muted)}
+#star-btn{background:none;border:none;cursor:pointer;font-size:1.3rem;color:var(--gold);transition:transform .2s}
+#star-btn:hover{transform:scale(1.2)}
+.year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.year-tag{font-family:'IBM Plex Mono',monospace;font-size:.65rem;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2px 9px;color:var(--muted)}
+#q-text{font-size:1rem;line-height:1.65;margin-bottom:14px;color:var(--text)}
+.hint-toggle{background:none;border:1px solid var(--accent);color:var(--accent);padding:5px 14px;border-radius:6px;cursor:pointer;font-size:.78rem;font-family:'IBM Plex Mono',monospace;margin-bottom:12px;transition:background .2s}
+.hint-toggle:hover{background:rgba(91,141,238,.12)}
+#hint-box{display:none;background:rgba(91,141,238,.08);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;font-size:.85rem;color:var(--accent);margin-bottom:12px;font-family:'IBM Plex Mono',monospace}
+.options{display:flex;flex-direction:column;gap:9px;margin-bottom:14px}
+.opt-btn{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 16px;cursor:pointer;font-size:.93rem;color:var(--text);transition:border-color .15s,background .15s;text-align:left}
+.opt-btn:hover:not(:disabled){border-color:var(--accent);background:rgba(91,141,238,.07)}
+.opt-letter{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.85rem;color:var(--muted);min-width:20px}
+.opt-btn.correct{border-color:var(--green);background:rgba(62,207,116,.1)}
+.opt-btn.correct .opt-letter{color:var(--green)}
+.opt-btn.wrong{border-color:var(--red);background:rgba(240,71,109,.1)}
+.opt-btn.wrong .opt-letter{color:var(--red)}
+.opt-btn:disabled{cursor:default}
+.feedback{display:none;flex-direction:column;gap:12px;margin-top:8px}
+.feedback.open{display:flex}
+.trap-box{background:rgba(240,71,109,.07);border:1px solid rgba(240,71,109,.25);border-radius:10px;padding:14px}
+.trap-title{font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:600;color:var(--accent2);margin-bottom:6px;letter-spacing:.04em}
+.trap-text{font-size:.87rem;color:var(--text);line-height:1.55}
+.explain-box{background:rgba(91,141,238,.06);border:1px solid rgba(91,141,238,.2);border-radius:10px;padding:14px}
+.explain-title{font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:600;color:var(--accent);margin-bottom:6px;letter-spacing:.04em}
+.explain-text{font-size:.87rem;color:var(--text);line-height:1.6}
+.explain-text strong{color:var(--accent)}
+.nav{display:flex;justify-content:space-between;align-items:center;max-width:720px;margin:16px auto 0;gap:10px}
+.nav-btn{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px 20px;border-radius:9px;cursor:pointer;font-size:.9rem;font-family:'Inter',sans-serif;transition:border-color .2s}
+.nav-btn:hover:not(:disabled){border-color:var(--accent)}
+.nav-btn:disabled{opacity:.35;cursor:default}
+#q-counter{background:var(--card);border:1px solid var(--border);color:var(--muted);padding:10px 18px;border-radius:9px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:.82rem;transition:border-color .2s}
+#q-counter:hover{border-color:var(--accent)}
+#next-btn.finish{border-color:var(--green);color:var(--green)}
+/* Result screen */
+#result-screen{display:none;max-width:720px;margin:60px auto 0;text-align:center;padding:20px}
+.result-score{font-size:3rem;font-weight:700;color:var(--green);font-family:'IBM Plex Mono',monospace}
+.result-label{color:var(--muted);font-size:.9rem;margin-bottom:20px;font-family:'IBM Plex Mono',monospace}
+.result-stats{display:flex;justify-content:center;gap:24px;margin:20px 0 30px}
+.stat-item{display:flex;flex-direction:column;align-items:center;gap:4px}
+.stat-num{font-size:1.6rem;font-weight:700;font-family:'IBM Plex Mono',monospace}
+.stat-lbl{font-size:.72rem;color:var(--muted)}
+.stat-correct .stat-num{color:var(--green)}
+.stat-wrong .stat-num{color:var(--red)}
+.stat-star .stat-num{color:var(--gold)}
+.result-btns{display:flex;flex-direction:column;gap:10px;max-width:360px;margin:0 auto}
+.result-btn{padding:13px 20px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:.92rem;font-family:'Inter',sans-serif;transition:border-color .2s}
+.result-btn:hover{border-color:var(--accent)}
+.result-btn.primary{border-color:var(--accent);color:var(--accent)}
+/* Modal */
+.q-modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,10,18,.75);z-index:200;align-items:flex-end;justify-content:center}
+.q-modal-overlay.open{display:flex}
+.q-modal{background:var(--surface);border:1px solid var(--border);border-radius:16px 16px 0 0;width:100%;max-width:720px;max-height:70vh;overflow-y:auto;padding:20px}
+.q-modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.q-modal-title{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--muted)}
+.q-modal-close{background:none;border:none;color:var(--muted);font-size:1.4rem;cursor:pointer}
+.q-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+.q-grid-btn{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:8px 4px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted);transition:all .15s;text-align:center}
+.q-grid-btn.current{border-color:var(--accent);color:var(--accent);background:rgba(91,141,238,.12)}
+.q-grid-btn.done-correct{border-color:var(--green);color:var(--green)}
+.q-grid-btn.done-wrong{border-color:var(--red);color:var(--red)}
+.q-grid-btn.starred-q{box-shadow:0 0 0 2px var(--gold)}
+#main-wrap{max-width:720px;margin:30px auto 0;padding:0 14px}
+</style>
 </head>
 <body>
+<div class="progress-wrap"><div class="progress-bar" id="prog-bar"></div></div>
 
-<div id="quiz-container">
-    <div class="progress-container">
-        <div id="progress-bar"></div>
+<div id="main-wrap">
+  <div class="section-badge" id="sect-label">NÖROLOJİ</div>
+  <div class="card" id="quiz-card">
+    <div class="q-header">
+      <span id="q-num">Soru 1/50</span>
+      <button id="star-btn" onclick="toggleStar()">☆</button>
     </div>
-    <div id="questions-wrapper">
-        <!-- Questions will be injected here -->
+    <div class="year-tags" id="year-tags"></div>
+    <div id="q-text"></div>
+    <button class="hint-toggle" onclick="toggleHint()">🔑 İpucu</button>
+    <div id="hint-box"></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback">
+      <div class="trap-box"><div class="trap-title">⚠️ TUZAK NOKTA</div><div class="trap-text" id="trap-text"></div></div>
+      <div class="explain-box"><div class="explain-title">📖 AÇIKLAMA</div><div class="explain-text" id="explain-text"></div></div>
     </div>
-    <div id="result-container">
-        <h2>Quiz Tamamlandı!</h2>
-        <p id="score-text"></p>
-        <button class="btn" onclick="location.reload()">Yeniden Başla</button>
+  </div>
+
+  <div id="result-screen">
+    <div class="result-score" id="res-pct">0%</div>
+    <div class="result-label">Tamamlandı</div>
+    <div class="result-stats">
+      <div class="stat-item stat-correct"><span class="stat-num" id="res-correct">0</span><span class="stat-lbl">Doğru</span></div>
+      <div class="stat-item stat-wrong"><span class="stat-num" id="res-wrong">0</span><span class="stat-lbl">Yanlış</span></div>
+      <div class="stat-item stat-star"><span class="stat-num" id="res-star">0</span><span class="stat-lbl">Yıldızlı</span></div>
     </div>
+    <div class="result-btns">
+      <button class="result-btn primary" onclick="restartQuiz()">🔄 Tüm Soruları Yeniden Çöz</button>
+      <button class="result-btn" id="retry-wrong-btn" onclick="retryWrong()">✗ Yanlışları Tekrar Çöz</button>
+      <button class="result-btn" id="retry-star-btn" onclick="retryStar()">★ Yıldızlıları Tekrar Çöz</button>
+    </div>
+  </div>
+
+  <div class="nav" id="nav-bar">
+    <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">← Önceki</button>
+    <button id="q-counter" onclick="toggleQuestionList()">1 / 50 ☰</button>
+    <button class="nav-btn" id="next-btn" onclick="navigate(1)">Sonraki →</button>
+  </div>
+</div>
+
+<div class="q-modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
+  <div class="q-modal">
+    <div class="q-modal-header">
+      <span class="q-modal-title">SORULAR</span>
+      <button class="q-modal-close" onclick="toggleQuestionList()">✕</button>
+    </div>
+    <div class="q-grid" id="q-grid"></div>
+  </div>
 </div>
 
 <script>
-    const quizData = [
-        {
-            source: "Sayfa 1 - Soru 1",
-            q: "Aşağıdakilerden hangisi ikinci motor nöron hastalığı belirtisidir? (Sonbahar 89)",
-            options: ["Hipertoni", "Asteni", "Patolojik refleks", "Fasikülasyon", "Ataksi"],
-            correct: 3
-        },
-        {
-            source: "Sayfa 1 - Soru 2",
-            q: "Aşağıdakilerden hangisi üst motor nöron tutulumuna ait bulgu değildir? (İlkbahar 2021 Orijinal)",
-            options: ["Spastisite", "Ekstansör plantar yanıt", "Derin tendon reflekslerinde artma", "Fasikülasyonlar", "Hoffman işareti"],
-            correct: 3
-        },
-        {
-            source: "Sayfa 1 - Soru 2 (Benzeri)",
-            q: "I. Spastisite<br>II. Derin tendon reflekslerinde artma<br>III. Fasikülasyonlar<br>IV. Kaslarda atrofi<br><br>Yukarıdaki bulgulardan hangisi veya hangileri birinci motor nöron hasarı bulgularıdır? (İlkbahar 2021 BENZERİ)",
-            options: ["Yalnız I", "Yalnız II", "I ve II", "II ve IV", "III ve IV"],
-            correct: 2
-        },
-        {
-            source: "Sayfa 2 - Soru 3",
-            q: "Hastaneye getirilen bir hastada Babinski (+) ve patellar refleks hiperaktif ise lezyon nerededir? (Sonbahar 90)",
-            options: ["Birinci motor nöron", "İkinci motor nöron", "Ekstrapiramidal sistem", "Serebellum vermisi", "Serebellum hemisferleri"],
-            correct: 0
-        },
-        {
-            source: "Sayfa 2 - Soru 4",
-            q: "Aşağıdakilerden hangisi monosinaptik refleks arkı içerir? (Sonbahar 90)",
-            options: ["Pupilla ışık refleksi", "Enterogastrik refleks", "Tonik boyun refleksi", "Akomodasyon refleksi", "Patella refleksi"],
-            correct: 4
-        },
-        {
-            source: "Sayfa 2 - Soru 5",
-            q: "Aşil refleksinin kaybolmadığı hastalık hangisidir? (İlkbahar 91)",
-            options: ["Multipl skleroz", "Poliomyelit", "Polinöropati", "Tabes dorsalis", "Gullian Barré Sendromu"],
-            correct: 0
-        },
-        {
-            source: "Sayfa 2 - BOS İncelemesi Soru 1",
-            q: "Baş ağrısı ayakta şiddetlenen, yatar pozisyonda hafifleyen bu hasta için aşağıdakilerden hangisi kesinlikle söylenemez? (İlkbahar 2015 Orijinal)",
-            options: ["Dura kontrast ile parlamaktadır.", "Pons anterioru düzleşmiştir.", "Hidrosefali gelişmiştir.", "Prepontin sistern daralmıştır.", "Klinik ve radyolojik bulgular intrakranial hipotansiyon ile uyumludur."],
-            correct: 2
-        },
-        {
-            source: "Sayfa 2 - BOS İncelemesi Soru 1 (Benzeri)",
-            q: "I. Hidrosefali bulguları izlenir.<br>II. Prepontin sistern daralmıştır.<br>III. Pons anterioru düzleşmiştir.<br>IV. Dura kontrast ile parlamaktadır.<br><br>Lumbal ponksiyon sonrası ayakta şiddetlenen, yatar pozisyonda hafifleyen baş ağrısı tarifleyen hastaya MRG uygulanıyor. Yukardakilerin hangisi/hangilerinin izlenmesi beklenir? (İlkbahar 2015 BENZERİ)",
-            options: ["Yalnız I", "I ve II", "I, II ve III", "II, III ve IV", "III ve IV"],
-            correct: 3
-        },
-        {
-            source: "Sayfa 3 - Soru 2",
-            q: "KİBAS'da kontraendike olan tetkik hangisidir? (İlkbahar 91)",
-            options: ["Anjiografi", "Sintigrafi", "Sinüs grafisi", "BT", "Lomber ponksiyon"],
-            correct: 4
-        },
-        {
-            source: "Sayfa 3 - Soru 3",
-            q: "Lomber ponksiyon, aşağıdaki durumlardan hangisinde kontrendikedir? (İlkbahar 2002)",
-            options: ["Spinal kord tümörü", "İntrakranial tümör", "Tüberküloz menenjit", "Myelitler", "Multiple skleroz"],
-            correct: 1
-        },
-        {
-            source: "Sayfa 3 - Soru 4",
-            q: "Nöroaksiyel blok yapılırken orta hatta ilk geçilen ligaman aşağıdakilerden hangisidir? (İlkbahar 2023)",
-            options: ["Supraspinöz ligaman", "İnterspinöz ligaman", "Ligamentum flavum", "Anterior longitudinal ligaman", "Posterior longitudinal ligaman"],
-            correct: 0
-        },
-        {
-            source: "Sayfa 3 - Soru 5",
-            q: "Türkiye'de kullanılan ve at, koyun beyninden elde edilen kuduz aşısının en önemli komplikasyonu aşağıdakilerden hangisidir? (İlkbahar 91)",
-            options: ["Hemipleji", "Myastenik sendrom", "Optik atrofi", "Ensefalomyelit", "Dissemine skleroz"],
-            correct: 3
-        },
-        {
-            source: "Sayfa 3 - Soru 6",
-            q: "Son 12-24 saat içerisinde ortaya çıkan baş ağrısı ve uykuya eğilim nedeniyle acil servise getirilen 27 yaşındaki kadın hastanın muayenesinde ateş 38.2°C ölçülmüş, ense sertliği saptanmış, letarjik ve konfüze olduğu gözlenmiştir. Beyin omurilik sıvısının incelemesinde mm³ te 100 adet lenfosit saptanmış, glukoz ve protein değerleri normal bulunmuştur. Bu hasta için en olası tanı aşağıdakilerden hangisidir? (İlkbahar 2011)",
-            options: ["Bakteriyal menenjit", "Tüberküloz menenjit", "Viral menenjit", "Fungal menenjit", "Karsinomatöz menenjit"],
-            correct: 2
-        },
-        {
-            source: "Sayfa 4 - Soru 7",
-            q: "Elli beş yaşındaki erkek hasta; ateş, baş ağrısı, davranış değişikliği ve bilinç bozukluğu tablosuyla acil servise getiriliyor. Muayene sırasında epileptik nöbet gözleniyor. Kontrastlı bilgisayarlı beyin tomografisi normal olan hastanın beyin omurilik sıvısı incelemesinde basınç normal, lenfosit: 100/mm³, protein: 120 mg/dL ve glukoz normal bulunuyor. Bu hasta için en olası tanı aşağıdakilerden hangisidir? (İlkbahar 2018 Orijinal)",
-            options: ["Akut bakteriyel menenjit", "Akut viral menenjit", "Subdural ampiyem", "Akut viral ensefalit", "Subakut sklerozan panensefalit"],
-            correct: 3
-        },
-        {
-            source: "Sayfa 4 - Soru 7 (Benzeri)",
-            q: "I. Epilepsi nöbeti<br>II. Ense sertliği<br>III. Davranış değişikliği<br>IV. Bilinç bulanıklığı<br><br>Ateş, baş ağrısı, BOS bulguları olarak benzer özellikler taşıyan menenjit ve ensefalit için yukardakilerden hangisi veya hangileri ensefaliti ön planda düşündürmektedir? (İlkbahar 2018 BENZERİ)",
-            options: ["Yalnız I", "B) I-II", "C) I-IV", "D) I-III-IV", "E) I-II-III"],
-            correct: 3
-        },
-        {
-            source: "Sayfa 4 - Soru 8",
-            q: "Daha önceden bilinen bir hastalığı olmayan 32 yaşındaki kadın hasta; baş ağrısı, yüksek ateş, kasılmalar ve kişilik değişikliği nedenleriyle getiriliyor. Uykuya meyilli olan hastanın oryantasyon ve kooperasyonunun bozuk olduğu saptanıyor. Beyin omurilik sıvısı incelemesinde hafif protein artışı ve lenfositik pleositoz tespit ediliyor. Bu hastadaki en olası etken aşağıdakilerden hangisidir? (Sonbahar 2018 Orijinal)",
-            options: ["Polio virus", "Herpes simpleks virus", "Streptococcus pneumoniae", "Borrelia burgdorferi", "Trepanoma pallidum"],
-            correct: 1
-        },
-        {
-            source: "Sayfa 4 - Soru 8 (Benzeri)",
-            q: "Erişkinlerde görülen ensefalit ile ilgili aşağıdakilerden hangisi yanlıştır? (Sonbahar 2018 BENZERİ)",
-            options: ["Herpes simpleks virus en sık etkendir", "Bilinç bulanıklığı, kişilik değişiklikleri görülebilir", "Epileptik nöbetler tabloya eşlik edebilir", "Kesin tanı BOS PCR yöntemi ile HSV-DNA'nın saptanması ile koyulur", "Ense sertliği yüksek ateş bütün hastalarda görülür"],
-            correct: 4
-        }
-    ];
+const ALL_QUESTIONS = [
+// ══════════════════════════════════════════════════════
+// MOTOR NÖRONLAR
+// ══════════════════════════════════════════════════════
+{
+  section:'motor',sectionLabel:'MOTOR NÖRONLAR',
+  years:['Sonbahar 1989'],
+  q:'Aşağıdakilerden hangisi <u>ikinci motor nöron hastalığı</u> belirtisidir?',
+  opts:['A) Hipertoni','B) Asteni','C) Patolojik refleks','D) Fasikülasyon','E) Ataksi'],
+  ans:'D',
+  hint:'2. MN = Alt MN. Atrofi + Fasikülasyon + Refleks azalma → "AFRA"',
+  trap:'Patolojik refleks (Babinski) 1. MN bulgusudur, 2. MN\'de görülmez. Asteni (güçsüzlük) her ikisinde de olabilir.',
+  explain:'<strong>İkinci motor nöron (alt MN) hastalığında:</strong> Atrofi, kas fasikülasyonları, derin tendon reflekslerinin azalması/kaybolması, tonus azalması (flask) ve patolojik refleks <strong>yokluğu</strong> görülür. Fasikülasyon alt MN lezyonuna özgüdür.'
+},
+{
+  section:'motor',sectionLabel:'MOTOR NÖRONLAR',
+  years:['İlkbahar 2021 Orijinal','İlkbahar 2021 BENZERİ'],
+  q:'Aşağıdakilerden hangisi <u>üst motor nöron tutulumuna ait bulgu <strong>değildir</strong></u>?',
+  opts:['A) Spastisite','B) Ekstensör plantar yanıt','C) Derin tendon reflekslerinde artma','D) Fasikülasyonlar','E) Hoffman işareti'],
+  ans:'D',
+  hint:'Fasikülasyon = Alt MN işareti. Üst MN: "SPED-H" → Spastisite, Patolojik refleks, Ekstansör plantar, DTR↑, Hoffman',
+  trap:'Spastisite üst MN, tonus artışıdır; fasikülasyon ise alt MN\'de görülür. Bu ikisini karıştırmak klasik tuzaktır.',
+  explain:'<strong>Üst motor nöron (1. MN) bulguları:</strong> Spastisite, DTR artışı, Babinski/Hoffmann işareti, klonus. <strong>Fasikülasyon</strong> ise alt MN lezyonuna özgü olup 1. MN hasarında görülmez.'
+},
+{
+  section:'motor',sectionLabel:'MOTOR NÖRONLAR',
+  years:['Sonbahar 1990'],
+  q:'Hastaneye getirilen bir hastada Babinski (+) ve patellar refleks hiperaktif ise lezyon nerededir?',
+  opts:['A) Birinci motor nöron','B) İkinci motor nöron','C) Ekstrapiramidal sistem','D) Serebellum vermisi','E) Serebellum hemisferleri'],
+  ans:'A',
+  hint:'Babinski(+) + DTR↑ = 1. Motor Nöron (Üst MN) hasarı',
+  trap:'Serebellum lezyonunda refleksler normaldir, Babinski görülmez. Ekstrapiramidal sistemde de Babinski beklenmez.',
+  explain:'<strong>Birinci motor nöron hastalığında</strong> patolojik refleksler (Babinski, Hoffmann) ve DTR artışı görülür. Piramidal traktus lezyonunun en önemli işaretidir.'
+},
+{
+  section:'motor',sectionLabel:'MOTOR NÖRONLAR',
+  years:['Sonbahar 1990'],
+  q:'Aşağıdakilerden hangisi <u>monosinaptik refleks arkı</u> içerir?',
+  opts:['A) Pupilla ışık refleksi','B) Enterogastrik refleks','C) Tonik boyun refleksi','D) Akomodasyon refleksi','E) Patella refleksi'],
+  ans:'E',
+  hint:'Monosinaptik = tek sinaps = derin tendon refleksi (DTR). Patella refleksi klasik DTR örneğidir.',
+  trap:'Pupilla ışık refleksi, çok sayıda sinaps içeren polisinaptik bir reflekstir; monosinaptik değildir.',
+  explain:'<strong>Monosinaptik refleksler</strong> sadece bir sinaps içerir: afferent nöron → motor nöron. Bunlar derin tendon refleksleridir (patella ve aşil). Patella refleksi L3-L4 segmentini test eder.'
+},
+{
+  section:'motor',sectionLabel:'MOTOR NÖRONLAR',
+  years:['İlkbahar 1991'],
+  q:'Aşil refleksinin <u>kaybolmadığı</u> hastalık hangisidir?',
+  opts:['A) Multipl skleroz','B) Poliomyelit','C) Polinöropati','D) Tabes dorsalis','E) Gullian Barré Sendromu'],
+  ans:'A',
+  hint:'Multipl Skleroz = Üst MN hastalığı → DTR artar veya korunur, kaybolmaz. Alt MN/periferik = DTR azalır.',
+  trap:'MS\'de DTR artmış veya normal olabilir; kaybolmaz. Diğer seçeneklerin hepsi alt MN/periferik sinir hastalığıdır ve aşil refleksini azaltır/yok eder.',
+  explain:'<strong>Multipl Skleroz</strong>, üst motor nöron yollarını (kortikospinal traktus) etkileyen demiyelinizan bir hastalıktır. 1. MN tutulumunda DTR artar. Poliomyelit, GBS, polinöropati ve tabes dorsalis ise alt MN/periferik sinir tutulumuna yol açar ve aşil refleksini kaybettirir.'
+},
 
-    let currentQuestionIndex = 0;
-    let score = 0;
-    let canAnswer = true;
+// ══════════════════════════════════════════════════════
+// BOS İNCELEMESİ / LOMBER PONKSİYON
+// ══════════════════════════════════════════════════════
+{
+  section:'bos',sectionLabel:'BOS İNCELEMESİ – Lomber Ponksiyon',
+  years:['İlkbahar 2015 Orijinal','İlkbahar 2015 BENZERİ'],
+  q:'Lomber ponksiyondan sonraki saatlerde baş ağrısı yakınması olan hastanın MR incelemesinde post kontrast aksiyal ve sagittal T1 ağırlıklı görüntüleri verilmiştir. Bu hasta için <u>kesinlikle söylenemez</u> olan hangisidir?',
+  opts:['A) Dura kontrast ile parlamaktadır.','B) Pons anterioru düzleşmiştir.','C) Hidrosefali gelişmiştir.','D) Prepontin sistern daralmıştır.','E) Klinik ve radyolojik bulgular intrakranial hipotansiyon ile uyumludur.'],
+  ans:'C',
+  hint:'LP sonrası intrakraniyal HİPOTANSİYON → BOS kaybı → hidrosefali beklenmez, aksine beyin aşağı çöker.',
+  trap:'LP\'nin en sık komplikasyonu baş ağrısıdır. BOS basıncı düşer; bu HİPOTANSİYON bulgularına yol açar. Hidrosefali ise BOS fazlalığı/blokajı ile olur — tablo ile ÇELIŞIR.',
+  explain:'LP sonrası <strong>intrakraniyal hipotansiyon</strong>da: dura parlaması, prepontin sistern daralması, beyin sarkması (pons ön yüz düzleşmesi) görülür. <strong>Hidrosefali beklenmez</strong> — aksine ventriküller küçülür.'
+},
+{
+  section:'bos',sectionLabel:'BOS İNCELEMESİ – Lomber Ponksiyon',
+  years:['İlkbahar 1991'],
+  q:'KİBAS\'da <u>kontraendike</u> olan tetkik hangisidir?',
+  opts:['A) Anjiografi','B) Sintigrafi','C) Sinüs grafisi','D) BT','E) Lomber ponksiyon'],
+  ans:'E',
+  hint:'KİBAS + LP = Herniasyon riski! Yer kaplayan lezyon varsa LP kontrendike.',
+  trap:'BT, KİBAS şüphesinde tercih edilen tetkiktir; LP ise kontrendikedir. Anjiografi de KİBAS\'ta uygulanabilir.',
+  explain:'<strong>KİBAS (kafa içi basınç artışı)</strong> varlığında lomber ponksiyon uygulanırsa, basınç farkı nedeniyle <strong>transtentorial herniasyon (unkal hernisyon)</strong> gelişebilir ve hasta kaybedilebilir. BT çekilerek yer kaplayan lezyon ekarte edilmeden LP yapılmaz.'
+},
+{
+  section:'bos',sectionLabel:'BOS İNCELEMESİ – Lomber Ponksiyon',
+  years:['İlkbahar 2002'],
+  q:'Lomber ponksiyon, aşağıdaki durumlardan hangisinde <u>kontrendikedir</u>?',
+  opts:['A) Spinal kord tümörü','B) İntrakranial tümör','C) Tüberküloz menenjit','D) Myelitler','E) Multiple skleroz'],
+  ans:'B',
+  hint:'İntrakraniyal tümör = Yer kaplayan lezyon = KİBAS riski → LP kontrendike.',
+  trap:'Spinal kord tümörü veya MS\'de LP uygulanabilir. İntrakranial tümörde KİBAS nedeniyle LP tehlikeli olabilir.',
+  explain:'<strong>Lomber ponksiyon kontrendikasyonları:</strong> İntrakranial kitle şüphesi (KİBAS), LP yerinde lokal enfeksiyon, koagulopati. Tüberküloz menenjit ve MS\'de LP tanı amaçlı kullanılabilir.'
+},
+{
+  section:'bos',sectionLabel:'BOS İNCELEMESİ – Lomber Ponksiyon',
+  years:['İlkbahar 2023'],
+  q:'Nöroaksiyel blok yapılırken orta hatta <u>ilk</u> geçilen ligaman aşağıdakilerden hangisidir?',
+  opts:['A) Supraspinöz ligaman','B) İnterspinöz ligaman','C) Ligamentum flavum','D) Anterior longitudinal ligaman','E) Posterior longitudinal ligaman'],
+  ans:'A',
+  hint:'Deri → Süpraspinöz → İnterspinöz → Lig.flavum → Epidural → Dura. "SİL-ED" mnemonik.',
+  trap:'Sıralama önemli: Süpraspinöz ÖNCE, interspinöz SONRA gelir. Lig.flavum ise en son geçilen ligamandır (epidural öncesi).',
+  explain:'Lomber ponksiyon iğnesi sırasıyla: <strong>Deri → Deri altı yağ → Süpraspinöz ligaman → İnterspinöz ligaman → Ligamentum flavum</strong> → epidural alan → dura mater → araknoid → subaraknoid boşluk.'
+},
 
-    const wrapper = document.getElementById('questions-wrapper');
-    const progressBar = document.getElementById('progress-bar');
-    const scoreText = document.getElementById('score-text');
-    const resultContainer = document.getElementById('result-container');
+// ══════════════════════════════════════════════════════
+// MSS İNFEKSİYONLARI
+// ══════════════════════════════════════════════════════
+{
+  section:'mssinf',sectionLabel:'MSS İNFEKSİYONLARI',
+  years:['İlkbahar 1991'],
+  q:'Türkiye\'de kullanılan ve at, koyun beyninden elde edilen kuduz aşısının <u>en önemli</u> komplikasyonu aşağıdakilerden hangisidir?',
+  opts:['A) Hemipleji','B) Myastenik sendrom','C) Optik atrofi','D) Ensefalomyelit','E) Dissemeine skleroz'],
+  ans:'D',
+  hint:'Kızamık, su çiçeği aşılarından sonra "paraenfeksiyöz ensefalomyelit" → Kuduz aşısı → aynı mekanizma.',
+  trap:'Kuduz aşısının komplikasyonu olarak MS (Dissemeine skleroz) düşünülse de, bu tablo paraenfeksiyöz demiyelinizasyondur ve "Ensefalomyelit" doğru terimdir.',
+  explain:'Kızamık, su çiçeği gibi viral aşıların ardından görülen <strong>paraenfeksiyöz ensefalomyelit</strong>, demiyelinizasyonla seyreden bir tablodur. Kuduz aşısı bu komplikasyonu en sık oluşturan aşılardan biridir.'
+},
+{
+  section:'mssinf',sectionLabel:'MSS İNFEKSİYONLARI',
+  years:['İlkbahar 2011'],
+  q:'Son 12-24 saat içerisinde ortaya çıkan baş ağrısı ve uykuya eğilim nedeniyle acil servise getirilen 27 yaşındaki kadın hastanın muayenesinde ateş 38.2°C ölçülmüş, ense sertliği saptanmış, letarjik ve konfüze olduğu gözlenmiştir. BOS incelemesinde mm³ te 100 adet lenfosit saptanmış, glukoz ve protein değerleri normal bulunmuştur.',
+  opts:['A) Bakteriyel menenjit','B) Tüberküloz menenjit','C) Viral menenjit','D) Fungal menenjit','E) Karsinomatöz menenjit'],
+  ans:'C',
+  hint:'BOS: Lenfosit↑ + Protein normal + Glukoz normal → VİRAL menenjit üçlüsü.',
+  trap:'Bakteriyel menenjitte glukoz DÜŞER ve protein ARTAR. Burada her ikisi de normal → bakteriyel değil viral.',
+  explain:'<strong>Viral menenjit BOS bulguları:</strong> Lenfosit artışı, protein hafif artmış veya normal, glukoz normal. <strong>Bakteriyel menenjit</strong> BOS\'unda: nötrofil artışı, protein artışı, glukoz azalması görülür.'
+},
+{
+  section:'mssinf',sectionLabel:'MSS İNFEKSİYONLARI',
+  years:['İlkbahar 2018 Orijinal','İlkbahar 2018 BENZERİ'],
+  q:'Elli beş yaşındaki erkek hasta; ateş, baş ağrısı, davranış değişikliği ve bilinç bozukluğu tablosuyla acil servise getiriliyor. Kontrastlı bilgisayarlı beyin tomografisi normal olan hastanın beyin omurilik sıvısı incelemesinde basınç normal, lenfosit: 100/mm³, protein: 120 mg/dL ve glukoz normal bulunuyor. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?',
+  opts:['A) Akut bakteriyel menenjit','B) Akut viral menenjit','C) Akut subdural ampiyem','D) Akut viral ensefalit','E) Subakut sklerozan panensefalit'],
+  ans:'D',
+  hint:'Menenjit bulgularına ek olarak KİŞİLİK DEĞİŞİKLİĞİ ve BİLİNÇ BOZUKLUĞU varsa → ENSEFALİT düşün!',
+  trap:'Viral menenjitte kişilik ve bilinç değişikliği beklenmez. Epilepsi de eklenirse ensefalit tanısı güçlenir.',
+  explain:'<strong>Ensefalit</strong>, beyin parenkiminin inflamasyonudur: ateş, baş ağrısı, <strong>bilinç değişikliği + davranış bozukluğu + fokal nörolojik bulgular</strong> ile seyreder. BOS\'ta lenfosit artışı ve protein artışı tipiktir, glukoz genellikle normaldir. HSV en sık viral ekendir.'
+},
+{
+  section:'mssinf',sectionLabel:'MSS İNFEKSİYONLARI',
+  years:['Sonbahar 2018 Orijinal','Sonbahar 2015 BENZERİ'],
+  q:'Daha önceden bilinen bir hastalığı olmayan 32 yaşındaki kadın hasta; baş ağrısı, yüksek ateş, kasılmalar ve kişilik değişikliği nedenleriyle getiriliyor. BOS incelemesinde hafif protein artışı ve lenfositik pleositoz tespit ediliyor.',
+  opts:['A) Polio virus','B) Herpes simpleks virus','C) Streptococcus pneumoniae','D) Borrelia burgdorferi','E) Trepanoma pallidum'],
+  ans:'B',
+  hint:'Fokal ensefalit + Temporal lob tutulumu + PCR → HSV. "HER Temporal lobda Simpleks var"',
+  trap:'Streptococcus pneumoniae bakteriyel menenjit yapar ve glukoz düşer. Burada lenfositik pleositoz + normal glukoz → viral.',
+  explain:'<strong>Herpes Simpleks Virüs (HSV)</strong> endemik fokal ensefalitin en önemli etkenidir. Temporal lob tutulumu karakteristiktir. BOS\'ta lenfositik pleositoz ve hafif protein artışı görülür. Tanıda HSV-DNA PCR altın standarttır (%94-100 duyarlılık).'
+},
+{
+  section:'mssinf',sectionLabel:'MSS İNFEKSİYONLARI',
+  years:['İlkbahar 2015 Orijinal'],
+  q:'Konuşması uzun duraklamalarla bölünmüş, zorlanarak söylenen tek tek kelimeler ve hecelerden ibaret bir hastada, Broca afazisi tanısı koyabilmek için aşağıdakilerden <strong>hangisinin bozuk olması gerekir?</strong>',
+  opts:['A) Jest ve mimikleri kullanma','B) Fonasyon','C) Basit motor emirleri yerine getirme','D) Söyleneni tekrarlama','E) Düşünce içeriği'],
+  ans:'C',
+  hint:'Broca afazisi: Konuşma AKICI DEĞİL, anlama KORUNMUŞ, tekrarlama BOZUK. Basit emirleri anlayabilir!',
+  trap:'Broca afazisinde ANLAMA korunur → hasta basit emirleri YERİNE GETİREBİLİR. Soru "bozuk olması gereken" nedir diye soruyor, dikkat!',
+  explain:'Bu soru <strong>Broca afazisi</strong> yerine başka bir afaziyi sorguluyor. Konuşma akıcı değil, anlama normal ama tekrarlama bozuksa → <strong>İletim afazisi</strong> veya Broca. Basit motor emirleri yerine getirememek ise <strong>anlama bozukluğunu</strong> işaret eder → Wernicke afazisi.'
+},
 
-    function initQuiz() {
-        quizData.forEach((data, index) => {
-            const qDiv = document.createElement('div');
-            qDiv.className = `question ${index === 0 ? 'active' : ''}`;
-            qDiv.innerHTML = `
-                <div class="source-info">${data.source}</div>
-                <div class="question-text">${data.q}</div>
-                <div class="options">
-                    ${data.options.map((opt, i) => `<div class="option" onclick="checkAnswer(${i})">${opt}</div>`).join('')}
-                </div>
-            `;
-            wrapper.appendChild(qDiv);
-        });
-        updateProgress();
-    }
+// ══════════════════════════════════════════════════════
+// KONUŞMA ve AFAZİ
+// ══════════════════════════════════════════════════════
+{
+  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
+  years:['İlkbahar 1989'],
+  q:'Motor afazide lezyon nerededir?',
+  opts:['A) Brodman\'ın 6. alanı','B) Brodman\'ın 4. alan üstü','C) Broca alanı','D) Wernicke alanı','E) Superior temporal bölge'],
+  ans:'C',
+  hint:'Broca alanı = 44. alan = İnferior frontal girus. Motor afazi = Broca afazisi.',
+  trap:'Brodman\'ın 4. alanı primer motor korteks, 6. alan premotor kortekstir. Broca alanı 44. alandır.',
+  explain:'<strong>Broca (motor) afazisi</strong>nde lezyon, frontal lobun inferior posterior bölgesindeki <strong>Broca alanı (Brodman 44)</strong>nda bulunur. Konuşma akıcı değil, anlama korunmuştur.'
+},
+{
+  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
+  years:['İlkbahar 1996'],
+  q:'Broca afazisi hangi lob lezyonlarında görülür?',
+  opts:['A) Frontal','B) Parietal','C) Oksipital','D) Temporal','E) Serebellum'],
+  ans:'A',
+  hint:'Broca = Frontal. Wernicke = Temporal. "BWF-WT" → Broca=Frontal, Wernicke=Temporal',
+  trap:'Temporal lob Wernicke alanına ev sahipliği yapar. Oksipital lob görme ile ilgilidir.',
+  explain:'<strong>Broca alanı</strong> dominant hemisferin <strong>frontal lobunda</strong> (inferior frontal girus, 44. alan) bulunur. Lezyonunda motor (ekspressif) afazi gelişir.'
+},
+{
+  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
+  years:['İlkbahar 2020 Orijinal'],
+  q:'Kırk sekiz yaşındaki kadın hasta, sağ tarafında güçsüzlük ve konuşma bozukluğu şikâyetleriyle başvuruyor. Kelimeleri söylemede zorlandığı ve telegrafik konuştuğu görülüyor. Anlamasının normal, tekrarlama ve yazmasının ise bozuk olduğu saptanıyor. Bu hastada <u>en olası</u> tanı ve etkilenen <u>en olası</u> lokalizasyon aşağıdakilerin hangisinde birlikte verilmiştir?',
+  opts:['A) Wernicke afazisi – Frontal lob','B) Wernicke afazisi – Temporal lob','C) Broca afazisi – Frontal lob','D) Broca afazisi – Temporal lob','E) Broca afazisi – Parietal lob'],
+  ans:'C',
+  hint:'Akıcı DEĞİL + Anlama KORUNMUŞ + Tekrarlama BOZUK = BROCA afazisi → Frontal lob.',
+  trap:'Wernicke afazisinde konuşma akıcı ama anlamsızdır; anlama ise bozuktur. Bu hastada anlama normaldir → Broca.',
+  explain:'<strong>Broca afazisi:</strong> Konuşma akıcı değil (telegrafik), anlama korunmuş, tekrarlama bozuk. Lezyon <strong>frontal lobda</strong> (Broca alanı, 44. alan). Sağ hemiparezi eşliği sol frontal lob lezyonunu destekler.'
+},
+{
+  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
+  years:['Sonbahar 2000'],
+  q:'Broca afazisinde a.cerebri medianın beslediği alanda görülen enfarktüs hangi lobdadır?',
+  opts:['A) Temporal lob','B) Frontal lob','C) Fassikulus arcuatus','D) Gyrus angularis','E) Oksipital lob'],
+  ans:'B',
+  hint:'Broca alanı frontal lobda, a.cerebri medianın alt dalları tarafından beslenir.',
+  trap:'Fasikülus arkuatus (arkuat fasikül) Broca ve Wernicke\'yi BAĞLAYAN yolaktır; lezyon burada olursa İletim afazisi gelişir.',
+  explain:'<strong>Broca alanı</strong> frontal lobun inferior posterior gyrusundadır. A.cerebri media\'nın üst dalları tarafından beslenir. Tıkanmasında motor afazi + kontralateral üst ekstremite hemiparezi gelişir.'
+},
+{
+  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
+  years:['İlkbahar 1999'],
+  q:'Aşağıdakilerden hangisi <u>orta serebral arter tıkanıklığına bağlı perisilvian aralıktaki yaygın nekroz</u> sonucu görülür?',
+  opts:['A) Wernicke afazisi','B) Broka afazisi','C) Global afazi','D) Literal parafazi','E) Kondüksiyon afazisi'],
+  ans:'C',
+  hint:'Orta serebral arter TÜM dal tıkanması → Dil bölgesinin büyük kısmı etkilenir → GLOBAL afazi.',
+  trap:'Sadece Broca alanı tıkarsa Broca afazisi, sadece Wernicke tıkarsa Wernicke afazisi olur. Büyük alan tıkanması → Global.',
+  explain:'<strong>Global afazi</strong>: Konuşma, anlama, tekrarlama ve yazma tamamen bozulmuştur. Dominant hemisferde orta serebral arterin büyük kısmının tıkanması ile dil bölgesinin geniş alanı etkilenir.'
+},
+{
+  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
+  years:['İlkbahar 1999'],
+  q:'Altmış yaşında aniden <u>saçmalayarak</u> gelen erkek hastada okuma ve söyleneni tekrarlama bozuk ise hastada ne düşünürsünüz?',
+  opts:['A) Alzheimer hastalığı','B) Global afazi','C) Broka afazisi','D) Wernicke afazisi','E) Kondüksiyon afazisi'],
+  ans:'D',
+  hint:'Akıcı AMA ANLAŞILMAZ konuşma (jargon) + Anlama BOZUK = Wernicke afazisi.',
+  trap:'Global afazide konuşma YOKTUR. Burada hasta saçmalayarak konuşabiliyor → akıcı afazi = Wernicke.',
+  explain:'<strong>Wernicke afazisi</strong>nde hasta akıcı konuşur ancak anlamsız kelimeler (parafaziler, jargon afazi) üretir. Anlama ve tekrarlama bozuktur. Lezyon temporal lobdadır (22. alan).'
+},
+{
+  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
+  years:['Sonbahar 2007'],
+  q:'Konuşurken sık sık duraklayan ve kelime bulmakta zorluk çektiği izlenimi alınan bir hastanın muayenesinde, sık duraklamalar dışında spontan konuşmasının normal olduğu ve söylenenleri anladığı saptanmış. Hasta kendisine gösterilen çeşitli cisimlerin ne işe yaradığını tarif edebilmekte, ancak isimlerini bulmakta büyük zorluk çekmektedir.',
+  opts:['A) Görsel agnozi','B) Transkortikal afazi','C) Taktil agnozi','D) Broca afazisi','E) Anomik afazi'],
+  ans:'E',
+  hint:'İzole kelime bulma güçlüğü (isim bulamama) = ANOMİK afazi. Konuşma ve anlama korunmuş.',
+  trap:'Transkortikal motor afazide tekrarlama korunmuş ama konuşma akıcı değildir. Burada sadece isim bulma güçlüğü var.',
+  explain:'<strong>Anomik (amnestik) afazi</strong>: Konuşmanın akıcılığı ve anlamanın korunması, ancak isimleri bulmada güçlük çekilmesiyle karakterizedir. Nesnenin ne olduğu bilinir, işlevi tarif edilir, ama ismi söylenemez.'
+},
+{
+  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
+  years:['İlkbahar 2009'],
+  q:'Karbon monoksit intoksikasyonu nedeniyle izlenmekte olan otuzaltı yaşındaki hasta basit emirleri yerine getirme yerine, soruyu aynen tekrarlayarak cevaplandırmaktadır. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?',
+  opts:['A) Broca afazisi','B) Transkortikal motor afazi','C) Wernicke afazisi','D) Transkortikal duyusal afazi','E) İletim afazisi'],
+  ans:'B',
+  hint:'TEKRARLAMANın KORUNDUĞU afaziler = Transkortikal afaziler. Motor konuşma bozuk + Tekrarlama iyi → Transkortikal MOTOR.',
+  trap:'İletim afazisinde tekrarlama BOZUKTUR. Transkortikal afazilerde tekrarlama korunur. Burada hasta soruyu AYNEN tekrarlıyor → Tekrarlama iyi.',
+  explain:'<strong>Transkortikal motor afazi</strong>: Konuşma akıcı değil, anlama korunmuş, tekrarlama <strong>korunmuştur</strong>. KO intoksikasyonunda anterior serebral arter sulama alanı (Broca çevresi) etkilenebilir.'
+},
+{
+  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
+  years:['İlkbahar 2012'],
+  q:'Konuşmanın akıcı olduğu, anlamanın belirgin olarak korunduğu ancak tekrarlamanın ağır derecede bozulduğu afazi tipi aşağıdakilerden hangisidir?',
+  opts:['A) Broca','B) Transkortikal duyusal','C) İletim','D) Wernicke','E) Transkortikal motor'],
+  ans:'C',
+  hint:'Arkuat fasikül kesintisi → TEKRARLAMANın İZOLE BOZULDUĞU afazi = İLETİM afazisi.',
+  trap:'Transkortikal afazilerde tekrarlama KORUNUR. İletim afazisinde ise tekrarlama BELİRGİN BOZUKTUR.',
+  explain:'<strong>İletim afazisi</strong>: Arkuat fasiküle hasar nedeniyle Broca ve Wernicke arasındaki bağlantı kopar. Konuşma akıcı, anlama korunmuş, ancak tekrarlama <strong>belirgin bozulmuştur</strong>.'
+},
+{
+  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
+  years:['Sonbahar 2025'],
+  q:'Altmış beş yaşındaki erkek hasta konuşma bozukluğu nedeniyle acil servise getiriliyor. Muayenesinde konuşmasının akıcı ve ekolalik olduğu, isimlendirmenin bozulduğu ancak tekrarlamanın normal olduğu saptanıyor.',
+  opts:['A) Transkortikal motor','B) Kondüksiyon','C) Transkortikal sensoryel','D) Anomik','E) Wernicke'],
+  ans:'C',
+  hint:'Ekolali + Tekrarlama KORUNMUŞ + Anlama BOZUK = Transkortikal SENSÖRİYEL afazi.',
+  trap:'Ekolali (söyleneni aynen tekrarlama) özelliği transkortikal sensoryel afaziye özgüdür. Anomik afazide ekolali görülmez.',
+  explain:'<strong>Transkortikal sensöriyal afazi</strong>: Konuşma akıcı, ekolali var, tekrarlama korunmuş, anlama bozuktur. Wernicke alanı etrafındaki izolasyon lezyonuyla oluşur.'
+},
+{
+  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
+  years:['Sonbahar 1997'],
+  q:'İki taraflı hemiparezi, konuşmada, çiğnemede, yutmada, farinks ve dil hareketlerinde zayıflık, gülme ve ağlama nöbetleri görülen hastada <u>en olası</u> tanı nedir?',
+  opts:['A) Psödotümör serebri','B) Pseudobulbar paralizi','C) Fasial paralizi','D) Parkinson','E) Pseudohipertrofik musküler distrofi'],
+  ans:'B',
+  hint:'PseudoBULBAR paralizi: Bilateral KORTİKOBULBER yol lezyonu. Ağlama-gülme nöbetleri PATOGNOMONİK.',
+  trap:'Bulber paralizi alt MN lezyonudur; pseudobulbar ise bilateral üst MN lezyonudur. Ağlama-gülme nöbetleri pseudobulbar\'a özgüdür.',
+  explain:'<strong>Pseudobulbar paralizi</strong>: Bilateral kortikobulber yol hasarı sonucu; disfazi, disfaji, dizartri, ağlama-gülme nöbetleri (emotional incontinence) karakteristiktir. Bilinç ve entelektüel fonksiyonlar korunur.'
+},
+{
+  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
+  years:['Sonbahar 1996'],
+  q:'Sağ periferik fasiyal paralizi, sağ 6. kranial sinir paralizi ve sol tarafta hemiparezi varsa lezyon nerededir?',
+  opts:['A) Sol pons','B) Sağ kapsüla interna','C) Sol kapsüla interna','D) Sağ pons','E) Sol talamus'],
+  ans:'D',
+  hint:'Aynı yanda 6. ve 7. KS tutulumu + Karşı taraf hemiparezi = PONS lezyonu (Millar-Gubler = Alternans hemipleji)',
+  trap:'Kapsüla interna lezyonunda periferik fasiyal paralizi OLMAZ (merkezi olur). Sağ pons → Sağ 6+7 KS + Sol hemiparezi.',
+  explain:'<strong>Alternans hemipleji</strong>: Lezyon tarafında KS felci + Karşı taraf hemiparezi. Sağ 6+7 KS + Sol hemiparezi → <strong>Sağ pons</strong> lezyonu (Millard-Gubler sendromu).'
+},
 
-    function updateProgress() {
-        const percent = (currentQuestionIndex / quizData.length) * 100;
-        progressBar.style.width = `${percent}%`;
-    }
+// ══════════════════════════════════════════════════════
+// APRAKSİ, AGNOZİ
+// ══════════════════════════════════════════════════════
+{
+  section:'afazi',sectionLabel:'AFAZİ – Yüksek Kortikal Fonksiyonlar',
+  years:['İlkbahar 2009 Orijinal (benzer)'],
+  q:'Parezi, duyu defisiti veya koordinasyon bozukluğu olmadan öğrenilmiş beceri, gerektiren hareketlerin yapılamaması veya beceriksiz şekilde yapılması aşağıdakilerden hangisiyle ifade edilir?',
+  opts:['A) Afazi','B) Agnozi','C) Apraksi','D) Anomi','E) Aleksi'],
+  ans:'C',
+  hint:'APRAKSİ = Motor program bozukluğu. Parezi YOK ama hareket YAPILAMAZ.',
+  trap:'Agnozi duyu organları sağlamken nesneyi tanıyamamaktır. Apraksi ise motor yeteneğin kaybıdır.',
+  explain:'<strong>Apraksi</strong>: Güç, his veya koordinasyon bozukluğu olmaksızın öğrenilmiş motor eylemlerin yapılamamasıdır. Genellikle dominant paryetal lob lezyonlarında görülür.'
+}
+];
 
-    window.checkAnswer = function(selectedIndex) {
-        if (!canAnswer) return;
-        canAnswer = false;
+let idx=0, filteredQ=[...ALL_QUESTIONS];
+let answered=new Set(), correct=new Set(), wrong=new Set(), starred=new Set();
 
-        const currentQuestion = quizData[currentQuestionIndex];
-        const options = document.querySelectorAll('.question.active .option');
-        
-        if (selectedIndex === currentQuestion.correct) {
-            options[selectedIndex].classList.add('correct');
-            score++;
-        } else {
-            options[selectedIndex].classList.add('wrong');
-            options[currentQuestion.correct].classList.add('correct');
-        }
+function renderQuestion(){
+  const q=filteredQ[idx];
+  document.getElementById('sect-label').textContent=q.sectionLabel;
+  document.getElementById('q-num').textContent=`Soru ${idx+1}/${filteredQ.length}`;
+  document.getElementById('star-btn').textContent=starred.has(q._gi||idx)?'★':'☆';
+  // year tags
+  const yt=document.getElementById('year-tags');
+  yt.innerHTML='';
+  q.years.forEach(y=>{const s=document.createElement('span');s.className='year-tag';s.textContent=y;yt.appendChild(s);});
+  document.getElementById('q-text').innerHTML=q.q;
+  document.getElementById('hint-box').style.display='none';
+  document.getElementById('hint-box').textContent=q.hint;
+  // options
+  const optsEl=document.getElementById('options');
+  optsEl.innerHTML='';
+  q.opts.forEach(opt=>{
+    const letter=opt[0];
+    const text=opt.slice(3);
+    const btn=document.createElement('button');
+    btn.className='opt-btn';
+    btn.innerHTML=`<span class="opt-letter">${letter}</span>${text}`;
+    btn.onclick=()=>selectAnswer(letter,idx,q);
+    optsEl.appendChild(btn);
+  });
+  document.getElementById('feedback').classList.remove('open');
+  document.getElementById('trap-text').innerHTML=q.trap;
+  document.getElementById('explain-text').innerHTML=q.explain;
+  updateNavBtns();
+  updateToggleBtn();
+  updateProgress();
+  // global index
+  q._gi=idx;
+  if(answered.has(idx)) restoreAnswerUI(idx,q);
+}
 
-        setTimeout(() => {
-            nextQuestion();
-        }, 1500);
-    };
+function selectAnswer(letter,gi,q){
+  if(answered.has(gi)) return;
+  answered.add(gi);
+  const isCorrect=(letter===q.ans);
+  if(isCorrect) correct.add(gi); else wrong.add(gi);
+  // mark buttons
+  const btns=document.querySelectorAll('.opt-btn');
+  btns.forEach(btn=>{
+    btn.disabled=true;
+    const l=btn.querySelector('.opt-letter').textContent;
+    if(l===q.ans) btn.classList.add('correct');
+    else if(l===letter && !isCorrect) btn.classList.add('wrong');
+  });
+  document.getElementById('feedback').classList.add('open');
+  setTimeout(()=>{document.getElementById('feedback').scrollIntoView({behavior:'smooth',block:'start'});},100);
+  updateNavBtns();
+  updateProgress();
+}
 
-    function nextQuestion() {
-        const questions = document.querySelectorAll('.question');
-        questions[currentQuestionIndex].classList.remove('active');
-        
-        currentQuestionIndex++;
-        canAnswer = true;
+function restoreAnswerUI(gi,q){
+  const btns=document.querySelectorAll('.opt-btn');
+  const chosenLetter=wrong.has(gi)?findWrongLetter(gi,q):q.ans;
+  btns.forEach(btn=>{
+    btn.disabled=true;
+    const l=btn.querySelector('.opt-letter').textContent;
+    if(l===q.ans) btn.classList.add('correct');
+    else if(wrong.has(gi) && l===chosenLetter) btn.classList.add('wrong');
+  });
+  document.getElementById('feedback').classList.add('open');
+}
+function findWrongLetter(gi,q){return null;}
 
-        if (currentQuestionIndex < quizData.length) {
-            questions[currentQuestionIndex].classList.add('active');
-            updateProgress();
-        } else {
-            showResults();
-        }
-    }
+function toggleHint(){
+  const h=document.getElementById('hint-box');
+  h.style.display=h.style.display==='none'?'block':'none';
+}
 
-    function showResults() {
-        progressBar.style.width = '100%';
-        wrapper.style.display = 'none';
-        resultContainer.style.display = 'block';
-        scoreText.innerText = `${quizData.length} soruda ${score} doğru cevap verdiniz.`;
-    }
+function toggleStar(){
+  const gi=idx;
+  if(starred.has(gi)) starred.delete(gi); else starred.add(gi);
+  document.getElementById('star-btn').textContent=starred.has(gi)?'★':'☆';
+  updateToggleBtn();
+}
 
-    initQuiz();
+function toggleQuestionList(){
+  const ov=document.getElementById('modal-overlay');
+  const isOpen=ov.classList.contains('open');
+  if(!isOpen){buildGrid();ov.classList.add('open');}
+  else ov.classList.remove('open');
+}
+
+function closeModalOnOverlay(e){
+  if(e.target===document.getElementById('modal-overlay')) toggleQuestionList();
+}
+
+function buildGrid(){
+  const grid=document.getElementById('q-grid');
+  grid.innerHTML='';
+  filteredQ.forEach((_,i)=>{
+    const btn=document.createElement('button');
+    btn.className='q-grid-btn';
+    btn.textContent=i+1;
+    if(i===idx) btn.classList.add('current');
+    if(correct.has(i)) btn.classList.add('done-correct');
+    if(wrong.has(i)) btn.classList.add('done-wrong');
+    if(starred.has(i)) btn.classList.add('starred-q');
+    btn.onclick=()=>{idx=i;renderQuestion();toggleQuestionList();window.scrollTo({top:0,behavior:'smooth'});};
+    grid.appendChild(btn);
+  });
+}
+
+function navigate(dir){
+  idx+=dir;
+  if(idx<0) idx=0;
+  if(idx>=filteredQ.length) idx=filteredQ.length-1;
+  renderQuestion();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateNavBtns(){
+  document.getElementById('prev-btn').disabled=(idx===0);
+  const next=document.getElementById('next-btn');
+  const isLast=(idx===filteredQ.length-1);
+  const isAnswered=answered.has(idx);
+  if(isLast && isAnswered){
+    next.textContent='Sonuçları Gör →';
+    next.classList.add('finish');
+    next.onclick=showResult;
+  } else {
+    next.textContent='Sonraki →';
+    next.classList.remove('finish');
+    next.onclick=()=>navigate(1);
+    next.disabled=false;
+  }
+}
+
+function updateProgress(){
+  const pct=answered.size/filteredQ.length*100;
+  document.getElementById('prog-bar').style.width=pct+'%';
+}
+
+function updateToggleBtn(){
+  document.getElementById('q-counter').textContent=`${idx+1} / ${filteredQ.length} ☰`;
+}
+
+function showResult(){
+  document.getElementById('quiz-card').style.display='none';
+  document.getElementById('nav-bar').style.display='none';
+  const rs=document.getElementById('result-screen');
+  rs.style.display='block';
+  const pct=filteredQ.length>0?Math.round(correct.size/filteredQ.length*100):0;
+  document.getElementById('res-pct').textContent=pct+'%';
+  document.getElementById('res-correct').textContent=correct.size;
+  document.getElementById('res-wrong').textContent=wrong.size;
+  document.getElementById('res-star').textContent=starred.size;
+  document.getElementById('retry-wrong-btn').style.display=wrong.size===0?'none':'block';
+  document.getElementById('retry-star-btn').style.display=starred.size===0?'none':'block';
+}
+
+function restartQuiz(){
+  answered.clear();correct.clear();wrong.clear();
+  filteredQ=ALL_QUESTIONS.map((q,i)=>{q._gi=i;return q;});
+  idx=0;
+  document.getElementById('quiz-card').style.display='block';
+  document.getElementById('nav-bar').style.display='flex';
+  document.getElementById('result-screen').style.display='none';
+  renderQuestion();
+}
+
+function retryWrong(){
+  const wrongQ=filteredQ.filter((_,i)=>wrong.has(i));
+  if(!wrongQ.length) return;
+  answered.clear();correct.clear();wrong.clear();
+  filteredQ=wrongQ;
+  idx=0;
+  document.getElementById('quiz-card').style.display='block';
+  document.getElementById('nav-bar').style.display='flex';
+  document.getElementById('result-screen').style.display='none';
+  renderQuestion();
+}
+
+function retryStar(){
+  const starQ=filteredQ.filter((_,i)=>starred.has(i));
+  if(!starQ.length) return;
+  answered.clear();correct.clear();wrong.clear();starred.clear();
+  filteredQ=starQ;
+  idx=0;
+  document.getElementById('quiz-card').style.display='block';
+  document.getElementById('nav-bar').style.display='flex';
+  document.getElementById('result-screen').style.display='none';
+  renderQuestion();
+}
+
+// init
+ALL_QUESTIONS.forEach((q,i)=>q._gi=i);
+renderQuestion();
 </script>
-
 </body>
 </html>

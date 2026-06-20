@@ -1,540 +1,485 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TUS Quiz – Mide Tümörleri PART 1</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;--accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;--green:#3ecf74;--red:#f0476d;--text:#dde3f5;--muted:#7b85a8}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding-bottom:80px}
-#progress-bar{position:fixed;top:0;left:0;width:100%;height:3px;background:var(--border);z-index:100}
-#progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .3s ease}
-.container{max-width:700px;margin:0 auto;padding:24px 16px 16px}
-.section-badge{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--accent2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 20px 18px;margin-bottom:16px}
-.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.q-num{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted)}
-.star-btn{background:none;border:none;cursor:pointer;font-size:1.3rem;color:var(--muted);transition:color .2s}
-.star-btn.starred{color:var(--gold)}
-.year-badge{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--accent);background:rgba(91,141,238,.12);padding:2px 8px;border-radius:20px}
-.q-text{font-size:1.02rem;line-height:1.6;margin-bottom:16px}
-.hint-btn{font-family:'IBM Plex Mono',monospace;font-size:.75rem;border:1px solid var(--border);background:none;color:var(--muted);padding:6px 14px;border-radius:8px;cursor:pointer;margin-bottom:10px;transition:color .2s,border-color .2s}
-.hint-btn:hover{color:var(--accent);border-color:var(--accent)}
-.hint-box{background:var(--surface);border:1px solid var(--accent);border-radius:10px;padding:12px 14px;margin-bottom:12px;font-size:.88rem;line-height:1.5;display:none}
-.hint-box.visible{display:block}
-.opts{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
-.opt-btn{display:flex;align-items:flex-start;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 14px;cursor:pointer;text-align:left;font-size:.92rem;font-family:'Inter',sans-serif;color:var(--text);transition:border-color .2s,background .2s;line-height:1.4}
-.opt-btn:hover:not(:disabled){border-color:var(--accent)}
-.opt-btn:disabled{cursor:default}
-.opt-btn.correct{border-color:var(--green)!important;background:rgba(62,207,116,.1)!important}
-.opt-btn.wrong{border-color:var(--red)!important;background:rgba(240,71,109,.1)!important}
-.opt-letter{font-family:'IBM Plex Mono',monospace;font-size:.8rem;font-weight:600;min-width:18px}
-.trap-box{background:#1e1525;border:1px solid var(--accent2);border-radius:10px;padding:12px 14px;margin-bottom:10px;display:none}
-.trap-box.visible{display:block}
-.trap-title{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--accent2);margin-bottom:6px}
-.trap-text{font-size:.86rem;line-height:1.5}
-.explain-box{background:#141b2e;border:1px solid var(--accent);border-radius:10px;padding:12px 14px;display:none}
-.explain-box.visible{display:block}
-.explain-title{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--accent);margin-bottom:6px}
-.explain-text{font-size:.86rem;line-height:1.6}
-.nav{position:fixed;bottom:0;left:0;width:100%;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:10px 16px;z-index:50}
-.nav-btn{font-family:'IBM Plex Mono',monospace;font-size:.8rem;background:none;border:1px solid var(--border);color:var(--text);padding:8px 16px;border-radius:8px;cursor:pointer;transition:border-color .2s,color .2s}
-.nav-btn:hover{border-color:var(--accent);color:var(--accent)}
-.nav-btn:disabled{opacity:.4;cursor:default}
-.nav-center{font-family:'IBM Plex Mono',monospace;font-size:.82rem;color:var(--muted);cursor:pointer;padding:6px 12px;border-radius:8px;border:1px solid var(--border);transition:border-color .2s}
-.nav-center:hover{border-color:var(--accent2)}
-/* Modal */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:none;align-items:flex-end}
-.modal-overlay.open{display:flex}
-.modal{background:var(--surface);border-top:1px solid var(--border);border-radius:16px 16px 0 0;width:100%;max-height:60vh;overflow-y:auto;padding:20px 16px}
-.modal-title{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--muted);margin-bottom:14px;text-align:center}
-.modal-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
-.modal-item{font-family:'IBM Plex Mono',monospace;font-size:.75rem;padding:8px 4px;border-radius:8px;border:1px solid var(--border);text-align:center;cursor:pointer;transition:border-color .2s}
-.modal-item:hover{border-color:var(--accent)}
-.modal-item.correct-m{background:rgba(62,207,116,.18);border-color:var(--green);color:var(--green)}
-.modal-item.wrong-m{background:rgba(240,71,109,.18);border-color:var(--red);color:var(--red)}
-.modal-item.starred-m{box-shadow:0 0 0 2px var(--gold)}
-/* Result */
-.result-screen{display:none;text-align:center;padding:40px 20px}
-.result-screen.show{display:block}
-.result-pct{font-family:'IBM Plex Mono',monospace;font-size:3.5rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.result-stats{display:flex;gap:16px;justify-content:center;margin:20px 0;flex-wrap:wrap}
-.stat-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 20px;font-family:'IBM Plex Mono',monospace;font-size:.85rem}
-.stat-val{font-size:1.5rem;font-weight:700;display:block}
-.stat-lbl{color:var(--muted);font-size:.72rem}
-.result-btns{display:flex;flex-direction:column;gap:10px;max-width:320px;margin:0 auto 24px}
-.res-btn{font-family:'IBM Plex Mono',monospace;font-size:.82rem;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;transition:border-color .2s}
-.res-btn:hover{border-color:var(--accent)}
-.next-part-box{border:1px solid var(--accent2);background:#1e1525;border-radius:12px;padding:16px;max-width:400px;margin:0 auto;font-size:.88rem;line-height:1.6;color:var(--text)}
-.next-part-box span{font-family:'IBM Plex Mono',monospace;color:var(--accent2);font-weight:600}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nöroloji TUS Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:#0f1117; --surface:#1a1d27; --card:#20243a; --border:#2e3354;
+            --accent:#5b8dee; --accent2:#e05c7a; --gold:#f5c842;
+            --green:#3ecf74; --red:#f0476d; --text:#dde3f5; --muted:#7b85a8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; overflow-x: hidden; }
+        
+        /* Progress Bar */
+        .progress-wrap { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: var(--border); z-index: 1000; }
+        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width 0.3s; }
+
+        .container { max-width: 600px; margin: 40px auto; padding: 20px; }
+        .section-badge { font-family: 'IBM Plex Mono', monospace; color: var(--accent2); font-size: 0.8rem; font-weight: 600; margin-bottom: 12px; display: block; text-transform: uppercase; letter-spacing: 1px; }
+
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 80px; }
+        
+        .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        #q-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem; color: var(--muted); }
+        #star-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--muted); transition: color 0.2s; }
+        #star-btn.active { color: var(--gold); }
+
+        .year-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+        .year-tag { background: var(--surface); color: var(--accent); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; border: 1px solid var(--border); font-family: 'IBM Plex Mono', monospace; }
+
+        #q-text { font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; color: #fff; }
+        
+        .hint-toggle { background: none; border: 1px dashed var(--muted); color: var(--muted); padding: 8px; border-radius: 8px; font-size: 0.8rem; cursor: pointer; width: 100%; margin-bottom: 20px; transition: 0.2s; }
+        .hint-toggle:hover { border-color: var(--accent); color: var(--accent); }
+        #hint-box { display: none; background: var(--surface); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; border-left: 4px solid var(--accent); color: var(--accent); }
+
+        .options { display: flex; flex-direction: column; gap: 12px; }
+        .opt-btn { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); padding: 16px; border-radius: 12px; cursor: pointer; transition: 0.2s; text-align: left; }
+        .opt-btn:hover:not(.disabled) { border-color: var(--accent); transform: translateX(5px); }
+        .opt-letter { font-family: 'IBM Plex Mono', monospace; font-weight: 600; margin-right: 12px; color: var(--accent); width: 24px; }
+        
+        .opt-btn.correct { background: rgba(62, 207, 116, 0.1); border-color: var(--green); }
+        .opt-btn.wrong { background: rgba(240, 71, 109, 0.1); border-color: var(--red); }
+        .opt-btn.correct .opt-letter { color: var(--green); }
+        .opt-btn.wrong .opt-letter { color: var(--red); }
+
+        .feedback { display: none; margin-top: 24px; animation: fadeIn 0.4s ease; }
+        .feedback.open { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .trap-box { background: rgba(245, 200, 66, 0.05); border: 1px solid var(--gold); padding: 16px; border-radius: 12px; margin-bottom: 16px; }
+        .trap-title { color: var(--gold); font-weight: 700; font-size: 0.8rem; margin-bottom: 4px; }
+        .explain-box { background: var(--surface); border: 1px solid var(--border); padding: 16px; border-radius: 12px; }
+        .explain-title { color: var(--accent); font-weight: 700; font-size: 0.8rem; margin-bottom: 4px; }
+
+        /* Navigation */
+        .nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--surface); padding: 16px; display: flex; justify-content: space-between; border-top: 1px solid var(--border); max-width: 600px; left: 50%; transform: translateX(-50%); z-index: 100; }
+        .nav-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+        .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        #q-counter { font-family: 'IBM Plex Mono', monospace; }
+
+        /* Modal */
+        .q-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; z-index: 2000; align-items: flex-end; }
+        .q-modal { background: var(--bg); width: 100%; max-height: 70vh; border-top: 2px solid var(--border); border-radius: 24px 24px 0 0; padding: 24px; overflow-y: auto; }
+        .q-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+        .q-grid-btn { aspect-ratio: 1; border: 1px solid var(--border); background: var(--surface); color: var(--muted); border-radius: 8px; cursor: pointer; font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .q-grid-btn.current { border: 2px solid var(--accent); color: var(--accent); }
+        .q-grid-btn.done-correct { background: var(--green); color: var(--bg); }
+        .q-grid-btn.done-wrong { background: var(--red); color: var(--bg); }
+        .q-grid-btn.starred-q { box-shadow: 0 0 8px var(--gold); }
+
+        /* Result Screen */
+        #result-screen { display: none; text-align: center; padding: 40px 20px; }
+        .score-pct { font-size: 4rem; font-weight: 800; color: var(--accent); margin-bottom: 20px; }
+        .stats-grid { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; }
+        .stat-item { background: var(--card); padding: 15px; border-radius: 12px; min-width: 80px; }
+        .stat-val { display: block; font-size: 1.5rem; font-weight: 700; }
+        .stat-label { font-size: 0.7rem; color: var(--muted); }
+        .retry-btn { display: block; width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px; border: none; cursor: pointer; font-weight: 700; }
+        .restart { background: var(--accent); color: white; }
+        .retry-wrong { background: var(--red); color: white; }
+        .retry-star { background: var(--gold); color: var(--bg); }
+    </style>
 </head>
 <body>
-<div id="progress-bar"><div id="progress-fill" style="width:0%"></div></div>
 
-<div class="container" id="quiz-container"></div>
+    <div class="progress-wrap"><div class="progress-bar"></div></div>
 
-<div class="nav" id="nav-bar">
-  <button class="nav-btn" id="btn-prev" onclick="navigate(-1)">← Önceki</button>
-  <div class="nav-center" onclick="openModal()"><span id="nav-info">1 / 30 ☰</span></div>
-  <button class="nav-btn" id="btn-next" onclick="navigate(1)">Sonraki →</button>
-</div>
+    <div class="container">
+        <span class="section-badge" id="section-label">BÖLÜM ETİKETİ</span>
+        
+        <div class="card" id="quiz-card">
+            <div class="q-header">
+                <span id="q-num">Soru 1/1</span>
+                <button id="star-btn">☆</button>
+            </div>
+            <div class="year-tags" id="year-tags"></div>
+            <div id="q-text"></div>
+            
+            <button class="hint-toggle" onclick="toggleHint()">💡 İpucu Göster/Gizle</button>
+            <div id="hint-box"></div>
 
-<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
-  <div class="modal">
-    <div class="modal-title">SORU LİSTESİ</div>
-    <div class="modal-grid" id="modal-grid"></div>
-  </div>
-</div>
+            <div class="options" id="options"></div>
 
-<div class="result-screen" id="result-screen">
-  <div class="result-pct" id="res-pct"></div>
-  <div style="font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--muted);margin-bottom:16px">Başarı Oranı</div>
-  <div class="result-stats">
-    <div class="stat-box"><span class="stat-val" id="s-correct" style="color:var(--green)"></span><span class="stat-lbl">Doğru</span></div>
-    <div class="stat-box"><span class="stat-val" id="s-wrong" style="color:var(--red)"></span><span class="stat-lbl">Yanlış</span></div>
-    <div class="stat-box"><span class="stat-val" id="s-total"></span><span class="stat-lbl">Toplam</span></div>
-    <div class="stat-box"><span class="stat-val" id="s-starred" style="color:var(--gold)"></span><span class="stat-lbl">Yıldızlı</span></div>
-  </div>
-  <div class="result-btns">
-    <button class="res-btn" onclick="restart('all')">🔄 Tüm Soruları Yeniden Çöz</button>
-    <button class="res-btn" id="btn-wrong-restart" onclick="restart('wrong')" style="display:none">❌ Yanlışları Tekrar Çöz</button>
-    <button class="res-btn" id="btn-star-restart" onclick="restart('starred')" style="display:none">⭐ Yıldızlıları Tekrar Çöz</button>
-  </div>
-  <div class="next-part-box">
-    <span>📌 PART 1 tamamlandı!</span><br>
-    Sayfa 44–50 arası (TNM evrelemesi, mide lenfoması, GİST, karsinoid, diğer mide lezyonları) için<br>
-    <span>DEVAM</span> yazınca <span>PART 2</span> gönderilecek.
-  </div>
-</div>
+            <div class="feedback" id="feedback">
+                <div class="trap-box">
+                    <div class="trap-title">⚠️ TUZAK NOKTA</div>
+                    <div id="trap-text"></div>
+                </div>
+                <div class="explain-box">
+                    <div class="explain-title">📖 AÇIKLAMA</div>
+                    <div id="explain-text"></div>
+                </div>
+            </div>
+        </div>
 
-<script>
-const ALL_QUESTIONS = [
-  {
-    years:['Sayfa 39 – Dev Gastrik Ülser'],
-    q:'Dev gastrik ülser için tanımlanan minimum çap aşağıdakilerden hangisidir?',
-    opts:['A) 0.5 cm','B) 1 cm','C) 2 cm','D) 3 cm','E) 5 cm'],
-    ans:'C',
-    hint:'🔑 <b>Dev gastrik ülser:</b> çapı belirli bir değer ve üzeri olan ülserler.',
-    trap:'<b>1 cm</b> değeri akla gelebilir, ancak dev ülser sınırı <b>2 cm</b>dir. 1 cm polipektomi eşiğiyle karıştırılmamalıdır.',
-    explain:'<b>Dev gastrik ülser</b>, çapı <b>2 cm ve üzeri</b> olan ülserler için kullanılan tanımdır. Genellikle küçük kurvatur yerleşimlidir. Malignite riski küçük ülserlere göre daha yüksektir (%10). Medikal tedavi ile %80 iyileşme görülür.'
-  },
-  {
-    years:['Sayfa 39 – Dev Gastrik Ülser'],
-    q:'Dev gastrik ülserin en sık yerleşim yeri aşağıdakilerden hangisidir?',
-    opts:['A) Büyük kurvatur','B) Küçük kurvatur','C) Antrum ön duvarı','D) Fundus','E) Kardiya'],
-    ans:'B',
-    hint:'🔑 Dev gastrik ülser genellikle <b>küçük kurvatur</b> yerleşimlidir.',
-    trap:'<b>Büyük kurvatur</b> ülser yerleşimi ile karıştırılabilir. Dev gastrik ülser spesifik olarak <b>küçük kurvatur</b> lokalizasyonludur.',
-    explain:'Dev gastrik ülserler (<b>çapı ≥2 cm</b>) <b>genellikle küçük kurvatur</b> yerleşimlidir. Malignite riski %10 civarındadır. Medikal tedaviye yanıt oranı %80\'dir.'
-  },
-  {
-    years:['Sayfa 39 – Benign Gastrik Neoplazmlar / Polipler'],
-    q:'Mide poliplerinin en sık görülen tipi aşağıdakilerden hangisidir?',
-    opts:['A) Adenomatöz polip','B) Fundik gland polip','C) Heterotopik pankreas','D) Hiperplastik polip','E) Leiomyom'],
-    ans:'D',
-    hint:'🔑 <b>Hiperplastik polip</b> en sık polip tipidir; <b>H. pylori</b> ve kronik gastrit ile ilişkilidir.',
-    trap:'<b>Adenomatöz polip</b> daha tehlikeli olduğundan akla önce gelebilir, ancak sıklık açısından en sık olan <b>hiperplastik polip</b>tir.',
-    explain:'<b>Hiperplastik polip</b> midenin <b>en sık benign tümörüdür</b> ve midenin en sık polip tipidir. <b>H. pylori ve kronik gastrit</b> ile güçlü ilişkisi vardır. Endoskopi sırasında insidental olarak sıkça (%5) gözlenir ve genellikle asemptomatiktir. 1 cm\'den büyük izole poliplerde tam polipektomi yapılmalıdır.'
-  },
-  {
-    years:['Sayfa 39 – Benign Gastrik Neoplazmlar / Polipler'],
-    q:'1 cm\'den büyük izole polipli hastalarda önerilen tedavi aşağıdakilerden hangisidir?',
-    opts:['A) İzlem, 6 ayda bir endoskopi','B) Tam polipektomi','C) Parsiyel gastrektomi','D) H. pylori eradikasyonu yeterli','E) Biyopsi alınması yeterli'],
-    ans:'B',
-    hint:'🔑 <b>1 cm\'den büyük izole polip</b> → tam polipektomi yapılmalıdır.',
-    trap:'Büyük poliplerde sadece biyopsi yeterli değildir; <b>tam polipektomi</b> gereklidir. Cerrahi rezeksiyon çok nadir gündeme gelir.',
-    explain:'<b>1 cm\'den büyük izole polipli hastalarda tam polipektomi</b> yapılmalıdır. Çoklu polipler için en büyüğü endoskopik çıkarılmalı, diğerlerinden biyopsi alınmalıdır. Displazi ve H. pylori\'yi değerlendirmek için normal mukoza biyopsileri de yapılmalıdır.'
-  },
-  {
-    years:['Sayfa 39 – Benign Gastrik Neoplazmlar / Polipler'],
-    q:'Çoklu polip saptanan hastada önerilen endoskopik yaklaşım hangisidir?',
-    opts:['A) En büyüğü çıkar, diğerlerinden biyopsi al','B) Hepsini çıkar','C) Sadece en büyüğünden biyopsi al','D) Tümünü biyopsi ile örnekle, çıkarma','E) Total gastrektomi endikasyonu'],
-    ans:'A',
-    hint:'🔑 Çoklu polipler → <b>en büyüğü endoskopik çıkarılmalı</b> ve diğerlerinden biyopsi alınmalıdır.',
-    trap:'Tüm polipleri çıkarmak pratik değildir. Protokol <b>en büyüğünü çıkar + diğerlerinden biyopsi</b> şeklindedir.',
-    explain:'<b>Çoklu polipler</b> saptandığında en büyüğü endoskopik çıkarılmalı, diğerlerinden biyopsi alınmalıdır. Displazi ve H. pylori değerlendirmesi için <b>normal mukoza biyopsileri</b> de yapılmalıdır.'
-  },
-  {
-    years:['Sayfa 40 – Adenomatöz Polipler'],
-    q:'Adenomatöz poliplerde malignite riski en yüksek olan tip hangisidir?',
-    opts:['A) Tübüler adenom','B) Tübülovillöz adenom','C) Villöz adenom','D) Hiperplastik polip','E) Fundik gland polip'],
-    ans:'C',
-    hint:'🔑 Adenomatöz poliplerde <b>karsinom riski en fazla villöz adenom</b>da (%30).',
-    trap:'Tübüler, tübülovillöz ve villöz şeklinde sıralama yapılmalıdır. En tehlikeli olan <b>villöz</b>dur, <b>tübüler</b> değil.',
-    explain:'Adenomatöz polipler tübüler, tübülovillöz ve villöz adenom olmak üzere 3 tiptir. <b>Karsinom riski en fazla olan tip villöz adenomdur (%30)</b>. Malignite riski <b>çap büyüdükçe artar</b> (>2 cm → malignite olasılığı %20). Polip total çıkarılmış ve histolojik invaziv kanser odağı yoksa endoskopik EE yeterlidir.'
-  },
-  {
-    years:['Sayfa 40 – Adenomatöz Polipler'],
-    q:'Adenomatöz mide poliplerinin malignite riski ile ilgili aşağıdakilerden hangisi doğrudur?',
-    opts:['A) Malignite riski hepsinde eşittir','B) Malignite riski az da olsa vardır (<%2, özellikle >2 cm poliplerde)','C) Malignite riski %50\'nin üzerindedir','D) Malignite yalnızca villöz tipte görülür','E) 1 cm altındaki poliplerde malignite riski yoktur'],
-    ans:'B',
-    hint:'🔑 Adenomatöz poliplerde <b>malignite riski az da olsa vardır (<%2, özellikle >2 cm poliplerde)</b>.',
-    trap:'Malignite riski varlığını inkâr eden veya çok yüksek gösteren seçenekler yanlıştır. Doğru cevap kitaptaki gibi "<%2, özellikle >2 cm poliplerde" ifadesidir.',
-    explain:'Adenomatöz polipler tipik olarak soliter lezyonlardır. <b>Malignite riski az da olsa vardır (<%2, özellikle >2 cm poliplerde)</b>. Karsinom riski en fazla villöz tiptedir (%30). Endoskopik eksizyon (EE) pedikullü lezyonlar için endikedir.'
-  },
-  {
-    years:['Sayfa 40 – Adenomatöz Polipler'],
-    q:'Çapı >2 cm olan adenomatöz poliplerde malignite olasılığı yaklaşık ne kadardır?',
-    opts:['A) %2','B) %5','C) %10','D) %20','E) %50'],
-    ans:'D',
-    hint:'🔑 Çap büyüdükçe malignite olasılığı artar; <b>>2 cm → malignite olasılığı %20</b>.',
-    trap:'%10 rakamı dev gastrik ülserin malignite riski ile karıştırılabilir. >2 cm adenomatöz polip için doğru oran <b>%20</b>dir.',
-    explain:'<b>Çap büyüdükçe malignite olasılığı artar</b>. >2 cm adenomatöz poliplerde malignite olasılığı <b>%20</b>dir. Bu nedenle büyük poliplere agresif endoskopik yaklaşım gerekmektedir.'
-  },
-  {
-    years:['Sayfa 40 – Heterotopik Pankreas'],
-    q:'Heterotopik pankreasın en sık yerleşim yeri aşağıdakilerden hangisidir?',
-    opts:['A) Duodenum','B) Jejunum','C) Mide antrum büyük kurvatur boyuncası','D) İleum','E) Özofagus'],
-    ans:'C',
-    hint:'🔑 Heterotopik pankreasın <b>en sık yerleşim yeri mide antrum büyük kurvatur boyuncasıdır</b>.',
-    trap:'Duodenum akla ilk gelir çünkü pankreas ile komşu, ancak <b>mide antrum büyük kurvatur</b> en sık yerleşimdir.',
-    explain:'<b>Heterotopik pankreas</b>, işlevsel pankreas dokusunun anormal bir anatomik konumda bulunmasıdır. Otopsi serilerinde sıklık %0.5-14\'tür. <b>En sık yerleşim yeri mide antrum büyük kurvatur boyuncasıdır</b>. GİST veya başka bir gastrik neoplazm ile karıştırılabilirler. Tedavisi cerrahi eksizyondur.'
-  },
-  {
-    years:['Sayfa 40 – Heterotopik Pankreas'],
-    q:'Heterotopik pankreas lezyonlarında aşağıdaki tablolardan hangisi bildirilmiştir?',
-    opts:['A) Akut apandisit','B) Pankreatit, adacık hücreli tümörler ve pankreas adenokarsinomu','C) Lenfoma','D) Leiomyosarkom','E) Karsinom in situ'],
-    ans:'B',
-    hint:'🔑 Heterotopik pankreas lezyonlarında <b>pankreatit, adacık hücreli tümörler ve pankreas adenokarsinomu</b> bildirilmiştir.',
-    trap:'Lezyonun "pankreas dokusu" olduğu unutulmamalı; normal pankreas ne yaşıyorsa heterotopik dokuda da görülebilir.',
-    explain:'Heterotopik pankreas lezyonlarında <b>pankreatit, adacık hücreli tümörler ve pankreas adenokarsinomu</b> bildirilmiştir. Endoskopi ve BT\'de küçük submukozal kitle şeklinde görülür. Tedavisi <b>cerrahi eksizyon</b>dur.'
-  },
-  {
-    years:['Sayfa 40 – Malign Gastrik Neoplazmlar'],
-    q:'Mide kanserinin en sık görülen histolojik tipi aşağıdakilerden hangisidir?',
-    opts:['A) Lenfoma (%4)','B) Malign GİST','C) Adenokarsinom (%95)','D) Karsinoid tümör','E) Skuamöz hücreli karsinom'],
-    ans:'C',
-    hint:'🔑 Midenin en sık görülen malign neoplazmı <b>adenokarsinom (%95)</b>tir.',
-    trap:'Lenfoma (% 4) ve GİST de mide tümörleri arasındadır ancak sıklık açısından <b>adenokarsinom</b> baskın olarak öne çıkar.',
-    explain:'Midenin en sık görülen <b>üç malign neoplazmı</b>: <b>Adenokarsinom (%95), Lenfoma (%4), Malign GİST</b>. Nadir görülenler: karsinoid tümör, anjiosarkom, karsinosarkom, yassı hücreli karsinom.'
-  },
-  {
-    years:['Sayfa 41 – Adenokarsinom / Etyoloji'],
-    q:'Mide kanseri açısından aşağıdakilerden hangisi riski AZALTAN bir faktördür?',
-    opts:['A) H. pylori enfeksiyonu','B) Aspirin kullanımı','C) Atrofik gastrit','D) Düşük sosyoekonomik düzey','E) Sigara kullanımı'],
-    ans:'B',
-    hint:'🔑 Mide kanseri risk faktörleri tablosunda <b>Aspirin</b> "Azalır" kolonunda yer alır.',
-    trap:'NSAİİ\'lerin gastrit yapması nedeniyle riski artırdığı sanılabilir. Ancak <b>aspirin</b> mide kanseri riskini <b>azaltır</b>.',
-    explain:'Mide kanseri riskini <b>azaltan</b> faktörler: <b>Aspirin, taze sebze ve meyve tüketimi, vitamin C ve E</b>. Riski artıran faktörler arasında H. pylori, atrofik gastrit, sigara, Menetrier hastalığı, pernisiyöz anemi sayılabilir.'
-  },
-  {
-    years:['Sayfa 41 – Adenokarsinom / Etyoloji'],
-    q:'Mide kanseri hangi kan grubunda daha sık görülmektedir?',
-    opts:['A) 0 Rh(+)','B) A','C) B','D) AB','E) Tüm kan gruplarında eşit'],
-    ans:'B',
-    hint:'🔑 Mide kanseri; <b>A kan grubu</b> hastalarda daha sık görülmektedir.',
-    trap:'0 kan grubu peptik ülser ile ilişkiliyken, mide kanseri <b>A kan grubu</b> ile ilişkilidir.',
-    explain:'<b>Mide kanseri A kan grubu</b> hastalarda daha sık görülmektedir. Bu, özellikle diffüz tip adenokarsinom ile bağlantılıdır. Lauren sınıflamasında diffüz tip intestinal tipten farklı olarak <b>A kan grubu ile ilişkili</b>dir.'
-  },
-  {
-    years:['Sayfa 41 – Adenokarsinom'],
-    q:'Mide kanseri ile ilgili aşağıdaki ifadelerden hangisi doğrudur?',
-    opts:['A) Kadınlarda 2 kat fazla görülür','B) Genç hastalarda daha iyi diferansiye tiptedir','C) En sık 4. kanser tipi ve kansere bağlı ölümlerin en sık 2. nedenidir','D) Gelişmekte olan ülkelerde nadirdir','E) Kuzey Avrupa\'da insidansı yüksektir'],
-    ans:'C',
-    hint:'🔑 Mide kanseri <b>en sık 4. kanser tipi</b> olup <b>kansere bağlı ölümlerin en sık 2. nedeni</b>dir.',
-    trap:'Sıralama önemlidir: kanser tipleri arasında 4. sırada, <b>ölüm nedeni</b> olarak ise 2. sıradadır. Bu iki sıra karıştırılabilir.',
-    explain:'Mide kanseri <b>en sık 4. kanser tipi</b> olup <b>kansere bağlı ölümlerin en sık 2. nedeni</b>dir. Genelde yaşlılarda görülür; siyahlarda ve erkeklerde 2 kat sıktır. Genç hastalarda daha çok <b>diffüz tipte, daha büyük ve agresif</b> seyir gösterir.'
-  },
-  {
-    years:['Sayfa 42 – Genetik Faktörler'],
-    q:'Sporadik gastrik kanserlerde en sık görülen gen anomalileri hangileridir?',
-    opts:['A) APC ve DCC','B) FHIT ve E-cadherin','C) p53 ve COX-2','D) HGF/SF ve VEGF','E) k-sam ve ras'],
-    ans:'C',
-    hint:'🔑 Sporadik gastrik kanserlerde <b>en sık anomaliler p53 ve COX-2</b> gen anomalileridir.',
-    trap:'APC ve DCC de mide kanserinde mutasyona uğrayan genler arasındadır ancak <b>en sık</b> olanlar p53 ve COX-2\'dir.',
-    explain:'Sporadik gastrik kanserlerde <b>en sık anomaliler p53 ve COX-2</b> gen anomalileridir. <b>COX-2 overekspresyonu</b> olan gastrik tümörler daha agresif tümörlerdir. Delesyon/supresyon tablosunda p53 %60-70 sıklıkla yer alırken COX-2 amplifikasyon/aşırı ekspresyonda %70 sıklıktadır.'
-  },
-  {
-    years:['Sayfa 42 – Genetik Faktörler'],
-    q:'CDH1 gen mutasyonu taşıyan hastalarda profilaktik total gastrektomi kaç yaşından önce düşünülmelidir?',
-    opts:['A) 20','B) 25','C) 30','D) 35','E) 40'],
-    ans:'C',
-    hint:'🔑 CDH1 mutasyonu → ömür boyu mide ca gelişme riski %60-70 → <b>30 yaşından önce</b> profilaktik total gastrektomi.',
-    trap:'40 yaş akla gelebilir ancak bu hasta grubu için yaş sınırı daha erken (<b>30 yaş</b>) olarak önerilmektedir.',
-    explain:'<b>CDH1 geni</b> E-cadherin\'i kodlar ve herediter diffüz gastrik kanser ile ilişkilidir. Bu mutasyonu olan hastalarda ömür boyu mide kanseri gelişme riski <b>%60-70</b> olduğu için <b>30 yaşından önce profilaktik total gastrektomi</b> düşünülmelidir. Ayrıca CDH-1 mutasyonunda <b>lobüler meme kanseri</b> gelişme riski de yüksektir.'
-  },
-  {
-    years:['Sayfa 42 – Genetik Faktörler'],
-    q:'CDH-1 mutasyonu taşıyan kadınlarda artan meme kanseri riski nedeniyle tarama kaç yaşında başlamalıdır?',
-    opts:['A) 20','B) 25','C) 30','D) 35','E) 40'],
-    ans:'C',
-    hint:'🔑 CDH-1 mutasyonunda lobüler meme kanseri riski yükselir → tarama <b>30 yaşında</b> başlamalıdır.',
-    trap:'Genel popülasyonda meme kanseri taraması 40-50 yaşta başlar; CDH-1 mutasyonu varlığında bu süre erkene alınarak <b>30 yaşa</b> çekilir.',
-    explain:'CDH-1 mutasyonu olan hastalarda <b>lobüler meme kanseri</b> gelişme riski de yüksektir. Bu hastalarda profilaktik risk azaltıcı bilateral mastektomi göz önünde bulundurularak <b>tarama 30 yaşında başlamalıdır</b>.'
-  },
-  {
-    years:['Sayfa 42 – Mide Kanseri / HER2'],
-    q:'Mide kanserinde HER2 aşırı ekspresyonunun prognostik önemi nedir?',
-    opts:['A) İyi prognoz göstergesidir','B) Kötü prognostik faktörlerden biridir','C) Prognozla ilişkisi yoktur','D) Sağ kalımı uzatır','E) Erken evre ile ilişkilidir'],
-    ans:'B',
-    hint:'🔑 <b>HER2 aşırı ekspresyonu</b> mide kanserinde <b>kötü prognostik faktörlerden biri</b>dir.',
-    trap:'HER2 pozitifliği hedeflenebilir bir biyobelirteç olduğundan "iyi" ile ilişkilendirilebilir; ancak prognostik açıdan <b>kötüdür</b>, tedavi açısından hedeflenebilirdir.',
-    explain:'Mide kanserinde <b>insan epidermal büyüme faktörü reseptörü-2 (HER2)</b> önemlidir. HER2 aşırı ekspresyonu <b>%13-30</b> bildirilmiştir ve <b>kötü prognostik faktörlerden biridir</b>. <b>Trastuzumab</b> gibi moleküler hedefli ajanlar, evre 4 mide kanserinde sağkalımı iyileştirir. Nüks veya metastatik vakalarda HER2 için immünohistokimya boyaması yapılmalıdır.'
-  },
-  {
-    years:['Sayfa 42 – Midenin Premalign Lezyonları'],
-    q:'Midenin en sık görülen prekanseröz lezyonu hangisidir?',
-    opts:['A) Adenom','B) Kronik ülser','C) Atrofik gastrit','D) Hiperplastik polip','E) Verrüköz gastrit'],
-    ans:'C',
-    hint:'🔑 En sık görülen prekanseröz lezyon <b>atrofik gastrit</b>tir.',
-    trap:'Adenomun daha tehlikeli olduğu düşünülerek yanılınabilir; ancak <b>sıklık</b> açısından en sık prekanseröz lezyon <b>atrofik gastrit</b>tir.',
-    explain:'<b>En sık görülen prekanseröz lezyon atrofik gastrittir</b>. Diğer prekanseröz lezyonlar sıklık sırasına göre: adenom, verrüköz gastrit, kronik ülser, hiperplastik polip, remnant mide ve aberrant pankreastır. Atrofik gastrit, <b>gastrik bezlerin, parietal ve şef hücrelerin atrofisi</b> ile karakterizedir.'
-  },
-  {
-    years:['Sayfa 42 – Midenin Premalign Lezyonları'],
-    q:'Atrofik gastritin patogenezinde kritik öneme sahip ajan hangisidir?',
-    opts:['A) EBV','B) CMV','C) H. pylori','D) Safra reflüsü','E) NSAİİ'],
-    ans:'C',
-    hint:'🔑 <b>H. pylori</b>, atrofik gastritin patogenezinde kritik öneme sahiptir.',
-    trap:'Otoimmün yıkım ve safra reflüsü de atrofik gastrite neden olabilir; ancak soru "kritik" ajanı soruyor: <b>H. pylori</b>.',
-    explain:'<b>H. pylori, atrofik gastritin patogenezinde kritik öneme sahiptir</b>. Diğer nedenler otoimmün yıkım (pernisiyöz anemi) veya safra reflüsüdür. İleri yaş gruplarında daha sık görülür.'
-  },
-  {
-    years:['Sayfa 42 – Patoloji / Displazi'],
-    q:'Şiddetli displazisi olan bir hastada displazi yaygın veya multifokal ise önerilen tedavi hangisidir?',
-    opts:['A) EMR (endoskopik mukozal rezeksiyon)','B) Gastrik rezeksiyon','C) Radyoterapi','D) H. pylori eradikasyonu yeterli','E) 3 aylık endoskopik izlem'],
-    ans:'B',
-    hint:'🔑 <b>Şiddetli displazi yaygın veya multifokal</b> ise → <b>gastrik rezeksiyon</b>.',
-    trap:'EMR lokalize displazide uygulanır. Yaygın/multifokal şiddetli displazide daha agresif yaklaşım olan <b>gastrik rezeksiyon</b> gereklidir.',
-    explain:'<b>Şiddetli displazi</b> olan hastalarda:<br>• Yaygın veya multifokal → <b>gastrik rezeksiyon</b><br>• Lokalize → <b>EMR</b> düşünülmelidir.<br><b>Hafif displazili hastalar</b> endoskopik biyopsi ve H. pylori eradikasyonu ile takip edilmelidir.'
-  },
-  {
-    years:['Sayfa 42 – Patoloji / Displazi'],
-    q:'Hafif displazili hastalar için önerilen yaklaşım aşağıdakilerden hangisidir?',
-    opts:['A) Total gastrektomi','B) EMR','C) Kemoterapi','D) Endoskopik biyopsi ve H. pylori eradikasyonu ile takip','E) Radyoterapi'],
-    ans:'D',
-    hint:'🔑 <b>Hafif displazili hastalar</b> endoskopik biyopsi ve H. pylori eradikasyonu ile <b>takip</b> edilmelidir.',
-    trap:'Hafif displazide agresif cerrahi gerekmez. <b>Takip</b> yeterlidir; ancak h. pylori eradikasyonu unutulmamalıdır.',
-    explain:'<b>Hafif displazili hastalar endoskopik biyopsi ve H. pylori eradikasyonu ile takip edilmelidir</b>. Şiddetli displazide ise displazinin yaygınlığına göre gastrik rezeksiyon veya EMR planlanır.'
-  },
-  {
-    years:['Sayfa 43 – Erken Mide Kanseri'],
-    q:'Erken mide kanseri nasıl tanımlanır?',
-    opts:['A) Lenf nodu tutulumu olmayan herhangi bir evre','B) Tümörü 2 cm\'den küçük olan kanser','C) Lenf nodu tutulumundan bağımsız olarak mukoza ve submukozaya sınırlı adenokarsinom (T1Nx)','D) Sadece T1a evre','E) Metastaz yapmamış tüm mide kanserleri'],
-    ans:'C',
-    hint:'🔑 Erken mide kanseri; <b>lenf nodu tutulumundan bağımsız</b> olarak <b>mukoza (T1a) ve submukozaya (T1b) sınırlı</b> adenokarsinomdur (T1Nx).',
-    trap:'Erken mide kanserinde lenf nodu tutulumu olabilir! "Erken" = boyut veya lenf nodu değil, <b>derinlik (mukoza+submukoza)</b> ile tanımlanır.',
-    explain:'<b>Erken mide kanseri</b>, lenf nodu tutulumundan bağımsız olarak midenin <b>mukoza (T1a) ve submukozasına (T1b) sınırlı adenokarsinom</b> olarak tanımlanır. <b>%10\'unda lenf nodu metastazı</b> vardır. Her evresinde metastaz gelişebilir. En sık <b>korpusta</b> görülür. <b>%70\'i iyi, %30\'u kötü diferansiye</b>dir.'
-  },
-  {
-    years:['Sayfa 43 – Erken Mide Kanseri'],
-    q:'Erken mide kanserinin en sık görüldüğü bölge hangisidir?',
-    opts:['A) Antrum','B) Kardiya','C) Korpus','D) Fundus','E) Pylor'],
-    ans:'C',
-    hint:'🔑 Erken mide kanseri en sık <b>korpusta</b> görülür.',
-    trap:'Antrum (distal) veya kardiya akla gelebilir. Erken mide kanseri için en sık yerleşim <b>korpus</b>tur.',
-    explain:'Erken mide kanseri en sık <b>korpusta</b> görülür. %70\'i iyi, %30\'u kötü diferansiyedir. Küçük intramukozal lezyonlar EMR ile tedavi edilebilir. Yeterli rezeksiyon ve lenfadenektomi ile <b>%95 kür</b> sağlanabilir.'
-  },
-  {
-    years:['Sayfa 43 – Erken Mide Kanseri Makroskopik Tipleri'],
-    q:'Erken mide kanserinin makroskopik tiplerinde <b>EN SIK</b> görülen tip hangisidir?',
-    opts:['A) Tip 1 (Protrude, polipoid)','B) Tip 2a (Eleve, hafif kabarık)','C) Tip 2b (Düz, flat)','D) Tip 2c (Deprese, basık)','E) Tip 3 (Tam çökük, oyuk)'],
-    ans:'D',
-    hint:'🔑 Erken mide kanserinin makroskopik tiplerinde <b>Tip 2c (Deprese, basık, hafif çökük)</b> EN SIK tiptir.',
-    trap:'Polipoid tip (Tip 1) gözle fark edilebilir görünümüyle ilk akla gelebilir; ancak EN SIK makroskopik tip <b>Tip 2c</b>tir.',
-    explain:'Erken mide kanseri makroskopik tipleri:<br>• Tip 1: Protrude, polipoid, tam kabarık<br>• Tip 2a: Eleve, hafif kabarık<br>• <b>Tip 2b: Düz, flat</b><br>• <b>Tip 2c: Deprese, basık, hafif çökük → EN SIK TİP</b><br>• Tip 3: Tam çökük, çukur, oyuk, excave'
-  },
-  {
-    years:['Sayfa 43 – Mide Kanseri Morfoloji / Borrmann'],
-    q:'Borrmann sınıflamasında Tip 4 tümör hangi özelliği taşır?',
-    opts:['A) Polipoid görünüm','B) Fungiform, keskin sınırlı ülsere','C) Ülseratif, çevre dokuyu infiltre eden','D) Skirö, diffüz infiltratif karsinom (Linitis plastika = matara mide)','E) İnflamatuar reaksiyon baskın'],
-    ans:'D',
-    hint:'🔑 Borrmann Tip 4 → <b>skirö / diffüz infiltratif karsinom</b> = <b>Linitis plastika = Matara mide</b>.',
-    trap:'Tip 3 "ülseratif ve infiltran" ile Tip 4 "diffüz infiltratif" karıştırılabilir. <b>Linitis plastika</b> spesifik olarak <b>Tip 4</b>e aittir.',
-    explain:'<b>Borrmann sınıflaması</b> endoskopik bulgulara dayanan yararlı bir sınıflamadır:<br>• Tip 1: Polipoid<br>• Tip 2: Fungiform (keskin sınırlı ülsere)<br>• Tip 3: Ülseratif (çevre dokuyu infiltre eden ülsere)<br>• <b>Tip 4: Skirö (diffüz infiltratif karsinom) = Linitis plastika = Matara mide</b><br>Tip 1-2 iyi diferansiye, Tip 3-4 kötü diferansiyedir. Tip 4 tümörler total gastrektomi ile rezeke edilse bile prognoz çok kötüdür.'
-  },
-  {
-    years:['Sayfa 43 – Histoloji / Lauren Sınıflaması'],
-    q:'Lauren sınıflamasına göre gastrik kanserin intestinal tipinin oranı nedir?',
-    opts:['A) %14','B) %33','C) %53','D) %67','E) %80'],
-    ans:'C',
-    hint:'🔑 Lauren sınıflaması: <b>intestinal (%53), diffüz (%33)</b> ve sınıflandırılamayan tip (%14).',
-    trap:'Diffüz tip (%33) ve sınıflandırılamayan (%14) toplamı %47 eder. Buna göre intestinal tip <b>%53</b>tür.',
-    explain:'Lauren sınıflamasına göre gastrik kanser:<br>• <b>İntestinal tip: %53</b><br>• Diffüz tip: %33<br>• Sınıflandırılamayan: %14<br><b>İntestinal tip</b>: çevresel, epidemik bölgelerde sık; gastrik atrofi ve intestinal metaplazi ile beraber; yaşlı erkek; H. pylori ile yakından ilişkili; gland formasyonu, prognoz daha iyi; hematojen yayılım.<br><b>Diffüz tip</b>: infiltratif yayılım; genç kadın; A kan grubu ile ilişkili; kötü diferansiye, taşlı yüzük hücreleri; transmural/lenfatik yayılım; azalmış E-cadherin.'
-  },
-  {
-    years:['Sayfa 43 – Histoloji / Ming Sınıflaması'],
-    q:'Ming sınıflandırmasında gastrik kanserin kaç tipi vardır ve oranları nedir?',
-    opts:['A) 3 tip: intestinal %53, diffüz %33, sınıflandırılamaz %14','B) 2 tip: Ekspansif %67, infiltratif %33','C) 4 tip: Borrmann 1-4','D) 2 tip: iyi diferansiye %70, kötü diferansiye %30','E) 5 tip: WHO sınıflaması'],
-    ans:'B',
-    hint:'🔑 <b>Ming sınıflandırması</b> kullanışlı ve hatırlanması kolaydır; sadece <b>2 tipi</b> vardır: <b>Ekspansif (%67) ve infiltratif (%33)</b>.',
-    trap:'Lauren ve Ming sınıflamaları karıştırılabilir. Lauren\'da 3 tip vardır; <b>Ming\'de 2 tip</b> vardır.',
-    explain:'<b>Ming sınıflandırması</b> da kullanışlı ve hatırlanması kolaydır; sadece <b>2 tipi</b> vardır: <b>Ekspansif (%67) ve infiltratif (%33)</b>. Lauren sınıflaması (intestinal/diffüz/sınıflanamaz) ile karıştırılmamalıdır.'
-  },
-  {
-    years:['Sayfa 43 – Klinik'],
-    q:'Mide kanserinde en sık başvuru semptomları aşağıdakilerden hangisidir?',
-    opts:['A) Hematemez, melena, sarkılık','B) Kilo kaybı, epigastrik ağrı, iştahsızlık ve erken doyma','C) Disfaji, regürjitasyon, kusma','D) Ateş, terleme, gece terlemesi','E) Sarılık, kaşıntı, koyu idrar'],
-    ans:'B',
-    hint:'🔑 En sık semptomlar: <b>kilo kaybı, epigastrik ağrı, iştahsızlık ve erken doyma</b>dır.',
-    trap:'Semptomlar genelde nonspesifik olduğundan disfaji veya sarılık düşünülebilir; ancak tipik başvuru şikâyetleri <b>kilo kaybı, epigastrik ağrı, iştahsızlık, erken doyma</b>dır.',
-    explain:'Mide kanseri semptomları:<br>• Semptomlar genelde <b>nonspesifik</b>tir.<br>• <b>En sık: kilo kaybı, epigastrik ağrı, iştahsızlık ve erken doyma</b><br>• Diğer: bulantı, kusma, şişkinlik<br>• Çoğu hasta geç belirti verdiğinden teşhis anında evre 3 veya 4 hastalığa sahiptir.'
-  },
-];
+        <div id="result-screen">
+            <div class="score-pct" id="score-pct">%0</div>
+            <div class="stats-grid">
+                <div class="stat-item"><span class="stat-val" id="stat-c" style="color:var(--green)">0</span><span class="stat-label">DOĞRU</span></div>
+                <div class="stat-item"><span class="stat-val" id="stat-w" style="color:var(--red)">0</span><span class="stat-label">YANLIŞ</span></div>
+                <div class="stat-item"><span class="stat-val" id="stat-s" style="color:var(--gold)">0</span><span class="stat-label">YILDIZLI</span></div>
+            </div>
+            <button class="retry-btn restart" onclick="restartQuiz()">🔄 Tüm Soruları Yeniden Çöz</button>
+            <button class="retry-btn retry-wrong" id="btn-retry-wrong" onclick="retryWrong()">✗ Yanlışları Tekrar Çöz</button>
+            <button class="retry-btn retry-star" id="btn-retry-star" onclick="retryStar()">★ Yıldızlıları Tekrar Çöz</button>
+        </div>
+    </div>
 
-let questions = [...ALL_QUESTIONS];
-let currentIdx = 0;
-let answers = {};
-let starred = {};
+    <div class="nav">
+        <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">← Önceki</button>
+        <button class="nav-btn" id="q-counter" onclick="toggleQuestionList()">1 / 1 ☰</button>
+        <button class="nav-btn" id="next-btn" onclick="navigate(1)">Sonraki →</button>
+    </div>
 
-function renderQuestion(idx){
-  const q = questions[idx];
-  const c = document.getElementById('quiz-container');
-  const answered = answers[idx] !== undefined;
-  const userAns = answers[idx];
+    <div class="q-modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
+        <div class="q-modal">
+            <div class="q-grid" id="q-grid"></div>
+        </div>
+    </div>
 
-  let optsHTML = q.opts.map((o,i)=>{
-    const letter = String.fromCharCode(65+i);
-    let cls = 'opt-btn';
-    if(answered){
-      if(letter === q.ans) cls += ' correct';
-      else if(letter === userAns) cls += ' wrong';
-    }
-    return `<button class="${cls}" onclick="selectAns(${idx},'${letter}')" ${answered?'disabled':''}><span class="opt-letter">${letter})</span><span>${o.substring(3)}</span></button>`;
-  }).join('');
+    <script>
+        const ALL_QUESTIONS = [
+            {
+                section: 'motor-noron',
+                sectionLabel: 'NÖROLOJİ GİRİŞ – Motor Nöronlar',
+                years: ['Sonbahar 1989', 'İlkbahar 2021', 'Sonbahar 1990'],
+                q: 'Aşağıdakilerden hangisi <strong>ikinci motor nöron</strong> (alt motor nöron) hasarında görülmesi beklenen bulgulardan biridir?',
+                opts: ['A) Hipertoni (Spastisite)', 'B) Patolojik refleksler (Babinski)', 'C) Derin tendon reflekslerinde artış', 'D) Fasikülasyonlar', 'E) Hoffman işareti'],
+                ans: 'D',
+                hint: '🔑 2. Motor Nöron "Sönmüş" gibidir: Atrofi, Flask felç, Fasikülasyon.',
+                trap: 'Babinski ve Spastisite <strong>Üst Motor Nöron (1. MN)</strong> bulgusudur; 2. MN ile karıştırılmamalıdır.',
+                explain: 'İkinci motor nöron hasarında kas tonusu azalır (flask), derin tendon refleksleri azalır/kaybolur ve <strong>kas fasikülasyonları</strong> ile <strong>atrofi</strong> görülür. Spastisite ve Babinski ise piramidal yol (ÜMN) hasarına özgüdür.'
+            },
+            {
+                section: 'lp-csf',
+                sectionLabel: 'LOMBER PONKSİYON VE BOS',
+                years: ['İlkbahar 1991', 'İlkbahar 2002'],
+                q: 'Lomber ponksiyon (LP) aşağıdakilerin hangisinde <strong>kontraendikedir</strong>?',
+                opts: ['A) Menenjit şüphesi', 'B) Psödotümör serebri', 'C) Subaraknoid kanama', 'D) Kafa içi kitle (KİBAS)', 'E) Multipl skleroz'],
+                ans: 'D',
+                hint: '🔑 KİBAS + Kitle = Herniasyon riski = LP YAPMA!',
+                trap: 'Psödotümör serebri de kafa içi basıncı artırır ancak <strong>kitle yoktur</strong>; bu nedenle LP tanı ve tedavide kullanılır.',
+                explain: 'Yer kaplayan lezyon (tümör, apse, hematom) varlığında LP yapmak <strong>beyin herniasyonuna</strong> yol açabileceği için kesinlikle kontraendikedir.'
+            },
+            {
+                section: 'lp-csf',
+                sectionLabel: 'LOMBER PONKSİYON VE BOS',
+                years: ['İlkbahar 2023'],
+                q: 'Lomber ponksiyon iğnesi ile girilirken orta hatta <strong>ilk geçilen</strong> ligament hangisidir?',
+                opts: ['A) Supraspinöz ligaman', 'B) İnterspinöz ligaman', 'C) Ligamentum flavum', 'D) Posterior longitudinal ligaman', 'E) Anterior longitudinal ligaman'],
+                ans: 'A',
+                hint: '🔑 Sıralama: Deri -> Supraspinöz -> İnterspinöz -> Flavum.',
+                trap: 'Ligamentum flavum iğnenin "dirençle karşılaştığı en sert" tabakadır ancak ilk geçilen değildir.',
+                explain: 'Yüzeyden derine doğru ligament sırası: <strong>Supraspinöz</strong>, <strong>İnterspinöz</strong> ve <strong>Ligamentum flavum</strong> şeklindedir.'
+            },
+            {
+                section: 'aphasia',
+                sectionLabel: 'KORTİKAL FONKSİYONLAR – Afaziler',
+                years: ['İlkbahar 1989', 'İlkbahar 1996', 'İlkbahar 2015', 'İlkbahar 2020'],
+                q: 'Konuşması uzun duraklamalarla bölünmüş, telegram tarzında konuşan ancak <strong>anlaması korunmuş</strong> bir hastada lezyon nerededir?',
+                opts: ['A) Wernicke alanı', 'B) Gyrus angularis', 'C) Broca alanı (Brodmann 44)', 'D) Arkua fasikül', 'E) Superior temporal gyrus'],
+                ans: 'C',
+                hint: '🔑 Broca = "Broke" (Konuşma kırık dökük ama anlama sağlam).',
+                trap: 'Bu hastalar anladıkları için durumlarının farkındadır ve oldukça depresiftirler.',
+                explain: '<strong>Broca afazisi</strong> motor konuşma alanının (dominant hemisfer frontal lob alt girusu) hasarında görülür. Akıcılık bozulur ama anlama korunur.'
+            },
+            {
+                section: 'aphasia',
+                sectionLabel: 'KORTİKAL FONKSİYONLAR – Afaziler',
+                years: ['İlkbahar 1999'],
+                q: 'Akıcı konuşan ancak konuşması saçma (jargon), anlama ve tekrarlamanın bozulduğu afazi türü hangisidir?',
+                opts: ['A) Broca', 'B) İletim', 'C) Transkortikal motor', 'D) Wernicke', 'E) Anomik'],
+                ans: 'D',
+                hint: '🔑 Wernicke = "Wordy but Weird" (Çok konuşur ama anlamsızdır).',
+                trap: 'Wernicke hastaları durumlarının farkında olmayabilir (anosognozi).',
+                explain: '<strong>Wernicke afazisi</strong> temporal lobun arka kısmındaki duyusal konuşma alanının hasarıdır. Akıcılık vardır ancak kelime salatası ve anlama bozukluğu mevcuttur.'
+            },
+            {
+                section: 'aphasia',
+                sectionLabel: 'KORTİKAL FONKSİYONLAR – Afaziler',
+                years: ['İlkbahar 2009', 'Sonbahar 2025'],
+                q: 'Akıcı olmayan konuşma ve bozulmuş anlama karşısında <strong>tekrarlamanın sağlam</strong> olduğu afazi hangisidir?',
+                opts: ['A) Broca', 'B) Transkortikal motor', 'C) İletim', 'D) Transkortikal duyusal', 'E) Global'],
+                ans: 'B',
+                hint: '🔑 "Transkortikal" kelimesini görünce "Tekrarlama Sağlam" de.',
+                trap: 'Broca afazisine benzer ancak "tekrar et" denildiğinde hastanın bunu yapabilmesi ayırt edicidir.',
+                explain: '<strong>Transkortikal motor afazide</strong> lezyon Broca alanının komşuluğundadır. En önemli özelliği <strong>tekrarlamanın korunmuş</strong> olmasıdır.'
+            },
+            {
+                section: 'aphasia',
+                sectionLabel: 'KORTİKAL FONKSİYONLAR – Afaziler',
+                years: ['İlkbahar 2012'],
+                q: 'Konuşmanın akıcılığının ve anlamanın korunduğu ancak <strong>tekrarlamanın ağır derecede bozulduğu</strong> afazi türü hangisidir?',
+                opts: ['A) Wernicke', 'B) Global', 'C) İletim (Kondüksiyon)', 'D) Anomik', 'E) Broca'],
+                ans: 'C',
+                hint: '🔑 İletim = Kablo koptu (Arkua fasikül). Ses gelir ama iletilemez.',
+                trap: 'Broca ve Wernicke arasındaki bağlantı koptuğu için hasta anladığını tekrar edemez.',
+                explain: '<strong>İletim tipi afazide</strong> hasar <strong>arkua fasiküldedir</strong>. Hasta akıcı konuşur ve anlar ancak duyduğunu tekrar edemez.'
+            },
+            {
+                section: 'aphasia',
+                sectionLabel: 'KORTİKAL FONKSİYONLAR – Diğer',
+                years: ['Sonbahar 2006'],
+                q: 'Duyu, kuvvet veya koordinasyon kusuru olmadan daha önce öğrenilmiş <strong>becerili hareketlerin</strong> yapılamaması nedir?',
+                opts: ['A) Afazi', 'B) Agnozi', 'C) Apraksi', 'D) Ataksi', 'E) Aleksi'],
+                ans: 'C',
+                hint: '🔑 Apraksi = "Practice" (Pratik beceri kaybı).',
+                trap: 'Ataksi ile karıştırılmamalıdır; ataksi denge ve koordinasyon bozukluğudur.',
+                explain: '<strong>Apraksi</strong>, motor veya duyusal bir eksiklik olmaksızın, amaçlı bir hareketin gerçekleştirilememesidir. Parietal lob lezyonlarında sıktır.'
+            },
+            {
+                section: 'infections',
+                sectionLabel: 'MSS ENFEKSİYONLARI',
+                years: ['İlkbahar 2011'],
+                q: 'Ense sertliği olan bir hastada BOS incelemesinde 100 lenfosit, düşük glukoz ve yüksek protein saptanıyor. En olası tanı?',
+                opts: ['A) Viral menenjit', 'B) Tüberküloz menenjit', 'C) Bakteriyel menenjit', 'D) Fungal menenjit', 'E) Karsinomatöz menenjit'],
+                ans: 'B',
+                hint: '🔑 TBC/Fungal: Lenfosit + Glukoz Düşük.',
+                trap: 'Viral menenjitte glukoz normaldir, bakteriyelde ise hücre tipi nötrofildir.',
+                explain: '<strong>Tüberküloz menenjitte</strong> BOS bulguları tipiktir: Lenfositer pleositoz, belirgin protein artışı ve düşük glukoz seviyesi.'
+            },
+            {
+                section: 'infections',
+                sectionLabel: 'MSS ENFEKSİYONLARI',
+                years: ['İlkbahar 2018'],
+                q: 'Ateş ve baş ağrısı ile gelen, nörolojik muayenede <strong>kişilik değişikliği</strong> ve konfüzyon saptanan hastada öncelikle ne düşünülmelidir?',
+                opts: ['A) Akut bakteriyel menenjit', 'B) Subdural ampiyem', 'C) Beyin apsesi', 'D) Viral ensefalit', 'E) Multipl skleroz atağı'],
+                ans: 'D',
+                hint: '🔑 Ensefalit = Parankim hasarı (Kişilik değişir, nöbet olur).',
+                trap: 'Menenjitte parankim tutulumu beklenmez, bu yüzden kişilik değişikliği ve davranış bozukluğu ensefaliti işaret eder.',
+                explain: '<strong>Ensefalit</strong> beyin parankiminin iltihabıdır. Menenjitten farkı bilinç değişikliği, kişilik değişikliği ve nöbetlerin ön planda olmasıdır.'
+            },
+            {
+                section: 'headache',
+                sectionLabel: 'BAŞ AĞRILARI',
+                years: ['İlkbahar 2015', 'Sonbahar 2019'],
+                q: 'Lomber ponksiyon sonrası ayağa kalkınca şiddetlenen, yatınca azalan baş ağrısının nedeni nedir?',
+                opts: ['A) Hidrosefali gelişimi', 'B) Dura ponksiyonu sonrası BOS sızıntısı', 'C) Kafa içi basınç artışı', 'D) İntrakranial kanama', 'E) Menenjit reaksiyonu'],
+                ans: 'B',
+                hint: '🔑 LP Baş ağrısı = Alçak Basınç (Yatınca düzelir).',
+                trap: 'Bu ağrı KİBAS\'ın tam tersidir (KİBAS yatınca artar).',
+                explain: 'LP sonrası en sık komplikasyon <strong>düşük basınçlı baş ağrısıdır</strong>. BOS sızıntısına bağlı intrakranial hipotansiyon gelişir; ağrı ortostatiktir.'
+            },
+            {
+                section: 'headache',
+                sectionLabel: 'BAŞ AĞRILARI',
+                years: ['İlkbahar 2025'],
+                q: 'Aşağıdakilerden hangisi baş ağrısında "Kırmızı Bayrak" (Tehlike işareti) <strong>değildir</strong>?',
+                opts: ['A) 50 yaşından sonra başlaması', 'B) Egzersiz veya öksürükle tetiklenmesi', 'C) Hamilelikte başlaması', 'D) Çocukluktan beri süregelen benzer ağrılar', 'E) Ani (şimşek çakar tarzda) başlangıç'],
+                ans: 'D',
+                hint: '🔑 SNOOP kurallarını hatırla. Yeni/Değişen ağrı tehlikelidir.',
+                trap: '50 yaş üstü her yeni ağrı aksi ispatlanana kadar sekonderdir (örn. Temporal Arterit).',
+                explain: 'Eski ve patern değiştirmeyen ağrılar genellikle primerdir (Migren vb). Ancak yeni başlayan, sistemik bulgu eşlik eden veya <strong>gebelikte/egzersizle</strong> ortaya çıkan ağrılar tehlikelidir.'
+            }
+        ];
 
-  c.innerHTML = `
-    <div class="section-badge">${q.years[0]}</div>
-    <div class="card">
-      <div class="card-header">
-        <span class="q-num">Soru ${idx+1}/${questions.length}</span>
-        <button class="star-btn ${starred[idx]?'starred':''}" onclick="toggleStar(${idx})">
-          ${starred[idx]?'★':'☆'}
-        </button>
-      </div>
-      <div class="q-text" id="qtext"></div>
-      <button class="hint-btn" onclick="toggleHint(this)">💡 İpucu Göster</button>
-      <div class="hint-box" id="hint-box"></div>
-      <div class="opts">${optsHTML}</div>
-      ${answered?`
-        <div class="trap-box visible"><div class="trap-title">⚠️ TUZAK NOKTA</div><div class="trap-text" id="trap-text"></div></div>
-        <div class="explain-box visible"><div class="explain-title">📖 AÇIKLAMA</div><div class="explain-text" id="explain-text"></div></div>
-      `:''}
-    </div>`;
+        let idx = 0;
+        let filteredQ = [...ALL_QUESTIONS];
+        let answered = new Set();
+        let correct = new Set();
+        let wrong = new Set();
+        let starred = new Set();
 
-  document.getElementById('qtext').innerHTML = q.q;
-  document.getElementById('hint-box').innerHTML = q.hint;
-  if(answered){
-    document.getElementById('trap-text').innerHTML = q.trap;
-    document.getElementById('explain-text').innerHTML = q.explain;
-  }
+        function renderQuestion() {
+            const q = filteredQ[idx];
+            document.getElementById('section-label').textContent = q.sectionLabel;
+            document.getElementById('q-num').textContent = `Soru ${idx + 1} / ${filteredQ.length}`;
+            document.getElementById('q-text').innerHTML = q.q;
+            document.getElementById('star-btn').textContent = starred.has(q) ? '★' : '☆';
+            document.getElementById('star-btn').className = starred.has(q) ? 'active' : '';
+            
+            const tags = document.getElementById('year-tags');
+            tags.innerHTML = q.years.map(y => `<span class="year-tag">${y}</span>`).join('');
+            
+            document.getElementById('hint-box').textContent = q.hint;
+            document.getElementById('hint-box').style.display = 'none';
 
-  document.getElementById('progress-fill').style.width = ((idx+1)/questions.length*100)+'%';
-  document.getElementById('nav-info').textContent = `${idx+1} / ${questions.length} ☰`;
-  document.getElementById('btn-prev').disabled = idx === 0;
-  document.getElementById('btn-next').disabled = idx === questions.length-1;
-  updateModal();
-}
+            const optContainer = document.getElementById('options');
+            optContainer.innerHTML = '';
+            q.opts.forEach(opt => {
+                const letter = opt;
+                const btn = document.createElement('div');
+                btn.className = 'opt-btn';
+                btn.innerHTML = `<span class="opt-letter">${letter}</span><span>${opt.substring(3)}</span>`;
+                btn.onclick = () => selectAnswer(letter, btn, q);
+                optContainer.appendChild(btn);
+            });
 
-function selectAns(idx, letter){
-  if(answers[idx] !== undefined) return;
-  answers[idx] = letter;
-  renderQuestion(idx);
-  setTimeout(()=>{
-    const eb = document.querySelector('.explain-box');
-    if(eb) eb.scrollIntoView({behavior:'smooth', block:'nearest'});
-  }, 200);
-  checkComplete();
-}
+            const fb = document.getElementById('feedback');
+            fb.className = 'feedback';
+            document.getElementById('trap-text').innerHTML = q.trap;
+            document.getElementById('explain-text').innerHTML = q.explain;
 
-function toggleHint(btn){
-  const box = document.getElementById('hint-box');
-  const visible = box.classList.toggle('visible');
-  btn.textContent = visible ? '💡 İpucunu Gizle' : '💡 İpucu Göster';
-}
+            if (answered.has(q)) {
+                restoreAnswerUI(q);
+            }
 
-function toggleStar(idx){
-  starred[idx] = !starred[idx];
-  renderQuestion(idx);
-}
+            updateNavBtns();
+            updateProgress();
+            updateToggleBtn();
+        }
 
-function navigate(dir){
-  const next = currentIdx + dir;
-  if(next >= 0 && next < questions.length){
-    currentIdx = next;
-    renderQuestion(currentIdx);
-    window.scrollTo({top:0,behavior:'smooth'});
-  }
-}
+        function selectAnswer(letter, btn, q) {
+            if (answered.has(q)) return;
 
-function openModal(){
-  document.getElementById('modal-overlay').classList.add('open');
-  updateModal();
-}
+            answered.add(q);
+            const isCorrect = letter === q.ans;
+            if (isCorrect) {
+                correct.add(q);
+                btn.classList.add('correct');
+            } else {
+                wrong.add(q);
+                btn.classList.add('wrong');
+                // Highlight correct one
+                Array.from(document.querySelectorAll('.opt-btn')).forEach(b => {
+                    if (b.querySelector('.opt-letter').textContent === q.ans) b.classList.add('correct');
+                });
+            }
 
-function closeModal(e){
-  if(e.target === document.getElementById('modal-overlay'))
-    document.getElementById('modal-overlay').classList.remove('open');
-}
+            document.querySelectorAll('.opt-btn').forEach(b => b.classList.add('disabled'));
+            const fb = document.getElementById('feedback');
+            fb.classList.add('open');
+            fb.scrollIntoView({behavior:'smooth', block:'start'});
+            updateNavBtns();
+            updateProgress();
+        }
 
-function updateModal(){
-  const g = document.getElementById('modal-grid');
-  if(!g) return;
-  g.innerHTML = questions.map((q,i)=>{
-    let cls = 'modal-item';
-    if(answers[i] !== undefined){
-      cls += answers[i] === q.ans ? ' correct-m' : ' wrong-m';
-    }
-    if(starred[i]) cls += ' starred-m';
-    return `<div class="${cls}" onclick="goTo(${i})">${i+1}</div>`;
-  }).join('');
-}
+        function restoreAnswerUI(q) {
+            const fb = document.getElementById('feedback');
+            fb.classList.add('open');
+            document.querySelectorAll('.opt-btn').forEach(btn => {
+                btn.classList.add('disabled');
+                const letter = btn.querySelector('.opt-letter').textContent;
+                if (letter === q.ans) btn.classList.add('correct');
+                if (wrong.has(q) && !correct.has(q)) {
+                    // Bulmak zor, o yüzden basitçe işaretlemiyoruz veya saklanan cevabı kullanabiliriz.
+                }
+            });
+        }
 
-function goTo(idx){
-  currentIdx = idx;
-  document.getElementById('modal-overlay').classList.remove('open');
-  renderQuestion(currentIdx);
-  window.scrollTo({top:0,behavior:'smooth'});
-}
+        function navigate(dir) {
+            idx += dir;
+            if (idx < 0) idx = 0;
+            if (idx >= filteredQ.length) idx = filteredQ.length - 1;
+            renderQuestion();
+            window.scrollTo(0,0);
+        }
 
-function checkComplete(){
-  if(Object.keys(answers).length === questions.length){
-    setTimeout(showResult, 400);
-  }
-}
+        function toggleHint() {
+            const h = document.getElementById('hint-box');
+            h.style.display = h.style.display === 'block' ? 'none' : 'block';
+        }
 
-function showResult(){
-  document.getElementById('quiz-container').style.display='none';
-  document.getElementById('nav-bar').style.display='none';
-  const rs = document.getElementById('result-screen');
-  rs.classList.add('show');
+        document.getElementById('star-btn').onclick = () => {
+            const q = filteredQ[idx];
+            if (starred.has(q)) starred.delete(q);
+            else starred.add(q);
+            renderQuestion();
+        };
 
-  let correct=0, wrong=0, starCount=0;
-  questions.forEach((q,i)=>{
-    if(answers[i]===q.ans) correct++;
-    else wrong++;
-    if(starred[i]) starCount++;
-  });
-  const pct = Math.round(correct/questions.length*100);
-  document.getElementById('res-pct').textContent = pct+'%';
-  document.getElementById('s-correct').textContent = correct;
-  document.getElementById('s-wrong').textContent = wrong;
-  document.getElementById('s-total').textContent = questions.length;
-  document.getElementById('s-starred').textContent = starCount;
-  if(wrong > 0) document.getElementById('btn-wrong-restart').style.display='block';
-  if(starCount > 0) document.getElementById('btn-star-restart').style.display='block';
-}
+        function updateNavBtns() {
+            document.getElementById('prev-btn').disabled = idx === 0;
+            const next = document.getElementById('next-btn');
+            if (idx === filteredQ.length - 1 && answered.has(filteredQ[idx])) {
+                next.textContent = "Sonuçları Gör →";
+                next.onclick = showResult;
+            } else {
+                next.textContent = "Sonraki →";
+                next.onclick = () => navigate(1);
+            }
+        }
 
-function restart(mode){
-  if(mode === 'wrong'){
-    questions = ALL_QUESTIONS.filter((_,i)=>answers[i] !== ALL_QUESTIONS[i].ans);
-  } else if(mode === 'starred'){
-    questions = ALL_QUESTIONS.filter((_,i)=>starred[i]);
-  } else {
-    questions = [...ALL_QUESTIONS];
-  }
-  answers = {}; starred = {}; currentIdx = 0;
-  document.getElementById('result-screen').classList.remove('show');
-  document.getElementById('quiz-container').style.display='block';
-  document.getElementById('nav-bar').style.display='flex';
-  renderQuestion(0);
-  window.scrollTo({top:0,behavior:'smooth'});
-}
+        function updateProgress() {
+            const pct = (answered.size / ALL_QUESTIONS.length) * 100;
+            document.querySelector('.progress-bar').style.width = pct + '%';
+        }
 
-renderQuestion(0);
-</script>
+        function updateToggleBtn() {
+            document.getElementById('q-counter').textContent = `${idx + 1} / ${filteredQ.length} ☰`;
+        }
+
+        function toggleQuestionList() {
+            const m = document.getElementById('modal-overlay');
+            if (m.style.display === 'flex') {
+                m.style.display = 'none';
+            } else {
+                buildGrid();
+                m.style.display = 'flex';
+            }
+        }
+
+        function buildGrid() {
+            const grid = document.getElementById('q-grid');
+            grid.innerHTML = '';
+            filteredQ.forEach((q, i) => {
+                const b = document.createElement('button');
+                b.className = 'q-grid-btn';
+                if (i === idx) b.classList.add('current');
+                if (correct.has(q)) b.classList.add('done-correct');
+                else if (wrong.has(q)) b.classList.add('done-wrong');
+                if (starred.has(q)) b.classList.add('starred-q');
+                b.textContent = i + 1;
+                b.onclick = () => { idx = i; renderQuestion(); toggleQuestionList(); };
+                grid.appendChild(b);
+            });
+        }
+
+        function closeModalOnOverlay(e) {
+            if (e.target.id === 'modal-overlay') toggleQuestionList();
+        }
+
+        function showResult() {
+            document.getElementById('quiz-card').style.display = 'none';
+            document.querySelector('.nav').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+            
+            const score = Math.round((correct.size / filteredQ.length) * 100);
+            document.getElementById('score-pct').textContent = `%${score}`;
+            document.getElementById('stat-c').textContent = correct.size;
+            document.getElementById('stat-w').textContent = wrong.size;
+            document.getElementById('stat-s').textContent = starred.size;
+
+            document.getElementById('btn-retry-wrong').style.display = wrong.size > 0 ? 'block' : 'none';
+            document.getElementById('btn-retry-star').style.display = starred.size > 0 ? 'block' : 'none';
+        }
+
+        function restartQuiz() {
+            idx = 0;
+            filteredQ = [...ALL_QUESTIONS];
+            answered.clear(); correct.clear(); wrong.clear();
+            initQuizView();
+        }
+
+        function retryWrong() {
+            filteredQ = Array.from(wrong);
+            resetAndStart();
+        }
+
+        function retryStar() {
+            filteredQ = Array.from(starred);
+            resetAndStart();
+        }
+
+        function resetAndStart() {
+            idx = 0;
+            answered.clear(); correct.clear(); wrong.clear();
+            initQuizView();
+        }
+
+        function initQuizView() {
+            document.getElementById('quiz-card').style.display = 'block';
+            document.querySelector('.nav').style.display = 'flex';
+            document.getElementById('result-screen').style.display = 'none';
+            renderQuestion();
+        }
+
+        renderQuestion();
+    </script>
 </body>
 </html>

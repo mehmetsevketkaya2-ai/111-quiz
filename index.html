@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TUS Quiz – Obezite Cerrahisi & İnce Bağırsak PART 4</title>
+<title>TUS Quiz – Mide Tümörleri PART 1</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;--accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;--green:#3ecf74;--red:#f0476d;--text:#dde3f5;--muted:#7b85a8}
@@ -18,6 +18,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 .q-num{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted)}
 .star-btn{background:none;border:none;cursor:pointer;font-size:1.3rem;color:var(--muted);transition:color .2s}
 .star-btn.starred{color:var(--gold)}
+.year-badge{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--accent);background:rgba(91,141,238,.12);padding:2px 8px;border-radius:20px}
 .q-text{font-size:1.02rem;line-height:1.6;margin-bottom:16px}
 .hint-btn{font-family:'IBM Plex Mono',monospace;font-size:.75rem;border:1px solid var(--border);background:none;color:var(--muted);padding:6px 14px;border-radius:8px;cursor:pointer;margin-bottom:10px;transition:color .2s,border-color .2s}
 .hint-btn:hover{color:var(--accent);border-color:var(--accent)}
@@ -44,6 +45,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 .nav-btn:disabled{opacity:.4;cursor:default}
 .nav-center{font-family:'IBM Plex Mono',monospace;font-size:.82rem;color:var(--muted);cursor:pointer;padding:6px 12px;border-radius:8px;border:1px solid var(--border);transition:border-color .2s}
 .nav-center:hover{border-color:var(--accent2)}
+/* Modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:none;align-items:flex-end}
 .modal-overlay.open{display:flex}
 .modal{background:var(--surface);border-top:1px solid var(--border);border-radius:16px 16px 0 0;width:100%;max-height:60vh;overflow-y:auto;padding:20px 16px}
@@ -54,6 +56,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 .modal-item.correct-m{background:rgba(62,207,116,.18);border-color:var(--green);color:var(--green)}
 .modal-item.wrong-m{background:rgba(240,71,109,.18);border-color:var(--red);color:var(--red)}
 .modal-item.starred-m{box-shadow:0 0 0 2px var(--gold)}
+/* Result */
 .result-screen{display:none;text-align:center;padding:40px 20px}
 .result-screen.show{display:block}
 .result-pct{font-family:'IBM Plex Mono',monospace;font-size:3.5rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
@@ -64,24 +67,28 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 .result-btns{display:flex;flex-direction:column;gap:10px;max-width:320px;margin:0 auto 24px}
 .res-btn{font-family:'IBM Plex Mono',monospace;font-size:.82rem;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;transition:border-color .2s}
 .res-btn:hover{border-color:var(--accent)}
-.finish-box{border:1px solid var(--green);background:rgba(62,207,116,.08);border-radius:12px;padding:16px;max-width:420px;margin:0 auto;font-size:.88rem;line-height:1.6;color:var(--text)}
-.finish-box span{font-family:'IBM Plex Mono',monospace;color:var(--green);font-weight:600}
+.next-part-box{border:1px solid var(--accent2);background:#1e1525;border-radius:12px;padding:16px;max-width:400px;margin:0 auto;font-size:.88rem;line-height:1.6;color:var(--text)}
+.next-part-box span{font-family:'IBM Plex Mono',monospace;color:var(--accent2);font-weight:600}
 </style>
 </head>
 <body>
 <div id="progress-bar"><div id="progress-fill" style="width:0%"></div></div>
+
 <div class="container" id="quiz-container"></div>
+
 <div class="nav" id="nav-bar">
   <button class="nav-btn" id="btn-prev" onclick="navigate(-1)">← Önceki</button>
-  <div class="nav-center" onclick="openModal()"><span id="nav-info">1 / 32 ☰</span></div>
+  <div class="nav-center" onclick="openModal()"><span id="nav-info">1 / 30 ☰</span></div>
   <button class="nav-btn" id="btn-next" onclick="navigate(1)">Sonraki →</button>
 </div>
+
 <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
   <div class="modal">
     <div class="modal-title">SORU LİSTESİ</div>
     <div class="modal-grid" id="modal-grid"></div>
   </div>
 </div>
+
 <div class="result-screen" id="result-screen">
   <div class="result-pct" id="res-pct"></div>
   <div style="font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--muted);margin-bottom:16px">Başarı Oranı</div>
@@ -96,411 +103,437 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
     <button class="res-btn" id="btn-wrong-restart" onclick="restart('wrong')" style="display:none">❌ Yanlışları Tekrar Çöz</button>
     <button class="res-btn" id="btn-star-restart" onclick="restart('starred')" style="display:none">⭐ Yıldızlıları Tekrar Çöz</button>
   </div>
-  <div class="finish-box">
-    <span>✅ TAMAMLANDI!</span><br>
-    Sayfa 39–65 arası tüm fosforlu bilgiler soru haline getirildi.<br><br>
-    <b>Toplam 4 PART:</b><br>
-    PART 1 → Sayfa 39–43 (30 soru)<br>
-    PART 2 → Sayfa 44–49 (35 soru)<br>
-    PART 3 → Sayfa 50–57 (30 soru)<br>
-    PART 4 → Sayfa 58–65 (32 soru)
+  <div class="next-part-box">
+    <span>📌 PART 1 tamamlandı!</span><br>
+    Sayfa 44–50 arası (TNM evrelemesi, mide lenfoması, GİST, karsinoid, diğer mide lezyonları) için<br>
+    <span>DEVAM</span> yazınca <span>PART 2</span> gönderilecek.
   </div>
 </div>
 
 <script>
 const ALL_QUESTIONS = [
-  // Q1 → C
   {
-    years:['Sayfa 58 – Morbid Obezite Tanımı'],
-    q:'Morbid obezite nasıl tanımlanır?',
-    opts:['A) VKİ ≥30 kg/m²','B) İdeal vücut ağırlığının 1,5 katı veya VKİ ≥35 kg/m²','C) İdeal vücut ağırlığının 2 katı veya VKİ\'nin 40 kg/m² olması','D) VKİ ≥35 kg/m² ve en az 1 komorbidite','E) VKİ ≥50 kg/m²'],
+    years:['Sayfa 39 – Dev Gastrik Ülser'],
+    q:'Dev gastrik ülser için tanımlanan minimum çap aşağıdakilerden hangisidir?',
+    opts:['A) 0.5 cm','B) 1 cm','C) 2 cm','D) 3 cm','E) 5 cm'],
     ans:'C',
-    hint:'🔑 Morbid obezite: <b>ideal vücut ağırlığının 2 katı veya VKİ\'nin 40 kg/m²</b> olması olarak tanımlanır.',
-    trap:'VKİ ≥35 ciddi obezitedir (Sınıf 2); morbid obezite için eşik <b>VKİ ≥40</b> (veya ideal ağırlığın 2 katı)dır.',
-    explain:'<b>Morbid obezite</b>: ideal vücut ağırlığının 2 katı veya <b>VKİ\'nin 40 kg/m² olması</b> olarak tanımlanır. VKİ sınıflaması: 18.5-24.9 Normal, 25-29.9 Fazla Kilolu, 30-34.9 Obez (Sınıf 1), 35-39.9 Ciddi Obez (Sınıf 2), ≥40 Morbid Obez (Sınıf 3), >60 Süper Obez.'
+    hint:'🔑 <b>Dev gastrik ülser:</b> çapı belirli bir değer ve üzeri olan ülserler.',
+    trap:'<b>1 cm</b> değeri akla gelebilir, ancak dev ülser sınırı <b>2 cm</b>dir. 1 cm polipektomi eşiğiyle karıştırılmamalıdır.',
+    explain:'<b>Dev gastrik ülser</b>, çapı <b>2 cm ve üzeri</b> olan ülserler için kullanılan tanımdır. Genellikle küçük kurvatur yerleşimlidir. Malignite riski küçük ülserlere göre daha yüksektir (%10). Medikal tedavi ile %80 iyileşme görülür.'
   },
-  // Q2 → A
   {
-    years:['Sayfa 58 – Obezite Genetiği'],
-    q:'FTO geni obezitedeki rolü nedir?',
-    opts:['A) Yağ kütlesi ve obezite ile ilişkili beslenme davranışı ve enerji tüketimini kontrol etmede rol oynar','B) Melanokrotin 4 reseptörünü kodlar ve insülin direncine yol açar','C) Leptin üretimini düzenler','D) Ghrelin sentezinden sorumludur','E) İştah azalmasına neden olan anoreksijenik bir hormonu kodlar'],
-    ans:'A',
-    hint:'🔑 <b>FTO geni</b>: yağ kütlesi ve obezite ile ilişkili beslenme davranışı ve enerji tüketimini kontrol etmede rol oynar.',
-    trap:'MC4R insülin direnci ve yağ kütlesi artışıyla ilişkilidir. <b>FTO</b> ise beslenme davranışı ve enerji tüketimi üzerinden etki eder.',
-    explain:'Ailesel yatkınlık vardır ve tek bir aile üyesinin ciddi obeziteye sahip olması nadirdir. <b>FTO geni</b> (yağ kütlesi ve obezite ile ilişkili), beslenme davranışı ve enerji tüketimini kontrol etmede rol oynar. <b>MC4R eksiklik geni</b> (melanokrotin 4 reseptörü) ise obezite, yağ kütlesinde artış ve insülin direnci ile ilişkilidir. Morbid obezitenin <b>en sık tek gen etiyolojisi MC4R</b>dir.'
-  },
-  // Q3 → E
-  {
-    years:['Sayfa 58 – Ghrelin'],
-    q:'Ghrelin hakkında aşağıdakilerden hangisi doğrudur?',
-    opts:['A) İnce bağırsak L-hücrelerinden salgılanır','B) İştah azaltıcı (anoreksijenik) etkisi vardır','C) Yemekten sonra seviyeleri artar','D) Kolesistokinin ile aynı reseptörü paylaşır','E) Bilinen tek oreksijenik bağırsak hormonu olup mide fundusunun P/D1 hücrelerinden salgılanır; seviyeleri yemekten sonra hızla düşer'],
-    ans:'E',
-    hint:'🔑 Ghrelin: <b>tek oreksijenik bağırsak hormonu</b>, mide fundusunun <b>P/D1 hücrelerinden</b> salgılanır, yemekten sonra seviyeleri <b>hızla düşer</b>.',
-    trap:'GLP-1 L-hücrelerinden salgılanır ve anoreksijenik etkilidir. Ghrelin ise <b>oreksijenik</b> (iştah artırıcı) ve <b>mide fundusundan</b> salgılanır.',
-    explain:'<b>Ghrelin</b>: bilinen tek oreksijenik bağırsak hormonu; açlık hormonu olarak da bilinir. <b>Mide fundusunun P/D1 hücrelerinden</b> dolaşıma salınır. Hipotalamustan nöropeptit Y ve büyüme hormonu gibi çeşitli nöropeptitlerin salınmasını uyararak iştah artışı yaratır. Artan ghrelin seviyeleri artan gıda alımına neden olur. <b>Yemekten sonra hızla düşer</b>. Tokluktan sonra da yüksekse diyetler başarısız olur.'
-  },
-  // Q4 → D
-  {
-    years:['Sayfa 58 – Obezite ve Kanser'],
-    q:'Obezitede yağ asırı derecede östrojen üretmesinin sonucu olarak hangi kanserler için risk artar?',
-    opts:['A) Kolon, prostat, böbrek kanserleri','B) Tiroid ve özofagus kanserleri','C) Mesane ve pankreas kanserleri','D) Endometrium, over ve postmenopozal meme kanseri','E) Akciğer ve larinks kanserleri'],
-    ans:'D',
-    hint:'🔑 Yağ aşırı östrojen üretir → <b>endometrium, over ve postmenopozal meme kanseri</b> riski artar.',
-    trap:'Kolon, prostat ve böbrek kanserleri artan <b>insülin ve IGF-1</b> düzeyleriyle ilişkilidir; östrojen fazlalığıyla değil.',
-    explain:'Obezitede artan kanser riski için iki farklı mekanizma:<br>• <b>Yağ → aşırı östrojen üretimi → endometrium, over ve postmenopozal meme kanseri</b> riski artar.<br>• <b>Artan insülin ve IGF-1 düzeyleri → kolon, prostat, böbrek, endometrium ve postmenopozal meme kanseri</b> gelişimi ile bağlantılıdır.<br>Obezite ayrıca GÖRH\'e bağlı kronik inflamasyon yoluyla özofagus adenokarsinomunu artırır.'
-  },
-  // Q5 → B
-  {
-    years:['Sayfa 58 – Obezite ve Komorbidite'],
-    q:'Morbid obezite için ameliyat olmak isteyen hastaların en az %50\'sinde bulunan en sık sorun nedir?',
-    opts:['A) Tip 2 diyabet','B) Artrit ve dejeneratif eklem hastalığı kombinasyonu','C) Hipertansiyon','D) Uyku apnesi','E) GÖRH'],
+    years:['Sayfa 39 – Dev Gastrik Ülser'],
+    q:'Dev gastrik ülserin en sık yerleşim yeri aşağıdakilerden hangisidir?',
+    opts:['A) Büyük kurvatur','B) Küçük kurvatur','C) Antrum ön duvarı','D) Fundus','E) Kardiya'],
     ans:'B',
-    hint:'🔑 En sık görülen sorun: morbid obezite için ameliyat olmak isteyen hastaların <b>en az %50\'sinde bulunan artrit ve dejeneratif eklem hastalığı kombinasyonu</b>.',
-    trap:'Hipertansiyon (%30) ve diyabet (%20-30) de sık; ancak <b>en az %50</b> ile en sık olan <b>artrit ve dejeneratif eklem hastalığı</b>dır.',
-    explain:'<b>En sık görülen sorun, morbid obezite için ameliyat olmak isteyen hastaların en az %50\'sinde bulunan artrit ve dejeneratif eklem hastalığı kombinasyonudur</b>. Uyku apnesi görülme sıklığı yüksektir: hastaların %25\'inden fazlasında astım, %30\'dan fazlasında hipertansiyon, %20\'den fazlasında diyabet ve %20-30\'unda GÖRH mevcuttur.'
+    hint:'🔑 Dev gastrik ülser genellikle <b>küçük kurvatur</b> yerleşimlidir.',
+    trap:'<b>Büyük kurvatur</b> ülser yerleşimi ile karıştırılabilir. Dev gastrik ülser spesifik olarak <b>küçük kurvatur</b> lokalizasyonludur.',
+    explain:'Dev gastrik ülserler (<b>çapı ≥2 cm</b>) <b>genellikle küçük kurvatur</b> yerleşimlidir. Malignite riski %10 civarındadır. Medikal tedaviye yanıt oranı %80\'dir.'
   },
-  // Q6 → A
   {
-    years:['Sayfa 59 – Farmakoterapi'],
-    q:'Obezite farmakoterapisi hangi VKİ eşiğinde düşünülmelidir?',
-    opts:['A) VKİ ≥30 veya VKİ 27-29 + obezite ile ilişkili en az 1 durum','B) Yalnızca VKİ ≥40','C) VKİ ≥35 + komorbidite','D) Her VKİ\'de yaşam tarzı başarısız olunca','E) VKİ ≥25 + metabolik sendrom'],
-    ans:'A',
-    hint:'🔑 Farmakoterapi: <b>VKİ ≥30 veya 27-29 + obezite ile ilişkili en az 1 durum</b>u olanlarda düşünülebilir.',
-    trap:'VKİ ≥35 bariatrik cerrahi eşiğidir; farmakoterapi için eşik çok daha düşüktür: <b>VKİ ≥30 veya 27-29 + komorbidite</b>.',
-    explain:'Obezitede <b>3 tedavi seçeneği</b>: yaşam tarzı değişikliği, medikal tedavi ve cerrahi. <b>Farmakoterapi VKİ ≥30 veya 27-29 + obezite ile ilişkili en az 1 durum</b>u olanlarda düşünülebilir. İlaçlar iştahı azaltır ve enerji harcamalarını artırır. <b>En sık reçete edilen fentermin</b> sempatomimetik amindir. Tekli kullanılan: orlistat, lorcaserin ve liraglutid. İkili kombinasyon: fentermin-topiramat ve naltrekson-bupropion.'
-  },
-  // Q7 → D
-  {
-    years:['Sayfa 60 – Bariatrik Cerrahi İlaç Tedavisi'],
-    q:'Obezite farmakolojik tedavisinde tekli kullanılan ilaçlar hangileridir?',
-    opts:['A) Fentermin-topiramat ve naltrekson-bupropion','B) Metformin ve orlistat','C) Liraglutid ve metformin','D) Orlistat, lorcaserin ve liraglutid','E) Sibutramin ve rimonabant'],
+    years:['Sayfa 39 – Benign Gastrik Neoplazmlar / Polipler'],
+    q:'Mide poliplerinin en sık görülen tipi aşağıdakilerden hangisidir?',
+    opts:['A) Adenomatöz polip','B) Fundik gland polip','C) Heterotopik pankreas','D) Hiperplastik polip','E) Leiomyom'],
     ans:'D',
-    hint:'🔑 Tekli kullanılan ilaçlar: <b>orlistat, lorcaserin ve liraglutid</b>.',
-    trap:'Fentermin-topiramat ve naltrekson-bupropion <b>ikili kombinasyon</b> ilaçlarıdır; tekli değil.',
-    explain:'<b>Tekli kullanılan ilaçlar: orlistat, lorcaserin ve liraglutid.</b> Orlistat pankreatik lipazı inhibe edip diyet yağının emilimini azaltır. <b>İkili kombinasyon ilaçları: fentermin-topiramat ve naltrekson-bupropion.</b>'
+    hint:'🔑 <b>Hiperplastik polip</b> en sık polip tipidir; <b>H. pylori</b> ve kronik gastrit ile ilişkilidir.',
+    trap:'<b>Adenomatöz polip</b> daha tehlikeli olduğundan akla önce gelebilir, ancak sıklık açısından en sık olan <b>hiperplastik polip</b>tir.',
+    explain:'<b>Hiperplastik polip</b> midenin <b>en sık benign tümörüdür</b> ve midenin en sık polip tipidir. <b>H. pylori ve kronik gastrit</b> ile güçlü ilişkisi vardır. Endoskopi sırasında insidental olarak sıkça (%5) gözlenir ve genellikle asemptomatiktir. 1 cm\'den büyük izole poliplerde tam polipektomi yapılmalıdır.'
   },
-  // Q8 → C
   {
-    years:['Sayfa 60 – GLP-1 / Enteroinsüler Aks'],
-    q:'GLP-1\'in enteroinsüler akstaki rolü nedir?',
-    opts:['A) Pankreas alfa hücrelerinden insülin salgılatır','B) Mide fundusundan salgılanır ve oreksijenik etki gösterir','C) Distal gastrointestinal sistemdeki L-hücreleri tarafından salınır; insülin sekresyonunu uyarır, glukagon sekresyonunu inhibe eder','D) Yalnızca bariatrik cerrahi sonrası aktive olur','E) İnkretinler ailesine değil, somatostatin ailesine aittir'],
+    years:['Sayfa 39 – Benign Gastrik Neoplazmlar / Polipler'],
+    q:'1 cm\'den büyük izole polipli hastalarda önerilen tedavi aşağıdakilerden hangisidir?',
+    opts:['A) İzlem, 6 ayda bir endoskopi','B) Tam polipektomi','C) Parsiyel gastrektomi','D) H. pylori eradikasyonu yeterli','E) Biyopsi alınması yeterli'],
+    ans:'B',
+    hint:'🔑 <b>1 cm\'den büyük izole polip</b> → tam polipektomi yapılmalıdır.',
+    trap:'Büyük poliplerde sadece biyopsi yeterli değildir; <b>tam polipektomi</b> gereklidir. Cerrahi rezeksiyon çok nadir gündeme gelir.',
+    explain:'<b>1 cm\'den büyük izole polipli hastalarda tam polipektomi</b> yapılmalıdır. Çoklu polipler için en büyüğü endoskopik çıkarılmalı, diğerlerinden biyopsi alınmalıdır. Displazi ve H. pylori\'yi değerlendirmek için normal mukoza biyopsileri de yapılmalıdır.'
+  },
+  {
+    years:['Sayfa 39 – Benign Gastrik Neoplazmlar / Polipler'],
+    q:'Çoklu polip saptanan hastada önerilen endoskopik yaklaşım hangisidir?',
+    opts:['A) En büyüğü çıkar, diğerlerinden biyopsi al','B) Hepsini çıkar','C) Sadece en büyüğünden biyopsi al','D) Tümünü biyopsi ile örnekle, çıkarma','E) Total gastrektomi endikasyonu'],
+    ans:'A',
+    hint:'🔑 Çoklu polipler → <b>en büyüğü endoskopik çıkarılmalı</b> ve diğerlerinden biyopsi alınmalıdır.',
+    trap:'Tüm polipleri çıkarmak pratik değildir. Protokol <b>en büyüğünü çıkar + diğerlerinden biyopsi</b> şeklindedir.',
+    explain:'<b>Çoklu polipler</b> saptandığında en büyüğü endoskopik çıkarılmalı, diğerlerinden biyopsi alınmalıdır. Displazi ve H. pylori değerlendirmesi için <b>normal mukoza biyopsileri</b> de yapılmalıdır.'
+  },
+  {
+    years:['Sayfa 40 – Adenomatöz Polipler'],
+    q:'Adenomatöz poliplerde malignite riski en yüksek olan tip hangisidir?',
+    opts:['A) Tübüler adenom','B) Tübülovillöz adenom','C) Villöz adenom','D) Hiperplastik polip','E) Fundik gland polip'],
     ans:'C',
-    hint:'🔑 GLP-1: <b>distal GİS\'teki L-hücreleri</b>nden salınır; insülin ↑, glukagon ↓.',
-    trap:'Ghrelin mide fundusundan salgılanır; GLP-1 ise <b>distal GİS L-hücrelerinden</b>. GLP-1 <b>inkretinler</b> ailesinin parçasıdır.',
-    explain:'<b>GLP-1</b>: enteroinsüler aksta ana oyuncu. <b>Distal gastrointestinal sistemdeki L-hücreleri</b> tarafından salınır. İnsülin sekresyonunun uyarılması, pankreas hücrelerinin (α ve β hücreleri) insülin duyarlılığında artış ve <b>glukagon sekresyonunun inhibisyonu</b> gibi birçok fizyolojik işlevi vardır. GLP-1, insülin sentez ve düzenlenmesinde rol alan <b>inkretinler</b> olarak bilinen peptit ailesinin parçasıdır. GLP-1: RYGB ve LSG sonrası yükselir; RYGB\'de LSG\'den önemli ölçüde daha yüksektir.'
+    hint:'🔑 Adenomatöz poliplerde <b>karsinom riski en fazla villöz adenom</b>da (%30).',
+    trap:'Tübüler, tübülovillöz ve villöz şeklinde sıralama yapılmalıdır. En tehlikeli olan <b>villöz</b>dur, <b>tübüler</b> değil.',
+    explain:'Adenomatöz polipler tübüler, tübülovillöz ve villöz adenom olmak üzere 3 tiptir. <b>Karsinom riski en fazla olan tip villöz adenomdur (%30)</b>. Malignite riski <b>çap büyüdükçe artar</b> (>2 cm → malignite olasılığı %20). Polip total çıkarılmış ve histolojik invaziv kanser odağı yoksa endoskopik EE yeterlidir.'
   },
-  // Q9 → E
   {
-    years:['Sayfa 61 – Bariatrik Cerrahi Endikasyonları'],
-    q:'Bariatrik cerrahi için VKİ endikasyonları nelerdir?',
-    opts:['A) Yalnızca VKİ >50','B) VKİ >45 veya VKİ >35 + komorbidite','C) VKİ >35 veya VKİ >30 + komorbidite','D) VKİ >30 olan tüm hastalar','E) VKİ >40 olan hastalar veya VKİ >35 ve komorbiditesi olan hastalar'],
-    ans:'E',
-    hint:'🔑 Bariatrik cerrahi endikasyonu: <b>VKİ >40</b> olan hastalar veya <b>VKİ >35 + komorbidite</b> olan hastalar.',
-    trap:'VKİ >30 farmakoterapi eşiğidir; cerrahi için eşik <b>VKİ >40 veya >35 + komorbidite</b>dir.',
-    explain:'<b>Bariatrik cerrahi endikasyonları:</b><br>1. VKİ <b>>40</b> olan hastalar<br>2. VKİ <b>>35 ve komorbiditesi</b> olan hastalar<br>3. Optimal tedaviye rağmen kontrol edilemeyen Tip 2 DM ve VKİ 30-34.9 olan hastalar<br>4. Diğer zayıflama girişimlerinin başarısız olması<br>5. Alkol bağımlılığı ve uyuşturucu kullanımından olmamak, psikiyatrik açıdan stabil olmak<br>6. Operasyon ve sonuçları hakkında bilgi sahibi olmak<br>7. Motive birey'
-  },
-  // Q10 → B
-  {
-    years:['Sayfa 61 – Bariatrik Cerrahi Kontrendikasyonları'],
-    q:'Bariatrik cerrahi için mutlak kontrendikasyon olan sendrom hangisidir?',
-    opts:['A) Down sendromu','B) Prader-Willi sendromu','C) Turner sendromu','D) Klinefelter sendromu','E) Marfan sendromu'],
+    years:['Sayfa 40 – Adenomatöz Polipler'],
+    q:'Adenomatöz mide poliplerinin malignite riski ile ilgili aşağıdakilerden hangisi doğrudur?',
+    opts:['A) Malignite riski hepsinde eşittir','B) Malignite riski az da olsa vardır (<%2, özellikle >2 cm poliplerde)','C) Malignite riski %50\'nin üzerindedir','D) Malignite yalnızca villöz tipte görülür','E) 1 cm altındaki poliplerde malignite riski yoktur'],
     ans:'B',
-    hint:'🔑 <b>Prader-Willi sendromu</b> bariatrik cerrahi için <b>mutlak kontrendikasyon</b>dur.',
-    trap:'Hareket edemeyen hastalar için cerrahi kontrendike olsa da bu <b>mutlak</b> değil rölatif kontrendikasyondur (Schwartz rölatif). <b>Prader-Willi mutlak</b>tır.',
-    explain:'<b>Bariatrik cerrahi kontrendikasyonları:</b><br>• <b>Prader-Willi sendromu: mutlak kontrendikasyon</b><br>• Hareket edemeyen hastalar: kontrendike (Schwartz rölatif kontrendikasyon)<br>• 500 lbs (226 kg)\'dan ağır hastalar: ölüm ve komplikasyon riski artar<br>• LAGB\'nin diğer kontrendikasyonları: siroz, portal hipertansiyon, otoimmün bağ doku bozuklukları, inflamatuar barsak hastalığı gibi kronik inflamatuar durumlar ve kronik steroid kullanım ihtiyacı'
+    hint:'🔑 Adenomatöz poliplerde <b>malignite riski az da olsa vardır (<%2, özellikle >2 cm poliplerde)</b>.',
+    trap:'Malignite riski varlığını inkâr eden veya çok yüksek gösteren seçenekler yanlıştır. Doğru cevap kitaptaki gibi "<%2, özellikle >2 cm poliplerde" ifadesidir.',
+    explain:'Adenomatöz polipler tipik olarak soliter lezyonlardır. <b>Malignite riski az da olsa vardır (<%2, özellikle >2 cm poliplerde)</b>. Karsinom riski en fazla villöz tiptedir (%30). Endoskopik eksizyon (EE) pedikullü lezyonlar için endikedir.'
   },
-  // Q11 → A
   {
-    years:['Sayfa 61 – Bariatrik Cerrahi Yaş Sınırı'],
-    q:'Bariatrik cerrahi için yaş sınırları nasıl belirlenmektedir?',
-    opts:['A) Gastrik bypass için 65 yaş, LSG için 70 yaş sınırı olarak kabul edilse de 70 yaş üstü hastalar bireysel olarak değerlendirilmelidir','B) 18 yaş altında kesinlikle yapılmaz','C) 60 yaş üstü tüm hastalarda kontrendikedir','D) 70 yaş sonrası yalnızca LSG uygulanabilir','E) Yaş bariatrik cerrahi için hiçbir zaman kontrendikasyon değildir'],
-    ans:'A',
-    hint:'🔑 Gastrik bypass için <b>65 yaş</b>, LSG için <b>70 yaş</b> sınırı; ancak 70 yaş üstü hastalar <b>bireysel</b> değerlendirilmeli.',
-    trap:'Yaş tartışmalı bir kontrendikasyondur; kesin sınırlar yoktur. Ancak pratik eşikler: <b>bypass 65, LSG 70</b> yaştır.',
-    explain:'<b>Yaş, bariatrik cerrahi için tartışmalı bir kontrendikasyondur</b>. Çoğu cerrah, ergenlerde ameliyatın hızlı büyüme periyodundan sonra yapılmasını tavsiye eder. Ergenlerde bariatrik cerrahi kesin kontrendikasyon değildir. <b>Gastrik bypass için 65 yaş, LSG için 70 yaş</b> sınırı olarak kabul edilse de, 70 yaş üstü hastalar bireysel olarak değerlendirilmelidir.'
-  },
-  // Q12 → D
-  {
-    years:['Sayfa 62 – Bariatrik Cerrahi Öncesi Hazırlık'],
-    q:'Bariatrik cerrahi adayları ameliyat öncesinde ve ameliyat sonrası ne kadar süreyle gebelikten kaçınmalıdır?',
-    opts:['A) Ameliyat öncesinde 3 ay, ameliyat sonrası 6 ay','B) Gebelik kısıtlaması yoktur','C) Yalnızca ameliyat öncesinde 6 ay','D) Ameliyat öncesinde ve ameliyat sonrası 12-18 ay boyunca','E) Ameliyat sonrası 2 yıl'],
+    years:['Sayfa 40 – Adenomatöz Polipler'],
+    q:'Çapı >2 cm olan adenomatöz poliplerde malignite olasılığı yaklaşık ne kadardır?',
+    opts:['A) %2','B) %5','C) %10','D) %20','E) %50'],
     ans:'D',
-    hint:'🔑 Bariatrik cerrahi adayları: ameliyat öncesinde <b>ve</b> ameliyat sonrası <b>12-18 ay</b> boyunca gebelikten kaçınmalıdır.',
-    trap:'Yalnızca ameliyat öncesi veya yalnızca sonrası değil; <b>hem öncesi hem sonrası 12-18 ay</b> gebelik kısıtlaması vardır.',
-    explain:'Obezler tütün kullanımından kaçınmalı; ameliyattan <b>6 hafta önce sigara bırakılmalıdır</b>. <b>Bariatrik cerrahi adayları, ameliyat öncesinde ve ameliyat sonrası 12-18 ay boyunca gebelikten kaçınmalıdır</b>. Obezite cerrahisinde ameliyat öncesi antibiyotik ve DVT profilaksisi önerilir.'
+    hint:'🔑 Çap büyüdükçe malignite olasılığı artar; <b>>2 cm → malignite olasılığı %20</b>.',
+    trap:'%10 rakamı dev gastrik ülserin malignite riski ile karıştırılabilir. >2 cm adenomatöz polip için doğru oran <b>%20</b>dir.',
+    explain:'<b>Çap büyüdükçe malignite olasılığı artar</b>. >2 cm adenomatöz poliplerde malignite olasılığı <b>%20</b>dir. Bu nedenle büyük poliplere agresif endoskopik yaklaşım gerekmektedir.'
   },
-  // Q13 → C
   {
-    years:['Sayfa 62 – Obezitenin Hipoventilasyon Sendromu'],
-    q:'Obezitenin hipoventilasyon sendromu (Pickwickian sendromu) hangi hasta grubunda şüphelenilmelidir?',
-    opts:['A) VKİ >35 ve astımı olan hastalar','B) VKİ >40 ve hipertansiyonu olan hastalar','C) Süper obezler (VKİ >60) ve hastanın klinik görünümünden şüphelenilmesi; PaCO2\'nin PaO2\'den daha yüksek olması ile tanınır','D) VKİ >30 ve uyku apnesi olan tüm hastalar','E) Yalnızca pediatrik obez hastalarda görülür'],
+    years:['Sayfa 40 – Heterotopik Pankreas'],
+    q:'Heterotopik pankreasın en sık yerleşim yeri aşağıdakilerden hangisidir?',
+    opts:['A) Duodenum','B) Jejunum','C) Mide antrum büyük kurvatur boyuncası','D) İleum','E) Özofagus'],
     ans:'C',
-    hint:'🔑 Obezitenin hipoventilasyon sendromu: <b>süper obezler (VKİ >60)</b>; <b>PaCO2 PaO2\'den daha yüksek</b>.',
-    trap:'Obstruktif uyku apnesi farklı bir tablodur. Hipoventilasyon sendromunun ayırt edici özelliği <b>PaCO2 > PaO2</b> olmasıdır.',
-    explain:'<b>Obezitenin hipoventilasyon sendromu (Pickwickian sendromu)</b>: <b>süper obezler (VKİ >60)</b> ve hastanın klinik görünümünden şüphelenilmesi gereken bir tanıdır. Bu hastaların yüzleri dolgundur, siyanotik görünebilirler ve hafif eforla solunum zorluğu çekebilirler. Arteriyel kan gazında, <b>PaCO2\'nin PaO2\'den daha yüksek olması</b> ve yüksek hematokrit değerleri görülür. Pulmoner arter basıncı yüksektir.'
+    hint:'🔑 Heterotopik pankreasın <b>en sık yerleşim yeri mide antrum büyük kurvatur boyuncasıdır</b>.',
+    trap:'Duodenum akla ilk gelir çünkü pankreas ile komşu, ancak <b>mide antrum büyük kurvatur</b> en sık yerleşimdir.',
+    explain:'<b>Heterotopik pankreas</b>, işlevsel pankreas dokusunun anormal bir anatomik konumda bulunmasıdır. Otopsi serilerinde sıklık %0.5-14\'tür. <b>En sık yerleşim yeri mide antrum büyük kurvatur boyuncasıdır</b>. GİST veya başka bir gastrik neoplazm ile karıştırılabilirler. Tedavisi cerrahi eksizyondur.'
   },
-  // Q14 → E
   {
-    years:['Sayfa 62 – Bariatrik Cerrahi ve NASH'],
-    q:'Bariatrik cerrahi NASH tedavisinde nasıl fayda sağlar?',
-    opts:['A) Karaciğer transplantasyonunun yerini tutar','B) Yalnızca alkole bağlı karaciğer hastalığında etkilidir','C) NASH\'ta kontrendikedir','D) Yalnızca VKİ >50 olanlarda NASH\'ı iyileştirir','E) Bariatrik cerrahi NASH için faydalıdır; kilo kaybı prognozu iyileştirir; ancak siroz ve portal hipertansiyon veya hepatoselüler dekompansasyon yoksa kontrendikasyon değildir'],
-    ans:'E',
-    hint:'🔑 Bariatrik cerrahi <b>NASH için faydalıdır</b>; <b>siroz ve portal hipertansiyon veya hepatoselüler dekompansasyon yoksa</b> kontrendikasyon değildir.',
-    trap:'NASH varlığı bariatrik cerrahi için kontrendikasyon değildir; ancak <b>siroz ve portal hipertansiyon veya dekompansasyon varsa</b> kontrendikedir.',
-    explain:'<b>Bariatrik cerrahi NASH için potansiyel bir sorun teşkil eder.</b> Ancak <b>kilo kaybı prognozu iyileştirir</b>. <b>Siroz ve portal hipertansiyon veya hepatoselüler dekompansasyon yoksa NASH, bariatrik cerrahi için bir kontrendikasyon değildir</b>. Bariatrik cerrahiye bağlı mortalite oldukça düşük seviyelere inmiştir.'
-  },
-  // Q15 → B
-  {
-    years:['Sayfa 62 – Operatif Mortalite Faktörleri'],
-    q:'Bariatrik cerrahide operatif mortalite ile ilişkili bağımsız faktörler hangileridir?',
-    opts:['A) Yaş <30, kadın cinsiyet, VKİ <40','B) Erkek cinsiyet, >50 yaş, VKİ >50 kg/m², Tip 2 DM','C) Hipertansiyon, uyku apnesi, GÖRH','D) Sigara kullanımı ve alkol bağımlılığı','E) Ameliyat süresi ve laparoskopik teknik kullanılmaması'],
+    years:['Sayfa 40 – Heterotopik Pankreas'],
+    q:'Heterotopik pankreas lezyonlarında aşağıdaki tablolardan hangisi bildirilmiştir?',
+    opts:['A) Akut apandisit','B) Pankreatit, adacık hücreli tümörler ve pankreas adenokarsinomu','C) Lenfoma','D) Leiomyosarkom','E) Karsinom in situ'],
     ans:'B',
-    hint:'🔑 Operatif mortalite ile ilişkili bağımsız faktörler: <b>erkek cinsiyet, >50 yaş, VKİ >50 kg/m², Tip 2 DM</b>.',
-    trap:'Hipertansiyon ve uyku apnesi komorbidite olarak önemlidir; ancak operatif mortalite için bağımsız faktörler <b>erkek, >50 yaş, VKİ >50, Tip 2 DM</b>dir.',
-    explain:'<b>Operatif mortalite ile ilişkili bağımsız faktörler:</b><br>• Erkek cinsiyet<br>• >50 yaş<br>• VKİ >50 kg/m²<br>• <b>Tip 2 DM</b>'
+    hint:'🔑 Heterotopik pankreas lezyonlarında <b>pankreatit, adacık hücreli tümörler ve pankreas adenokarsinomu</b> bildirilmiştir.',
+    trap:'Lezyonun "pankreas dokusu" olduğu unutulmamalı; normal pankreas ne yaşıyorsa heterotopik dokuda da görülebilir.',
+    explain:'Heterotopik pankreas lezyonlarında <b>pankreatit, adacık hücreli tümörler ve pankreas adenokarsinomu</b> bildirilmiştir. Endoskopi ve BT\'de küçük submukozal kitle şeklinde görülür. Tedavisi <b>cerrahi eksizyon</b>dur.'
   },
-  // Q16 → D
   {
-    years:['Sayfa 62 – LAGB'],
-    q:'Laparoskopik Ayarlanabilir Gastrik Band (LAGB) ameliyatında mide girişinde kaç ml hacim kalacak şekilde band yerleştirilir?',
-    opts:['A) 5-10 ml','B) 10-15 ml','C) 15-20 ml','D) 25-30 ml','E) 50-60 ml'],
-    ans:'D',
-    hint:'🔑 LAGB: mide girişine <b>25-30 ml</b> hacim kalacak şekilde band yerleştirilir.',
-    trap:'RYGB\'de proksimal poş 10-15 ml\'dir. LAGB\'de bu hacim daha büyüktür: <b>25-30 ml</b>.',
-    explain:'<b>LAGB (Laparoskopik Ayarlanabilir Gastrik Band)</b>: mide girişine <b>25-30 ml hacim</b> kalacak şekilde bir band yerleştirilir. Cilt altına uzanan bir port ile SF verilerek hastanın kilo durumuna göre ayarlama yapılır. Diğer tekniklere göre <b>komplikasyon ve ölüm oranı daha azdır</b>. Ancak uzun dönem takiplerinde diğer bariatrik prosedürlere göre <b>daha başarısızdır</b>.'
-  },
-  // Q17 → A
-  {
-    years:['Sayfa 63 – Laparoskopik Sleeve Gastrektomi (LSG)'],
-    q:'Laparoskopik Sleeve Gastrektomi (LSG, Tüp Mide) bugün nasıl tanımlanmaktadır?',
-    opts:['A) Günümüzde artık primer prosedür olarak tanınmaktadır','B) Yalnızca süper obez hastalarda ilk basamak tedavidir','C) Malabsorptif özellikleri olan ikincil bir prosedürdür','D) Yalnızca Barret özofagusu olmayanlarda uygulanır','E) Duodenal switch ameliyatının zorunlu ilk aşamasıdır ve bağımsız kullanılmaz'],
-    ans:'A',
-    hint:'🔑 LSG: <b>günümüzde artık primer prosedür olarak tanınmaktadır</b>.',
-    trap:'LSG başlangıçta DS ameliyatının ilk aşamasıydı; ancak <b>artık bağımsız primer prosedür</b> olarak kabul görmektedir.',
-    explain:'<b>LSG (Laparoskopik Sleeve Gastrektomi, Tüp Mide)</b>: başlangıçta duodenal switch ameliyatının ilk bölümü olan LSG, süper obez hastalarda ilk basamak ameliyat olarak kullanılmaya başlandı. <b>Günümüzde artık primer prosedür olarak tanınmaktadır</b>. Diğer prosedürlere oranla daha kolay uygulanabilmesi nedeniyle günümüzde popülarize etti. Pilor korunur (dumping önler), ghrelin seviyeleri azalır, seri ayarlamalara gerek yok. <b>En önemli komplikasyonu kaçak</b>; en yaygın besin eksikliği <b>B12 vitamini eksikliği</b>dir.'
-  },
-  // Q18 → C
-  {
-    years:['Sayfa 63 – LSG Mekanizması'],
-    q:'LSG\'de ghrelin salınımının azalması nasıl bir etkiye yol açar?',
-    opts:['A) Portal hipertansiyonu önler','B) İnsülin direncini artırır','C) Fundusun çıkarılmasıyla ghrelin azalır; GLP-1 sekresyonunda artışla birlikte zayıflamayı sağlar','D) Duodenum bypass edildiğinden villus hiperplazisi oluşur','E) Kalsiyum emilimini bozar'],
+    years:['Sayfa 40 – Malign Gastrik Neoplazmlar'],
+    q:'Mide kanserinin en sık görülen histolojik tipi aşağıdakilerden hangisidir?',
+    opts:['A) Lenfoma (%4)','B) Malign GİST','C) Adenokarsinom (%95)','D) Karsinoid tümör','E) Skuamöz hücreli karsinom'],
     ans:'C',
-    hint:'🔑 LSG: <b>fundus çıkarılır → ghrelin azalır + GLP-1 sekresyonunda artış → zayıflama</b>.',
-    trap:'Villus hiperplazisi ve GLP-1 sekresyonu RYGB\'de duodenum bypass edildiğinde oluşur; LSG\'de mekanizma farklıdır: <b>ghrelin azalması</b> ön plandadır.',
-    explain:'LSG restriktif tip bir ameliyattır. <b>Fundusun çıkarılmasıyla ghrelin salınımının azalması</b> ve gıdanın hızla ince bağırsaklara geçişine bağlı <b>GLP-1 sekresyonunda artış</b> ile zayıflamayı sağlar. GLP-1 bariatrik cerrahiden sonra insülin sekresyonunun ana itici gücüdür. RYGB ve LSG\'nin tip 2 DM üzerine etkileri: GLP-1 sekresyonunun artması, ghrelin azalması, iştah baskılanması ile sağlanır.'
+    hint:'🔑 Midenin en sık görülen malign neoplazmı <b>adenokarsinom (%95)</b>tir.',
+    trap:'Lenfoma (% 4) ve GİST de mide tümörleri arasındadır ancak sıklık açısından <b>adenokarsinom</b> baskın olarak öne çıkar.',
+    explain:'Midenin en sık görülen <b>üç malign neoplazmı</b>: <b>Adenokarsinom (%95), Lenfoma (%4), Malign GİST</b>. Nadir görülenler: karsinoid tümör, anjiosarkom, karsinosarkom, yassı hücreli karsinom.'
   },
-  // Q19 → E
   {
-    years:['Sayfa 63 – RYGB'],
-    q:'Roux-en-Y Gastrik Bypass (RYGB)\'de proksimal poş ne kadar hacimde oluşturulur?',
-    opts:['A) 25-30 ml','B) 50-60 ml','C) 100 ml','D) 5 ml\'den az','E) Çok küçük (10-15 mL) proksimal poş oluşturulur'],
-    ans:'E',
-    hint:'🔑 RYGB: midede <b>çok küçük (10-15 mL) proksimal poş</b> oluşturulur.',
-    trap:'LAGB\'de 25-30 ml hacim bırakılır. RYGB\'de çok daha küçük: <b>10-15 mL</b>.',
-    explain:'<b>RYGB (Roux-en-Y Gastrik Bypass)</b>: uzun süreli kilo kaybı sağlaması ve morbiditenin kabul edilebilir olması nedeniyle sıkça kullanılır. Midede <b>çok küçük (10-15 mL) proksimal poş</b> oluşturulur. Sonrasında roux ansı retrokolik veya antekolik yol ile gastrik poşa anastomoz edilir. RYGB\'de duodenum bypass edildiği için <b>villus hiperplazisi ve GLP-1 sekresyonu uyarılır</b>. Vakaların <b>%90\'ından fazlasında eğer varsa GÖRH semptomları anında düzelir</b>. Psödotümör serebri ve venöz staz ülserleri geriler.'
-  },
-  // Q20 → B
-  {
-    years:['Sayfa 63 – RYGB Komplikasyonları'],
-    q:'RYGB yapılmış hastalarda genellikle 1 yıl sonra görülen hipogliseminin temel nedeni nedir?',
-    opts:['A) İnsulinoma gelişimi','B) Hiperinsulinemi (Nesidioblastozis = Postgastrik Bypass Hipoglisemisi)','C) Ghrelin eksikliği','D) Pankreas yetmezliği','E) Dumping sendromuna bağlı reaktif hipoglisemi'],
+    years:['Sayfa 41 – Adenokarsinom / Etyoloji'],
+    q:'Mide kanseri açısından aşağıdakilerden hangisi riski AZALTAN bir faktördür?',
+    opts:['A) H. pylori enfeksiyonu','B) Aspirin kullanımı','C) Atrofik gastrit','D) Düşük sosyoekonomik düzey','E) Sigara kullanımı'],
     ans:'B',
-    hint:'🔑 RYGB sonrası hipoglisemi temel nedeni: <b>hiperinsulinemi (Nesidioblastozis = Postgastrik Bypass Hipoglisemisi)</b>.',
-    trap:'Dumping sendromu da geç hipoglisemiye yol açabilir; ancak RYGB sonrası 1 yıl sonra görülen hipogliseminin temel nedeni <b>Nesidioblastozis</b>tir.',
-    explain:'<b>RYGB yapılmış hastalarda genellikle 1 yıl sonra görülen hipogliseminin temel nedeni hiperinsulinemidir (Nesidioblastozis = Postgastrik Bypass Hipoglisemisi)</b>. Nesidioblastozun gerçek etiyolojisi: obezite kaynaklı β hücre hipertrofisinin RYGB\'den sonra tersine çevrilememesi, uygunsuz büyüme faktörü salınımı veya kalıcı olarak değiştirilmiş bağırsak hormonal sinyalleme. Tedavisi: diyet değişiklikleri ve ilaçlardır; cerrahi tedavi gerektiğinde <b>pankreatik rezeksiyon</b> en sık kullanılan cerrahi prosedürdür.'
+    hint:'🔑 Mide kanseri risk faktörleri tablosunda <b>Aspirin</b> "Azalır" kolonunda yer alır.',
+    trap:'NSAİİ\'lerin gastrit yapması nedeniyle riski artırdığı sanılabilir. Ancak <b>aspirin</b> mide kanseri riskini <b>azaltır</b>.',
+    explain:'Mide kanseri riskini <b>azaltan</b> faktörler: <b>Aspirin, taze sebze ve meyve tüketimi, vitamin C ve E</b>. Riski artıran faktörler arasında H. pylori, atrofik gastrit, sigara, Menetrier hastalığı, pernisiyöz anemi sayılabilir.'
   },
-  // Q21 → D
   {
-    years:['Sayfa 63 – RYGB En Yaygın Besin Eksikliği'],
-    q:'RYGB\'nin en yaygın besin eksikliği hangisidir?',
-    opts:['A) B12 vitamini eksikliği','B) Kalsiyum eksikliği','C) D vitamini eksikliği','D) Demir eksikliği anemisi','E) Çinko eksikliği'],
-    ans:'D',
-    hint:'🔑 RYGB\'de en yaygın besin eksikliği <b>demir eksikliği anemisi</b>dir.',
-    trap:'B12 eksikliği LSG\'de en yaygın iken, RYGB\'de <b>demir eksikliği anemisi</b> en yaygın olandır.',
-    explain:'<b>RYGB komplikasyonları</b>: anastomoz kaçağı, marjinal ülser, anastomotik darlık, ince bağırsak obstrüksiyonu, hematemez, Fe, B12 eksikliği, Wernicke ensefalopatisi ve pulmoner emboli. <b>En yaygın besin eksikliği demir eksikliği anemisidir</b>. RYGB goreceli kontrendikasyonları: geçirilmiş mide ameliyatı, ciddi demir eksikliği anemisi, takip gerektiren distal gastrik ve duodenal lezyonlar, ciddi displazi içeren Barrett özofagusu.'
+    years:['Sayfa 41 – Adenokarsinom / Etyoloji'],
+    q:'Mide kanseri hangi kan grubunda daha sık görülmektedir?',
+    opts:['A) 0 Rh(+)','B) A','C) B','D) AB','E) Tüm kan gruplarında eşit'],
+    ans:'B',
+    hint:'🔑 Mide kanseri; <b>A kan grubu</b> hastalarda daha sık görülmektedir.',
+    trap:'0 kan grubu peptik ülser ile ilişkiliyken, mide kanseri <b>A kan grubu</b> ile ilişkilidir.',
+    explain:'<b>Mide kanseri A kan grubu</b> hastalarda daha sık görülmektedir. Bu, özellikle diffüz tip adenokarsinom ile bağlantılıdır. Lauren sınıflamasında diffüz tip intestinal tipten farklı olarak <b>A kan grubu ile ilişkili</b>dir.'
   },
-  // Q22 → A
   {
-    years:['Sayfa 64 – BPD/DS'],
-    q:'BPD ve BPD-DS\'deki en yaygın besin eksikliği hangisidir?',
-    opts:['A) Protein eksikliği; ayrıca kalsiyum ve çinko eksikliği görülebilir, yağ emilimi %70 azalır','B) Demir eksikliği anemisi','C) B12 vitamini eksikliği','D) Tiamin eksikliği','E) Folat eksikliği'],
-    ans:'A',
-    hint:'🔑 BPD ve BPD-DS\'de en yaygın besin eksikliği <b>protein eksikliği</b>dir; yağ emilimi <b>%70 azalır</b>.',
-    trap:'RYGB\'de en yaygın eksiklik demir; LSG\'de B12; <b>BPD/DS\'de protein eksikliği</b> başı çeker.',
-    explain:'<b>BPD ve BPD-DS\'deki en yaygın besin eksikliği protein eksikliğidir</b>. Kalsiyum ve çinko eksikliği görülebilir. Yağ emilimi <b>%70 azalır</b>. Yağda eriyen vitaminlerin eksikliği görülebilir. Tüm bu komplikasyonlar arasında <b>protein-kalori malnütrisyonu en ciddi olanıdır</b>. BPD ve DS ameliyatları büyük oranda malabsorptif, orta restriktif özelliktedir.'
-  },
-  // Q23 → E
-  {
-    years:['Sayfa 65 – Endoskopik Bariatrik İşlemler'],
-    q:'Endoskopik bariatrik işlemlerde mide balonu ne kadar süre yerinde kalır?',
-    opts:['A) 1 ay','B) 3 ay','C) 1 yıl','D) 2 yıl','E) 6 ay kalır ve daha sonra endoskopik olarak çıkarılır'],
-    ans:'E',
-    hint:'🔑 Mide balonu: mideye endoskopik yerleştirilir, <b>6 ay kalır</b> ve daha sonra endoskopik olarak çıkarılır.',
-    trap:'Balon kalıcı bir implant değildir; <b>6 ay</b> sonra çıkarılır.',
-    explain:'<b>Endoskopik bariatrik işlemler</b>: en yaygın endoskopik işlem boşluk dolduran cihazlardır (mide balonları). Balon mideye endoskopik yerleştirilir. <b>6 ay kalır ve daha sonra endoskopik olarak çıkarılır</b>. Hasta bu süre ve takip eden 6 ay boyunca diyet ve yaşam tarzı danışmanlığı alır.'
-  },
-  // Q24 → C
-  {
-    years:['Sayfa 65 – İnce Bağırsak Anatomisi'],
-    q:'İnce bağırsakların uzunluğu pilordan çekuma kadar ortalama ne kadardır?',
-    opts:['A) 100-150 cm','B) 200-250 cm','C) 270-290 cm (4-6 metre)','D) 400-500 cm','E) 600-700 cm'],
+    years:['Sayfa 41 – Adenokarsinom'],
+    q:'Mide kanseri ile ilgili aşağıdaki ifadelerden hangisi doğrudur?',
+    opts:['A) Kadınlarda 2 kat fazla görülür','B) Genç hastalarda daha iyi diferansiye tiptedir','C) En sık 4. kanser tipi ve kansere bağlı ölümlerin en sık 2. nedenidir','D) Gelişmekte olan ülkelerde nadirdir','E) Kuzey Avrupa\'da insidansı yüksektir'],
     ans:'C',
-    hint:'🔑 Pilordan çekuma uzanan ince bağırsak <b>270-290 cm (4-6 metre)</b>dir.',
-    trap:'Ölçümler varyasyon gösterir; ders kitabındaki değer: pilordan çekuma <b>270-290 cm (4-6 metre)</b>.',
-    explain:'Pilordan çekuma uzanan ince bağırsak <b>270-290 cm (4-6 metre)</b>dir. Duodenum yaklaşık <b>20 cm</b>, jejunum <b>100-110 cm</b> ve ileum <b>150-160 cm</b>dir. İnce bağırsak 3 parçadan oluşur: Duodenum, jejunum, ileum.'
+    hint:'🔑 Mide kanseri <b>en sık 4. kanser tipi</b> olup <b>kansere bağlı ölümlerin en sık 2. nedeni</b>dir.',
+    trap:'Sıralama önemlidir: kanser tipleri arasında 4. sırada, <b>ölüm nedeni</b> olarak ise 2. sıradadır. Bu iki sıra karıştırılabilir.',
+    explain:'Mide kanseri <b>en sık 4. kanser tipi</b> olup <b>kansere bağlı ölümlerin en sık 2. nedeni</b>dir. Genelde yaşlılarda görülür; siyahlarda ve erkeklerde 2 kat sıktır. Genç hastalarda daha çok <b>diffüz tipte, daha büyük ve agresif</b> seyir gösterir.'
   },
-  // Q25 → B
   {
-    years:['Sayfa 65 – İnce Bağırsak Anatomisi'],
-    q:'Jejunum ve ileum\'un peritoneal ilişkisi nedir?',
-    opts:['A) Her ikisi de retroperitonealdir','B) Jejunum ve ileum intraperitonealdır; duodenum retroperitonealdir','C) Jejunum retroperitoneal, ileum intraperitonealdır','D) Duodenum ve jejunum intraperitonealdır, ileum retroperitonealdir','E) Tüm ince bağırsak retroperitonealdir'],
-    ans:'B',
-    hint:'🔑 <b>Jejunum ve ileum intraperitoneal</b>; <b>duodenum retroperitoneal</b>dir.',
-    trap:'Duodenum\'un retroperitoneal olduğu sık unutulur. Jejunum ve ileum aksine <b>intraperitoneal</b>dir.',
-    explain:'<b>Jejunum ve ileum intraperitonealdır</b>. <b>Duodenum retroperitoneal</b> yerleşmiştir (aynı zamanda <b>duodenumun mezenteri yoktur</b>). Jejunum ince bağırsağın <b>proksimal 2/5\'ini</b> oluştururken ileum <b>distal 3/5\'ini</b> oluşturur.'
-  },
-  // Q26 → D
-  {
-    years:['Sayfa 65 – İnce Bağırsak Anatomisi'],
-    q:'Duodenum hakkında doğru olan ifade hangisidir?',
-    opts:['A) Mezenteri vardır ve intraperitonealdir','B) Tamamen intraperitoneal yerleşimlidir','C) Treitz ligamanıyla değil omenta ile tutulur','D) Retroperitoneal yerleşmiştir ve mezenteri yoktur','E) Jejunum ile belirgin anatomik sınırı vardır'],
-    ans:'D',
-    hint:'🔑 Duodenum: <b>retroperitoneal</b> yerleşmiş, <b>mezenteri yoktur</b>.',
-    trap:'Jejunum ve ileum\'un mezenteri vardır; duodenumun yoktur ve <b>retroperitoneal</b>dir.',
-    explain:'<b>Duodenum retroperitoneal</b> yerleşmiştir ve <b>mezenteri yoktur</b>. Duodenum 4 parçaya ayrılır: Süperior kısım (1. bölüm, Bulbus), İnen kısım (2. bölüm), İnferior transvers kısım (3. bölüm), Çıkan kısım (4. bölüm). Jejunum ise Treitz ligamanıyla (lig. suspensorium duodeni) desteklenen duodenojejunal açıdan başlar.'
-  },
-  // Q27 → A
-  {
-    years:['Sayfa 65 – İnce Bağırsak / Treitz Ligamanı'],
-    q:'Jejunum hangi yapıyla desteklenerek başlar ve bu yapı nereye tespit edilmiştir?',
-    opts:['A) Treitz ligamanı (lig. suspensorium duodeni) ile desteklenen duodenojejunal açıdan başlar; fibromuskuler bir band ile diyafragmaya tespit edilmiştir','B) İleoçekal valv ile başlar ve pelvis tabanına tespit edilir','C) Mezenterik kök ile başlar ve aortaya tespit edilir','D) Hepatoduodenal ligamanla tutulur','E) Treitz ligamanı yoktur; jejunum serbest başlar'],
-    ans:'A',
-    hint:'🔑 Jejunum: <b>Treitz ligamanı (lig. suspensorium duodeni)</b> ile desteklenen duodenojejunal açıdan başlar; <b>fibromuskuler band ile diyafragmaya</b> tespit edilmiştir.',
-    trap:'Treitz ligamanı aorta veya pelvis tabanına değil <b>diyafragmaya</b> tespit edilir.',
-    explain:'<b>Jejunum, Treitz ligamanı (lig. suspensorium duodeni) ile desteklenen duodenojejunal açıdan başlar</b>. Bu ligaman <b>fibromuskuler bir band ile diyafragmaya tespit edilmiştir</b>. Jejunum ve ileum arasında belirgin bir sınır yoktur. İnce bağırsak vücuttaki <b>en büyük endokrin organdır</b> ve immün fonksiyonun en önemli organlarından biridir.'
-  },
-  // Q28 → E
-  {
-    years:['Sayfa 65 – İnce Bağırsak Embriyoloji'],
-    q:'İnce bağırsak embriyolojik olarak nereden kaynaklanır?',
-    opts:['A) Tamamı foregut\'tan','B) Tamamı hindgut\'tan','C) Midgut ve hindgut\'tan eşit oranda','D) Endodermal astardan değil, mezodermden','E) Duodenum (foregut) hariç ince bağırsak midgut\'tan; fetal hayatın 5. haftasında bağırsak uzunluğu hızla artar ve midgut umblikusa doğru hernie olur'],
-    ans:'E',
-    hint:'🔑 <b>Duodenum foregut\'tan</b>; ince bağırsağın geri kalanı <b>midgut</b>tan türer. Fetal hayat <b>5. haftasında</b> midgut umblikusa doğru hernie olur.',
-    trap:'Tüm ince bağırsak aynı kaynaktan gelmiyor; <b>duodenum foregut, geri kalan ince bağırsak midgut</b>tan gelir.',
-    explain:'Primitif gut (ilkel bağırsak) fetal hayatın 4. haftasında endodermal astardan, yolk kesesinden oluşur. <b>Ön bağırsaktan (foregut) kaynaklanan duodenum dışında</b>, ince bağırsak <b>orta bağırsaktan (midgut)</b> türemiştir. <b>Fetal hayatın 5. haftasında</b>, bağırsak uzunluğu hızla artar ve midgut umblikusa doğru hernie olur. İnce bağırsak vücuttaki en büyük endokrin organdır ve immün fonksiyonun en önemli organlarından biridir.'
-  },
-  // Q29 → C
-  {
-    years:['Sayfa 65 – Jejunum-İleum Farkları'],
-    q:'Jejunum ile ileum arasındaki makroskopik farklılıklarda hangisi doğrudur?',
-    opts:['A) İleum çapı daha geniştir (4 cm), duvarı daha kalındır','B) Jejunumda mezenterik yağ dokusu kalındır, vasküler arklar multipldır','C) Jejunumda plika sirkularisler daha belirgin, vasa rektalar daha uzun, ince ve transparan; ileumda mezenterik yağ dokusu kalın ve multiple vasküler ark vardır','D) İleumda plika sirkularisler daha belirgindir','E) Jejunum ve ileum makroskopik olarak birbirinden ayırt edilemez'],
+    years:['Sayfa 42 – Genetik Faktörler'],
+    q:'Sporadik gastrik kanserlerde en sık görülen gen anomalileri hangileridir?',
+    opts:['A) APC ve DCC','B) FHIT ve E-cadherin','C) p53 ve COX-2','D) HGF/SF ve VEGF','E) k-sam ve ras'],
     ans:'C',
-    hint:'🔑 <b>Jejunum</b>: plika sirkularisler belirgin, vasa rektalar uzun, ince+transparan, 1-2 vasküler ark. <b>İleum</b>: mezenterik yağ kalın, multiple vasküler ark.',
-    trap:'Yağ dokusu ve vasküler ark sayısı genellikle birbirine karıştırılır. <b>Jejunum</b>: az yağ, az ark; <b>ileum</b>: çok yağ, çok ark.',
-    explain:'<b>Jejunum-İleum makroskopik farklar:</b><br><b>Jejunum</b>: çap daha geniş (4 cm), duvar daha kalın, <b>plika sirkularisler daha belirgin</b>, vasa rektalar daha uzun, <b>ince ve transparan</b>, <b>1-2 vasküler ark</b>.<br><b>İleum</b>: dar (3 cm), ince, plika sirkularisler belirgin değil, vasa rektalar kısa, <b>mezenterik yağ dokusu kalın</b>, <b>multiple vasküler ark</b>.'
+    hint:'🔑 Sporadik gastrik kanserlerde <b>en sık anomaliler p53 ve COX-2</b> gen anomalileridir.',
+    trap:'APC ve DCC de mide kanserinde mutasyona uğrayan genler arasındadır ancak <b>en sık</b> olanlar p53 ve COX-2\'dir.',
+    explain:'Sporadik gastrik kanserlerde <b>en sık anomaliler p53 ve COX-2</b> gen anomalileridir. <b>COX-2 overekspresyonu</b> olan gastrik tümörler daha agresif tümörlerdir. Delesyon/supresyon tablosunda p53 %60-70 sıklıkla yer alırken COX-2 amplifikasyon/aşırı ekspresyonda %70 sıklıktadır.'
   },
-  // Q30 → B
   {
-    years:['Sayfa 65 – İnce Bağırsak Fonksiyonu'],
-    q:'İnce bağırsağın vücuttaki özel fonksiyonları arasında hangisi doğrudur?',
-    opts:['A) Yalnızca sindirim ve emilim fonksiyonu vardır','B) Vücuttaki en büyük endokrin organdır ve immün fonksiyonun en önemli organlarından biridir','C) Kan üretiminde görev alır','D) Primer lenfoid organ olup kemik iliğinin yerine geçer','E) Böbrek fonksiyonunu destekler'],
+    years:['Sayfa 42 – Genetik Faktörler'],
+    q:'CDH1 gen mutasyonu taşıyan hastalarda profilaktik total gastrektomi kaç yaşından önce düşünülmelidir?',
+    opts:['A) 20','B) 25','C) 30','D) 35','E) 40'],
+    ans:'C',
+    hint:'🔑 CDH1 mutasyonu → ömür boyu mide ca gelişme riski %60-70 → <b>30 yaşından önce</b> profilaktik total gastrektomi.',
+    trap:'40 yaş akla gelebilir ancak bu hasta grubu için yaş sınırı daha erken (<b>30 yaş</b>) olarak önerilmektedir.',
+    explain:'<b>CDH1 geni</b> E-cadherin\'i kodlar ve herediter diffüz gastrik kanser ile ilişkilidir. Bu mutasyonu olan hastalarda ömür boyu mide kanseri gelişme riski <b>%60-70</b> olduğu için <b>30 yaşından önce profilaktik total gastrektomi</b> düşünülmelidir. Ayrıca CDH-1 mutasyonunda <b>lobüler meme kanseri</b> gelişme riski de yüksektir.'
+  },
+  {
+    years:['Sayfa 42 – Genetik Faktörler'],
+    q:'CDH-1 mutasyonu taşıyan kadınlarda artan meme kanseri riski nedeniyle tarama kaç yaşında başlamalıdır?',
+    opts:['A) 20','B) 25','C) 30','D) 35','E) 40'],
+    ans:'C',
+    hint:'🔑 CDH-1 mutasyonunda lobüler meme kanseri riski yükselir → tarama <b>30 yaşında</b> başlamalıdır.',
+    trap:'Genel popülasyonda meme kanseri taraması 40-50 yaşta başlar; CDH-1 mutasyonu varlığında bu süre erkene alınarak <b>30 yaşa</b> çekilir.',
+    explain:'CDH-1 mutasyonu olan hastalarda <b>lobüler meme kanseri</b> gelişme riski de yüksektir. Bu hastalarda profilaktik risk azaltıcı bilateral mastektomi göz önünde bulundurularak <b>tarama 30 yaşında başlamalıdır</b>.'
+  },
+  {
+    years:['Sayfa 42 – Mide Kanseri / HER2'],
+    q:'Mide kanserinde HER2 aşırı ekspresyonunun prognostik önemi nedir?',
+    opts:['A) İyi prognoz göstergesidir','B) Kötü prognostik faktörlerden biridir','C) Prognozla ilişkisi yoktur','D) Sağ kalımı uzatır','E) Erken evre ile ilişkilidir'],
     ans:'B',
-    hint:'🔑 İnce bağırsak: vücuttaki <b>en büyük endokrin organ</b> ve <b>immün fonksiyonun en önemli organlarından biri</b>dir.',
-    trap:'İnce bağırsağın sindirim-emilim dışında <b>endokrin</b> ve <b>immün</b> fonksiyonları çok önemlidir. Bu iki özellik TUS\'ta sıkça sorulur.',
-    explain:'İnce bağırsak: karaciğer ve pankreasta gelen ekzokrin salgılar, gıdaların tam olarak sindirilmesini sağlar. <b>Vücuttaki en büyük endokrin organdır ve immün fonksiyonun en önemli organlarından biridir</b>. Erişkinde ortalama 6 metredir.'
+    hint:'🔑 <b>HER2 aşırı ekspresyonu</b> mide kanserinde <b>kötü prognostik faktörlerden biri</b>dir.',
+    trap:'HER2 pozitifliği hedeflenebilir bir biyobelirteç olduğundan "iyi" ile ilişkilendirilebilir; ancak prognostik açıdan <b>kötüdür</b>, tedavi açısından hedeflenebilirdir.',
+    explain:'Mide kanserinde <b>insan epidermal büyüme faktörü reseptörü-2 (HER2)</b> önemlidir. HER2 aşırı ekspresyonu <b>%13-30</b> bildirilmiştir ve <b>kötü prognostik faktörlerden biridir</b>. <b>Trastuzumab</b> gibi moleküler hedefli ajanlar, evre 4 mide kanserinde sağkalımı iyileştirir. Nüks veya metastatik vakalarda HER2 için immünohistokimya boyaması yapılmalıdır.'
   },
-  // Q31 → D
   {
-    years:['Sayfa 64 – LSG vs RYGB Karşılaştırması'],
-    q:'LSG ile RYGB karşılaştırıldığında RYGB\'nin LSG\'ye üstün olduğu alan hangisidir?',
-    opts:['A) Komplikasyon oranı daha düşük','B) Geç komplikasyon oranı daha az','C) Kilo kaybı yüzdesi eşit','D) GÖRH remisyonu daha yüksek (%60.4 vs %25)','E) Tip 2 DM remisyonu daha düşük'],
+    years:['Sayfa 42 – Midenin Premalign Lezyonları'],
+    q:'Midenin en sık görülen prekanseröz lezyonu hangisidir?',
+    opts:['A) Adenom','B) Kronik ülser','C) Atrofik gastrit','D) Hiperplastik polip','E) Verrüköz gastrit'],
+    ans:'C',
+    hint:'🔑 En sık görülen prekanseröz lezyon <b>atrofik gastrit</b>tir.',
+    trap:'Adenomun daha tehlikeli olduğu düşünülerek yanılınabilir; ancak <b>sıklık</b> açısından en sık prekanseröz lezyon <b>atrofik gastrit</b>tir.',
+    explain:'<b>En sık görülen prekanseröz lezyon atrofik gastrittir</b>. Diğer prekanseröz lezyonlar sıklık sırasına göre: adenom, verrüköz gastrit, kronik ülser, hiperplastik polip, remnant mide ve aberrant pankreastır. Atrofik gastrit, <b>gastrik bezlerin, parietal ve şef hücrelerin atrofisi</b> ile karakterizedir.'
+  },
+  {
+    years:['Sayfa 42 – Midenin Premalign Lezyonları'],
+    q:'Atrofik gastritin patogenezinde kritik öneme sahip ajan hangisidir?',
+    opts:['A) EBV','B) CMV','C) H. pylori','D) Safra reflüsü','E) NSAİİ'],
+    ans:'C',
+    hint:'🔑 <b>H. pylori</b>, atrofik gastritin patogenezinde kritik öneme sahiptir.',
+    trap:'Otoimmün yıkım ve safra reflüsü de atrofik gastrite neden olabilir; ancak soru "kritik" ajanı soruyor: <b>H. pylori</b>.',
+    explain:'<b>H. pylori, atrofik gastritin patogenezinde kritik öneme sahiptir</b>. Diğer nedenler otoimmün yıkım (pernisiyöz anemi) veya safra reflüsüdür. İleri yaş gruplarında daha sık görülür.'
+  },
+  {
+    years:['Sayfa 42 – Patoloji / Displazi'],
+    q:'Şiddetli displazisi olan bir hastada displazi yaygın veya multifokal ise önerilen tedavi hangisidir?',
+    opts:['A) EMR (endoskopik mukozal rezeksiyon)','B) Gastrik rezeksiyon','C) Radyoterapi','D) H. pylori eradikasyonu yeterli','E) 3 aylık endoskopik izlem'],
+    ans:'B',
+    hint:'🔑 <b>Şiddetli displazi yaygın veya multifokal</b> ise → <b>gastrik rezeksiyon</b>.',
+    trap:'EMR lokalize displazide uygulanır. Yaygın/multifokal şiddetli displazide daha agresif yaklaşım olan <b>gastrik rezeksiyon</b> gereklidir.',
+    explain:'<b>Şiddetli displazi</b> olan hastalarda:<br>• Yaygın veya multifokal → <b>gastrik rezeksiyon</b><br>• Lokalize → <b>EMR</b> düşünülmelidir.<br><b>Hafif displazili hastalar</b> endoskopik biyopsi ve H. pylori eradikasyonu ile takip edilmelidir.'
+  },
+  {
+    years:['Sayfa 42 – Patoloji / Displazi'],
+    q:'Hafif displazili hastalar için önerilen yaklaşım aşağıdakilerden hangisidir?',
+    opts:['A) Total gastrektomi','B) EMR','C) Kemoterapi','D) Endoskopik biyopsi ve H. pylori eradikasyonu ile takip','E) Radyoterapi'],
     ans:'D',
-    hint:'🔑 RYGB vs LSG: <b>GÖRH remisyonu RYGB\'de daha yüksek (%60.4 vs %25)</b>.',
-    trap:'Kilo kaybı yüzdesi istatistiksel olarak anlamlı olmasa da RYGB\'de daha fazla görünür. RYGB\'nin belirgin üstünlüğü <b>GÖRH remisyonu</b>ndadır.',
-    explain:'<b>LSG vs RYGB karşılaştırması:</b><br>• Kilo kaybı yüzdesi: SG %49, RYGB %57 (istatistiksel anlamlı değil)<br>• 5 yılda VKİ: fark önemli değil<br>• Tip 2 DM remisyonu: önemli fark yok<br>• HT remisyonu: RYGB\'de daha yüksek<br>• LDL: RYGB\'den sonra daha düşük<br>• <b>GÖRH remisyonu: SG %25, RYGB %60.4 — RYGB daha iyi</b><br>• Geç komplikasyonlar: teknikler arasında fark yok'
+    hint:'🔑 <b>Hafif displazili hastalar</b> endoskopik biyopsi ve H. pylori eradikasyonu ile <b>takip</b> edilmelidir.',
+    trap:'Hafif displazide agresif cerrahi gerekmez. <b>Takip</b> yeterlidir; ancak h. pylori eradikasyonu unutulmamalıdır.',
+    explain:'<b>Hafif displazili hastalar endoskopik biyopsi ve H. pylori eradikasyonu ile takip edilmelidir</b>. Şiddetli displazide ise displazinin yaygınlığına göre gastrik rezeksiyon veya EMR planlanır.'
   },
-  // Q32 → A
   {
-    years:['Sayfa 64 – BPD/DS Kontrendikasyonları'],
-    q:'BPD/DS ameliyatlarının kontrendikasyonları arasında hangisi yer alır?',
-    opts:['A) Cerraha coğrafi uzaklık, hastanın destek tedavi alacak ekonomik duruma sahip olmaması, var olan demir, kalsiyum ve diğer besin eksiklikleri','B) Yalnızca GÖRH varlığı','C) Tip 2 diyabet','D) Sadece aşırı yüksek VKİ','E) Kontrendikasyon yoktur; tüm obez hastalara uygulanabilir'],
-    ans:'A',
-    hint:'🔑 BPD/DS kontrendikasyonları: <b>coğrafi uzaklık, ekonomik yetersizlik, mevcut demir/kalsiyum/besin eksiklikleri</b>.',
-    trap:'BPD/DS\'nin kontrendikasyonları pratik ve sosyoekonomik faktörlerdir; hastalık bazlı değildir.',
-    explain:'<b>BPD/DS kontrendikasyonları:</b> cerraha olan coğrafi uzaklık, hastanın destek tedavi alacak ekonomik duruma sahip olmaması, var olan demir, kalsiyum ve diğer besin eksiklikleri. Uzun süreli takiplerinde nutrisyonel komplikasyonlar bu ameliyatların her ikisinde en sık karşılaşılan komplikasyonlardır. En ciddi komplikasyon <b>protein-kalori malnütrisyonu</b>dur.'
+    years:['Sayfa 43 – Erken Mide Kanseri'],
+    q:'Erken mide kanseri nasıl tanımlanır?',
+    opts:['A) Lenf nodu tutulumu olmayan herhangi bir evre','B) Tümörü 2 cm\'den küçük olan kanser','C) Lenf nodu tutulumundan bağımsız olarak mukoza ve submukozaya sınırlı adenokarsinom (T1Nx)','D) Sadece T1a evre','E) Metastaz yapmamış tüm mide kanserleri'],
+    ans:'C',
+    hint:'🔑 Erken mide kanseri; <b>lenf nodu tutulumundan bağımsız</b> olarak <b>mukoza (T1a) ve submukozaya (T1b) sınırlı</b> adenokarsinomdur (T1Nx).',
+    trap:'Erken mide kanserinde lenf nodu tutulumu olabilir! "Erken" = boyut veya lenf nodu değil, <b>derinlik (mukoza+submukoza)</b> ile tanımlanır.',
+    explain:'<b>Erken mide kanseri</b>, lenf nodu tutulumundan bağımsız olarak midenin <b>mukoza (T1a) ve submukozasına (T1b) sınırlı adenokarsinom</b> olarak tanımlanır. <b>%10\'unda lenf nodu metastazı</b> vardır. Her evresinde metastaz gelişebilir. En sık <b>korpusta</b> görülür. <b>%70\'i iyi, %30\'u kötü diferansiye</b>dir.'
+  },
+  {
+    years:['Sayfa 43 – Erken Mide Kanseri'],
+    q:'Erken mide kanserinin en sık görüldüğü bölge hangisidir?',
+    opts:['A) Antrum','B) Kardiya','C) Korpus','D) Fundus','E) Pylor'],
+    ans:'C',
+    hint:'🔑 Erken mide kanseri en sık <b>korpusta</b> görülür.',
+    trap:'Antrum (distal) veya kardiya akla gelebilir. Erken mide kanseri için en sık yerleşim <b>korpus</b>tur.',
+    explain:'Erken mide kanseri en sık <b>korpusta</b> görülür. %70\'i iyi, %30\'u kötü diferansiyedir. Küçük intramukozal lezyonlar EMR ile tedavi edilebilir. Yeterli rezeksiyon ve lenfadenektomi ile <b>%95 kür</b> sağlanabilir.'
+  },
+  {
+    years:['Sayfa 43 – Erken Mide Kanseri Makroskopik Tipleri'],
+    q:'Erken mide kanserinin makroskopik tiplerinde <b>EN SIK</b> görülen tip hangisidir?',
+    opts:['A) Tip 1 (Protrude, polipoid)','B) Tip 2a (Eleve, hafif kabarık)','C) Tip 2b (Düz, flat)','D) Tip 2c (Deprese, basık)','E) Tip 3 (Tam çökük, oyuk)'],
+    ans:'D',
+    hint:'🔑 Erken mide kanserinin makroskopik tiplerinde <b>Tip 2c (Deprese, basık, hafif çökük)</b> EN SIK tiptir.',
+    trap:'Polipoid tip (Tip 1) gözle fark edilebilir görünümüyle ilk akla gelebilir; ancak EN SIK makroskopik tip <b>Tip 2c</b>tir.',
+    explain:'Erken mide kanseri makroskopik tipleri:<br>• Tip 1: Protrude, polipoid, tam kabarık<br>• Tip 2a: Eleve, hafif kabarık<br>• <b>Tip 2b: Düz, flat</b><br>• <b>Tip 2c: Deprese, basık, hafif çökük → EN SIK TİP</b><br>• Tip 3: Tam çökük, çukur, oyuk, excave'
+  },
+  {
+    years:['Sayfa 43 – Mide Kanseri Morfoloji / Borrmann'],
+    q:'Borrmann sınıflamasında Tip 4 tümör hangi özelliği taşır?',
+    opts:['A) Polipoid görünüm','B) Fungiform, keskin sınırlı ülsere','C) Ülseratif, çevre dokuyu infiltre eden','D) Skirö, diffüz infiltratif karsinom (Linitis plastika = matara mide)','E) İnflamatuar reaksiyon baskın'],
+    ans:'D',
+    hint:'🔑 Borrmann Tip 4 → <b>skirö / diffüz infiltratif karsinom</b> = <b>Linitis plastika = Matara mide</b>.',
+    trap:'Tip 3 "ülseratif ve infiltran" ile Tip 4 "diffüz infiltratif" karıştırılabilir. <b>Linitis plastika</b> spesifik olarak <b>Tip 4</b>e aittir.',
+    explain:'<b>Borrmann sınıflaması</b> endoskopik bulgulara dayanan yararlı bir sınıflamadır:<br>• Tip 1: Polipoid<br>• Tip 2: Fungiform (keskin sınırlı ülsere)<br>• Tip 3: Ülseratif (çevre dokuyu infiltre eden ülsere)<br>• <b>Tip 4: Skirö (diffüz infiltratif karsinom) = Linitis plastika = Matara mide</b><br>Tip 1-2 iyi diferansiye, Tip 3-4 kötü diferansiyedir. Tip 4 tümörler total gastrektomi ile rezeke edilse bile prognoz çok kötüdür.'
+  },
+  {
+    years:['Sayfa 43 – Histoloji / Lauren Sınıflaması'],
+    q:'Lauren sınıflamasına göre gastrik kanserin intestinal tipinin oranı nedir?',
+    opts:['A) %14','B) %33','C) %53','D) %67','E) %80'],
+    ans:'C',
+    hint:'🔑 Lauren sınıflaması: <b>intestinal (%53), diffüz (%33)</b> ve sınıflandırılamayan tip (%14).',
+    trap:'Diffüz tip (%33) ve sınıflandırılamayan (%14) toplamı %47 eder. Buna göre intestinal tip <b>%53</b>tür.',
+    explain:'Lauren sınıflamasına göre gastrik kanser:<br>• <b>İntestinal tip: %53</b><br>• Diffüz tip: %33<br>• Sınıflandırılamayan: %14<br><b>İntestinal tip</b>: çevresel, epidemik bölgelerde sık; gastrik atrofi ve intestinal metaplazi ile beraber; yaşlı erkek; H. pylori ile yakından ilişkili; gland formasyonu, prognoz daha iyi; hematojen yayılım.<br><b>Diffüz tip</b>: infiltratif yayılım; genç kadın; A kan grubu ile ilişkili; kötü diferansiye, taşlı yüzük hücreleri; transmural/lenfatik yayılım; azalmış E-cadherin.'
+  },
+  {
+    years:['Sayfa 43 – Histoloji / Ming Sınıflaması'],
+    q:'Ming sınıflandırmasında gastrik kanserin kaç tipi vardır ve oranları nedir?',
+    opts:['A) 3 tip: intestinal %53, diffüz %33, sınıflandırılamaz %14','B) 2 tip: Ekspansif %67, infiltratif %33','C) 4 tip: Borrmann 1-4','D) 2 tip: iyi diferansiye %70, kötü diferansiye %30','E) 5 tip: WHO sınıflaması'],
+    ans:'B',
+    hint:'🔑 <b>Ming sınıflandırması</b> kullanışlı ve hatırlanması kolaydır; sadece <b>2 tipi</b> vardır: <b>Ekspansif (%67) ve infiltratif (%33)</b>.',
+    trap:'Lauren ve Ming sınıflamaları karıştırılabilir. Lauren\'da 3 tip vardır; <b>Ming\'de 2 tip</b> vardır.',
+    explain:'<b>Ming sınıflandırması</b> da kullanışlı ve hatırlanması kolaydır; sadece <b>2 tipi</b> vardır: <b>Ekspansif (%67) ve infiltratif (%33)</b>. Lauren sınıflaması (intestinal/diffüz/sınıflanamaz) ile karıştırılmamalıdır.'
+  },
+  {
+    years:['Sayfa 43 – Klinik'],
+    q:'Mide kanserinde en sık başvuru semptomları aşağıdakilerden hangisidir?',
+    opts:['A) Hematemez, melena, sarkılık','B) Kilo kaybı, epigastrik ağrı, iştahsızlık ve erken doyma','C) Disfaji, regürjitasyon, kusma','D) Ateş, terleme, gece terlemesi','E) Sarılık, kaşıntı, koyu idrar'],
+    ans:'B',
+    hint:'🔑 En sık semptomlar: <b>kilo kaybı, epigastrik ağrı, iştahsızlık ve erken doyma</b>dır.',
+    trap:'Semptomlar genelde nonspesifik olduğundan disfaji veya sarılık düşünülebilir; ancak tipik başvuru şikâyetleri <b>kilo kaybı, epigastrik ağrı, iştahsızlık, erken doyma</b>dır.',
+    explain:'Mide kanseri semptomları:<br>• Semptomlar genelde <b>nonspesifik</b>tir.<br>• <b>En sık: kilo kaybı, epigastrik ağrı, iştahsızlık ve erken doyma</b><br>• Diğer: bulantı, kusma, şişkinlik<br>• Çoğu hasta geç belirti verdiğinden teşhis anında evre 3 veya 4 hastalığa sahiptir.'
   },
 ];
 
-let questions=[...ALL_QUESTIONS],currentIdx=0,answers={},starred={};
+let questions = [...ALL_QUESTIONS];
+let currentIdx = 0;
+let answers = {};
+let starred = {};
 
 function renderQuestion(idx){
-  const q=questions[idx];
-  const c=document.getElementById('quiz-container');
-  const answered=answers[idx]!==undefined;
-  const userAns=answers[idx];
-  let optsHTML=q.opts.map((o,i)=>{
-    const letter=String.fromCharCode(65+i);
-    let cls='opt-btn';
-    if(answered){if(letter===q.ans)cls+=' correct';else if(letter===userAns)cls+=' wrong';}
+  const q = questions[idx];
+  const c = document.getElementById('quiz-container');
+  const answered = answers[idx] !== undefined;
+  const userAns = answers[idx];
+
+  let optsHTML = q.opts.map((o,i)=>{
+    const letter = String.fromCharCode(65+i);
+    let cls = 'opt-btn';
+    if(answered){
+      if(letter === q.ans) cls += ' correct';
+      else if(letter === userAns) cls += ' wrong';
+    }
     return `<button class="${cls}" onclick="selectAns(${idx},'${letter}')" ${answered?'disabled':''}><span class="opt-letter">${letter})</span><span>${o.substring(3)}</span></button>`;
   }).join('');
-  c.innerHTML=`
+
+  c.innerHTML = `
     <div class="section-badge">${q.years[0]}</div>
     <div class="card">
       <div class="card-header">
         <span class="q-num">Soru ${idx+1}/${questions.length}</span>
-        <button class="star-btn ${starred[idx]?'starred':''}" onclick="toggleStar(${idx})">${starred[idx]?'★':'☆'}</button>
+        <button class="star-btn ${starred[idx]?'starred':''}" onclick="toggleStar(${idx})">
+          ${starred[idx]?'★':'☆'}
+        </button>
       </div>
-      <div class="q-text" id="qt"></div>
+      <div class="q-text" id="qtext"></div>
       <button class="hint-btn" onclick="toggleHint(this)">💡 İpucu Göster</button>
       <div class="hint-box" id="hint-box"></div>
       <div class="opts">${optsHTML}</div>
-      ${answered?`<div class="trap-box visible"><div class="trap-title">⚠️ TUZAK NOKTA</div><div class="trap-text" id="trap-text"></div></div><div class="explain-box visible"><div class="explain-title">📖 AÇIKLAMA</div><div class="explain-text" id="explain-text"></div></div>`:''}
+      ${answered?`
+        <div class="trap-box visible"><div class="trap-title">⚠️ TUZAK NOKTA</div><div class="trap-text" id="trap-text"></div></div>
+        <div class="explain-box visible"><div class="explain-title">📖 AÇIKLAMA</div><div class="explain-text" id="explain-text"></div></div>
+      `:''}
     </div>`;
-  document.getElementById('qt').innerHTML=q.q;
-  document.getElementById('hint-box').innerHTML=q.hint;
-  if(answered){document.getElementById('trap-text').innerHTML=q.trap;document.getElementById('explain-text').innerHTML=q.explain;}
-  document.getElementById('progress-fill').style.width=((idx+1)/questions.length*100)+'%';
-  document.getElementById('nav-info').textContent=`${idx+1} / ${questions.length} ☰`;
-  document.getElementById('btn-prev').disabled=idx===0;
-  document.getElementById('btn-next').disabled=idx===questions.length-1;
+
+  document.getElementById('qtext').innerHTML = q.q;
+  document.getElementById('hint-box').innerHTML = q.hint;
+  if(answered){
+    document.getElementById('trap-text').innerHTML = q.trap;
+    document.getElementById('explain-text').innerHTML = q.explain;
+  }
+
+  document.getElementById('progress-fill').style.width = ((idx+1)/questions.length*100)+'%';
+  document.getElementById('nav-info').textContent = `${idx+1} / ${questions.length} ☰`;
+  document.getElementById('btn-prev').disabled = idx === 0;
+  document.getElementById('btn-next').disabled = idx === questions.length-1;
   updateModal();
 }
-function selectAns(idx,letter){
-  if(answers[idx]!==undefined)return;
-  answers[idx]=letter;renderQuestion(idx);
-  setTimeout(()=>{const eb=document.querySelector('.explain-box');if(eb)eb.scrollIntoView({behavior:'smooth',block:'nearest'});},200);
+
+function selectAns(idx, letter){
+  if(answers[idx] !== undefined) return;
+  answers[idx] = letter;
+  renderQuestion(idx);
+  setTimeout(()=>{
+    const eb = document.querySelector('.explain-box');
+    if(eb) eb.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }, 200);
   checkComplete();
 }
-function toggleHint(btn){const box=document.getElementById('hint-box');const v=box.classList.toggle('visible');btn.textContent=v?'💡 İpucunu Gizle':'💡 İpucu Göster';}
-function toggleStar(idx){starred[idx]=!starred[idx];renderQuestion(idx);}
-function navigate(dir){const n=currentIdx+dir;if(n>=0&&n<questions.length){currentIdx=n;renderQuestion(currentIdx);window.scrollTo({top:0,behavior:'smooth'});}}
-function openModal(){document.getElementById('modal-overlay').classList.add('open');updateModal();}
-function closeModal(e){if(e.target===document.getElementById('modal-overlay'))document.getElementById('modal-overlay').classList.remove('open');}
-function updateModal(){const g=document.getElementById('modal-grid');if(!g)return;g.innerHTML=questions.map((q,i)=>{let cls='modal-item';if(answers[i]!==undefined)cls+=answers[i]===q.ans?' correct-m':' wrong-m';if(starred[i])cls+=' starred-m';return `<div class="${cls}" onclick="goTo(${i})">${i+1}</div>`;}).join('');}
-function goTo(idx){currentIdx=idx;document.getElementById('modal-overlay').classList.remove('open');renderQuestion(currentIdx);window.scrollTo({top:0,behavior:'smooth'});}
-function checkComplete(){if(Object.keys(answers).length===questions.length)setTimeout(showResult,400);}
+
+function toggleHint(btn){
+  const box = document.getElementById('hint-box');
+  const visible = box.classList.toggle('visible');
+  btn.textContent = visible ? '💡 İpucunu Gizle' : '💡 İpucu Göster';
+}
+
+function toggleStar(idx){
+  starred[idx] = !starred[idx];
+  renderQuestion(idx);
+}
+
+function navigate(dir){
+  const next = currentIdx + dir;
+  if(next >= 0 && next < questions.length){
+    currentIdx = next;
+    renderQuestion(currentIdx);
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+function openModal(){
+  document.getElementById('modal-overlay').classList.add('open');
+  updateModal();
+}
+
+function closeModal(e){
+  if(e.target === document.getElementById('modal-overlay'))
+    document.getElementById('modal-overlay').classList.remove('open');
+}
+
+function updateModal(){
+  const g = document.getElementById('modal-grid');
+  if(!g) return;
+  g.innerHTML = questions.map((q,i)=>{
+    let cls = 'modal-item';
+    if(answers[i] !== undefined){
+      cls += answers[i] === q.ans ? ' correct-m' : ' wrong-m';
+    }
+    if(starred[i]) cls += ' starred-m';
+    return `<div class="${cls}" onclick="goTo(${i})">${i+1}</div>`;
+  }).join('');
+}
+
+function goTo(idx){
+  currentIdx = idx;
+  document.getElementById('modal-overlay').classList.remove('open');
+  renderQuestion(currentIdx);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function checkComplete(){
+  if(Object.keys(answers).length === questions.length){
+    setTimeout(showResult, 400);
+  }
+}
+
 function showResult(){
-  document.getElementById('quiz-container').style.display='none';document.getElementById('nav-bar').style.display='none';
-  const rs=document.getElementById('result-screen');rs.classList.add('show');
-  let correct=0,wrong=0,starCount=0;
-  questions.forEach((q,i)=>{if(answers[i]===q.ans)correct++;else wrong++;if(starred[i])starCount++;});
-  const pct=Math.round(correct/questions.length*100);
-  document.getElementById('res-pct').textContent=pct+'%';
-  document.getElementById('s-correct').textContent=correct;document.getElementById('s-wrong').textContent=wrong;
-  document.getElementById('s-total').textContent=questions.length;document.getElementById('s-starred').textContent=starCount;
-  if(wrong>0)document.getElementById('btn-wrong-restart').style.display='block';
-  if(starCount>0)document.getElementById('btn-star-restart').style.display='block';
+  document.getElementById('quiz-container').style.display='none';
+  document.getElementById('nav-bar').style.display='none';
+  const rs = document.getElementById('result-screen');
+  rs.classList.add('show');
+
+  let correct=0, wrong=0, starCount=0;
+  questions.forEach((q,i)=>{
+    if(answers[i]===q.ans) correct++;
+    else wrong++;
+    if(starred[i]) starCount++;
+  });
+  const pct = Math.round(correct/questions.length*100);
+  document.getElementById('res-pct').textContent = pct+'%';
+  document.getElementById('s-correct').textContent = correct;
+  document.getElementById('s-wrong').textContent = wrong;
+  document.getElementById('s-total').textContent = questions.length;
+  document.getElementById('s-starred').textContent = starCount;
+  if(wrong > 0) document.getElementById('btn-wrong-restart').style.display='block';
+  if(starCount > 0) document.getElementById('btn-star-restart').style.display='block';
 }
+
 function restart(mode){
-  if(mode==='wrong')questions=ALL_QUESTIONS.filter((_,i)=>answers[i]!==ALL_QUESTIONS[i].ans);
-  else if(mode==='starred')questions=ALL_QUESTIONS.filter((_,i)=>starred[i]);
-  else questions=[...ALL_QUESTIONS];
-  answers={};starred={};currentIdx=0;
+  if(mode === 'wrong'){
+    questions = ALL_QUESTIONS.filter((_,i)=>answers[i] !== ALL_QUESTIONS[i].ans);
+  } else if(mode === 'starred'){
+    questions = ALL_QUESTIONS.filter((_,i)=>starred[i]);
+  } else {
+    questions = [...ALL_QUESTIONS];
+  }
+  answers = {}; starred = {}; currentIdx = 0;
   document.getElementById('result-screen').classList.remove('show');
-  document.getElementById('quiz-container').style.display='block';document.getElementById('nav-bar').style.display='flex';
-  renderQuestion(0);window.scrollTo({top:0,behavior:'smooth'});
+  document.getElementById('quiz-container').style.display='block';
+  document.getElementById('nav-bar').style.display='flex';
+  renderQuestion(0);
+  window.scrollTo({top:0,behavior:'smooth'});
 }
+
 renderQuestion(0);
 </script>
 </body>

@@ -3,15 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NÖROLOJİ TTS Quiz – Part 1</title>
+<title>NÖROLOJİ TTS Quiz – Part 2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;
-  --accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;
-  --green:#3ecf74;--red:#f0476d;--text:#dde3f5;--muted:#7b85a8;
-}
+:root{--bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;--accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;--green:#3ecf74;--red:#f0476d;--text:#dde3f5;--muted:#7b85a8}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding-bottom:80px}
 .progress-wrap{position:fixed;top:0;left:0;width:100%;z-index:100;height:3px;background:var(--border)}
@@ -53,7 +49,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 #q-counter{background:var(--card);border:1px solid var(--border);color:var(--muted);padding:10px 18px;border-radius:9px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:.82rem;transition:border-color .2s}
 #q-counter:hover{border-color:var(--accent)}
 #next-btn.finish{border-color:var(--green);color:var(--green)}
-/* Result screen */
 #result-screen{display:none;max-width:720px;margin:60px auto 0;text-align:center;padding:20px}
 .result-score{font-size:3rem;font-weight:700;color:var(--green);font-family:'IBM Plex Mono',monospace}
 .result-label{color:var(--muted);font-size:.9rem;margin-bottom:20px;font-family:'IBM Plex Mono',monospace}
@@ -68,7 +63,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 .result-btn{padding:13px 20px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:.92rem;font-family:'Inter',sans-serif;transition:border-color .2s}
 .result-btn:hover{border-color:var(--accent)}
 .result-btn.primary{border-color:var(--accent);color:var(--accent)}
-/* Modal */
 .q-modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,10,18,.75);z-index:200;align-items:flex-end;justify-content:center}
 .q-modal-overlay.open{display:flex}
 .q-modal{background:var(--surface);border:1px solid var(--border);border-radius:16px 16px 0 0;width:100%;max-width:720px;max-height:70vh;overflow-y:auto;padding:20px}
@@ -86,14 +80,10 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 </head>
 <body>
 <div class="progress-wrap"><div class="progress-bar" id="prog-bar"></div></div>
-
 <div id="main-wrap">
   <div class="section-badge" id="sect-label">NÖROLOJİ</div>
   <div class="card" id="quiz-card">
-    <div class="q-header">
-      <span id="q-num">Soru 1/50</span>
-      <button id="star-btn" onclick="toggleStar()">☆</button>
-    </div>
+    <div class="q-header"><span id="q-num">Soru 1/50</span><button id="star-btn" onclick="toggleStar()">☆</button></div>
     <div class="year-tags" id="year-tags"></div>
     <div id="q-text"></div>
     <button class="hint-toggle" onclick="toggleHint()">🔑 İpucu</button>
@@ -104,7 +94,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
       <div class="explain-box"><div class="explain-title">📖 AÇIKLAMA</div><div class="explain-text" id="explain-text"></div></div>
     </div>
   </div>
-
   <div id="result-screen">
     <div class="result-score" id="res-pct">0%</div>
     <div class="result-label">Tamamlandı</div>
@@ -119,338 +108,441 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
       <button class="result-btn" id="retry-star-btn" onclick="retryStar()">★ Yıldızlıları Tekrar Çöz</button>
     </div>
   </div>
-
   <div class="nav" id="nav-bar">
     <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">← Önceki</button>
     <button id="q-counter" onclick="toggleQuestionList()">1 / 50 ☰</button>
     <button class="nav-btn" id="next-btn" onclick="navigate(1)">Sonraki →</button>
   </div>
 </div>
-
 <div class="q-modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
   <div class="q-modal">
-    <div class="q-modal-header">
-      <span class="q-modal-title">SORULAR</span>
-      <button class="q-modal-close" onclick="toggleQuestionList()">✕</button>
-    </div>
+    <div class="q-modal-header"><span class="q-modal-title">SORULAR</span><button class="q-modal-close" onclick="toggleQuestionList()">✕</button></div>
     <div class="q-grid" id="q-grid"></div>
   </div>
 </div>
-
 <script>
-const ALL_QUESTIONS = [
+const ALL_QUESTIONS=[
 // ══════════════════════════════════════════════════════
-// MOTOR NÖRONLAR
+// BAŞ AĞRISI
 // ══════════════════════════════════════════════════════
-{
-  section:'motor',sectionLabel:'MOTOR NÖRONLAR',
-  years:['Sonbahar 1989'],
-  q:'Aşağıdakilerden hangisi <u>ikinci motor nöron hastalığı</u> belirtisidir?',
-  opts:['A) Hipertoni','B) Asteni','C) Patolojik refleks','D) Fasikülasyon','E) Ataksi'],
-  ans:'D',
-  hint:'2. MN = Alt MN. Atrofi + Fasikülasyon + Refleks azalma → "AFRA"',
-  trap:'Patolojik refleks (Babinski) 1. MN bulgusudur, 2. MN\'de görülmez. Asteni (güçsüzlük) her ikisinde de olabilir.',
-  explain:'<strong>İkinci motor nöron (alt MN) hastalığında:</strong> Atrofi, kas fasikülasyonları, derin tendon reflekslerinin azalması/kaybolması, tonus azalması (flask) ve patolojik refleks <strong>yokluğu</strong> görülür. Fasikülasyon alt MN lezyonuna özgüdür.'
-},
-{
-  section:'motor',sectionLabel:'MOTOR NÖRONLAR',
-  years:['İlkbahar 2021 Orijinal','İlkbahar 2021 BENZERİ'],
-  q:'Aşağıdakilerden hangisi <u>üst motor nöron tutulumuna ait bulgu <strong>değildir</strong></u>?',
-  opts:['A) Spastisite','B) Ekstensör plantar yanıt','C) Derin tendon reflekslerinde artma','D) Fasikülasyonlar','E) Hoffman işareti'],
-  ans:'D',
-  hint:'Fasikülasyon = Alt MN işareti. Üst MN: "SPED-H" → Spastisite, Patolojik refleks, Ekstansör plantar, DTR↑, Hoffman',
-  trap:'Spastisite üst MN, tonus artışıdır; fasikülasyon ise alt MN\'de görülür. Bu ikisini karıştırmak klasik tuzaktır.',
-  explain:'<strong>Üst motor nöron (1. MN) bulguları:</strong> Spastisite, DTR artışı, Babinski/Hoffmann işareti, klonus. <strong>Fasikülasyon</strong> ise alt MN lezyonuna özgü olup 1. MN hasarında görülmez.'
-},
-{
-  section:'motor',sectionLabel:'MOTOR NÖRONLAR',
-  years:['Sonbahar 1990'],
-  q:'Hastaneye getirilen bir hastada Babinski (+) ve patellar refleks hiperaktif ise lezyon nerededir?',
-  opts:['A) Birinci motor nöron','B) İkinci motor nöron','C) Ekstrapiramidal sistem','D) Serebellum vermisi','E) Serebellum hemisferleri'],
-  ans:'A',
-  hint:'Babinski(+) + DTR↑ = 1. Motor Nöron (Üst MN) hasarı',
-  trap:'Serebellum lezyonunda refleksler normaldir, Babinski görülmez. Ekstrapiramidal sistemde de Babinski beklenmez.',
-  explain:'<strong>Birinci motor nöron hastalığında</strong> patolojik refleksler (Babinski, Hoffmann) ve DTR artışı görülür. Piramidal traktus lezyonunun en önemli işaretidir.'
-},
-{
-  section:'motor',sectionLabel:'MOTOR NÖRONLAR',
-  years:['Sonbahar 1990'],
-  q:'Aşağıdakilerden hangisi <u>monosinaptik refleks arkı</u> içerir?',
-  opts:['A) Pupilla ışık refleksi','B) Enterogastrik refleks','C) Tonik boyun refleksi','D) Akomodasyon refleksi','E) Patella refleksi'],
-  ans:'E',
-  hint:'Monosinaptik = tek sinaps = derin tendon refleksi (DTR). Patella refleksi klasik DTR örneğidir.',
-  trap:'Pupilla ışık refleksi, çok sayıda sinaps içeren polisinaptik bir reflekstir; monosinaptik değildir.',
-  explain:'<strong>Monosinaptik refleksler</strong> sadece bir sinaps içerir: afferent nöron → motor nöron. Bunlar derin tendon refleksleridir (patella ve aşil). Patella refleksi L3-L4 segmentini test eder.'
-},
-{
-  section:'motor',sectionLabel:'MOTOR NÖRONLAR',
-  years:['İlkbahar 1991'],
-  q:'Aşil refleksinin <u>kaybolmadığı</u> hastalık hangisidir?',
-  opts:['A) Multipl skleroz','B) Poliomyelit','C) Polinöropati','D) Tabes dorsalis','E) Gullian Barré Sendromu'],
-  ans:'A',
-  hint:'Multipl Skleroz = Üst MN hastalığı → DTR artar veya korunur, kaybolmaz. Alt MN/periferik = DTR azalır.',
-  trap:'MS\'de DTR artmış veya normal olabilir; kaybolmaz. Diğer seçeneklerin hepsi alt MN/periferik sinir hastalığıdır ve aşil refleksini azaltır/yok eder.',
-  explain:'<strong>Multipl Skleroz</strong>, üst motor nöron yollarını (kortikospinal traktus) etkileyen demiyelinizan bir hastalıktır. 1. MN tutulumunda DTR artar. Poliomyelit, GBS, polinöropati ve tabes dorsalis ise alt MN/periferik sinir tutulumuna yol açar ve aşil refleksini kaybettirir.'
-},
+{section:'bas',sectionLabel:'BAŞ AĞRISI',years:['İlkbahar 2025'],
+q:'Aşağıdakilerden hangisi baş ağrısı için tehlike işareti ya da kırmızı bayrak (red flag) olarak bilinen özellikler arasında <u>yer almaz</u>?',
+opts:['A) 50 yaş üzerinde başlaması','B) Gebelik veya lohusalıkta başlaması','C) Akut başlangıçlı ve şiddetli olması','D) Fotofobinin eşlik etmesi','E) Öksürük sonrası başlaması'],
+ans:'D',
+hint:'SNOOP mnemonik: Sistemik semptom, Nörolojik defisit, Onset ani, Older (>50 yaş), Postural/Precip. Fotofobi MİGREN özelliğidir, red flag değil.',
+trap:'Fotofobi migrende sık görülen bir özellik olup red flag (alarm) işareti değildir. Ani başlangıç, 50 yaş üzeri, gebelik, öksürükle tetiklenme alarm işaretleridir.',
+explain:'Baş ağrısında <strong>SNOOP alarm işaretleri:</strong> Sistemik semptomlar, Nörolojik defisit, Ani başlangıç, Older age (>50), Postural baş ağrısı, Precipitated by cough. <strong>Fotofobi</strong> ise tipik migren özelliğidir, alarm işareti değildir.'},
+
+{section:'bas',sectionLabel:'BAŞ AĞRISI – Migren',years:['İlkbahar 2025'],
+q:'Otuz yaşındaki kadın hasta 5-6 yıldır olan, her ay birkaç kez genellikle şakaklarında ve başının üst bölümünde hissettiği, hafif-orta şiddette ve basınç şeklindeki baş ağrısı şikâyetiyle başvuruyor. Günlük aktivitelerini kısıtlamadığını ve analjezik almadığında 5-6 saat içinde geçtiğini belirtiyor. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?',
+opts:['A) Aurasız migren','B) Epizodik gerilim tipi baş ağrısı','C) Küme tipi baş ağrısı','D) Hipnik baş ağrısı','E) Paroksismal hemikrania'],
+ans:'B',
+hint:'Gerilim tipi: Çift taraflı, baskı tarzında, aktiviteyle ARTMAZ, bulantı YOK, aktiviteyi kısıtlamaz.',
+trap:'Migrende baş ağrısı aktiviteyle kötüleşir ve genellikle aktiviteyi kısıtlar. Burada hastanın günlük aktivitelerini kısıtlamaması gerilim tipi baş ağrısını destekler.',
+explain:'<strong>Gerilim tipi baş ağrısı</strong>: Bilateral, baskı/sıkışma tarzı, orta şiddette. Fiziksel aktiviteyle kötüleşmez. Bulantı-kusma ve foto/fonofobi bulunmaz veya yok denecek kadar azdır.'},
+
+{section:'bas',sectionLabel:'BAŞ AĞRISI – Migren',years:['Sonbahar 2015 Orijinal','Sonbahar 2015 BENZERİ'],
+q:'Otuz yaşındaki erkek hasta yaklaşık 1 yıldır ayda birkaç kez tekrarlayan, genellikle 1 gün süren, başının tümünde hissedilen şiddetli ağrı ve mide bulantısı şikâyetleriyle başvuruyor. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?',
+opts:['A) Aurasız migren','B) Sık epizodik gerilim tipi baş ağrısı','C) Küme baş ağrısı','D) Kronik paroksismal hemikraniya','E) Yeni başlangıçlı süreğen günlük baş ağrısı'],
+ans:'A',
+hint:'Tek taraflı/yayygın + Bulantı + Şiddetli + 4-72 saat = AURAsiZ MİGREN. Aura yoksa doğrudan migren.',
+trap:'Aurasız migren tanımında vizüel aura aranmaz. Küme baş ağrısı çok kısa sürer (15-180 dk) ve otonom bulgular eşlik eder.',
+explain:'<strong>Aurasız migren</strong>: Unilateral veya bilateral, pulsatil, orta-şiddetli, 4-72 saat süren, bulantı/kusma veya foto+fonofobi eşliğinde görülen baş ağrısıdır. Aura olmaksızın kriterler karşılanır.'},
+
+{section:'bas',sectionLabel:'BAŞ AĞRISI – Migren',years:['İlkbahar 2023'],
+q:'Otuz iki yaşındaki hastanın baş ağrısının 10-15 yıldır ayda 1-2 kez, zonklayıcı vasıfta olduğu, bulantı ve zaman zaman kusmanın eşlik ettiği öğreniliyor. Son bir yıldır ağrıların sıklığı artmış olan hastada haftada birkaç kez baş ağrısı atakları, stres, egzersiz, uykusuzluk ve açlıkla tetiklendiği anlaşılıyor. Ağrılara görsel veya duyusal bir fenomen eşlik etmiyor.',
+opts:['A) Aurasız migren','B) Auralı migren','C) Küme baş ağrısı','D) Gerilim tipi baş ağrısı','E) İlaç fazla kullanımı baş ağrısı'],
+ans:'A',
+hint:'Aura YOK + Zonklayıcı + Bulantı/kusma + Tetikleyiciler = Aurasız migren. Sıklık artışı kronik migrene işaret edebilir.',
+trap:'Auralı migrende vizüel/duyusal/motor aura 5-60 dk sürer ve baş ağrısından önce gelir. Burada aura tanımlanmamış.',
+explain:'<strong>Aurasız migren</strong> en sık görülen migren tipidir (%70). 4-72 saat süren, pulsatil karakterde, aktiviteyle kötüleşen, bulantı/kusma veya foto+fonofobi eşliğinde seyreder.'},
+
+{section:'bas',sectionLabel:'BAŞ AĞRISI – Migren',years:['İlkbahar 2016 Orijinal','İlkbahar 2016 BENZERİ'],
+q:'Yirmi beş yaşındaki kadın hasta, 10 yıldır haftada 1-2 kez ortaya çıkan, 8-10 saat süren ve başın sağ veya sol yarısında, zonklayıcı baş ağrısı yakınmasıyla başvuruyor. Öyküsünden yakınmasının genelde öğleden sonra başladığı, parlak ışık veya sıkıntı ile tetiklendiği, karanlık odada uyumakla geçtiği ve şiddetli olduğunda bulantı ve kusmanın eşlik ettiği öğreniliyor. Fizik muayenesi normal bulunan hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?',
+opts:['A) Temporal arterit','B) Küme baş ağrısı','C) Aurasız migren','D) Gerilim tipi baş ağrısı','E) Retinal migren'],
+ans:'C',
+hint:'Genç kadın + Unilateral + Zonklayıcı + Fotosensitivite + Karanlıkta düzelme = KLASİK MİGREN tablosu.',
+trap:'Temporal arterit yaşlılarda (>50) görülür ve ESR yüksektir. Küme baş ağrısı genellikle erkeklerde, gece, çok kısa sürelidir.',
+explain:'<strong>Aurasız migren:</strong> Genç kadınlarda daha sık, unilateral, zonklayıcı, 4-72 saat, ışık hassasiyeti, karanlıkta düzelme. Fiziksel aktiviteyle kötüleşir. En sık migren tipidir.'},
+
+{section:'bas',sectionLabel:'BAŞ AĞRISI – Migren Tedavisi',years:['İlkbahar 1990'],
+q:'Akut migren atağında tercih edilecek <u>en ideal</u> ilaç hangisidir?',
+opts:['A) Propranolol','B) Aspirin','C) Prostaglandin inhibitörleri','D) Cafergot','E) Seratonin reseptör agonistleri'],
+ans:'E',
+hint:'Migren atağında ALTIN STANDART: Triptanlar = Serotonin (5-HT1B/1D) reseptör agonistleri.',
+trap:'Propranolol migren profilaksisinde kullanılır, atakta değil. Cafergot eski kuşak ilaçtır, triptanlar yerini almıştır.',
+explain:'<strong>Migren atak tedavisinde</strong> günümüzdeki en ideal ilaç grubu <strong>serotonin reseptör agonistleri (triptanlar)</strong>dır: sumatriptan, zolmitriptan. Ergotaminler (cafergot) eskimiştir. Propranolol profilaksi içindir.'},
+
+{section:'bas',sectionLabel:'BAŞ AĞRISI – Küme',years:['Sonbahar 1992'],
+q:'Aşağıdaki cerrahi yöntemlerden hangisi ağrı cerrahisi yöntemleri içinde <u>yer almaz</u>?',
+opts:['A) Talamotomi','B) Ganglion semilunarektomi','C) Posterior kordektomi','D) Anterolateral yolun kesilmesi','E) Posterior rizotomi'],
+ans:'C',
+hint:'Posterior kordektomi ağrı değil, spastisite veya hareket bozukluğu tedavisinde kullanılır.',
+trap:'Rizotomi, ganglionektomi, anterolateral kesim ve talamotomi ağrı cerrahisi yöntemleridir. Posterior kordektomi ağrıyla ilişkili değildir.',
+explain:'Ağrı cerrahisi yöntemleri: Rizotomi (dorsal sinir kökü kesilmesi), Kordotomi (spinotalamik yolun kesilmesi), Talamotomi, Ganglion semilunarektomi. <strong>Posterior kordektomi</strong> bu amaçla kullanılmaz.'},
+
+{section:'bas',sectionLabel:'BAŞ AĞRISI – Küme',years:['Sonbahar 2003'],
+q:'Kırk beş yaşında erkek hasta yaklaşık 14 yıldır yılda 4 kez gözlenen 16 gün süren ve günde 5 kez olan baş ağrısından şikâyetçidir. Hastanın ağrılarının genellikle aynı saatlerde ortaya çıktığını ve ağrısı ile birlikte gözünün sol tarafında hissettiği, ağrı ile birlikte gözde kızarıklık, göz yaşarması ve aynı tarafta alın ve göz yaşarması olduğu söyleniyor. Bu hasta için <u>en olası</u> tanı nedir?',
+opts:['A) Gerilim tipi baş ağrısı','B) Oftalmoplejik migren','C) Epizodik küme baş ağrısı','D) Kavernöz sinüs trombozu','E) Trigeminal nevralji'],
+ans:'C',
+hint:'Erkek + Gözün arkasında + Tek taraflı + Kısa süreli + OTONOM bulgular (lakrimasyon, kızarıklık) = KÜME baş ağrısı',
+trap:'Trigeminal nevraljide otonom bulgular görülmez ve ağrı saniyeler-dakikalar içinde geçer. Küme baş ağrısında epizod 15-180 dk sürer.',
+explain:'<strong>Epizodik küme baş ağrısı</strong>: Yıllar içinde kümeler halinde görülen, tek taraflı, çok şiddetli, 15-180 dk süren, gözün arkasında/çevresinde ağrı. İpsilateral otonom bulgular: lakrimasyon, konjonktival enjeksiyon, Horner.'},
+
+{section:'bas',sectionLabel:'BAŞ AĞRISI – Küme',years:['Sonbahar 2006'],
+q:'Altmışikinci yaşında bir erkek hasta 20 yıldan bu yana birkaç kez gelen başağrılarından yakınıyor. Ağrıyı yaklaşık 30 dakika süreyle sağ göz içerisinde, göz arkasında ve sağ şakakta hissediyor. Gün içerisinde 4 kez ve gecelerde bir kez aynı şekilde ağrı olduğunu belirtiyor.',
+opts:['A) Küme baş ağrısı','B) Oftalmoplejik migren','C) Trigeminal nevralji','D) Beyin tümörü','E) Ağrılı oftalmopleji'],
+ans:'A',
+hint:'Günde 4-8 kez kısa süreli ataklar + Gece de oluyor + Tek taraflı + Göz çevresi = KÜME tipi',
+trap:'Trigeminal nevralji saniyeler içinde geçer, elektrik çarpması gibidir. 30 dakika süren ve günde 5 kez gelen ağrı küme tipidir.',
+explain:'<strong>Küme tipi baş ağrısı</strong>: Günün aynı saatlerinde, gece uykudan uyandıran, tek taraflı, periorbital, 15-180 dk süren ataklar. Günde 1-8 kez görülür.'},
+
+{section:'bas',sectionLabel:'BAŞ AĞRISI – Küme Profilaksi',years:['İlkbahar 2013'],
+q:'Kronik küme tipi baş ağrısının koruyucu tedavisi için aşağıdaki ilaçlardan hangisi <u>ilk seçenek</u> olmalıdır?',
+opts:['A) Topiramat','B) Sodyum valproat','C) Verapamil','D) Melatonin','E) Baklofen'],
+ans:'C',
+hint:'Küme baş ağrısı profilaksisinde TERCİH: VERAPAMİL. "Küme=Kalsiyum kanal blokeri=Verapamil"',
+trap:'Topiramat, valproat epilepsi ilaçlarıdır. Verapamil hem epizodik hem kronik küme baş ağrısında profilakside birinci seçenektir.',
+explain:'<strong>Küme baş ağrısı profilaksisi:</strong> Birinci seçenek <strong>verapamil</strong>dir (kalsiyum kanal blokeri). Alternatifler: lityum (özellikle kronik), melatonin, topiramat. Akut atakta ise oksijen inhalasyonu ve sumatriptan kullanılır.'},
+
+{section:'bas',sectionLabel:'BAŞ AĞRISI – Küme Profilaksi',years:['Sonbahar 2002'],
+q:'Küme baş ağrısında profilaktik tedavide kullanılmayan ilaç hangisidir?',
+opts:['A) Ergotamin','B) Verapamil','C) Metizerfit','D) Propranolol','E) Kodein'],
+ans:'E',
+hint:'Kodein bir opioid analjeziktir, küme baş ağrısında profilakside YER ALMAZ.',
+trap:'Propranolol migren profilaksisinde kullanılır. Küme baş ağrısında verapamil, lityum, ergotamin profilakside kullanılırken kodein kullanılmaz.',
+explain:'<strong>Küme baş ağrısı profilaksisinde</strong> opioidler (kodein gibi) kullanılmaz. Otonom bileşen nedeniyle opioidler histamin salınımını artırarak tabloyu kötüleştirebilir.'},
+
+{section:'bas',sectionLabel:'BAŞ AĞRISI – Psödotümör',years:['Sonbahar 2019 Orijinal','Sonbahar 2019 BENZERİ'],
+q:'Yirmi sekiz yaşındaki obez kadın hasta üç ay önce başlayan ve giderek artan baş ağrısı, bulantı ve çift görme yakınmalarıyla başvuruyor. Muayenesinde bilateral papilödem ve nervus abducens felci saptanıyor. Bilgisayarlı beyin tomografisi normal bulunuyor.',
+opts:['A) Psödotümör serebri','B) Auralı migren','C) Gerilim tipi baş ağrısı','D) Hidrosefali','E) Küme baş ağrısı'],
+ans:'A',
+hint:'Genç KADIN + OBEZ + KİBAS bulguları + BT NORMAL + Papilödem = PSEUDOtümör Serebri (İdiyopatik İntrakraniyal Hipertansiyon)',
+trap:'Hidrosefali BT\'de görünür. Psödotümörde BT normaldır çünkü ventrikül boyutları normale yakındır. Klinik KİBAS bulguları BT bulgusu olmaksızın görülür.',
+explain:'<strong>Psödotümör serebri (İdiyopatik İntrakraniyal Hipertansiyon):</strong> Genç, obez kadınlarda görülür. İntrakranial kitle yoktur, KİBAS bulguları (baş ağrısı, papilödem, diplopi - 6. sinir felci) mevcuttur. LP\'de BOS basıncı >200 mmH₂O.'},
 
 // ══════════════════════════════════════════════════════
-// BOS İNCELEMESİ / LOMBER PONKSİYON
+// TRİGEMİNAL NEVRALJİ
 // ══════════════════════════════════════════════════════
-{
-  section:'bos',sectionLabel:'BOS İNCELEMESİ – Lomber Ponksiyon',
-  years:['İlkbahar 2015 Orijinal','İlkbahar 2015 BENZERİ'],
-  q:'Lomber ponksiyondan sonraki saatlerde baş ağrısı yakınması olan hastanın MR incelemesinde post kontrast aksiyal ve sagittal T1 ağırlıklı görüntüleri verilmiştir. Bu hasta için <u>kesinlikle söylenemez</u> olan hangisidir?',
-  opts:['A) Dura kontrast ile parlamaktadır.','B) Pons anterioru düzleşmiştir.','C) Hidrosefali gelişmiştir.','D) Prepontin sistern daralmıştır.','E) Klinik ve radyolojik bulgular intrakranial hipotansiyon ile uyumludur.'],
-  ans:'C',
-  hint:'LP sonrası intrakraniyal HİPOTANSİYON → BOS kaybı → hidrosefali beklenmez, aksine beyin aşağı çöker.',
-  trap:'LP\'nin en sık komplikasyonu baş ağrısıdır. BOS basıncı düşer; bu HİPOTANSİYON bulgularına yol açar. Hidrosefali ise BOS fazlalığı/blokajı ile olur — tablo ile ÇELIŞIR.',
-  explain:'LP sonrası <strong>intrakraniyal hipotansiyon</strong>da: dura parlaması, prepontin sistern daralması, beyin sarkması (pons ön yüz düzleşmesi) görülür. <strong>Hidrosefali beklenmez</strong> — aksine ventriküller küçülür.'
-},
-{
-  section:'bos',sectionLabel:'BOS İNCELEMESİ – Lomber Ponksiyon',
-  years:['İlkbahar 1991'],
-  q:'KİBAS\'da <u>kontraendike</u> olan tetkik hangisidir?',
-  opts:['A) Anjiografi','B) Sintigrafi','C) Sinüs grafisi','D) BT','E) Lomber ponksiyon'],
-  ans:'E',
-  hint:'KİBAS + LP = Herniasyon riski! Yer kaplayan lezyon varsa LP kontrendike.',
-  trap:'BT, KİBAS şüphesinde tercih edilen tetkiktir; LP ise kontrendikedir. Anjiografi de KİBAS\'ta uygulanabilir.',
-  explain:'<strong>KİBAS (kafa içi basınç artışı)</strong> varlığında lomber ponksiyon uygulanırsa, basınç farkı nedeniyle <strong>transtentorial herniasyon (unkal hernisyon)</strong> gelişebilir ve hasta kaybedilebilir. BT çekilerek yer kaplayan lezyon ekarte edilmeden LP yapılmaz.'
-},
-{
-  section:'bos',sectionLabel:'BOS İNCELEMESİ – Lomber Ponksiyon',
-  years:['İlkbahar 2002'],
-  q:'Lomber ponksiyon, aşağıdaki durumlardan hangisinde <u>kontrendikedir</u>?',
-  opts:['A) Spinal kord tümörü','B) İntrakranial tümör','C) Tüberküloz menenjit','D) Myelitler','E) Multiple skleroz'],
-  ans:'B',
-  hint:'İntrakraniyal tümör = Yer kaplayan lezyon = KİBAS riski → LP kontrendike.',
-  trap:'Spinal kord tümörü veya MS\'de LP uygulanabilir. İntrakranial tümörde KİBAS nedeniyle LP tehlikeli olabilir.',
-  explain:'<strong>Lomber ponksiyon kontrendikasyonları:</strong> İntrakranial kitle şüphesi (KİBAS), LP yerinde lokal enfeksiyon, koagulopati. Tüberküloz menenjit ve MS\'de LP tanı amaçlı kullanılabilir.'
-},
-{
-  section:'bos',sectionLabel:'BOS İNCELEMESİ – Lomber Ponksiyon',
-  years:['İlkbahar 2023'],
-  q:'Nöroaksiyel blok yapılırken orta hatta <u>ilk</u> geçilen ligaman aşağıdakilerden hangisidir?',
-  opts:['A) Supraspinöz ligaman','B) İnterspinöz ligaman','C) Ligamentum flavum','D) Anterior longitudinal ligaman','E) Posterior longitudinal ligaman'],
-  ans:'A',
-  hint:'Deri → Süpraspinöz → İnterspinöz → Lig.flavum → Epidural → Dura. "SİL-ED" mnemonik.',
-  trap:'Sıralama önemli: Süpraspinöz ÖNCE, interspinöz SONRA gelir. Lig.flavum ise en son geçilen ligamandır (epidural öncesi).',
-  explain:'Lomber ponksiyon iğnesi sırasıyla: <strong>Deri → Deri altı yağ → Süpraspinöz ligaman → İnterspinöz ligaman → Ligamentum flavum</strong> → epidural alan → dura mater → araknoid → subaraknoid boşluk.'
-},
+{section:'nevralji',sectionLabel:'TRİGEMİNAL NEVRALJİ',years:['İlkbahar 2019 Orijinal','İlkbahar 2019 BENZERİ'],
+q:'Elli dört yaşında bir kadın hasta; 6 aydır sür üp gelen ve gün içinde pek çok kez tekrarlayan çok şiddetli ağrı yakınmasıyla başvuruyor. Ağrısına eşlik eden bulgusu olmayan hasta yüz yıkama ve diş fırçalamayla ağrının tetiklendiğini söylüyor. Nörolojik muayenesi ve kraniyal manyetik rezonans görüntülemesi normal bulunuyor. Bu hastaya <strong>daha önce herhangi bir tedavi almayan bu hastaya</strong> önerilecek en uygun tedavi hangisidir?',
+opts:['A) Prednizolon','B) Karbamazepin','C) İndometazin','D) Sumatriptan','E) Ergotamin'],
+ans:'B',
+hint:'Trigeminal nevralji = ilk seçenek KARBAMAZEPİN. "Tri-Karba" → Trigeminal-Karbamazepin',
+trap:'İndometazin paroksismal hemikrania\'da özel bir tedavidir. Sumatriptan migrende kullanılır. Trigeminal nevralji\'de karbamazepin altın standarttır.',
+explain:'<strong>Trigeminal nevralji</strong>nde birinci seçenek <strong>karbamazepindir</strong>. Yüz yıkama, diş fırçalama gibi tetikleyicilerle ortaya çıkan, ani başlayıp biten elektrik çarpması gibi ağrı tipiktir. Otonom bulgular EŞLİK ETMEZ.'},
+
+{section:'nevralji',sectionLabel:'TRİGEMİNAL NEVRALJİ',years:['Sonbahar 1996'],
+q:'Trigeminal nevraljide tercih edilecek ilaç hangisidir?',
+opts:['A) Fenobarbital','B) Aspirin','C) Steroid','D) Karbamazepin','E) Sumatriptan'],
+ans:'D',
+hint:'Trigeminal nevralji → KARBAMAZEPİN. Aspirin ve steroid bu endikasyonda kullanılmaz.',
+trap:'Karbamazepin antikonvülzan olduğu için yanlışlıkla "epilepsi ilacı" olarak akla gelen seçenek elenerek aspirin seçilmemelidir.',
+explain:'<strong>Trigeminal nevralji</strong>de ilk tercih <strong>karbamazepindir</strong>. Analjezikler (aspirin) etkisizdir. Dirençli olgularda cerrahi (mikrovascular dekompresyon) düşünülür.'},
+
+{section:'nevralji',sectionLabel:'TRİGEMİNAL NEVRALJİ',years:['İlkbahar 2020 Orijinal'],
+q:'Kırk iki yaşındaki kadın hasta; 2-3 aydır ara sıra olan, birkaç dakika süren, yüzünün sol yanında, ani, şiddetli, elektrik çarpması şeklinde ağrı şikâyetiyle başvuruyor. Ağrısının yemek yerken ve yüzünü kurularken de ortaya çıktığını ifade ediyor. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?',
+opts:['A) Glossofaringeal nevralji','B) Atipik fasiyal ağrı','C) Trigeminal nevralji','D) Temporomandibular eklem artrozu','E) Küme tipi baş ağrısı'],
+ans:'C',
+hint:'Yüz + Elektrik çarpması + Ani başlayıp biten + Tetikleyici (yeme, yüz kurulama) + Otonom bulgu YOK = TRİGEMİNAL nevralji',
+trap:'Glossofaringeal nevralji yutmayla tetiklenir ve ağrı dilin arka kısmı + boğaz bölgesindedir. Burada yüz yüzüdür.',
+explain:'<strong>Trigeminal nevralji:</strong> Tek taraflı, kısa şimşekvari ağrılar. Tetikleyiciler: yüz yıkama, traş, diş fırçalama, yeme. Otonom bulgular yoktur. 2. ve 3. dal en sık etkilenilir.'},
 
 // ══════════════════════════════════════════════════════
-// MSS İNFEKSİYONLARI
+// EPİLEPSİ
 // ══════════════════════════════════════════════════════
-{
-  section:'mssinf',sectionLabel:'MSS İNFEKSİYONLARI',
-  years:['İlkbahar 1991'],
-  q:'Türkiye\'de kullanılan ve at, koyun beyninden elde edilen kuduz aşısının <u>en önemli</u> komplikasyonu aşağıdakilerden hangisidir?',
-  opts:['A) Hemipleji','B) Myastenik sendrom','C) Optik atrofi','D) Ensefalomyelit','E) Dissemeine skleroz'],
-  ans:'D',
-  hint:'Kızamık, su çiçeği aşılarından sonra "paraenfeksiyöz ensefalomyelit" → Kuduz aşısı → aynı mekanizma.',
-  trap:'Kuduz aşısının komplikasyonu olarak MS (Dissemeine skleroz) düşünülse de, bu tablo paraenfeksiyöz demiyelinizasyondur ve "Ensefalomyelit" doğru terimdir.',
-  explain:'Kızamık, su çiçeği gibi viral aşıların ardından görülen <strong>paraenfeksiyöz ensefalomyelit</strong>, demiyelinizasyonla seyreden bir tablodur. Kuduz aşısı bu komplikasyonu en sık oluşturan aşılardan biridir.'
-},
-{
-  section:'mssinf',sectionLabel:'MSS İNFEKSİYONLARI',
-  years:['İlkbahar 2011'],
-  q:'Son 12-24 saat içerisinde ortaya çıkan baş ağrısı ve uykuya eğilim nedeniyle acil servise getirilen 27 yaşındaki kadın hastanın muayenesinde ateş 38.2°C ölçülmüş, ense sertliği saptanmış, letarjik ve konfüze olduğu gözlenmiştir. BOS incelemesinde mm³ te 100 adet lenfosit saptanmış, glukoz ve protein değerleri normal bulunmuştur.',
-  opts:['A) Bakteriyel menenjit','B) Tüberküloz menenjit','C) Viral menenjit','D) Fungal menenjit','E) Karsinomatöz menenjit'],
-  ans:'C',
-  hint:'BOS: Lenfosit↑ + Protein normal + Glukoz normal → VİRAL menenjit üçlüsü.',
-  trap:'Bakteriyel menenjitte glukoz DÜŞER ve protein ARTAR. Burada her ikisi de normal → bakteriyel değil viral.',
-  explain:'<strong>Viral menenjit BOS bulguları:</strong> Lenfosit artışı, protein hafif artmış veya normal, glukoz normal. <strong>Bakteriyel menenjit</strong> BOS\'unda: nötrofil artışı, protein artışı, glukoz azalması görülür.'
-},
-{
-  section:'mssinf',sectionLabel:'MSS İNFEKSİYONLARI',
-  years:['İlkbahar 2018 Orijinal','İlkbahar 2018 BENZERİ'],
-  q:'Elli beş yaşındaki erkek hasta; ateş, baş ağrısı, davranış değişikliği ve bilinç bozukluğu tablosuyla acil servise getiriliyor. Kontrastlı bilgisayarlı beyin tomografisi normal olan hastanın beyin omurilik sıvısı incelemesinde basınç normal, lenfosit: 100/mm³, protein: 120 mg/dL ve glukoz normal bulunuyor. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?',
-  opts:['A) Akut bakteriyel menenjit','B) Akut viral menenjit','C) Akut subdural ampiyem','D) Akut viral ensefalit','E) Subakut sklerozan panensefalit'],
-  ans:'D',
-  hint:'Menenjit bulgularına ek olarak KİŞİLİK DEĞİŞİKLİĞİ ve BİLİNÇ BOZUKLUĞU varsa → ENSEFALİT düşün!',
-  trap:'Viral menenjitte kişilik ve bilinç değişikliği beklenmez. Epilepsi de eklenirse ensefalit tanısı güçlenir.',
-  explain:'<strong>Ensefalit</strong>, beyin parenkiminin inflamasyonudur: ateş, baş ağrısı, <strong>bilinç değişikliği + davranış bozukluğu + fokal nörolojik bulgular</strong> ile seyreder. BOS\'ta lenfosit artışı ve protein artışı tipiktir, glukoz genellikle normaldir. HSV en sık viral ekendir.'
-},
-{
-  section:'mssinf',sectionLabel:'MSS İNFEKSİYONLARI',
-  years:['Sonbahar 2018 Orijinal','Sonbahar 2015 BENZERİ'],
-  q:'Daha önceden bilinen bir hastalığı olmayan 32 yaşındaki kadın hasta; baş ağrısı, yüksek ateş, kasılmalar ve kişilik değişikliği nedenleriyle getiriliyor. BOS incelemesinde hafif protein artışı ve lenfositik pleositoz tespit ediliyor.',
-  opts:['A) Polio virus','B) Herpes simpleks virus','C) Streptococcus pneumoniae','D) Borrelia burgdorferi','E) Trepanoma pallidum'],
-  ans:'B',
-  hint:'Fokal ensefalit + Temporal lob tutulumu + PCR → HSV. "HER Temporal lobda Simpleks var"',
-  trap:'Streptococcus pneumoniae bakteriyel menenjit yapar ve glukoz düşer. Burada lenfositik pleositoz + normal glukoz → viral.',
-  explain:'<strong>Herpes Simpleks Virüs (HSV)</strong> endemik fokal ensefalitin en önemli etkenidir. Temporal lob tutulumu karakteristiktir. BOS\'ta lenfositik pleositoz ve hafif protein artışı görülür. Tanıda HSV-DNA PCR altın standarttır (%94-100 duyarlılık).'
-},
-{
-  section:'mssinf',sectionLabel:'MSS İNFEKSİYONLARI',
-  years:['İlkbahar 2015 Orijinal'],
-  q:'Konuşması uzun duraklamalarla bölünmüş, zorlanarak söylenen tek tek kelimeler ve hecelerden ibaret bir hastada, Broca afazisi tanısı koyabilmek için aşağıdakilerden <strong>hangisinin bozuk olması gerekir?</strong>',
-  opts:['A) Jest ve mimikleri kullanma','B) Fonasyon','C) Basit motor emirleri yerine getirme','D) Söyleneni tekrarlama','E) Düşünce içeriği'],
-  ans:'C',
-  hint:'Broca afazisi: Konuşma AKICI DEĞİL, anlama KORUNMUŞ, tekrarlama BOZUK. Basit emirleri anlayabilir!',
-  trap:'Broca afazisinde ANLAMA korunur → hasta basit emirleri YERİNE GETİREBİLİR. Soru "bozuk olması gereken" nedir diye soruyor, dikkat!',
-  explain:'Bu soru <strong>Broca afazisi</strong> yerine başka bir afaziyi sorguluyor. Konuşma akıcı değil, anlama normal ama tekrarlama bozuksa → <strong>İletim afazisi</strong> veya Broca. Basit motor emirleri yerine getirememek ise <strong>anlama bozukluğunu</strong> işaret eder → Wernicke afazisi.'
-},
+{section:'epilepsi',sectionLabel:'EPİLEPSİ',years:['İlkbahar 2016 Orijinal','İlkbahar 2016 BENZERİ'],
+q:'Yirmi bir yaşındaki kadın hasta, çiğneme, her iki elde arama ve kıyafetlerini çekiştirme hareketi şeklinde gelişen, bilinç değişikliğinin eşlik ettiği nöbetler nedeniyle karbamazepin kullanıyor. Bu nöbetlerden önce sıklıkla mideden yükselen bir hissi şeklinde auralar olduğu söyleniyor.',
+opts:['A) Lennox-Gastaut sendromu','B) Juvenil miyoklonik epilepsi','C) Juvenil absans epilepsi','D) Temporal lob epilepsisi','E) Frontal lob epilepsisi'],
+ans:'D',
+hint:'Epigastrik aura + Orobukkolingual otomatizma + Bilinç değişikliği = TEMPORAL LOB epilepsisi. "TLEmporal = Tat-Koku-Epigastrik aura"',
+trap:'Frontal lob epilepsisinde otomatizma daha kısa sürer ve bilinç daha az etkilenir. Epigastrik aura ve orobukkolingual otomatizma temporal lobu gösterir.',
+explain:'<strong>Temporal lob epilepsisi (kompleks parsiyel nöbet)</strong>: Epigastrik aura (mideden yükselen his), orobukkolingual otomatizma (çiğneme, dudak büzme), bilinç bozukluğu. %75 hastada orobukkolingual, %50 hastada yüz ve boyun hareketleri görülür.'},
+
+{section:'epilepsi',sectionLabel:'EPİLEPSİ – Tedavi',years:['Sonbahar 1987'],
+q:'Absans (Petit mal) epilepside aşağıdakilerden hangisi kullanılır?',
+opts:['A) Fenobarbital','B) Karbamazepin','C) Etosüksimid','D) Difenilhidantoin','E) Diazepam'],
+ans:'C',
+hint:'Absans = ETOSÜKSİMİD. "Absans → A → Etosüksimid Altın standarttır"',
+trap:'Karbamazepin ve fenitoin (difenilhidantoin) absans nöbetlerini ARTIRABILIR. Diazepam statusta kullanılır.',
+explain:'<strong>Absans (Petit Mal) epilepside</strong> spesifik ilaç <strong>etosüksimiddir</strong>. Geniş spektrumlu antiepileptikler (valproat) da kullanılabilir. Karbamazepin ve fenitoin kullanılmaz.'},
+
+{section:'epilepsi',sectionLabel:'EPİLEPSİ – Tedavi',years:['İlkbahar 1988'],
+q:'Grand mal epilepsi tedavisinde <u>en sık</u> kullanılan ilaç hangisidir?',
+opts:['A) Valproik asit','B) Karbamazepin','C) Klorazepam','D) Fenobarbital','E) Etosüksimid'],
+ans:'A',
+hint:'Grand mal (Tonik-klonik) epilepsideki birinci seçenek = VALPROİK ASİT (geniş spektrum).',
+trap:'Fenobarbital ve karbamazepin de kullanılabilir ancak valproik asit en geniş spektrumlu ve en sık tercih edilen ilaçtır.',
+explain:'<strong>Grand mal (jeneralize tonik-klonik)</strong> epilepside birinci seçenek <strong>valproik asittir</strong>. Tonik-klonik nöbetler bilateral, bilateral simetriktir; ani şuur kaybı ve kas kasılmaları ile seyreder.'},
+
+{section:'epilepsi',sectionLabel:'EPİLEPSİ – Tedavi',years:['Sonbahar 1990'],
+q:'Ağız şapırdatma, yutkunma, görme veya işitme halüsinasyonlarının eşlik ettiği epilepsi nöbetinin tanısı aşağıdakilerden hangisi olabilir?',
+opts:['A) Petit Mal','B) Grand Mal','C) Fokal Motor epilepsi','D) Absans','E) Kompleks Parsiyel epilepsi'],
+ans:'E',
+hint:'Otomatizma (ağız şapırdatma, yutkunma) + Bilinç değişikliği = KOMPLEKS PARSİYEL = Temporal lob epilepsisi',
+trap:'Petit mal (absans) sadece kısa donma şeklinde seyreder, otomatizma görülmez. Buradaki otomatizma kompleks parsiyeli işaret eder.',
+explain:'<strong>Kompleks parsiyel nöbet:</strong> Bilinç etkilenir, otomatizma (ağız şapırdatma, yutkunma, giysiyle uğraşma) görülür. Çoğu temporal lobdan kaynaklanır.'},
+
+{section:'epilepsi',sectionLabel:'EPİLEPSİ – Status Epileptikus',years:['Sonbahar 2007'],
+q:'5-10 dakikayı aşan süredir bilinci yerinde olmayan, devamlı kasılmalarla acil servise getirilen bir hasta için aşağıdakilerden hangisi uygun yaklaşımlardan biri <u>değildir</u>?',
+opts:['A) Solunum ve dolaşımın sağlanması','B) Tedaviye hızla lorazepam veya diazepam intravenöz enjeksiyonu ile başlanması','C) Glukoz, BUN, elektrolitler, metabolik ve toksik taramalar için kan örneği alınması','D) Yükleme dozu 15-20 mg/kg olarak belirlenen fenitoinin dakikada 50 mg dan yavaş verilmesi','E) 4 saatte bir intramusküler yoldan 10 mg morfin yapılması'],
+ans:'E',
+hint:'Status epileptiküste morfin KULLANILAMAZ. Benzodiazepinler, fenitoin/fenobarbital kullanılır.',
+trap:'Morfin epilepsi tedavisinde yerli almaz. Status tedavisinde önce benzodiazepinler, sonra fenitoin verilir.',
+explain:'<strong>Status epileptikus tedavisi:</strong> 1) Hava yolu + iv erişim, 2) Benzodiazepinler (lorazepam/diazepam), 3) Fenitoin iv (15-20 mg/kg, max 50 mg/dk), 4) Fenobarbital. <strong>Morfin (opioid) kullanılmaz</strong> — solunum depresyonu yapar.'},
+
+{section:'epilepsi',sectionLabel:'EPİLEPSİ – İlaçlar',years:['İlkbahar 1993'],
+q:'"Primidone" aşağıdaki hastalıklardan hangisi için <u>özel</u> bir ilaçtır?',
+opts:['A) Şizofreni','B) Nevroz','C) Depresyon','D) Epilepsi','E) Chorea'],
+ans:'D',
+hint:'Primidon (Primidone) = Fenobarbitale dönüşen bir antikonvülzandır. Tonik-klonik ve parsiyel nöbetlerde kullanılır.',
+trap:'Primidon, vücutta fenobarbitale dönüşür. Terapötik etkisini hem kendisi hem de dönüşüm ürünü ile gösterir.',
+explain:'<strong>Primidon (Primidone)</strong>: Fenobarbitale dönüşen antikonvülzan. Tonik-klonik ve parsiyel epilepsilerde kullanılır. Koreada (Huntington vs.) kullanılmaz.'},
 
 // ══════════════════════════════════════════════════════
-// KONUŞMA ve AFAZİ
+// SEREBROVASKÜLER HASTALIKLAR
 // ══════════════════════════════════════════════════════
-{
-  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
-  years:['İlkbahar 1989'],
-  q:'Motor afazide lezyon nerededir?',
-  opts:['A) Brodman\'ın 6. alanı','B) Brodman\'ın 4. alan üstü','C) Broca alanı','D) Wernicke alanı','E) Superior temporal bölge'],
-  ans:'C',
-  hint:'Broca alanı = 44. alan = İnferior frontal girus. Motor afazi = Broca afazisi.',
-  trap:'Brodman\'ın 4. alanı primer motor korteks, 6. alan premotor kortekstir. Broca alanı 44. alandır.',
-  explain:'<strong>Broca (motor) afazisi</strong>nde lezyon, frontal lobun inferior posterior bölgesindeki <strong>Broca alanı (Brodman 44)</strong>nda bulunur. Konuşma akıcı değil, anlama korunmuştur.'
-},
-{
-  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
-  years:['İlkbahar 1996'],
-  q:'Broca afazisi hangi lob lezyonlarında görülür?',
-  opts:['A) Frontal','B) Parietal','C) Oksipital','D) Temporal','E) Serebellum'],
-  ans:'A',
-  hint:'Broca = Frontal. Wernicke = Temporal. "BWF-WT" → Broca=Frontal, Wernicke=Temporal',
-  trap:'Temporal lob Wernicke alanına ev sahipliği yapar. Oksipital lob görme ile ilgilidir.',
-  explain:'<strong>Broca alanı</strong> dominant hemisferin <strong>frontal lobunda</strong> (inferior frontal girus, 44. alan) bulunur. Lezyonunda motor (ekspressif) afazi gelişir.'
-},
-{
-  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
-  years:['İlkbahar 2020 Orijinal'],
-  q:'Kırk sekiz yaşındaki kadın hasta, sağ tarafında güçsüzlük ve konuşma bozukluğu şikâyetleriyle başvuruyor. Kelimeleri söylemede zorlandığı ve telegrafik konuştuğu görülüyor. Anlamasının normal, tekrarlama ve yazmasının ise bozuk olduğu saptanıyor. Bu hastada <u>en olası</u> tanı ve etkilenen <u>en olası</u> lokalizasyon aşağıdakilerin hangisinde birlikte verilmiştir?',
-  opts:['A) Wernicke afazisi – Frontal lob','B) Wernicke afazisi – Temporal lob','C) Broca afazisi – Frontal lob','D) Broca afazisi – Temporal lob','E) Broca afazisi – Parietal lob'],
-  ans:'C',
-  hint:'Akıcı DEĞİL + Anlama KORUNMUŞ + Tekrarlama BOZUK = BROCA afazisi → Frontal lob.',
-  trap:'Wernicke afazisinde konuşma akıcı ama anlamsızdır; anlama ise bozuktur. Bu hastada anlama normaldir → Broca.',
-  explain:'<strong>Broca afazisi:</strong> Konuşma akıcı değil (telegrafik), anlama korunmuş, tekrarlama bozuk. Lezyon <strong>frontal lobda</strong> (Broca alanı, 44. alan). Sağ hemiparezi eşliği sol frontal lob lezyonunu destekler.'
-},
-{
-  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
-  years:['Sonbahar 2000'],
-  q:'Broca afazisinde a.cerebri medianın beslediği alanda görülen enfarktüs hangi lobdadır?',
-  opts:['A) Temporal lob','B) Frontal lob','C) Fassikulus arcuatus','D) Gyrus angularis','E) Oksipital lob'],
-  ans:'B',
-  hint:'Broca alanı frontal lobda, a.cerebri medianın alt dalları tarafından beslenir.',
-  trap:'Fasikülus arkuatus (arkuat fasikül) Broca ve Wernicke\'yi BAĞLAYAN yolaktır; lezyon burada olursa İletim afazisi gelişir.',
-  explain:'<strong>Broca alanı</strong> frontal lobun inferior posterior gyrusundadır. A.cerebri media\'nın üst dalları tarafından beslenir. Tıkanmasında motor afazi + kontralateral üst ekstremite hemiparezi gelişir.'
-},
-{
-  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
-  years:['İlkbahar 1999'],
-  q:'Aşağıdakilerden hangisi <u>orta serebral arter tıkanıklığına bağlı perisilvian aralıktaki yaygın nekroz</u> sonucu görülür?',
-  opts:['A) Wernicke afazisi','B) Broka afazisi','C) Global afazi','D) Literal parafazi','E) Kondüksiyon afazisi'],
-  ans:'C',
-  hint:'Orta serebral arter TÜM dal tıkanması → Dil bölgesinin büyük kısmı etkilenir → GLOBAL afazi.',
-  trap:'Sadece Broca alanı tıkarsa Broca afazisi, sadece Wernicke tıkarsa Wernicke afazisi olur. Büyük alan tıkanması → Global.',
-  explain:'<strong>Global afazi</strong>: Konuşma, anlama, tekrarlama ve yazma tamamen bozulmuştur. Dominant hemisferde orta serebral arterin büyük kısmının tıkanması ile dil bölgesinin geniş alanı etkilenir.'
-},
-{
-  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
-  years:['İlkbahar 1999'],
-  q:'Altmış yaşında aniden <u>saçmalayarak</u> gelen erkek hastada okuma ve söyleneni tekrarlama bozuk ise hastada ne düşünürsünüz?',
-  opts:['A) Alzheimer hastalığı','B) Global afazi','C) Broka afazisi','D) Wernicke afazisi','E) Kondüksiyon afazisi'],
-  ans:'D',
-  hint:'Akıcı AMA ANLAŞILMAZ konuşma (jargon) + Anlama BOZUK = Wernicke afazisi.',
-  trap:'Global afazide konuşma YOKTUR. Burada hasta saçmalayarak konuşabiliyor → akıcı afazi = Wernicke.',
-  explain:'<strong>Wernicke afazisi</strong>nde hasta akıcı konuşur ancak anlamsız kelimeler (parafaziler, jargon afazi) üretir. Anlama ve tekrarlama bozuktur. Lezyon temporal lobdadır (22. alan).'
-},
-{
-  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
-  years:['Sonbahar 2007'],
-  q:'Konuşurken sık sık duraklayan ve kelime bulmakta zorluk çektiği izlenimi alınan bir hastanın muayenesinde, sık duraklamalar dışında spontan konuşmasının normal olduğu ve söylenenleri anladığı saptanmış. Hasta kendisine gösterilen çeşitli cisimlerin ne işe yaradığını tarif edebilmekte, ancak isimlerini bulmakta büyük zorluk çekmektedir.',
-  opts:['A) Görsel agnozi','B) Transkortikal afazi','C) Taktil agnozi','D) Broca afazisi','E) Anomik afazi'],
-  ans:'E',
-  hint:'İzole kelime bulma güçlüğü (isim bulamama) = ANOMİK afazi. Konuşma ve anlama korunmuş.',
-  trap:'Transkortikal motor afazide tekrarlama korunmuş ama konuşma akıcı değildir. Burada sadece isim bulma güçlüğü var.',
-  explain:'<strong>Anomik (amnestik) afazi</strong>: Konuşmanın akıcılığı ve anlamanın korunması, ancak isimleri bulmada güçlük çekilmesiyle karakterizedir. Nesnenin ne olduğu bilinir, işlevi tarif edilir, ama ismi söylenemez.'
-},
-{
-  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
-  years:['İlkbahar 2009'],
-  q:'Karbon monoksit intoksikasyonu nedeniyle izlenmekte olan otuzaltı yaşındaki hasta basit emirleri yerine getirme yerine, soruyu aynen tekrarlayarak cevaplandırmaktadır. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?',
-  opts:['A) Broca afazisi','B) Transkortikal motor afazi','C) Wernicke afazisi','D) Transkortikal duyusal afazi','E) İletim afazisi'],
-  ans:'B',
-  hint:'TEKRARLAMANın KORUNDUĞU afaziler = Transkortikal afaziler. Motor konuşma bozuk + Tekrarlama iyi → Transkortikal MOTOR.',
-  trap:'İletim afazisinde tekrarlama BOZUKTUR. Transkortikal afazilerde tekrarlama korunur. Burada hasta soruyu AYNEN tekrarlıyor → Tekrarlama iyi.',
-  explain:'<strong>Transkortikal motor afazi</strong>: Konuşma akıcı değil, anlama korunmuş, tekrarlama <strong>korunmuştur</strong>. KO intoksikasyonunda anterior serebral arter sulama alanı (Broca çevresi) etkilenebilir.'
-},
-{
-  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
-  years:['İlkbahar 2012'],
-  q:'Konuşmanın akıcı olduğu, anlamanın belirgin olarak korunduğu ancak tekrarlamanın ağır derecede bozulduğu afazi tipi aşağıdakilerden hangisidir?',
-  opts:['A) Broca','B) Transkortikal duyusal','C) İletim','D) Wernicke','E) Transkortikal motor'],
-  ans:'C',
-  hint:'Arkuat fasikül kesintisi → TEKRARLAMANın İZOLE BOZULDUĞU afazi = İLETİM afazisi.',
-  trap:'Transkortikal afazilerde tekrarlama KORUNUR. İletim afazisinde ise tekrarlama BELİRGİN BOZUKTUR.',
-  explain:'<strong>İletim afazisi</strong>: Arkuat fasiküle hasar nedeniyle Broca ve Wernicke arasındaki bağlantı kopar. Konuşma akıcı, anlama korunmuş, ancak tekrarlama <strong>belirgin bozulmuştur</strong>.'
-},
-{
-  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
-  years:['Sonbahar 2025'],
-  q:'Altmış beş yaşındaki erkek hasta konuşma bozukluğu nedeniyle acil servise getiriliyor. Muayenesinde konuşmasının akıcı ve ekolalik olduğu, isimlendirmenin bozulduğu ancak tekrarlamanın normal olduğu saptanıyor.',
-  opts:['A) Transkortikal motor','B) Kondüksiyon','C) Transkortikal sensoryel','D) Anomik','E) Wernicke'],
-  ans:'C',
-  hint:'Ekolali + Tekrarlama KORUNMUŞ + Anlama BOZUK = Transkortikal SENSÖRİYEL afazi.',
-  trap:'Ekolali (söyleneni aynen tekrarlama) özelliği transkortikal sensoryel afaziye özgüdür. Anomik afazide ekolali görülmez.',
-  explain:'<strong>Transkortikal sensöriyal afazi</strong>: Konuşma akıcı, ekolali var, tekrarlama korunmuş, anlama bozuktur. Wernicke alanı etrafındaki izolasyon lezyonuyla oluşur.'
-},
-{
-  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
-  years:['Sonbahar 1997'],
-  q:'İki taraflı hemiparezi, konuşmada, çiğnemede, yutmada, farinks ve dil hareketlerinde zayıflık, gülme ve ağlama nöbetleri görülen hastada <u>en olası</u> tanı nedir?',
-  opts:['A) Psödotümör serebri','B) Pseudobulbar paralizi','C) Fasial paralizi','D) Parkinson','E) Pseudohipertrofik musküler distrofi'],
-  ans:'B',
-  hint:'PseudoBULBAR paralizi: Bilateral KORTİKOBULBER yol lezyonu. Ağlama-gülme nöbetleri PATOGNOMONİK.',
-  trap:'Bulber paralizi alt MN lezyonudur; pseudobulbar ise bilateral üst MN lezyonudur. Ağlama-gülme nöbetleri pseudobulbar\'a özgüdür.',
-  explain:'<strong>Pseudobulbar paralizi</strong>: Bilateral kortikobulber yol hasarı sonucu; disfazi, disfaji, dizartri, ağlama-gülme nöbetleri (emotional incontinence) karakteristiktir. Bilinç ve entelektüel fonksiyonlar korunur.'
-},
-{
-  section:'afazi',sectionLabel:'AFAZİ – Konuşma ve Yüksek Kortikal Fonksiyonlar',
-  years:['Sonbahar 1996'],
-  q:'Sağ periferik fasiyal paralizi, sağ 6. kranial sinir paralizi ve sol tarafta hemiparezi varsa lezyon nerededir?',
-  opts:['A) Sol pons','B) Sağ kapsüla interna','C) Sol kapsüla interna','D) Sağ pons','E) Sol talamus'],
-  ans:'D',
-  hint:'Aynı yanda 6. ve 7. KS tutulumu + Karşı taraf hemiparezi = PONS lezyonu (Millar-Gubler = Alternans hemipleji)',
-  trap:'Kapsüla interna lezyonunda periferik fasiyal paralizi OLMAZ (merkezi olur). Sağ pons → Sağ 6+7 KS + Sol hemiparezi.',
-  explain:'<strong>Alternans hemipleji</strong>: Lezyon tarafında KS felci + Karşı taraf hemiparezi. Sağ 6+7 KS + Sol hemiparezi → <strong>Sağ pons</strong> lezyonu (Millard-Gubler sendromu).'
-},
+{section:'svh',sectionLabel:'SVH – Serebrovasküler Hastalıklar',years:['Sonbahar 2014 Orijinal','Sonbahar 2014 BENZERİ'],
+q:'Elli yaşındaki kadın hastada akut sol hemiparezi tablosu gelişiyor ve 1 saat içinde acil servise getiriliyor. Beyin bilgisayarlı tomografisinde kanama bulguları saptanmıyor. Aşağıdakilerden hangisi bu hastada intravenöz tromboliz tedavisi için kontrendikasyon oluşturur?',
+opts:['A) Trombosit sayısı 125.000 / mm³','B) Kan şekeri 250 mg/dL','C) Kan basıncı 220 / 120 mmHg','D) Bilgisayarlı tomografide falks kalsifikasyonu','E) 3 ay önce geçirilmiş mide ameliyatı'],
+ans:'C',
+hint:'tPA kontrendikasyonu: KB 185/110 mmHg\'den FAZLA olması. 220/120 → mutlak kontrendikasyon.',
+trap:'Kan şekeri 250 göreceli kontrendikasyon olabilir, kan basıncı ise 185/110 üzerinde MUTLAK kontrendikasyondur. Trombosit 125.000 yeterlidir (>100.000 olması gerekir).',
+explain:'İV tPA (doku plazminojen aktivatörü) için <strong>kontrendikasyonlar:</strong> KB >185/110 mmHg, intrakraniyal kanama, son 3 ay majör travma/cerrahi, trombosit <100.000, aktif kanama. <strong>220/120 mmHg</strong> mutlak kontrendikasyondur.'},
+
+{section:'svh',sectionLabel:'SVH – Serebrovasküler Hastalıklar',years:['Sonbahar 2014 Orijinal'],
+q:'Hipertansiyon ve diyabet öyküsü olan 75 yaşındaki erkek hasta, sol gözünde 5 dakika süren görme kaybı ataklarından yakınıyor. Hasta atak sırasında sol gözünü kapattığında sağ gözüyle normal gördüğünü, sağ gözünü kapattığında ise hiç görmediğini belirtiyor.',
+opts:['A) Oksipital lob lezyonu – Serebral infarkt','B) Retinal iskemi – Karotis darlığı','C) Optik sinirde inflamasyon – Multipl skleroz','D) Optik traktus lezyonu – Beyin tümörü','E) Optik kiazma basısı – Hipofiz tümörü'],
+ans:'B',
+hint:'SOL göz monoküler görme kaybı (diğer gözü kapatınca sorun sola izole) = İPSİLATERAL optik sinir/retina/karotis.',
+trap:'Oksipital lob lezyonu HONİMİM hemianopi yapar, her iki gözde aynı taraf görme alanı kaybı olur. Burada sadece sol göz etkileniyor → monoküler.',
+explain:'<strong>Amarozis fugaks</strong>: Sol karotis iç arterden gelen emboli → sol retinal arter tıkanması → sol gözde geçici monoküler körlük. Sol gözü kapayınca sağ göz normal görür → sol gözde izole sorun. Tanıda karotis Doppler USG önceliklidir.'},
+
+{section:'svh',sectionLabel:'SVH – Serebrovasküler Hastalıklar',years:['Sonbahar 1989'],
+q:'Geçici görme kaybı veya hemimotor kayıp olan bir hastada arteriel tıkanıklığın <u>en olası</u> lokalizasyonu hangisidir?',
+opts:['A) A. cerebralis posterior','B) A. basillaris','C) A. carotis interna','D) A. vertebralis','E) A. cerebri media'],
+ans:'C',
+hint:'Monoküler görme kaybı (amarozis fugaks) + Hemiparezi = KAROTİS İNTERNA tıkanması.',
+trap:'Vertebral/baziller tıkanması posterior dolaşım bulgularına (vertigo, diplopi, ataksi) yol açar. Anterior dolaşım (karotis) → hemiparezi + monoküler görme.',
+explain:'<strong>A. carotis interna</strong> tıkanması: Amarozis fugaks (ipsilateral geçici monoküler görme kaybı) + kontralateral hemiparezi. Geçici iskemik atak etiyolojisinde en sık vasküler yapı karotis internadadır.'},
+
+{section:'svh',sectionLabel:'SVH – Serebrovasküler Hastalıklar',years:['Sonbahar 1991'],
+q:'Acil servise komada gelen bir hastanın pupilleri 2 mm ve laterizasyon bulgusu yok ise aşağıdakilerden hangisi düşünülür?',
+opts:['A) Atropin zehirlenmesi','B) Metabolik koma','C) İntraserebral hemoraji','D) Pons\'ta hemoraji','E) Mezensefalon enfarktı'],
+ans:'D',
+hint:'Pin-point pupil (2 mm, bilateral küçük) = PONS kanaması. "Pons = Point Pupil"',
+trap:'Metabolik komada pupiller genellikle normaldir. Atropin zehirlenmesinde midriyazis (büyük pupil) görülür. 2 mm bilateral miozis = Pons kanaması.',
+explain:'<strong>Pin-point pupil</strong> nedenleri: Pons kanaması (en önemli), Opioid intoksikasyonu, Organofosfat zehirlenmesi, Pilokarpin göz damlası, Nörosifiliz. <strong>Bilateral 2 mm pupil</strong> acil bir durum olarak pons kanamasını akla getirmelidir.'},
+
+{section:'svh',sectionLabel:'SVH – Serebrovasküler Hastalıklar',years:['Sonbahar 1991'],
+q:'Bir önceki sorudaki hastada tanı amacıyla <u>ilk önce</u> hangisi yapılır?',
+opts:['A) Kan biokimyası','B) BBT','C) Anjiografi','D) Kraniografi','E) MRI'],
+ans:'B',
+hint:'İNME şüphesinde ilk tetkik: BEYİN BİLGİSAYARLI TOMOGRAFİSİ (BBT/BT). Hızlı ve hemoraji ekarte eder.',
+trap:'MRI daha iyi görüntü verir ama BBT daha HIZLIDIR ve acil ortamda hemoraji-iskemi ayrımı için önce BBT yapılır.',
+explain:'<strong>Akut inme şüphesinde</strong> ilk yapılacak tetkik <strong>kontrastsız BBT</strong>dir. Hemorajik inmeyi iskemik inmeden ayırt eder. Hemorajide BT çok sensitiftir. MRI iskemik inmede daha üstündür ama acil ortamda BT önce gelir.'},
+
+{section:'svh',sectionLabel:'SVH – Serebrovasküler Hastalıklar',years:['Sonbahar 1992'],
+q:'Elli altı yaşında sağ elini kullanamayan, 5 yıldır baş ağrısı olan ve toplam dört kez epilepsi atağı geçiren, son zamanlarda doğru kelimeleri bulamama şikâyetleri ile başvuran hastada tanı nedir?',
+opts:['A) Aterosklerotik sol orta serebral arter yetmezliği','B) Akuaduktus stenozu','C) Subdural hematom','D) A-V malformasyon','E) Sol parietal kitle'],
+ans:'A',
+hint:'Sağ el güçsüzlüğü + Anomik afazi (kelime bulamama) + Uzun süreli = SOL ORTA SEREBRAL ARTER yetmezliği',
+trap:'Akuaduktus stenozu hidrosefaliye yol açar; afazi yapmaz. A-V malformasyon daha genç yaşta görülür ve epilepsi sık olur.',
+explain:'Sol orta serebral arter besleme alanında olan dominant hemisferde; <strong>sağ hemipleji, dil bozukluğu (afazi)</strong> ve epilepsi görülür. Baş ağrısı ve uzun süreli seyir aterosklerotik etyolojiyi destekler.'},
+
+{section:'svh',sectionLabel:'SVH – Serebrovasküler Hastalıklar',years:['Sonbahar 1990'],
+q:'Altmış yaşındaki bir erkek hasta, onbeş gündür haftada üç-dört kez sağ kol ve bacağına gelen kuvvet azlığı ve konuşamama şikâyetiyle başvuruyor.',
+opts:['A) Beyin kanaması','B) Epidural hematom','C) Geçici iskemik atak','D) Subdural hematom','E) Beyin tümörü'],
+ans:'C',
+hint:'Tekrarlayan, 24 saatten kısa süren nörolojik bulgular = GEÇİCİ İSKEMİK ATAK (TİA).',
+trap:'Beyin kanaması genellikle ani ve şiddetli başlar, düzelmez. TİA\'da 24 saatten kısa sürede tam düzelme olur.',
+explain:'<strong>Geçici iskemik atak (TİA):</strong> <24 saat içinde tamamen geçen fokal nörolojik bulgular. İnme riskinin habercisidir. ABCD² skoru ile risk değerlendirmesi yapılır.'},
+
+{section:'svh',sectionLabel:'SVH – Serebrovasküler Hastalıklar',years:['İlkbahar 2006'],
+q:'Altmış iki yaşında bir erkek hasta akut sağ hemiparezi ve afazi başladıktan 2 saat sonra acil servise geliyor. Hastanın öyküsünden daha önce hipertansiyon dışında bir hastalığı bulunmadığı öğreniliyor. Hastanın kan basıncı 160/85 mmHg olarak saptanıyor. Bilgisayarlı tomografi sonucu normal olan bu hastada için <u>en uygun</u> tedavi hangisidir?',
+opts:['A) İntravenöz tPA (doku plazminojen aktivatörü)','B) Düşük molekül ağırlıklı heparin (LMWH)','C) Warfarin','D) İntravenöz heparin','E) Aspirin'],
+ans:'A',
+hint:'4,5 saat içinde + Hemoraji YOK (BT normal) + KB <185/110 = tPA verilir!',
+trap:'LMWH ve heparin akut trombolitik dönemde standart tedavi değildir. tPA belirlenen kriterlerde verilmesi gereken altın standarttır.',
+explain:'<strong>Akut iskemik inme tPA kriterleri:</strong> Semptom başlangıcından 4,5 saat içinde, BT\'de hemoraji yok, KB ≤185/110, trombosit >100.000. Bu hastada tüm kriterler karşılanmaktadır.'},
+
+{section:'svh',sectionLabel:'SVH – Serebrovasküler Hastalıklar',years:['İlkbahar 2009'],
+q:'Mitral kapak hastalığına bağlı akut iskemik inme ile acil servise getirilen ellidört yaşında hastanın çekilen kraniyal bilgisayarlı tomografisi normal olarak bulunuyor. Atak başlangıcından bu yana 1 saat geçtiği öğrenilen hastanın fizik muayenesinde sağ hemipleji ve afazi saptanıyor.',
+opts:['A) Trombolitik tedavi','B) Cerrahi kardiyak trombektomi','C) Tıkalı beyin damarına yönelik cerrahi trombektomi','D) Antiagregan/antikoagülan tedavi ile klinik izlem','E) Rehabilitasyon'],
+ans:'A',
+hint:'1 saat geçmiş + Hemoraji YOK + Hemipleji+Afazi = tPA (trombolitik) verilir. 4,5 saat içindeyiz.',
+trap:'Kardiyak kaynaklı emboli varlığında antikoagülasyon düşünülse de akut dönemde önce tPA verilmeli. Cerrahi trombektomi endovasküler için düşünülür.',
+explain:'<strong>Kardiyoembolik iskemik inmede</strong> de 4,5 saat içindeyse <strong>iv tPA</strong> uygulanır. BT\'de hemoraji yoksa ve kontraendikasyon yok ise tPA altın standarttır.'},
+
+{section:'svh',sectionLabel:'SVH – Serebrovasküler Hastalıklar',years:['Sonbahar 2015 Orijinal'],
+q:'Ani başlayan vertigo, yüzünün sağ tarafında uyuşma, sağ tarafına doğru dengesizlik, ses kısıklığı, hıçkırık ve yutma zorluğu ile acil servise başvuran bir hastada <u>en olası</u> tanı aşağıdakilerden hangisidir?',
+opts:['A) Lateral medüller sendrom','B) Baziller arter sendromu','C) Weber sendromu','D) Lateral pontomedüller sendrom','E) Medial medüller sendrom'],
+ans:'A',
+hint:'Wallenberg = Lateral medüller sendrom. PICA tıkanması. Aynı taraf yüz + Karşı taraf vücut ısı/ağrı kaybı.',
+trap:'Weber sendromu mezensefalondan kaynaklanır; 3. sinir felci + kontralateral hemiparezi görülür. Lateral medüller sendromda 3. sinir tutulumu yoktur.',
+explain:'<strong>Wallenberg (Lateral medüller) sendromu:</strong> PICA tıkanması. İpsilateral yüz ısı/ağrı kaybı + kontralateral vücut ısı/ağrı kaybı + Horner + Vestibüler bulgular (vertigo, nistagmus) + ses kısıklığı/disfaji + ipsilateral ataksi.'},
+
+{section:'svh',sectionLabel:'SVH – Serebrovasküler Hastalıklar',years:['Sonbahar 2014 Orijinal','Sonbahar 2015 BENZERİ'],
+q:'Tipik olarak yüzde aynı tarafta vücutta karşı tarafta ağrı ısı duyusu kaybı yapan, değişik oranlarda nörolojik bulgulara yol açan, kortikospinal yol ve nervus hipoglossusu etkilemeyen hastalık aşağıdakilerden hangisidir?',
+opts:['A) Subklavian çalma sendromu','B) Lateral medüller sendrom','C) Fisherin 1.5 sendromu','D) Lateral pontomedüller sendrom','E) Weber sendromu'],
+ans:'B',
+hint:'İpsilateral yüz + Kontralateral vücut ısı/ağrı kaybı = Wallenberg = Lateral MEDÜLLer sendrom.',
+trap:'Weber sendromunda 3. sinir felci ve kontralateral hemiparezi olur, ısı/ağrı kaybı bu şekilde değildir. Lateral medüller\'de kortikospinal yol ETKILENMEZ.',
+explain:'<strong>Wallenberg sendromu</strong>nda kortikospinal yol ve n.hypoglossus etkilenmez. Spinotalamik traktus çaprazlandığı için vücut karşı tarafı, trigeminal sinir aynı taraf yüzü etkiler.'},
+
+{section:'svh',sectionLabel:'SVH – Serebrovasküler Hastalıklar',years:['İlkbahar 1995'],
+q:'Anterior serebral arter trombozunda hangi klinik bulgular görülür?',
+opts:['A) Homonim hemianopsi','B) Karşı tarafta alt ekstremitede motor kayıp','C) Aynı tarafta motor, duyu kaybı','D) Karşı tarafta ağrı duyusu kaybı','E) Aynı tarafta ağrı duyusu kaybı'],
+ans:'B',
+hint:'Anterior serebral arter = Frontal + Parietal lob iç yüzü = Alt EKSTREMİTE motor korteksi.',
+trap:'Orta serebral arter üst ekstremiteyi ve yüzü etkiler. Anterior serebral arter özellikle ALT EKSTREMİTEYİ etkiler.',
+explain:'<strong>A. serebri anterior tıkanması:</strong> Kontralateral alt ekstremite motor/duyu kaybı, idrar inkontinansı. Motor homunkulus\'ta bacak bölgesi mediale doğrudur ve anterior serebral arterle beslenir.'},
+
+{section:'svh',sectionLabel:'SVH – Serebrovasküler Hastalıklar',years:['Sonbahar 1993'],
+q:'Sağ hemipleji, sağ hemihipoestezi ve sağ homonim hemianopsi olan hastada lezyon hangi lokalizasyondadır?',
+opts:['A) Sol occipital lob','B) Sol kapsula interna','C) Mezensefalon','D) Sağ kapsula interna','E) Sol frontal lob'],
+ans:'B',
+hint:'Hemipleji + Hemihipoestezi + Hemianopsi = Tüm kortikospinal, talamo-kortikal ve optik yollar bir arada → KAPSULA İNTERNA.',
+trap:'Kapsula interna sol tarafı etkilerse SAĞ taraf bulguları çıkar (motor yollar çapraz yapar). Sol kapsula interna → Sağ hemipleji+hemihipoestezi+hemianopsi.',
+explain:'<strong>Sol kapsula interna</strong> lezyonunda: Sağ hemipleji (kortikospinal yol), sağ hemihipoestezi (talamokortikale lifler), sağ homonim hemianopsi (radiatio optica) birlikte görülür. Klasik "3H" tablosudur.'},
+
+{section:'svh',sectionLabel:'SVH – Serebrovasküler Hastalıklar',years:['İlkbahar 2007'],
+q:'Akut inme (stroke) ile acil servise getirilen bir hastada nörolojik klinik değerlendirme sonrası <u>ilk</u> yapılması gereken radyolojik inceleme aşağıdakilerden hangisidir?',
+opts:['A) Bilgisayarlı beyin tomografisi','B) Serebral anjiyografi','C) Transkraniyal ultrasonografi','D) Magnetik rezonans görüntüleme','E) Direkt kafa grafisi'],
+ans:'A',
+hint:'Akut inme = Önce BT. Hemoraji mi iskemi mi? BT en hızlı ve sensitif yöntemdir.',
+trap:'MRI daha iyi görüntü verir ama zaman alır ve akut hemorajiyi göstermekte BT kadar sensitif olmayabilir. Acil şartlarda BT önce gelir.',
+explain:'<strong>Akut inmede ilk radyolojik tetkik BT</strong>dir. Hemorajik-iskemik ayrımı yapılır. Hemorajide BT çok sensitiftir. Sonraki adımda difüzyon MRI yapılabilir. Serebral anjiyografi endovasküler tedavi öncesinde yapılır.'},
+
+{section:'svh',sectionLabel:'SVH – Serebrovasküler Hastalıklar',years:['İlkbahar 2019 Orijinal'],
+q:'Manyetik rezonans görüntülemede difüzyon ağırlıklı inceleme sekansı aşağıdaki intrakraniyal patolojilerin hangisinin tanısında <u>öncelikle</u> kullanılır?',
+opts:['A) Subaraknoid kanama','B) Akut iskemik inme','C) Kronik iskemik inme','D) Travmatik fraktür','E) Hidrosefali'],
+ans:'B',
+hint:'Difüzyon MRI = AKÜt iskemik inmenin en erken tanı yöntemi. Dakikalar içinde kısıtlılık gösterir.',
+trap:'Subaraknoid kanama için BT veya LP önce tercih edilir. Difüzyon MRI özellikle akut iskemi için değerlidir.',
+explain:'<strong>Difüzyon ağırlıklı MRI (DWI)</strong>: Akut iskemik inmenin dakikalar içinde tanısını sağlar. Sitotoksik ödem nedeniyle su moleküllerinin hareketi kısıtlanır. Semptom başlangıcından birkaç dakika sonra pozitifleşir.'},
+
+{section:'svh',sectionLabel:'SVH – Serebrovasküler Hastalıklar',years:['Sonbahar 2022 Orijinal'],
+q:'Altmış beş yaşındaki erkek hasta, sağ tarafında ani gelişen kuvvet kaybı nedeniyle acil servise getiriliyor. Nörolojik muayenesinde; sağ alt ekstremitesinin 4/5 kuvvetinde olduğu ve sağda Babinski pozitifliği saptanıyor. Kraniyal manyetik rezonans görüntülemesinde iskemi ile uyumlu lezyon saptanan bu hastada etkilenmiş olması <u>en olası</u> arter aşağıdakilerden hangisidir?',
+opts:['A) Anterior serebral arter','B) Orta serebral arter','C) Posterior serebral arter','D) Baziler arter','E) Vertebral arter'],
+ans:'A',
+hint:'Alt ekstremite izole güçsüzlüğü = Anterior serebral arter (bacak bölgesi medial korteks).',
+trap:'Orta serebral arter daha sık tıkansa da üst ekstremite ve yüzü etkiler. İzole alt ekstremite tutulumu anterior serebral arterı işaret eder.',
+explain:'<strong>A. serebri anterior</strong> frontal ve parietal lob iç yüzünü besler. Bu bölgede motor homunkulus\'ta bacak temsili bulunur. Tıkanması → kontralateral alt ekstremite güçsüzlüğü, idrar inkontinansı.'},
+
+{section:'svh',sectionLabel:'SVH – Serebrovasküler Hastalıklar',years:['İlkbahar 2002'],
+q:'Altmış yaşındaki bir erkek hastada konuşma güç sağ yüz ve vücut yarısında uyuşma, sağ kolda güçsüzlük görülüyor. Serebrovasküler olay düşünülen bu hastada, tabloya hangi damarın tıkanıklığı yol açmış olabilir?',
+opts:['A) Sağ karotid arter','B) Sol anterior serebral arter','C) Sol orta serebral arter','D) Sağ posterior serebral arter','E) Sol posterior inferior serebellar arter'],
+ans:'C',
+hint:'Sol MCA = Sağ hemiparezi + Afazi (konuşma bozukluğu). "Sol MCA = Dil bölgesi + Sağ taraf."',
+trap:'Sağ karotid arterin tıkanmasında sol hemiparezi + sol taraf bulguları görülür. Konuşma bozukluğu ve sağ vücut bulgularının birlikte olması sol hemisfer işaret eder.',
+explain:'<strong>Sol orta serebral arter (MCA)</strong> tıkanması: Sağ hemiparezi, sağ hemihipoestezi, <strong>dil bozuklukları (afazi)</strong> — dominant hemisferde Broca/Wernicke alanları etkilenir.'},
 
 // ══════════════════════════════════════════════════════
-// APRAKSİ, AGNOZİ
+// SEREBELLAR
 // ══════════════════════════════════════════════════════
-{
-  section:'afazi',sectionLabel:'AFAZİ – Yüksek Kortikal Fonksiyonlar',
-  years:['İlkbahar 2009 Orijinal (benzer)'],
-  q:'Parezi, duyu defisiti veya koordinasyon bozukluğu olmadan öğrenilmiş beceri, gerektiren hareketlerin yapılamaması veya beceriksiz şekilde yapılması aşağıdakilerden hangisiyle ifade edilir?',
-  opts:['A) Afazi','B) Agnozi','C) Apraksi','D) Anomi','E) Aleksi'],
-  ans:'C',
-  hint:'APRAKSİ = Motor program bozukluğu. Parezi YOK ama hareket YAPILAMAZ.',
-  trap:'Agnozi duyu organları sağlamken nesneyi tanıyamamaktır. Apraksi ise motor yeteneğin kaybıdır.',
-  explain:'<strong>Apraksi</strong>: Güç, his veya koordinasyon bozukluğu olmaksızın öğrenilmiş motor eylemlerin yapılamamasıdır. Genellikle dominant paryetal lob lezyonlarında görülür.'
-}
+{section:'serebellar',sectionLabel:'SEREBELLAR SENDROM',years:['İlkbahar 2004'],
+q:'Aşağıdakilerden hangisi serebellar sendrom bulgularındandır?',
+opts:['A) Lezyon tarafında disdiadokinezi','B) Epilepsi','C) Lezyon karşısında apraksi','D) İstirahat tremoru','E) Lezyon tarafında internükleer oftalmopleji'],
+ans:'A',
+hint:'Serebellum bulgular İPSİLATERAL = "Ataksi, Dismetri, Disdiadokinezi, Nistagmus, İntansiyonel tremor"',
+trap:'İstirahat tremoru Parkinson hastalığına özgüdür; serebellumda intansiyonel tremor görülür. İnternükleer oftalmopleji beyinsapı/arkuat fasikül lezyonu bulgusudur.',
+explain:'<strong>Serebellar lezyonlarda bulgular ipsilateraldir:</strong> Ataksi, dismetri, disdiadokinezi (alternating hareketleri yapamama), intansiyonel tremor, nistagmus, hipotoni. İstirahat tremoru ve epilepsi serebellum bulgusu değildir.'},
+
+{section:'serebellar',sectionLabel:'SEREBELLAR SENDROM',years:['İlkbahar 1999'],
+q:'Santral sinir sisteminin hangi bölgesinin lezyonunda dengesizlik görülür?',
+opts:['A) Anterior hipotalamus','B) Serebellum anterior lob','C) Serebellum posterior lob','D) Serebellum flokkulonoduler lob','E) Oksipital korteks'],
+ans:'D',
+hint:'DENGE: FlokkuloNODÜLER lob (vestibulosererebellum). "FloNo = Denge iNO"',
+trap:'Anterior lob spinoserebellumdur (kas tonusu). Posterior lob neocerebellum (hareket koordinasyonu). Flokkulonodüler lob denge ve göz hareketleri.',
+explain:'<strong>Serebellum 3 fonksiyonel bölümü:</strong> 1) Flokkulonodüler lob (vestibülosererebellum): Denge ve göz hareketleri, 2) Anterior lob (spinoserebellum): Kas tonusu, 3) Posterior lob (neoserebellum): Hareket koordinasyonu.'},
+
+{section:'serebellar',sectionLabel:'SEREBELLAR SENDROM',years:['Sonbahar 2017 Orijinal','Sonbahar 2017 BENZERİ'],
+q:'Serebellar lezyonlarda aşağıdaki semptomlardan hangisinin görülmesi <u>beklenmez</u>?',
+opts:['A) Hipertoni','B) İntansiyonel tremor','C) Ataksi','D) Dizartri','E) Disdiadokokinezi'],
+ans:'A',
+hint:'Serebellum lezyonunda tonus AZALIR (hipotoni). Hipertoni = üst MN veya ekstrapiramidal.',
+trap:'Serebellumda hipotoni olur, HİPERTONİ OLMAZ. Spastisite üst MN, rigidite ekstrapiramidal sistemdir.',
+explain:'<strong>Serebellar hastalık bulguları:</strong> Ataksi, dismetri, disdiadokinezi, intansiyonel tremor, nistagmus, <strong>HİPOTONİ</strong>. Hipertoni serebellum lezyonunda beklenmez. Serebellum hasarında koordinasyon bozulur, tonus azalır.'},
+
+{section:'serebellar',sectionLabel:'SEREBELLAR SENDROM',years:['Sonbahar 1989'],
+q:'Aşağıdakilerden hangisi serebellar hastalıklar sırasında görülebilen fizik muayne bulgularından biri <u>değildir</u>?',
+opts:['A) Ataksi','B) Dismetri','C) Disdiadokokinezi','D) Aksiyon tremoru','E) İstirahat tremoru'],
+ans:'E',
+hint:'İstirahat tremoru PARKINSON\'a özgüdür. Serebellumda tremor intansiyonel (aksiyon) tremorüdür.',
+trap:'Aksiyon tremoru (intansiyonel tremor) serebellum bulgusudur; hedefe yaklaşırken artar. İstirahat tremoru ise Parkinson\'da görülür ve hareketle azalır.',
+explain:'<strong>Serebellumda tremor intansiyonel (aksiyon) tremorüdür</strong> — hedefe yaklaştıkça artar. <strong>İstirahat tremoru</strong> ise ekstrapiramidal sistem (substansia nigra) lezyonunda görülür ve Parkinson hastalığına özgüdür.'},
+
+// ══════════════════════════════════════════════════════
+// FOSTER-KENNEDY & KRANİAL SİNİRLER
+// ══════════════════════════════════════════════════════
+{section:'kras',sectionLabel:'GÖRME YOLU & KRANİAL SİNİRLER',years:['İlkbahar 1988'],
+q:'Foster-Kennedy sendromunda aşağıdakilerden hangisi görülür?',
+opts:['A) Bir fundusta optik atrofi, diğer fundusta papil ödem','B) Bilateral papil ödem','C) Bir fundusta optik atrofi, diğer fundus normal','D) Bilateral optik atrofi','E) Bir fundusta papil ödem, diğer fundus normal'],
+ans:'A',
+hint:'Foster-Kennedy: Lezyon tarafı → Optik atrofi. Karşı taraf → Papil ödem. Klasik "Foster = Asimetrik fundus"',
+trap:'Bilateral papil ödem psödotümör serebri\'ni akla getirir. Foster-Kennedy\'de asimetri vardır: lezyon tarafında atrofi, karşı tarafta papil ödem.',
+explain:'<strong>Foster-Kennedy sendromu:</strong> Olfaktör oluk meningiomalarında görülür. Lezyon tarafında optik sinire basıya bağlı <strong>optik atrofi</strong>, karşı tarafta ise KİBAS\'a bağlı <strong>papil ödem</strong> görülür.'},
+
+{section:'kras',sectionLabel:'GÖRME YOLU & KRANİAL SİNİRLER',years:['İlkbahar 2017 Orijinal'],
+q:'Sağ göz kapağında düşme yakınmasıyla başvuran 35 yaşındaki kadın hastanın nörolojik muayenesinde sağ göz kapağında pitozis, sağ gözde içe, yukarı ve aşağıya bakış kısıtlılığı ve anizokori olduğu saptanıyor. Bu hastanın ışık refleksi muayenesiyle ilgili aşağıdaki ifadelerden hangisi doğrudur?',
+opts:['A) Işık refleksleri etkilenmez.','B) Solda direkt ışık refleksi alınamaz.','C) Sağda indirekt ışık refleksi alınamaz.','D) Sağda direkt ışık refleksi alınabilir.','E) Solda indirekt ışık refleksi alınamaz.'],
+ans:'C',
+hint:'3. Sinir felci: Pitozis+midriyazis+tüm yönlerde hareket kısıtlılığı. Parasimpatik (pupil) de etkilenir → Sağda direkt ve indirekt alınamaz.',
+trap:'3. sinir felcinde sağ gözde parasimpatik de etkilenir → sağ göze ışık tutunca sağda direkt refleks ALINMAZ (efferent bozuk). Sol göze ışık tutunca sağda INDİREKT de ALINMAZ.',
+explain:'<strong>Sağ 3. kranial sinir felcinde:</strong> Sağ göze ışık → Sağda direkt ışık refleksi yok (efferent bozuk) + Solda indirekt alınır. Sol göze ışık → Solda direkt alınır + Sağda INDİREKT alınamaz (sağ efferent bozuk). Dolayısıyla C doğrudur: sağda indirekt ışık refleksi alınamaz.'},
+
+{section:'kras',sectionLabel:'GÖRME YOLU & KRANİAL SİNİRLER',years:['İlkbahar 1991'],
+q:'Göz kaslarında hareketsizlik, trigeminal oftalmik tutulum ve ekzoftalmus olan bir hastada lezyon nerededir?',
+opts:['A) Sinüs sagittalis','B) Sinüs transversus','C) Sinüs kavernosus','D) Dura','E) Willis poligonu'],
+ans:'C',
+hint:'3,4,6. KS + V1 (oftalmik) + Ekzoftalmus = SİNÜS KAVERNOSUStaki 3+4+5(1)+6 = Kavernöz sinüs',
+trap:'Willis poligonu arterlerdir, sinüs kavernosus ise 3,4,5(1),6. kranial sinirleri içeren venöz yapıdır.',
+explain:'<strong>Sinüs kavernosu sendromu:</strong> 3. (okulomotor), 4. (troklear), 5. (trigeminal - V1), 6. (abducens) kranial sinirler + sempatik sinirler etkilenir. İçinden A. karotis interna geçer. Ekzoftalmus, göz hareketleri kısıtlılığı, yüz uyuşması görülür.'},
+
+{section:'kras',sectionLabel:'GÖRME YOLU & KRANİAL SİNİRLER',years:['Sonbahar 1994'],
+q:'Bilateral ekzoftalmusu, kemozisi, oftalmoplejisi, ateşi ve başağrısı olan bir hastada ne düşünürsünüz?',
+opts:['A) Retinoblastom','B) Temporal lob absesi','C) Orbital selülit','D) Kavernöz sinüs trombozu','E) İskemik inme'],
+ans:'D',
+hint:'Ateş + Ekzoftalmus + Bilateral oftalmopleji + Kemozis = KAVERNÖz SİNÜS TROMBOZU.',
+trap:'Orbital selülit tek taraflıdır. Bilateral tutulum sinüs kavernozunu düşündürür.',
+explain:'<strong>Kavernöz sinüs trombozu:</strong> Sinüs kavernozusuna yayılan infeksiyon. Ateş, bilateral ekzoftalmus, kemoz, oftalmopleji (3,4,6. KS tutulumu). Başlangıç enfeksiyon kaynağı: orbital selülit, yüzün orta bölümü enfeksiyonu.'},
+
+{section:'kras',sectionLabel:'GÖRME YOLU – Görme Yolu',years:['İlkbahar 2022 Orijinal'],
+q:'Otuz beş yaşındaki kadın hastada amenore ve galaktore nedeniyle yapılan araştırmalarda hipofiz adenomu saptanıyor. Çapı yaklaşık 3 cm olan adenom aynı zamanda optik kiazmaya da bası yapıyor.',
+opts:['A) Bitemporal hemianopsi','B) Sağ homonim hemianopsi','C) Sol homonim hemianopsi','D) Bilateral alt iç kadran görme kaybı','E) Sağ üst iç kadran görme kaybı'],
+ans:'A',
+hint:'Optik kiazma basısı → BİTEMPORAL hemianopsi. Hipofiz tümörü klasik kiazma baskı nedenidir.',
+trap:'Homonim hemianopsi kiazma SONRASI lezyonlardadır. Kiazma basısında çaprazlayan lifler etkilenir → BİTEMPORAL görme alanı kaybı.',
+explain:'<strong>Optik kiazma lezyonu</strong> (hipofiz adenomu, kraniofarenjiom): Nazal retinadan gelen (temporal görme alanını taşıyan) lifler kiazma\'da çapraz yaptığından, kiazma basısında <strong>bitemporal hemianopsi</strong> görülür.'},
+
+{section:'kras',sectionLabel:'GÖRME YOLU – Görme Yolu',years:['İlkbahar 2022 Orijinal'],
+q:'Altmış yaşındaki hastada akut gelişen görme bozukluğu ile başvuruyor. Beyin görüntülemesinde sağ pariyetal lobda infarkt saptanıyor. Bu hastada aşağıdaki bulgulardan hangisinin görülmesi <u>en olasıdır</u>?',
+opts:['A) Bitemporal hemianopsi','B) Sağ homonim inferior kadranopsi','C) Sağ homonim superior kadranopsi','D) Sol homonim inferior kadranopsi','E) Sol homonim superior kadranopsi'],
+ans:'D',
+hint:'Parietal lob → Radiatio optica üst lifleri → Alt görme alanı kaybı. Sağ lezyon → SOL homonim. Parietal = Alt alan kaybı.',
+trap:'Temporal lob lezyonu üst kadran kaybı yapar (Meyer kavsi). Parietal lob lezyonu alt kadran kaybı yapar. Sağ lezyon sol görme alanını etkiler.',
+explain:'<strong>Sağ parietal lob lezyonu:</strong> Radiatio optica\'nın üst lifleri etkilenir → Sol homonim <strong>inferior</strong> kadranopsi. "Temporal=Meyer kavsi=üst alan; Parietal=alt alan" kuralı geçerlidir.'}
 ];
 
-let idx=0, filteredQ=[...ALL_QUESTIONS];
-let answered=new Set(), correct=new Set(), wrong=new Set(), starred=new Set();
+let idx=0,filteredQ=[...ALL_QUESTIONS];
+let answered=new Set(),correct=new Set(),wrong=new Set(),starred=new Set();
 
 function renderQuestion(){
   const q=filteredQ[idx];
   document.getElementById('sect-label').textContent=q.sectionLabel;
   document.getElementById('q-num').textContent=`Soru ${idx+1}/${filteredQ.length}`;
-  document.getElementById('star-btn').textContent=starred.has(q._gi||idx)?'★':'☆';
-  // year tags
+  document.getElementById('star-btn').textContent=starred.has(idx)?'★':'☆';
   const yt=document.getElementById('year-tags');
   yt.innerHTML='';
   q.years.forEach(y=>{const s=document.createElement('span');s.className='year-tag';s.textContent=y;yt.appendChild(s);});
   document.getElementById('q-text').innerHTML=q.q;
   document.getElementById('hint-box').style.display='none';
   document.getElementById('hint-box').textContent=q.hint;
-  // options
   const optsEl=document.getElementById('options');
   optsEl.innerHTML='';
   q.opts.forEach(opt=>{
-    const letter=opt[0];
-    const text=opt.slice(3);
+    const letter=opt[0];const text=opt.slice(3);
     const btn=document.createElement('button');
     btn.className='opt-btn';
     btn.innerHTML=`<span class="opt-letter">${letter}</span>${text}`;
@@ -460,11 +552,7 @@ function renderQuestion(){
   document.getElementById('feedback').classList.remove('open');
   document.getElementById('trap-text').innerHTML=q.trap;
   document.getElementById('explain-text').innerHTML=q.explain;
-  updateNavBtns();
-  updateToggleBtn();
-  updateProgress();
-  // global index
-  q._gi=idx;
+  updateNavBtns();updateToggleBtn();updateProgress();
   if(answered.has(idx)) restoreAnswerUI(idx,q);
 }
 
@@ -473,63 +561,48 @@ function selectAnswer(letter,gi,q){
   answered.add(gi);
   const isCorrect=(letter===q.ans);
   if(isCorrect) correct.add(gi); else wrong.add(gi);
-  // mark buttons
   const btns=document.querySelectorAll('.opt-btn');
   btns.forEach(btn=>{
     btn.disabled=true;
     const l=btn.querySelector('.opt-letter').textContent;
     if(l===q.ans) btn.classList.add('correct');
-    else if(l===letter && !isCorrect) btn.classList.add('wrong');
+    else if(l===letter&&!isCorrect) btn.classList.add('wrong');
   });
   document.getElementById('feedback').classList.add('open');
   setTimeout(()=>{document.getElementById('feedback').scrollIntoView({behavior:'smooth',block:'start'});},100);
-  updateNavBtns();
-  updateProgress();
+  updateNavBtns();updateProgress();
 }
 
 function restoreAnswerUI(gi,q){
   const btns=document.querySelectorAll('.opt-btn');
-  const chosenLetter=wrong.has(gi)?findWrongLetter(gi,q):q.ans;
   btns.forEach(btn=>{
     btn.disabled=true;
     const l=btn.querySelector('.opt-letter').textContent;
     if(l===q.ans) btn.classList.add('correct');
-    else if(wrong.has(gi) && l===chosenLetter) btn.classList.add('wrong');
+    else if(wrong.has(gi)&&l!==q.ans) {/* don't know which was selected */}
   });
   document.getElementById('feedback').classList.add('open');
 }
-function findWrongLetter(gi,q){return null;}
 
 function toggleHint(){
   const h=document.getElementById('hint-box');
   h.style.display=h.style.display==='none'?'block':'none';
 }
-
 function toggleStar(){
-  const gi=idx;
-  if(starred.has(gi)) starred.delete(gi); else starred.add(gi);
-  document.getElementById('star-btn').textContent=starred.has(gi)?'★':'☆';
+  if(starred.has(idx)) starred.delete(idx); else starred.add(idx);
+  document.getElementById('star-btn').textContent=starred.has(idx)?'★':'☆';
   updateToggleBtn();
 }
-
 function toggleQuestionList(){
   const ov=document.getElementById('modal-overlay');
-  const isOpen=ov.classList.contains('open');
-  if(!isOpen){buildGrid();ov.classList.add('open');}
+  if(!ov.classList.contains('open')){buildGrid();ov.classList.add('open');}
   else ov.classList.remove('open');
 }
-
-function closeModalOnOverlay(e){
-  if(e.target===document.getElementById('modal-overlay')) toggleQuestionList();
-}
-
+function closeModalOnOverlay(e){if(e.target===document.getElementById('modal-overlay'))toggleQuestionList();}
 function buildGrid(){
-  const grid=document.getElementById('q-grid');
-  grid.innerHTML='';
+  const grid=document.getElementById('q-grid');grid.innerHTML='';
   filteredQ.forEach((_,i)=>{
-    const btn=document.createElement('button');
-    btn.className='q-grid-btn';
-    btn.textContent=i+1;
+    const btn=document.createElement('button');btn.className='q-grid-btn';btn.textContent=i+1;
     if(i===idx) btn.classList.add('current');
     if(correct.has(i)) btn.classList.add('done-correct');
     if(wrong.has(i)) btn.classList.add('done-wrong');
@@ -538,46 +611,26 @@ function buildGrid(){
     grid.appendChild(btn);
   });
 }
-
 function navigate(dir){
   idx+=dir;
   if(idx<0) idx=0;
   if(idx>=filteredQ.length) idx=filteredQ.length-1;
-  renderQuestion();
-  window.scrollTo({top:0,behavior:'smooth'});
+  renderQuestion();window.scrollTo({top:0,behavior:'smooth'});
 }
-
 function updateNavBtns(){
   document.getElementById('prev-btn').disabled=(idx===0);
   const next=document.getElementById('next-btn');
   const isLast=(idx===filteredQ.length-1);
   const isAnswered=answered.has(idx);
-  if(isLast && isAnswered){
-    next.textContent='Sonuçları Gör →';
-    next.classList.add('finish');
-    next.onclick=showResult;
-  } else {
-    next.textContent='Sonraki →';
-    next.classList.remove('finish');
-    next.onclick=()=>navigate(1);
-    next.disabled=false;
-  }
+  if(isLast&&isAnswered){next.textContent='Sonuçları Gör →';next.classList.add('finish');next.onclick=showResult;}
+  else{next.textContent='Sonraki →';next.classList.remove('finish');next.onclick=()=>navigate(1);next.disabled=false;}
 }
-
-function updateProgress(){
-  const pct=answered.size/filteredQ.length*100;
-  document.getElementById('prog-bar').style.width=pct+'%';
-}
-
-function updateToggleBtn(){
-  document.getElementById('q-counter').textContent=`${idx+1} / ${filteredQ.length} ☰`;
-}
-
+function updateProgress(){document.getElementById('prog-bar').style.width=(answered.size/filteredQ.length*100)+'%';}
+function updateToggleBtn(){document.getElementById('q-counter').textContent=`${idx+1} / ${filteredQ.length} ☰`;}
 function showResult(){
   document.getElementById('quiz-card').style.display='none';
   document.getElementById('nav-bar').style.display='none';
-  const rs=document.getElementById('result-screen');
-  rs.style.display='block';
+  document.getElementById('result-screen').style.display='block';
   const pct=filteredQ.length>0?Math.round(correct.size/filteredQ.length*100):0;
   document.getElementById('res-pct').textContent=pct+'%';
   document.getElementById('res-correct').textContent=correct.size;
@@ -586,43 +639,32 @@ function showResult(){
   document.getElementById('retry-wrong-btn').style.display=wrong.size===0?'none':'block';
   document.getElementById('retry-star-btn').style.display=starred.size===0?'none':'block';
 }
-
 function restartQuiz(){
   answered.clear();correct.clear();wrong.clear();
-  filteredQ=ALL_QUESTIONS.map((q,i)=>{q._gi=i;return q;});
-  idx=0;
+  filteredQ=[...ALL_QUESTIONS];idx=0;
   document.getElementById('quiz-card').style.display='block';
   document.getElementById('nav-bar').style.display='flex';
   document.getElementById('result-screen').style.display='none';
   renderQuestion();
 }
-
 function retryWrong(){
   const wrongQ=filteredQ.filter((_,i)=>wrong.has(i));
   if(!wrongQ.length) return;
-  answered.clear();correct.clear();wrong.clear();
-  filteredQ=wrongQ;
-  idx=0;
+  answered.clear();correct.clear();wrong.clear();filteredQ=wrongQ;idx=0;
   document.getElementById('quiz-card').style.display='block';
   document.getElementById('nav-bar').style.display='flex';
   document.getElementById('result-screen').style.display='none';
   renderQuestion();
 }
-
 function retryStar(){
   const starQ=filteredQ.filter((_,i)=>starred.has(i));
   if(!starQ.length) return;
-  answered.clear();correct.clear();wrong.clear();starred.clear();
-  filteredQ=starQ;
-  idx=0;
+  answered.clear();correct.clear();wrong.clear();starred.clear();filteredQ=starQ;idx=0;
   document.getElementById('quiz-card').style.display='block';
   document.getElementById('nav-bar').style.display='flex';
   document.getElementById('result-screen').style.display='none';
   renderQuestion();
 }
-
-// init
-ALL_QUESTIONS.forEach((q,i)=>q._gi=i);
 renderQuestion();
 </script>
 </body>

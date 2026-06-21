@@ -3,1230 +3,568 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TUS Hazırlık Quiz — 23 Soru</title>
+<title>BEYİN CERRAHİSİ TTS Quiz – Part 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
-
-  :root {
-    --bg: #0f1117;
-    --surface: #181c27;
-    --surface2: #1e2333;
-    --border: #2a2f45;
-    --accent: #4f8ef7;
-    --accent-dim: rgba(79,142,247,0.12);
-    --correct: #22c55e;
-    --correct-dim: rgba(34,197,94,0.12);
-    --wrong: #ef4444;
-    --wrong-dim: rgba(239,68,68,0.12);
-    --text: #e2e8f0;
-    --text-dim: #8892a4;
-    --mono: 'IBM Plex Mono', monospace;
-    --sans: 'IBM Plex Sans', sans-serif;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    min-height: 100vh;
-    padding: 0;
-  }
-
-  /* ── Header ── */
-  header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 20px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .logo {
-    font-family: var(--mono);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--accent);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .progress-wrap {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex: 1;
-    max-width: 360px;
-    margin: 0 auto;
-  }
-
-  .progress-bar-track {
-    flex: 1;
-    height: 4px;
-    background: var(--border);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .progress-bar-fill {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 2px;
-    transition: width 0.4s ease;
-    width: 0%;
-  }
-
-  .progress-label {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--text-dim);
-    white-space: nowrap;
-  }
-
-  .score-badge {
-    font-family: var(--mono);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-dim);
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 4px 10px;
-  }
-
-  /* ── Main layout ── */
-  main {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 40px 24px 80px;
-  }
-
-  /* ── Start screen ── */
-  #start-screen {
-    text-align: center;
-    padding: 60px 24px;
-  }
-
-  .start-tag {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 20px;
-  }
-
-  .start-title {
-    font-size: 38px;
-    font-weight: 600;
-    line-height: 1.2;
-    margin-bottom: 12px;
-    letter-spacing: -0.02em;
-  }
-
-  .start-sub {
-    font-size: 15px;
-    color: var(--text-dim);
-    margin-bottom: 40px;
-    line-height: 1.6;
-  }
-
-  .topic-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 10px;
-    margin-bottom: 44px;
-    text-align: left;
-  }
-
-  .topic-chip {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 12px;
-    color: var(--text-dim);
-    line-height: 1.4;
-  }
-
-  .topic-chip strong {
-    display: block;
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--accent);
-    margin-bottom: 2px;
-  }
-
-  /* ── Buttons ── */
-  .btn-primary {
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 14px 36px;
-    font-family: var(--sans);
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.15s;
-  }
-
-  .btn-primary:hover { opacity: 0.88; }
-
-  .btn-outline {
-    background: transparent;
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 28px;
-    font-family: var(--sans);
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: border-color 0.15s, background 0.15s;
-  }
-
-  .btn-outline:hover {
-    border-color: var(--accent);
-    background: var(--accent-dim);
-  }
-
-  /* ── Question card ── */
-  #quiz-screen { display: none; }
-
-  .q-meta {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 22px;
-  }
-
-  .q-number {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent);
-    background: var(--accent-dim);
-    border: 1px solid rgba(79,142,247,0.25);
-    border-radius: 5px;
-    padding: 3px 9px;
-  }
-
-  .q-category {
-    font-size: 11px;
-    color: var(--text-dim);
-    font-family: var(--mono);
-    letter-spacing: 0.05em;
-  }
-
-  .q-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 32px;
-    margin-bottom: 20px;
-  }
-
-  .q-text {
-    font-size: 16px;
-    line-height: 1.75;
-    color: var(--text);
-  }
-
-  /* ── Options ── */
-  .options {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 28px;
-  }
-
-  .option-btn {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 18px;
-    color: var(--text);
-    font-family: var(--sans);
-    font-size: 14px;
-    line-height: 1.5;
-    text-align: left;
-    cursor: pointer;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    transition: border-color 0.15s, background 0.15s;
-  }
-
-  .option-btn:hover:not(:disabled) {
-    border-color: var(--accent);
-    background: var(--accent-dim);
-  }
-
-  .option-btn:disabled { cursor: default; }
-
-  .option-btn.correct {
-    border-color: var(--correct);
-    background: var(--correct-dim);
-  }
-
-  .option-btn.wrong {
-    border-color: var(--wrong);
-    background: var(--wrong-dim);
-  }
-
-  .option-letter {
-    font-family: var(--mono);
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-dim);
-    min-width: 20px;
-    padding-top: 1px;
-  }
-
-  .option-btn.correct .option-letter { color: var(--correct); }
-  .option-btn.wrong .option-letter { color: var(--wrong); }
-
-  /* ── Explanation ── */
-  .explanation {
-    display: none;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent);
-    border-radius: 10px;
-    padding: 20px 22px;
-    margin-bottom: 24px;
-    font-size: 14px;
-    line-height: 1.7;
-    color: var(--text-dim);
-    animation: fadeIn 0.3s ease;
-  }
-
-  .explanation.show { display: block; }
-  .explanation strong { color: var(--text); }
-
-  .explanation h4 {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 10px;
-  }
-
-  .exp-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 12px;
-    font-size: 13px;
-  }
-
-  .exp-table th {
-    text-align: left;
-    color: var(--text-dim);
-    font-weight: 600;
-    border-bottom: 1px solid var(--border);
-    padding: 6px 8px;
-    font-family: var(--mono);
-    font-size: 11px;
-  }
-
-  .exp-table td {
-    padding: 6px 8px;
-    border-bottom: 1px solid rgba(42,47,69,0.5);
-    vertical-align: top;
-  }
-
-  /* ── Navigation ── */
-  .nav-row {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-  }
-
-  /* ── Result screen ── */
-  #result-screen {
-    display: none;
-    text-align: center;
-    padding: 40px 0;
-  }
-
-  .result-ring {
-    width: 140px;
-    height: 140px;
-    margin: 0 auto 32px;
-    position: relative;
-  }
-
-  .result-ring svg {
-    transform: rotate(-90deg);
-    width: 140px;
-    height: 140px;
-  }
-
-  .result-ring circle {
-    fill: none;
-    stroke-width: 10;
-  }
-
-  .ring-bg { stroke: var(--border); }
-  .ring-fill {
-    stroke: var(--accent);
-    stroke-linecap: round;
-    transition: stroke-dashoffset 1s ease;
-  }
-
-  .ring-label {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .ring-score {
-    font-family: var(--mono);
-    font-size: 30px;
-    font-weight: 600;
-    color: var(--text);
-  }
-
-  .ring-total {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--text-dim);
-  }
-
-  .result-title {
-    font-size: 26px;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-
-  .result-sub {
-    font-size: 14px;
-    color: var(--text-dim);
-    margin-bottom: 36px;
-  }
-
-  .result-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 36px;
-    text-align: center;
-  }
-
-  .result-stat {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 18px 12px;
-  }
-
-  .result-stat .val {
-    font-family: var(--mono);
-    font-size: 28px;
-    font-weight: 600;
-    display: block;
-    margin-bottom: 4px;
-  }
-
-  .result-stat .lbl {
-    font-size: 12px;
-    color: var(--text-dim);
-  }
-
-  .val-correct { color: var(--correct); }
-  .val-wrong { color: var(--wrong); }
-  .val-pct { color: var(--accent); }
-
-  /* ── Review list ── */
-  .review-list {
-    margin-top: 32px;
-    text-align: left;
-  }
-
-  .review-list h3 {
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    margin-bottom: 16px;
-  }
-
-  .review-item {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 16px;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    font-size: 13px;
-  }
-
-  .review-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    margin-top: 4px;
-    flex-shrink: 0;
-  }
-
-  .dot-correct { background: var(--correct); }
-  .dot-wrong { background: var(--wrong); }
-
-  .review-item-text { flex: 1; line-height: 1.5; }
-  .review-item-answer {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text-dim);
-    white-space: nowrap;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @media (max-width: 600px) {
-    header { padding: 14px 16px; }
-    main { padding: 24px 14px 60px; }
-    .q-card { padding: 20px; }
-    .result-grid { grid-template-columns: 1fr 1fr; }
-    .topic-grid { grid-template-columns: 1fr 1fr; }
-    .start-title { font-size: 26px; }
-  }
+:root{--bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;--accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;--green:#3ecf74;--red:#f0476d;--text:#dde3f5;--muted:#7b85a8}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding-bottom:80px}
+.progress-wrap{position:fixed;top:0;left:0;width:100%;z-index:100;height:3px;background:var(--border)}
+.progress-bar{height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%;transition:width .3s}
+.section-badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--accent2);border:1px solid var(--accent2);padding:3px 10px;border-radius:4px;margin:18px 0 8px 0;letter-spacing:.05em;text-transform:uppercase}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 20px;max-width:720px;margin:0 auto}
+.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+#q-num{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--muted)}
+#star-btn{background:none;border:none;cursor:pointer;font-size:1.3rem;color:var(--gold);transition:transform .2s}
+#star-btn:hover{transform:scale(1.2)}
+.year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.year-tag{font-family:'IBM Plex Mono',monospace;font-size:.65rem;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2px 9px;color:var(--muted)}
+#q-text{font-size:1rem;line-height:1.65;margin-bottom:14px;color:var(--text)}
+.hint-toggle{background:none;border:1px solid var(--accent);color:var(--accent);padding:5px 14px;border-radius:6px;cursor:pointer;font-size:.78rem;font-family:'IBM Plex Mono',monospace;margin-bottom:12px;transition:background .2s}
+.hint-toggle:hover{background:rgba(91,141,238,.12)}
+#hint-box{display:none;background:rgba(91,141,238,.08);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;font-size:.85rem;color:var(--accent);margin-bottom:12px;font-family:'IBM Plex Mono',monospace}
+.options{display:flex;flex-direction:column;gap:9px;margin-bottom:14px}
+.opt-btn{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 16px;cursor:pointer;font-size:.93rem;color:var(--text);transition:border-color .15s,background .15s;text-align:left}
+.opt-btn:hover:not(:disabled){border-color:var(--accent);background:rgba(91,141,238,.07)}
+.opt-letter{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.85rem;color:var(--muted);min-width:20px}
+.opt-btn.correct{border-color:var(--green);background:rgba(62,207,116,.1)}
+.opt-btn.correct .opt-letter{color:var(--green)}
+.opt-btn.wrong{border-color:var(--red);background:rgba(240,71,109,.1)}
+.opt-btn.wrong .opt-letter{color:var(--red)}
+.opt-btn:disabled{cursor:default}
+.feedback{display:none;flex-direction:column;gap:12px;margin-top:8px}
+.feedback.open{display:flex}
+.trap-box{background:rgba(240,71,109,.07);border:1px solid rgba(240,71,109,.25);border-radius:10px;padding:14px}
+.trap-title{font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:600;color:var(--accent2);margin-bottom:6px;letter-spacing:.04em}
+.trap-text{font-size:.87rem;color:var(--text);line-height:1.55}
+.explain-box{background:rgba(91,141,238,.06);border:1px solid rgba(91,141,238,.2);border-radius:10px;padding:14px}
+.explain-title{font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:600;color:var(--accent);margin-bottom:6px;letter-spacing:.04em}
+.explain-text{font-size:.87rem;color:var(--text);line-height:1.6}
+.explain-text strong{color:var(--accent)}
+.nav{display:flex;justify-content:space-between;align-items:center;max-width:720px;margin:16px auto 0;gap:10px}
+.nav-btn{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px 20px;border-radius:9px;cursor:pointer;font-size:.9rem;transition:border-color .2s}
+.nav-btn:hover:not(:disabled){border-color:var(--accent)}
+.nav-btn:disabled{opacity:.35;cursor:default}
+#q-counter{background:var(--card);border:1px solid var(--border);color:var(--muted);padding:10px 18px;border-radius:9px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:.82rem}
+#q-counter:hover{border-color:var(--accent)}
+#next-btn.finish{border-color:var(--green);color:var(--green)}
+#result-screen{display:none;max-width:720px;margin:60px auto 0;text-align:center;padding:20px}
+.result-score{font-size:3rem;font-weight:700;color:var(--green);font-family:'IBM Plex Mono',monospace}
+.result-label{color:var(--muted);font-size:.9rem;margin-bottom:20px;font-family:'IBM Plex Mono',monospace}
+.result-stats{display:flex;justify-content:center;gap:24px;margin:20px 0 30px}
+.stat-item{display:flex;flex-direction:column;align-items:center;gap:4px}
+.stat-num{font-size:1.6rem;font-weight:700;font-family:'IBM Plex Mono',monospace}
+.stat-lbl{font-size:.72rem;color:var(--muted)}
+.stat-correct .stat-num{color:var(--green)}
+.stat-wrong .stat-num{color:var(--red)}
+.stat-star .stat-num{color:var(--gold)}
+.result-btns{display:flex;flex-direction:column;gap:10px;max-width:360px;margin:0 auto}
+.result-btn{padding:13px 20px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:.92rem;transition:border-color .2s}
+.result-btn:hover{border-color:var(--accent)}
+.result-btn.primary{border-color:var(--accent);color:var(--accent)}
+.q-modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,10,18,.75);z-index:200;align-items:flex-end;justify-content:center}
+.q-modal-overlay.open{display:flex}
+.q-modal{background:var(--surface);border:1px solid var(--border);border-radius:16px 16px 0 0;width:100%;max-width:720px;max-height:70vh;overflow-y:auto;padding:20px}
+.q-modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.q-modal-title{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--muted)}
+.q-modal-close{background:none;border:none;color:var(--muted);font-size:1.4rem;cursor:pointer}
+.q-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+.q-grid-btn{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:8px 4px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted);transition:all .15s;text-align:center}
+.q-grid-btn.current{border-color:var(--accent);color:var(--accent);background:rgba(91,141,238,.12)}
+.q-grid-btn.done-correct{border-color:var(--green);color:var(--green)}
+.q-grid-btn.done-wrong{border-color:var(--red);color:var(--red)}
+.q-grid-btn.starred-q{box-shadow:0 0 0 2px var(--gold)}
+#main-wrap{max-width:720px;margin:30px auto 0;padding:0 14px}
 </style>
 </head>
 <body>
-
-<header>
-  <div class="logo">TUS Quiz</div>
-  <div class="progress-wrap">
-    <div class="progress-bar-track">
-      <div class="progress-bar-fill" id="progress-fill"></div>
-    </div>
-    <span class="progress-label" id="progress-label">0 / 23</span>
-  </div>
-  <div class="score-badge" id="score-badge">0 ✓</div>
-</header>
-
-<main>
-
-  <!-- START SCREEN -->
-  <div id="start-screen">
-    <div class="start-tag">TUS Hazırlık</div>
-    <div class="start-title">Klinik Bilimler<br>Quiz Seti</div>
-    <div class="start-sub">23 soru · Mikrobiyoloji, Patoloji, Farmakoloji,<br>Biyokimya, Dahiliye, Cerrahi ve daha fazlası</div>
-
-    <div class="topic-grid">
-      <div class="topic-chip"><strong>Mikrobiyoloji</strong>S. pneumoniae, RSV, SCID</div>
-      <div class="topic-chip"><strong>Patoloji</strong>Tiroid, Over, Deri tümörleri</div>
-      <div class="topic-chip"><strong>Farmakoloji</strong>Naloksan, Nitrat, VEGF inhibitörü</div>
-      <div class="topic-chip"><strong>Biyokimya</strong>Galaktozemi, PI3K/Akt, Piruvat</div>
-      <div class="topic-chip"><strong>Romatoloji</strong>Sjögren, AS, Dermatomiyozit</div>
-      <div class="topic-chip"><strong>Cerrahi</strong>Whipple, Epiglotit, Timoma</div>
-      <div class="topic-chip"><strong>Dermatoloji</strong>Büllöz pemfigoid, Eritema nodozum</div>
-      <div class="topic-chip"><strong>Hematoloji</strong>Multipl myelom, B2M</div>
-    </div>
-
-    <button class="btn-primary" onclick="startQuiz()">Quize Başla →</button>
-  </div>
-
-  <!-- QUIZ SCREEN -->
-  <div id="quiz-screen">
-    <div class="q-meta">
-      <span class="q-number" id="q-number">SORU 1 / 23</span>
-      <span class="q-category" id="q-category"></span>
-    </div>
-    <div class="q-card">
-      <div class="q-text" id="q-text"></div>
-    </div>
+<div class="progress-wrap"><div class="progress-bar" id="prog-bar"></div></div>
+<div id="main-wrap">
+  <div class="section-badge" id="sect-label">BEYİN CERRAHİSİ</div>
+  <div class="card" id="quiz-card">
+    <div class="q-header"><span id="q-num">Soru 1/32</span><button id="star-btn" onclick="toggleStar()">☆</button></div>
+    <div class="year-tags" id="year-tags"></div>
+    <div id="q-text"></div>
+    <button class="hint-toggle" onclick="toggleHint()">🔑 İpucu</button>
+    <div id="hint-box"></div>
     <div class="options" id="options"></div>
-    <div class="explanation" id="explanation"></div>
-    <div class="nav-row">
-      <button class="btn-outline" id="btn-next" onclick="nextQuestion()" style="display:none">Sonraki Soru →</button>
+    <div class="feedback" id="feedback">
+      <div class="trap-box"><div class="trap-title">⚠️ TUZAK NOKTA</div><div class="trap-text" id="trap-text"></div></div>
+      <div class="explain-box"><div class="explain-title">📖 AÇIKLAMA</div><div class="explain-text" id="explain-text"></div></div>
     </div>
   </div>
-
-  <!-- RESULT SCREEN -->
   <div id="result-screen">
-    <div class="result-ring">
-      <svg viewBox="0 0 140 140">
-        <circle class="ring-bg" cx="70" cy="70" r="60"/>
-        <circle class="ring-fill" id="ring-fill" cx="70" cy="70" r="60"
-          stroke-dasharray="376.99"
-          stroke-dashoffset="376.99"/>
-      </svg>
-      <div class="ring-label">
-        <span class="ring-score" id="ring-score">0</span>
-        <span class="ring-total">/ 23</span>
-      </div>
+    <div class="result-score" id="res-pct">0%</div>
+    <div class="result-label">Tamamlandı</div>
+    <div class="result-stats">
+      <div class="stat-item stat-correct"><span class="stat-num" id="res-correct">0</span><span class="stat-lbl">Doğru</span></div>
+      <div class="stat-item stat-wrong"><span class="stat-num" id="res-wrong">0</span><span class="stat-lbl">Yanlış</span></div>
+      <div class="stat-item stat-star"><span class="stat-num" id="res-star">0</span><span class="stat-lbl">Yıldızlı</span></div>
     </div>
-
-    <div class="result-title" id="result-title"></div>
-    <div class="result-sub" id="result-sub"></div>
-
-    <div class="result-grid">
-      <div class="result-stat">
-        <span class="val val-correct" id="stat-correct">0</span>
-        <span class="lbl">Doğru</span>
-      </div>
-      <div class="result-stat">
-        <span class="val val-wrong" id="stat-wrong">0</span>
-        <span class="lbl">Yanlış</span>
-      </div>
-      <div class="result-stat">
-        <span class="val val-pct" id="stat-pct">0%</span>
-        <span class="lbl">Başarı</span>
-      </div>
-    </div>
-
-    <div style="display:flex;gap:10px;justify-content:center;margin-bottom:40px">
-      <button class="btn-primary" onclick="restartQuiz()">Tekrar Dene</button>
-      <button class="btn-outline" onclick="toggleReview()">Cevapları Gör</button>
-    </div>
-
-    <div class="review-list" id="review-list" style="display:none">
-      <h3>Soru Özeti</h3>
-      <div id="review-items"></div>
+    <div class="result-btns">
+      <button class="result-btn primary" onclick="restartQuiz()">🔄 Tüm Soruları Yeniden Çöz</button>
+      <button class="result-btn" id="retry-wrong-btn" onclick="retryWrong()">✗ Yanlışları Tekrar Çöz</button>
+      <button class="result-btn" id="retry-star-btn" onclick="retryStar()">★ Yıldızlıları Tekrar Çöz</button>
     </div>
   </div>
-
-</main>
-
+  <div class="nav" id="nav-bar">
+    <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">← Önceki</button>
+    <button id="q-counter" onclick="toggleQuestionList()">1 / 32 ☰</button>
+    <button class="nav-btn" id="next-btn" onclick="navigate(1)">Sonraki →</button>
+  </div>
+</div>
+<div class="q-modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
+  <div class="q-modal">
+    <div class="q-modal-header"><span class="q-modal-title">SORULAR</span><button class="q-modal-close" onclick="toggleQuestionList()">✕</button></div>
+    <div class="q-grid" id="q-grid"></div>
+  </div>
+</div>
 <script>
-const questions = [
-  {
-    category: "Histoloji / Biyoloji",
-    text: "İnsan organizmasında bağ dokusu hücreleri ve hücreler arası matriks elemanları sürekli bir etkileşim halindedir. Hücrelerin hücre dışı matriksteki kollajen, laminin ve fibronektin gibi glikoproteinlere tutunmasını sağlayan, hücre membranını boydan boya kat eden (transmembran) ve hücre içi aktin mikrofilamanları ile hücre dışı elemanlar arasında mekanik bir köprü kuran heterodimerik yapıdaki adhezyon reseptörü aşağıdakilerden hangisidir?",
-    options: ["İntegrin", "Selektin", "Kadherin", "Klaudin", "Koneksin"],
-    correct: 0,
-    explanation: `<h4>Açıklama</h4>
-<strong>İntegrinler</strong> α ve β alt birimlerinden oluşan heterodimerik transmembran proteinlerdir.<br><br>
-• Hücre dışı: kollajen, fibronektin, lamininine bağlanır<br>
-• Hücre içi: aktin mikrofilamanlarına bağlanır<br>
-• ECM ↔ hücre iskeleti arasında mekanik köprü kurar<br><br>
-<table class="exp-table">
-<tr><th>Molekül</th><th>Fonksiyon</th></tr>
-<tr><td>Selektin</td><td>Lökosit adezyonu (inflamasyonda)</td></tr>
-<tr><td>Kadherin</td><td>Hücre–hücre adezyonu (Ca²⁺ bağımlı)</td></tr>
-<tr><td>Klaudin</td><td>Sıkı bağlantı (tight junction)</td></tr>
-<tr><td>Koneksin</td><td>Gap junction</td></tr>
-</table>`
-  },
-  {
-    category: "Farmakoloji",
-    text: "Aşırı doz opioid alımına bağlı akut intoksikasyon tablosuyla acil servise getirilen bir hastada, saf opioid reseptör antagonisti olan Naloksan hidroklorür iv yolla uygulanıyor. Naloksan verilmesini takiben hastanın klinik tablosunda hızlı bir düzelme izleniyor.\n\nNaloksan'ın opioid reseptörleri üzerindeki bu etkisini, reseptörün konstitütif (bazal/uyarılmamış) aktivitesini de bazal seviyenin altına indirerek gösterdiği bilindiğine göre; farmakodinamik olarak naloksan aşağıdaki ilaç tanımlamalarından hangisine uymaktadır?",
-    options: ["Kompetitif antagonist", "Parsiyel agonist", "Kimyasal antagonist", "İnvers agonist", "Non-kompetitif antagonist"],
-    correct: 3,
-    explanation: `<h4>Açıklama</h4>
-<table class="exp-table">
-<tr><th>Tanım</th><th>Etki</th></tr>
-<tr><td>Kompetitif antagonist</td><td>Reseptöre bağlanır, agonisti bloke eder; bazal aktiviteyi değiştirmez</td></tr>
-<tr><td><strong>İnvers agonist ✓</strong></td><td><strong>Konstitütif (bazal) aktiviteyi AZALTIR, bazal seviyenin altına indirir</strong></td></tr>
-<tr><td>Parsiyel agonist</td><td>Kısmi aktivasyon sağlar</td></tr>
-<tr><td>Non-kompetitif antagonist</td><td>Allosterik bağlanır, etki azaltılamaz</td></tr>
-</table>
-<br>Soruda <strong>"bazal aktiviteyi bazal seviyenin altına indiriyor"</strong> ifadesi → İnvers agonist tanımıdır.`
-  },
-  {
-    category: "Göğüs Cerrahisi / Nöroloji",
-    text: "28 yaşında kadın hasta, halsizlik ve göz kapaklarında düşme (ptozis) şikayetiyle başvuruyor. Gün içinde şikayetlerinin giderek arttığını, sabahları daha iyi olduğunu ifade ediyor. Yapılan tetkikler sonucunda hastaya Myasthenia Gravis tanısı konuluyor. Çekilen toraks BT'sinde ön mediastende 4 cm boyutunda düzgün sınırlı kitle saptanıyor.\n\nBu hastada saptanan ön mediastinal kitlenin en olası histopatolojik tanısı aşağıdakilerden hangisidir?",
-    options: ["Nöroblastom", "Timoma", "Teratom", "Tiroid adenomu", "Bronkojenik kist"],
-    correct: 1,
-    explanation: `<h4>Açıklama</h4>
-<strong>MG + ön mediastinal kitle = TİMOMA</strong> klasik birlikteliğidir.<br><br>
-• MG hastalarının ~%15'inde timoma bulunur<br>
-• Timoma hastalarının ~%30–40'ında MG gelişir<br><br>
-<table class="exp-table">
-<tr><th>Tümör</th><th>Lokalizasyon</th><th>Not</th></tr>
-<tr><td>Nöroblastom</td><td>Arka mediastin</td><td>Çocuklarda</td></tr>
-<tr><td>Teratom</td><td>Orta mediastin</td><td>Genç hastalar, germ hücreli</td></tr>
-<tr><td>Tiroid adenomu</td><td>Boyun</td><td>—</td></tr>
-<tr><td>Bronkojenik kist</td><td>Orta mediastin</td><td>Genellikle asemptomatik</td></tr>
-</table>`
-  },
-  {
-    category: "Biyokimya",
-    text: "Açlık sırasında karaciğerde glukoneogenez reaksiyonlarının devam edebilmesi için piruvatın, piruvat karboksilaz (PC) enzimi tarafından oksaloasete dönüştürülmesi kritik bir basamaktır. Mitokondri içinde gerçekleşen bu reaksiyonda, piruvat karboksilaz enziminin allosterik olarak aktive olabilmesi ve fonksiyon gösterebilmesi için aşağıdaki moleküllerden hangisinin ortamda mutlak surette artmış olması gerekir?",
-    options: ["AMP", "Asetil-CoA", "Sitrat", "Fruktoz 2,6-bifosfat", "Malonil-CoA"],
-    correct: 1,
-    explanation: `<h4>Açıklama</h4>
-<strong>Piruvat karboksilaz (PC):</strong> Piruvat → Oksaloasetat (mitokondride, biotin kofaktör)<br><br>
-<strong>Asetil-CoA</strong> zorunlu allosterik aktivatördür:<br>
-• Açlıkta yağ asidi oksidasyonu → Asetil-CoA artar<br>
-• Asetil-CoA → PC'yi aktive eder → Glukoneogenez devam eder<br><br>
-<table class="exp-table">
-<tr><th>Molekül</th><th>Gerçek Etkisi</th></tr>
-<tr><td>AMP</td><td>Glikolizi uyarır (PC'yi değil)</td></tr>
-<tr><td>Sitrat</td><td>Sitozolde asetil-CoA kaynağı</td></tr>
-<tr><td>Fruktoz 2,6-bifosfat</td><td>PFK-1 aktivatörü</td></tr>
-<tr><td>Malonil-CoA</td><td>Yağ asidi sentezi intermediyeri</td></tr>
-</table>`
-  },
-  {
-    category: "Pediatri / Patoloji",
-    text: "2 yaşında kız çocuk; son iki gündür devam eden yüksek ateş, öksürük, hışıltı ve solunum güçlüğü şikayetleriyle pediatri acil servisine getiriliyor. Fizik muayenesinde taşipne, interkostal çekilmeler ve yaygın subkrepitan raller ile ekspiryum uzaması saptanıyor. Nazofarenks aspirat örneğinde RT-PCR yöntemi ile Respiratuvar Sinsityal Virüs (RSV) saptanıyor ve hastaya akut bronşiyolit tanısı konuluyor.\n\nGelişen bu akut viral bronşiyolit tablosunun patofizyolojisinde havayolu obstrüksiyonuna ve lümen tıkanıklığına neden olan majör histopatolojik değişiklik aşağıdakilerden hangisidir?",
-    options: [
-      "Bronşiyol düz kaslarında ani gelişen ve gevşemeyen şiddetli bronkospazm",
-      "Epitel nekrozu, mukus sekresyonu ve hücresel debrislerin oluşturduğu tıkaçlar (plugging)",
-      "Alveoler septumlarda tip 2 pnömositlerin destrüksiyonu ve sürfaktan kaybı",
-      "Peribronşiyal alanda yaygın granülomatöz inflamasyon ve kazeifikasyon nekrozu",
-      "Bronş mukozasındaki goblet hücrelerinin kalıcı hiperplazisi ve skuamöz metaplazi"
-    ],
-    correct: 1,
-    explanation: `<h4>Açıklama</h4>
-RSV bronşiyolitinde patofizyoloji:<br><br>
-1. Bronşiyol epitel hücrelerinde <strong>nekroz</strong><br>
-2. Artmış <strong>mukus sekresyonu</strong><br>
-3. Nekrotik epitel + mukus + inflamatuar hücreler → <strong>lümen tıkacı (plugging)</strong><br>
-4. → Hava hapsi, hışıltı, ekspiryum uzaması<br><br>
-<table class="exp-table">
-<tr><th>Seçenek</th><th>Hastalık</th></tr>
-<tr><td>Bronkospazm</td><td>Astım</td></tr>
-<tr><td>Tip 2 pnömosit hasarı</td><td>ARDS</td></tr>
-<tr><td>Granülomatöz inflamasyon</td><td>Tüberküloz</td></tr>
-<tr><td>Goblet hiperplazisi</td><td>Kronik bronşit (KOAH)</td></tr>
-</table>`
-  },
-  {
-    category: "Pediatri / Acil",
-    text: "3 yaşında bir erkek çocuk; ani başlayan yüksek ateş, halsizlik, solunum güçlüğü ve yutma zorluğu şikayetleriyle acil servise getiriliyor. Fizik muayenesinde hastanın öne doğru eğilerek, çenesini ileri uzatmış pozisyonda (tripod pozisyonu) oturduğu, ağzından salyalarının aktığı (drooling) ve stridoru olduğu gözleniyor. Akut epiglotit şüphesi duyulan bu hastanın yönetiminde ilk ve en önemli yaklaşım aşağıdakilerden hangisi olmalıdır?",
-    options: [
-      "Dil basacağı ile orofasial muayene yapılması",
-      "Hemen geniş spektrumlu intravenöz antibiyotik başlanması",
-      "Lateral boyun grafisi çekilmesi için radyolojiye gönderilmesi",
-      "Ameliyathane veya yoğun bakım şartlarında havayolu güvenliğinin (entübasyon/trakeostomi) sağlanması",
-      "Solunumu rahatlatmak için nebulize adrenalin ve steroid verilmesi"
-    ],
-    correct: 3,
-    explanation: `<h4>Açıklama</h4>
-Akut epiglotitte <strong>ilk öncelik = HAVAYOLU GÜVENLİĞİ</strong><br><br>
-Tripod pozisyonu + drooling + stridor → kritik havayolu obstrüksiyonu riski<br><br>
-<table class="exp-table">
-<tr><th>Seçenek</th><th>Neden yanlış?</th></tr>
-<tr><td>Dil basacağı ile muayene</td><td><strong>KESİNLİKLE YAPILMAZ</strong> — tam tıkanmayı tetikler</td></tr>
-<tr><td>Radyolojiye gönderme</td><td><strong>TEHLİKELİ</strong> — hasta gözetimsiz kalır</td></tr>
-<tr><td>Antibiyotik</td><td>Gerekli ama <em>ilk öncelik değil</em></td></tr>
-<tr><td>Nebulize adrenalin</td><td>Krup tedavisi, epiglotitte yeri yok</td></tr>
-</table>`
-  },
-  {
-    category: "Romatoloji / İmmünoloji",
-    text: "48 yaşında kadın hasta; son 6 aydır giderek artan ağız kuruluğu, gözlerde batma ve \"kum kaçmış gibi\" kuruluk hissi şikayetleriyle romatoloji polikliniğine başvuruyor. Yapılan fizik muayenesinde bilateral parotis bezlerinde ağrısız büyüme saptanıyor. Göz kuruluğunu objektif olarak değerlendirmek amacıyla yapılan Schirmer testi pozitif (5 mm/5 dk altında) sonuçlanıyor.\n\nPrimer Sjögren sendromu şüphesi duyulan bu hastanın tanısını doğrulamada en yüksek spesifiteye sahip olan ve tanı kriterlerinde yer alan otoantikor aşağıdakilerden hangisidir?",
-    options: ["Anti-dsDNA", "Anti-Ro (SS-A)", "Anti-Scl-70", "Anti-Jo-1", "Anti-CCP"],
-    correct: 1,
-    explanation: `<h4>Açıklama</h4>
-<table class="exp-table">
-<tr><th>Antikor</th><th>Hastalık</th></tr>
-<tr><td><strong>Anti-Ro (SS-A) ✓</strong></td><td><strong>Sjögren — tanı kriterinde en yüksek ağırlıklı (3 puan)</strong></td></tr>
-<tr><td>Anti-La (SS-B)</td><td>Sjögren — daha spesifik ama daha az sensitif</td></tr>
-<tr><td>Anti-dsDNA</td><td>SLE</td></tr>
-<tr><td>Anti-Scl-70</td><td>Diffüz skleroderma</td></tr>
-<tr><td>Anti-Jo-1</td><td>Polimiyozit / Antisıntetaz sendromu</td></tr>
-<tr><td>Anti-CCP</td><td>Romatoid artrit</td></tr>
-</table>`
-  },
-  {
-    category: "Mikrobiyoloji",
-    text: "65 yaşında KOAH tanısı olan erkek hasta, akut eksaserbasyon, pürülan balgam ve yüksek ateş şikayetiyle acil servise başvuruyor. Balgam kültüründe, kanlı agarda alfa-hemolitik, mukoid koloniler oluşturan, Gram pozitif, lanset şekilli diplokoklar ürüyor. İzole edilen bu bakterinin kapsül yapısını tiplendirmek ve göstermek için aşağıdaki testlerden hangisi kullanılabilir?",
-    options: ["Satelitizm testi", "Elek testi", "Quellung (Kapsül şişme) reaksiyonu", "CAMP testi", "Optochin diski testi"],
-    correct: 2,
-    explanation: `<h4>Açıklama</h4>
-Kanlı agarda <strong>alfa-hemolitik, mukoid, lanset şekilli gram pozitif diplokoklar</strong> → <strong>S. pneumoniae</strong><br><br>
-<strong>Quellung reaksiyonu:</strong> Spesifik antiserum + mikroorganizma → kapsül şişer, mikroskopla görünür → kapsül tipi belirlenir<br><br>
-<table class="exp-table">
-<tr><th>Test</th><th>Kullanım Amacı</th></tr>
-<tr><td>Satelitizm testi</td><td>H. influenzae (S. aureus'a yakın ürer)</td></tr>
-<tr><td>CAMP testi</td><td>Grup B streptokok</td></tr>
-<tr><td>Optochin diski</td><td>S. pneumoniae'yi viridans'tan ayırt eder (kapsül tipini göstermez)</td></tr>
-<tr><td>Elek testi</td><td>C. diphtheriae toksin tespiti</td></tr>
-</table>`
-  },
-  {
-    category: "Onkoloji / Farmakoloji",
-    text: "62 yaşında metastatik kolorektal kanser tanısı olan bir hastaya kemoterapi protokolünün bir parçası olarak, vasküler endotelyal büyüme faktörü-A (VEGF-A) molekülünü hedef alan ve anjiyojenezi inhibe eden rekombinant bir monoklonal antikor tedavisi başlanıyor.\n\nBu hastada tedavi sürecinde gelişmesi beklenen, VEGF inhibitörlerine spesifik en karakteristik sınıf yan etkisi (class effect) aşağıdakilerden hangisidir?",
-    options: ["Dilate kardiyomiyopati", "Pulmoner fibrozis", "Arteriyel hipertansiyon ve proteinüri", "Hemorajik sistit", "Periferik nöropati"],
-    correct: 2,
-    explanation: `<h4>Açıklama</h4>
-Bevacizumab (anti-VEGF-A) → VEGF inhibitörü sınıf etkisi:<br><br>
-• <strong>Hipertansiyon</strong> — NO azalması → vazokonstriksiyon<br>
-• <strong>Proteinüri</strong> — Glomerüler VEGF baskılanması → podosit hasarı<br><br>
-<table class="exp-table">
-<tr><th>Yan Etki</th><th>İlaç</th></tr>
-<tr><td>Dilate kardiyomiyopati</td><td>Trastuzumab (anti-HER2)</td></tr>
-<tr><td>Pulmoner fibrozis</td><td>Bleomisin</td></tr>
-<tr><td>Hemorajik sistit</td><td>Siklofosfamid</td></tr>
-<tr><td>Periferik nöropati</td><td>Vinka alkaloidleri, taxanlar</td></tr>
-</table>`
-  },
-  {
-    category: "Mikrobiyoloji",
-    text: "32 yaşında erkek hasta; akut başlayan yüksek ateş, titreme, öksürük ve pas rengi (pürülan) balgam çıkarma şikayetleriyle acil servise başvuruyor. Çekilen akciğer grafisinde sağ alt lobda lober konsolidasyon saptanıyor. Balgam örneğinin Gram boyamasında bol polimorfonüveli lökosit ve Gram-pozitif, lanset şeklinde, kapsüllü diplokoklar izleniyor.\n\nBu bakterinin kültürde üreyen kolonilerinin etrafında tam olmayan (yeşilimsi) alfa-hemoliz yaptığı bilindiğine göre, laboratuvarda viridans streptokoklardan ayrımında kullanılan en spesifik iki özellik aşağıdakilerden hangisidir?",
-    options: [
-      "Bakitrasine duyarlılık ve PYR pozitifliği",
-      "Optochine duyarlılık ve safra tuzlarında erime",
-      "Novobiyosine direnç ve katalaz negatifliği",
-      "Kamçı varlığı ve hareketlilik",
-      "Oksidaz pozitifliği ve koagülaz aktivitesi"
-    ],
-    correct: 1,
-    explanation: `<h4>Açıklama</h4>
-Her ikisi de <strong>alfa-hemoliz</strong> yapar → bu özellik ayırt ettirmez<br><br>
-<strong>S. pneumoniae'yi viridans'tan ayıran iki özellik:</strong><br>
-1. <strong>Optochin'e DUYARLI</strong> (viridans: dirençli)<br>
-2. <strong>Safra tuzlarında erir</strong> — bilis solubilite testi (viridans: erimez)<br><br>
-<table class="exp-table">
-<tr><th>Test</th><th>Ayırt ettiği bakteri</th></tr>
-<tr><td>Bakitrasine duyarlılık</td><td>Grup A streptokok</td></tr>
-<tr><td>PYR pozitifliği</td><td>Grup A strep veya Enterococcus</td></tr>
-<tr><td>Katalaz negatifliği</td><td>Tüm streptokoklar (ayırt ettirmez)</td></tr>
-</table>`
-  },
-  {
-    category: "Hematoloji / Onkoloji",
-    text: "68 yaşında erkek hasta; son 3 aydır giderek artan halsizlik, bel ağrısı ve bacaklarında uyuşma şikayetleriyle başvuruyor. Laboratuvar incelemelerinde Hemoglobin: 9.4 g/dL, Kreatinin: 2.1 mg/dL, Kalsiyum: 11.2 mg/dL saptanıyor. Serum protein elektroforezinde gama bandında monoklonal bir artış (M spiki) izleniyor. Kemik iliği aspirasyonunda %25 oranında atipik plazma hücreleri saptanıyor.\n\nBu hastanın evrelemesinde ve prognozunun belirlenmesinde kullanılan, tümör yükünü ve renal fonksiyonları yansıtan en güvenilir serum tümör belirteci aşağıdakilerden hangisidir?",
-    options: ["Beta-2 mikroglobulin", "Alfa-fetoprotein (AFP)", "Karsinoembriyonik antijen (CEA)", "CA 15-3", "Serum seruloplazmini"],
-    correct: 0,
-    explanation: `<h4>Açıklama</h4>
-Hasta: Yaşlı erkek + anemi + böbrek yetmezliği + hiperkalsemi + M spiki + %25 plazma hücresi → <strong>Multipl Myelom</strong><br><br>
-<strong>Beta-2 mikroglobulin (B2M):</strong><br>
-• MHC Sınıf I'in hafif zinciri<br>
-• Tümör yükünü yansıtır<br>
-• Renal fonksiyonu yansıtır (böbrekten atılır)<br>
-• <strong>ISS (Uluslararası Evreleme Sistemi)</strong>'nde kullanılır<br><br>
-<table class="exp-table">
-<tr><th>Belirteç</th><th>Kullanım</th></tr>
-<tr><td>AFP</td><td>Hepatosellüler karsinom, germ hücreli tümör</td></tr>
-<tr><td>CEA</td><td>Kolorektal kanser</td></tr>
-<tr><td>CA 15-3</td><td>Meme kanseri</td></tr>
-<tr><td>Seruloplazmin</td><td>Wilson hastalığı</td></tr>
-</table>`
-  },
-  {
-    category: "Biyokimya / Endokrinoloji",
-    text: "35 yaşında hamile bir kadın, rutin gebelik takibi sırasında yapılan taramalarda gestasyonel diyabet riski açısından değerlendiriliyor. Hücresel düzeyde insülin reseptörüne bağlandığında, reseptörün sitoplazmik uzantısında bulunan tirozin kinaz aktivitesi tetiklenir. İnsülin sinyal yolağında, glukozun hücre içine alınmasını sağlamak amacıyla iskelet kası ve yağ dokusunda GLUT-4 glukoz transporter veziküllerinin hücre membranına göç etmesini (translokasyonunu) sağlayan temel sitoplazmik enzim/yolak aşağıdakilerden hangisidir?",
-    options: [
-      "Protein Kinaz A (PKA)",
-      "Jak / STAT yolağı",
-      "Fosfatidilinositol 3-kinaz (PI3K) / Akt yolağı",
-      "Adenilat Siklaz / cAMP yolağı",
-      "MAP Kinaz (Ras/Raf/MEK/ERK) yolağı"
-    ],
-    correct: 2,
-    explanation: `<h4>Açıklama</h4>
-İnsülin sinyal kaskatı:<br><br>
-İnsülin → Tirozin kinaz reseptörü → <strong>IRS-1 fosforilasyonu</strong> → <strong>PI3K aktive</strong> → PIP3 üretimi → PDK1 → <strong>Akt (PKB) aktive</strong> → AS160 fosforilasyonu → <strong>GLUT-4 vezikülleri membrana göç</strong><br><br>
-<table class="exp-table">
-<tr><th>Yolak</th><th>Uyaran</th></tr>
-<tr><td>PKA / cAMP</td><td>Glukagon, adrenalin (insülinin karşıtı)</td></tr>
-<tr><td>JAK/STAT</td><td>Sitokin reseptörleri</td></tr>
-<tr><td>MAP kinaz</td><td>Büyüme etkisi (proliferasyon)</td></tr>
-</table>`
-  },
-  {
-    category: "Patoloji / Endokrinoloji",
-    text: "24 yaşında kadın hasta, boyunda ağrısız kitle şikayetiyle başvuruyor. Yapılan tiroid ince iğne aspirasyon biyopsisinde (İİAB) buzlu cam manzaralı nükleuslar (Orphan Annie gözleri), nükleer yarıklar (grooving) ve psödöinklüzyonlar içeren folikül epitel hücreleri saptanıyor.\n\nBu hasta için en olası tanı aşağıdakilerden hangisidir?",
-    options: ["Medüller karsinom", "Anaplastik karsinom", "Foliküler karsinom", "Papiller karsinom", "Hurthle hücreli karsinom"],
-    correct: 3,
-    explanation: `<h4>Açıklama</h4>
-Patolojik triad:<br>
-• <strong>Orphan Annie gözleri</strong> (buzlu cam nükleuslar)<br>
-• <strong>Nükleer yarıklar (grooves)</strong><br>
-• <strong>Psödoinklüzyonlar</strong><br>
-→ <strong>Papiller Tiroid Karsinomunun</strong> patolojik imzası<br><br>
-<table class="exp-table">
-<tr><th>Tümör</th><th>Ayırt edici özellik</th></tr>
-<tr><td>Foliküler karsinom</td><td>İİAB'de tanı konulamaz; vasküler/kapsül invazyonu gerekir</td></tr>
-<tr><td>Medüller karsinom</td><td>Amiloid depoziti, kalsitonin (+)</td></tr>
-<tr><td>Anaplastik</td><td>İleri yaş, hızlı büyüme, pleomorfizm</td></tr>
-<tr><td>Hurthle hücreli</td><td>Bol granüler eozinofilik sitoplazma</td></tr>
-</table>`
-  },
-  {
-    category: "Patoloji / Onkoloji",
-    text: "32 yaşında kadın hasta, bilateral over kitleleri nedeniyle opere ediliyor. Çıkarılan spesimenlerin histopatolojik incelemesinde; zengin müsinöz sitoplazmalı, çekirdeği çevreye itilmiş \"taşlı yüzük hücreleri\" (signet-ring cells) ve tek tek veya küçük gruplar halinde infiltrasyon gösteren tümör odakları izleniyor. Yapılan immünohistokimyasal (İHK) boyamada tümör hücrelerinin CK7 negatif, CK20 pozitif ve CDX2 pozitif olduğu saptanıyor.\n\nBu hastadaki primer odak ve overdeki bu antite için aşağıdakilerden hangisi en olasıdır?",
-    options: [
-      "Primer odak: Meme / Krukenberg tümörü",
-      "Primer odak: Mide (Korpus) / Krukenberg tümörü",
-      "Primer odak: Kolon / Krukenberg tümörü",
-      "Primer odak: Apendiks / Pseudomyxoma peritonei",
-      "Primer odak: Safra kesesi / Brenner tümörü"
-    ],
-    correct: 2,
-    explanation: `<h4>Açıklama</h4>
-<strong>Signet-ring hücreleri + overe metastaz = Krukenberg tümörü</strong><br><br>
-<strong>İHK profili analizi:</strong><br>
-• CK7 <strong>negatif</strong><br>
-• CK20 <strong>pozitif</strong><br>
-• CDX2 <strong>pozitif</strong><br>
-→ <strong>KOLON/REKTUM adenokarsinomu</strong> ile uyumlu<br><br>
-<table class="exp-table">
-<tr><th>Primer odak</th><th>CK7</th><th>CK20</th><th>CDX2</th></tr>
-<tr><td><strong>Kolon ✓</strong></td><td>–</td><td>+</td><td>+</td></tr>
-<tr><td>Mide</td><td>+/–</td><td>+/–</td><td>+/–</td></tr>
-<tr><td>Meme</td><td>+</td><td>–</td><td>–</td></tr>
-</table>`
-  },
-  {
-    category: "Genel Cerrahi",
-    text: "54 yaşında erkek hasta, son 3 aydır devam eden sarılık, halsizlik ve 8 kilo kaybetme şikayetleriyle başvuruyor. Yapılan fizik muayenesinde sağ üst kadranda ağrısız, düzgün sınırlı ve palpasyonla ele gelen bir safra kesesi (Courvoisier belirtisi pozitif) saptanıyor. Laboratuvar incelemelerinde total bilirubin: 14 mg/dL ve direkt bilirubin hakimiyeti izleniyor. Çekilen kontrastlı batın BT'sinde koledok alt uçta, pankreas başı yerleşimli lümeni tıkayan 3 cm'lik kitle saptanıyor ve uzak metastaz izlenmiyor.\n\nBu hastaya küratif amaçlı Whipple operasyonu (Pankreatikoduodenektomi) planlanıyor. Bu cerrahi prosedür esnasında rezeke edilen dokular düşünüldüğünde, anatomik olarak aşağıdakilerden hangisinin operasyon sınırları içinde kalması ve tamamen çıkarılması BEKLENMEZ?",
-    options: ["Duodenumun tamamı", "Pankreas başı ve uninat proses", "Safra kesesi ve koledok distal ucu", "Distal mide (Antrum)", "Dalak (Splenektomi)"],
-    correct: 4,
-    explanation: `<h4>Açıklama</h4>
-<strong>Whipple operasyonu (Pankreatikoduodenektomi) kapsamı:</strong><br><br>
-✅ Pankreas başı + uncinat proses<br>
-✅ Duodenumun tamamı<br>
-✅ Distal mide (antrum)<br>
-✅ Safra kesesi + distal koledok<br>
-✅ Bölgesel lenf nodları<br>
-❌ <strong>Dalak → Standart Whipple'da ÇIKARILMAZ</strong><br><br>
-Dalak ancak portal ven/splenik ven tutulumu varsa çıkarılır (modifiye rezeksiyon).`
-  },
-  {
-    category: "Farmakoloji / Kardiyoloji",
-    text: "Uzun yıllardır kronik stabil angina pektoris tanısıyla takip edilen bir hastaya, koroner damarlardaki düz kaslarda nitrik oksit (NO) salınımını artırarak venöz dilatasyon (venöz göllenme) yapan ve böylece kalbin ön yükünü (preload) azaltarak miyokardın oksijen tüketimini düşüren bir ilaç reçete ediliyor.\n\nBu hastada gelişebilecek en sık ve en tipik advers (yan) etki aşağıdakilerden hangisidir?",
-    options: ["Bradikardi", "Kuru öksürük", "Baş ağrısı", "Jinekomasti", "Diş eti hiperplazisi"],
-    correct: 2,
-    explanation: `<h4>Açıklama</h4>
-Tarif edilen ilaç: NO salınımı → venöz dilatasyon → preload azaltma → <strong>Organik nitrat (Nitrogliserin)</strong><br><br>
-<strong>En sık ve en tipik yan etki: BAŞ AĞRISI</strong><br>
-Mekanizma: Serebral damarlarda dilatasyon → zonklayıcı baş ağrısı<br><br>
-<table class="exp-table">
-<tr><th>Yan Etki</th><th>İlaç</th></tr>
-<tr><td>Bradikardi</td><td>Beta-bloker</td></tr>
-<tr><td>Kuru öksürük</td><td>ACE inhibitörü</td></tr>
-<tr><td>Jinekomasti</td><td>Spironolakton</td></tr>
-<tr><td>Diş eti hiperplazisi</td><td>KKB (özellikle nifedipin)</td></tr>
-</table>`
-  },
-  {
-    category: "İmmünoloji / Pediatri",
-    text: "6 aylık bir erkek bebek; tekrarlayan inatçı ishal, kilo alamama (büyüme geriliği), tekrarlayan oral kandidiyazis ve dirençli akciğer enfeksiyonları nedeniyle pediatri immünoloji kliniğine yatırılıyor. Yapılan tetkiklerde lenfopeni saptanıyor ve immünglobulin düzeyleri (IgG, IgA, IgM) belirgin derecede düşük bulunuyor. Periferik kan lenfosit alt grup analizinde T hücrelerinin ve NK hücrelerinin tamamen yok denecek kadar az (T- / NK-), B hücrelerinin ise sayıca normal sınırlarda (B+) olduğu saptanıyor.\n\nBu hastadaki primer immün yetmezlik tablosuna neden olan ve otozomal resesif geçiş gösteren en olası genetik defekt aşağıdakilerden hangisidir?",
-    options: [
-      "Adenozin Deaminaz (ADA) eksikliği",
-      "IL-2 reseptör gama (IL-2Rγ) zincir defekti",
-      "JAK3 (Janus Kinaz 3) kinaz eksikliği",
-      "RAG1 / RAG2 gen mutasyonu",
-      "BTK (Bruton Tirozin Kinaz) gen mutasyonu"
-    ],
-    correct: 2,
-    explanation: `<h4>Açıklama</h4>
-Fenotip: <strong>T(-) / NK(-) / B(+) + Otozomal Resesif</strong> → <strong>JAK3 eksikliği</strong><br><br>
-• JAK3, γc (IL-2Rγ) zincirine bağlı çalışır<br>
-• JAK3 olmadan IL-2, IL-7, IL-15, IL-21 sinyali iletilemiyor<br>
-• IL-15 yok → NK hücreleri gelişemiyor<br>
-• IL-7 yok → T hücreleri gelişemiyor<br>
-• B hücreleri sayıca normal ama fonksiyonel değil<br><br>
-<table class="exp-table">
-<tr><th>Defekt</th><th>T</th><th>B</th><th>NK</th><th>Geçiş</th></tr>
-<tr><td>JAK3 eksikliği ✓</td><td>–</td><td>+</td><td>–</td><td>OR</td></tr>
-<tr><td>IL-2Rγ</td><td>–</td><td>+</td><td>–</td><td>X'e bağlı</td></tr>
-<tr><td>ADA eksikliği</td><td>–</td><td>+/–</td><td>–</td><td>OR</td></tr>
-<tr><td>RAG1/2</td><td>–</td><td>–</td><td>+</td><td>OR</td></tr>
-<tr><td>BTK</td><td>+</td><td>–</td><td>+</td><td>X'e bağlı</td></tr>
-</table>`
-  },
-  {
-    category: "Romatoloji",
-    text: "26 yaşında erkek hasta, son 6 aydır devam eden, özellikle sabahları belirgin olan ve egzersiz yapmakla azalan kronik bel ağrısı ve sabah tutukluğu şikayetiyle başvuruyor. Fizik muayenesinde lomber vertebra hareketlerinde kısıtlılık saptanıyor. Çekilen pelvis grafisinde bilateral grade 3 sakroiliit izleniyor. Laboratuvarda HLA-B27 pozitifliği saptanıyor ve hastaya Ankilozan Spondilit (AS) tanısı konuluyor.\n\nAnkilozan spondilit patofizyolojisinde entezis bölgelerinde kronik inflamasyonu başlatan, sürdüren ve yeni kemik oluşumu ile sindesmofit gelişiminden primer olarak sorumlu olan majör sitokin aksı (yolağı) aşağıdakilerden hangisidir?",
-    options: ["IL-1 / TNF-alfa aksı", "IL-23 / IL-17 aksı", "IL-4 / IL-13 aksı", "IFN-gama / IL-12 aksı", "IL-6 / IL-11 aksı"],
-    correct: 1,
-    explanation: `<h4>Açıklama</h4>
-AS patofizyolojisinde <strong>baskın yolak:</strong><br><br>
-Dendritik hücreler/makrofajlar → <strong>IL-23</strong> salgılar → <strong>Th17</strong> aktive → <strong>IL-17</strong> salgılar → Entezislerde kemik erozyonu + <strong>yeni kemik oluşumu + sindesmofit</strong><br><br>
-<strong>IL-17 inhibitörleri</strong> (secukinumab, ixekizumab) AS'de etkin tedavidir.<br><br>
-<table class="exp-table">
-<tr><th>Yolak</th><th>Hastalık</th></tr>
-<tr><td>IL-1 / TNF-alfa</td><td>RA'da daha baskın</td></tr>
-<tr><td>IL-4 / IL-13</td><td>Th2, alerjik hastalıklar</td></tr>
-<tr><td>IFN-γ / IL-12</td><td>Th1, granülomatöz hastalıklar</td></tr>
-</table>`
-  },
-  {
-    category: "Romatoloji / Patoloji",
-    text: "34 yaşında kadın hasta; son dönemde belirginleşen proksimal kas güçsüzlüğü, merdiven çıkmada zorlanma ve her iki göz kapağında morumsu renk değişikliği (helyotrop döküntü) şikayetleriyle romatoloji polikliniğine başvuruyor. Ayrıca hastanın ellerinin dorsal yüzünde, metakarpofalangeal eklemler üzerinde eritamatöz, hafif skuamlı papüller (Gottron papülleri) saptanıyor. Laboratuvarında CK ve miyoglobin yüksekliği saptanıyor.\n\nBu hastada dermatomiyozit tanısı kesinleştirildikten sonra, özellikle hızlı ilerleyen interstisyel akciğer hastalığı (İAH) riskiyle çok güçlü ilişkisi olan ve kötü prognoza işaret eden miyozit spesifik otoantikor (MSA) aşağıdakilerden hangisidir?",
-    options: ["Anti-Jo-1", "Anti-Mi-2", "Anti-MDA5 (anti-CADM-140)", "Anti-SRP", "Anti-Sm"],
-    correct: 2,
-    explanation: `<h4>Açıklama</h4>
-Dermatomiyozit + <strong>hızlı ilerleyen interstisyel akciğer hastalığı</strong> → <strong>Anti-MDA5</strong><br><br>
-• MDA5 = Melanoma Differentiation-Associated gene 5<br>
-• Amiyopatik DM ile birliktelik<br>
-• Hızlı ilerleyen, ölümcül İAH riski yüksek<br>
-• Kötü prognoz göstergesi<br><br>
-<table class="exp-table">
-<tr><th>Antikor</th><th>İlişki</th></tr>
-<tr><td>Anti-Jo-1</td><td>İAH var ama yavaş; antisıntetaz sendromu</td></tr>
-<tr><td>Anti-Mi-2</td><td>Klasik DM, iyi prognoz, İAH az</td></tr>
-<tr><td>Anti-SRP</td><td>Şiddetli myopati, kardiyak tutulum</td></tr>
-<tr><td>Anti-Sm</td><td>SLE</td></tr>
-</table>`
-  },
-  {
-    category: "Dermatoloji / İmmünoloji",
-    text: "62 yaşında erkek hasta; gövdesinde ve ekstremitelerinde ani başlayan, gergin (ense sertliğinde), kaşıntılı ve rüptüre olmaya dirençli büyük büllöz lezyonlarla dermatoloji kliniğine yatırılıyor. Lezyonların çevresindeki sağlam deriye parmakla basılarak itildiğinde epidermisin alttaki tabakadan ayrılmadığı (Nikolsky belirtisi negatif) saptanıyor. Alınan deri biyopsisinin direkt immünfloresan (DİF) incelemesinde dermal-epidermal bileşkede (bazal membran boyunca) lineer tarzda IgG ve C3 birikimi izleniyor.\n\nBu hastadaki patolojiden sorumlu olan, hemidesmozom yapısında yer alan ve otoantikorların doğrudan hedefi olan majör antijenik protein aşağıdakilerden hangisidir?",
-    options: ["Desmoglein-3", "Desmoglein-1", "BP180 (Kollajen Tip XVII)", "Laminin-332 (Laminin-5)", "İntegrin alfa-6 beta-4"],
-    correct: 2,
-    explanation: `<h4>Açıklama</h4>
-Klinik: Gergin büller + <strong>Nikolsky negatif</strong> + DİF'de <strong>bazal membran boyunca lineer IgG ve C3</strong> → <strong>Büllöz Pemfigoid (BP)</strong><br><br>
-Hemidesmozom komponentleri:<br>
-• <strong>BP180 (Kollajen XVII)</strong> → transmembran protein, majör antijen<br>
-• BP230 → plak proteini<br><br>
-<table class="exp-table">
-<tr><th>Protein</th><th>Hastalık</th></tr>
-<tr><td>Desmoglein-3</td><td>Pemfigus vulgaris (mukoza)</td></tr>
-<tr><td>Desmoglein-1</td><td>Pemfigus foliaceus (yüzeyel)</td></tr>
-<tr><td><strong>BP180 ✓</strong></td><td><strong>Büllöz pemfigoid</strong></td></tr>
-<tr><td>Laminin-332</td><td>Sikatrisyel pemfigoid</td></tr>
-<tr><td>İntegrin α6β4</td><td>Sikatrisyel pemfigoid</td></tr>
-</table>`
-  },
-  {
-    category: "Nefroloji / Farmakoloji",
-    text: "58 yaşında tip 2 diyabet ve hipertansiyon tanıları olan erkek hasta, rutin poliklinik kontrolüne geliyor. Laboratuvar tetkiklerinde serum kreatinin düzeyi 1.6 mg/dL saptanıyor ve spot idrarda albümin/kreatinin oranı 150 mg/g (mikroalbüminüri) olarak hesaplanıyor. Hastanın kan basıncı 145/90 mmHg ölçülüyor.\n\nBu hastada hem arteriyel hipertansiyonu kontrol altına almak hem de efferent arteriyolde vazodilatasyon yaparak intraglomerüler hidrostatik basıncı düşürmek (renoprotektif etki) amacıyla ilk sırada tercih edilmesi gereken antihipertansif ilaç grubu aşağıdakilerden hangisidir?",
-    options: [
-      "Beta blokerler",
-      "Kalsiyum kanal blokerleri (Dihidropiridin grubu)",
-      "Anjiyotensin dönüştürücü enzim (ADE) inhibitörleri / ARB",
-      "Tiyazid diüretikleri",
-      "Alfa-1 reseptör blokerleri"
-    ],
-    correct: 2,
-    explanation: `<h4>Açıklama</h4>
-Tip 2 DM + mikroalbüminüri + HT → <strong>Diyabetik nefropati</strong><br><br>
-<strong>ADE inhibitörleri / ARB'nin çift etkisi:</strong><br>
-1. Sistemik HT'yi düşürür<br>
-2. <strong>Efferent arteriyolü dilate eder</strong> → intraglomerüler basıncı düşürür → <strong>renoprotektif</strong><br><br>
-<table class="exp-table">
-<tr><th>İlaç</th><th>Efferent etki</th></tr>
-<tr><td><strong>ACEi / ARB ✓</strong></td><td><strong>Efferent dilatasyon → ↓ intraglomerüler basınç</strong></td></tr>
-<tr><td>KKB (dihidropiridin)</td><td>Afferent dilate eder, efferente etkisi az</td></tr>
-<tr><td>Beta bloker</td><td>İntraglomerüler basınca etkisi yok</td></tr>
-<tr><td>Tiyazid</td><td>Renoprotektif değil</td></tr>
-</table>`
-  },
-  {
-    category: "Dermatoloji / Patoloji",
-    text: "34 yaşında kadın hasta, her iki bacağının ön yüzünde (pretibial bölgede) ani başlayan, ağrılı, eritematöz, sıcak ve palpasyonla hassas nodüler lezyonlarla başvuruyor. Hastanın eklem ağrıları (artralji) ve hafif ateşi olduğu öğreniliyor. Yapılan derin deri biyopsisinde, dermis ve subkutis bileşkesinde yer alan yağ lobülleri arasındaki bölmelerde (septumlarda) nötrofil ve lenfosit infiltrasyonu izlenirken, yağ lobüllerinin kendisinde nekroz veya inflamasyon saptanmıyor.\n\nBu histopatolojik bulgularla \"septal pannikülit\" tanısı konulan ve tüberküloz, sarkoidoz, IBD veya ilaç kullanımlarına ikincil gelişebilen en olası dermatolojik antite aşağıdakilerden hangisidir?",
-    options: [
-      "Eritema indüratum (Bazin hastalığı)",
-      "Eritema nodozum",
-      "Eritema multiforme",
-      "Pyoderma gangrenozum",
-      "Liken planus"
-    ],
-    correct: 1,
-    explanation: `<h4>Açıklama</h4>
-<strong>Pretibial + ağrılı nodüller + SEPTALda inflamasyon + lobüllerde nekroz YOK</strong> → <strong>Eritema Nodozum</strong><br><br>
-Septal pannikülit = Eritema Nodozum klasik patolojik tanımıdır.<br><br>
-<table class="exp-table">
-<tr><th>Antite</th><th>Ayırt edici özellik</th></tr>
-<tr><td>Eritema indüratum</td><td>Lobüler pannikülit, tüberkülozla ilişkili, baldırda (posterior)</td></tr>
-<tr><td>Eritema multiforme</td><td>Hedef lezyonlar, mukoza tutulumu</td></tr>
-<tr><td>Pyoderma gangrenozum</td><td>Ülserasyon, morumsu yıkıcı kenar, paterji (+)</td></tr>
-<tr><td>Liken planus</td><td>Mor papüller, Wickham çizgileri</td></tr>
-</table>`
-  },
-  {
-    category: "Biyokimya / Pediatri",
-    text: "Yeni doğan bir bebekte yapılan taramalarda; kusma, sarılık, hepatomegali, katarakt ve zihinsel gelişim geriliği bulguları saptanıyor. Laboratuvar incelemelerinde idrarda indirgen madde (glukoz dışı şeker) pozitifliği not ediliyor. Yapılan enzim analizinde, galaktoneojenez ve galaktoz metabolizmasında kritik rol oynayan \"Galaktoz-1-fosfat üridil transferaz (GALT)\" enziminin eksik olduğu belirleniyor.\n\nKlasik Galaktozemi tanısı konulan bu bebekte, lens dokusunda birikerek ozmotik basıncı artıran ve erken yaşta katarakt gelişimine neden olan galaktoz metaboliti (şeker alkolü) aşağıdakilerden hangisidir?",
-    options: ["Sorbitol", "Galaktitol (Dulcitol)", "Mannitol", "Ribitol", "Ksitol"],
-    correct: 1,
-    explanation: `<h4>Açıklama</h4>
-<strong>Klasik Galaktozemi:</strong> GALT enzimi eksikliği<br><br>
-Galaktoz → <strong>Aldoz redüktaz</strong> enzimi ile → <strong>Galaktitol (Dulcitol)</strong><br><br>
-• Galaktitol lens dokusunda birikir<br>
-• Ozmotik basınç artar<br>
-• → <strong>Erken yaşta katarakt</strong><br><br>
-<table class="exp-table">
-<tr><th>Şeker alkolü</th><th>Kaynak</th></tr>
-<tr><td><strong>Galaktitol ✓</strong></td><td>Galaktozdan (galaktozemi, katarakt)</td></tr>
-<tr><td>Sorbitol</td><td>Glikozdan (diyabetik katarakt)</td></tr>
-<tr><td>Mannitol</td><td>Fruktoz/mannozu kaynaklı</td></tr>
-</table>`
-  }
+const ALL_QUESTIONS=[
+// ═══════════════════════════════════════
+// İNTRAKRANİAL TÜMÖRLER
+// ═══════════════════════════════════════
+{section:'tumor',sectionLabel:'İNTRAKRANİAL TÜMÖRLER',
+years:['Sonbahar 1990'],
+q:'Çocukta beyin tümörü <u>en sık</u> nerede yerleşir?',
+opts:['A) Hemisferler','B) Frontal lob','C) Posterior fossa','D) Medulla Spinalis','E) Supratentorial'],
+ans:'C',
+hint:'Çocukta beyin tümörü = POSTERİOR FOSSA (infratentoryal). Yetişkinde = Supratentoryal.',
+trap:'Yetişkinlerde beyin tümörleri çoğunlukla supratentoryaldir. Çocuklarda ise %60 posterior fossada (infratentoryal) yerleşir. Bu ters ilişkiyi hatırla.',
+explain:'<strong>Çocuklarda beyin tümörleri</strong> %60 infratentoryal (posterior fossa) yerleşimlidir. En sık tümörler: Medulloblastom, Pilositik astrositom, Ependimom. Yetişkinlerde ise %70-80 supratentoryaldir.'},
+
+{section:'tumor',sectionLabel:'İNTRAKRANİAL TÜMÖRLER',
+years:['İlkbahar 1990'],
+q:'Çocuklarda beyin tümörünün <u>en sık</u> lokalizasyonu hangisidir?',
+opts:['A) Supratentorial','B) İnfratentorial','C) Pineal','D) Hipofizer','E) Orta beyin'],
+ans:'B',
+hint:'Çocuk = İnfratentoryal (Posterior fossa). Yetişkin = Supratentoryal. Tam tersi kural!',
+trap:'Pineal bölge tümörleri (germinomlar) çocuklarda görülse de en sık lokalizasyon posterior fossadır.',
+explain:'<strong>Çocuklarda beyin tümörlerinin %60\'ı infratentoryaldir</strong> (posterior fossa). En sık görülenler: medulloblastom (en malign, serebellum vermitten köken alır), pilositik astrositom (en iyi prognozlu), ependimom (4. ventriküle komşu). Yetişkinlerde supratentoryal yerleşim hakimdir.'},
+
+{section:'tumor',sectionLabel:'İNTRAKRANİAL TÜMÖRLER',
+years:['Sonbahar 1990'],
+q:'Serebellum ve kortekste tümör saptanıyorsa hangisi düşünülmelidir?',
+opts:['A) Karsinom metastazı','B) Multipl glioma','C) Multipl nörinoma','D) Medulloblastoma','E) Ependimom'],
+ans:'A',
+hint:'Serebellum + Korteks = İki farklı lokalizasyon = Multipl lezyon = METASTAZ.',
+trap:'Primer beyin tümörleri genellikle tek odaklıdır. Birden fazla lokalizasyonda tümör → metastaz düşün. Akciğer, meme kanseri beyne en sık metastaz yapanlar.',
+explain:'<strong>Serebral metastazlar:</strong> Tüm SSS tümörlerinin %50\'si metastazdır. En sık <strong>akciğer kanseri</strong> metastazı (%50), ikinci sırada meme kanseri. Genellikle gri-beyaz madde sınırında, orta serebral arter dağılımında, çok sayıda odak şeklinde görülür.'},
+
+{section:'tumor',sectionLabel:'İNTRAKRANİAL TÜMÖRLER',
+years:['Sonbahar 1992'],
+q:'Hipofiz adenomunda görülen göz lezyonu hangisidir?',
+opts:['A) Bitemporal hemianopsi','B) Çift görme','C) Binazal hemianopsi','D) Bitemporal heteronim anopsi','E) Strabismus'],
+ans:'A',
+hint:'Hipofiz tümörü → Optik kiazma baskısı → BİTEMPORAL hemianopsi (çerçeve görme).',
+trap:'Binazal hemianopsi çok nadirdir. Bitemporal hemianopsi ise hipofiz ve kiazma lezyonlarının karakteristik bulgusudur.',
+explain:'<strong>Hipofiz adenomu</strong> büyüyerek optik kiazmaya bası yapar. Kiazmada nazal retinanın (temporal görme alanını ileten) lifleri çapraz yapar, bu nedenle bası → <strong>bitemporal hemianopsi</strong> (görme alanının temporal yarılarının kaybı). "Tünel görüşü" olarak da bilinir.'},
+
+{section:'tumor',sectionLabel:'İNTRAKRANİAL TÜMÖRLER',
+years:['İlkbahar 1998'],
+q:'Bitemporal hemianopside lezyon nerededir?',
+opts:['A) Genikülat ganglion','B) Kalkaneal sulkus','C) Optik kiazma','D) Oksipital korteks','E) Fovea sentralis'],
+ans:'C',
+hint:'Bitemporal hemianopsi = OPTİK KİAZMA lezyonu. En sık neden hipofiz adenomu.',
+trap:'Oksipital korteks lezyonunda homonim hemianopsi görülür. Optik kiazma lezyonunda ise bitemporal hemianopsi görülür.',
+explain:'<strong>Optik kiazma lezyonu</strong>: Nazal retina liflerinin çaprazlaştığı noktadır. Bası yapan kitleler (hipofiz adenomu, kraniofarenjiom) → <strong>bitemporal hemianopsi</strong>. Lezyon kiazmanın önünde → monoküler görme kaybı, arkasında → homonim hemianopsi.'},
+
+{section:'tumor',sectionLabel:'İNTRAKRANİAL TÜMÖRLER',
+years:['İlkbahar 1994'],
+q:'Sabahları daha kötü olmak üzere oksipital baş ağrısı, bulantı-kusma ve 3 aydır şikayetleri progresif gidiş gösteren hastanın papil ödemi mevcuttur. Tanıda ne düşünürsünüz?',
+opts:['A) Myastenia gravis','B) Subaraknoid kanama','C) Migren','D) Subdural kanama','E) Kafa içi yer kaplayan lezyon'],
+ans:'E',
+hint:'Sabah kötüleşen baş ağrısı + Papil ödemi + 3 aydır progresif seyir = KİBAS = KİTLE lezyonu.',
+trap:'Migrende papil ödemi olmaz. SAK ani başlar. Kademeli progresif seyreden baş ağrısı + papil ödemi = kitle düşündürür.',
+explain:'<strong>Kafa içi kitle lezyonu bulguları:</strong> Sabahları daha şiddetli baş ağrısı (yatarken BOS basıncı artar), papil ödemi, kusma, fokal nörolojik bulgular. Progresif seyir kitlenin büyümesiyle ilişkilidir. BT/MRI ile kitle saptanır.'},
+
+{section:'tumor',sectionLabel:'İNTRAKRANİAL TÜMÖRLER',
+years:['İlkbahar 1994'],
+q:'Genç hastada kafa grafisinde sellada genişleme ve suprasellar kalsifikasyon saptanırsa <u>en olası</u> tanı hangisidir?',
+opts:['A) Tuberozskleroz','B) Kraniofarengioma','C) AVM','D) Sturge-Weber','E) Prolaktinoma'],
+ans:'B',
+hint:'Sella genişlemesi + Suprasellar KALSİFİKASYON + Genç yaş = KRANİOFARENJİOM.',
+trap:'Prolaktinoma kalsifikasyon yapmaz. Kraniofarenjiom Rathke kesesi artığından gelişir, kalsifikasyon karakteristiktir.',
+explain:'<strong>Kraniofarenjiom</strong>: 5-11 yaş arası en sık görülür. Rathke kesesi artığından gelişen suprasellar kistik tümördür. Kalsifikasyon direkt grafide görülür. GH eksikliği (büyüme geriliği), görme bozuklukları (bitemporal hemianopsi), ADH eksikliği yapabilir.'},
+
+{section:'tumor',sectionLabel:'İNTRAKRANİAL TÜMÖRLER',
+years:['İlkbahar 1993'],
+q:'Onaltı yaşındaki bir kız çocuğunda çok su içme, çok idrara çıkma şikayeti olduğu ve vazopressinle şikayetlerin düzeldiği tespit ediliyor. Fizik muayenede bilateral heteronium hemianopsi, direkt kafa grafisinde suprasellar kalsifikasyon izleniyor.',
+opts:['A) Hand-Schüller Christian','B) Tüberoskleroz','C) Kraniofarenjiom','D) Kordoma','E) Konjenital Toksoplazma'],
+ans:'C',
+hint:'Çocuk + DI (ADH eksikliği) + Bitemporal hemianopsi + Suprasellar kalsifikasyon = KRANİOFARENJİOM.',
+trap:'Diyabetes insipidus, görme alanı defekti ve suprasellar kalsifikasyon üçlüsü kraniofarenjioma özgüdür. Hand-Schüller-Christian ise histiyositoz X\'dir.',
+explain:'<strong>Kraniofarenjiom</strong>: ADH eksikliği → diyabetes insipidus (su içme+fazla idrar). Optik kiazma baskısı → bitemporal hemianopsi. Kalsifikasyon tipiktir. Tedavide cerrahi + radyoterapi.'},
+
+{section:'tumor',sectionLabel:'İNTRAKRANİAL TÜMÖRLER',
+years:['Sonbahar 2023'],
+q:'Beş yaşındaki kız çocuğu, birkaç haftadır giderek artan baş ağrısı, dengesizlik, huzursuzluk, iştahsızlık şikâyetleri ve bugün başlayan fışkırır tarzda kusma nedeniyle annesi tarafından getiriliyor. Fizik muayenesinde, hastanın ağrılı uyaran ile gözleri açtığı, ağrılı uyarana bilateral lokalize ettiği görülüyor. Pupilleri izokorik ve ışık refleksi mevcut olarak tespit ediliyor. Kontrastlı beyin manyetik rezonans görüntülemesinde infratentoryal bölgede 4. ventrikülü doldurarak hidrosefaliye yol açmış ve düzensiz yoğun kontrast tutulumu olan lezyon izleniyor.',
+opts:['A) Medulloblastom','B) Apse','C) Schwannom','D) Arteriyovenöz malformasyon','E) Meningiom'],
+ans:'A',
+hint:'Çocuk + İnfratentoryal + 4. VENTRİKÜL dolduran kitle + Hidrosefali = MEDULLOBLASTom.',
+trap:'Schwannom ve meningiom yetişkinlerde sık görülür. AVM kanama ile prezente olur. 4. ventriküle komşu çocuk tümörü → medulloblastom veya ependimom; kontrast tutulumu güçlü → medulloblastom.',
+explain:'<strong>Medulloblastom</strong>: Çocuklarda en sık malign beyin tümörü. Serebellum vermisininden kaynaklanır. 4. ventriküle uzanarak hidrosefaliye yol açar. BOS yoluyla yayılım yapar (drop metastaz). Radyosensitiftir. Kötü prognozlu.'},
+
+{section:'tumor',sectionLabel:'İNTRAKRANİAL TÜMÖRLER',
+years:['İlkbahar 2001'],
+q:'Medulloblastomlar beynin hangi bölümüne yerleşir?',
+opts:['A) Corpus collosum','B) Serebellum','C) Paryetal lob','D) Mezensefalon','E) Tentorium'],
+ans:'B',
+hint:'Medulloblastom = SEREBELLUM (vermis). Drop metastaz yapar. Çocuklarda en malign.',
+trap:'Ependimom 4. ventriküle komşudur ama serebellum kaynaklı değildir. Medulloblastom özellikle serebellum vermisininden kaynaklanır.',
+explain:'<strong>Medulloblastom</strong>: Serebellumdan (vermisten) kaynaklanır. Primitif nöroektodermal kökenli (PNET). Çocuklarda en sık malign intrakranial tümör. BOS yoluyla "drop metastaz" yapar. Radyosensitiftir, radyoterapi tedavide önemlidir.'},
+
+{section:'tumor',sectionLabel:'İNTRAKRANİAL TÜMÖRLER',
+years:['İlkbahar 2005'],
+q:'Aşağıdaki SSS tümörlerinden hangisinin prognozu <u>en kötüdür</u>?',
+opts:['A) Optik gliom','B) Medulloblastom','C) Serebellar astrositom','D) Prolaktinoma','E) Anaplastik meningiom'],
+ans:'B',
+hint:'En kötü prognozlu beyin tümörü = GLİOBLASTOM MULTIFORME (yetişkin). Çocukta = MEDULLOBLASTom.',
+trap:'Serebellar pilositik astrositom çocuklarda en iyi prognozlu tümördür. Anaplastik meningiom kötü ama seçenekler içinde en kötüsü medulloblastomdur.',
+explain:'Beyin tümörlerinde prognoz: En kötü → <strong>Glioblastoma multiforme</strong> (ortalama yaşam 14-16 ay). Seçenekler içinde <strong>medulloblastom</strong> malign ve BOS yayılımı yapabilir. Serebellar pilositik astrositom en iyi prognozludur. Prolaktinoma benigndir.'},
+
+{section:'tumor',sectionLabel:'İNTRAKRANİAL TÜMÖRLER – Akustik Nörinom',
+years:['İlkbahar 1993'],
+q:'Akustik nörinom tanısı hangisi ile konur?',
+opts:['A) Bilgisayarlı Tomografi','B) Schüller grafi','C) Odyografi','D) Vaters grafisi','E) Gadolinyumlu MRI'],
+ans:'E',
+hint:'Akustik nörinom (Vestibüler schwannom) tanısında ALTIN STANDART = Gadolinyumlu MRI.',
+trap:'BT küçük tümörleri göstermede yetersiz kalabilir. Gadolinyumlu MRI hem tümörü hem de internal akustik kanalı en iyi şekilde gösterir.',
+explain:'<strong>Akustik nörinom (vestibüler schwannom)</strong>: 8. kranial sinirden (vestibülokoklear) kaynaklanır. İşitme kaybı, tinnitus, dengesizlik ile prezente olur. Yavaş büyür. Tanıda <strong>gadolinyumlu MRI</strong> altın standarttır. Köşe tümörlerinin %90\'ını oluşturur.'},
+
+// ═══════════════════════════════════════
+// DİSK HERNİYASYONLARI
+// ═══════════════════════════════════════
+{section:'disk',sectionLabel:'DİSK HERNİYASYONLARI – Servikal',
+years:['İlkbahar 2020 Orijinal'],
+q:'Otuz yaşındaki kadın hasta boynundan sol kol ve elinin üstüne yayılan ağrı, uyuşma ve güç kaybı yakınmalarıyla başvuruyor. Sol triseps kas gücü 3/5 olarak ölçülüyor. Triseps derin tendon refleksinde azalma ve üçüncü parmak dorsalinde hipoestezi saptanıyor. Bu hastada hangi sinir kökünde lezyon olması <u>en olasıdır</u>?',
+opts:['A) C3','B) C4','C) C5','D) C6','E) C7'],
+ans:'E',
+hint:'TRİSEPS refleksi + 3. parmak hipoestezisi + Triseps güçsüzlüğü = C7 kök basısı.',
+trap:'C6 kök basısında biseps refleksi azalır ve başparmak/işaret parmağı etkilenir. C7\'de triseps refleksi azalır ve orta parmak etkilenir.',
+explain:'<strong>Servikal disk hernisi kök lokalizasyonu:</strong> C5-6 disk → C6 kök (biseps refleksi, başparmak/işaret); C6-7 disk → <strong>C7 kök</strong> (triseps refleksi, orta parmak). Triseps kas güçsüzlüğü + triseps DTR azalması + 3. parmak hipoestezisi → C7.'},
+
+{section:'disk',sectionLabel:'DİSK HERNİYASYONLARI – Lomber',
+years:['Sonbahar 2013 Orijinal','Sonbahar 2013 BENZERİ'],
+q:'L5-S1 disk herniasyonu aşağıdakilerden hangisine <u>yol açmaz</u>?',
+opts:['A) Plantar fleksiyonun azalması','B) Ayak dış yüzeyinde duyu kaybı','C) Pozitif Lasegue bulgusu','D) Patella refleksi kaybı','E) Uyluk ve bacağın arka yüzünde ağrı'],
+ans:'D',
+hint:'Patella refleksi L3-L4\'tür. L5-S1 disk hernisinde patella refleksi ETKİLENMEZ.',
+trap:'Patella refleksi kaybı L4 kök basısında görülür (L3-L4 disk). L5-S1 disk hernisinde AŞİL refleksi kaybı olur, patella refleksi korunur.',
+explain:'<strong>L5-S1 disk hernisi</strong>: S1 kök basısı → Plantar fleksiyon azalması, aşil refleksi kaybı, ayak dış-alt yüz duyu kaybı. <strong>Patella refleksi (L4) korunur.</strong> Patella refleksi kaybı L3-L4 disk herniyasında (L4 kök) görülür.'},
+
+{section:'disk',sectionLabel:'DİSK HERNİYASYONLARI – Lomber',
+years:['İlkbahar 1993'],
+q:'L4-L5 disk hernisinde <u>görülmeyen</u> hangisidir?',
+opts:['A) (+) Babinski testi','B) Ayak sırtında yüzeyel duyu kaybı','C) M. extensor hallusis longusda kuvvet kaybı','D) Bacak arkasında ağrı','E) Hiçbiri'],
+ans:'A',
+hint:'Babinski = Üst MN bulgusudur. Disk hernisi = Alt MN / periferik sinir → Babinski OLMAZ.',
+trap:'Babinski işareti kortikospinal yol lezyonunun bulgusudur. Disk hernisi periferik siniri etkiler ve patolojik refleks YAPMAZ. Dikkatli okuyun: "görülmeyen" soruluyor.',
+explain:'<strong>L4-L5 disk hernisi (L5 kök basısı):</strong> Extensor hallucis longus güçsüzlüğü (ayak başparmağı yukarı kaldıramama), ayak sırtında duyu kaybı, bacak arkasında ağrı. <strong>Babinski işareti görülmez</strong> çünkü alt MN / periferik sinir lezyonu söz konusudur.'},
+
+{section:'disk',sectionLabel:'DİSK HERNİYASYONLARI – Lomber',
+years:['Sonbahar 2014 Orijinal','Sonbahar 2014 BENZERİ'],
+q:'Ağır yük kaldırma sonrası ortaya çıkan şiddetli sol bacağa yayılan ağrı yakınması ile başvuran bir hastada sol L5-S1 mediolateral disk hernisi olduğu radyolojik olarak tespit edilmiştir. Bu hastanın muayenesinde S1 radiksinde beklenen bulgular aşağıdakilerden hangisinde birlikte verilmiştir?',
+opts:['A) Diz ekstansiyonu zayıflamış, bacak ön yüzünde hipoestezi vardır.','B) Kalça addüktör kas güçsüzlüğü ve üriner inkontinans vardır.','C) Ayak plantar fleksiyonu zayıftır, ayak tabanı ve lateralinde hipoestezi vardır.','D) Kremaster refleksi alınamaz, femoral germe pozitiftir.','E) Patella refleksi alınamaz, ayak dorsifleksiyonu zayıftır.'],
+ans:'C',
+hint:'S1 kök basısı: Plantar fleksiyon↓ + Ayak tabanı/laterali hipoestezi + Aşil refleksi kaybı.',
+trap:'Diz ekstansiyonu ve patella refleksi L3-L4 köküdür. S1 kökü plantar fleksiyonu ve ayak tabanı duyusunu etkiler.',
+explain:'<strong>S1 kök basısı bulguları:</strong> (1) Plantar fleksiyon zayıflığı (gastrokinemius), (2) Ayak tabanı ve lateral yüzünde hipoestezi, (3) Aşil refleksi kaybı, (4) Laseque testi pozitif. Yük kaldırmakla tetiklenen disk herniyasyon klasik öyküsüdür.'},
+
+{section:'disk',sectionLabel:'DİSK HERNİYASYONLARI – Lomber',
+years:['Sonbahar 2022 Orijinal'],
+q:'Belden sağ bacağa yayılan ağrısı olan 30 yaşındaki kadın hastanın lomber vertebra manyetik rezonans görüntülemesinde lomber 4-5 intervertebral diskinde sağ posterolateralde disk herniasyonu ve ciddi sağ L5 sinir kökü basısı saptanıyor. Bu hastanın nörolojik muayenesinde kuvvet kaybı beklenen <u>en olası</u> kas veya kas grupları aşağıdakilerden hangisinde verilmiştir?',
+opts:['A) Sağ musculus tibialis anterior ve sağ musculus extansör hallucis longus','B) Sağ musculus gatrocnemius ve medial hamstring kasları','C) Sağ musculus quadriceps femoris','D) Sağ musculus iliopsoas ve musculus piriformis','E) Sağ musculus sartorius ve musculus gracilis'],
+ans:'A',
+hint:'L5 kök basısı: Tibialis anterior (ayak dorsifleksiyonu) + EHL (başparmak ekstansiyonu) zayıflar → DÜŞÜK AYAK.',
+trap:'Gastrocnemius S1 köküdür. Quadriceps L3-L4 köküdür. L5 kökü tibialis anterior ve EHL\'yi innerve eder.',
+explain:'<strong>L5 kök basısında</strong>: M. tibialis anterior (ayak dorsifleksiyonu) ve m. extensor hallucis longus (başparmak yukarı kaldırma) güçsüzlüğü. Klinik olarak <strong>düşük ayak (foot drop)</strong> gelişebilir. Ayak sırtında duyu kaybı da eşlik eder.'},
+
+{section:'disk',sectionLabel:'DİSK HERNİYASYONLARI – Lomber',
+years:['İlkbahar 2011'],
+q:'Lomber 5 (L5) sinir kökü basısında aşağıdaki nörolojik bulgulardan hangisi görülür?',
+opts:['A) Patella refleksinde kayıp','B) Ayak başparmak dorsifleksiyonunda zayıflama','C) Baldır arka yüzünde ağrı ve uyuşma','D) Aşil refleksinde kayıp','E) Kuadriseps kasında atrofi'],
+ans:'B',
+hint:'L5 kökü: M. extensor hallucis longus → Başparmak YUKARI kaldırma zayıflar.',
+trap:'Aşil refleksi kaybı S1 kökü bulgusudur. Patella refleksi kaybı L4 kök bulgusudur. L5 kökünde DTR kaybı genellikle görülmez.',
+explain:'<strong>L5 kök basısı</strong>: Ayak başparmağı dorsifleksiyonunda zayıflama (m. extensor hallucis longus), ayak dorsifleksiyonu güçlüğü (m. tibialis anterior), ayak sırtında ve 1-2-3. parmaklarda hipoestezi. Aşil refleksi korunur (S1).'},
+
+{section:'disk',sectionLabel:'DİSK HERNİYASYONLARI – Kauda Equina',
+years:['İlkbahar 2025'],
+q:'Kırk beş yaşındaki erkek hasta altı aydır devam eden bel ve sağ bacak ağrısı şikâyetiyle başvuruyor. Hasta son iki gündür idrarını tam yapamadığını, her iki bacağının arasının arasında uyuşma olduğunu belirtiyor. Fizik muayenede hastanın eyer tarzında anestezisi ve paraparezisi olduğu saptanıyor.',
+opts:['A) Lomber manyetik rezonans görüntüleme','B) Abdominal ultrasonografi','C) Kraniyal bilgisayarlı tomografi','D) Alt ekstremite renkli Doppler ultrasonografi','E) Pelvik bilgisayarlı tomografi'],
+ans:'A',
+hint:'KAUDA EQUİNA sendromu = ACİL CERRAHİ ENDİKASYON. İlk tetkik = LOMBer MRI.',
+trap:'Kauda equina sendromunun tanısı için lomber MRI yapılır, kraniyal BT değil. Bu tablo acil cerrahisi gerektiren bir durumdur.',
+explain:'<strong>Kauda equina sendromu</strong>: Eyer tarzında anestezi + mesane/bağırsak disfonksiyonu + alt ekstremite güçsüzlüğü. ACİL CERRAHİ ENDİKASYONDUR. İlk yapılacak tetkik <strong>lomber MRI</strong>dır. Gecikme kalıcı hasara yol açar.'},
+
+// ═══════════════════════════════════════
+// MEDULLA SPİNALİS
+// ═══════════════════════════════════════
+{section:'medulla',sectionLabel:'MEDULLA SPİNALİS – Siringomiyeli',
+years:['Sonbahar 2017 Orijinal','Sonbahar 2017 BENZERİ'],
+q:'On sekiz yaşındaki erkek hasta, ellerinde birkaç yıldır olan hissizlik ve son birkaç aydır eklenen kuvvet kaybı şikâyetleriyle başvuruyor. Nörolojik muayenede pelerin tarzında dağılım gösteren yüzeyel ağrı ve sıcaklık duyusu kaybı, bilateral el kaslarında atrofi ve kuvvet kaybı, sol üst ekstremite derin tendon reflekslerinde azalma saptanıyor.',
+opts:['A) Amiyotrofik lateral skleroz','B) Siringomiyeli','C) Tabetik sendrom','D) Subakut kombine dejenerasyon','E) Spinal musküler atrofi tip 1'],
+ans:'B',
+hint:'PELERİN TARZI (bilatereal omuz-kol) AĞRI-ISI KAYBI + Derin duyu SAĞLAM = SİRİNGOMİYELİ.',
+trap:'ALS\'de ağrı-ısı kaybı olmaz. Tabes dorsalis\'te ağrı-ısı kaybı değil, derin duyu ve propriyosepsiyon kaybı baskındır.',
+explain:'<strong>Siringomiyeli</strong>: Spinal kord içinde kavite oluşumu (hidromyelia). Santral kanal genişlemesi → commissura anteriorun (ağrı-ısı çaprazlaması) etkilenmesi → <strong>pelerin/omuz ponosu tarzı bilateral ağrı-ısı kaybı</strong>. Derin duyu korunur (posterior kolonlar sağlam). Servikal bölgede sık.'},
+
+{section:'medulla',sectionLabel:'MEDULLA SPİNALİS – Siringomiyeli',
+years:['İlkbahar 2007'],
+q:'Siringomiyelde gözlenen karakteristik duyu bozukluğu tipi aşağıdakilerden hangisidir?',
+opts:['A) Üst ekstremite derin tendon reflekslerinde hiperreaktivite','B) Dokunma duyusu kaybı olmaksızın ağrı-ısı duyusu kaybı','C) İki taraflı dokunma duyusu kaybı','D) Tek taraflı pozisyon duyusu kaybı','E) Çapraz ağrı-ısı duyusu kaybı'],
+ans:'B',
+hint:'Siringomiyeli = Dissosiye duyu kaybı: AĞRI-ISI kaybı ama DOKUNMA SAĞLAM.',
+trap:'Çapraz ağrı-ısı kaybı Brown-Sequard sendromunu tanımlar. Siringomyelide ise bilateral ve dissosiye (ağrı-ısı gider, dokunma kalır) duyu kaybı vardır.',
+explain:'<strong>Siringomiyeli tipik duyu kaybı</strong>: Santral kanal genişlemesi → commissura alba anterior etkilenir → ağrı-ısı çaprazlaması bozulur → bilateral ağrı ve ısı duyusu kaybı. <strong>Dokunma ve derin duyu korunur</strong> (posterior kolondaki lifler etkilenmez). Bu "dissosiye duyu kaybı" olarak adlandırılır.'},
+
+{section:'medulla',sectionLabel:'MEDULLA SPİNALİS – Kord Yaralanması',
+years:['İlkbahar 2019 Orijinal','İlkbahar 2019 BENZERİ'],
+q:'Aşağıdakilerden hangisi T6 seviyesinde omurilik yaralanması olan bir hastada hayatı tehdit eden ve acil müdahale gerektiren bir komplikasyondur?',
+opts:['A) Otonomik disrefleksi','B) Heterotopik ossifikasyon','C) İdrar inkontinansı','D) Spastisite','E) Kompleks bölgesel ağrı sendromu'],
+ans:'A',
+hint:'T6 üzerinde omurilik hasarı + Mesane dolması gibi uyaran → OTONOMİK DİSREFLEKSİ = Hipertansif kriz!',
+trap:'Spastisite ve idrar inkontinansı ciddi komplikasyonlar ama hayatı tehdit etmez. Otonomik disrefleksi kan basıncını ani yükseltebilir ve inme/ölüme yol açabilir.',
+explain:'<strong>Otonomik disrefleksi</strong>: T6 ve üzeri SKY\'da, lezyon altından gelen uyaranlara (mesane dolması, baskı yarası) karşı kontrolsüz sempatik yanıt → şiddetli HİPERTANSİYON, bradikardi, terleme, baş ağrısı. ACİL tedavi: uyaranı kaldır, hasta otururun, antihipertansif ver.'},
+
+{section:'medulla',sectionLabel:'MEDULLA SPİNALİS – Brown-Sequard',
+years:['Sonbahar 2013 Orijinal','Sonbahar 2013 BENZERİ'],
+q:'T4 seviyesinde, medulla spinalis sağ yarısında kronik lezyon olan bir hastada aşağıdaki bulgulardan hangisi görülür?',
+opts:['A) Sağ üst ekstremitede paralizi','B) Solda vibrasyon duyusunda kayıp','C) Sağda Babinski işareti','D) Sağ alt ekstremitede yüzeyel ağrı duyusu kaybı','E) Sağ patella refleksinde kayıp'],
+ans:'C',
+hint:'Brown-Sequard: Lezyon tarafı → Motor+DTR↑ (üst MN). Karşı taraf → Ağrı-ısı kaybı. "Aynı taraf motor, karşı taraf duyu"',
+trap:'Ağrı-ısı kaybı KARŞI taraftadır (çapraz yapar). Motor ve derin duyu AYNI taraftadır. Sağ T4 lezyonunda sağda Babinski + hemipleji, solda ağrı-ısı kaybı.',
+explain:'<strong>Brown-Sequard sendromu</strong> (medulla spinalis yarı kesisi): İpsilateral distalde motor kayıp + derin duyu kaybı (Babinski dahil). Kontralateral distalde ağrı-ısı duyusu kaybı. Sağ T4 lezyonunda: <strong>Sağ Babinski</strong>, sağ hemipleji, solda ağrı-ısı kaybı.'},
+
+// ═══════════════════════════════════════
+// KAFA SÜTÜRLERI / KRANİOSİNOSTOZ
+// ═══════════════════════════════════════
+{section:'kafasutur',sectionLabel:'KAFA SÜTÜRLERI – Kraniosinostoz',
+years:['İlkbahar 1993'],
+q:'Kraniosinostozis ile mikrosefali ayrımı en iyi aşağıdaki tanı yöntemlerinden hangisi ile yapılabilir?',
+opts:['A) Ekoensenfalografi','B) USG','C) BBT','D) Direkt kafa grafisi','E) Radyoizotop kemik sintigrafisi'],
+ans:'C',
+hint:'Kraniosinostoz vs Mikrosefali ayrımında süturların durumunu ve parankim hacmini değerlendirmek için BBT (BT) en uygundur.',
+trap:'Direkt grafi süturları gösterebilir ama parankim hakkında bilgi vermez. Kraniosinostoz ile mikrosefali arasındaki ayrım için global kraniyal değerlendirme gerekir → BBT.',
+explain:'<strong>Kraniosinostoz</strong> (bir veya birden fazla sütürün erken kapanması) ile mikrosefali ayrımında <strong>BBT</strong> tercih edilir: Hem sütür kapanmasını hem de beyin parankim volümünü değerlendirebilir. Direkt grafi sütürları gösterir ama parankim hakkında bilgi vermez.'},
+
+{section:'kafasutur',sectionLabel:'KAFA SÜTÜRLERI – Kraniosinostoz',
+years:['İlkbahar 1999'],
+q:'Aşağıdakilerden hangisi bilateral koronal sütür sinostozu sonucu oluşur?',
+opts:['A) Skafosefali','B) Trigonosefali','C) Brakisefali','D) Oksisefali','E) Plagiosefali'],
+ans:'C',
+hint:'Bilateral koronal sütür erken kapanması = BRAKİSEFALİ (baş önden arkaya kısa, yanlamasına geniş).',
+trap:'Skafosefali sagittal sütür kapanmasından olur (baş uzun ve dar). Trigonosefali metopik sütürden. Brakisefali koronal sütürden.',
+explain:'Sütür kapanmaları ve şekil bozuklukları: Sagittal → <strong>Skafosefali</strong> (uzun, dar kafatası), Koronal (bilateral) → <strong>Brakisefali</strong> (kısa, geniş kafatası), Metopik → <strong>Trigonosefali</strong> (üçgen şekilli alın), Tek taraflı koronal → Plagiosefali.'},
+
+// ═══════════════════════════════════════
+// DİĞER SORULAR
+// ═══════════════════════════════════════
+{section:'diger',sectionLabel:'DİĞER KONULAR – Lomber Spinal Stenoz',
+years:['Sonbahar 2018 Orijinal','Sonbahar 2018 BENZERİ'],
+q:'Altmış yedi yaşındaki erkek hasta, son iki yıldır devam eden bel ağrısı ve yürüme mesafesinin zaman içerisinde kısalması yakınmalarıyla başvuruyor. Son olarak yürüme mesafesinin 100 metre ile sınırlı olduğunu, bacaklarında uyuşma hissi oluştuğunu ve oturup dinlenmekle bu yakınmasının geçtiğini, ancak tekrar yürümeye başlamasıyla yeniden ortaya çıktığını belirtiyor. Nörolojik muayenesinde defisit belirlenemiyor.',
+opts:['A) Romatoid artrit','B) Ankilozan spondilit','C) Araknoidit','D) Lomber spinal stenoz','E) Fibromiyalji'],
+ans:'D',
+hint:'Yürümekle artan bacak ağrısı + Dinlenmekle düzelen = NÖROJENİK KLAUDİKASYON = Lomber spinal stenoz.',
+trap:'Vasküler klaudikasyon da benzer şekilde yürümekle artar ama nörojenik klaudikasyondan farkı: vasküler tipte oturmak zorunda kalmadan durmak yeterli, nörojenik tipte öne eğilmek veya oturmak gerekir.',
+explain:'<strong>Lomber spinal stenoz</strong>: Spinal kanal daralması → nörojenik klaudikasyon. Yürümekle belirtiler artar, öne eğilmek veya oturmak (spinal kanal genişler) rahatlatır. MRI tanı yöntemidir. Semptomatik hastalarda dekompresif cerrahi yapılabilir.'},
+
+{section:'diger',sectionLabel:'DİĞER KONULAR – Servikal Myelopati',
+years:['İlkbahar 2023'],
+q:'Boyun ağrısı olan 77 yaşındaki erkek hasta, yıllar içinde ilerleyen ellerde güçsüzlük ve beceriksizlik, yürüme güçlüğü ve yakın zamanda eklenen idrar yapma zorluğundan yakınıyor. El intrinsik kaslarda atrofi, alt ekstremitelerde spastisite, derin tendon reflekslerinde üst ekstremitelerde azalma, alt ekstremitelerde artış ve Babinski ve Hoffmann refleksleri pozitif tespit ediliyor.',
+opts:['A) Motor nöron hastalığı','B) Servikal myelopati','C) Brakial pleksopati','D) Torasik çıkış sendromu','E) Mononötritis multipleks'],
+ans:'B',
+hint:'Üst ekstremite 2. MN bulguları + Alt ekstremite 1. MN bulguları + Boyun ağrısı = SERVİKAL MYELOPATİ.',
+trap:'Motor nöron hastalığında (ALS) duyusal defisit olmaz ve boyun ağrısı tipik değildir. Servikal myelopatide hem üst hem alt MN bulguları BİRLİKTE görülür.',
+explain:'<strong>Servikal myelopati</strong>: Servikal bölgede disk hernisi veya spondiloz nedeniyle spinal kord basısı. Üst ekstremitede alt MN (atrofi, DTR azalma) + alt ekstremitede üst MN (spastisite, DTR artışı, Babinski) bulguları bir arada görülür. Tanıda servikal MRI önceliklidir.'},
+// ═══════════════════════════════════════
+// EKSİK TÜMÖR SORULARI
+// ═══════════════════════════════════════
+{section:'tumor',sectionLabel:'İNTRAKRANİAL TÜMÖRLER',
+years:['Sonbahar 1997'],
+q:'Kronik, epizodik olmayan vertigo, çınlama, işitme kaybı V, VII ve VIII kranial sinirlerin paralizileri varsa lezyon nerede olabilir?',
+opts:['A) Kapsula interna','B) Spinal kord','C) Serebellopontin köşe','D) Temporal lob','E) Medial longitudinal fasikulus'],
+ans:'C',
+hint:'5,7,8. KS birlikte + Vertigo + İşitme kaybı = SEREBELLOPONTİN KÖŞE tümörü (akustik nörinom).',
+trap:'Temporal lob lezyonu işitme kaybı yapabilir ama 5. ve 7. sinir tutulumu olmaz. Serebellopontin köşede bu üç kranial sinir bir arada bulunur.',
+explain:'<strong>Serebellopontin köşe tümörleri</strong>: Köşe tümörlerinin %90\'ı akustik schwannomdur. 5. (trigeminal), 7. (fasiyal), 8. (vestibülokoklear) kranial sinirler etkilenir. Semptomlar: işitme kaybı, tinnitus, yüz uyuşması/felci, vertigo. Tanıda gadolinyumlu MRI.'},
+
+{section:'tumor',sectionLabel:'İNTRAKRANİAL TÜMÖRLER',
+years:['İlkbahar 2008'],
+q:'Aşağıdaki beyin tümörlerinden hangisi nöroepitelyal orijinli <u>değildir</u>?',
+opts:['A) Menenjiyom','B) Oligodendrogliom','C) Medulloblastom','D) Ependimoblastom','E) Astrositom'],
+ans:'A',
+hint:'Menenjiyom ARAKNOİD granülasyon hücrelerinden gelir = meningoepitelyal köken, nöroepitelyal DEĞİL.',
+trap:'Astrositom, oligodendrogliom, ependimom, medulloblastom — hepsi nöroektodermal/nöroepitelyal kökenlidir. Menenjiyom ise araknoid hücrelerden (mezodermal köken) gelişir.',
+explain:'<strong>Menenjiyom</strong>: Araknoid granülasyon hücrelerinden köken alır → meningoepitelyal hücrelerden gelişir, nöroepitelyal değildir. Nöroepitelyal tümörler: Astrositomlar, oligodendrogliom, ependimom, medulloblastom. Menenjiyom en sık parasagittal yerleşimli, benign tümördür.'},
+
+{section:'tumor',sectionLabel:'İNTRAKRANİAL TÜMÖRLER – Metastaz',
+years:['İlkbahar 2011'],
+q:'Sol oksipital lobda lokalize tümör nedeniyle ameliyat edilen 55 yaşındaki bir erkek hastada, patolojik incelemede yassı hücreli karsinom metastazı saptanmıştır. Bu hastada primer odak açısından <u>ilk önce</u> incelenmesi gereken organ aşağıdakilerden hangisidir?',
+opts:['A) Böbrekler','B) Akciğer','C) Mide','D) Özofagus','E) Kolon'],
+ans:'B',
+hint:'Beyin metastazı en sık = AKCİĞER kanseri. Skuamöz hücreli → Akciğer ilk akla gelmeli.',
+trap:'Melanom yüksek metastaz potansiyeli olsa da skuamöz hücreli karsinom (yassı hücreli) en sık akciğerden köken alır. Kolon, mide adenokarsinom yapar, yassı hücreli değil.',
+explain:'<strong>Beyin metastazı</strong>: En sık primer odak <strong>akciğer kanseridir</strong> (%40-50). İkinci sırada meme kanseri. Skuamöz (yassı) hücreli karsinom özellikle akciğer kaynaklıdır. Beyin metastazı saptandığında ilk bakılacak organ akciğerdir.'},
+
+{section:'tumor',sectionLabel:'İNTRAKRANİAL TÜMÖRLER – Hipofiz',
+years:['İlkbahar 2013'],
+q:'Ani başlayan baş ağrısı, bitemporal görme alanı kaybı tanısıyla acil ameliyat için hazırlanırken yapılması gereken <u>ilk</u> işlem aşağıdakilerden hangisidir?',
+opts:['A) Diürezin sağlanması','B) Kortizol replasmanı','C) Kardiyak fonksiyon testleri','D) Kan şekeri regülasyonu','E) Hipoterminin önlenmesi'],
+ans:'B',
+hint:'Hipofiz apopleksisi → ACTH eksikliği → Kortizol eksikliği → CERRAHİ ÖNCESİ KORTİZOL VER.',
+trap:'Hipofiz apopleksisinde en tehlikeli durum ACTH eksikliğine bağlı kortizol yetersizliğidir. Kardiyak testler veya diürez değil, öncelikle kortizol replasmanı yapılmalıdır.',
+explain:'<strong>Hipofiz apopleksisi</strong>: Hipofiz bezindeki akut hemoraji/infarkt. Ani baş ağrısı, görme kaybı, oftalmopleji ile prezente olur. Mortaliteyi artıran en önemli faktör <strong>kortizol eksikliği</strong>dir. Cerrahiye alınmadan önce mutlaka iv kortikosteroid verilmelidir.'},
+
+// ═══════════════════════════════════════
+// EKSİK DİSK/SPİNAL SORULAR
+// ═══════════════════════════════════════
+{section:'disk',sectionLabel:'DİSK HERNİYASYONLARI – Lomber',
+years:['İlkbahar 2012'],
+q:'Femoral germe testi, hangi sinir köklerinin muayenesi için yapılır?',
+opts:['A) D12, L1, L2','B) L2, L3, L4','C) L3, L4, L5','D) L4, L5, S1','E) L5, S1, S2'],
+ans:'B',
+hint:'FEMORAL germe testi = L2, L3, L4 sinir kökleri (Femoral sinir). Laseque = L5, S1.',
+trap:'Laseque (düz bacak yükseltme) testi L5-S1 kökleri için yapılır. Femoral germe testi ise üst lomber kökler (L2-L3-L4) için yapılır.',
+explain:'<strong>Femoral germe testi (ters Laseque):</strong> Hasta yüz üstü yatarken kalçadan ekstansiyon — L2, L3, L4 kökleri değerlendirilir. Uylukta ağrı ortaya çıkarsa pozitiftir. L3-L4 disk hernisinde (L4 kök basısı) pozitiftir. Laseque ise L5-S1 köklerini test eder.'},
+
+{section:'disk',sectionLabel:'DİSK HERNİYASYONLARI – Servikal Cerrahi',
+years:['Sonbahar 2021 Orijinal','Sonbahar 2021 BENZERİ'],
+q:'Kollara yayılan ağrı ve uyuşma şikayeti ile gelen hastanın sıkıştırma kompresyon testinin pozitif çıkması nedeniyle servikal manyetik rezonans görüntüleme isteniyor. Hastanın görüntülemesinde C5-C6 arasında ekstrüde olmuş disk hernisi olduğu ve anterior yaklaşım ile operasyon planlanıyor. Bu hastada operasyon sonrası görülme ihtimali <u>daha yüksek</u> olan komplikasyon aşağıdakilerden hangisidir?',
+opts:['A) Vokal kord paralizisi','B) Vena jugularis interna yaralanması','C) Arteria carotis communis yaralanması','D) Nervus accessorius yaralanması','E) Tiroid krizi'],
+ans:'A',
+hint:'Anterior servikal yaklaşımda en sık komplikasyon = VOKAL KORD PARALİZİSİ (rekürren sinir hasarı).',
+trap:'Arteria carotis ve jugular ven intraoperatif dikkatle korunur. Anterior servikal yaklaşımda rekürren laringeal sinir hasarı vokal kord paralizisine yol açar.',
+explain:'<strong>Anterior servikal disk cerrahisinde</strong> en sık komplikasyon <strong>vokal kord paralizisidir</strong> (n. laryngeus recurrens hasarı). Sol rekürren laringeal sinir aortik kemer etrafında döner ve daha savunmasızdır. Klinik: ses kısıklığı, yutma güçlüğü.'},
+
+{section:'medulla',sectionLabel:'MEDULLA SPİNALİS – Spinal Kord Yaralanması',
+years:['İlkbahar 2024 Orijinal'],
+q:'Spinal kord yaralanması sonrasında ortostotik hipotansiyon gelişen bir hastaya ilaç dışı tedavi olarak; I. Sıvı kısıtlaması, II. Uyurken yatak başını 10-20 derece yükseltmek, III. Ortam sıcaklığını artırmak, IV. Varis çorabı uygulamalarından hangileri önerilir?',
+opts:['A) I ve II','B) I ve III','C) II ve III','D) II ve IV','E) III ve IV'],
+ans:'D',
+hint:'Ortostatik hipotansiyon tedavisi: Yatak başını YÜKSELTmek + Kompresyon çorabı (varis çorabı). Sıvı kısıtlama YANLIŞ.',
+trap:'Sıvı kısıtlaması hipotansiyonu ARTTIRIR. Ortam sıcaklığının artırılması periferik vazodilatasyona yol açar, hipotansiyonu kötüleştirir. Doğru: yatak başını 10-20 derece yükselt + varis çorabı.',
+explain:'<strong>SKY sonrası ortostatik hipotansiyon</strong>: Sempatik disfonksiyon nedeniyle venöz dönüş azalır. İlaç dışı tedavi: (1) Yatak başını 10-20° yükseltmek (kademeli adaptasyon), (2) Kompresyon çorabı (venöz dönüşü artırır), (3) Abdominal kuşak, (4) Sıvı replasmanı. Sıvı kısıtlaması ve ısı artışı kontrendikedir.'},
+
+{section:'diger',sectionLabel:'DİĞER KONULAR – Ensefalosel',
+years:['İlkbahar 2023'],
+q:'İki aylık erkek bebek, kafasının arkasında doğuştan beri olan bir şişlik nedeniyle getiriliyor. Muayenesinde oksipital bölgede yaklaşık 2x2 cm büyüklüğünde yumuşak, şişme var. Fizik muayenesinde, o bölgede kemik defekti ve defektten dışarıya herniye olmuş beyin dokusu saptanıyor.',
+opts:['A) Meningosel','B) Meningomiyelosel','C) Ensefalosel','D) Sefal hematom','E) Histiyositozis'],
+ans:'C',
+hint:'Kemik defekti + Herniye olmuş BEYİN DOKUSU = ENSEFALOsel. Sadece zarlar → Meningosel.',
+trap:'Meningoselde beyin dokusu yoktur, sadece meninksler herniye olur. Meningomiyeloselde spinal kord bulunur. Ensefaloselda hem meninksler hem de beyin parankimi herniasyon gösterir.',
+explain:'<strong>Ensefalosel</strong>: Kafatası kemik defektinden hem meninksler hem de beyin dokusunun herniasyonu. En sık oksipital bölgede görülür. Nörolojik defisit bulunur. <strong>Meningosel</strong>de sadece dura ve araknoid herniasyon gösterir, beyin dokusu yoktur → nörolojik defisit beklenmez.'},
+
 ];
 
-let currentQ = 0;
-let score = 0;
-let answered = [];
-let userAnswers = [];
+let idx=0,filteredQ=[...ALL_QUESTIONS];
+let answered=new Set(),correct=new Set(),wrong=new Set(),starred=new Set();
 
-function startQuiz() {
-  document.getElementById('start-screen').style.display = 'none';
-  document.getElementById('quiz-screen').style.display = 'block';
-  loadQuestion();
-}
-
-function loadQuestion() {
-  const q = questions[currentQ];
-  document.getElementById('q-number').textContent = `SORU ${currentQ + 1} / ${questions.length}`;
-  document.getElementById('q-category').textContent = q.category;
-  document.getElementById('q-text').textContent = q.text;
-
-  // Options
-  const optContainer = document.getElementById('options');
-  optContainer.innerHTML = '';
-  const letters = ['A', 'B', 'C', 'D', 'E'];
-  q.options.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'option-btn';
-    btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${opt}</span>`;
-    btn.onclick = () => selectAnswer(i);
-    optContainer.appendChild(btn);
+function renderQuestion(){
+  const q=filteredQ[idx];
+  document.getElementById('sect-label').textContent=q.sectionLabel;
+  document.getElementById('q-num').textContent=`Soru ${idx+1}/${filteredQ.length}`;
+  document.getElementById('star-btn').textContent=starred.has(idx)?'★':'☆';
+  const yt=document.getElementById('year-tags');yt.innerHTML='';
+  q.years.forEach(y=>{const s=document.createElement('span');s.className='year-tag';s.textContent=y;yt.appendChild(s);});
+  document.getElementById('q-text').innerHTML=q.q;
+  document.getElementById('hint-box').style.display='none';
+  document.getElementById('hint-box').textContent=q.hint;
+  const optsEl=document.getElementById('options');optsEl.innerHTML='';
+  q.opts.forEach(opt=>{
+    const letter=opt[0],text=opt.slice(3);
+    const btn=document.createElement('button');btn.className='opt-btn';
+    btn.innerHTML=`<span class="opt-letter">${letter}</span>${text}`;
+    btn.onclick=()=>selectAnswer(letter,idx,q);optsEl.appendChild(btn);
   });
-
-  // Hide explanation and next button
-  const exp = document.getElementById('explanation');
-  exp.className = 'explanation';
-  exp.innerHTML = '';
-  document.getElementById('btn-next').style.display = 'none';
-
-  // Update progress
-  updateProgress();
+  document.getElementById('feedback').classList.remove('open');
+  document.getElementById('trap-text').innerHTML=q.trap;
+  document.getElementById('explain-text').innerHTML=q.explain;
+  updateNavBtns();updateToggleBtn();updateProgress();
+  if(answered.has(idx))restoreAnswerUI(idx,q);
 }
-
-function selectAnswer(chosen) {
-  if (answered[currentQ] !== undefined) return;
-  answered[currentQ] = true;
-  userAnswers[currentQ] = chosen;
-
-  const q = questions[currentQ];
-  const buttons = document.querySelectorAll('.option-btn');
-
-  buttons.forEach((btn, i) => {
-    btn.disabled = true;
-    if (i === q.correct) btn.classList.add('correct');
-    else if (i === chosen && chosen !== q.correct) btn.classList.add('wrong');
+function selectAnswer(letter,gi,q){
+  if(answered.has(gi))return;
+  answered.add(gi);
+  const isCorrect=(letter===q.ans);
+  if(isCorrect)correct.add(gi);else wrong.add(gi);
+  document.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.disabled=true;
+    const l=btn.querySelector('.opt-letter').textContent;
+    if(l===q.ans)btn.classList.add('correct');
+    else if(l===letter&&!isCorrect)btn.classList.add('wrong');
   });
-
-  if (chosen === q.correct) score++;
-
-  // Show explanation
-  const exp = document.getElementById('explanation');
-  exp.innerHTML = q.explanation;
-  exp.classList.add('show');
-
-  // Update score badge
-  document.getElementById('score-badge').textContent = `${score} ✓`;
-
-  // Show next or finish button
-  const nextBtn = document.getElementById('btn-next');
-  nextBtn.style.display = 'inline-block';
-  if (currentQ === questions.length - 1) {
-    nextBtn.textContent = 'Sonuçları Gör →';
-  } else {
-    nextBtn.textContent = 'Sonraki Soru →';
-  }
-
-  updateProgress();
+  document.getElementById('feedback').classList.add('open');
+  setTimeout(()=>document.getElementById('feedback').scrollIntoView({behavior:'smooth',block:'start'}),100);
+  updateNavBtns();updateProgress();
 }
-
-function nextQuestion() {
-  if (currentQ < questions.length - 1) {
-    currentQ++;
-    loadQuestion();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  } else {
-    showResults();
-  }
+function restoreAnswerUI(gi,q){
+  document.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.disabled=true;
+    if(btn.querySelector('.opt-letter').textContent===q.ans)btn.classList.add('correct');
+  });
+  document.getElementById('feedback').classList.add('open');
 }
-
-function updateProgress() {
-  const pct = ((currentQ + (answered[currentQ] !== undefined ? 1 : 0)) / questions.length) * 100;
-  document.getElementById('progress-fill').style.width = pct + '%';
-  const done = answered.filter(a => a !== undefined).length;
-  document.getElementById('progress-label').textContent = `${done} / ${questions.length}`;
-}
-
-function showResults() {
-  document.getElementById('quiz-screen').style.display = 'none';
-  document.getElementById('result-screen').style.display = 'block';
-
-  const pct = Math.round((score / questions.length) * 100);
-  const wrong = questions.length - score;
-
-  document.getElementById('ring-score').textContent = score;
-  document.getElementById('stat-correct').textContent = score;
-  document.getElementById('stat-wrong').textContent = wrong;
-  document.getElementById('stat-pct').textContent = pct + '%';
-
-  // Animate ring
-  const circumference = 376.99;
-  const offset = circumference - (circumference * pct / 100);
-  setTimeout(() => {
-    document.getElementById('ring-fill').style.strokeDashoffset = offset;
-  }, 100);
-
-  // Result message
-  let title, sub;
-  if (pct >= 90) { title = "Mükemmel! 🏆"; sub = "Harika bir performans sergiledi. TUS'a hazırsın!"; }
-  else if (pct >= 75) { title = "Çok İyi! 🎯"; sub = "Güçlü bir sonuç. Eksik konuları gözden geçir."; }
-  else if (pct >= 60) { title = "İyi! 📚"; sub = "Orta seviye. Yanlış cevapları detaylı incele."; }
-  else if (pct >= 40) { title = "Geliştirilmeli 💪"; sub = "Konuları tekrar etmen önerilir."; }
-  else { title = "Tekrar Çalış 📖"; sub = "Bu konuları daha derinlemesine incelemelisin."; }
-
-  document.getElementById('result-title').textContent = title;
-  document.getElementById('result-sub').textContent = sub;
-
-  // Update header
-  document.getElementById('progress-fill').style.width = '100%';
-  document.getElementById('progress-label').textContent = `${questions.length} / ${questions.length}`;
-
-  buildReview();
-}
-
-function buildReview() {
-  const container = document.getElementById('review-items');
-  container.innerHTML = '';
-  const letters = ['A', 'B', 'C', 'D', 'E'];
-  questions.forEach((q, i) => {
-    const isCorrect = userAnswers[i] === q.correct;
-    const item = document.createElement('div');
-    item.className = 'review-item';
-    const shortQ = q.text.length > 80 ? q.text.substring(0, 80) + '…' : q.text;
-    item.innerHTML = `
-      <div class="review-dot ${isCorrect ? 'dot-correct' : 'dot-wrong'}"></div>
-      <div class="review-item-text">
-        <strong>S${i + 1}.</strong> ${shortQ}
-      </div>
-      <div class="review-item-answer">
-        ${isCorrect ? '✓ ' + letters[q.correct] : '✗ ' + (userAnswers[i] !== undefined ? letters[userAnswers[i]] : '?') + ' → ' + letters[q.correct]}
-      </div>
-    `;
-    container.appendChild(item);
+function toggleHint(){const h=document.getElementById('hint-box');h.style.display=h.style.display==='none'?'block':'none';}
+function toggleStar(){if(starred.has(idx))starred.delete(idx);else starred.add(idx);document.getElementById('star-btn').textContent=starred.has(idx)?'★':'☆';updateToggleBtn();}
+function toggleQuestionList(){const ov=document.getElementById('modal-overlay');if(!ov.classList.contains('open')){buildGrid();ov.classList.add('open');}else ov.classList.remove('open');}
+function closeModalOnOverlay(e){if(e.target===document.getElementById('modal-overlay'))toggleQuestionList();}
+function buildGrid(){
+  const grid=document.getElementById('q-grid');grid.innerHTML='';
+  filteredQ.forEach((_,i)=>{
+    const btn=document.createElement('button');btn.className='q-grid-btn';btn.textContent=i+1;
+    if(i===idx)btn.classList.add('current');
+    if(correct.has(i))btn.classList.add('done-correct');
+    if(wrong.has(i))btn.classList.add('done-wrong');
+    if(starred.has(i))btn.classList.add('starred-q');
+    btn.onclick=()=>{idx=i;renderQuestion();toggleQuestionList();window.scrollTo({top:0,behavior:'smooth'});};
+    grid.appendChild(btn);
   });
 }
-
-function toggleReview() {
-  const r = document.getElementById('review-list');
-  r.style.display = r.style.display === 'none' ? 'block' : 'none';
+function navigate(dir){idx=Math.max(0,Math.min(filteredQ.length-1,idx+dir));renderQuestion();window.scrollTo({top:0,behavior:'smooth'});}
+function updateNavBtns(){
+  document.getElementById('prev-btn').disabled=(idx===0);
+  const next=document.getElementById('next-btn');
+  if(idx===filteredQ.length-1&&answered.has(idx)){next.textContent='Sonuçları Gör →';next.classList.add('finish');next.onclick=showResult;}
+  else{next.textContent='Sonraki →';next.classList.remove('finish');next.onclick=()=>navigate(1);next.disabled=false;}
 }
-
-function restartQuiz() {
-  currentQ = 0;
-  score = 0;
-  answered = [];
-  userAnswers = [];
-  document.getElementById('score-badge').textContent = '0 ✓';
-  document.getElementById('result-screen').style.display = 'none';
-  document.getElementById('quiz-screen').style.display = 'block';
-  document.getElementById('ring-fill').style.strokeDashoffset = '376.99';
-  loadQuestion();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+function updateProgress(){document.getElementById('prog-bar').style.width=(answered.size/filteredQ.length*100)+'%';}
+function updateToggleBtn(){document.getElementById('q-counter').textContent=`${idx+1} / ${filteredQ.length} ☰`;}
+function showResult(){
+  document.getElementById('quiz-card').style.display='none';
+  document.getElementById('nav-bar').style.display='none';
+  document.getElementById('result-screen').style.display='block';
+  const pct=Math.round(correct.size/filteredQ.length*100);
+  document.getElementById('res-pct').textContent=pct+'%';
+  document.getElementById('res-correct').textContent=correct.size;
+  document.getElementById('res-wrong').textContent=wrong.size;
+  document.getElementById('res-star').textContent=starred.size;
+  document.getElementById('retry-wrong-btn').style.display=wrong.size===0?'none':'block';
+  document.getElementById('retry-star-btn').style.display=starred.size===0?'none':'block';
 }
+function restartQuiz(){
+  answered.clear();correct.clear();wrong.clear();filteredQ=[...ALL_QUESTIONS];idx=0;
+  document.getElementById('quiz-card').style.display='block';
+  document.getElementById('nav-bar').style.display='flex';
+  document.getElementById('result-screen').style.display='none';renderQuestion();
+}
+function retryWrong(){
+  const wq=filteredQ.filter((_,i)=>wrong.has(i));if(!wq.length)return;
+  answered.clear();correct.clear();wrong.clear();filteredQ=wq;idx=0;
+  document.getElementById('quiz-card').style.display='block';
+  document.getElementById('nav-bar').style.display='flex';
+  document.getElementById('result-screen').style.display='none';renderQuestion();
+}
+function retryStar(){
+  const sq=filteredQ.filter((_,i)=>starred.has(i));if(!sq.length)return;
+  answered.clear();correct.clear();wrong.clear();starred.clear();filteredQ=sq;idx=0;
+  document.getElementById('quiz-card').style.display='block';
+  document.getElementById('nav-bar').style.display='flex';
+  document.getElementById('result-screen').style.display='none';renderQuestion();
+}
+renderQuestion();
 </script>
 </body>
 </html>

@@ -3,839 +3,683 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nöroloji Part 3 – TUS Soru Bankası</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<title>Kebap Menüsü</title>
 <style>
-:root{
-  --bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;
-  --accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;
-  --green:#3ecf74;--red:#f0476d;--text:#dde3f5;--muted:#7b85a8;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding-bottom:80px}
-.progress-wrap{position:fixed;top:0;left:0;width:100%;height:3px;background:var(--border);z-index:100}
-.progress-bar{height:3px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s ease}
-.section-badge{font-family:'IBM Plex Mono',monospace;color:var(--accent2);font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:28px 20px 8px;text-align:center}
-#quiz-card{max-width:760px;margin:0 auto;padding:8px 16px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin:0 auto 16px}
-.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-#q-num{font-family:'IBM Plex Mono',monospace;color:var(--muted);font-size:.8rem}
-#star-btn{background:none;border:none;cursor:pointer;font-size:1.4rem;color:var(--gold);transition:transform .2s}
-#star-btn:hover{transform:scale(1.3)}
-.year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
-.year-tag{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--muted)}
-#q-text{font-size:1rem;line-height:1.7;margin-bottom:16px;color:var(--text)}
-#q-text strong{color:var(--accent)}
-#q-text u{text-decoration-color:var(--accent2)}
-.hint-toggle{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:.78rem;font-family:'IBM Plex Mono',monospace;padding:6px 12px;cursor:pointer;margin-bottom:10px;transition:border-color .2s,color .2s}
-.hint-toggle:hover{border-color:var(--accent);color:var(--accent)}
-#hint-box{display:none;background:var(--surface);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:14px;font-size:.85rem;color:var(--gold);line-height:1.6}
-#hint-box.open{display:block}
-.options{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
-.opt-btn{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;cursor:pointer;color:var(--text);font-size:.93rem;text-align:left;transition:border-color .2s,background .2s}
-.opt-btn:hover:not(:disabled){border-color:var(--accent);background:#252a40}
-.opt-letter{font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--accent);min-width:22px;font-size:.9rem}
-.opt-btn.correct{border-color:var(--green)!important;background:#1a3528!important}
-.opt-btn.correct .opt-letter{color:var(--green)}
-.opt-btn.wrong{border-color:var(--red)!important;background:#3a1520!important}
-.opt-btn.wrong .opt-letter{color:var(--red)}
-.opt-btn:disabled{cursor:default;opacity:.85}
-.feedback{display:none;flex-direction:column;gap:12px;margin-top:4px}
-.feedback.open{display:flex}
-.trap-box{background:#1e1520;border:1px solid #6b2340;border-radius:10px;padding:14px 16px}
-.trap-title{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--accent2);font-weight:600;margin-bottom:6px;letter-spacing:.05em}
-.trap-text{font-size:.88rem;line-height:1.65;color:#d4a0b0}
-.explain-box{background:#141e2e;border:1px solid #2a4a6b;border-radius:10px;padding:14px 16px}
-.explain-title{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--accent);font-weight:600;margin-bottom:6px;letter-spacing:.05em}
-.explain-text{font-size:.88rem;line-height:1.65;color:#a8c4e8}
-.explain-text strong{color:var(--accent)}
-.explain-text ul{margin:6px 0 0 18px}
-.explain-text li{margin-bottom:4px}
-.nav{display:flex;justify-content:space-between;align-items:center;max-width:760px;margin:0 auto;padding:0 16px 8px}
-.nav-btn{background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:.88rem;padding:10px 20px;cursor:pointer;transition:border-color .2s}
-.nav-btn:hover:not(:disabled){border-color:var(--accent)}
-.nav-btn:disabled{opacity:.35;cursor:default}
-#next-btn{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
-#next-btn:hover:not(:disabled){background:#4a7de0;border-color:#4a7de0}
-#q-counter{background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:.82rem;padding:10px 16px;cursor:pointer;transition:border-color .2s}
-#q-counter:hover{border-color:var(--gold);color:var(--gold)}
-#result-screen{display:none;max-width:760px;margin:0 auto;padding:20px}
-.result-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px 24px;text-align:center}
-.result-score{font-size:3.5rem;font-weight:700;font-family:'IBM Plex Mono',monospace;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
-.result-label{color:var(--muted);font-size:.9rem;margin-bottom:24px}
-.result-stats{display:flex;justify-content:center;gap:24px;margin-bottom:28px;flex-wrap:wrap}
-.stat-item{display:flex;flex-direction:column;align-items:center;gap:4px}
-.stat-num{font-family:'IBM Plex Mono',monospace;font-size:1.5rem;font-weight:600}
-.stat-lbl{font-size:.75rem;color:var(--muted)}
-.stat-green{color:var(--green)}.stat-red{color:var(--red)}.stat-gold{color:var(--gold)}
-.result-btns{display:flex;flex-direction:column;gap:10px;max-width:380px;margin:0 auto}
-.result-btn{padding:12px 20px;border-radius:10px;border:1px solid var(--border);cursor:pointer;font-size:.9rem;font-weight:600;transition:all .2s}
-.btn-restart{background:var(--accent);border-color:var(--accent);color:#fff}
-.btn-restart:hover{background:#4a7de0}
-.btn-wrong{background:var(--surface);border-color:var(--red);color:var(--red)}
-.btn-wrong:hover{background:#3a1520}
-.btn-star{background:var(--surface);border-color:var(--gold);color:var(--gold)}
-.btn-star:hover{background:#2a2010}
-.q-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:flex-end;justify-content:center}
-.q-modal-overlay.open{display:flex}
-.q-modal{background:var(--surface);border-radius:16px 16px 0 0;border:1px solid var(--border);border-bottom:none;width:100%;max-width:760px;max-height:70vh;overflow-y:auto;padding:20px}
-.q-modal-title{font-family:'IBM Plex Mono',monospace;color:var(--muted);font-size:.75rem;margin-bottom:14px;text-align:center;letter-spacing:.06em}
-.q-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
-.q-grid-btn{aspect-ratio:1;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:.8rem;cursor:pointer;transition:all .2s}
-.q-grid-btn.current{background:var(--accent);border-color:var(--accent);color:#fff}
-.q-grid-btn.done-correct{background:#1a3528;border-color:var(--green);color:var(--green)}
-.q-grid-btn.done-wrong{background:#3a1520;border-color:var(--red);color:var(--red)}
-.q-grid-btn.starred-q{box-shadow:0 0 0 2px var(--gold)}
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --kirmizi: #C0392B;
+    --kirmizi-koyu: #922B21;
+    --kirmizi-acik: #F5B7B1;
+    --bej: #FDF6EC;
+    --bej-koyu: #F0E6D3;
+    --kahve: #5D4037;
+    --koyu: #1A0A00;
+    --beyaz: #FFFFFF;
+    --gri: #7F8C8D;
+    --yesil: #27AE60;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bej);
+    color: var(--koyu);
+    min-height: 100vh;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--kirmizi-koyu);
+    padding: 3rem 1.5rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(255,100,50,0.18) 0%, transparent 70%),
+                radial-gradient(ellipse at 80% 20%, rgba(255,200,100,0.10) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--kirmizi-acik);
+    margin-bottom: 0.75rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 8vw, 4rem);
+    font-weight: 900;
+    color: var(--beyaz);
+    line-height: 1.05;
+    margin-bottom: 0.75rem;
+  }
+  .hero-sub {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.65);
+    max-width: 340px;
+    margin: 0 auto 1.75rem;
+    line-height: 1.6;
+  }
+  .hero-tags {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .hero-tag {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.85);
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 0.3rem 0.75rem;
+    border-radius: 100px;
+    letter-spacing: 0.03em;
+  }
+
+  /* NAV TABS */
+  .tab-nav {
+    display: flex;
+    background: var(--bej-koyu);
+    border-bottom: 2px solid #DDD0BE;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 1rem 0.5rem;
+    border: none;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--gri);
+    cursor: pointer;
+    transition: all 0.2s;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+  }
+  .tab-btn.active {
+    color: var(--kirmizi);
+    border-bottom-color: var(--kirmizi);
+  }
+  .tab-btn:hover:not(.active) { color: var(--kahve); }
+
+  /* CONTENT */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* RECIPE LAYOUT */
+  .recipe-page { padding: 1.75rem 1.25rem 3rem; max-width: 540px; margin: 0 auto; }
+
+  .recipe-header {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #DDD0BE;
+  }
+  .recipe-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    flex-shrink: 0;
+  }
+  .recipe-icon.red { background: var(--kirmizi); }
+  .recipe-icon.amber { background: #E67E22; }
+
+  .recipe-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.55rem;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 0.3rem;
+  }
+  .recipe-meta {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .meta-pill {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--gri);
+    background: var(--bej-koyu);
+    padding: 0.2rem 0.55rem;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .meta-pill svg { width: 11px; height: 11px; }
+
+  /* SERVINGS CONTROL */
+  .servings-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--beyaz);
+    border: 1px solid #DDD0BE;
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .servings-label { font-size: 0.8rem; font-weight: 600; color: var(--kahve); }
+  .servings-ctrl { display: flex; align-items: center; gap: 0.75rem; }
+  .sv-btn {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: none;
+    background: var(--kirmizi);
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    transition: background 0.15s;
+  }
+  .sv-btn:hover { background: var(--kirmizi-koyu); }
+  .sv-val {
+    font-size: 1rem;
+    font-weight: 700;
+    min-width: 24px;
+    text-align: center;
+  }
+
+  /* SECTION HEADERS */
+  .section-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--kirmizi);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--kirmizi-acik);
+  }
+
+  /* INGREDIENTS */
+  .ingredients-card {
+    background: var(--beyaz);
+    border-radius: 14px;
+    border: 1px solid #DDD0BE;
+    overflow: hidden;
+    margin-bottom: 1.75rem;
+  }
+  .ingredient-row {
+    display: flex;
+    align-items: center;
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid #F0E6D3;
+    gap: 0.75rem;
+    transition: background 0.1s;
+  }
+  .ingredient-row:last-child { border-bottom: none; }
+  .ingredient-row:hover { background: #FFFAF4; }
+  .ing-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--kirmizi);
+    flex-shrink: 0;
+    opacity: 0.5;
+  }
+  .ing-name { font-size: 0.88rem; color: var(--koyu); flex: 1; }
+  .ing-amount {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--kahve);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .sub-group-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gri);
+    padding: 0.45rem 1rem 0.2rem;
+    background: #FAFAFA;
+    border-bottom: 1px solid #F0E6D3;
+  }
+
+  /* STEPS */
+  .steps-list { list-style: none; margin-bottom: 1.75rem; }
+  .step-item {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: var(--beyaz);
+    border-radius: 12px;
+    border: 1px solid #DDD0BE;
+    transition: border-color 0.2s;
+  }
+  .step-item:hover { border-color: var(--kirmizi-acik); }
+  .step-num {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: var(--kirmizi);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .step-text { font-size: 0.88rem; line-height: 1.6; color: #2C1810; }
+
+  /* TIP */
+  .tip-card {
+    background: #FFFBF0;
+    border: 1px solid #F0DC9A;
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+  }
+  .tip-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+  .tip-text { font-size: 0.82rem; color: #7D6000; line-height: 1.5; }
+
+  /* TIMER */
+  .timer-card {
+    background: linear-gradient(135deg, var(--kirmizi) 0%, var(--kirmizi-koyu) 100%);
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+  }
+  .timer-info { color: #fff; }
+  .timer-title { font-size: 0.75rem; opacity: 0.75; margin-bottom: 0.15rem; }
+  .timer-display { font-size: 1.4rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .timer-btns { display: flex; gap: 0.4rem; }
+  .t-btn {
+    border: none;
+    border-radius: 8px;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    transition: background 0.15s;
+  }
+  .t-btn:hover { background: rgba(255,255,255,0.32); }
+  .t-btn.start { background: rgba(255,255,255,0.9); color: var(--kirmizi-koyu); }
+  .t-btn.start:hover { background: #fff; }
+
+  /* ABOUT */
+  .about-tab { padding: 1.75rem 1.25rem 3rem; max-width: 540px; margin: 0 auto; }
+  .combo-card {
+    background: var(--beyaz);
+    border: 1px solid #DDD0BE;
+    border-radius: 16px;
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  .combo-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .combo-text { font-size: 0.85rem; color: var(--gri); line-height: 1.6; }
+  .badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    margin-bottom: 0.6rem;
+  }
+  .badge-red { background: #FCE8E6; color: var(--kirmizi); }
+  .badge-amber { background: #FEF3E2; color: #E67E22; }
+  .badge-green { background: #E8F8F0; color: var(--yesil); }
+
+  .summary-row {
+    display: flex;
+    align-items: center;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid #F0E6D3;
+    gap: 0.75rem;
+  }
+  .summary-row:last-child { border-bottom: none; }
+  .sum-icon { font-size: 1.1rem; width: 28px; text-align: center; }
+  .sum-label { font-size: 0.8rem; color: var(--gri); flex: 1; }
+  .sum-val { font-size: 0.85rem; font-weight: 600; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
 </style>
 </head>
 <body>
-<div class="progress-wrap"><div class="progress-bar" id="prog-bar"></div></div>
-<div class="section-badge" id="sec-badge">NÖROLOJİ – Part 3</div>
-<div id="quiz-card">
-  <div class="card" id="card">
-    <div class="q-header">
-      <span id="q-num">Soru 1/50</span>
-      <button id="star-btn" onclick="toggleStar()">&#9734;</button>
-    </div>
-    <div class="year-tags" id="year-tags"></div>
-    <div id="q-text"></div>
-    <button class="hint-toggle" onclick="toggleHint()">&#128161; İpucu / Mnemonik</button>
-    <div id="hint-box"></div>
-    <div class="options" id="options"></div>
-    <div class="feedback" id="feedback">
-      <div class="trap-box"><div class="trap-title">&#9888;&#65039; TUZAK NOKTA</div><div class="trap-text" id="trap-text"></div></div>
-      <div class="explain-box"><div class="explain-title">&#128218; AÇIKLAMA</div><div class="explain-text" id="explain-text"></div></div>
-    </div>
+
+<header class="hero">
+  <p class="hero-eyebrow">Ev Yapımı Lezzet</p>
+  <h1>Tavuk Kebabı<br>Menüsü</h1>
+  <p class="hero-sub">İzli tavada çıtır tavuk kebabı ve kebapçı soğanıyla tam bir sofra.</p>
+  <div class="hero-tags">
+    <span class="hero-tag">🍗 Ana Yemek</span>
+    <span class="hero-tag">🧅 Meze</span>
+    <span class="hero-tag">4–6 Kişilik</span>
+    <span class="hero-tag">~40 dk</span>
   </div>
-  <div id="result-screen">
-    <div class="result-card">
-      <div class="result-score" id="res-pct"></div>
-      <div class="result-label">Tamamlandı</div>
-      <div class="result-stats">
-        <div class="stat-item"><span class="stat-num stat-green" id="res-correct">0</span><span class="stat-lbl">Doğru</span></div>
-        <div class="stat-item"><span class="stat-num stat-red" id="res-wrong">0</span><span class="stat-lbl">Yanlış</span></div>
-        <div class="stat-item"><span class="stat-num stat-gold" id="res-star">0</span><span class="stat-lbl">Yıldızlı</span></div>
-      </div>
-      <div class="result-btns">
-        <button class="result-btn btn-restart" onclick="restartQuiz()">&#128260; Tüm Soruları Yeniden Çöz</button>
-        <button class="result-btn btn-wrong" id="retry-wrong-btn" onclick="retryWrong()">&#10007; Yanlışları Tekrar Çöz</button>
-        <button class="result-btn btn-star" id="retry-star-btn" onclick="retryStar()">&#9733; Yıldızlıları Tekrar Çöz</button>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('kebap')">🍗 Tavuk Kebabı</button>
+  <button class="tab-btn" onclick="switchTab('sogan')">🧅 Kebapçı Soğanı</button>
+  <button class="tab-btn" onclick="switchTab('about')">📋 Menü</button>
+</nav>
+
+<!-- TAB 1: TAVUK KEBABI -->
+<div id="tab-kebap" class="tab-content active">
+  <div class="recipe-page">
+
+    <div class="recipe-header">
+      <div class="recipe-icon red">🍗</div>
+      <div>
+        <div class="recipe-title">Tavada Tavuk Kebabı</div>
+        <div class="recipe-meta">
+          <span class="meta-pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            20 dk hazırlık
+          </span>
+          <span class="meta-pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            20 dk pişirme
+          </span>
+          <span class="meta-pill">👩‍🍳 Yasemin Atalar</span>
+        </div>
       </div>
     </div>
+
+    <!-- Servings -->
+    <div class="servings-bar">
+      <span class="servings-label">Porsiyon</span>
+      <div class="servings-ctrl">
+        <button class="sv-btn" onclick="changeServings('k', -1)">−</button>
+        <span class="sv-val" id="k-sv">5</span>
+        <button class="sv-btn" onclick="changeServings('k', 1)">+</button>
+      </div>
+    </div>
+
+    <!-- Ingredients -->
+    <p class="section-label">Malzemeler</p>
+    <div class="ingredients-card" id="k-ingredients">
+      <div class="sub-group-label">Harç</div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Tavuk göğüs</div><div class="ing-amount" data-base="800" data-unit="g" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Kırmızı biber</div><div class="ing-amount" data-base="1" data-unit="adet" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Yeşil biber</div><div class="ing-amount" data-base="1" data-unit="adet" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Kuru soğan</div><div class="ing-amount" data-base="1" data-unit="adet" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Sarımsak</div><div class="ing-amount" data-base="2" data-unit="diş" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Galeta unu</div><div class="ing-amount" data-base="3" data-unit="yemek kaşığı" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Maydanoz</div><div class="ing-amount" data-base="0.5" data-unit="demet" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Tuz</div><div class="ing-amount" data-base="1" data-unit="tatlı kaşığı" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Toz kırmızı biber</div><div class="ing-amount" data-base="1" data-unit="çay kaşığı" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Karabiber</div><div class="ing-amount" data-base="0.5" data-unit="çay kaşığı" data-base-sv="5"></div></div>
+      <div class="sub-group-label">Baharatlı Yağ</div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Sıvı yağ</div><div class="ing-amount" data-base="5" data-unit="yemek kaşığı" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Toz kırmızı biber</div><div class="ing-amount" data-base="1" data-unit="tatlı kaşığı" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Zerdeçal</div><div class="ing-amount" data-base="0.5" data-unit="tatlı kaşığı" data-base-sv="5"></div></div>
+    </div>
+
+    <!-- Steps -->
+    <p class="section-label">Yapılışı</p>
+    <ol class="steps-list">
+      <li class="step-item"><div class="step-num">1</div><div class="step-text">Birkaç parçaya kestiğiniz tavuk göğsünü rondodan geçirip karıştırma kabına alın.</div></li>
+      <li class="step-item"><div class="step-num">2</div><div class="step-text">İri parçalar halinde doğradığınız yeşil biber, kırmızı biber, sarımsaklar ve soğanı da rondodan geçirin. Sebzelerin suyunu almadan kaşıkla alıp kaba ilave edin.</div></li>
+      <li class="step-item"><div class="step-num">3</div><div class="step-text">Üzerine galeta unu, ince doğranmış maydanoz, tuz, toz kırmızı biber ve karabiberi ekleyip güzelce yoğurun.</div></li>
+      <li class="step-item">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-text">Harcın üzerini streçleyin ve mümkünse 1–2 saat buzdolabında dinlendirin.</div>
+          <div class="timer-card" style="margin-top:0.75rem;">
+            <div class="timer-info">
+              <div class="timer-title">Dinlendirme süresi</div>
+              <div class="timer-display" id="timer1-display">01:00:00</div>
+            </div>
+            <div class="timer-btns">
+              <button class="t-btn start" onclick="startTimer('timer1', 3600)">Başlat</button>
+              <button class="t-btn" onclick="resetTimer('timer1', 3600)">Sıfırla</button>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="step-item"><div class="step-num">5</div><div class="step-text">Dinlenen harcı köşeli ve izli bir tavaya eşit şekilde yayın. 6 eşit parçaya ayırın, kaşığın ucuyla hafifçe bastırarak izler yapın.</div></li>
+      <li class="step-item"><div class="step-num">6</div><div class="step-text">Baharatlı yağ için tüm malzemeleri karıştırın. Kenara alın.</div></li>
+      <li class="step-item">
+        <div class="step-num">7</div>
+        <div>
+          <div class="step-text">Tavayı ocağa alın, kısık ateşte pişirmeye başlayın. Alt kısımlar renk almaya başlayınca baharatlı yağı üzerine gezdirin. Alt taraflar kızarınca çevirin, diğer yüzü de kızartın. Yan tarafları da pişirin.</div>
+          <div class="timer-card" style="margin-top:0.75rem;">
+            <div class="timer-info">
+              <div class="timer-title">Pişirme süresi</div>
+              <div class="timer-display" id="timer2-display">00:20:00</div>
+            </div>
+            <div class="timer-btns">
+              <button class="t-btn start" onclick="startTimer('timer2', 1200)">Başlat</button>
+              <button class="t-btn" onclick="resetTimer('timer2', 1200)">Sıfırla</button>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="step-item"><div class="step-num">8</div><div class="step-text">15–20 dakika içinde güzelce pişen tavuk kebaplarınız servise hazır. Afiyet olsun! 🎉</div></li>
+    </ol>
+
+    <div class="tip-card">
+      <div class="tip-icon">💡</div>
+      <div class="tip-text">Harcı 1–2 saat buzdolabında dinlendirirseniz lezzet çok daha iyi olur. Fırın tepsisine yayarak da pişirebilirsiniz.</div>
+    </div>
+
   </div>
 </div>
-<div class="nav" id="nav">
-  <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#8592; Önceki</button>
-  <button id="q-counter" onclick="toggleQuestionList()">1 / 50 &#9776;</button>
-  <button class="nav-btn" id="next-btn" onclick="navigate(1)">Sonraki &#8594;</button>
+
+<!-- TAB 2: KEBAPÇI SOĞANI -->
+<div id="tab-sogan" class="tab-content">
+  <div class="recipe-page">
+
+    <div class="recipe-header">
+      <div class="recipe-icon amber">🧅</div>
+      <div>
+        <div class="recipe-title">Kebapçı Soğanı</div>
+        <div class="recipe-meta">
+          <span class="meta-pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            10 dk hazırlık
+          </span>
+          <span class="meta-pill">✅ Pişirme yok</span>
+          <span class="meta-pill">👩‍🍳 Derya Altuntaş</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Servings -->
+    <div class="servings-bar">
+      <span class="servings-label">Porsiyon</span>
+      <div class="servings-ctrl">
+        <button class="sv-btn" onclick="changeServings('s', -1)">−</button>
+        <span class="sv-val" id="s-sv">5</span>
+        <button class="sv-btn" onclick="changeServings('s', 1)">+</button>
+      </div>
+    </div>
+
+    <!-- Ingredients -->
+    <p class="section-label">Malzemeler</p>
+    <div class="ingredients-card" id="s-ingredients">
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Orta boy soğan</div><div class="ing-amount" data-base="2" data-unit="adet" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Pulbiber</div><div class="ing-amount" data-base="1" data-unit="tatlı kaşığı" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Kekik</div><div class="ing-amount" data-base="1" data-unit="tatlı kaşığı" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Sumak</div><div class="ing-amount" data-base="1" data-unit="tatlı kaşığı" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">İsot</div><div class="ing-amount" data-base="1" data-unit="çay kaşığı" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Domates salçası</div><div class="ing-amount" data-base="1" data-unit="tatlı kaşığı" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Biber salçası</div><div class="ing-amount" data-base="1" data-unit="tatlı kaşığı" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Zeytinyağı</div><div class="ing-amount" data-base="3" data-unit="yemek kaşığı" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Nar ekşisi</div><div class="ing-amount" data-base="3" data-unit="yemek kaşığı" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Limon suyu</div><div class="ing-amount" data-base="0.5" data-unit="limon" data-base-sv="5"></div></div>
+      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Kıyılmış maydanoz</div><div class="ing-amount" data-base="1" data-unit="tutam" data-base-sv="5"></div></div>
+    </div>
+
+    <!-- Steps -->
+    <p class="section-label">Yapılışı</p>
+    <ol class="steps-list">
+      <li class="step-item"><div class="step-num">1</div><div class="step-text">Soğanları ay şeklinde ince ince doğrayın ve uygun bir kaba alın.</div></li>
+      <li class="step-item"><div class="step-num">2</div><div class="step-text">Diğer tüm malzemeleri (pulbiber, kekik, sumak, isot, domates salçası, biber salçası, zeytinyağı, nar ekşisi, limon suyu ve maydanoz) üzerine ekleyip iyice karıştırın.</div></li>
+      <li class="step-item"><div class="step-num">3</div><div class="step-text">Servis tabağına alın, kebabın yanında soğuk servis edin. Afiyet olsun! 🧅</div></li>
+    </ol>
+
+    <div class="tip-card">
+      <div class="tip-icon">💡</div>
+      <div class="tip-text">Soğanı önceden tuzlayıp bir süre bekletip sıkarsanız acılığı azalır. Kebap, köfte veya ızgara etlerin yanında harika gider.</div>
+    </div>
+
+  </div>
 </div>
-<div class="q-modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
-  <div class="q-modal">
-    <div class="q-modal-title">SORU LİSTESİ</div>
-    <div class="q-grid" id="q-grid"></div>
+
+<!-- TAB 3: MENU ABOUT -->
+<div id="tab-about" class="tab-content">
+  <div class="about-tab">
+
+    <p class="section-label">Menü Özeti</p>
+
+    <div class="combo-card">
+      <span class="badge badge-red">Ana Yemek</span>
+      <div class="combo-title">🍗 Tavada Tavuk Kebabı</div>
+      <div class="combo-text">Rondodan geçirilmiş tavuk göğsü ve sebzelerle hazırlanan, baharatlı yağıyla servis edilen çıtır kebap.</div>
+      <div style="margin-top:0.85rem; border-top:1px solid #F0E6D3; padding-top:0.85rem;">
+        <div class="summary-row"><div class="sum-icon">🕐</div><div class="sum-label">Hazırlık</div><div class="sum-val">20 dk</div></div>
+        <div class="summary-row"><div class="sum-icon">🔥</div><div class="sum-label">Pişirme</div><div class="sum-val">20 dk</div></div>
+        <div class="summary-row"><div class="sum-icon">👥</div><div class="sum-label">Kişi sayısı</div><div class="sum-val">4–6 kişi</div></div>
+        <div class="summary-row"><div class="sum-icon">🍳</div><div class="sum-label">Alet</div><div class="sum-val">Rondo + İzli tava</div></div>
+      </div>
+    </div>
+
+    <div class="combo-card">
+      <span class="badge badge-amber">Meze</span>
+      <div class="combo-title">🧅 Kebapçı Soğanı</div>
+      <div class="combo-text">Sumak, nar ekşisi ve isot ile hazırlanan, pişirme gerektirmeyen klasik kebapçı mezesi.</div>
+      <div style="margin-top:0.85rem; border-top:1px solid #F0E6D3; padding-top:0.85rem;">
+        <div class="summary-row"><div class="sum-icon">🕐</div><div class="sum-label">Hazırlık</div><div class="sum-val">10 dk</div></div>
+        <div class="summary-row"><div class="sum-icon">✅</div><div class="sum-label">Pişirme</div><div class="sum-val">Yok</div></div>
+        <div class="summary-row"><div class="sum-icon">👥</div><div class="sum-label">Kişi sayısı</div><div class="sum-val">4–6 kişi</div></div>
+        <div class="summary-row"><div class="sum-icon">🔪</div><div class="sum-label">Alet</div><div class="sum-val">Sadece bıçak</div></div>
+      </div>
+    </div>
+
+    <div class="combo-card">
+      <span class="badge badge-green">Öneri</span>
+      <div class="combo-title">⏱️ Yapım Sırası</div>
+      <div class="combo-text" style="margin-bottom:0.75rem;">En iyi sonuç için bu sırayla hazırlayın:</div>
+      <div class="summary-row"><div class="sum-icon">1️⃣</div><div class="sum-label">Tavuk harcını hazırlayın</div><div class="sum-val" style="color:var(--gri);font-size:0.75rem;">~10 dk</div></div>
+      <div class="summary-row"><div class="sum-icon">2️⃣</div><div class="sum-label">Harç buzdolabında dinlensin</div><div class="sum-val" style="color:var(--gri);font-size:0.75rem;">1–2 saat</div></div>
+      <div class="summary-row"><div class="sum-icon">3️⃣</div><div class="sum-label">Pişirirken soğanı hazırlayın</div><div class="sum-val" style="color:var(--gri);font-size:0.75rem;">10 dk</div></div>
+      <div class="summary-row"><div class="sum-icon">4️⃣</div><div class="sum-label">Birlikte servis edin</div><div class="sum-val" style="color:var(--yesil);font-size:0.75rem;">Afiyet!</div></div>
+    </div>
+
   </div>
 </div>
 
 <script>
-const ALL_QUESTIONS = [
-/* ══ HORNER SENDROMU (1-5) ══ */
-{
-  section:'horner',sectionLabel:'HORNER SENDROMU',
-  years:['Sonbahar 1990'],
-  q:'Sağ kolda paralizi, sağ gözde <u>miyozis</u> mevcut ise <u>ilk</u> istenecek tetkik hangisidir?',
-  opts:['A) BBT','B) Akciğer grafisi','C) Beyin sintigrafisi','D) Servikal grafi','E) DSA'],
-  ans:'B',
-  hint:'Sağ kol + Horner = Pancoast tümörü. İLK TETKİK = AKCİĞER GRAFİSİ.',
-  trap:'Beyin BT veya MR yerine ilk akciğer grafisi çekilir. Horner sendromu + kol güçsüzlüğü = Pancoast tümörü düşündürür.',
-  explain:'<strong>Pancoast tümörü:</strong> Apikal yerleşimli tümör. C8-T1 kökleri + sempatik lifler etkilenir. Bulgular: el kaslarında kuvvetsizlik-atrofi + <strong>Horner sendromu</strong> (pitozis, miyozis, anhidroz). Teşhis için ilk <strong>akciğer grafisi</strong> çekilmelidir.'
-},
-{
-  section:'horner',sectionLabel:'HORNER SENDROMU',
-  years:['Sonbahar 1993'],
-  q:'Ani olarak baş dönmesi, baş ağrısı başlayan, bulantı, kusma ve yutma güçlüğü de gelişen hastada en olası tanı aşağıdakilerden hangisidir?',
-  opts:['A) Posterior inferior serebellar arter trombozu','B) Anterior serebral arter trombozu','C) Kapsüla internada tromboz','D) Posterior serebral arter embolisi','E) Arteria carotis interna trombozu'],
-  ans:'A',
-  hint:'Vertigo + yutma güçlüğü + Horner = PICA = Wallenberg = Lateral medüller sendrom.',
-  trap:'A.carotis interna trombozu hemiplejiye yol açar. PICA tıkanması Wallenberg sendromuna yol açar — vertigoya karotis değil PICA neden olur.',
-  explain:'<strong>PICA tıkanması — Wallenberg sendromu:</strong> Vertigo, nistagmus, kusma, ipsilateral yüz ağrı-ısı kaybı, kontralateral vücut ağrı-ısı kaybı, ipsilateral <strong>Horner sendromu</strong>, ses kısıklığı, yutma güçlüğü, ipsilateral ataksi.'
-},
-{
-  section:'horner',sectionLabel:'HORNER SENDROMU',
-  years:['Sonbahar 2004'],
-  q:'Boyun disseksiyonu yapılan bir hastada ameliyat sonrasında sol tarafta <strong>enoftalmus, pitozis ve pupil konstrüksiyonu</strong> gelişmesi durumunda öncelikle aşağıdakilerden hangisi düşünülür?',
-  opts:['A) Sempatik sinir trunkus travması','B) İnternal karotid arter travması','C) Eksternal karotid arter travması','D) Göze sürülen merheme reaksiyon','E) Lingual arter bağlanması'],
-  ans:'A',
-  hint:'Enoftalmus + pitozis + miyozis = HORNER = Sempatik sinir hasarı.',
-  trap:'İnternal karotid arter hasarı iskemik nörolojik defisit yapar, Horner değil. Horner sempatik sinir kesintisine bağlıdır.',
-  explain:'<strong>Horner Sendromu üçlüsü:</strong> Pitozis + Miyozis + Anhidroz. Ayrıca enoftalmus görülebilir. Boyun disseksiyonu sırasında sempatik lifler zedelenirse <strong>lezyon tarafında</strong> Horner sendromu gelişir.'
-},
-{
-  section:'horner',sectionLabel:'HORNER SENDROMU',
-  years:['İlkbahar 2010'],
-  q:'Kırk yaşındaki erkek hasta geçirdiği trafik kazası sırasında ciddi yaralanma olmadığını ancak sağ tarafta lokalize boyun ağrısı olduğunu belirtiyor. Ağrının 2 gün içinde giderek artığı ve başa yayıldığı öğreniliyor. Muayenesinde sağda hafif pitozis ve miyozis, solda hemiparezi ve hemihipoestezi saptanıyor.',
-  opts:['A) Posttravmatik subaraknoid kanama','B) Posttravmatik intraserebral kanama','C) Kardiyoembolik inme','D) Karotis arter diseksiyonu','E) Servikal medulla spinalis yaralanması'],
-  ans:'D',
-  hint:'Travma sonrası boyun ağrısı + ipsilateral Horner + kontralateral hemiparezi = KAROTİS ARTER DİSEKSİYONU.',
-  trap:'SAK ani şiddetli baş ağrısı ile başlar. Karotis diseksiyonunda Horner + karşı taraf inme bulguları birlikte görülür — bu kombinasyon tanı koydurucudur.',
-  explain:'<strong>Karotis arter diseksiyonunda:</strong> Şiddetli baş-boyun ağrısı, inkomplet Horner sendromu (miyozis+pitozis; anhidroz olmaksızın), pulsatil tinnitus, geçici iskemik atak, amorozis fugaks görülebilir. Karotis etrafındaki sempatik pleksus hasar görür.'
-},
-{
-  section:'horner',sectionLabel:'HORNER SENDROMU',
-  years:['Sonbahar 1996'],
-  q:'Sağ periferik fasiyal paralizi, sağ 6. kranial sinir paralizi ve sol tarafta hemiparezi varsa lezyon nerededir?',
-  opts:['A) Sol pons','B) Sağ kapsüla interna','C) Sol kapsüla interna','D) Sağ pons','E) Sol talamus'],
-  ans:'D',
-  hint:'Aynı yanda periferik fasiyal (7.) + 6. KS felci + karşı hemiparezi = PONS lezyonu (alternating hemipleji).',
-  trap:'Kapsüla interna lezyonunda fasiyal paralizi santral tip olur (alın korunur). Periferik 7. KS felci PONS\'a işaret eder. Sağ 7+6 + sol hemiparezi = sağ pons.',
-  explain:'<strong>Alternating (çapraz) hemipleji — pons lezyonu:</strong> İpsilateral periferik fasiyal paralizi + 6. KS felci ile birlikte kontralateral vücutta hemiparezi görülür. Lezyon PONSDADIR. Kortikospinal yollar bulbus düzeyinde çapraz yapar, yüz siniri pons düzeyinde çıkar.'
-},
-/* ══ DEMANS (6-16) ══ */
-{
-  section:'demans',sectionLabel:'DEMANS',
-  years:['İlkbahar 1992'],
-  q:'Senil plak, demans, Hirano cisimcikleri, vakuolizasyon, amiloid birikimi ve glia hücrelerinde hipertrofi var ise ne düşünürsünüz?',
-  opts:['A) Jacobs-Creutzfeld hastalığı','B) Alzheimer hastalığı','C) Pick hastalığı','D) Shy-Drager hastalığı','E) Metakromatik lökodistrofi'],
-  ans:'B',
-  hint:'SENİL PLAK + HİRANO CİSİMCİKLERİ + AMİLOİD = ALZHEİMER.',
-  trap:'CJD hastalığında prion ve spongiform değişiklik ön plandadır. Hirano cisimcikleri Alzheimer için karakteristiktir.',
-  explain:'<strong>Alzheimer histopatolojisi:</strong><ul><li><strong>Senil plaklar:</strong> Beta-amiloid birikimi</li><li><strong>Nörofibriller yumaklar:</strong> Hiperfosforile tau proteini — ilk görüldüğü yer hipokampüstür</li><li><strong>Hirano cisimcikleri</strong></li><li>Asetilkolin eksikliği</li><li>Apolipoprotein E4 alleli risk faktörüdür</li></ul>'
-},
-{
-  section:'demans',sectionLabel:'DEMANS',
-  years:['İlkbahar 1998'],
-  q:'Aşağıdakilerden hangisi Alzheimer özelliği <u>değildir</u>?',
-  opts:['A) 65-70 yaşlarında sık görülür','B) Bellek bozukluğu vardır','C) Algılama kusuru vardır','D) Oryantasyon bozukluğu görülebilir','E) Depresif mizaç ve paranoid kişilik değişiklikleri görülebilir'],
-  ans:'A',
-  hint:'Alzheimer 65 yaş ÜSTÜNDEKİ demanslı hastaların %75\'ini oluşturur ama zirve 75+ yaştır, "65-70 sık" değil.',
-  trap:'"65-70 yaşlarında sık görülür" ifadesi yanlıştır — Alzheimer daha çok 75+ yaşta görülür. 50 yaş öncesi görülmesi atipiktir.',
-  explain:'<strong>Alzheimer hastalığı:</strong> En sık görülen demans nedenidir. <strong>En büyük risk faktörü yaşlanmadır.</strong> Yakın bellek bozukluğu ile başlar. Tedavide kolinesteraz inhibitörleri (donepezil, rivastigmin) ve memantin kullanılır.'
-},
-{
-  section:'demans',sectionLabel:'DEMANS',
-  years:['Sonbahar 2004'],
-  q:'Aşağıdakilerden hangisi Alzheimer hastalığının belirtilerinden biri <u>değildir</u>?',
-  opts:['A) Unutkanlık','B) Vibrasyon duyusu kaybı','C) Konuşma bozukluğu','D) Cisimleri dokunmakla tanımada güçlük','E) Motor aktivitede azalma'],
-  ans:'B',
-  hint:'VİBRASYON DUYUSU KAYBI = arka kord tutulumu = Tabes dorsalis / B12 eksikliğinde görülür, Alzheimer\'da değil.',
-  trap:'Alzheimer\'da dil, motor yetenekler ve algılama etkilenir ancak vibrasyon duyusu kaybı görülmez. Vibrasyon duyusu kaybı arka kord hastalıklarında (Tabes dorsalis, B12 eksikliği) görülür.',
-  explain:'<strong>Alzheimer belirtileri:</strong> Unutkanlık, dezoryantasyon, afazi/anomi, apraksi, görsel-uzaysal bozukluklar, motor aktivite azalması, kişilik değişikliği. <strong>Vibrasyon duyusu kaybı</strong> arka kord tutulumu gerektirir — Alzheimer\'da görülmez.'
-},
-{
-  section:'demans',sectionLabel:'DEMANS',
-  years:['İlkbahar 2006'],
-  q:'Alzheimer hastalığında amiloid plakların ve tau proteini taşıyan nörofibrillerin <u>ilk görüldüğü</u> beyin bölgesi aşağıdakilerden hangisidir?',
-  opts:['A) Hipokampus','B) Serebellum','C) Hipotalamus','D) Unkus','E) Corpus callosum'],
-  ans:'A',
-  hint:'ALZHEİMER\'da dejenerasyon HİPOKAMPÜSTEN başlar. "Hipokampüs = bellek = ilk etkilenen".',
-  trap:'Serebellum motor koordinasyonu sağlar — Alzheimer\'da etkilenmez. Dejenerasyon hipokampüsten başlar, bu nedenle ilk semptom yakın bellek bozukluğudur.',
-  explain:'<strong>Alzheimer hastalığında dejenerasyon hipokampüsten başlar.</strong> Bu nedenle ilk semptom yakın bellek bozukluğudur. Hastalık ilerledikçe parietal, temporal, frontal kortekslere yayılır.'
-},
-{
-  section:'demans',sectionLabel:'DEMANS',
-  years:['Sonbahar 2012'],
-  q:'Alzheimer hastalığında <u>ilk</u> etkilenen kognitif fonksiyon aşağıdakilerden hangisidir?',
-  opts:['A) Praksi','B) Dikkat','C) Gnozi','D) Yakın hafıza','E) Konuşma'],
-  ans:'D',
-  hint:'ALZHEİMER = ilk etkilenen YAKIN DÖNEM BELLEK (kısa süreli hafıza).',
-  trap:'Uzak dönem bellek (eski anılar) Alzheimer\'da geç etkilenir. Yakın bellek (ne yedi, nereye koydu) ilk bozulan fonksiyondur.',
-  explain:'<strong>Alzheimer\'da ilk bozulan yakın dönem belleğidir.</strong> Erken dönemde: yakın bellek azalması, yer-zaman dezoryantasyonu, anomi. Geç dönemde: motor bozukluklar, sfinkter tutulumu.'
-},
-{
-  section:'demans',sectionLabel:'DEMANS',
-  years:['Sonbahar 2018 Orijinal','Sonbahar 2018 Benzeri'],
-  q:'Yetmiş iki yaşında kadın hasta şiddetlenen unutkanlık yakınmasıyla başvuruyor. Mini mental test sonucunda dikkat fonksiyonunun bozulduğu, yakın dönem belleğinin muayenesi için hatırlanması istenen kelimeleri <u>ipucu verildiğinde hatırlayabildiği</u> saptanıyor. Kraniyal MRG normal raporlanıyor.',
-  opts:['A) Alzheimer hastalığı','B) Parkinson demansı','C) Geriatrik depresyon','D) Multi infarkt demans','E) Adams-Hakim sendromu'],
-  ans:'C',
-  hint:'İPUCU VERİLİNCE HATIRLAYABİLİYOR + MRG normal = DEPRESYON (psödodemans). Gerçek demansta ipucu bile işe yaramaz.',
-  trap:'Alzheimer\'da ipucu verilse de hatırlama gelişmez. İpucu ile hatırlama depresyona bağlı psödodemansı işaret eder. MRG normalliği de Alzheimer\'ı desteklemez.',
-  explain:'<strong>Depresyon (psödodemans) vs Alzheimer:</strong> Depresyonda ipucu verildiğinde kelimeler hatırlanabilir; Alzheimer\'da ipucu yardımcı olmaz. Depresyonlu hastalar şikayetlerini abartır, Alzheimer\'lı hastalar küçümser. <strong>Demans araştırılan hastada önce depresyon dışlanmalıdır.</strong>'
-},
-{
-  section:'demans',sectionLabel:'DEMANS',
-  years:['Sonbahar 2019 Orijinal'],
-  q:'Altmış sekiz yaşındaki erkek hasta son aylarda giderek artan yabancılara karşı aşırı samimiyet ve habersiz dışarı çıkıp dönmeme davranışları nedeniyle getiriliyor. Uygunsuz şakalar yapıyor, insanların duygularını dikkate almıyor. Mini mental durum muayenesi tam puan (30/30) alıyor.',
-  opts:['A) Lewy cisimcikli demans','B) Frontotemporal demans','C) Vasküler demans','D) Alzheimer tipi demans','E) Parkinson hastalığına bağlı demans'],
-  ans:'B',
-  hint:'KİŞİLİK DEĞİŞİKLİĞİ ÖN PLANDA + MMSE NORMAL = FRONTOTEMPORAl demans.',
-  trap:'Alzheimer\'da bellek bozukluğu ilk belirtidir, MMSE erken etkilenir. Frontotemporal demanda kişilik değişikliği ön planda olup erken dönemde bellek ve MMSE normaldir.',
-  explain:'<strong>Frontotemporal demans:</strong> Kişilik değişiklikleri ön plandadır. MMSE erken dönemde normal olabilir. İki tip: frontal lob ağırlıklı (davranışsal bozukluk) ve temporal lob ağırlıklı (dil bozukluğu ile giden tip).'
-},
-{
-  section:'demans',sectionLabel:'DEMANS',
-  years:['Sonbahar 2019 Orijinal','Sonbahar 2019 Benzeri'],
-  q:'Seksen yaşındaki erkek hasta son aylarda giderek artan güçsüzlük ve sağ kolda kasılma şikayetleriyle başvuruyor. Aile, <strong>Parkinsonizm bulgularını ve görsel halüsinasyonlarının</strong> birlikteliğini ifade ediyor.',
-  opts:['A) Vasküler demans','B) Alzheimer hastalığı','C) Huntington hastalığı','D) Lewy cisimcikli demans','E) Frontotemporal demans'],
-  ans:'D',
-  hint:'PARKİNSONİZM + GÖRSEL HALÜSİNASYON + DEMANS = LEWY CİSİMCİKLİ DEMANS.',
-  trap:'Alzheimer\'da görsel halüsinasyonlar geç dönemde görülür. Lewy cisimcikli demansın klasik triadı: parkinsonizm + kognitif dalgalanma + görsel halüsinasyonlar.',
-  explain:'<strong>Lewy cisimcikli demans temel özellikleri:</strong><ul><li>Parkinsonizm</li><li>Kognitif bozuklukta dalgalanma</li><li>Görsel halüsinasyonlar</li><li>Nöroleptiklere aşırı duyarlıdır (belirtiler kötüleşir)</li></ul>'
-},
-{
-  section:'demans',sectionLabel:'DEMANS',
-  years:['Sonbahar 2024 Orijinal'],
-  q:'Altmış beş yaşındaki erkek hasta yavaşlayan yürüme ve sık düşme yakınmalarıyla başvuruyor. Muayenede bradikinezi, aksiyal rijidite, göz açma apraksisi ve <strong>vertikal bakış felci</strong> saptanıyor.',
-  opts:['A) Kortikobazal dejenerasyon','B) Lewy cisimcikli demans','C) Spinoserebellar ataksi','D) Parkinson hastalığı','E) Progresif supranükleer palsi'],
-  ans:'E',
-  hint:'VERTİKAL BAKIŞ FELCİ + aksiyel rijidite + erken denge bozukluğu = PROGRESİF SUPRANÜKLEER PALSİ (PSP).',
-  trap:'Parkinson hastalığında bakış felci beklenen bir bulgu değildir. PSP\'de vertikal bakış felci ve aksiyel rijidite ön plandadır. Lewy cisimcikli demanda görsel halüsinasyonlar belirgindir.',
-  explain:'<strong>Progresif supranükleer palsi (PSP):</strong> Subkortikal tip demans, erken denge bozukluğu, bulber tutulum. <strong>Vertikal bakış felci PSP\'nin en karakteristik bulgusudur.</strong> Parkinson plus sendromlarındandır. Dopamine yanıt genellikle kısıtlıdır.'
-},
-{
-  section:'demans',sectionLabel:'DEMANS',
-  years:['İlkbahar 2017 Orijinal'],
-  q:'Kırk yedi yaşındaki erkek hasta durgunluk ve el elinde istemsiz hareketler nedeniyle getiriliyor. Nörolojik muayenede hafif apati, yakın bellek kusuru, DTR artışı ve dört ekstremite distalinde <strong>kore</strong> saptanıyor. Aile öyküsünde benzer hastalık var.',
-  opts:['A) Gilles de Tourette sendromu','B) Sydenham koresi','C) Progresif supranükleer felç','D) Parkinson hastalığı','E) Huntington hastalığı'],
-  ans:'E',
-  hint:'GENÇ YAŞ + KORE + AİLE ÖYKÜSÜ + DEMANS = HUNTİNGTON. "CAG trinükleotid tekrarı".',
-  trap:'Sydenham koresi çocuklarda ARA\'dan sonra görülür. Huntington otozomal dominant, 40-50 yaşta başlar, kore + psikiyatrik semptomlar + demans triadı vardır.',
-  explain:'<strong>Huntington hastalığı:</strong><ul><li>Otozomal dominant, CAG trinükleotid tekrarı &gt;36</li><li>40-50 yaşlarda başlar, koreiform hareketler belirgin</li><li>Kore + psikiyatrik problemler + demans triadı</li><li>Patoloji: <strong>kaudat nükleus ve putamen</strong> atrofisi</li><li>Antisipassyon: babadan geçince daha erken-şiddetli başlar</li></ul>'
-},
-/* ══ HAREKET BOZUKLUKLARI / PARKİNSON (17-27) ══ */
-{
-  section:'parkinson',sectionLabel:'HAREKET BOZUKLUKLARI / PARKİNSON',
-  years:['İlkbahar 2014 Orijinal','İlkbahar 2014 Benzeri'],
-  q:'Parkinson hastalığında <u>en sık</u> görülen psikiyatrik bozukluk aşağıdakilerden hangisidir?',
-  opts:['A) Psikoz','B) Mani','C) Anksiyete','D) Somatizasyon','E) Depresyon'],
-  ans:'E',
-  hint:'PARKİNSON + PSİKİYATRİ = DEPRESYON (%60\'a kadar). Depresyondan sonra anksiyete gelir.',
-  trap:'Psikoz Parkinson\'da L-DOPA tedavisinin yan etkisi olarak gelişebilir ama primer psikiyatrik bozukluk depresyondur.',
-  explain:'<strong>Parkinson hastalığında depresyon sıklıkla eşlik eder</strong> — hastaların %60\'ında depresif şikayetler bulunur. <strong>Anksiyete bozuklukları</strong> %40 dolayında bulunur. Psikoz genellikle ilaç yan etkisi olarak görülür.'
-},
-{
-  section:'parkinson',sectionLabel:'HAREKET BOZUKLUKLARI / PARKİNSON',
-  years:['İlkbahar 1990'],
-  q:'Aşağıdakilerden hangisi Parkinson hastalığı <u>belirtilerinden biri değildir</u>?',
-  opts:['A) Tonüs bozukluğu','B) Konuşma bozukluğu','C) Yürüme bozukluğu','D) Postür bozukluğu','E) Derin tendon reflekslerinde artma'],
-  ans:'E',
-  hint:'PARKİNSON\'DA DTR ARTMAZ — piramidal yol tutulmaz, patolojik refleks beklenmez.',
-  trap:'Parkinson hastalarında DTR normaldir. Artmış DTR piramidal yol hasarını (UMN) düşündürür. Tonüs artmıştır (rijidite) ama DTR artışı olmaz.',
-  explain:'<strong>Parkinson\'da görülmeyen bulgular:</strong> DTR artışı, patolojik refleksler (Babinski), duyu kaybı. <strong>Parkinson klinik özellikleri:</strong> Daima asimetrik başlar. Tremor: istirahat, pill-rolling. Yürüme: küçük adımlar (festinasyon). Rijidite: dişli çark.'
-},
-{
-  section:'parkinson',sectionLabel:'HAREKET BOZUKLUKLARI / PARKİNSON',
-  years:['İlkbahar 1991'],
-  q:'İstirahatte görülen tremor hangisine bağlıdır?',
-  opts:['A) Serebellar hastalık','B) Hipertiroidi','C) Alkolizm','D) Histerik tremor','E) Parkinson hastalığı'],
-  ans:'E',
-  hint:'İSTİRAHAT TREMORU = PARKİNSON. Hareketle azalır. Serebellar = aksiyon tremoru (hareketle artar).',
-  trap:'Hipertiroidi, alkol ve histerik tremorlar aksiyon/postüral tremordur. Serebellar tremor intentional (hedefe yaklaşınca artar). İstirahat tremoru yalnızca Parkinson\'a özgüdür.',
-  explain:'<strong>Tremor tipleri:</strong><ul><li><strong>İstirahat tremoru:</strong> Parkinson — hareketsizken, hareketle azalır</li><li><strong>Postüral tremor:</strong> Esansiyel tremor, hipertiroidi, alkolizm</li><li><strong>İntansiyonel tremor:</strong> Serebellar — hedefe ulaşırken şiddetlenir</li></ul>'
-},
-{
-  section:'parkinson',sectionLabel:'HAREKET BOZUKLUKLARI / PARKİNSON',
-  years:['İlkbahar 1995'],
-  q:'Parkinson tedavisinde kullanılan <u>ana</u> ilaç aşağıdakilerden hangisidir?',
-  opts:['A) Klorpromazin','B) Reserpin','C) Haloperidol','D) Dopamin','E) Amantadin'],
-  ans:'D',
-  hint:'PARKİNSON = dopamin eksikliği → tedavi = DOPAMİN (L-DOPA formunda).',
-  trap:'Klorpromazin ve haloperidol antipsikotiklerdir — dopamini bloke ederek Parkinson belirtilerini kötüleştirir. Bu ilaçlar Parkinson\'da kontrendikedir.',
-  explain:'<strong>Parkinson tedavisi:</strong><ul><li>Ana ilaç: <strong>Levodopa (L-DOPA) + dekarboksilaz inhibitörü</strong></li><li>Antikolinerjikler: Biperiden, triheksifenidil</li><li>Dopamin agonistleri: Bromokriptin, pramipeksol, ropinirol</li><li>MAO-B inhibitörü: Selejilin, rasajilin</li><li>COMT inhibitörü: Entakapon</li></ul><strong>Klorpromazin, haloperidol ve reserpin kontrendikedir.</strong>'
-},
-{
-  section:'parkinson',sectionLabel:'HAREKET BOZUKLUKLARI / PARKİNSON',
-  years:['Sonbahar 2000'],
-  q:'Parkinson hastalığında morfolojik değişiklikler nerede görülür?',
-  opts:['A) Nükleus dentatus','B) Korteks','C) Substantia nigra','D) Subtalamik nükleus','E) Kaudat nükleus'],
-  ans:'C',
-  hint:'PARKİNSON = SUBSTANTİA NİGRA\'da pigmente nöronların kaybı + LEWY CİSİMCİKLERİ.',
-  trap:'Kaudat nükleus Huntington hastalığında atrofiye uğrar. Substantia nigra Parkinson\'ın primer etkilenen bölgesidir.',
-  explain:'<strong>Parkinson morfolojisi:</strong> Substantia nigra compactadaki <strong>dopaminerjik nöronlarda azalma</strong>. Nöronların %75\'i kaybedildikten sonra semptomlar ortaya çıkar. Morfolojide: <strong>Lewy cisimcikleri</strong> (alfa-sinüklein ve ubiquitin içeren inklüzyon cisimcikleri).'
-},
-{
-  section:'parkinson',sectionLabel:'HAREKET BOZUKLUKLARI / PARKİNSON',
-  years:['Sonbahar 1992'],
-  q:'Kore ve atetoz hangi bölgenin lezyonlarında görülür?',
-  opts:['A) Korteks','B) Bazal ganglion','C) M. spinalis','D) Pons','E) Bulbus'],
-  ans:'B',
-  hint:'KORE + ATETOZ = BAZAL GANGLİON (EPS). "Bazal Ganglion = istemsiz hareketler".',
-  trap:'Korteks lezyonu nöbet ve fokal motor bulgular yapar. Serebellum ataksi yapar. Bazal ganglion istemsiz hareketlerin (kore, atetoz, hemiballismus) merkezidir.',
-  explain:'<strong>Ekstrapiramidal sistem (EPS) bulguları:</strong> Korea, rijidite, atetoz, tremor (istirahat), hemiballismus, miyoklonus, asteriksis. <strong>Kore ve atetoz bazal ganglionların</strong> corpus striatumundaki patolojiye bağlıdır.'
-},
-{
-  section:'parkinson',sectionLabel:'HAREKET BOZUKLUKLARI / PARKİNSON',
-  years:['Sonbahar 1999'],
-  q:'Aşağıdakilerden hangisi ekstrapramidal sistem bulgusu <u>değildir</u>?',
-  opts:['A) Korea','B) Atetoz','C) Asteriksis','D) Hemiballismus','E) Patolojik refleksler'],
-  ans:'E',
-  hint:'PATOLOJİK REFLEKS = piramidal yol = UMN bulgusu. EPS\'de patolojik refleks olmaz.',
-  trap:'Asteriksis (flapping tremor) EPS bulgusudur. Patolojik refleksler (Babinski) kortikospinal yol (piramidal sistem) bulgusudur.',
-  explain:'<strong>EPS bulguları:</strong> Korea, rijidite, istemsiz hareketler, bradikinezi, istirahat tremoru, asteriksis, hemiballismus, miyoklonus. <strong>Patolojik refleksler</strong> (Babinski, Hoffman) piramidal yol hasarının bulgusudur — EPS değil.'
-},
-{
-  section:'parkinson',sectionLabel:'HAREKET BOZUKLUKLARI / PARKİNSON',
-  years:['Sonbahar 2020 Orijinal'],
-  q:'Altmış dört yaşındaki erkek hasta yürümede yavaşlama, sık düşme ve unutkanlık şikayetleriyle başvuruyor. Özgeçmişinde SVO, hipertansiyon ve hiperlipidemi var. Muayenesinde <strong>alt beden ağırlıklı simetrik rijidite ve bradikinezi</strong> saptanıyor. MRG\'de serebral ak maddede yaygın iskemik değişiklikler görülüyor.',
-  opts:['A) Normal basınçlı hidrosefali','B) Amiyotrofik lateral skleroz','C) Vasküler parkinsonizm','D) Multipl skleroz','E) Parkinson hastalığı'],
-  ans:'C',
-  hint:'SVO öyküsü + iskemik değişiklikler + ALT BEDEN parkinsonizmi = VASKÜLER PARKİNSONİZM.',
-  trap:'Parkinson hastalığında asimetrik başlar, MR genellikle normaldir. Vasküler parkinsonizmde alt beden (lower body parkinsonism) ön planda ve iskemik değişiklikler eşlik eder.',
-  explain:'<strong>Vasküler parkinsonizm:</strong> Rijidite, bradikinezi, sık düşme + serebrovasküler hastalık öyküsü ve iskemi bulguları. <strong>Alt beden ağırlıklı bulgular</strong> vasküler parkinsonizmin klasik özelliğidir. Dopamine yanıt Parkinson\'a göre daha kısıtlıdır.'
-},
-{
-  section:'parkinson',sectionLabel:'HAREKET BOZUKLUKLARI / PARKİNSON',
-  years:['Sonbahar 2008'],
-  q:'Yürümede yavaşlama ve el titremesi ile başvuran 64 yaşındaki erkek hastanın muayenesinde <strong>rijidite, dişli çark fenomeni</strong> ve her iki el baş parmağında üç başlı tremor saptanmıştır. Bu klinik tablodan sorumlu olan lezyon büyük olasılıkla hangi anatomik bölgededir?',
-  opts:['A) Serebellum','B) Substantia nigra','C) Hipotalamus','D) Subtalamik nükleus','E) Kaudat nükleus'],
-  ans:'B',
-  hint:'Dişli çark rijiditesi + pill-rolling tremor = PARKİNSON = SUBSTANTİA NİGRA.',
-  trap:'Serebellum intentional tremor ve ataksi yapar, rijidite yapmaz. Subtalamik nükleus lezyonu hemiballismus yapar.',
-  explain:'<strong>Parkinson hastalığı patolojisi:</strong> Substantia nigra compactadaki dopaminerjik nöronlarda yıkım. <strong>Dişli çark rijiditesi</strong> (cogwheel rigidity) ve pill-rolling tremor Parkinson\'ın karakteristik bulgusudur.'
-},
-{
-  section:'parkinson',sectionLabel:'HAREKET BOZUKLUKLARI / PARKİNSON',
-  years:['İlkbahar 1999'],
-  q:'Aşağıdakilerden hangisi basal ganglionun <u>primer</u> fonksiyonlarından biridir?',
-  opts:['A) Yakın hafıza','B) Uyanıklık','C) Uzak hafıza','D) Motor koordinasyon','E) Nöroendokrin fonksiyon'],
-  ans:'D',
-  hint:'BAZAL GANGLİON = Motor koordinasyon. Hafıza = Hipokampüs. Uyanıklık = RAS. Endokrin = Hipotalamus.',
-  trap:'Yakın hafıza hipokampüs fonksiyonudur. Uyanıklık retiküler aktive edici sistem (RAS) ile ilgilidir. Hipotalamus nöroendokrin merkezdir.',
-  explain:'<strong>Bazal ganglionlar</strong> (nükleus kaudatus, putamen, globus pallidus): Motor hareketlerin planlanmasında ve kas tonusunun düzenlenmesinde rol oynar. <strong>Motor koordinasyon primer fonksiyonlarından biridir.</strong>'
-},
-{
-  section:'parkinson',sectionLabel:'HAREKET BOZUKLUKLARI / PARKİNSON',
-  years:['Sonbahar 2023 Orijinal'],
-  q:'Yirmi yaşındaki erkek hasta yürümede yavaşlama, koreoatetoid hareketler, kognisyonda kötüleşme ve <strong>korneada Kayser-Fleischer halkası</strong> ile başvuruyor.',
-  opts:['A) Huntington hastalığı','B) Wilson hastalığı','C) Parkinson hastalığı','D) Sydenham koresi','E) Tourette sendromu'],
-  ans:'B',
-  hint:'KAYSER-FLEİSCHER HALKASI = WİLSON hastalığı (bakır metabolizması bozukluğu).',
-  trap:'Huntington\'da Kayser-Fleischer halkası görülmez. Wilson hastalığının patognomonik bulgusu korneadaki Kayser-Fleischer halkasıdır.',
-  explain:'<strong>Wilson hastalığı:</strong> Otozomal resesif, 13. kromozom uzun kolu, bakır metabolizmasının doğumsal bozukluğu. <strong>Kayser-Fleischer halkası</strong> tanı koydurucudur. Nörolojik bulgular: tremor, koreiform hareketler, rijidite, bazal gangliyon tutulumu. Karaciğer harabiyeti de görülür.'
-},
-/* ══ MULTİPL SKLEROZ / MİYELİN (28-34) ══ */
-{
-  section:'ms',sectionLabel:'MULTİPL SKLEROZ / MİYELİN HASTALIKLARI',
-  years:['Sonbahar 1988'],
-  q:'Multiple sklerozun seyri sırasında hangi anatomik oluşumun tutulması <u>beklenemez</u>?',
-  opts:['A) Optik sinir','B) Serebellum','C) Omurilik','D) Korteks','E) Periferik sinir'],
-  ans:'E',
-  hint:'MS = MERKEZİ sinir sistemi hastalığı. PERİFERİK sinir tutulmaz.',
-  trap:'MS merkezi sinir sistemini etkiler: beyin, beyincik, omurilik, optik sinir. Periferik sinirler MS\'de etkilenmez.',
-  explain:'<strong>Multipl skleroz merkezi sinir sistemi hastalığıdır.</strong> Optik nevrit, internükleer oftalmopleji, motor-duyusal semptomlar, sfinkter bozukluğu, serebellar semptomlar görülebilir. <strong>Periferik sinirler tutulmaz.</strong>'
-},
-{
-  section:'ms',sectionLabel:'MULTİPL SKLEROZ / MİYELİN HASTALIKLARI',
-  years:['İlkbahar 1995'],
-  q:'Multiple sklerozda tutulumu <u>en az</u> olan hangisidir?',
-  opts:['A) Serebellar sistem','B) Kortikospinal traktus','C) Optik sinir','D) Periferik sinir','E) Medulla spinalis'],
-  ans:'D',
-  hint:'MS = MSS hastalığı. Periferik sinir = en az / hiç tutulmaz.',
-  trap:'Kortikospinal traktus, serebellar sistem, optik sinir MS\'de sıkça tutulur. Periferik sinir tutulmaz.',
-  explain:'<strong>MS\'de sık tutulan bölgeler:</strong> Motor (parezi), duyusal (parestezi), görme (optik nevrit, diplopi), serebellar (ataksi), sfinkter. <strong>Periferik sinir tutulmaz.</strong>'
-},
-{
-  section:'ms',sectionLabel:'MULTİPL SKLEROZ / MİYELİN HASTALIKLARI',
-  years:['İlkbahar 1991'],
-  q:'Multipl sklerozda patognomonik bulgu aşağıdakilerden hangisidir?',
-  opts:['A) Nöron nekrozu','B) Plazma hücre infiltrasyonu','C) Demyelinizasyon','D) Langans dev hücreleri','E) Kompleman çökmesi'],
-  ans:'C',
-  hint:'MS = DEMYELİNİZASYON (kronik progresif). Miyelin yıkılır, akson korunur.',
-  trap:'Nöron nekrozu iskemik lezyonlarda görülür. Langans dev hücreleri granülomatöz hastalıklarda (TBC, sarkoidoz) görülür. MS\'nin patolojisi demyelinizasyondur.',
-  explain:'<strong>MS demyelinizasyonla giden kronik progresif bir hastalıktır.</strong> Akson korunup myelin kılıfı yıkılır. Plaklar en sık <strong>periventriküler alana</strong> yerleşir.'
-},
-{
-  section:'ms',sectionLabel:'MULTİPL SKLEROZ / MİYELİN HASTALIKLARI',
-  years:['Sonbahar 1997'],
-  q:'Multipl sklerozda duyarlılığı <u>en yüksek</u> olan tetkik hangisidir?',
-  opts:['A) Bilgisayarlı tomografi','B) Anjiografi','C) Manyetik rezonans görüntüleme','D) 2 yönlü kafa grafisi','E) Beyin sintigrafisi'],
-  ans:'C',
-  hint:'MS = MRG. "MRG = Myelin yıkımını gören tek tetkik". BT çok daha az duyarlıdır.',
-  trap:'BT MS\'de beyaz cevherdeki lezyonları göstermede MRG\'den çok daha az duyarlıdır.',
-  explain:'<strong>MS tanısında MRG en yüksek duyarlılığa sahip tetkiktir.</strong> BT ile periventriküler lezyonlar görülebilir ama MRG kadar net değildir. MRG ayrıca aktif plakları kontrast tutulumu ile gösterir.'
-},
-{
-  section:'ms',sectionLabel:'MULTİPL SKLEROZ / MİYELİN HASTALIKLARI',
-  years:['Sonbahar 2010'],
-  q:'Multipl skleroz atağı sırasında görülme olasılığı <u>en düşük</u> klinik bulgu aşağıdakilerden hangisidir?',
-  opts:['A) Parezi','B) Parestezi','C) Diplopi','D) Ataksi','E) Afazi'],
-  ans:'E',
-  hint:'MS\'de afazi geç etkilenen kortikal fonksiyondur — plaklar genellikle subkortikal yerleşimlidir.',
-  trap:'Motor (parezi), duyusal (parestezi), görme (diplopi), serebellar (ataksi) bulgular MS\'de sık görülür. Afazi gibi kortikal bulgular MS\'de nadirdir.',
-  explain:'<strong>MS\'de sık görülen bulgular:</strong> Motor semptomlar, duyusal semptomlar, görme bozukluğu (diplopi, optik nevrit), serebellar bulgular, sfinkter bozukluğu. <strong>Afazi, apraksi, agnozi</strong> gibi yüksek kortikal fonksiyonlar MS\'de nadir etkilenir.'
-},
-{
-  section:'ms',sectionLabel:'MULTİPL SKLEROZ / MİYELİN HASTALIKLARI',
-  years:['İlkbahar 2019 Orijinal','İlkbahar 2019 Benzeri'],
-  q:'Yirmi beş yaşındaki kadın hasta, her iki gözde bulanık görme ve bacaklarda güçsüzlük yakınmasıyla başvuruyor. 3 yıl önce sağ gözde geçici görme kaybı yaşamış. Muayenesinde spastik paraparezi, vibrasyon ve pozisyon duyusunda azalma saptanıyor. MRG\'de 5 vertebra segmenti boyunca uzanan lezyon görülüyor. Serumda <strong>akuaporin-4 antikor pozitifliği</strong> saptanıyor.',
-  opts:['A) Guillain-Barré sendromu','B) Akut dissemine ensefalomiyelit','C) Siringomyeli','D) Nöromiyelitis optika','E) Multipl skleroz'],
-  ans:'D',
-  hint:'AKUAPORİN-4 antikoru + bilateral optik nevrit + transvers miyelit = NÖROMİYELİTİS OPTİKA (Devic).',
-  trap:'MS\'de plaklar genellikle 3 vertebra segmentinden kısa olur; NMO\'da 3+ segment tutulumu tipiktir. Akuaporin-4 antikoru NMO için altın standarttır.',
-  explain:'<strong>Nöromiyelitis optika (Devic hastalığı):</strong> Optik nevrit + spinal kordun transvers miyeliti birlikte görülür. MR\'da tutulum optik sinirlerde ve medulla spinalistedir. <strong>Aquaporin-4\'e karşı NMO-IgG pozitifliği</strong> altın standarttır. MS\'den farklı olarak kranyal MR tutulum göstermez.'
-},
-{
-  section:'ms',sectionLabel:'MULTİPL SKLEROZ / MİYELİN HASTALIKLARI',
-  years:['Sonbahar 2005'],
-  q:'Gastrektomi sonrası uzun dönemde vitamin B12 eksikliği gelişen hastada, yürüme dengesizliği, el-ayak parestezileri ve Romberg pozitifliği saptanıyor. En olası tanı hangisidir?',
-  opts:['A) Dar spinal kanal','B) İntradural-ekstramedüller tümör','C) Subakut kombine dejenerasyon','D) Tabes dorsalis','E) Spinal musküler atrofi'],
-  ans:'C',
-  hint:'GASTREKTOMİ → B12 eksikliği → SUBAKUT KOMBİNE DEJENERASYON (arka + lateral kord tutulumu).',
-  trap:'Tabes dorsalis sifilizde görülür; sadece arka kord tutar, lateral kord tutulmaz. Subakut kombine dejenerasyonda hem arka (vibrasyon/pozisyon) hem lateral (piramidal) kord tutulur.',
-  explain:'<strong>Subakut kombine dejenerasyon:</strong> Vitamin B12 eksikliğine bağlı. <strong>Kortikospinal trakt ve arka kordon birlikte tutulur.</strong> Periferik nöropati de olur. BOS genellikle normaldir. Bulgular: el-ayaklarda parestezi (ilk bulgu), yürüme dengesizliği, Romberg pozitifliği.'
-},
-/* ══ PERİFERİK SİNİR / KARPAL TÜNEL / GBS (35-40) ══ */
-{
-  section:'periferik',sectionLabel:'PERİFERİK SİNİR / KARPAL TÜNEL',
-  years:['Sonbahar 2013 Orijinal','Sonbahar 2013 Benzeri'],
-  q:'Aşağıdakilerden hangisi, median sinirin bilek kanalında basıya uğraması nedeniyle <u>oluşmaz</u>?',
-  opts:['A) Biseps refleks kaybı','B) Tenar atrofi','C) Başparmak abdüksiyonunda kuvvetsizlik','D) Ön kola yayılan ağrı','E) İlk 3 parmak palmar yüzünde his kaybı'],
-  ans:'A',
-  hint:'BİSEPS REFLEKSİ = kas-kutanöz sinir (C5-C6). Median sinir bilek düzeyinde biseps refleksini etkilemez.',
-  trap:'Biseps refleksi muskulokutanöz sinir aracılığıyla alınır. Median sinirin bilek düzeyinde sıkışması sadece el ve elin distalini etkiler — biseps refleksini etkilemez.',
-  explain:'<strong>Karpal tünel sendromu (Median sinir — bilek):</strong><ul><li>İlk 3.5 parmakta his kaybı</li><li>Tenar atrofi</li><li>Başparmak abdüksiyonunda zayıflık</li><li>Geceleri ağrı (ön kola yayılabilir)</li></ul><strong>Biseps refleksi</strong> muskulokutanöz sinir aracılığıyla alınır — etkilenmez.'
-},
-{
-  section:'periferik',sectionLabel:'PERİFERİK SİNİR / KARPAL TÜNEL',
-  years:['İlkbahar 2022 Orijinal'],
-  q:'Sol elinin 4. ve 5. parmaklarında uyuşma şikayetiyle başvuran hastanın EMG\'de el-bilek distal atansta uzama saptanıyor. Bu hasta için en olası tanı hangisidir?',
-  opts:['A) Diyabetik nöropati','B) Torasik çıkış sendromu','C) Karpal tünel sendromu','D) Ulnar sinir tuzak nöropatisi','E) Brakial pleksus lezyonu'],
-  ans:'D',
-  hint:'4. ve 5. PARMAK uyuşması = ULNAR SİNİR. "Yüzük ve serçe = Ulnar".',
-  trap:'Karpal tünel sendromu ilk 3.5 parmakta his kaybı yapar. 4. ve 5. parmak ulnar sinir alanıdır.',
-  explain:'<strong>Tuzak nöropatileri:</strong><ul><li><strong>Median sinir:</strong> Bilek (karpal tünel) → ilk 3.5 parmak</li><li><strong>Ulnar sinir:</strong> Dirsek (kubital tünel) veya Bilek (Guyon kanalı) → 4-5. parmak</li><li><strong>Radial sinir:</strong> → düşük el</li></ul>'
-},
-{
-  section:'periferik',sectionLabel:'PERİFERİK SİNİR / KARPAL TÜNEL',
-  years:['Sonbahar 2002'],
-  q:'Diyabetik hastada başparmak, işaret parmağı ve orta parmakta uyuşukluk, duyu kaybı ve <strong>tenar atrofi</strong> görülüyor. Hangi sinir tutulmuştur?',
-  opts:['A) N.medianus','B) N.aksillaris','C) N.ulnaris','D) N.radialis','E) N.muskulokutaneus'],
-  ans:'A',
-  hint:'Başparmak + işaret + orta parmak + TENAR atrofi = MEDİAN SİNİR.',
-  trap:'N.ulnaris 4-5. parmakları etkiler, hipotenar atar. N.radialis düşük el yapar. Median sinir = tenar + ilk 3.5 parmak.',
-  explain:'<strong>Median sinir lezyonu:</strong> Tenar kasların atrofisi, başparmak abdüksiyon ve opozisyon güçsüzlüğü, ilk 3.5 parmak palmar yüzünde his kaybı. <strong>"Maymun eli"</strong>: Tenar eminens atrofisi sonucu başparmak işaret parmağıyla aynı düzlemde kalır.'
-},
-{
-  section:'periferik',sectionLabel:'PERİFERİK SİNİR / KARPAL TÜNEL',
-  years:['İlkbahar 1997'],
-  q:'Aşağıdaki sinirlerden hangisi ön kol, el bileği ve el parmak ekstansör kaslarını innerve eder ve kesi veya sert yüzeye dayanma sonucu sıkışarak <strong>"düşük el"</strong> oluşturur?',
-  opts:['A) N. medianus','B) N. radialis','C) N. ulnaris','D) N. axillaris','E) N. muskulokutaneus'],
-  ans:'B',
-  hint:'DÜŞÜK EL (wrist drop) = RADİAL SİNİR. "R = Radial = wRist dRop".',
-  trap:'Median sinir hasarı → maymun eli (tenar atrofi). Ulnar sinir → yüzük/serçe uyuşması. Radial sinir → DÜŞÜK EL.',
-  explain:'<strong>N.radialis:</strong> Fasciculus posterior\'un dalı. Ön kol, el bileği ve el parmak ekstansör kaslarını innerve eder. C7 travmalarında sıkışabilir. <strong>Düşük el</strong> (wrist drop) oluşur.'
-},
-{
-  section:'periferik',sectionLabel:'PERİFERİK SİNİR / KARPAL TÜNEL',
-  years:['Sonbahar 2021 Orijinal'],
-  q:'Aşağıdakilerin hangisinde periferik sinir tuzak nöropatisi gelişme olasılığı <u>en düşüktür</u>?',
-  opts:['A) Hipertiroidi','B) Akromegali','C) Diabetes mellitus','D) Romatoid artrit','E) Gut'],
-  ans:'A',
-  hint:'HİPERTİROİDİ tuzak nöropati sıklığını ARTIRMAZ. Hipotiroidi artırır.',
-  trap:'Hipotiroidi (miksödem) tuzak nöropati sıklığını artırır — yumuşak doku birikmesiyle kanal daralır. Hipertiroidi bu mekanizmayı içermez.',
-  explain:'<strong>Periferik sinir tuzak nöropati etiyolojik faktörleri:</strong> Konnektif doku artışı, romatoid artrit, akromegali, <strong>hipotiroidi</strong>, amiloid, sıvı retansiyonu, diyabet mellitus. <strong>Hipertiroidi</strong> tuzak nöropati riskini artırmaz.'
-},
-{
-  section:'periferik',sectionLabel:'PERİFERİK SİNİR / KARPAL TÜNEL',
-  years:['Sonbahar 2005','Sonbahar 2003'],
-  q:'Yetmiş yaşında erkek hasta 4 gün içinde yavaşça ilerleyen simetrik kuadriparezi nedeniyle getiriliyor. Duyu muayenesi normal, refleksleri alınamıyor ve iki yanlı fasiyal parezisi saptanıyor.',
-  opts:['A) Guillain-Barré sendromu','B) Servikal medulla basısı','C) Pons hematomu','D) Atlanto-aksial subluksasyon','E) Baziller arter trombozu'],
-  ans:'A',
-  hint:'Simetrik kuadriparezi + AREFLEKSİ + bilateral fasiyal paralizi = GUİLLAİN-BARRÉ.',
-  trap:'Pons hematomu genellikle ani başlar, bilinç bozukluğu ön plandadır. GBS\'de asendan paralizi, arefleksi ve BOS\'ta albüminositolojik dissosiyasyon karakteristiktir.',
-  explain:'<strong>Guillain-Barré Sendromu:</strong><ul><li>Etiyolojisi bilinmeyen akut polinöropati</li><li>Semptomlardan 1 ay önce enfeksiyon öyküsü (yarısında)</li><li>Distalde başlayan asendan paralizi</li><li><strong>BOS\'ta protein artışı, hücre artışı yok</strong> (albüminositolojik dissosiyasyon)</li><li>Tedavi: Plazmaferez (ilk tercih) veya IV İgG</li></ul>'
-},
-/* ══ MİYASTENİA GRAVİS / KAS-SİNİR KAVŞAĞI (41-50) ══ */
-{
-  section:'myasteni',sectionLabel:'MİYASTENİA GRAVİS / KAS-SİNİR KAVŞAĞI',
-  years:['İlkbahar 2015 Orijinal','İlkbahar 2015 Benzeri'],
-  q:'Miyastenia graviste <u>en sık</u> görülen başlangıç bulgusu aşağıdakilerden hangisidir?',
-  opts:['A) Ekstremitelerde güçsüzlük','B) Pitozis','C) Solunum güçlüğü','D) Yorgunluk','E) Yutma güçlüğü'],
-  ans:'B',
-  hint:'MG BAŞLANGICI = PİTOZİS (göz kapağı düşüklüğü). En sık başlangıç bulgusudur.',
-  trap:'Genel kas güçsüzlüğü ve yorgunluk MG\'de görülür ancak başlangıç bulgusu değildir. Solunum güçlüğü miyastenik krizde görülür.',
-  explain:'<strong>Miyastenia gravis en sık başlangıç bulgusu pitozistir.</strong> Üç karakteristik bulgu:<ul><li>Gün içinde değişen fluktan güçsüzlük</li><li>Gözlerden başlaması (ptozis, diplopi)</li><li>Kolinerjik ilaçlara klinik cevap</li></ul>Önemli komplikasyon: bulber kas tutulumuna bağlı solunum yetmezliği.'
-},
-{
-  section:'myasteni',sectionLabel:'MİYASTENİA GRAVİS / KAS-SİNİR KAVŞAĞI',
-  years:['İlkbahar 1988'],
-  q:'Nöromüsküler postsinaptik asetilkolin reseptörlerine karşı otoantikor gelişimi ile meydana gelen hastalık hangisidir?',
-  opts:['A) Guillain-Barré','B) Polimyozitis','C) Myastenia Gravis','D) SLE','E) Amyotrofik lateral skleroz'],
-  ans:'C',
-  hint:'AChR OTOANTİKORU = MİYASTENİA GRAVİS.',
-  trap:'GBS periferik sinir demyelinizasyonudur. ALS motor nöron hastalığıdır. Sadece MG postsinaptik nikotinik AChR\'ye karşı antikor içerir.',
-  explain:'<strong>Miyastenia gravis:</strong> Postsinaptik nikotinik asetilkolin reseptörlerinin (AChR) hedef alındığı otoimmün hastalık. AChR antikorları vakaların %80-90\'ında pozitiftir.'
-},
-{
-  section:'myasteni',sectionLabel:'MİYASTENİA GRAVİS / KAS-SİNİR KAVŞAĞI',
-  years:['İlkbahar 1999'],
-  q:'Pitozu olan, edrofonyum verilince semptomları düzelen kadın hastada en olası tanı aşağıdakilerden hangisidir?',
-  opts:['A) Multipl skleroz','B) Myastenia gravis','C) Santral fasiyal paralizi','D) Okulomotor paralizi','E) Horner sendromu'],
-  ans:'B',
-  hint:'EDROFONİUM (Tensilon testi) ile düzelen pitozis = MİYASTENİA GRAVİS.',
-  trap:'Horner sendromunda pitozis vardır ama tensilon testine yanıt vermez. Tensilon testi MG tanısı koydurucudur.',
-  explain:'<strong>Tensilon (edrofonyum) testi:</strong> Kolinesteraz inhibitörü. Verilince kas güçsüzlüğü kısa süre düzelir. <strong>MG tanı yöntemleri:</strong> Tensilon testi, repetitif sinir stimülasyonu (amplitüd azalması), AChR antikoru, tek lif EMG (jitter artışı), toraks BT (timoma araştırması).'
-},
-{
-  section:'myasteni',sectionLabel:'MİYASTENİA GRAVİS / KAS-SİNİR KAVŞAĞI',
-  years:['Sonbahar 1987'],
-  q:'Timus hiperplazisi ve timoma, Myastenia Gravis hastalığı ile birliktelik gösterir. Bu hastalıkta sıklıkla eşlik eden sistemik hastalık aşağıdakilerden hangisidir?',
-  opts:['A) Skleroderma','B) Myastenia Gravis','C) Basedow-Graves','D) Hipoparatiroidizm','E) Wiskott-Aldrich sendomu'],
-  ans:'B',
-  hint:'TİMUS HİPERPLAZİSİ + TİMOMA = MİYASTENİA GRAVİS birlikteliği.',
-  trap:'Soru MG\'nin hangi hastalıkla birlikte olduğunu soruyor. Timus ile en güçlü ilişki MG\'dedir. Timomaların yaklaşık %30\'unda MG eşlik eder.',
-  explain:'<strong>MG ve timus ilişkisi:</strong> MG tanısı konulduktan sonra timoma araştırması yapılmalıdır. Tüm erişkin vakalarda mediasten tomografisi çekilerek timoma uzaklaştırılmalıdır. Tedavide kolinesteraz inhibitörleri, timektomi ve kortikosteroid kullanılır.'
-},
-{
-  section:'myasteni',sectionLabel:'MİYASTENİA GRAVİS / KAS-SİNİR KAVŞAĞI',
-  years:['Sonbahar 2002'],
-  q:'Miyastenia graviste aşağıdaki kaslardan hangisinin fonksiyonunda kusur <u>gelişmez</u>?',
-  opts:['A) Orbikülaris okuli','B) Levator palpebrae','C) İnterkostal kaslar','D) Pupilla fonksiyonlarını düzenleyen kaslar','E) Proksimal ekstremite kasları'],
-  ans:'D',
-  hint:'MG postsinaptik nikotinik AChR\'ye karşı. PUPİLLA kasları muskarinik reseptörle çalışır → MG\'de etkilenmez.',
-  trap:'Miyastenia gravis postsinaptik nikotinik reseptörleri hedef alır. Pupilla kasları muskarinik reseptörler üzerinden çalışır — MG\'de pupil fonksiyonları korunur.',
-  explain:'<strong>MG\'de pupilla fonksiyonları korunur.</strong> Muskarinik reseptörler nikotinik reseptörlerden farklıdır. MG\'de etkilenen kaslar: orbikülaris okuli, levator palpebrae (pitozis), ekstraoküler kaslar (diplopi), orofaringeal ve solunum kasları.'
-},
-{
-  section:'myasteni',sectionLabel:'MİYASTENİA GRAVİS / KAS-SİNİR KAVŞAĞI',
-  years:['İlkbahar 2014 Orijinal','İlkbahar 2014 Benzeri'],
-  q:'Timoma saptanmayan seropozitif Miyastenia gravis hastalarının çoğunda immün patogenezden sorumlu tutulan antikor aşağıdakilerden hangisidir?',
-  opts:['A) Anti-titin','B) Anti-MuSK','C) Anti-striated kas','D) Riyanodin reseptör','E) Asetilkolin reseptör'],
-  ans:'E',
-  hint:'TİMOMA SAPTANMAYAN MG = %80-90 AChR antikoru. Timomali MG\'de anti-titin de bulunur.',
-  trap:'Anti-MuSK timoması olmayan kas-spesifik tirozin kinaz miyasteniasında görülür. Anti-titin timomalı MG\'de görülür. Seropozitif MG\'nin çoğunda AChR antikoru vardır.',
-  explain:'<strong>MG antikorları:</strong><ul><li><strong>AChR antikoru:</strong> %80-90 pozitif — en sık</li><li><strong>Anti-MuSK:</strong> Seronegatiflerde, kas-spesifik tirozin kinaz</li><li><strong>Anti-titin:</strong> Timomalı MG\'de karakteristik</li></ul>'
-},
-{
-  section:'myasteni',sectionLabel:'MİYASTENİA GRAVİS / KAS-SİNİR KAVŞAĞI',
-  years:['İlkbahar 2017 Orijinal','Sonbahar 2017 Benzeri'],
-  q:'Akşama doğru yorulmakla ortaya çıkan halsizlik, kol-bacak güçsüzlüğü ve sağ göz kapağında düşme yakınmasıyla başvuran hastada sinir-kas kavşağındaki en olası patofizyolojik mekanizma nedir?',
-  opts:['A) Presinaptik voltaj bağımlı kalsiyum kanallarının azalması','B) Postsinaptik muskarinik asetilkolin reseptör sayısının azalması','C) Postsinaptik nikotinik asetilkolin reseptörlerinin blokajı','D) Kas hücrelerinde sodyum kanallarının sayısının azalması','E) Kas hücrelerinde klor kanallarının sayısının azalması'],
-  ans:'C',
-  hint:'MG = POSTSİNAPTİK nikotinik AChR blokajı. Presinaptik = Eaton-Lambert.',
-  trap:'Presinaptik voltaj bağımlı Ca++ kanalı antikoru = Eaton-Lambert sendromu. MG\'de mekanizma postsinaptik nikotinik AChR blokajıdır.',
-  explain:'<strong>MG vs Eaton-Lambert:</strong><ul><li><strong>MG:</strong> POSTsinaptik nikotinik AChR antikoru → EMG\'de tekrarlayan uyarılarda amplitüd AZALIR</li><li><strong>Eaton-Lambert:</strong> PREsinaptik voltaj bağımlı Ca++ kanalı antikoru → EMG\'de amplitüd ARTAR (facilitasyon) → paraneoplastik, küçük hücreli akciğer karsinomu</li></ul>'
-},
-{
-  section:'myasteni',sectionLabel:'MİYASTENİA GRAVİS / KAS-SİNİR KAVŞAĞI',
-  years:['İlkbahar 2013 Orijinal'],
-  q:'Miyastenia gravis olduğu düşünülen bir hastada, aşağıdaki testlerden hangisinin katkısı sağlaması <u>beklenmez</u>?',
-  opts:['A) Asetilkolin reseptör antikoru','B) Toraks bilgisayarlı tomografisi','C) Edrofonyum klorid testi','D) Tek lif elektromiyogram','E) Kas biyopsisi'],
-  ans:'E',
-  hint:'MG TANISINDA KAS BİYOPSİSİ KULLANILMAZ. Nöromüsküler kavşak hastalığı — kas biyopsisi miyopatiler içindir.',
-  trap:'Kas biyopsisi miyopatilerin tanısında kullanılır. MG bir kavşak hastalığıdır; kas biyopsisi tanıya katkı sağlamaz.',
-  explain:'<strong>MG tanı yöntemleri:</strong><ul><li>Edrofonyum testi</li><li>AChR antikoru (%90 tanı)</li><li>Repetitif sinir stimülasyonu (%90 tanı)</li><li>Tek lif EMG (jitter artışı)</li><li>Toraks BT (timoma)</li></ul><strong>Kas biyopsisi</strong> miyopatilerde kullanılır; MG tanısına katkısı yoktur.'
-},
-{
-  section:'myasteni',sectionLabel:'MİYASTENİA GRAVİS / KAS-SİNİR KAVŞAĞI',
-  years:['Sonbahar 2021 Orijinal','Sonbahar 2021 Benzeri'],
-  q:'İlkbahar 2021 Orijinal: Eaton-Lambert sendromunda sinir-kas kavşağındaki patofizyolojik mekanizma ile ilgili aşağıdakilerden hangisi doğrudur?',
-  opts:['A) Asetilkolinin presinaptik salınımının bozulması','B) Voltaja hassas potasyum kanallarının azalması','C) Asetilkolin reseptör sayısının azalması','D) Voltaja hassas sodyum kanallarının blokajı','E) Klor kanallarının geçirgenliğinde artma'],
-  ans:'A',
-  hint:'EATON-LAMBERT = PREsinaptik Ca++ kanalı antikoru → Asetilkolin salınımı azalır.',
-  trap:'Asetilkolin reseptör azalması MG\'ye aittir. Eaton-Lambert\'da problem presinaptik kalsiyum kanalı düzeyindedir, AChR\'de değil.',
-  explain:'<strong>Eaton-Lambert Sendromu:</strong><ul><li>Bir paraneoplastik sendromdur — en çok küçük hücreli akciğer karsinomunda görülür</li><li>Presinaptik Ca++ kanallarına karşı otoantikor gelişimi</li><li>Ca++ kanalları bloke → <strong>Asetilkolin presinaptik salınımı azalır</strong></li><li>EMG\'de tekrarlayan uyarılarda aksiyon potansiyeli amplitüdü <strong>ARTAR</strong> (MG\'nin tersi)</li><li>Ekstraoküler kaslar nadir tutulur</li></ul>'
-},
-{
-  section:'myasteni',sectionLabel:'MİYASTENİA GRAVİS / KAS-SİNİR KAVŞAĞI',
-  years:['Sonbahar 2020 Orijinal'],
-  q:'Akut pitozis, oftalmopleji ve proksimal kas güçsüzlüğü olan hastada ayırıcı tanı için aşağıdakilerden hangisi <u>kullanılmaz</u>?',
-  opts:['A) Musküler distrofi','B) Myastenia gravis','C) Eaton-Lambert sendromu','D) Botulismus','E) Miyotonik distrofi'],
-  ans:'A',
-  hint:'Musküler distrofi kronik ve progresifdir, AKUT başlamaz. Akut başlangıç MG, Eaton-Lambert veya botulizmi düşündürür.',
-  trap:'Miyotonik distrofi pitozis yapabilir ama kronik-yavaş seyirlidir. Akut başlangıç MG, Eaton-Lambert veya botulizmi düşündürür. Musküler distrofi akut başlamaz.',
-  explain:'<strong>Akut pitozis + oftalmopleji + kas güçsüzlüğü ayırıcı tanısı:</strong><ul><li><strong>MG:</strong> Fluktuasyon, günlük değişim, kolinerjik ilaçlara cevap</li><li><strong>Eaton-Lambert:</strong> Paraneoplastik, tekrarlayan uyarıyla iyileşme</li><li><strong>Botulizm:</strong> Gıda zehirlenmesi sonrası, midriyazis, ağız kuruluğu</li><li><strong>Musküler distrofi:</strong> Kronik, yavaş seyirli — <em>akut başlamaz</em></li></ul>'
-}
-];
-
-/* ════════════════════════════════════
-   STATE
-════════════════════════════════════ */
-let idx = 0;
-let filteredQ = [...ALL_QUESTIONS];
-const answered = new Set();
-const correct  = new Set();
-const wrong    = new Set();
-const starred  = new Set();
-
-/* ════════════════════════════════════
-   RENDER
-════════════════════════════════════ */
-function renderQuestion() {
-  const q  = filteredQ[idx];
-  const gi = ALL_QUESTIONS.indexOf(q);
-  document.getElementById('sec-badge').textContent = q.sectionLabel;
-  document.getElementById('q-num').textContent = 'Soru ' + (idx + 1) + '/' + filteredQ.length;
-  document.getElementById('star-btn').textContent = starred.has(gi) ? '\u2605' : '\u2606';
-  const yt = document.getElementById('year-tags');
-  yt.innerHTML = q.years.map(function(y){ return '<span class="year-tag">' + y + '</span>'; }).join('');
-  document.getElementById('q-text').innerHTML = q.q;
-  document.getElementById('hint-box').innerHTML = q.hint;
-  document.getElementById('hint-box').classList.remove('open');
-  document.getElementById('trap-text').innerHTML    = q.trap;
-  document.getElementById('explain-text').innerHTML = q.explain;
-  const opts = document.getElementById('options');
-  opts.innerHTML = '';
-  q.opts.forEach(function(o) {
-    const letter = o[0];
-    const text   = o.slice(3);
-    const btn    = document.createElement('button');
-    btn.className = 'opt-btn';
-    btn.dataset.letter = letter;
-    btn.innerHTML = '<span class="opt-letter">' + letter + '</span>' + text;
-    btn.onclick = function(){ selectAnswer(letter, gi, q); };
-    opts.appendChild(btn);
-  });
-  document.getElementById('feedback').classList.remove('open');
-  if (answered.has(gi)) restoreAnswerUI(gi, q);
-  updateNavBtns();
-  updateProgress();
-  updateToggleBtn();
-}
-
-function selectAnswer(letter, gi, q) {
-  if (answered.has(gi)) return;
-  answered.add(gi);
-  if (letter === q.ans) { correct.add(gi); } else { wrong.add(gi); }
-  document.querySelectorAll('.opt-btn').forEach(function(btn) {
-    btn.disabled = true;
-    if (btn.dataset.letter === q.ans) btn.classList.add('correct');
-    else if (btn.dataset.letter === letter && letter !== q.ans) btn.classList.add('wrong');
-  });
-  document.getElementById('feedback').classList.add('open');
-  document.getElementById('feedback').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  updateNavBtns();
-  updateProgress();
-  updateToggleBtn();
-}
-
-function restoreAnswerUI(gi, q) {
-  document.querySelectorAll('.opt-btn').forEach(function(btn) {
-    btn.disabled = true;
-    if (btn.dataset.letter === q.ans) btn.classList.add('correct');
-  });
-  document.getElementById('feedback').classList.add('open');
-}
-
-function toggleHint() {
-  document.getElementById('hint-box').classList.toggle('open');
-}
-
-function toggleStar() {
-  const q  = filteredQ[idx];
-  const gi = ALL_QUESTIONS.indexOf(q);
-  if (starred.has(gi)) starred.delete(gi); else starred.add(gi);
-  document.getElementById('star-btn').textContent = starred.has(gi) ? '\u2605' : '\u2606';
-  updateToggleBtn();
-  buildGrid();
-}
-
-function toggleQuestionList() {
-  const ov = document.getElementById('modal-overlay');
-  if (ov.classList.contains('open')) { ov.classList.remove('open'); return; }
-  buildGrid();
-  ov.classList.add('open');
-}
-
-function closeModalOnOverlay(e) {
-  if (e.target === document.getElementById('modal-overlay'))
-    document.getElementById('modal-overlay').classList.remove('open');
-}
-
-function buildGrid() {
-  const grid = document.getElementById('q-grid');
-  grid.innerHTML = '';
-  filteredQ.forEach(function(q, i) {
-    const gi  = ALL_QUESTIONS.indexOf(q);
-    const btn = document.createElement('button');
-    btn.className = 'q-grid-btn';
-    btn.textContent = i + 1;
-    if (i === idx) btn.classList.add('current');
-    else if (correct.has(gi)) btn.classList.add('done-correct');
-    else if (wrong.has(gi))   btn.classList.add('done-wrong');
-    if (starred.has(gi)) btn.classList.add('starred-q');
-    btn.onclick = function() {
-      idx = i;
-      document.getElementById('modal-overlay').classList.remove('open');
-      renderQuestion();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-    grid.appendChild(btn);
-  });
-}
-
-function navigate(dir) {
-  idx = Math.max(0, Math.min(filteredQ.length - 1, idx + dir));
-  renderQuestion();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function updateNavBtns() {
-  document.getElementById('prev-btn').disabled = idx === 0;
-  const q  = filteredQ[idx];
-  const gi = ALL_QUESTIONS.indexOf(q);
-  const nb = document.getElementById('next-btn');
-  if (idx === filteredQ.length - 1 && answered.has(gi)) {
-    nb.textContent = 'Sonu\u00e7lar\u0131 G\u00f6r \u2192';
-    nb.onclick = showResult;
-  } else {
-    nb.textContent = 'Sonraki \u2192';
-    nb.onclick = function(){ navigate(1); };
-    nb.disabled = false;
+  // Tab switching
+  function switchTab(name) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    event.currentTarget.classList.add('active');
   }
-}
 
-function updateProgress() {
-  var pct = answered.size / ALL_QUESTIONS.length * 100;
-  document.getElementById('prog-bar').style.width = pct + '%';
-}
+  // Servings
+  const servings = { k: 5, s: 5 };
 
-function updateToggleBtn() {
-  document.getElementById('q-counter').textContent = (idx + 1) + ' / ' + filteredQ.length + ' \u2630';
-}
+  function changeServings(recipe, delta) {
+    servings[recipe] = Math.max(1, Math.min(20, servings[recipe] + delta));
+    document.getElementById(recipe + '-sv').textContent = servings[recipe];
+    updateAmounts(recipe);
+  }
 
-function showResult() {
-  document.getElementById('card').style.display = 'none';
-  document.getElementById('nav').style.display  = 'none';
-  document.getElementById('result-screen').style.display = 'block';
-  var total = filteredQ.length;
-  var c = 0, w = 0, s = 0;
-  filteredQ.forEach(function(q) {
-    var gi = ALL_QUESTIONS.indexOf(q);
-    if (correct.has(gi)) c++;
-    if (wrong.has(gi))   w++;
-    if (starred.has(gi)) s++;
-  });
-  var pct = total > 0 ? Math.round(c / total * 100) : 0;
-  document.getElementById('res-pct').textContent     = pct + '%';
-  document.getElementById('res-correct').textContent = c;
-  document.getElementById('res-wrong').textContent   = w;
-  document.getElementById('res-star').textContent    = s;
-  document.getElementById('retry-wrong-btn').style.display = w > 0 ? '' : 'none';
-  document.getElementById('retry-star-btn').style.display  = s > 0 ? '' : 'none';
-}
+  function updateAmounts(recipe) {
+    const container = document.getElementById(recipe + '-ingredients');
+    container.querySelectorAll('.ing-amount').forEach(el => {
+      const base = parseFloat(el.dataset.base);
+      const baseSv = parseInt(el.dataset.baseSv);
+      const unit = el.dataset.unit;
+      const current = servings[recipe];
+      const val = (base / baseSv) * current;
+      const display = val % 1 === 0 ? val : parseFloat(val.toFixed(1));
+      el.textContent = display + ' ' + unit;
+    });
+  }
 
-function restartQuiz() {
-  answered.clear(); correct.clear(); wrong.clear();
-  filteredQ = [...ALL_QUESTIONS]; idx = 0;
-  document.getElementById('card').style.display = '';
-  document.getElementById('nav').style.display  = '';
-  document.getElementById('result-screen').style.display = 'none';
-  renderQuestion(); window.scrollTo({ top: 0 });
-}
+  // Init amounts
+  updateAmounts('k');
+  updateAmounts('s');
 
-function retryWrong() {
-  var wq = ALL_QUESTIONS.filter(function(q){ return wrong.has(ALL_QUESTIONS.indexOf(q)); });
-  if (!wq.length) return;
-  answered.clear(); correct.clear(); wrong.clear();
-  filteredQ = wq; idx = 0;
-  document.getElementById('card').style.display = '';
-  document.getElementById('nav').style.display  = '';
-  document.getElementById('result-screen').style.display = 'none';
-  renderQuestion(); window.scrollTo({ top: 0 });
-}
+  // Timers
+  const timerState = {};
 
-function retryStar() {
-  var sq = ALL_QUESTIONS.filter(function(q){ return starred.has(ALL_QUESTIONS.indexOf(q)); });
-  if (!sq.length) return;
-  answered.clear(); correct.clear(); wrong.clear();
-  filteredQ = sq; idx = 0;
-  document.getElementById('card').style.display = '';
-  document.getElementById('nav').style.display  = '';
-  document.getElementById('result-screen').style.display = 'none';
-  renderQuestion(); window.scrollTo({ top: 0 });
-}
+  function pad(n) { return String(n).padStart(2, '0'); }
 
-renderQuestion();
+  function formatTime(s) {
+    const h = Math.floor(s / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    const sec = s % 60;
+    return pad(h) + ':' + pad(m) + ':' + pad(sec);
+  }
+
+  function startTimer(id, defaultSecs) {
+    if (timerState[id] && timerState[id].running) return;
+    if (!timerState[id]) timerState[id] = { remaining: defaultSecs, running: false };
+
+    timerState[id].running = true;
+    timerState[id].interval = setInterval(() => {
+      timerState[id].remaining--;
+      document.getElementById(id + '-display').textContent = formatTime(timerState[id].remaining);
+      if (timerState[id].remaining <= 0) {
+        clearInterval(timerState[id].interval);
+        timerState[id].running = false;
+        document.getElementById(id + '-display').textContent = '✅ Hazır!';
+      }
+    }, 1000);
+  }
+
+  function resetTimer(id, defaultSecs) {
+    if (timerState[id] && timerState[id].interval) clearInterval(timerState[id].interval);
+    timerState[id] = { remaining: defaultSecs, running: false };
+    document.getElementById(id + '-display').textContent = formatTime(defaultSecs);
+  }
 </script>
 </body>
 </html>

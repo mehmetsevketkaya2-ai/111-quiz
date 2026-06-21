@@ -56,6 +56,29 @@
     }
     .sub { color:var(--soft);font-size:.85rem;font-weight:300; }
 
+    .playlist-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      margin-top: 1.5rem;
+      padding: .8rem 2rem;
+      background: linear-gradient(135deg, #ff2d78, #bf5aff);
+      border-radius: 999px;
+      color: #fff;
+      font-size: .9rem;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: .03em;
+      box-shadow: 0 0 30px rgba(255,45,120,.4);
+      transition: transform .2s, box-shadow .2s, filter .2s;
+    }
+    .playlist-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 45px rgba(255,45,120,.6);
+      filter: brightness(1.1);
+    }
+    .playlist-btn:active { transform: scale(0.98); }
+
     /* Now playing bar */
     #now-playing {
       position: sticky;
@@ -224,6 +247,10 @@
   <div class="badge">✦ Haziran 2026 ✦</div>
   <h1>Çalma<br>Listesi</h1>
   <p class="sub">Yeni Türkçe şarkılar · Haziran 2026</p>
+  <a class="playlist-btn" href="https://music.youtube.com/playlist?list=PL7jsqxmsMzFsJuYGgcvzbdLv0uAYnwl4X&si=WngjDrjOTlvPNjUI" target="_blank">
+    <svg viewBox="0 0 24 24" fill="white" width="20" height="20"><path d="M8 5v14l11-7z"/></svg>
+    Tüm Listeyi Çal
+  </a>
 </header>
 
 <main id="song-list">

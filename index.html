@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nöroloji Part 4 – TUS Soru Bankası</title>
+<title>Görme Yolu Lezyonları – TUS Soru Bankası</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -91,46 +91,55 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 </head>
 <body>
 <div class="progress-wrap"><div class="progress-bar" id="prog-bar"></div></div>
-<div class="section-badge" id="sec-badge">NÖROLOJİ – Part 4</div>
+<div class="section-badge" id="sec-badge">GÖRME YOLU LEZYONLARI</div>
 <div id="quiz-card">
   <div class="card" id="card">
     <div class="q-header">
-      <span id="q-num">Soru 1/46</span>
+      <span id="q-num">Soru 1/14</span>
       <button id="star-btn" onclick="toggleStar()">&#9734;</button>
     </div>
     <div class="year-tags" id="year-tags"></div>
     <div id="q-text"></div>
-    <button class="hint-toggle" onclick="toggleHint()">&#128161; İpucu / Mnemonik</button>
+    <button class="hint-toggle" onclick="toggleHint()">💡 İpucu / Mnemonik</button>
     <div id="hint-box"></div>
     <div class="options" id="options"></div>
     <div class="feedback" id="feedback">
-      <div class="trap-box"><div class="trap-title">&#9888;&#65039; TUZAK NOKTA</div><div class="trap-text" id="trap-text"></div></div>
-      <div class="explain-box"><div class="explain-title">&#128218; AÇIKLAMA</div><div class="explain-text" id="explain-text"></div></div>
-    </div>
-  </div>
-  <div id="result-screen">
-    <div class="result-card">
-      <div class="result-score" id="res-pct"></div>
-      <div class="result-label">Tamamlandı</div>
-      <div class="result-stats">
-        <div class="stat-item"><span class="stat-num stat-green" id="res-correct">0</span><span class="stat-lbl">Doğru</span></div>
-        <div class="stat-item"><span class="stat-num stat-red" id="res-wrong">0</span><span class="stat-lbl">Yanlış</span></div>
-        <div class="stat-item"><span class="stat-num stat-gold" id="res-star">0</span><span class="stat-lbl">Yıldızlı</span></div>
+      <div class="trap-box">
+        <div class="trap-title">⚠️ TUZAK NOKTA</div>
+        <div class="trap-text" id="trap-text"></div>
       </div>
-      <div class="result-btns">
-        <button class="result-btn btn-restart" onclick="restartQuiz()">&#128260; Tüm Soruları Yeniden Çöz</button>
-        <button class="result-btn btn-wrong" id="retry-wrong-btn" onclick="retryWrong()">&#10007; Yanlışları Tekrar Çöz</button>
-        <button class="result-btn btn-star" id="retry-star-btn" onclick="retryStar()">&#9733; Yıldızlıları Tekrar Çöz</button>
+      <div class="explain-box">
+        <div class="explain-title">📖 AÇIKLAMA</div>
+        <div class="explain-text" id="explain-text"></div>
       </div>
     </div>
   </div>
 </div>
+
+<div id="result-screen">
+  <div class="result-card">
+    <div class="result-score" id="res-score">0%</div>
+    <div class="result-label">Quiz tamamlandı</div>
+    <div class="result-stats">
+      <div class="stat-item"><span class="stat-num stat-green" id="res-correct">0</span><span class="stat-lbl">Doğru</span></div>
+      <div class="stat-item"><span class="stat-num stat-red" id="res-wrong">0</span><span class="stat-lbl">Yanlış</span></div>
+      <div class="stat-item"><span class="stat-num stat-gold" id="res-star">0</span><span class="stat-lbl">Yıldızlı</span></div>
+    </div>
+    <div class="result-btns">
+      <button class="result-btn btn-restart" onclick="restartQuiz()">🔄 Tüm Soruları Yeniden Çöz</button>
+      <button class="result-btn btn-wrong" id="retry-wrong-btn" onclick="retryWrong()">✗ Yanlışları Tekrar Çöz</button>
+      <button class="result-btn btn-star" id="retry-star-btn" onclick="retryStar()">★ Yıldızlıları Tekrar Çöz</button>
+    </div>
+  </div>
+</div>
+
 <div class="nav" id="nav">
-  <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#8592; Önceki</button>
-  <button id="q-counter" onclick="toggleQuestionList()">1 / 46 &#9776;</button>
-  <button class="nav-btn" id="next-btn" onclick="navigate(1)">Sonraki &#8594;</button>
+  <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">← Önceki</button>
+  <button id="q-counter" onclick="toggleQuestionList()">1 / 14 ☰</button>
+  <button class="nav-btn" id="next-btn" onclick="navigate(1)">Sonraki →</button>
 </div>
-<div class="q-modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
+
+<div class="q-modal-overlay" id="q-modal-overlay" onclick="closeModalOnOverlay(event)">
   <div class="q-modal">
     <div class="q-modal-title">SORU LİSTESİ</div>
     <div class="q-grid" id="q-grid"></div>
@@ -138,656 +147,349 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 </div>
 
 <script>
-var ALL_QUESTIONS = [
-/* ══ GÖRME YOLU LEZYONLARı / HEMİANOPSİ (1-5) ══ */
-{
-  section:'gorme', sectionLabel:'GÖRME YOLU LEZYONLARı',
-  years:['İlkbahar 2022 Orijinal','İlkbahar 2022 Benzeri'],
-  q:'Altmış yaşındaki hastada akut gelişen görme bozukluğu ile başvuruyor. Beyin görüntülemesinde sağ parietal lobda infarkt saptanıyor. Bu hastada aşağıdaki bulgulardan hangisinin görülmesi <u>en olasıdır</u>?',
-  opts:['A) Bitemporal hemianopsi','B) Sağ homonim inferior kadranopsi','C) Sağ homonim superior kadranopsi','D) Sol homonim inferior kadranopsi','E) Sol homonim superior kadranopsi'],
-  ans:'D',
-  hint:'Parietal lob = görme alanının ÜST liflerini (inferior kadranı) etkiler. Sağ parietal = SOL alt kadran.',
-  trap:'Parietal lob lezyonları görme alanının 1/4 alt kısmını etkiler (inferior kadranopsi). Temporal lob lezyonları üst kadranı etkiler. Sağ hemisfer = sol görme alanı.',
-  explain:'<strong>Görme yolu lezyonları:</strong><ul><li>Parietal lob: Radiatio optica\'nın ÜST lifleri hasarı → <strong>inferior kadranopsi</strong></li><li>Temporal lob: Radiatio optica\'nın ALT lifleri hasarı → <strong>superior kadranopsi</strong></li><li>Oksipital lob: Tüm radiatio optica → homonim hemianopsi (makular görme korunur)</li><li>Optik kiazma: Bitemporal hemianopsi (hipofiz tümörü)</li><li>Optik sinir: Monoküler skotom</li></ul>Sağ hemisfer lezyonu sol görme alanını etkiler.'
-},
-{
-  section:'gorme', sectionLabel:'GÖRME YOLU LEZYONLARı',
-  years:['İlkbahar 2022 Orijinal'],
-  q:'Otuz sekiz yaşında kadın hastada diffüz astrositom nedeniyle takip ediliyor. Yapılan rutin incelemeleri sonucunda tümörün chiazma opticuma sağ taraf lateralden bası yaptığı görülüyor. Bu hastada aşağıdaki görme alanı defektlerinden hangisinin görülmesi <u>en olasıdır</u>?',
-  opts:['A) Sağ total anopsi','B) Bitemporal hemianopsi','C) Sağ nazal hemianopsi','D) Sol homonim hemianopsi','E) Santral kurtulmalı sol homonim hemianopsi'],
-  ans:'C',
-  hint:'Kiazmanın SAĞ LATERAL basısı = sağ gözün nazal liflerini etkiler = SAĞ NAZAL HEMİANOPSİ.',
-  trap:'Kiazmanın ortasına bası (hipofiz tümörü) bitemporal hemianopsi yapar. Lateral bası ise ipsilateral nazal hemianopsi yapar.',
-  explain:'<strong>Görme yolu lezyonları — kiazma düzeyi:</strong><ul><li>Chiazma ortası basısı (hipofiz adenomu): <strong>Bitemporal hemianopsi</strong></li><li>Chiazma sağ laterali basısı: <strong>Sağ nazal hemianopsi</strong> (sağ gözün nazal lifleri çapraz yapar)</li><li>Chiazma sol laterali basısı: <strong>Sol nazal hemianopsi</strong></li></ul>'
-},
-{
-  section:'gorme', sectionLabel:'GÖRME YOLU LEZYONLARı',
-  years:['İlkbahar 2022 Orijinal'],
-  q:'Otuz beş yaşındaki kadın hasta amenore ve galaktore nedeniyle yapılan araştırmalarda hipofiz adenomu saptanıyor. Capı yaklaşık 3 cm olan adenom aynı zamanda optik kiazmaya da bası yapıyor. Bu hastadaki <u>en olası</u> görme alan kaybı aşağıdakilerden hangisidir?',
-  opts:['A) Bitemporal hemianopsi','B) Sağ homonim hemianopsi','C) Sol homonim hemianopsi','D) Bilateral alt iç kadran görme kaybı','E) Sağ üst iç kadran görme kaybı'],
-  ans:'A',
-  hint:'HİPOFİZ ADENOMU → optik kiazma ortasına bası → BİTEMPORAL HEMİANOPSİ. "Hipofiz = At gözlüğü".',
-  trap:'Hipofiz adenomu kiazmanın ortasına basarak çapraz yapan nasotemporal lifleri keser. Sonuç: her iki gözde dış (temporal) görme alanı kaybı = bitemporal hemianopsi.',
-  explain:'<strong>Hipofiz adenomu görme alanı kaybı:</strong> Kiazma optikum basilarinde (hipofiz adenomu gibi) homonim hemianopsiler post-kiazmal lezyonlarda görülür. <strong>Bitemporal hemianopsi kiazma optikum basilarinde</strong> (hipofiz adenomu gibi) olurken, homonim hemianopsiler post-kiazmal lezyonlarda görülür.'
-},
-{
-  section:'gorme', sectionLabel:'GÖRME YOLU LEZYONLARı',
-  years:['Sonbahar 1992'],
-  q:'İpsilateral oftalmopleji ve kontralateral hemipleji mevcut ise lezyon nerededir?',
-  opts:['A) Mezensefalon','B) Frontal lob','C) Oksipital lob','D) Korteks','E) Bulbus'],
-  ans:'A',
-  hint:'İpsilateral 3. KS felci (oftalmopleji) + kontralateral hemipleji = WEBER SENDROMU = MEZENSEFALON.',
-  trap:'Frontal lob lezyonunda karşı taraf hemipleji olur ama oftalmopleji olmaz. Mezensefalon lezyonunda hem okulomotor sinir hem piramidal yol etkilenir.',
-  explain:'<strong>Weber sendromu (Mezensefalon):</strong> İpsilateral 3. kranyal sinir felci (pitozis, midriyazis, ekzotropya) + kontralateral hemipleji. Lezyon MEZENSEFALONUN ventral kısmındadır. Piramidal yollar buradan geçer ve 3. KS çekirdeği yakındadır.'
-},
-{
-  section:'gorme', sectionLabel:'GÖRME YOLU LEZYONLARı',
-  years:['İlkbahar 1998'],
-  q:'Aşağıdakilerden hangisi Alzheimer özelliği <u>değildir</u>? (Görme alanı sorusu): Göz kapağında düşme, sağ gözde içe bakış kısıtlılığı olan bir hastada lezyon nerededir?',
-  opts:['A) Siliyer','B) Gasser','C) Dorsal kök','D) Genikulat','E) Superior servikal'],
-  ans:'B',
-  hint:'Işık refleksi bozulmuş bir hastada ışığın yolunu takip ederek hangi ganglionun etkilendiğini bulabiliriz. Işık refleksi yolu: N.opticus → chiasma → Gasser ganglion değil, Ganglion ciliare → sfinkter pupilla.',
-  trap:'Işık refleksi afferent yolu optik sinir, efferent yolu okulomotor sinir içindedir. Gasser ganglonu trigeminal sinire aittir, ışık refleksini etkilemez. İçe bakış kısıtlılığı + pitozis = 3. KS tutulumu → Genikulat değil, presinaptik yol.',
-  explain:'<strong>Işık refleksi yolu:</strong> Işık → N.opticus → Chiasma → Tractus opticus → Corpus gen. laterale → Nuc. pretectalis olivaris → Edinger-Westphal nükleus → Ganglion ciliare → M. sphincter pupillae. <strong>N.oculomotorius lezyonunda</strong> hasta taraf gözde direkt ve indirekt ışık refleksi alınamaz.'
-},
-/* ══ KRANYAL SİNİRLER (6-10) ══ */
-{
-  section:'kranyal', sectionLabel:'KRANYAL SİNİRLER',
-  years:['İlkbahar 2017 Orijinal'],
-  q:'İlkbahar 2017 Orijinal: Sağ göz kapağında düşme, sağ gözde içe bakış kısıtlılığı ile başvuran 35 yaşındaki kadın hastanın muayenesinde ışık refleksi bozulmuş bir hastada <u>etkilenmiş olması en olası ganglion</u> aşağıdakilerden hangisidir?',
-  opts:['A) Siliyer','B) Gasser','C) Dorsal kök','D) Genikulat','E) Superior servikal'],
-  ans:'A',
-  hint:'Işık refleksi efferent yolunda → Ganglion CİLİARE (okulomotor sinir içinde). Pitozis + içe bakış kısıtı = 3. KS → ganglion ciliare.',
-  trap:'Gasser ganglonu trigeminal sinire aittir. Genikulat ganglonu fasiyal sinire aittir. Işık refleksinin efferent yolundaki ganglion silyerdir.',
-  explain:'<strong>Işık refleksi efferent yolu:</strong> Edinger-Westphal nükleus → N.oculomotorius → <strong>Ganglion ciliare</strong> → M.sphincter pupillae. Pitozis + içe bakış kısıtlılığı 3. kranyal sinir tutulumunu gösterir. Ganglion ciliare bu yolda yer alır.'
-},
-{
-  section:'kranyal', sectionLabel:'KRANYAL SİNİRLER',
-  years:['İlkbahar 2017 Orijinal'],
-  q:'İlkbahar 2017 Orijinal: Sağ göz kapağında düşme, sağ gözde içe ve yukarı-aşağı bakış kısıtlılığı ve anizokori olan 35 yaşındaki kadın hastanın ışık refleksi muayenesiyle ilgili aşağıdaki ifadelerden hangisi <u>doğrudur</u>?',
-  opts:['A) Işık refleksleri etkilenmez','B) Solda direkt ışık refleksi alınamaz','C) Sağda indirekt ışık refleksi alınamaz','D) Sağda direkt ışık refleksi alınabilir','E) Solda indirekt ışık refleksi alınamaz'],
-  ans:'C',
-  hint:'3. KS felci sağda: Sağda direkt ve inDİREKT alınamaz. Solda her ikisi de ALINIR. C = "Sağda indirekt alınamaz" — doğru.',
-  trap:'N.oculomotorius lezyonunda hasta taraf gözde (sağda) direkt VE indirekt refleks alınamaz. Sağlam taraf gözde (solda) her iki refleks de alınır.',
-  explain:'<strong>3. Kranyal sinir (sağ) felcinde ışık refleksleri:</strong><ul><li>Sağ gözü aydınlatınca: Sağda direkt — ALINMAZ, Solda indirekt — ALINIR</li><li>Sol gözü aydınlatınca: Solda direkt — ALINIR, Sağda indirekt — ALINMAZ</li></ul>Efferent yol sağ okulomotor sinirde bozulduğundan <strong>sağda her iki refleks de alınamaz</strong>.'
-},
-{
-  section:'kranyal', sectionLabel:'KRANYAL SİNİRLER',
-  years:['İlkbahar 1998'],
-  q:'Aşağıdakilerden hangisi 5. kranyal sinir paralizisinde görülür?',
-  opts:['A) Tam hareketsizlik vardır','B) Göz aşağı dışa bakamaz','C) Göz yukarı dışa bakamaz','D) Göz dışa bakamaz iç şaşılık olur','E) Göz içe bakamaz dış şaşılık görülür'],
-  ans:'D',
-  hint:'5. KS = ABDUSENS = lateral rektus. Harabiyetinde göz DIŞA BAKAMAZ → iç şaşılık (ezotropya).',
-  trap:'3. KS felcinde göz aşağı-içe kayar (dışa şaşılık). 4. KS felcinde aşağı dışa bakmada güçlük. 6. KS (abdusens) felcinde dışa bakış kısıtı → iç şaşılık.',
-  explain:'<strong>Göz hareketi kranyal sinirleri:</strong><ul><li><strong>3. KS (Okulomotor):</strong> Tüm göz kasları (lateral rektus ve superior oblik hariç). Harabiyetinde: göz aşağı dışa bakar, pitozis, midriyazis</li><li><strong>4. KS (Troklear):</strong> Superior oblik kas. Harabiyetinde: aşağı dışa bakmada güçlük, baş eğikliği</li><li><strong>6. KS (Abdusens):</strong> Lateral rektus. Harabiyetinde: göz dışa bakamaz, <strong>iç şaşılık</strong></li></ul>'
-},
-{
-  section:'kranyal', sectionLabel:'KRANYAL SİNİRLER',
-  years:['İlkbahar 1998'],
-  q:'Aşağıdakilerden hangisi altıncı kranyal sinir paralizisinde görülür?',
-  opts:['A) Tam hareketsizlik vardır','B) Göz aşağı dışa bakamaz','C) Göz yukarı dışa bakamaz','D) Göz dışa bakamaz iç şaşılık olur','E) Göz içe bakamaz dış şaşılık görülür'],
-  ans:'D',
-  hint:'6. KS = ABDUSENS = lateral rektus = DIŞA BAKIŞ. Felcinde dışa bakamaz = iç şaşılık.',
-  trap:'Bu soru 5. KS sorusunun aynısı gibi görünse de cevap aynıdır: 6. KS abdusens siniridir ve lateral rektus kasını innerve eder — felcinde iç şaşılık oluşur.',
-  explain:'<strong>6. Kranyal sinir (N.abducens) felci:</strong> Lateral rektus kasını inerve eder. Harabiyetinde göz laterale bakış yetisini yitirir. <strong>İç şaşılık (ezotropya)</strong> oluşur. KİBAS durumunda 6. KS en uzun subaraknoid yolu olan kranyal sinir olduğundan anatomik olarak en sık bası yapar — <strong>yalancı lokalizasyon işareti</strong>.'
-},
-{
-  section:'kranyal', sectionLabel:'KRANYAL SİNİRLER',
-  years:['Sonbahar 2020 Orijinal'],
-  q:'Altmış beş yaşındaki erkek hasta, yeni başlayan çift görme ve sol gözde dışa bakış kısıtlılığı şikayetleriyle başvuruyor. Travma öyküsü olmayan hastada düzensiz hipertansiyon ve diabetes mellitus öyküsü bulunuyor. Ölçülen kan basıncı 160/100 mmHg.',
-  opts:['A) Nervus trochlearis','B) Nervus oculomotorius','C) Nervus orbicularis oculi','D) Nervus levator palpebrae superioris','E) Nervus abducens'],
-  ans:'E',
-  hint:'SOL GÖZ DIŞA BAKIŞ KISITLILIĞI = N.ABDUCENS (6. KS) felci.',
-  trap:'N.oculomotorius felcinde pitozis + midriyazis + tüm göz hareketleri kısıtlı. N.abducens felcinde sadece dışa bakış kısıtlıdır. Diyabet ve HT izole 6. KS felci nedenidir.',
-  explain:'<strong>Diyabetik kranyal sinir nöropatisi:</strong> En sık 3. ve 6. KS tutulur. Diyabetik 3. KS felcinde pitozis olur ama pupil genellikle korunur (pupil kasları dış liflerle innerve edilir; vasküler hasarda iç lifler etkilenir). <strong>İzole 6. KS felci</strong>: dışa bakış kısıtı + iç şaşılık.'
-},
-/* ══ ALS / MOTOR NÖRON HASTALIĞI (11-15) ══ */
-{
-  section:'als', sectionLabel:'AMYOTROFİK LATERAL SKLEROZ (ALS)',
-  years:['İlkbahar 1989'],
-  q:'Amiyotrofik lateral sklerozda lezyon nerededir?',
-  opts:['A) Arka kordon lateral spinotalamik yol','B) Lateral kordon spinoserebellar yol','C) Arka-lateral kordon spinoserebellar yol','D) Ön kordon spinotalamik yol','E) Lateral kordon alt ön boynuz motor nöron'],
-  ans:'E',
-  hint:'ALS = Lateral kordon (kortikospinal) + Alt ön boynuz motor nöronu (LMN). 1. VE 2. MN birlikte.',
-  trap:'Arka kordon dokunma-propriosepsiyonu taşır — ALS\'de etkilenmez. ALS\'de duyu kusuru yoktur. Sadece motor sistem (1. ve 2. MN) etkilenir.',
-  explain:'<strong>ALS (Amiyotrofik lateral skleroz):</strong> Primer motor korteks, beyinsapı ve spinal kordun motor nöronlarının dejenerasyonuyla kendini gösteren ilerleyici, ölümcül bir hastalık. <strong>Kortikospinal yollar, beyinsapı ve lateral alt ön boynuz motor nöronunu tutar.</strong> Duyu anomalisi yoktur, ekstraoküler kas ve sfinkter tutulumu olmaz.'
-},
-{
-  section:'als', sectionLabel:'AMYOTROFİK LATERAL SKLEROZ (ALS)',
-  years:['İlkbahar 1996'],
-  q:'Kas fasikülasyonunun sıklıkla gözlendiği nörolojik hastalık aşağıdakilerden hangisidir?',
-  opts:['A) Myopati','B) Myastenia gravis','C) Amyotrofik lateral skleroz','D) Guillain-Barré sendromu','E) Myotonik distrofi'],
-  ans:'C',
-  hint:'FASİKÜLASYON = LMN (2. MN) bulgusudur. ALS\'de hem UMN hem LMN tutulur → fasikülasyon ALS\'in karakteristik bulgusudur.',
-  trap:'Miyopati ve Miyastenia graviste fasikülasyon olmaz. GBS periferal demyelinizasyondur, fasikülasyon beklenmez. ALS\'de ön boynuz hücresi tutulumu nedeniyle fasikülasyon belirgin.',
-  explain:'<strong>ALS tipik bulguları:</strong><ul><li>Güçsüzlük ve atrofi (ellerden başlar, proksimale yayılır)</li><li><strong>Kas fasikülasyonları</strong> (LMN tutulumu)</li><li>Spastisite ve hiperrefleksi (UMN tutulumu)</li><li>Bulber tutulum: disfaji, dizartri</li><li>Duyu kaybı YOK, sfinkter sorun YOK</li><li>En sık ölüm nedeni: akciğer enfeksiyonları</li></ul>'
-},
-{
-  section:'als', sectionLabel:'AMYOTROFİK LATERAL SKLEROZ (ALS)',
-  years:['İlkbahar 2006'],
-  q:'Amiyotrofik lateral sklerozda aşağıdakilerden hangisi <u>görülmez</u>?',
-  opts:['A) Hiperrefleksi','B) Disfaji','C) Duyu kusuru','D) Fasikülasyon','E) Kas atrofisi'],
-  ans:'C',
-  hint:'ALS\'de DUYU YOK. Sadece motor sistem — 1. ve 2. MN. "ALS = motor only".',
-  trap:'Hiperrefleksi (UMN), disfaji (bulber tutulum), fasikülasyon (LMN), kas atrofisi (LMN) hepsi ALS\'de görülür. Duyu kusuru ALS\'de görülmez.',
-  explain:'<strong>ALS\'de görülmeyenler:</strong> Duyu kaybı, göz hareketi bozukluğu, sfinkter tutulumu (erken dönemde), dekübitis ülseri (nadir). <strong>ALS\'de görülenler:</strong> Hiperrefleksi + Babinski (UMN), fasikülasyon + atrofi (LMN), disfaji-dizartri (bulber). Tedavide <strong>Riluzol</strong> (glutamat antagonisti) kullanılır.'
-},
-{
-  section:'als', sectionLabel:'AMYOTROFİK LATERAL SKLEROZ (ALS)',
-  years:['Sonbahar 2021 Orijinal'],
-  q:'Kırk yedi yaşındaki erkek hasta, son bir yıldır giderek kötüleşen sağ elde güçsüzlük şikayetleriyle başvuruyor. Muayenesinde sağ elde belgin olmak üzere tüm ekstremite distallerinde güçsüzlük ve yüzeyel duyu kaybı saptanıyor, bilateral Hoffman ve Babinski işaretleri bulunuyor ve derin tendon reflekslerinde hiperaktivasyon ile bilateral taban derisi reflekslerinde kayıp saptanıyor. Bu hasta için en olası ön tanı aşağıdakilerden hangisidir?',
-  opts:['A) Multipl skleroz','B) Siringomyeli','C) Amyotrofik lateral skleroz','D) Subakut kombine dejenerasyon','E) Tabes dorsalis'],
-  ans:'B',
-  hint:'DUYU KAYBI var + UMN bulguları = ALS değil. Duyu kaybı + motor bulgu = SİRİNGOMYELİ veya başka.',
-  trap:'ALS\'de duyu kaybı olmaz. Bu hastada yüzeyel duyu kaybı VAR — bu ALS\'yi dışlar. Siringomyeli spinal kord içi kavitasyon olup arka boynuz hasarı ile ağrı-ısı duyusu kaybı yapar.',
-  explain:'<strong>Siringomyeli:</strong> Spinal kord içindeki BOS kavitasyonu. Arka boynuz liflerinin kesiştiği noktadan başlar. <strong>Cape dağılımında (pelerin tarzı) ağrı-ısı duyusu kaybı</strong> yapar — dokunma ve propriosepsiyon korunur. Uzamış olgularda motor bulgular da gelişir. ALS\'den farkı: duyu kaybı varlığıdır.'
-},
-{
-  section:'als', sectionLabel:'AMYOTROFİK LATERAL SKLEROZ (ALS)',
-  years:['Sonbahar 2020 Orijinal'],
-  q:'Altmış yedi yaşındaki erkek hasta son bir yıldır sağ elini kullanamayan, 5 yıldır baş ağrısı olan ve toplam dört kez epilepsi atağı geçiren, son zamanlarda doğru kelimeleri bulamama şikayetleri ile başvuruyor. Fizik muayenesinde asimetrik olarak sağ el bileğinde rijidite, distoni, sağ elde apraksi ve yabancı el sendromu saptanıyor.',
-  opts:['A) Progresif supranükleer palsi','B) Kortikobazal sendrom','C) Alzheimer hastalığı','D) Frontotemporal demans','E) Lewy cisimcikli demans'],
-  ans:'B',
-  hint:'ASİMETRİK + APRAKSİ + YABANCI EL + distoni = KORTİKOBAZAL DEJENERASYON.',
-  trap:'PSP\'de vertikal bakış felci ön planda ve simetrik. Alzheimer\'da bellek ön planda. Kortikobazal dejenerasyonun en karakteristik bulguları asimetrik apraksi ve "alien el" fenomenidir.',
-  explain:'<strong>Kortikobazal dejenerasyon (KBD):</strong><ul><li>Asimetrik ekstremite bulguları tipiktir</li><li>Apraksi, miyoklonus, distoni</li><li><strong>"Alien el (yabancı el) sendromu"</strong> — KBD\'nin en karakteristik bulgusudur</li><li>Bakış kısıtlılığı beklenen bulgu değil (PSP\'den farkı)</li><li>Ekstrapiramidal bulgular + yüksek kortikal fonksiyon bozuklukları birlikte</li></ul>'
-},
-/* ══ KAS HASTALIKLARI / DISTROFILER (16-24) ══ */
-{
-  section:'kas', sectionLabel:'KAS HASTALIKLARI / MUSKÜlER DİSTROFİLER',
-  years:['İlkbahar 1989'],
-  q:'Amiyotrofik lateral sklerozda lezyon nerede? (KAS): Progresif musküler distrofide aşağıdaki enzimlerden hangisi <u>50 kat artar</u>?',
-  opts:['A) Kolin esteraz','B) Aldolaz','C) Kreatin fosfokinaz','D) Laktat dehidrogenaz','E) Glukoz-6-fosfataz'],
-  ans:'C',
-  hint:'MUSKÜlER DİSTROFİ = KREATİN FOSFOKİNAZ (CK/CPK) 50-100 kat artar. "Kas yıkılınca CK çıkar".',
-  trap:'Kolinesteraz sinir-kas kavşağında rol oynar, müsküler distrofide artmaz. Laktat dehidrogenaz karaciğer ve kalp hastalıklarında artar. CK musküler distrofinin en spesifik enzim göstergesidir.',
-  explain:'<strong>Progresif müsküler distrofilerde kreatin fosfokinaz (CK/CPK)</strong> düzeyi yüksektir. Aldolaz da artmıştır ancak CK daha spesifiktir. Kreatin kinaz kaslarda 20-100 kata kadar artış bekleyin. <strong>Normal yaşta yürümeye başlar</strong> fakat sık düşmeler yürümenin diğer çocuklardan hep geri kalmasına yol açar.'
-},
-{
-  section:'kas', sectionLabel:'KAS HASTALIKLARI / MUSKÜlER DİSTROFİLER',
-  years:['Sonbahar 1991'],
-  q:'İntrauterin hareket azlığı hikayesi ve refleksleri az olan bir çocukta <u>en olası</u> tanı olarak aşağıdakilerden hangisi düşünülmelidir?',
-  opts:['A) Kugelberg-Wellander','B) Konjenital musküler distrofi','C) Duchenne musküler distrofi','D) Myastania Gravis','E) Konjenital spinal musküler atrofi'],
-  ans:'E',
-  hint:'İNTRAUTERİN hareket azlığı + doğumda hipotoni = KONJENİTAL SPİNAL MUSKÜLER ATROFİ (Werdnig-Hoffman tip 1).',
-  trap:'Duchenne musküler distrofi doğumda belirgin değildir — 2-5 yaşta yürüme bozukluğuyla başlar. Konjenital SMA intrauterin dönemde hareket azlığıyla kendini belli eder.',
-  explain:'<strong>Konjenital spinal musküler atrofi (Werdnig-Hoffman tip 1):</strong> Otozomal resesif, geçişli. Bebeğin kol ve bacaklarında abdüksiyon ve dış rotasyon ile "kurbağa pozisyonu" görülür. Daha ileri dönemlerde kontraktürler, atrofi ve fasikülasyonlar ortaya çıkar. 2-3 ayda ölümle sonuçlanır. Ölüm genellikle pnömoni nedeniyledir.'
-},
-{
-  section:'kas', sectionLabel:'KAS HASTALIKLARI / MUSKÜlER DİSTROFİLER',
-  years:['Sonbahar 2011 Orijinal'],
-  q:'Sonbahar 2011: Altmış sekiz yaşındaki erkek hasta yürüme bozukluğu şikayetiyle başvuruyor. Muayenesinde alt ekstremitelerde başlayan simetrik güçsüzlük, yüzeyel duyu kaybı ve bilateral arefleksi mevcuttur. Aşil tendon refleksi iki taraflı alınamıyor.',
-  opts:['A) Amyotrofik lateral skleroz','B) Myastenia gravis','C) Musküler distrofi','D) Polinöropati','E) Amyotrofik lateral skleroz'],
-  ans:'D',
-  hint:'Distalden başlayan simetrik güçsüzlük + duyu kaybı + AREFLEKSİ = POLİNÖROPATİ.',
-  trap:'ALS\'de duyu kaybı olmaz ve refleksler artmıştır (UMN). Müsküler distrofi proksimalden başlar ve duyu kaybı yoktur. Distal + duyu + arefleksi = polinöropati.',
-  explain:'<strong>Polinöropati:</strong> Periferik sinir aksonu veya miyelin kılıfının distalden başlayarak simetrik tutulumu. Bulgular: distalden başlayan güçsüzlük, his kaybı (eldiven-çorap tarzı), arefleksi. <strong>ALS\'den farkı:</strong> Duyu kaybı var ve refleksler azalmış. <strong>En sık neden:</strong> Diyabetik nöropati.'
-},
-{
-  section:'kas', sectionLabel:'KAS HASTALIKLARI / MUSKÜlER DİSTROFİLER',
-  years:['Sonbahar 2016 Orijinal'],
-  q:'Alt ekstremitelerin distalinden başlayan simetrik güçsüzlük, yüzeyel duyu kaybı ve bilateral arefleksi mevcudiyetinde <u>en olası</u> tanı aşağıdakilerden hangisidir?',
-  opts:['A) Polinöropati','B) Myastenia gravis','C) Multipl skleroz','D) Musküler distrofi','E) Amyotrofik lateral skleroz'],
-  ans:'A',
-  hint:'Distal + simetrik + duyu kaybı + arefleksi = POLİNÖROPATİ (Eldiven-çorap tarzı).',
-  trap:'MS\'de duyu kaybı olabilir ama arefleksi olmaz (aksine artmış refleks beklenir). ALS\'de duyu yoktur. Müsküler distrofi proksimalden başlar.',
-  explain:'<strong>Periferik nöropati / Polinöropati:</strong> Periferik sinir aksonu veya miyelin kılıfının distalden başlayarak simetrik tutulumu. Bulgular: eldiven-çorap tarzı his kaybı, distal güçsüzlük, arefleksi. Etiyoloji: DM, alkol, B12 eksikliği, amiloid, ilaçlar.'
-},
-{
-  section:'kas', sectionLabel:'KAS HASTALIKLARI / MUSKÜlER DİSTROFİLER',
-  years:['Sonbahar 2018 Orijinal'],
-  q:'Otuz beş yaşındaki erkek hasta frontal kellik, temporal kas atrofisi ve fasiyal güçsüzlik ile başvuruyor. Vakaların %80\'inde katarakt vardır. Bu hasta için <u>ön tanı</u> aşağıdakilerden hangisidir?',
-  opts:['A) Myastenia gravis','B) Duchenne musküler distrofi','C) Becker musküler distrofi','D) Miyotonik distrofi','E) Lambert-Eaton sendromu'],
-  ans:'D',
-  hint:'FRONTAL KELLİK + KATARAKT + TEMPORAL KAS ATROFİSİ = MİYOTONİK DİSTROFİ. "Tipik yüz = miyotonik".',
-  trap:'Duchenne ve Becker proksimal güçsüzlükle başlar, frontal kellik yapmaz. Miyotonik distrofide tipik yüz görünümü (frontal kellik, ptoz, çene düşüklüğü) ve katarakt karakteristiktir.',
-  explain:'<strong>Miyotonik distrofi (Steinert hastalığı):</strong><ul><li>Otozomal dominant geçişli kas hastalığı</li><li>Kasılan kas gevşeyemez (aksiyon miyotonisi)</li><li>Ekstremitelerin distalinde güçsüzlük ve atrofi</li><li><strong>Frontal kellik, pitozis, çene düşüklüğü, yanak ve omuz kaslarında atrofi</strong></li><li>Vakaların <strong>%80\'inde katarakt</strong> vardır; testiküler atrofi, diyabet vardır</li></ul>'
-},
-{
-  section:'kas', sectionLabel:'KAS HASTALIKLARI / MUSKÜlER DİSTROFİLER',
-  years:['Sonbahar 2011 Orijinal'],
-  q:'Otuz beş yaşındaki kadın hasta son iki yıldır proksimal kas güçsüzlüğü ve deri döküntüsü yakınmasıyla başvuruyor. Muayenesinde Gottron papülleri, heliotrope döküntü ve proksimal kas güçsüzlüğü saptanıyor. Laboratuvarda CK yüksekliği mevcuttur.',
-  opts:['A) Polimiyozit','B) Dermatomiyozit','C) Miyotonik distrofi','D) Duchenne musküler distrofi','E) İnklüzyon cisimcikli miyozit'],
-  ans:'B',
-  hint:'GOTTRONPAPÜLLERİ + HELİOTROPE DÖKÜNTÜ + kas güçsüzlüğü = DERMATOMİYOZİT.',
-  trap:'Polimiyozit kas tutulumu yapar ama cilt bulgusu yoktur. Dermatomiyozitte Gottron papülleri (el eklemlerinde mor-kırmızı papüller) ve heliotrope (mor-mor göz kapağı döküntüsü) patognomoniktir.',
-  explain:'<strong>Dermatomiyozit:</strong><ul><li><strong>Gottron papülleri:</strong> El eklemlerinde mor-kırmızı papüller</li><li><strong>Heliotrope döküntü:</strong> Mor göz kapağı döküntüsü</li><li>Proksimal kas güçsüzlüğü (P&gt;D)</li><li>CK artmış (&gt;50 kat)</li><li>Paraneoplastik olabilir — malignansi araştırılmalı</li></ul>'
-},
-{
-  section:'kas', sectionLabel:'KAS HASTALIKLARI / MUSKÜlER DİSTROFİLER',
-  years:['Sonbahar 2024 Orijinal'],
-  q:'Altmış yedi yaşındaki erkek hasta son bir yıldır kol ve bacaklarında artan güçsüzlük şikayetiyle başvuruyor. Öyküsünden atorvastatin kullandığı, yakınmalarının 2 hafta önce kullanmayı bıraktığı halde devam ettiği öğreniliyor. Fizik muayenesinde bilateral simetrik proksimal kaslarında güçsüzlük saptanıyor. EMG\'de spontan aktivite ve fibrilasyon tespit ediliyor. Laboratuvarda kreatin kinaz düzeyi yüksek ve anti-HMGCR antikor pozitif.',
-  opts:['A) Amyotrofik lateral skleroz','B) Polimiyozit','C) İnklüzyon cisimcikli miyoziti','D) İmmün aracılı nekrotizan miyopati','E) Anti-sentetaz sendromu'],
-  ans:'D',
-  hint:'STATİN + Anti-HMGCR antikoru + ilaç kesilse de devam eden miyopati = İMMÜN ARACILI NEKROTİZAN MİYOPATİ.',
-  trap:'Statin kesildiğinde düzelen miyopati statin miyopatisidir. İlaç kesilmesine rağmen devam ediyorsa ve anti-HMGCR pozitifse immün aracılı nekrotizan miyopatidir — otoimmün mekanizma devreye girmiştir.',
-  explain:'<strong>İmmün aracılı nekrotizan miyopati:</strong><ul><li>Statin kullanımı tetikleyebilir ama otoimmün mekanizma devreye girer</li><li>İlaç kesilse de devam eder</li><li><strong>Anti-HMGCR antikoru</strong> pozitif (statin ile ilişkili)</li><li>CK çok yüksek (&gt;10 kat)</li><li>İmmünsüpresif tedaviye yanıt verir</li></ul>'
-},
-{
-  section:'kas', sectionLabel:'KAS HASTALIKLARI / MUSKÜlER DİSTROFİLER',
-  years:['Sonbahar 2021 Orijinal'],
-  q:'İkbahar 2013: Miyotonik distrofiye ait olmayan özellik aşağıdakilerden hangisidir?',
-  opts:['A) Kasılan ekstremitede gevşeme güçlüğü','B) Temporal kellik','C) Katarakt','D) Karın ağrısı ve ishal','E) Normal derin tendon refleksleri'],
-  ans:'E',
-  hint:'MİYOTONİK DİSTROFİDE DTR AZALMIŞTIR — "Normal DTR" miyotonik distrofi ile uyumlu değil.',
-  trap:'Miyotonik distrofide kasın gevşeyememesi (miyotoni) nedeniyle derin tendon refleksleri azalmış ya da alınamaz hale gelir. "Normal DTR" bu hastalıkla uyumlu değildir.',
-  explain:'<strong>Miyotonik distrofi özellikleri:</strong><ul><li>Kasılan kas gevşeyemez (miyotoni)</li><li>Frontal kellik, pitozis, temporal atrofi</li><li>Katarakt (%80)</li><li>Testiküler atrofi, diyabet</li><li><strong>DTR azalmış veya alınamaz</strong> (Normal DTR beklenmez)</li><li>Kardiyak iletim bozuklukları</li></ul>'
-},
-{
-  section:'kas', sectionLabel:'KAS HASTALIKLARI / MUSKÜlER DİSTROFİLER',
-  years:['Sonbahar 2020 Orijinal'],
-  q:'Son altı saattir bulanık görme, ekstremite proksimallerinde güçsüzlük ve yutma ve konuşma güçlüğünü tanımlayan 30 yaşındaki erkek hasta acil servise getiriliyor. Hasta yaklaşık 1 yıldır kırsal alanda görevde olduğunu; birkaç gündür karın ağrısı ve ishalinin olduğunu, hasta nöroloji muayenenesinde derin tendon refleksleri normal; pupilleri dilate ve ışığa yanıtsız olduğu saptanıyor.',
-  opts:['A) Botulizm','B) Myastenia gravis','C) Akut intermittant porfiria','D) Herpes ensefaliti','E) Nöromiyelitis optica'],
-  ans:'A',
-  hint:'Karın ağrısı-ishal + bulanık görme + kas güçsüzlüğü + DİLATE AY YANITSIZ PUPİL = BOTULİZM.',
-  trap:'Miyastenia graviste pupil normaldir. Botulizmde otonomik tutulum (dilate reaktif olmayan pupil + ağız kuruluğu) belirgindir. GBS\'de duyu semptomları ve başlangıçta karın ağrısı-ishal olmaz.',
-  explain:'<strong>Botulizm:</strong> Anaerobik, gram-pozitif, spor oluşturan Clostridium botulinum toksiniyle oluşan paralitik hastalık. İlk belirtiler: görme bulanıklığı, çift görme, baş dönmesi, konuşma-yutma güçlüğü. <strong>Pupillalar dilate ve ışığa yanıtsız.</strong> Tendon refleksleri normal ya da zayıflayabilir. Duyusal sistem ve bilinç etkilenmez.'
-},
-/* ══ NÖROKUTANÖZ SENDROMLAR (25-28) ══ */
-{
-  section:'nkts', sectionLabel:'NÖROKUTANÖZ SENDROMLAR',
-  years:['Sonbahar 1998'],
-  q:'Sturge-Weber sendromunda aşağıdaki bulgulardan hangisi <u>görülmez</u>?',
-  opts:['A) İris hamartomü','B) Glokom','C) Anjiyomlar','D) Nevus flammeus','E) Konvülziyon'],
-  ans:'A',
-  hint:'İRİS HAMARTOMu (Lisch nodülü) = NÖROFİBROMATOZİS tip 1\'e özgü. Sturge-Weber\'da değil.',
-  trap:'Nevus flammeus (yüz anjiyomu), glokom, anjiyomlar ve konvülziyon Sturge-Weber\'da görülür. İris hamartomları (Lisch nodülleri) ise nörofibromatozis tip 1\'e özgüdür.',
-  explain:'<strong>Sturge-Weber sendromu (Ensefalotrigeminal Anjiomatozis):</strong><ul><li>Nevus flammeus (portşarap lekesi — yüzde)</li><li>İris heterokromisi</li><li>Meningeal ve serebral anjiyomlar</li><li>Kontralateral nörolojik bulgular</li><li>Glokom</li><li>Minimal serebral disfonksiyon</li></ul><strong>İris hamartomları (Lisch nodülleri)</strong> NF tip 1\'e özgüdür, Sturge-Weber\'da görülmez.'
-},
-{
-  section:'nkts', sectionLabel:'NÖROKUTANÖZ SENDROMLAR',
-  years:['Sonbahar 1992'],
-  q:'Tüm vücutta 5 mm\'den fazla 12 adet pigmentasyon ve göz dibinde anjiyom saptanan hastanın tanısı nedir?',
-  opts:['A) Tüberoskleroz','B) Nörofibromatozis','C) Wilms','D) Sturge Weber','E) Fanconi aplastik anemi'],
-  ans:'B',
-  hint:'6+ adet cafe-au-lait leke + NÖROFİBROM + Lisch nodülleri = NÖROFİBROMATOZİS tip 1.',
-  trap:'Sturge-Weber\'da portşarap lekesi (tek yüzde) ve beyin anjiyomları görülür. Tüberoskleroz\'da ash-leaf lekeleri ve tuberler vardır. 12 adet cafe-au-lait leke + anjiyom = NF1.',
-  explain:'<strong>Nörofibromatozis (von Recklinghausen) tip 1:</strong><ul><li>Otozomal dominant geçişli, 17. kromozom</li><li><strong>6+ adet cafe-au-lait lekesi</strong> (5 mm veya daha büyük)</li><li>Nörofibromlar (deri altı tümörler)</li><li><strong>Lisch nodülleri</strong> (iris hamartomları)</li><li>Optik gliom olabilir</li><li>Aksilar ve kasık bölgesi çillenme (Crowe işareti)</li></ul>'
-},
-{
-  section:'nkts', sectionLabel:'NÖROKUTANÖZ SENDROMLAR',
-  years:['Sonbahar 2018 Orijinal'],
-  q:'Sturge-Weber sendromunun göz bulguları arasında <u>yer almaz</u>?',
-  opts:['A) İpsilateral glokom','B) İris heterokromisi','C) Episkleral hemanjiyom','D) Diffüz koroidal hemanjiyom','E) Keratit'],
-  ans:'E',
-  hint:'KERATİT Sturge-Weber\'da beklenen bir göz bulgusu değildir — inflamatuvar bir durumdur.',
-  trap:'Glokom, iris heterokromisi, episkleral ve koroidal hemanjiyom Sturge-Weber\'ın göz bulgularıdır. Keratit ise korneal inflamasyon olup Sturge-Weber ile ilişkili değildir.',
-  explain:'<strong>Sturge-Weber sendromunda göz bulguları:</strong> İpsilateral glokom, iris heterokromisi, episkleral hemanjiyom, diffüz koroidal hemanjiyom. <strong>Keratit beklenmez.</strong> Hastaların bir kısmında glokom ilerleyici görme kaybına neden olabilir.'
-},
-{
-  section:'nkts', sectionLabel:'NÖROKUTANÖZ SENDROMLAR',
-  years:['Sonbahar 2018 Orijinal'],
-  q:'Aşağıdakilerden hangisi, Sturge-Weber sendromunun göz bulgularından yer almaz? (2. soru: Tüberoskleroz): Tüberosklerozda aşağıdakilerden hangisi görülür?',
-  opts:['A) Ash-leaf lekeleri','B) Shagreen yamalar','C) Anjiyofibromlar (adenoma sebaseum)','D) Periungual fibromlar','E) Portşarap lekesi (Nevus flammeus)'],
-  ans:'E',
-  hint:'PORTŞARAP = STURGE-WEBER. Tüberosklerozda portşarap lekesi değil, ASH-LEAF ve SHAGREEN yamaları görülür.',
-  trap:'Portşarap lekesi (nevus flammeus) Sturge-Weber\'ın bulgusudur. Tüberosklerozda ash-leaf lekeleri (hipopigmente lekeler), shagreen yamaları ve anjiyofibromlar görülür.',
-  explain:'<strong>Tüberoskleroz (Bourneville hastalığı):</strong><ul><li><strong>Ash-leaf lekeleri</strong> (hipopigmente eliptik lekeler)</li><li><strong>Shagreen yamaları</strong> (bel bölgesi deri kalınlaşması)</li><li><strong>Anjiyofibromlar</strong> (adenoma sebaseum — yüzde)</li><li>Periungual fibromlar</li><li>Retinal hamartomlar</li><li>Beyin tüberler, subependimal nodüller</li><li>Epilepsi, mental retardasyon, hemiparezi ilerleyicidir</li></ul>'
-},
-/* ══ SPİNAL KORD SENDROMLARI (29-33) ══ */
-{
-  section:'spinal', sectionLabel:'SPİNAL KORD SENDROMLARI',
-  years:['İlkbahar 1996'],
-  q:'Aşağıdakilerden hangisi serviko-torasik sendromlardan <u>değildir</u>?',
-  opts:['A) Servikal kosta sendromu','B) Skalenius anterior sendromu','C) Akrosiyanoz','D) Kostoklavikular sendrom','E) Hiperabdüksiyon sendromu'],
-  ans:'C',
-  hint:'AKROSİYANOZ vasküler bir hastalıktır, torasik outlet sendromu grubunda değildir.',
-  trap:'Servikal kosta, skalenius anterior, kostoklavikular ve hiperabdüksiyon sendromları torasik outlet sendromu (TOS) grubundadır. Akrosiyanoz ise el ve ayak uçlarında soğukla artan siyanozdur — TOS değildir.',
-  explain:'<strong>Torasik outlet sendromu (TOS) — Servikovasküler sendromlar:</strong><ul><li>Hiperabdüksiyon sendromu</li><li>Skalenius anterior sendromu</li><li>Kostoklavikular sendrom</li><li>Paget-Schroetter sendromu (Subklavian ven trombozu)</li></ul><strong>Akrosiyanoz</strong> TOS grubunda değildir; soğuğa bağlı vazospazm ile oluşan bir vasküler hastalıktır.'
-},
-{
-  section:'spinal', sectionLabel:'SPİNAL KORD SENDROMLARI',
-  years:['Sonbahar 2009'],
-  q:'Sol kol ve bacakta, hemisensoryel ve hemimotor kayıp olan bir hastada arteryel oklüzyonun en olası lokalizasyonu hangisidir?',
-  opts:['A) A. cerebralis posterior','B) A. basillaris','C) A. carotis interna','D) A. vertebralis','E) A. cerebri media'],
-  ans:'C',
-  hint:'Aynı taraf kol + bacak motor-duyu kaybı (hemipleji) = İÇ KAROTİD veya ACM.',
-  trap:'A.cerebri posterior görme alanı ve derin duyuyu etkiler, tam hemipleji yapmaz. A.cerebri media tıkanması da hemipleji yapar ama kolu bacaktan daha çok etkiler. İç karotid geniş hemisferik infarkt yapar.',
-  explain:'<strong>İç karotid arter (A.carotis interna) tıkanması:</strong> Hem anterior hem orta serebral arteri besler. Tıkanmasında geniş hemisferik infarkt olabilir → kontralateral hemipleji + hemianestezi + afazi (dominant hemisfer). Ayrıca oftalmik arteri beslediğinden amarozis fugax görülebilir.'
-},
-{
-  section:'spinal', sectionLabel:'SPİNAL KORD SENDROMLARI',
-  years:['İlkbahar 1995'],
-  q:'İpsilateral oftalmopleji ve kontralateral hemipleji mevcutsa lezyon nerededir?',
-  opts:['A) Mezensefalon','B) Frontal lob','C) Oksipital lob','D) Korteks','E) Bulbus'],
-  ans:'A',
-  hint:'İpsilateral 3. KS (oftalmopleji) + kontralateral hemipleji = WEBER SENDROMU = MEZENSEFALON.',
-  trap:'Bulbus lezyonunda alternating hemipleji görülür ama orada 12. KS (hipoglossal) ve piramidal yol tutulumu vardır. Mezensefalonda 3. KS + piramidal yol = Weber.',
-  explain:'<strong>Weber sendromu (Mezensefalon):</strong> İpsilateral 3. KS felci (pitozis, midriyazis, dışa-aşağı göz pozisyonu) + kontralateral hemipleji. Mezensefalon ventral bölge lezyonu. <strong>Benedikt sendromu:</strong> 3. KS + kontralateral tremor (Rubral nükleus). <strong>Claude sendromu:</strong> 3. KS + serebellar bulgular.'
-},
-{
-  section:'spinal', sectionLabel:'SPİNAL KORD SENDROMLARI',
-  years:['Sonbahar 1997'],
-  q:'Hipoglossal sinir supranükleer paralizisi olan hastada aşağıdakilerden hangileri görülür?',
-  opts:['A) I ve III','B) I ve IV','C) II ve III','D) II ve IV','E) II ve V'],
-  ans:'B',
-  hint:'SUPRANÜKLEER (santral) hipoglossal felç: dil KARŞı tarafa deviye olur + atrofi/fasikülasyon YOK.',
-  trap:'Periferik hipoglossal felçte dil aynı tarafa deviye olur + atrofi + fasikülasyon vardır. Santral (supranükleer) felçte dil karşı tarafa deviye olur, atrofi-fasikülasyon yoktur.',
-  explain:'<strong>Hipoglossal sinir paralizisi:</strong><ul><li><strong>Supranükleer (santral):</strong> Dil lezyon tarafının KARŞısına deviye olur; atrofi ve fasikülasyon yoktur</li><li><strong>Periferik (infranükleer):</strong> Dil lezyon tarafına deviye olur; atrofi ve fasikülasyon vardır</li></ul>Santral felçte kortikobulber yolların bilateral hasarı sonucu oluşur.'
-},
-{
-  section:'spinal', sectionLabel:'SPİNAL KORD SENDROMLARI',
-  years:['İlkbahar 2025 Orijinal'],
-  q:'Kırk sekiz yaşındaki kadın hasta birkaç aydır devam eden boyun ağrısı başlayan ve sol kol-bacağında güçsüzlük şikayetiyle başvuruyor. Muayenesinde sol üst ve alt ekstremitede güçsüzlük ve spastisite, sağda ise ağrı ve ısı duyusu kaybı saptanıyor.',
-  opts:['A) Anterior kord sendromu','B) Santral kord sendromu','C) Brown-Séquard sendromu','D) Posterior kord sendromu','E) Anterior horn cell hastalığı'],
-  ans:'C',
-  hint:'İpsilateral motor kayıp + kontralateral ağrı-ısı kaybı = BROWN-SÉQUARD (hemiseksiyonu).',
-  trap:'Anterior kord sendromunun motor kayıp + ağrı-ısı kaybı ama propriosepsiyon korunur. Santral kord sendromunun kollar bacaklardan daha fazla etkilenir. Brown-Séquard spinal kordun yarısının kesilmesidir.',
-  explain:'<strong>Brown-Séquard sendromu (Spinal kord yarı kesisi):</strong><ul><li>İpsilateral: motor kayıp (kortikospinal), propriosepsiyon-vibrasyon kaybı (arka kord)</li><li>Kontralateral: ağrı ve ısı duyusu kaybı (spinotalamik yol — çapraz yapar)</li></ul>Nedenleri: travma, tümör, disk hernisi, demiyelinizasyon.'
-},
-/* ══ SVH EK SORULAR / DİĞER (34-40) ══ */
-{
-  section:'svhek', sectionLabel:'SVH / DİĞER SORULAR',
-  years:['Sonbahar 1990'],
-  q:'Altmış yaşındaki hasta onbeş gündür haftada üç dört kez sağ kol ve bacağına gelen kuvvet azlığı ve konuşamama şikayeti ile başvuruyor.',
-  opts:['A) A.cerebralis posterior','B) A.basillaris','C) A.carotis interna','D) A.vertebralis','E) A.cerebri media'],
-  ans:'C',
-  hint:'Tekrarlayan TİA + afazi + sağ hemiparezi = sol iç karotid sistemi (ACM dağılımı). Amarozis da olabilir.',
-  trap:'A.vertebralis posterior sistem TİA yapar (vertigo, ataksi, diplopi). Bu hastada afazi ve hemiparezi var = anterior sistem = karotid.',
-  explain:'<strong>Geçici iskemik atak (TİA):</strong> 24 saatten kısa süren fokal nörolojik anomaliler. Afazi + hemiparezi = anterior sistem (karotid). Karotid sisteminde en sık etkilenen orta serebral arter dallarıdır. TİA gelişmesi ilerleyen günlerde inme riskinin yüksek olduğunu gösterir — acil değerlendirme gerektirir.'
-},
-{
-  section:'svhek', sectionLabel:'SVH / DİĞER SORULAR',
-  years:['Sonbahar 1990'],
-  q:'Anterior serebral arterin trombozunda hangi klinik bulgular görülür?',
-  opts:['A) Homonim hemianopsi','B) Karşı taraf alt ekstremitede motor kayıp','C) Aynı taraf motor, duyu kaybı','D) Karşı taraf ağrı duyusu kaybı','E) Aynı taraf ağrı duyusu kaybı'],
-  ans:'B',
-  hint:'ACA = ALT EKSTREMİTE. "A = Anterior = Ayak/bacak". Motor homonkülüste ACA alt ekstremiteyi besler.',
-  trap:'Orta serebral arter tıkanması üst ekstremite + yüz ağırlıklı hemipleji yapar. ACA tıkanması karşı taraf alt ekstremitede güçsüzlük + idrar inkontinansı yapar.',
-  explain:'<strong>Anterior serebral arter tıkanması:</strong><ul><li>Karşı taraf alt ekstremitede güçsüzlük ve duyu kaybı</li><li>İdrar inkontinansı (parasentral lobül)</li><li>İki yanlı tıkanmalarda: apati, konfüzyon, mutizm, spastik paraparezi</li></ul>'
-},
-{
-  section:'svhek', sectionLabel:'SVH / DİĞER SORULAR',
-  years:['Sonbahar 1991'],
-  q:'Bir önceki sorudaki hastada tanı amacıyla <u>ilk önce</u> hangisi yapılır?',
-  opts:['A) Kan biyokimyası','B) BBT','C) Anjiografi','D) Kraniografi','E) MRI'],
-  ans:'B',
-  hint:'İNME / TİA sonrası tanı amacıyla ilk BEYIN BT. Hemorajiyi dışla.',
-  trap:'Anjiografi vasküler patoloji gösterir ama parenkim değerlendirmesinde BT önce yapılır. MRI daha duyarlı ama acilde ilk BT.',
-  explain:'<strong>Akut inme tanısında önce BT:</strong> Hemorajik inmeyi dışlamak için önce kontrastsız BT. Hemoraji yoksa iskemik inme düşünülür ve tedavi planlanır. Anjiografi elektif koşullarda vasküler patoloji araştırmak için kullanılır.'
-},
-{
-  section:'svhek', sectionLabel:'SVH / DİĞER SORULAR',
-  years:['Sonbahar 1992'],
-  q:'Elli altı yaşındaki sağ elini kullanamayan, 5 yıldır baş ağrısı olan ve toplam dört kez epilepsi atağı geçiren hasta başvuruyor. Sol orta serebral arterde tıkanıklığın yol açmış olabileceği tablo hangisidir?',
-  opts:['A) Sağ karotid arteri','B) Sol anterior serebral arter','C) Sol orta serebral arter','D) Sağ posterior serebral arter','E) Sol posterior inferior serebellar arter'],
-  ans:'C',
-  hint:'Sağ el güçsüzlüğü + afazi = SOL ORTA SEREBRAL ARTER tıkanması (dominant hemisfer).',
-  trap:'Sol orta serebral arter dominant hemisferde dil merkezlerini (Broca ve Wernicke) besler. Tıkanmasında sağ hemipleji + afazi olur.',
-  explain:'<strong>Sol orta serebral arter tıkanmasında:</strong> Karşı taraf (sağ) hemipleji, hemianestezi ve afazi görülür. Orta serebral arter hem motor hem dil alanlarını besler. Afazi ile birlikte seyreden sağ hemipleji sol ACM\'yi işaret eder.'
-},
-{
-  section:'svhek', sectionLabel:'SVH / DİĞER SORULAR',
-  years:['İlkbahar 2008'],
-  q:'Aşağıdaki solunum paternlerinden hangisi bilateral derin hemisferik lezyon olduğunun göstergesidir?',
-  opts:['A) Cheyne-Stokes solunumu','B) Uyku apnesi','C) Apnöstik solunum','D) Biot solunumu','E) Santral nörojenik hiperventilasyon'],
-  ans:'A',
-  hint:'CHEYNE-STOKES = azalan-artan tipte solunum = bilateral derin hemisferik lezyon veya kalp yetmezliği.',
-  trap:'Apnöstik solunum pons lezyonunu gösterir. Biot solunumu ciddi santral sinir sistemi hastalığını gösterir. Cheyne-Stokes bilateral hemisferik lezyona özgüdür.',
-  explain:'<strong>Solunum paternleri ve lezyon lokalizasyonu:</strong><ul><li><strong>Cheyne-Stokes:</strong> Azalan-artan siklik ventilasyon — bilateral hemisferik lezyon</li><li><strong>Santral nörojenik hiperventilasyon:</strong> Anksiyete, panik, pontin lezyon</li><li><strong>Apnöstik solunum:</strong> Pons lezyonu</li><li><strong>Biot (ataksik) solunumu:</strong> Ciddi SSS hastalığı — can çekişme olarak bilinen iç çekmelerle sonuçlanan solunum arrestidir</li></ul>'
-},
-{
-  section:'svhek', sectionLabel:'SVH / DİĞER SORULAR',
-  years:['Sonbahar 2006'],
-  q:'Aşağıdaki durumların hangisinin varlığında serebral venöz tromboz değerlendirme testlerine <u>başlanamaz</u>? (EXTRA: Beyin sarsıntısı): Serebral konküzyonda aşağıdakilerden hangisi <u>ön planda beklenmez</u>?',
-  opts:['A) Travmaya sekonder olarak gelişen oryantasyon ve konsantrasyon bozukluğu','B) Anterograd ve retrograd amnezi görülebilir','C) Baş ağrısı, baş dönmesi, görme bulanıklığı görülebilir','D) Glaskow koma skorlamasında düşüklük beklenmez','E) Kranyal beyin tomografisinde kanama ve hematom görülür'],
-  ans:'E',
-  hint:'SEREBRAL KONKÜZYONDA (sarsıntı) BT NORMAL BEKLENIR — parankimal patoloji yoktur.',
-  trap:'Serebral konküzyon geçici bir durum olup BT\'de görüntülenebilir bir patoloji beklenmez. Kanama ve hematom serebral kontüzyon veya laserasyonda görülür.',
-  explain:'<strong>Serebral konküzyon (beyin sarsıntısı):</strong> Beyin fonksiyonunun geçici bozulması. Nöral dokuda yapısal hasar yoktur. <strong>BT\'de patoloji saptanmaz.</strong> Semptomlar: kısa süreli bilinç kaybı, baş ağrısı, amnezi, baş dönmesi. Kontrast madde ve olası hastalıkların birden ortaya çıkması için kranyal BT ile MR görüntülemesi normal olarak raporlanır.'
-},
-{
-  section:'svhek', sectionLabel:'SVH / DİĞER SORULAR',
-  years:['Sonbahar 2018 Orijinal'],
-  q:'Bir boks müsabakasında başına aldığı darbeler sonrası dikkat, oryantasyon ve konsantrasyon bozukluğu ile amnezi gelişen boksör acil servise getiriliyor. Hasta baş ağrısı, baş dönmesi ve görme bulanıklığı tariflemiyor. Nörolojik muayenesinde GK 15/15 olarak tespit ediliyor. Kontrastsız bilgisayarlı beyin tomografisinde herhangi bir patoloji saptanmıyor.',
-  opts:['A) İskemik serebrovasküler olay','B) Subaraknoid kanama','C) Akut subdural kanama','D) Serebral kontüzyon','E) Serebral konküzyon'],
-  ans:'E',
-  hint:'GKS 15 + BT NORMAL + geçici amnezi-konsantrasyon bozukluğu = SEREBRAL KONKÜZYON (sarsıntı).',
-  trap:'Subaraknoid kanamada BT\'de kan görülür. Subdural hematomda BT\'de hematom görülür. Serebral konküzyonda BT normaldir ve bilinç tam açıktır (GKS 15).',
-  explain:'<strong>Serebral konküzyon (sarsıntı) vs kontüzyon:</strong><ul><li><strong>Konküzyon:</strong> BT normal, GKS genellikle 15, geçici bellek/konsantrasyon bozukluğu</li><li><strong>Kontüzyon:</strong> BT\'de beyin dokusunda hasar görülür, daha ağır klinik</li></ul>Travmayı takip eden kısa süre içe risinde konvülsiyonlar görülebilir.'
-},
-/* ══ UYKU / VESTİBÜLER / DİĞER (41-46) ══ */
-{
-  section:'diger', sectionLabel:'DİĞER NÖROLOJİ KONULARI',
-  years:['İlkbahar 2012'],
-  q:'İlkbahar 2012 Orijinal: Aşağıdaki bulgulardan hangisi aşağı bakış paralizisi, denge bozukluğu ile birlikte olan hastada aksiyel rijidite ile birlikte görülmesi beklenen bir sendromu düşündürür?',
-  opts:['A) Parkinson hastalığı','B) Kortikobazal dejenerasyon','C) Progresif supranükleer palsi','D) Lewy cisimcikli demans','E) Spinoserebellar ataksi'],
-  ans:'C',
-  hint:'AŞAĞI BAKIŞ PARALİZİSİ + aksiyel rijidite + erken denge bozukluğu = PSP.',
-  trap:'Parkinson hastalığında bakış paralizisi beklenmez. Kortikobazal dejenerasyonda asimetrik apraksi ve alien el ön plandadır. PSP\'de vertikal (özellikle aşağı) bakış felci patognomoniktir.',
-  explain:'<strong>Progresif supranükleer palsi (PSP):</strong><ul><li>Vertikal (önce aşağı) bakış paralizisi — patognomonik</li><li>Aksiyel (boyun ve gövde) rijidite</li><li>Erken postüral instabilite ve düşmeler</li><li>Subkortikal demans</li><li>Dopamine zayıf yanıt</li></ul>'
-},
-{
-  section:'diger', sectionLabel:'DİĞER NÖROLOJİ KONULARI',
-  years:['İlkbahar 2025 Orijinal'],
-  q:'Elli yedi yaşındaki hasta son altı aydır her sabah uykudan uyanınca sağ kolunu kullanamadığını belirtiyor. Kol güçsüzlüğünün 15-20 dakika sonra düzeldiğini ifade ediyor. Ek şikayet yok. Muayene normal.',
-  opts:['A) Transient iskemik atak','B) Todd paralizisi','C) Kompleks migren','D) Multipl skleroz atağı','E) Epileptik nöbet'],
-  ans:'A',
-  hint:'Her sabah 15-20 dakika süren geçici kol güçsüzlüğü = TİA (Transient İskemik Atak).',
-  trap:'Todd paralizisi nöbet sonrası görülür; ama nöbet öyküsü yok. Kompleks migrende baş ağrısı eşlik eder. Sabahları tekrarlayan geçici hemiparezi TİA\'yı düşündürür.',
-  explain:'<strong>Transient iskemik atak (TİA):</strong> 24 saatten kısa süren (genellikle dakikalar) fokal nörolojik defisit. Tamamen düzelir. <strong>İnme için yüksek risk faktörüdür</strong> — TİA sonrası ilk 48 saatte inme riski %10\'dur. Acil değerlendirme ve tedavi gerektirir (antiplatelet, statin, karotis görüntüleme).'
-},
-{
-  section:'diger', sectionLabel:'DİĞER NÖROLOJİ KONULARI',
-  years:['Sonbahar 2009'],
-  q:'Aşağıdaki bulgulardan hangisi <strong>locked-in sendromunda</strong> etkilenmeyen bölgeyi işaret eder?',
-  opts:['A) Ventral pons','B) Assendan retiküler formasyon','C) Bilateral kortikospinal yol','D) Bilateral pons','E) Bilateral kortikobulber yol hasarı'],
-  ans:'B',
-  hint:'LOCKED-IN\'de bilinç AÇIK = assendan retiküler formasyon SAĞLAM. Sadece motor yollar kesik.',
-  trap:'Locked-in sendromunda hastanın bilinci tam açıktır (retiküler formasyon sağlam). Kortikospinal ve kortikobulber yollar kesiktir — hareket edemez, konuşamaz. Sadece göz hareketleri ile iletişim kurabilir.',
-  explain:'<strong>Locked-in sendromu:</strong> Baziller arter tıkanıklarında görülür. İki yanlı bazis pontis lezyonu. <strong>Kortikospinal yol + kortikobulber yol</strong> tutulumu vardır. Hasta dört extremitesini hareket ettiremez, konuşamaz, yutamaz. Ancak <strong>bilinci TAM AÇIK</strong> (assendan retiküler formasyon etkilenmez). Sadece vertikal göz hareketleri ve göz kırpma korunur.'
-},
-{
-  section:'diger', sectionLabel:'DİĞER NÖROLOJİ KONULARI',
-  years:['İlkbahar 2012 Benzeri','Sonbahar 2012'],
-  q:'Kırk yaşındaki kadın hasta, 20 yıldır takip ettiği Behçet hastalığı tanısı ile siklosporin kullanmakta olan erkek hasta şiddetli baş ağrısı, bulantı ve kusma nedeniyle acil servise başvuruyor. Hastanın muayenesinde bilateral papilödem dışında anormal bulgu saptanmıyor.',
-  opts:['A) Bakteriyel menenjit','B) Serebral venöz tromboz','C) Vertebral arter diseksiyonu','D) Karotis arter diseksiyonu','E) Auralı migren'],
-  ans:'B',
-  hint:'BEHÇET hastalığı + KİBAS bulguları (papilödem) + genç = SEREBRAL VENÖZ TROMBOZ.',
-  trap:'Behçet hastalığı serebral venöz trombozun önemli bir nedenidir. Auralı migrende papilödem olmaz. Bakteriyel menenjitte ateş ve ense sertliği ön plandadır.',
-  explain:'<strong>Serebral venöz tromboz etiyolojisi:</strong><ul><li>Post-partum dönem</li><li>Oral kontraseptif kullanımı</li><li>Kalıtsal trombofili (Faktör V Leiden)</li><li><strong>Behçet hastalığı ve SLE</strong> gibi sistemik inflamatuvar hastalıklar</li><li>Malignansi, dehidrasyon</li></ul>Altın tanı yöntemi: <strong>MR anjiyografi</strong>.'
-},
-{
-  section:'diger', sectionLabel:'DİĞER NÖROLOJİ KONULARI',
-  years:['Sonbahar 2019 Orijinal'],
-  q:'Yirmi beş yaşındaki kadın hastanın son 3 gündür sol gözde retroorbital ağrı ve sol gözde görme keskinliğinde azalma şikayeti bulunmaktadır. Muayenesinde sol gözde afferent pupil defekti saptanıyor. Beyin MRG\'sinde demiyelinizan plaklar görülüyor.',
-  opts:['A) Tuberosklerozu','B) Primer açık açılı glokom','C) Optik nörit','D) Nöromiyelitis optika','E) Retinal arteriyel tıkanma'],
-  ans:'C',
-  hint:'AFERENTpupil defekti + retroorbital ağrı + görme kaybı + demiyelinizan plaklar = OPTİK NÖRİT (MS\'in ilk bulgusu olabilir).',
-  trap:'NMO\'da bilateral optik nevrit ve transvers miyelit birlikte olur. İzole optik nörit MS\'in ilk bulgusu olabilir. Afferent pupil defekti (Marcus Gunn pupili) optik sinir hasarını gösterir.',
-  explain:'<strong>Optik nörit (retrobulber nevrit):</strong><ul><li>Retroorbital ağrı (göz hareketi ile artar)</li><li>Görme keskinliğinde azalma</li><li><strong>Afferent pupil defekti (Marcus Gunn pupili)</strong> — swing flashlight testinde pozitif</li><li>MS\'in en sık ilk bulgusu olabilir</li><li>Tedavi: IV metilprednizolon</li></ul>'
-},
-{
-  section:'diger', sectionLabel:'DİĞER NÖROLOJİ KONULARI',
-  years:['Sonbahar 2003'],
-  q:'Mononöropati multipleks; ise genellikle diyabet, ya da vaskülit gibi jeneralize bir hastalığın sonucu olarak iki ya da daha fazla sinirin fokal tutulumudur. Mononöropati multipleks nedenlerinden <u>olmaz</u>?',
-  opts:['A) DM','B) Kriyoglobulinemi','C) PAN','D) Romatoid artrit','E) Tüberküloz menenjit'],
-  ans:'E',
-  hint:'TBC MENENJİT mononöropati multipleks nedeni değildir — MSS enfeksiyonudur, periferik siniri fokal tutmaz.',
-  trap:'DM, kriyoglobulinemi, PAN, romatoid artrit mononöropati multipleks nedenleridir (vasküler ve inflamatuvar mekanizmalar). TBC menenjit santral sinir sistemi enfeksiyonudur.',
-  explain:'<strong>Mononöropati multipleks nedenleri:</strong> DM, vaskülit (PAN, wegener), kriyoglobulinemi, romatoid artrit, lepra, sarkoidoz, Lyme hastalığı. <strong>TBC menenjit</strong> SSS enfeksiyonudur — mononöropati multipleks yapmaz. En sık nedenler arasında DM, lepra, PAN, romatoid artrit ve kriyoglobulinemi sayılabilir.'
-}
+const ALL_QUESTIONS = [
+  {
+    section:'gorme',
+    sectionLabel:'GÖRME YOLU LEZYONLARI',
+    years:['Sonbahar 1992'],
+    q:'İpsilateral oftalmopleji ve kontralateral hemipleji mevcut ise lezyon nerededir?',
+    opts:['A) Mezensefalon','B) Frontal lob','C) Oksipital lob','D) Korteks','E) Bulbus'],
+    ans:'A',
+    hint:'İpsilateral = aynı taraf KS felci + karşı taraf hemipleji = Mezensefalon (Weber sendromu formülü).',
+    trap:'Frontal lob lezyonları kişilik değişikliği ve kontralateral hemipleji yapar, oftalmopleji yapmaz. Oftalmopleji + kontralateral hemipleji birlikteliği mezensefal kökeni işaret eder.',
+    explain:'<strong>İpsilateral oftalmopleji + kontralateral hemipleji = Mezensefalon lezyonu (Weber Sendromu).</strong><br>Mezensefal düzeydeki lezyon; <ul><li>3. kranial sinir (okulomotor): ipsilateral göz kası paralizisi, ptozis, midriazis</li><li>Kortikospinal yol: kontralateral hemipleji</li></ul> 4-5. KS → pons; 6-7. KS → pons; 9-12. KS → bulbus lezyonunda etkilenir.'
+  },
+  {
+    section:'gorme',
+    sectionLabel:'GÖRME YOLU LEZYONLARI',
+    years:['İlkbahar 2022'],
+    q:'Altmış yaşındaki hasta akut gelişen görme bozukluğu ile başvuruyor. Beyin görüntülemesinde <strong>sağ pariyetal lobda infarkt</strong> saptanıyor.<br><br>Bu hastada aşağıdaki bulgulardan hangisinin görülmesi <u>en olasıdır</u>?',
+    opts:['A) Bitemporal hemianopsi','B) Sağ homonim inferior kadranopsi','C) Sağ homonim superior kadranopsi','D) Sol homonim inferior kadranopsi','E) Sol homonim superior kadranopsi'],
+    ans:'D',
+    hint:'Pariyetal lob → alt lifler etkilenir → karşı taraf üst kadran (superior) görme alanı KORUNUR → inferior kadranopsi. Temporal = üst yarı etkilenir = inferior anopsi.',
+    trap:'Pariyetal lob lezyonu radiatio optica\'nın ALT liflerini etkiler → karşı tarafta superior kadranopsi değil, INFERIOR kadranopsi oluşur. Temporal lob = inferior lifler = superior kadranopsi; pariyetal lob = superior lifler = inferior kadranopsi.',
+    explain:'<strong>Görme yolu – radiatio optica:</strong><ul><li><strong>Temporal lob</strong> (Meyer kavsi – alt lifler) → Karşı taraf üst kadran görme alanı → Lezyon → <strong>Karşı homonim superior kadranopsi</strong></li><li><strong>Pariyetal lob</strong> (üst lifler) → Karşı taraf alt kadran görme alanı → Lezyon → <strong>Karşı homonim inferior kadranopsi</strong></li></ul>Sağ pariyetal lob lezyonu → Sol homonim inferior kadranopsi.'
+  },
+  {
+    section:'gorme',
+    sectionLabel:'GÖRME YOLU LEZYONLARI',
+    years:['İlkbahar 2022'],
+    q:'Otuz beş yaşındaki kadın hastada amenore ve galaktore nedeniyle yapılan araştırmalarda hipofiz adenomu saptanıyor. Çapı yaklaşık 3 cm olan adenom aynı zamanda optik kiazmaya da bası yapıyor.<br><br>Bu hastadaki <u>en olası</u> görme alan kaybı aşağıdakilerden hangisidir?',
+    opts:['A) Bitemporal hemianopsi','B) Sağ homonim hemianopsi','C) Sol homonim hemianopsi','D) Bilateral alt iç kadran görme kaybı','E) Sağ üst iç kadran görme kaybı'],
+    ans:'A',
+    hint:'Kiazma = çapraz lifler hasar görür → TEMPORAL görme alanları kaybolur → BİTEMPORAL hemianopsi = "tünel görmesi".',
+    trap:'Kiazma lezyonunda homonim hemianopsi bekleme hatasıdır. Homonim = aynı taraf ise tractus opticus lezyonu demektir. Kiazma hasarı ise her iki nazal retinanın liflerini (temporal görme alanı) etkiler → bitemporal hemianopsi.',
+    explain:'<strong>Görme yolu lezyonları:</strong><ul><li><strong>N. opticus</strong> → Monoküler skotom (tek göz kör)</li><li><strong>Kiazma</strong> → Bitemporal hemianopsi (hipofiz tümörü, a.communicans ant. anevrizması)</li><li><strong>Tractus opticus</strong> → Karşı homonim hemianopsi</li><li><strong>Temporal lob (Meyer kavsi)</strong> → Karşı homonim superior kadranopsi</li><li><strong>Pariyetal lob</strong> → Karşı homonim inferior kadranopsi</li><li><strong>Oksipital lob</strong> → Karşı homonim hemianopsi (santral görme korunmuş)</li></ul>'
+  },
+  {
+    section:'gorme',
+    sectionLabel:'GÖRME YOLU LEZYONLARI',
+    years:['İlkbahar 1993'],
+    q:'<strong>Sağ hemipleji, sağ hemihipoestezi ve sağ homonim hemianopsi</strong> olan hastada lezyon hangi lokalizasyondadır?',
+    opts:['A) Sol occipital lob','B) Sol kapsula interna','C) Mezensefalon','D) Sağ kapsula interna','E) Sol frontal lob'],
+    ans:'B',
+    hint:'3H (Hemipleji + Hemianopsi + Hemihipoestezi) aynı tarafta = Karşı kapsula interna. Kapsula interna hepsini bir arada etkiler.',
+    trap:'Sol oksipital lob sadece görme alanı kaybı yapar; hemipleji ve duyusal kayıp yapmaz. Kapsula interna; motor (ön bacak), duyusal (arka bacak) ve görsel radyasyon liflerini birlikte taşır.',
+    explain:'<strong>Kapsula interna lezyonu:</strong> Motor, duysal ve görme lifi yollarını birlikte taşıdığından lezyon olduğunda:<ul><li><strong>Kontralateral hemipleji</strong> (kortikospinal yol)</li><li><strong>Kontralateral hemihipoestezi</strong> (talamokortkal yol)</li><li><strong>Kontralateral homonim hemianopsi</strong> (radiatio optica)</li></ul>Sol kapsula interna lezyonu → Sağ 3H tablosu oluşturur.'
+  },
+  {
+    section:'gorme',
+    sectionLabel:'GÖRME YOLU LEZYONLARI',
+    years:['Sonbahar 2009'],
+    q:'Yirmi sekiz yaşında bir kadın hasta sağ gözünde akut görme kaybı yakınmasıyla acil servise başvuruyor. Muayenede sağda <strong>relatif afferent pupil defekti</strong>, görme keskinliğinde ileri derecede azalma ve sağ santral skotom saptanıyor.<br><br>Bu hastada lezyon nerededir?',
+    opts:['A) Optik sinir','B) Optik kiazma','C) Optik traktus','D) Lateral Genikulat cisim','E) Oksipital korteks'],
+    ans:'A',
+    hint:'RAPD (Marcus Gunn pupil) = AFFERENT yol problemi = Optik sinir hasarı. Swinging flashlight testinde hasta göze ışık geçince her iki pupil GENİŞLER.',
+    trap:'RAPD, optik kiazmadan sonra görülmez çünkü post-kiazmal lezyonlarda her iki gözden afferent girdi eşit şekilde bozulur. RAPD + monoküler görme kaybı = optik sinir hastalığı (MS, optik nörit, ciddi retina hastalığı).',
+    explain:'<strong>Relatif Afferent Pupil Defekti (RAPD / Marcus Gunn Pupil):</strong><br>Optik sinir hastalıklarında ve çok ciddi retina hastalıklarında görülür. Hasta göze ışık tutulduğunda her iki pupil genişler (normal gözden hasta göze geçince daralma yerine genişleme).<br><strong>Swinging flashlight testi</strong> ile ortaya çıkarılır. RAPD + santral skotom + monoküler görme kaybı = <strong>Optik nörit</strong> (MS\'in sık bulgusu).'
+  },
+  {
+    section:'gorme',
+    sectionLabel:'GÖRME YOLU LEZYONLARI',
+    years:['İlkbahar 1991'],
+    q:'Göz kaslarında tam tutulum, ekzoftalmus ve kemozisi olan bir hastada lezyon nerededir?',
+    opts:['A) Sinüs sagittalis','B) Sinüs transversus','C) Sinüs kavernosus','D) Dura','E) Willis poligonu'],
+    ans:'C',
+    hint:'Göz kası felci + ekzoftalmus + kemozis = Kavernöz sinüs sendromu. 3,4,5(1),5(2),6. KS + sempatikler kavernöz sinüsten geçer.',
+    trap:'Sinüs sagittalis tıkanması bilateral bacak güçsüzlüğü ve çift yanlı belirti yapar; göz bulgularıyla karıştırılmamalıdır. Kavernöz sinüs anatomisini bilmek şarttır: 3,4,6. KS göz hareketleri; 5/1 ve 5/2 duysal.',
+    explain:'<strong>Kavernöz sinüs sendromu:</strong> 3., 4., 5(1)., 5(2). ve 6. kranial sinirler ile a.carotis interna ve çevresindeki sempatik lifler kavernöz sinüsten geçer.<br>Sendromda: <ul><li>Ekzoftalmus</li><li>Oftalmopleji (3, 4, 6. KS)</li><li>Kemozis</li><li>Başağrısı, ateş (enfeksiyöz ise)</li><li>V1-V2 dermatomunda his kaybı</li></ul><strong>Neden:</strong> Orbital selülit, retroorbital tümör, kavernöz sinüs trombozu, tümör invazyonu.'
+  },
+  {
+    section:'gorme',
+    sectionLabel:'GÖRME YOLU LEZYONLARI',
+    years:['Sonbahar 1994'],
+    q:'<strong>Bilateral ekzoftalmus, kemozisi, oftalmoplejisi, ateşi ve başağrısı</strong> olan bir hastada ne düşünürsünüz?',
+    opts:['A) Retinoblastom','B) Temporal lob absesi','C) Orbital selülit','D) Kavernöz sinüs trombozu','E) İskemik inme'],
+    ans:'D',
+    hint:'BİLATERAL göz bulguları = Kavernöz sinüs trombozu. Orbital selülit tek taraflıdır. Kavernöz sinüsler birbirine bağlıdır → çift taraflı yayılım olur.',
+    trap:'Orbital selülit tek taraflı olur. Bilateral ekzoftalmus + oftalmopleji kombinasyonu kavernöz sinüs trombozu lehine en güçlü kanıttır. Retinoblastom çocuklarda tek taraflı görülür.',
+    explain:'<strong>Kavernöz sinüs trombozu:</strong> Orbitanın ve yüzün venöz kanını boşaltan damarlar boyunca doğrudan yayılan enfeksiyon nedeniyle meydana gelir. Tromboz çoğu zaman orbitadaki selülite veya yüzün orta bölümlerindeki piyojen bir deri enfeksiyonuna sekonder olarak gelişir.<br><strong>Bilateral</strong> olması kavernöz sinüslerin birbirine bağlı olmasından kaynaklanır. Prognoz kötüdür. Antibiyotiklerle sistemik tedavi, intravenöz sıvılar ve yatak istirahati verilir.'
+  },
+  {
+    section:'gorme',
+    sectionLabel:'GÖRME YOLU LEZYONLARI',
+    years:['Sonbahar 1996','Sonbahar 1998'],
+    q:'Sağ periferik fasiyal paralizi, sağ 6. kranial sinir paralizi ve <strong>sol tarafta hemiparezi</strong> varsa lezyon nerededir?',
+    opts:['A) Sol pons','B) Sağ kapsüla interna','C) Sol kapsüla interna','D) Sağ pons','E) Sol talamus'],
+    ans:'D',
+    hint:'Aynı yanda periferik fasyal (7.KS) + 6.KS felci + KARŞI taraf hemiparezi = PONS lezyonu. "Millard-Gubler sendromu" formülü.',
+    trap:'Kapsula interna lezyonu santral 7. KS felci yapar (alnı korunan), periferik tipte 7. KS felci yapmaz. Periferik 7. KS + 6. KS birlikteliği ponsa işaret eder (Millard-Gubler). Sağ pons lezyonu sağ 6-7. KS + sol hemiparezi yapar.',
+    explain:'<strong>Millard-Gubler Sendromu (Pons lezyonu):</strong><br>Pons düzeyindeki lezyonlarda piramidal lifler henüz çapraz yapmadığından karşı vücut yarısında parezi ortaya çıkar. 6. ve 7. kranial sinir çekirdekleri pons düzeyindedir.<ul><li>İpsilateral periferik tip 7. KS felci (alın dahil)</li><li>İpsilateral 6. KS felci (içe bakış paralizisi)</li><li>Kontralateral hemiparezi</li></ul><strong>Foville sendromu:</strong> Pons lezyonu + konjuge göz hareket paralizisi.'
+  },
+  {
+    section:'gorme',
+    sectionLabel:'GÖRME YOLU LEZYONLARI',
+    years:['İlkbahar 1998'],
+    q:'Aşağıdakilerden hangisi Alzheimer özelliği <u>değildir</u>? (Görme alanı sorusu): <strong>Göz kapağında düşme, sağ gözde içe bakış kısıtlılığı</strong> olan bir hastada lezyon nerededir?',
+    opts:['A) Siliyer ganglion','B) Gasser ganglion','C) Dorsal kök','D) Genikulat','E) Superior servikal'],
+    ans:'A',
+    hint:'Işık refleksi yolu: N.opticus → Chiasma → PRETEKTUM → Edinger-Westphal → Ganglion ciliare → sfinkter pupilla. Gasser = trigeminal = ışık refleksinde YOK.',
+    trap:'Gasser ganglonu trigeminal sinire aittir, ışık refleksini etkilemez. İçe bakış kısıtlılığı + pitozis = 3. KS tutulumu → Genikulat değil, presinaptik yol. Soru, ışık refleksi efferent yolunu soruyor: N. oculomotorius içindeki parasempatik lifler Ganglion ciliare\'de sinaps yapar.',
+    explain:'<strong>Işık refleksi yolu:</strong><br>Işık → N.opticus → Chiasma → Tractus opticus → Corpus gen. laterale <em>değil</em> → Nuc. pretectalis olivaris → Edinger-Westphal nükleus → N. oculomotorius → <strong>Ganglion ciliare</strong> → M. sphincter pupillae.<br><br>Pitozis + içe bakış kısıtlılığı = 3. KS (N. oculomotorius) tutulumunu işaret eder. Bu sinir içindeki parasempatik lifler Ganglion ciliare\'de sinaps yapar. Gasser ganglonu = trigeminal, ışıkla ilgisi yoktur.'
+  },
+  {
+    section:'gorme',
+    sectionLabel:'GÖRME YOLU LEZYONLARI',
+    years:['İlkbahar 2001'],
+    q:'Bir hastada <strong>pseudobulber felç</strong> varsa lezyon nerededir?',
+    opts:['A) Medullar nükleuslar','B) Pons','C) Kranial sinirler','D) Bulber nükleuslar','E) Traktus kortikobulbaris lifleri'],
+    ans:'E',
+    hint:'Psödobulber = "yalancı bulber" = ÜST motor nöron hasarı. Kortikobulber liflerin bilateral hasarı. Gerçek bulber = alt motor nöron (kranial sinir çekirdekleri).',
+    trap:'Bulber felçte atrofi, fasikülasyon, refleks kaybı olur. Psödobulber felçte bunlar yoktur; aksine refleksler artmıştır, duygusal labilite (zorla ağlama/gülme) psödobulberin işaretidir.',
+    explain:'<strong>Psödobulber Paralizi:</strong> Kortikobulbar yolların bilateral hasarına bağlı gelişir. Üst motor nöron tipidir.<ul><li>Dizartri, disfaji, duyguların motor ifadesinde abartılı durum</li><li>Ağlama ve gülme nöbetleri (duygusal labilite)</li><li>Refleksler artmış</li><li>Atrofi, fasikülasyon YOK</li></ul><strong>Bulber paralizi:</strong> Alt motor nöron (kranial sinir çekirdekleri direkt hasarı) → atrofi, fasikülasyon, refleks kaybı.'
+  },
+  {
+    section:'gorme',
+    sectionLabel:'GÖRME YOLU LEZYONLARI',
+    years:['İlkbahar 2001'],
+    q:'Bir şahısta sol gözde <strong>3. kranial sinir felci ve sağ tarafta paralizi</strong> gelişmiştir. Lezyon muhtemelen nerededir?',
+    opts:['A) Sol Kapsula interna','B) Sol mesencephalon','C) Sağ Kapsula interna','D) Sağ mesencephalon','E) Corona radiata'],
+    ans:'B',
+    hint:'İpsilateral 3.KS felci + kontralateral hemipleji = Weber Sendromu = Mezensefalon (sol = sol 3.KS felci + sağ hemipleji).',
+    trap:'Kapsula interna lezyonu 3. KS felci yapmaz. Mezensefal lezyon hem 3.KS çekirdeğini hem çapraz yapmamış piramidal yolu etkiler. Sol mezensefalon = sol 3. KS felci + sağ hemiparezi.',
+    explain:'<strong>Weber Sendromu (Mezensefalon):</strong><br>Mezensefalik pedunkülde lezyon:<ul><li>İpsilateral 3. KS felci: ptozis, midriazis, "aşağı-dışa bakış" pozisyonu</li><li>Kontralateral hemipleji: kortikospinal yol hasarı</li></ul>Sol mezensefalon → Sol 3. KS felci + Sağ hemiparezi. Kapsula interna lezyonu santral 7. KS felci + hemipleji + hemianopsi yapar ama 3. KS tutmaz.'
+  },
+  {
+    section:'gorme',
+    sectionLabel:'GÖRME YOLU LEZYONLARI',
+    years:['Sonbahar 1996'],
+    q:'Yirmi üç yaşında pons tümörü hastası. Nörolojik muayenesinde <strong>horizontal göz hareketlerinde kısıtlılık, afoni, vertikal göz hareketleri sağlam</strong> ve sözel uyarılara göz kırpma şeklinde yanıt veriyor.<br><br>Bu hastada aşağıdaki sendromlardan hangisi <u>öncelikle</u> düşünülmelidir?',
+    opts:['A) "Locked-in" sendromu','B) Dorsal mezensefalik sendrom','C) Guillain-Barre sendromu','D) Dorsal pontin sendromu','E) Millard-Gubler sendromu'],
+    ans:'A',
+    hint:'Locked-in = Bilinç AÇIK + Konuşamaz + Hareket EDEMEZ sadece vertikal göz hareketi kaldı. Bilateral bazis pontis lezyonu.',
+    trap:'Dorsal mezensefalik sendrom (Parinaud) vertikal yukarı bakış paralizisi yapar. Locked-in\'de horizontal hareket YOK ama vertikal KORUNMUŞ. Guillain-Barre ise flasid paralizi yapar ve hasta bilinci açıkken hareket edemez ama pontis değil periferik sinir hastalığıdır.',
+    explain:'<strong>Locked-in Sendromu (İçe kilitlenme sendromu):</strong><br>Bilateral bazis pontis lezyonunda görülür. Kortikospinal ve kortikobulber yolların bilateral tutulumu vardır.<ul><li>Quadriparalizi (4 ekstremite)</li><li>Konuşamaz, yutamaz, afoni</li><li>Horizontal göz hareketi YOK (6. KS çekirdekleri etkilenmiş)</li><li><strong>Vertikal göz hareketi KORUNMUŞ</strong> (mezensefalon sağlam)</li><li>Bilinç AÇIK</li></ul>Hasta sadece dikey göz hareketleri ve göz kırpmayla iletişim kurabilir.'
+  },
+  {
+    section:'gorme',
+    sectionLabel:'GÖRME YOLU LEZYONLARI',
+    years:['Sonbahar 1998'],
+    q:'25. kranial sinir paralizisinde aşağıdakilerden hangisi görülür?',
+    opts:['A) Tam hareketsizlik vardır.','B) Göz aşağı dışa bakamaz.','C) Göz yukarı dışa bakamaz.','D) Göz dışa bakamaz içe şaşılık görülür.','E) Göz içe bakamaz dışa şaşılık görülür.'],
+    ans:'D',
+    hint:'6. KS = Abducens = Lateral rektus. Hasarında GÖZ DIŞA BAKMAZ = İçe şaşılık (ezodeviyasyon). "Altı = lateral = dışa".',
+    trap:'4. KS (trochlear) hasarında göz aşağı-içe bakamaz, merdivenlerden inerken çift görme olur. 3. KS hasarında göz aşağı-dışa bakar (superior oblik ve lateral rektus çeker) + ptozis + midriazis. 6. KS hasarında sadece lateral rektus felci = içe şaşılık.',
+    explain:'<strong>Ekstraoküler kaslar ve kranial sinirler:</strong><ul><li><strong>3. KS (Okulomotor):</strong> Tüm göz kasları (lateral rektus ve sup.oblik hariç) + levator palpebra + parasempatik (sfinkter pupilla). Hasar → göz aşağı-dışa bakar, ptozis, midriazis</li><li><strong>4. KS (Trochlear):</strong> Superior oblik kası inerve eder. Hasar → intorsiyon yapamaz, aşağı-içe bakış bozuk, merdivende çift görme</li><li><strong>6. KS (Abducens):</strong> Lateral rektus kasını inerve eder. Hasar → dışa bakış paralizisi, içe şaşılık (ezodeviyasyon)</li></ul>'
+  },
+  {
+    section:'gorme',
+    sectionLabel:'GÖRME YOLU LEZYONLARI',
+    years:['Sonbahar 2020'],
+    q:'Altmış beş yaşında erkek hasta, yeni başlayan <strong>çift görme ve sol gözde dışa bakış kısıtlılığı</strong> şikayetleriyle başvuruyor. Travma öyküsü olmayan hastada düzensiz hipertansiyon ve diabetes mellitus öyküsü olduğu öğreniliyor.<br><br>Bu hastada hangi kranial sinir tutulumu <u>en olasıdır</u>?',
+    opts:['A) Nervus trochlearis','B) Nervus oculomotorius','C) Nervus orbicularis oculi','D) Nervus levator palpebrae superioris','E) Nervus abducens'],
+    ans:'E',
+    hint:'Dışa bakış kısıtlılığı = 6.KS. Diyabetik mikroanjiopati en sık 6.KS\'i etkiler. Pupil KORUNMUŞSA diyabetik 3.KS; dışa bakış bozuksa 6.KS.',
+    trap:'Sol gözde dışa bakış kısıtlılığı 6. KS hasarını işaret eder (abducens = lateral rektus). Levator palpebrae superioris ve orbicularis oculi ayrı kaslar olup 3. ve 7. KS\'ler tarafından inerve edilir, onlar kranial sinir değil kastır.',
+    explain:'<strong>6. Kranial Sinir (Nervus Abducens) Paralizisi:</strong><br>Lateral rektus kasını inerve eder. Hasarında dışa bakış paralizisi, içe şaşılık görülür.<br><strong>Diyabetik mononöropati:</strong> En sık 6. KS\'i etkiler, ardından 3. KS gelir. Diyabetik 3. KS paralizisinde pupil genellikle korunur (parasempatik lifler dış kısımda olduğundan diyabetik iskemi önce iç kısmı etkiler). İntraanürizmal 3. KS basısında ise pupil ilk etkilenir (dilate, ışığa yanıtsız).'
+  }
 ];
 
-/* ═══ STATE ═══ */
-var idx = 0;
-var filteredQ = ALL_QUESTIONS.slice();
-var answered = new Set();
-var correct  = new Set();
-var wrong    = new Set();
-var starred  = new Set();
+let idx=0, filteredQ=[...ALL_QUESTIONS];
+const answered=new Set(), correct=new Set(), wrong=new Set(), starred=new Set();
 
-/* ═══ RENDER ═══ */
-function renderQuestion() {
-  var q  = filteredQ[idx];
-  var gi = ALL_QUESTIONS.indexOf(q);
-  document.getElementById('sec-badge').textContent = q.sectionLabel;
-  document.getElementById('q-num').textContent = 'Soru ' + (idx+1) + '/' + filteredQ.length;
-  document.getElementById('star-btn').textContent = starred.has(gi) ? '\u2605' : '\u2606';
-  var yt = document.getElementById('year-tags');
-  yt.innerHTML = q.years.map(function(y){ return '<span class="year-tag">'+y+'</span>'; }).join('');
-  document.getElementById('q-text').innerHTML = q.q;
-  document.getElementById('hint-box').innerHTML = q.hint;
-  document.getElementById('hint-box').classList.remove('open');
-  document.getElementById('trap-text').innerHTML    = q.trap;
-  document.getElementById('explain-text').innerHTML = q.explain;
-  var opts = document.getElementById('options');
-  opts.innerHTML = '';
-  q.opts.forEach(function(o){
-    var letter = o[0], text = o.slice(3);
-    var btn = document.createElement('button');
-    btn.className = 'opt-btn';
-    btn.dataset.letter = letter;
-    btn.innerHTML = '<span class="opt-letter">'+letter+'</span>'+text;
-    btn.onclick = function(){ selectAnswer(letter, gi, q); };
-    opts.appendChild(btn);
-  });
-  document.getElementById('feedback').classList.remove('open');
-  if (answered.has(gi)) restoreAnswerUI(gi, q);
-  updateNavBtns(); updateProgress(); updateToggleBtn();
+function renderQuestion(){
+  const q=filteredQ[idx];
+  const gi=ALL_QUESTIONS.indexOf(q);
+  document.getElementById('sec-badge').textContent=q.sectionLabel;
+  document.getElementById('q-num').textContent=`Soru ${idx+1}/${filteredQ.length}`;
+  document.getElementById('star-btn').textContent=starred.has(gi)?'★':'☆';
+  const yt=document.getElementById('year-tags');
+  yt.innerHTML=q.years.map(y=>`<span class="year-tag">${y}</span>`).join('');
+  document.getElementById('q-text').innerHTML=q.q;
+  document.getElementById('hint-box').textContent=q.hint;
+  const isAns=answered.has(gi);
+  const hb=document.getElementById('hint-box');
+  hb.className=isAns?'open':'';
+  document.getElementById('trap-text').innerHTML=q.trap;
+  document.getElementById('explain-text').innerHTML=q.explain;
+  const opts=document.getElementById('options');
+  opts.innerHTML=q.opts.map(o=>{
+    const letter=o[0];
+    const txt=o.slice(3);
+    return `<button class="opt-btn" onclick="selectAnswer('${letter}',${gi},${idx})" data-letter="${letter}">
+      <span class="opt-letter">${letter}</span><span>${txt}</span>
+    </button>`;
+  }).join('');
+  document.getElementById('feedback').className='feedback';
+  if(isAns) restoreAnswerUI(gi,q);
+  updateNavBtns();
+  updateProgress();
+  updateToggleBtn();
 }
 
-function selectAnswer(letter, gi, q) {
-  if (answered.has(gi)) return;
+function selectAnswer(letter,gi,qIdx){
+  if(answered.has(gi)) return;
   answered.add(gi);
-  if (letter === q.ans) correct.add(gi); else wrong.add(gi);
-  document.querySelectorAll('.opt-btn').forEach(function(btn){
-    btn.disabled = true;
-    if (btn.dataset.letter === q.ans) btn.classList.add('correct');
-    else if (btn.dataset.letter === letter && letter !== q.ans) btn.classList.add('wrong');
+  const q=filteredQ[qIdx];
+  const isCorrect=letter===q.ans;
+  if(isCorrect) correct.add(gi); else wrong.add(gi);
+  const btns=document.querySelectorAll('.opt-btn');
+  btns.forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.letter===q.ans) b.classList.add('correct');
+    else if(b.dataset.letter===letter && !isCorrect) b.classList.add('wrong');
   });
-  document.getElementById('feedback').classList.add('open');
-  document.getElementById('feedback').scrollIntoView({behavior:'smooth', block:'start'});
-  updateNavBtns(); updateProgress(); updateToggleBtn();
+  document.getElementById('feedback').className='feedback open';
+  document.getElementById('hint-box').className='open';
+  setTimeout(()=>document.getElementById('feedback').scrollIntoView({behavior:'smooth',block:'start'}),150);
+  updateNavBtns();
+  updateProgress();
 }
 
-function restoreAnswerUI(gi, q) {
-  document.querySelectorAll('.opt-btn').forEach(function(btn){
-    btn.disabled = true;
-    if (btn.dataset.letter === q.ans) btn.classList.add('correct');
+function restoreAnswerUI(gi,q){
+  const btns=document.querySelectorAll('.opt-btn');
+  const userAns=correct.has(gi)?q.ans:(()=>{
+    let found=null;
+    btns.forEach(b=>{if(b.dataset.letter!==q.ans)found=b.dataset.letter;});
+    return found;
+  })();
+  btns.forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.letter===q.ans) b.classList.add('correct');
+    else if(wrong.has(gi)&&b.dataset.letter!==q.ans) b.classList.add('wrong');
   });
-  document.getElementById('feedback').classList.add('open');
+  document.getElementById('feedback').className='feedback open';
 }
 
-function toggleHint() { document.getElementById('hint-box').classList.toggle('open'); }
-
-function toggleStar() {
-  var q = filteredQ[idx], gi = ALL_QUESTIONS.indexOf(q);
-  if (starred.has(gi)) starred.delete(gi); else starred.add(gi);
-  document.getElementById('star-btn').textContent = starred.has(gi) ? '\u2605' : '\u2606';
-  updateToggleBtn(); buildGrid();
+function toggleHint(){
+  const hb=document.getElementById('hint-box');
+  hb.className=hb.className.includes('open')?'':'open';
 }
 
-function toggleQuestionList() {
-  var ov = document.getElementById('modal-overlay');
-  if (ov.classList.contains('open')){ ov.classList.remove('open'); return; }
-  buildGrid(); ov.classList.add('open');
+function toggleStar(){
+  const q=filteredQ[idx];
+  const gi=ALL_QUESTIONS.indexOf(q);
+  if(starred.has(gi)) starred.delete(gi); else starred.add(gi);
+  document.getElementById('star-btn').textContent=starred.has(gi)?'★':'☆';
+  buildGrid();
 }
 
-function closeModalOnOverlay(e) {
-  if (e.target === document.getElementById('modal-overlay'))
-    document.getElementById('modal-overlay').classList.remove('open');
+function toggleQuestionList(){
+  buildGrid();
+  document.getElementById('q-modal-overlay').className='q-modal-overlay open';
 }
 
-function buildGrid() {
-  var grid = document.getElementById('q-grid');
-  grid.innerHTML = '';
-  filteredQ.forEach(function(q, i){
-    var gi = ALL_QUESTIONS.indexOf(q);
-    var btn = document.createElement('button');
-    btn.className = 'q-grid-btn';
-    btn.textContent = i+1;
-    if (i === idx) btn.classList.add('current');
-    else if (correct.has(gi)) btn.classList.add('done-correct');
-    else if (wrong.has(gi))   btn.classList.add('done-wrong');
-    if (starred.has(gi)) btn.classList.add('starred-q');
-    btn.onclick = function(){
-      idx = i;
-      document.getElementById('modal-overlay').classList.remove('open');
-      renderQuestion();
-      window.scrollTo({top:0, behavior:'smooth'});
-    };
-    grid.appendChild(btn);
-  });
+function closeModalOnOverlay(e){
+  if(e.target===document.getElementById('q-modal-overlay'))
+    document.getElementById('q-modal-overlay').className='q-modal-overlay';
 }
 
-function navigate(dir) {
-  idx = Math.max(0, Math.min(filteredQ.length-1, idx+dir));
+function buildGrid(){
+  const grid=document.getElementById('q-grid');
+  grid.innerHTML=filteredQ.map((q,i)=>{
+    const gi=ALL_QUESTIONS.indexOf(q);
+    let cls='q-grid-btn';
+    if(i===idx) cls+=' current';
+    else if(correct.has(gi)) cls+=' done-correct';
+    else if(wrong.has(gi)) cls+=' done-wrong';
+    if(starred.has(gi)) cls+=' starred-q';
+    return `<button class="${cls}" onclick="goTo(${i})">${i+1}</button>`;
+  }).join('');
+}
+
+function goTo(i){
+  idx=i;
+  document.getElementById('q-modal-overlay').className='q-modal-overlay';
   renderQuestion();
-  window.scrollTo({top:0, behavior:'smooth'});
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function updateNavBtns() {
-  document.getElementById('prev-btn').disabled = idx === 0;
-  var q = filteredQ[idx], gi = ALL_QUESTIONS.indexOf(q);
-  var nb = document.getElementById('next-btn');
-  if (idx === filteredQ.length-1 && answered.has(gi)) {
-    nb.textContent = 'Sonu\u00e7lar\u0131 G\u00f6r \u2192';
-    nb.onclick = showResult;
+function navigate(dir){
+  const newIdx=idx+dir;
+  if(newIdx<0||newIdx>=filteredQ.length) return;
+  idx=newIdx;
+  renderQuestion();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateNavBtns(){
+  document.getElementById('prev-btn').disabled=idx===0;
+  const nb=document.getElementById('next-btn');
+  const q=filteredQ[idx];
+  const gi=ALL_QUESTIONS.indexOf(q);
+  if(idx===filteredQ.length-1 && answered.has(gi)){
+    nb.textContent='Sonuçları Gör →';
+    nb.onclick=showResult;
   } else {
-    nb.textContent = 'Sonraki \u2192';
-    nb.onclick = function(){ navigate(1); };
-    nb.disabled = false;
+    nb.textContent='Sonraki →';
+    nb.onclick=()=>navigate(1);
+    nb.disabled=false;
   }
 }
 
-function updateProgress() {
-  document.getElementById('prog-bar').style.width = (answered.size / ALL_QUESTIONS.length * 100) + '%';
+function updateProgress(){
+  const pct=answered.size/ALL_QUESTIONS.length*100;
+  document.getElementById('prog-bar').style.width=pct+'%';
 }
 
-function updateToggleBtn() {
-  document.getElementById('q-counter').textContent = (idx+1) + ' / ' + filteredQ.length + ' \u2630';
+function updateToggleBtn(){
+  document.getElementById('q-counter').textContent=`${idx+1} / ${filteredQ.length} ☰`;
 }
 
-function showResult() {
-  document.getElementById('card').style.display = 'none';
-  document.getElementById('nav').style.display  = 'none';
-  document.getElementById('result-screen').style.display = 'block';
-  var c=0, w=0, s=0;
-  filteredQ.forEach(function(q){
-    var gi = ALL_QUESTIONS.indexOf(q);
-    if (correct.has(gi)) c++;
-    if (wrong.has(gi))   w++;
-    if (starred.has(gi)) s++;
-  });
-  var pct = filteredQ.length > 0 ? Math.round(c/filteredQ.length*100) : 0;
-  document.getElementById('res-pct').textContent     = pct+'%';
-  document.getElementById('res-correct').textContent = c;
-  document.getElementById('res-wrong').textContent   = w;
-  document.getElementById('res-star').textContent    = s;
-  document.getElementById('retry-wrong-btn').style.display = w>0?'':'none';
-  document.getElementById('retry-star-btn').style.display  = s>0?'':'none';
+function showResult(){
+  document.getElementById('quiz-card').style.display='none';
+  document.getElementById('nav').style.display='none';
+  document.getElementById('result-screen').style.display='block';
+  const total=filteredQ.length;
+  const c=filteredQ.filter(q=>correct.has(ALL_QUESTIONS.indexOf(q))).length;
+  const w=filteredQ.filter(q=>wrong.has(ALL_QUESTIONS.indexOf(q))).length;
+  const s=filteredQ.filter(q=>starred.has(ALL_QUESTIONS.indexOf(q))).length;
+  document.getElementById('res-score').textContent=Math.round(c/total*100)+'%';
+  document.getElementById('res-correct').textContent=c;
+  document.getElementById('res-wrong').textContent=w;
+  document.getElementById('res-star').textContent=s;
+  document.getElementById('retry-wrong-btn').style.display=w===0?'none':'block';
+  document.getElementById('retry-star-btn').style.display=s===0?'none':'block';
 }
 
-function restartQuiz() {
-  answered.clear(); correct.clear(); wrong.clear();
-  filteredQ = ALL_QUESTIONS.slice(); idx = 0;
-  document.getElementById('card').style.display = '';
-  document.getElementById('nav').style.display  = '';
-  document.getElementById('result-screen').style.display = 'none';
-  renderQuestion(); window.scrollTo({top:0});
+function restartQuiz(){
+  answered.clear();correct.clear();wrong.clear();starred.clear();
+  filteredQ=[...ALL_QUESTIONS];
+  idx=0;
+  document.getElementById('quiz-card').style.display='block';
+  document.getElementById('nav').style.display='flex';
+  document.getElementById('result-screen').style.display='none';
+  renderQuestion();
 }
 
-function retryWrong() {
-  var wq = ALL_QUESTIONS.filter(function(q){ return wrong.has(ALL_QUESTIONS.indexOf(q)); });
-  if (!wq.length) return;
-  answered.clear(); correct.clear(); wrong.clear();
-  filteredQ = wq; idx = 0;
-  document.getElementById('card').style.display = '';
-  document.getElementById('nav').style.display  = '';
-  document.getElementById('result-screen').style.display = 'none';
-  renderQuestion(); window.scrollTo({top:0});
+function retryWrong(){
+  const wq=filteredQ.filter(q=>wrong.has(ALL_QUESTIONS.indexOf(q)));
+  answered.clear();correct.clear();wrong.clear();
+  filteredQ=wq;idx=0;
+  document.getElementById('quiz-card').style.display='block';
+  document.getElementById('nav').style.display='flex';
+  document.getElementById('result-screen').style.display='none';
+  renderQuestion();
 }
 
-function retryStar() {
-  var sq = ALL_QUESTIONS.filter(function(q){ return starred.has(ALL_QUESTIONS.indexOf(q)); });
-  if (!sq.length) return;
-  answered.clear(); correct.clear(); wrong.clear();
-  filteredQ = sq; idx = 0;
-  document.getElementById('card').style.display = '';
-  document.getElementById('nav').style.display  = '';
-  document.getElementById('result-screen').style.display = 'none';
-  renderQuestion(); window.scrollTo({top:0});
+function retryStar(){
+  const sq=ALL_QUESTIONS.filter(q=>starred.has(ALL_QUESTIONS.indexOf(q)));
+  answered.clear();correct.clear();wrong.clear();
+  filteredQ=sq;idx=0;
+  document.getElementById('quiz-card').style.display='block';
+  document.getElementById('nav').style.display='flex';
+  document.getElementById('result-screen').style.display='none';
+  renderQuestion();
 }
 
 renderQuestion();

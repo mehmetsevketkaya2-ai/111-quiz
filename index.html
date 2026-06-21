@@ -3,495 +3,541 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Görme Yolu Lezyonları – TUS Soru Bankası</title>
+<title>BEYİN CERRAHİSİ TTS Quiz – Part 1</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;
-  --accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;
-  --green:#3ecf74;--red:#f0476d;--text:#dde3f5;--muted:#7b85a8;
-}
+:root{--bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;--accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;--green:#3ecf74;--red:#f0476d;--text:#dde3f5;--muted:#7b85a8}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding-bottom:80px}
-.progress-wrap{position:fixed;top:0;left:0;width:100%;height:3px;background:var(--border);z-index:100}
-.progress-bar{height:3px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s ease}
-.section-badge{font-family:'IBM Plex Mono',monospace;color:var(--accent2);font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:28px 20px 8px;text-align:center}
-#quiz-card{max-width:760px;margin:0 auto;padding:8px 16px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin:0 auto 16px}
-.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-#q-num{font-family:'IBM Plex Mono',monospace;color:var(--muted);font-size:.8rem}
-#star-btn{background:none;border:none;cursor:pointer;font-size:1.4rem;color:var(--gold);transition:transform .2s}
-#star-btn:hover{transform:scale(1.3)}
-.year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
-.year-tag{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--muted)}
-#q-text{font-size:1rem;line-height:1.7;margin-bottom:16px;color:var(--text)}
-#q-text strong{color:var(--accent)}
-#q-text u{text-decoration-color:var(--accent2)}
-.hint-toggle{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:.78rem;font-family:'IBM Plex Mono',monospace;padding:6px 12px;cursor:pointer;margin-bottom:10px;transition:border-color .2s,color .2s}
-.hint-toggle:hover{border-color:var(--accent);color:var(--accent)}
-#hint-box{display:none;background:var(--surface);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:14px;font-size:.85rem;color:var(--gold);line-height:1.6}
-#hint-box.open{display:block}
-.options{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
-.opt-btn{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;cursor:pointer;color:var(--text);font-size:.93rem;text-align:left;transition:border-color .2s,background .2s}
-.opt-btn:hover:not(:disabled){border-color:var(--accent);background:#252a40}
-.opt-letter{font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--accent);min-width:22px;font-size:.9rem}
-.opt-btn.correct{border-color:var(--green)!important;background:#1a3528!important}
+.progress-wrap{position:fixed;top:0;left:0;width:100%;z-index:100;height:3px;background:var(--border)}
+.progress-bar{height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%;transition:width .3s}
+.section-badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--accent2);border:1px solid var(--accent2);padding:3px 10px;border-radius:4px;margin:18px 0 8px 0;letter-spacing:.05em;text-transform:uppercase}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 20px;max-width:720px;margin:0 auto}
+.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+#q-num{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--muted)}
+#star-btn{background:none;border:none;cursor:pointer;font-size:1.3rem;color:var(--gold);transition:transform .2s}
+#star-btn:hover{transform:scale(1.2)}
+.year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.year-tag{font-family:'IBM Plex Mono',monospace;font-size:.65rem;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2px 9px;color:var(--muted)}
+#q-text{font-size:1rem;line-height:1.65;margin-bottom:14px;color:var(--text)}
+.hint-toggle{background:none;border:1px solid var(--accent);color:var(--accent);padding:5px 14px;border-radius:6px;cursor:pointer;font-size:.78rem;font-family:'IBM Plex Mono',monospace;margin-bottom:12px;transition:background .2s}
+.hint-toggle:hover{background:rgba(91,141,238,.12)}
+#hint-box{display:none;background:rgba(91,141,238,.08);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;font-size:.85rem;color:var(--accent);margin-bottom:12px;font-family:'IBM Plex Mono',monospace}
+.options{display:flex;flex-direction:column;gap:9px;margin-bottom:14px}
+.opt-btn{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 16px;cursor:pointer;font-size:.93rem;color:var(--text);transition:border-color .15s,background .15s;text-align:left}
+.opt-btn:hover:not(:disabled){border-color:var(--accent);background:rgba(91,141,238,.07)}
+.opt-letter{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.85rem;color:var(--muted);min-width:20px}
+.opt-btn.correct{border-color:var(--green);background:rgba(62,207,116,.1)}
 .opt-btn.correct .opt-letter{color:var(--green)}
-.opt-btn.wrong{border-color:var(--red)!important;background:#3a1520!important}
+.opt-btn.wrong{border-color:var(--red);background:rgba(240,71,109,.1)}
 .opt-btn.wrong .opt-letter{color:var(--red)}
-.opt-btn:disabled{cursor:default;opacity:.85}
-.feedback{display:none;flex-direction:column;gap:12px;margin-top:4px}
+.opt-btn:disabled{cursor:default}
+.feedback{display:none;flex-direction:column;gap:12px;margin-top:8px}
 .feedback.open{display:flex}
-.trap-box{background:#1e1520;border:1px solid #6b2340;border-radius:10px;padding:14px 16px}
-.trap-title{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--accent2);font-weight:600;margin-bottom:6px;letter-spacing:.05em}
-.trap-text{font-size:.88rem;line-height:1.65;color:#d4a0b0}
-.explain-box{background:#141e2e;border:1px solid #2a4a6b;border-radius:10px;padding:14px 16px}
-.explain-title{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--accent);font-weight:600;margin-bottom:6px;letter-spacing:.05em}
-.explain-text{font-size:.88rem;line-height:1.65;color:#a8c4e8}
+.trap-box{background:rgba(240,71,109,.07);border:1px solid rgba(240,71,109,.25);border-radius:10px;padding:14px}
+.trap-title{font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:600;color:var(--accent2);margin-bottom:6px;letter-spacing:.04em}
+.trap-text{font-size:.87rem;color:var(--text);line-height:1.55}
+.explain-box{background:rgba(91,141,238,.06);border:1px solid rgba(91,141,238,.2);border-radius:10px;padding:14px}
+.explain-title{font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:600;color:var(--accent);margin-bottom:6px;letter-spacing:.04em}
+.explain-text{font-size:.87rem;color:var(--text);line-height:1.6}
 .explain-text strong{color:var(--accent)}
-.explain-text ul{margin:6px 0 0 18px}
-.explain-text li{margin-bottom:4px}
-.nav{display:flex;justify-content:space-between;align-items:center;max-width:760px;margin:0 auto;padding:0 16px 8px}
-.nav-btn{background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:.88rem;padding:10px 20px;cursor:pointer;transition:border-color .2s}
+.nav{display:flex;justify-content:space-between;align-items:center;max-width:720px;margin:16px auto 0;gap:10px}
+.nav-btn{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px 20px;border-radius:9px;cursor:pointer;font-size:.9rem;transition:border-color .2s}
 .nav-btn:hover:not(:disabled){border-color:var(--accent)}
 .nav-btn:disabled{opacity:.35;cursor:default}
-#next-btn{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
-#next-btn:hover:not(:disabled){background:#4a7de0;border-color:#4a7de0}
-#q-counter{background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:.82rem;padding:10px 16px;cursor:pointer;transition:border-color .2s}
-#q-counter:hover{border-color:var(--gold);color:var(--gold)}
-#result-screen{display:none;max-width:760px;margin:0 auto;padding:20px}
-.result-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px 24px;text-align:center}
-.result-score{font-size:3.5rem;font-weight:700;font-family:'IBM Plex Mono',monospace;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
-.result-label{color:var(--muted);font-size:.9rem;margin-bottom:24px}
-.result-stats{display:flex;justify-content:center;gap:24px;margin-bottom:28px;flex-wrap:wrap}
+#q-counter{background:var(--card);border:1px solid var(--border);color:var(--muted);padding:10px 18px;border-radius:9px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:.82rem}
+#q-counter:hover{border-color:var(--accent)}
+#next-btn.finish{border-color:var(--green);color:var(--green)}
+#result-screen{display:none;max-width:720px;margin:60px auto 0;text-align:center;padding:20px}
+.result-score{font-size:3rem;font-weight:700;color:var(--green);font-family:'IBM Plex Mono',monospace}
+.result-label{color:var(--muted);font-size:.9rem;margin-bottom:20px;font-family:'IBM Plex Mono',monospace}
+.result-stats{display:flex;justify-content:center;gap:24px;margin:20px 0 30px}
 .stat-item{display:flex;flex-direction:column;align-items:center;gap:4px}
-.stat-num{font-family:'IBM Plex Mono',monospace;font-size:1.5rem;font-weight:600}
-.stat-lbl{font-size:.75rem;color:var(--muted)}
-.stat-green{color:var(--green)}.stat-red{color:var(--red)}.stat-gold{color:var(--gold)}
-.result-btns{display:flex;flex-direction:column;gap:10px;max-width:380px;margin:0 auto}
-.result-btn{padding:12px 20px;border-radius:10px;border:1px solid var(--border);cursor:pointer;font-size:.9rem;font-weight:600;transition:all .2s}
-.btn-restart{background:var(--accent);border-color:var(--accent);color:#fff}
-.btn-restart:hover{background:#4a7de0}
-.btn-wrong{background:var(--surface);border-color:var(--red);color:var(--red)}
-.btn-wrong:hover{background:#3a1520}
-.btn-star{background:var(--surface);border-color:var(--gold);color:var(--gold)}
-.btn-star:hover{background:#2a2010}
-.q-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:flex-end;justify-content:center}
+.stat-num{font-size:1.6rem;font-weight:700;font-family:'IBM Plex Mono',monospace}
+.stat-lbl{font-size:.72rem;color:var(--muted)}
+.stat-correct .stat-num{color:var(--green)}
+.stat-wrong .stat-num{color:var(--red)}
+.stat-star .stat-num{color:var(--gold)}
+.result-btns{display:flex;flex-direction:column;gap:10px;max-width:360px;margin:0 auto}
+.result-btn{padding:13px 20px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:.92rem;transition:border-color .2s}
+.result-btn:hover{border-color:var(--accent)}
+.result-btn.primary{border-color:var(--accent);color:var(--accent)}
+.q-modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,10,18,.75);z-index:200;align-items:flex-end;justify-content:center}
 .q-modal-overlay.open{display:flex}
-.q-modal{background:var(--surface);border-radius:16px 16px 0 0;border:1px solid var(--border);border-bottom:none;width:100%;max-width:760px;max-height:70vh;overflow-y:auto;padding:20px}
-.q-modal-title{font-family:'IBM Plex Mono',monospace;color:var(--muted);font-size:.75rem;margin-bottom:14px;text-align:center;letter-spacing:.06em}
-.q-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
-.q-grid-btn{aspect-ratio:1;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:.8rem;cursor:pointer;transition:all .2s}
-.q-grid-btn.current{background:var(--accent);border-color:var(--accent);color:#fff}
-.q-grid-btn.done-correct{background:#1a3528;border-color:var(--green);color:var(--green)}
-.q-grid-btn.done-wrong{background:#3a1520;border-color:var(--red);color:var(--red)}
+.q-modal{background:var(--surface);border:1px solid var(--border);border-radius:16px 16px 0 0;width:100%;max-width:720px;max-height:70vh;overflow-y:auto;padding:20px}
+.q-modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.q-modal-title{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--muted)}
+.q-modal-close{background:none;border:none;color:var(--muted);font-size:1.4rem;cursor:pointer}
+.q-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+.q-grid-btn{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:8px 4px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted);transition:all .15s;text-align:center}
+.q-grid-btn.current{border-color:var(--accent);color:var(--accent);background:rgba(91,141,238,.12)}
+.q-grid-btn.done-correct{border-color:var(--green);color:var(--green)}
+.q-grid-btn.done-wrong{border-color:var(--red);color:var(--red)}
 .q-grid-btn.starred-q{box-shadow:0 0 0 2px var(--gold)}
+#main-wrap{max-width:720px;margin:30px auto 0;padding:0 14px}
 </style>
 </head>
 <body>
 <div class="progress-wrap"><div class="progress-bar" id="prog-bar"></div></div>
-<div class="section-badge" id="sec-badge">GÖRME YOLU LEZYONLARI</div>
-<div id="quiz-card">
-  <div class="card" id="card">
-    <div class="q-header">
-      <span id="q-num">Soru 1/14</span>
-      <button id="star-btn" onclick="toggleStar()">&#9734;</button>
-    </div>
+<div id="main-wrap">
+  <div class="section-badge" id="sect-label">BEYİN CERRAHİSİ</div>
+  <div class="card" id="quiz-card">
+    <div class="q-header"><span id="q-num">Soru 1/30</span><button id="star-btn" onclick="toggleStar()">☆</button></div>
     <div class="year-tags" id="year-tags"></div>
     <div id="q-text"></div>
-    <button class="hint-toggle" onclick="toggleHint()">💡 İpucu / Mnemonik</button>
+    <button class="hint-toggle" onclick="toggleHint()">🔑 İpucu</button>
     <div id="hint-box"></div>
     <div class="options" id="options"></div>
     <div class="feedback" id="feedback">
-      <div class="trap-box">
-        <div class="trap-title">⚠️ TUZAK NOKTA</div>
-        <div class="trap-text" id="trap-text"></div>
-      </div>
-      <div class="explain-box">
-        <div class="explain-title">📖 AÇIKLAMA</div>
-        <div class="explain-text" id="explain-text"></div>
-      </div>
+      <div class="trap-box"><div class="trap-title">⚠️ TUZAK NOKTA</div><div class="trap-text" id="trap-text"></div></div>
+      <div class="explain-box"><div class="explain-title">📖 AÇIKLAMA</div><div class="explain-text" id="explain-text"></div></div>
     </div>
   </div>
-</div>
-
-<div id="result-screen">
-  <div class="result-card">
-    <div class="result-score" id="res-score">0%</div>
-    <div class="result-label">Quiz tamamlandı</div>
+  <div id="result-screen">
+    <div class="result-score" id="res-pct">0%</div>
+    <div class="result-label">Tamamlandı</div>
     <div class="result-stats">
-      <div class="stat-item"><span class="stat-num stat-green" id="res-correct">0</span><span class="stat-lbl">Doğru</span></div>
-      <div class="stat-item"><span class="stat-num stat-red" id="res-wrong">0</span><span class="stat-lbl">Yanlış</span></div>
-      <div class="stat-item"><span class="stat-num stat-gold" id="res-star">0</span><span class="stat-lbl">Yıldızlı</span></div>
+      <div class="stat-item stat-correct"><span class="stat-num" id="res-correct">0</span><span class="stat-lbl">Doğru</span></div>
+      <div class="stat-item stat-wrong"><span class="stat-num" id="res-wrong">0</span><span class="stat-lbl">Yanlış</span></div>
+      <div class="stat-item stat-star"><span class="stat-num" id="res-star">0</span><span class="stat-lbl">Yıldızlı</span></div>
     </div>
     <div class="result-btns">
-      <button class="result-btn btn-restart" onclick="restartQuiz()">🔄 Tüm Soruları Yeniden Çöz</button>
-      <button class="result-btn btn-wrong" id="retry-wrong-btn" onclick="retryWrong()">✗ Yanlışları Tekrar Çöz</button>
-      <button class="result-btn btn-star" id="retry-star-btn" onclick="retryStar()">★ Yıldızlıları Tekrar Çöz</button>
+      <button class="result-btn primary" onclick="restartQuiz()">🔄 Tüm Soruları Yeniden Çöz</button>
+      <button class="result-btn" id="retry-wrong-btn" onclick="retryWrong()">✗ Yanlışları Tekrar Çöz</button>
+      <button class="result-btn" id="retry-star-btn" onclick="retryStar()">★ Yıldızlıları Tekrar Çöz</button>
     </div>
   </div>
+  <div class="nav" id="nav-bar">
+    <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">← Önceki</button>
+    <button id="q-counter" onclick="toggleQuestionList()">1 / 30 ☰</button>
+    <button class="nav-btn" id="next-btn" onclick="navigate(1)">Sonraki →</button>
+  </div>
 </div>
-
-<div class="nav" id="nav">
-  <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">← Önceki</button>
-  <button id="q-counter" onclick="toggleQuestionList()">1 / 14 ☰</button>
-  <button class="nav-btn" id="next-btn" onclick="navigate(1)">Sonraki →</button>
-</div>
-
-<div class="q-modal-overlay" id="q-modal-overlay" onclick="closeModalOnOverlay(event)">
+<div class="q-modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
   <div class="q-modal">
-    <div class="q-modal-title">SORU LİSTESİ</div>
+    <div class="q-modal-header"><span class="q-modal-title">SORULAR</span><button class="q-modal-close" onclick="toggleQuestionList()">✕</button></div>
     <div class="q-grid" id="q-grid"></div>
   </div>
 </div>
-
 <script>
-const ALL_QUESTIONS = [
-  {
-    section:'gorme',
-    sectionLabel:'GÖRME YOLU LEZYONLARI',
-    years:['Sonbahar 1992'],
-    q:'İpsilateral oftalmopleji ve kontralateral hemipleji mevcut ise lezyon nerededir?',
-    opts:['A) Mezensefalon','B) Frontal lob','C) Oksipital lob','D) Korteks','E) Bulbus'],
-    ans:'A',
-    hint:'İpsilateral = aynı taraf KS felci + karşı taraf hemipleji = Mezensefalon (Weber sendromu formülü).',
-    trap:'Frontal lob lezyonları kişilik değişikliği ve kontralateral hemipleji yapar, oftalmopleji yapmaz. Oftalmopleji + kontralateral hemipleji birlikteliği mezensefal kökeni işaret eder.',
-    explain:'<strong>İpsilateral oftalmopleji + kontralateral hemipleji = Mezensefalon lezyonu (Weber Sendromu).</strong><br>Mezensefal düzeydeki lezyon; <ul><li>3. kranial sinir (okulomotor): ipsilateral göz kası paralizisi, ptozis, midriazis</li><li>Kortikospinal yol: kontralateral hemipleji</li></ul> 4-5. KS → pons; 6-7. KS → pons; 9-12. KS → bulbus lezyonunda etkilenir.'
-  },
-  {
-    section:'gorme',
-    sectionLabel:'GÖRME YOLU LEZYONLARI',
-    years:['İlkbahar 2022'],
-    q:'Altmış yaşındaki hasta akut gelişen görme bozukluğu ile başvuruyor. Beyin görüntülemesinde <strong>sağ pariyetal lobda infarkt</strong> saptanıyor.<br><br>Bu hastada aşağıdaki bulgulardan hangisinin görülmesi <u>en olasıdır</u>?',
-    opts:['A) Bitemporal hemianopsi','B) Sağ homonim inferior kadranopsi','C) Sağ homonim superior kadranopsi','D) Sol homonim inferior kadranopsi','E) Sol homonim superior kadranopsi'],
-    ans:'D',
-    hint:'Pariyetal lob → alt lifler etkilenir → karşı taraf üst kadran (superior) görme alanı KORUNUR → inferior kadranopsi. Temporal = üst yarı etkilenir = inferior anopsi.',
-    trap:'Pariyetal lob lezyonu radiatio optica\'nın ALT liflerini etkiler → karşı tarafta superior kadranopsi değil, INFERIOR kadranopsi oluşur. Temporal lob = inferior lifler = superior kadranopsi; pariyetal lob = superior lifler = inferior kadranopsi.',
-    explain:'<strong>Görme yolu – radiatio optica:</strong><ul><li><strong>Temporal lob</strong> (Meyer kavsi – alt lifler) → Karşı taraf üst kadran görme alanı → Lezyon → <strong>Karşı homonim superior kadranopsi</strong></li><li><strong>Pariyetal lob</strong> (üst lifler) → Karşı taraf alt kadran görme alanı → Lezyon → <strong>Karşı homonim inferior kadranopsi</strong></li></ul>Sağ pariyetal lob lezyonu → Sol homonim inferior kadranopsi.'
-  },
-  {
-    section:'gorme',
-    sectionLabel:'GÖRME YOLU LEZYONLARI',
-    years:['İlkbahar 2022'],
-    q:'Otuz beş yaşındaki kadın hastada amenore ve galaktore nedeniyle yapılan araştırmalarda hipofiz adenomu saptanıyor. Çapı yaklaşık 3 cm olan adenom aynı zamanda optik kiazmaya da bası yapıyor.<br><br>Bu hastadaki <u>en olası</u> görme alan kaybı aşağıdakilerden hangisidir?',
-    opts:['A) Bitemporal hemianopsi','B) Sağ homonim hemianopsi','C) Sol homonim hemianopsi','D) Bilateral alt iç kadran görme kaybı','E) Sağ üst iç kadran görme kaybı'],
-    ans:'A',
-    hint:'Kiazma = çapraz lifler hasar görür → TEMPORAL görme alanları kaybolur → BİTEMPORAL hemianopsi = "tünel görmesi".',
-    trap:'Kiazma lezyonunda homonim hemianopsi bekleme hatasıdır. Homonim = aynı taraf ise tractus opticus lezyonu demektir. Kiazma hasarı ise her iki nazal retinanın liflerini (temporal görme alanı) etkiler → bitemporal hemianopsi.',
-    explain:'<strong>Görme yolu lezyonları:</strong><ul><li><strong>N. opticus</strong> → Monoküler skotom (tek göz kör)</li><li><strong>Kiazma</strong> → Bitemporal hemianopsi (hipofiz tümörü, a.communicans ant. anevrizması)</li><li><strong>Tractus opticus</strong> → Karşı homonim hemianopsi</li><li><strong>Temporal lob (Meyer kavsi)</strong> → Karşı homonim superior kadranopsi</li><li><strong>Pariyetal lob</strong> → Karşı homonim inferior kadranopsi</li><li><strong>Oksipital lob</strong> → Karşı homonim hemianopsi (santral görme korunmuş)</li></ul>'
-  },
-  {
-    section:'gorme',
-    sectionLabel:'GÖRME YOLU LEZYONLARI',
-    years:['İlkbahar 1993'],
-    q:'<strong>Sağ hemipleji, sağ hemihipoestezi ve sağ homonim hemianopsi</strong> olan hastada lezyon hangi lokalizasyondadır?',
-    opts:['A) Sol occipital lob','B) Sol kapsula interna','C) Mezensefalon','D) Sağ kapsula interna','E) Sol frontal lob'],
-    ans:'B',
-    hint:'3H (Hemipleji + Hemianopsi + Hemihipoestezi) aynı tarafta = Karşı kapsula interna. Kapsula interna hepsini bir arada etkiler.',
-    trap:'Sol oksipital lob sadece görme alanı kaybı yapar; hemipleji ve duyusal kayıp yapmaz. Kapsula interna; motor (ön bacak), duyusal (arka bacak) ve görsel radyasyon liflerini birlikte taşır.',
-    explain:'<strong>Kapsula interna lezyonu:</strong> Motor, duysal ve görme lifi yollarını birlikte taşıdığından lezyon olduğunda:<ul><li><strong>Kontralateral hemipleji</strong> (kortikospinal yol)</li><li><strong>Kontralateral hemihipoestezi</strong> (talamokortkal yol)</li><li><strong>Kontralateral homonim hemianopsi</strong> (radiatio optica)</li></ul>Sol kapsula interna lezyonu → Sağ 3H tablosu oluşturur.'
-  },
-  {
-    section:'gorme',
-    sectionLabel:'GÖRME YOLU LEZYONLARI',
-    years:['Sonbahar 2009'],
-    q:'Yirmi sekiz yaşında bir kadın hasta sağ gözünde akut görme kaybı yakınmasıyla acil servise başvuruyor. Muayenede sağda <strong>relatif afferent pupil defekti</strong>, görme keskinliğinde ileri derecede azalma ve sağ santral skotom saptanıyor.<br><br>Bu hastada lezyon nerededir?',
-    opts:['A) Optik sinir','B) Optik kiazma','C) Optik traktus','D) Lateral Genikulat cisim','E) Oksipital korteks'],
-    ans:'A',
-    hint:'RAPD (Marcus Gunn pupil) = AFFERENT yol problemi = Optik sinir hasarı. Swinging flashlight testinde hasta göze ışık geçince her iki pupil GENİŞLER.',
-    trap:'RAPD, optik kiazmadan sonra görülmez çünkü post-kiazmal lezyonlarda her iki gözden afferent girdi eşit şekilde bozulur. RAPD + monoküler görme kaybı = optik sinir hastalığı (MS, optik nörit, ciddi retina hastalığı).',
-    explain:'<strong>Relatif Afferent Pupil Defekti (RAPD / Marcus Gunn Pupil):</strong><br>Optik sinir hastalıklarında ve çok ciddi retina hastalıklarında görülür. Hasta göze ışık tutulduğunda her iki pupil genişler (normal gözden hasta göze geçince daralma yerine genişleme).<br><strong>Swinging flashlight testi</strong> ile ortaya çıkarılır. RAPD + santral skotom + monoküler görme kaybı = <strong>Optik nörit</strong> (MS\'in sık bulgusu).'
-  },
-  {
-    section:'gorme',
-    sectionLabel:'GÖRME YOLU LEZYONLARI',
-    years:['İlkbahar 1991'],
-    q:'Göz kaslarında tam tutulum, ekzoftalmus ve kemozisi olan bir hastada lezyon nerededir?',
-    opts:['A) Sinüs sagittalis','B) Sinüs transversus','C) Sinüs kavernosus','D) Dura','E) Willis poligonu'],
-    ans:'C',
-    hint:'Göz kası felci + ekzoftalmus + kemozis = Kavernöz sinüs sendromu. 3,4,5(1),5(2),6. KS + sempatikler kavernöz sinüsten geçer.',
-    trap:'Sinüs sagittalis tıkanması bilateral bacak güçsüzlüğü ve çift yanlı belirti yapar; göz bulgularıyla karıştırılmamalıdır. Kavernöz sinüs anatomisini bilmek şarttır: 3,4,6. KS göz hareketleri; 5/1 ve 5/2 duysal.',
-    explain:'<strong>Kavernöz sinüs sendromu:</strong> 3., 4., 5(1)., 5(2). ve 6. kranial sinirler ile a.carotis interna ve çevresindeki sempatik lifler kavernöz sinüsten geçer.<br>Sendromda: <ul><li>Ekzoftalmus</li><li>Oftalmopleji (3, 4, 6. KS)</li><li>Kemozis</li><li>Başağrısı, ateş (enfeksiyöz ise)</li><li>V1-V2 dermatomunda his kaybı</li></ul><strong>Neden:</strong> Orbital selülit, retroorbital tümör, kavernöz sinüs trombozu, tümör invazyonu.'
-  },
-  {
-    section:'gorme',
-    sectionLabel:'GÖRME YOLU LEZYONLARI',
-    years:['Sonbahar 1994'],
-    q:'<strong>Bilateral ekzoftalmus, kemozisi, oftalmoplejisi, ateşi ve başağrısı</strong> olan bir hastada ne düşünürsünüz?',
-    opts:['A) Retinoblastom','B) Temporal lob absesi','C) Orbital selülit','D) Kavernöz sinüs trombozu','E) İskemik inme'],
-    ans:'D',
-    hint:'BİLATERAL göz bulguları = Kavernöz sinüs trombozu. Orbital selülit tek taraflıdır. Kavernöz sinüsler birbirine bağlıdır → çift taraflı yayılım olur.',
-    trap:'Orbital selülit tek taraflı olur. Bilateral ekzoftalmus + oftalmopleji kombinasyonu kavernöz sinüs trombozu lehine en güçlü kanıttır. Retinoblastom çocuklarda tek taraflı görülür.',
-    explain:'<strong>Kavernöz sinüs trombozu:</strong> Orbitanın ve yüzün venöz kanını boşaltan damarlar boyunca doğrudan yayılan enfeksiyon nedeniyle meydana gelir. Tromboz çoğu zaman orbitadaki selülite veya yüzün orta bölümlerindeki piyojen bir deri enfeksiyonuna sekonder olarak gelişir.<br><strong>Bilateral</strong> olması kavernöz sinüslerin birbirine bağlı olmasından kaynaklanır. Prognoz kötüdür. Antibiyotiklerle sistemik tedavi, intravenöz sıvılar ve yatak istirahati verilir.'
-  },
-  {
-    section:'gorme',
-    sectionLabel:'GÖRME YOLU LEZYONLARI',
-    years:['Sonbahar 1996','Sonbahar 1998'],
-    q:'Sağ periferik fasiyal paralizi, sağ 6. kranial sinir paralizi ve <strong>sol tarafta hemiparezi</strong> varsa lezyon nerededir?',
-    opts:['A) Sol pons','B) Sağ kapsüla interna','C) Sol kapsüla interna','D) Sağ pons','E) Sol talamus'],
-    ans:'D',
-    hint:'Aynı yanda periferik fasyal (7.KS) + 6.KS felci + KARŞI taraf hemiparezi = PONS lezyonu. "Millard-Gubler sendromu" formülü.',
-    trap:'Kapsula interna lezyonu santral 7. KS felci yapar (alnı korunan), periferik tipte 7. KS felci yapmaz. Periferik 7. KS + 6. KS birlikteliği ponsa işaret eder (Millard-Gubler). Sağ pons lezyonu sağ 6-7. KS + sol hemiparezi yapar.',
-    explain:'<strong>Millard-Gubler Sendromu (Pons lezyonu):</strong><br>Pons düzeyindeki lezyonlarda piramidal lifler henüz çapraz yapmadığından karşı vücut yarısında parezi ortaya çıkar. 6. ve 7. kranial sinir çekirdekleri pons düzeyindedir.<ul><li>İpsilateral periferik tip 7. KS felci (alın dahil)</li><li>İpsilateral 6. KS felci (içe bakış paralizisi)</li><li>Kontralateral hemiparezi</li></ul><strong>Foville sendromu:</strong> Pons lezyonu + konjuge göz hareket paralizisi.'
-  },
-  {
-    section:'gorme',
-    sectionLabel:'GÖRME YOLU LEZYONLARI',
-    years:['İlkbahar 1998'],
-    q:'Aşağıdakilerden hangisi Alzheimer özelliği <u>değildir</u>? (Görme alanı sorusu): <strong>Göz kapağında düşme, sağ gözde içe bakış kısıtlılığı</strong> olan bir hastada lezyon nerededir?',
-    opts:['A) Siliyer ganglion','B) Gasser ganglion','C) Dorsal kök','D) Genikulat','E) Superior servikal'],
-    ans:'A',
-    hint:'Işık refleksi yolu: N.opticus → Chiasma → PRETEKTUM → Edinger-Westphal → Ganglion ciliare → sfinkter pupilla. Gasser = trigeminal = ışık refleksinde YOK.',
-    trap:'Gasser ganglonu trigeminal sinire aittir, ışık refleksini etkilemez. İçe bakış kısıtlılığı + pitozis = 3. KS tutulumu → Genikulat değil, presinaptik yol. Soru, ışık refleksi efferent yolunu soruyor: N. oculomotorius içindeki parasempatik lifler Ganglion ciliare\'de sinaps yapar.',
-    explain:'<strong>Işık refleksi yolu:</strong><br>Işık → N.opticus → Chiasma → Tractus opticus → Corpus gen. laterale <em>değil</em> → Nuc. pretectalis olivaris → Edinger-Westphal nükleus → N. oculomotorius → <strong>Ganglion ciliare</strong> → M. sphincter pupillae.<br><br>Pitozis + içe bakış kısıtlılığı = 3. KS (N. oculomotorius) tutulumunu işaret eder. Bu sinir içindeki parasempatik lifler Ganglion ciliare\'de sinaps yapar. Gasser ganglonu = trigeminal, ışıkla ilgisi yoktur.'
-  },
-  {
-    section:'gorme',
-    sectionLabel:'GÖRME YOLU LEZYONLARI',
-    years:['İlkbahar 2001'],
-    q:'Bir hastada <strong>pseudobulber felç</strong> varsa lezyon nerededir?',
-    opts:['A) Medullar nükleuslar','B) Pons','C) Kranial sinirler','D) Bulber nükleuslar','E) Traktus kortikobulbaris lifleri'],
-    ans:'E',
-    hint:'Psödobulber = "yalancı bulber" = ÜST motor nöron hasarı. Kortikobulber liflerin bilateral hasarı. Gerçek bulber = alt motor nöron (kranial sinir çekirdekleri).',
-    trap:'Bulber felçte atrofi, fasikülasyon, refleks kaybı olur. Psödobulber felçte bunlar yoktur; aksine refleksler artmıştır, duygusal labilite (zorla ağlama/gülme) psödobulberin işaretidir.',
-    explain:'<strong>Psödobulber Paralizi:</strong> Kortikobulbar yolların bilateral hasarına bağlı gelişir. Üst motor nöron tipidir.<ul><li>Dizartri, disfaji, duyguların motor ifadesinde abartılı durum</li><li>Ağlama ve gülme nöbetleri (duygusal labilite)</li><li>Refleksler artmış</li><li>Atrofi, fasikülasyon YOK</li></ul><strong>Bulber paralizi:</strong> Alt motor nöron (kranial sinir çekirdekleri direkt hasarı) → atrofi, fasikülasyon, refleks kaybı.'
-  },
-  {
-    section:'gorme',
-    sectionLabel:'GÖRME YOLU LEZYONLARI',
-    years:['İlkbahar 2001'],
-    q:'Bir şahısta sol gözde <strong>3. kranial sinir felci ve sağ tarafta paralizi</strong> gelişmiştir. Lezyon muhtemelen nerededir?',
-    opts:['A) Sol Kapsula interna','B) Sol mesencephalon','C) Sağ Kapsula interna','D) Sağ mesencephalon','E) Corona radiata'],
-    ans:'B',
-    hint:'İpsilateral 3.KS felci + kontralateral hemipleji = Weber Sendromu = Mezensefalon (sol = sol 3.KS felci + sağ hemipleji).',
-    trap:'Kapsula interna lezyonu 3. KS felci yapmaz. Mezensefal lezyon hem 3.KS çekirdeğini hem çapraz yapmamış piramidal yolu etkiler. Sol mezensefalon = sol 3. KS felci + sağ hemiparezi.',
-    explain:'<strong>Weber Sendromu (Mezensefalon):</strong><br>Mezensefalik pedunkülde lezyon:<ul><li>İpsilateral 3. KS felci: ptozis, midriazis, "aşağı-dışa bakış" pozisyonu</li><li>Kontralateral hemipleji: kortikospinal yol hasarı</li></ul>Sol mezensefalon → Sol 3. KS felci + Sağ hemiparezi. Kapsula interna lezyonu santral 7. KS felci + hemipleji + hemianopsi yapar ama 3. KS tutmaz.'
-  },
-  {
-    section:'gorme',
-    sectionLabel:'GÖRME YOLU LEZYONLARI',
-    years:['Sonbahar 1996'],
-    q:'Yirmi üç yaşında pons tümörü hastası. Nörolojik muayenesinde <strong>horizontal göz hareketlerinde kısıtlılık, afoni, vertikal göz hareketleri sağlam</strong> ve sözel uyarılara göz kırpma şeklinde yanıt veriyor.<br><br>Bu hastada aşağıdaki sendromlardan hangisi <u>öncelikle</u> düşünülmelidir?',
-    opts:['A) "Locked-in" sendromu','B) Dorsal mezensefalik sendrom','C) Guillain-Barre sendromu','D) Dorsal pontin sendromu','E) Millard-Gubler sendromu'],
-    ans:'A',
-    hint:'Locked-in = Bilinç AÇIK + Konuşamaz + Hareket EDEMEZ sadece vertikal göz hareketi kaldı. Bilateral bazis pontis lezyonu.',
-    trap:'Dorsal mezensefalik sendrom (Parinaud) vertikal yukarı bakış paralizisi yapar. Locked-in\'de horizontal hareket YOK ama vertikal KORUNMUŞ. Guillain-Barre ise flasid paralizi yapar ve hasta bilinci açıkken hareket edemez ama pontis değil periferik sinir hastalığıdır.',
-    explain:'<strong>Locked-in Sendromu (İçe kilitlenme sendromu):</strong><br>Bilateral bazis pontis lezyonunda görülür. Kortikospinal ve kortikobulber yolların bilateral tutulumu vardır.<ul><li>Quadriparalizi (4 ekstremite)</li><li>Konuşamaz, yutamaz, afoni</li><li>Horizontal göz hareketi YOK (6. KS çekirdekleri etkilenmiş)</li><li><strong>Vertikal göz hareketi KORUNMUŞ</strong> (mezensefalon sağlam)</li><li>Bilinç AÇIK</li></ul>Hasta sadece dikey göz hareketleri ve göz kırpmayla iletişim kurabilir.'
-  },
-  {
-    section:'gorme',
-    sectionLabel:'GÖRME YOLU LEZYONLARI',
-    years:['Sonbahar 1998'],
-    q:'25. kranial sinir paralizisinde aşağıdakilerden hangisi görülür?',
-    opts:['A) Tam hareketsizlik vardır.','B) Göz aşağı dışa bakamaz.','C) Göz yukarı dışa bakamaz.','D) Göz dışa bakamaz içe şaşılık görülür.','E) Göz içe bakamaz dışa şaşılık görülür.'],
-    ans:'D',
-    hint:'6. KS = Abducens = Lateral rektus. Hasarında GÖZ DIŞA BAKMAZ = İçe şaşılık (ezodeviyasyon). "Altı = lateral = dışa".',
-    trap:'4. KS (trochlear) hasarında göz aşağı-içe bakamaz, merdivenlerden inerken çift görme olur. 3. KS hasarında göz aşağı-dışa bakar (superior oblik ve lateral rektus çeker) + ptozis + midriazis. 6. KS hasarında sadece lateral rektus felci = içe şaşılık.',
-    explain:'<strong>Ekstraoküler kaslar ve kranial sinirler:</strong><ul><li><strong>3. KS (Okulomotor):</strong> Tüm göz kasları (lateral rektus ve sup.oblik hariç) + levator palpebra + parasempatik (sfinkter pupilla). Hasar → göz aşağı-dışa bakar, ptozis, midriazis</li><li><strong>4. KS (Trochlear):</strong> Superior oblik kası inerve eder. Hasar → intorsiyon yapamaz, aşağı-içe bakış bozuk, merdivende çift görme</li><li><strong>6. KS (Abducens):</strong> Lateral rektus kasını inerve eder. Hasar → dışa bakış paralizisi, içe şaşılık (ezodeviyasyon)</li></ul>'
-  },
-  {
-    section:'gorme',
-    sectionLabel:'GÖRME YOLU LEZYONLARI',
-    years:['Sonbahar 2020'],
-    q:'Altmış beş yaşında erkek hasta, yeni başlayan <strong>çift görme ve sol gözde dışa bakış kısıtlılığı</strong> şikayetleriyle başvuruyor. Travma öyküsü olmayan hastada düzensiz hipertansiyon ve diabetes mellitus öyküsü olduğu öğreniliyor.<br><br>Bu hastada hangi kranial sinir tutulumu <u>en olasıdır</u>?',
-    opts:['A) Nervus trochlearis','B) Nervus oculomotorius','C) Nervus orbicularis oculi','D) Nervus levator palpebrae superioris','E) Nervus abducens'],
-    ans:'E',
-    hint:'Dışa bakış kısıtlılığı = 6.KS. Diyabetik mikroanjiopati en sık 6.KS\'i etkiler. Pupil KORUNMUŞSA diyabetik 3.KS; dışa bakış bozuksa 6.KS.',
-    trap:'Sol gözde dışa bakış kısıtlılığı 6. KS hasarını işaret eder (abducens = lateral rektus). Levator palpebrae superioris ve orbicularis oculi ayrı kaslar olup 3. ve 7. KS\'ler tarafından inerve edilir, onlar kranial sinir değil kastır.',
-    explain:'<strong>6. Kranial Sinir (Nervus Abducens) Paralizisi:</strong><br>Lateral rektus kasını inerve eder. Hasarında dışa bakış paralizisi, içe şaşılık görülür.<br><strong>Diyabetik mononöropati:</strong> En sık 6. KS\'i etkiler, ardından 3. KS gelir. Diyabetik 3. KS paralizisinde pupil genellikle korunur (parasempatik lifler dış kısımda olduğundan diyabetik iskemi önce iç kısmı etkiler). İntraanürizmal 3. KS basısında ise pupil ilk etkilenir (dilate, ışığa yanıtsız).'
-  }
+const ALL_QUESTIONS=[
+// ═══════════════════════════════════════
+// HİDROSEFALİ
+// ═══════════════════════════════════════
+{section:'hidro',sectionLabel:'HİDROSEFALİ',
+years:['Sonbahar 2015 Orijinal','Sonbahar 2015 BENZERİ'],
+q:'Yetmiş yaşındaki erkek hasta, 1 yıl önce başlayan ve ilerleyen yürüme bozukluğu ve son aylarda eklenen idrar kaçırma şikâyetiyle başvuruyor. Nörolojik muayenede inkontinansı, yürüme apraksisi ve demansı olduğu belirleniyor. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?',
+opts:['A) Guillain-Barré sendromu','B) Multipl skleroz','C) Wallenberg sendromu','D) Normal basınçlı hidrosefali','E) Wernicke ensefalopatisi'],
+ans:'D',
+hint:'ADAMS-HAKİM = Yürüme + Demans + İdrar kaçırma. "WET, WACKY, WOBBLY" üçlüsü.',
+trap:'Guillain-Barré demiyelinizasyon ile seyreder ve refleksler kaybolur. Normal basınçlı hidrosefalide refleksler genellikle normaldir. Bu 3 belirti birlikte gelince Adams-Hakim düşün.',
+explain:'<strong>Normal basınçlı hidrosefali (Adams-Hakim sendromu):</strong> Klasik triad: (1) Yürüme bozukluğu/ataksi (ilk belirtit), (2) Demans, (3) İdrar inkontinansı. BT\'de kortikal atrofi olmadan ventriküller büyük görülür. Tedavide şant uygulanır.'},
+
+{section:'hidro',sectionLabel:'HİDROSEFALİ',
+years:['Sonbahar 2020 Orijinal','Sonbahar 2020 BENZERİ'],
+q:'Yetmiş altı yaşındaki erkek hastanın öyküsünden bir yıldır giderek artan unutkanlık, yürüme bozukluğu ve idrar yapma yakınmaları olduğu öğreniliyor. Nörolojik muayenesinde geniş tabanlı yürüme, dönüşlerde dengesizlik ve harekete başlamada zorluk saptanıyor. Beyin manyetik rezonans görüntülemede sadece tüm ventriküller geniş olarak görülüyor.',
+opts:['A) Parkinson hastalığı','B) Normal basınçlı hidrosefali','C) Psödotümör serebri','D) Alzheimer tipi demans','E) Lewy cisim hastalığı'],
+ans:'B',
+hint:'Sadece ventriküller büyük + Kortikal atrofi YOK = Normal basınçlı hidrosefali. Alzheimer\'da kortikal atrofi olur.',
+trap:'Alzheimer\'da MR\'da kortikal atrofi beklenir. Parkinson\'da demans geç dönemde çıkar ve tipik ekstrapiramidal bulgular önde gelir. Burada triad tam ve MR tanıyı destekliyor.',
+explain:'<strong>Normal basınçlı hidrosefali (NBH)</strong>: Kommunikan hidrosefalinin bir formudur. MR\'da korteks atrofisi olmadan ventriküler dilatasyon saptanması tipiktir. Alzheimer\'dan bu özelliğiyle ayrılır. Kesin tanı LP\'de BOS basıncının 200 mmH₂O altında olmasıyla konulur.'},
+
+{section:'hidro',sectionLabel:'HİDROSEFALİ',
+years:['Sonbahar 1994'],
+q:'Normal basınçlı hidrosefalisi olan bir hastada hangisi <u>görülmez</u>?',
+opts:['A) Demans','B) Üriner inkontinans','C) Yürüme güçlüğü','D) Konuşma bozukluğu','E) Papil ödemi'],
+ans:'E',
+hint:'NBH\'de KİBAS yok → Papil ödemi beklenmez! Diğerleri klasik triaddır.',
+trap:'Normal basınçlı hidrosefali adından da anlaşılacağı üzere intrakranial basınç NORMAL olduğundan papil ödemi görülmez. Papil ödemi KİBAS bulgusudur.',
+explain:'<strong>Normal basınçlı hidrosefalide</strong> BOS basıncı normal olduğundan <strong>papil ödemi beklenmez</strong>. Bu durum psödotümör serebri veya kitle lezyonlarından ayrılan önemli bir özelliktir. Yürüme bozukluğu, demans ve inkontinans triaddır.'},
+
+{section:'hidro',sectionLabel:'HİDROSEFALİ',
+years:['Sonbahar 1990'],
+q:'Dördüncü ventrikülü genişleten serebellumun beyin sapının basısı ile karakterize hastalık hangisidir?',
+opts:['A) Tüberoskleroz','B) Aquaductus atrezisi','C) Arnold Chiari sendromu','D) Budd Chiari','E) Dandy-Walker sendromu'],
+ans:'E',
+hint:'Dandy-Walker = 4. VENTRİKÜL kistik dilatasyonu + Serebellum vermis hipoplazisi.',
+trap:'Arnold-Chiari beyin sapının foramen magnuma fıtıklanmasıdır. Dandy-Walker ise 4. ventrikül kistik dilatasyonu ile karakterizedir — karıştırma!',
+explain:'<strong>Dandy-Walker sendromu</strong>: 4. ventrikülün kistik genişlemesi ve serebellum vermis hipoplazisi ile karakterize gelişimsel malformasyon. Sonuç genellikle hidrosefaliye yol açar. Tanıda BT veya MRI kullanılır; hidrosefali varsa şant yapılır.'},
+
+{section:'hidro',sectionLabel:'HİDROSEFALİ / KİBAS',
+years:['Sonbahar 1992'],
+q:'Kafa içi basınç artmasının klasik üçlüsü (3 kardinal belirti) aşağıdakilerin hangisinde birlikte verilmiştir?',
+opts:['A) Baş ağrısı, papil ödem, kusma','B) Baş ağrısı, papil ödem, çift görme','C) Baş ağrısı, hemiparezi, papil ödem','D) Papil ödem, şuur bulanıklığı, hemiparezi','E) Şuur bulanıklığı, okülomotor sinir felci, hemiparezi'],
+ans:'A',
+hint:'KİBAS triادı: BAŞ AĞRISI + PAPİL ÖDEM + KUSMA. "BPK = Beyin Patlıyor Kusuyorum"',
+trap:'Çift görme (diplopi) 6. sinir basısından olur ve KİBAS\'ta görülebilir ama triadin parçası değildir. Triad = Baş ağrısı + Papil ödem + Kusma.',
+explain:'<strong>KİBAS (kafa içi basınç artışı) triادı:</strong> Baş ağrısı (sabahları daha şiddetli), <strong>papil ödemi</strong> ve kusma. Kusma genellikle bulantısız, ani ve fışkırır tarzda olabilir. Ayrıca 6. sinir felcine bağlı diplopi da görülebilir ama triadin parçası değildir.'},
+
+// ═══════════════════════════════════════
+// BEYİN FITIKLANMASI
+// ═══════════════════════════════════════
+{section:'herni',sectionLabel:'BEYİN FITIKLANMASI – Herniasyon',
+years:['Sonbahar 1987'],
+q:'Transtentoryal herniasyon aşağıdaki kraniyal sinirlerden hangisinin felcine neden olur?',
+opts:['A) N. oculomotorius','B) N. trigeminus','C) N. fasialis','D) N. statoakustikus','E) N. hypoglossus'],
+ans:'A',
+hint:'Unkal herniasyon → 3. KS (N. oculomotorius) baskısı → İpsilateral midriyazis.',
+trap:'Unkal herniasyonda temporal lobun uncusu tentoryumdan aşağı sarkar ve 3. siniri sıkıştırır. 6. sinir değil, 3. sinirdir.',
+explain:'<strong>Unkal (transtentoryal) herniasyon</strong>: Temporal lob uncusu tentoryum kenarına fıtıklanır. İlk etkilenen <strong>N. oculomotorius (3. KS)</strong>dir → ipsilateral midriyazis ve pitozis. Ardından hemiparezi ve koma gelişir.'},
+
+{section:'herni',sectionLabel:'BEYİN FITIKLANMASI – Herniasyon',
+years:['İlkbahar 1988'],
+q:'Transtentorial herniasyonda <u>ilk</u> etkilenen kranial sinir hangisidir?',
+opts:['A) N. opticus','B) N. oculomotorius','C) N. trigeminus','D) N. hypoglossus','E) N. glossofaringeus'],
+ans:'B',
+hint:'Transtentoryal = Unkal herni = İlk etkilenen 3. sinir = Dilate pupil (midriyazis).',
+trap:'N. opticus göz içindedir ve herniasyonda etkilenmez. 3. sinir tentorium kenarında seyreder ve ilk basıya maruz kalır.',
+explain:'Transtentoryal herniasyonda <strong>N. oculomotorius (3. KS)</strong> ilk etkilendir. Progresif 3. sinir paralizisi, hemiparezi ve letarji-koma sırası izlenir. Pupil dilatasyon (<strong>midriyazis + ışık refleksi kaybı</strong>) erken bulgudur.'},
+
+{section:'herni',sectionLabel:'BEYİN FITIKLANMASI – Herniasyon',
+years:['Sonbahar 1994'],
+q:'Kafa travması geçiren, tek gözü sağa deviye ve pupili midriatik olan ve ışık refleksi olmayan bilinci kapalı hastada ne düşünürsünüz?',
+opts:['A) Todd paralizisi','B) Kommosyo serebri','C) Beyin ödemi','D) Unkal herniasyon','E) Hiçbiri'],
+ans:'D',
+hint:'Tek taraflı midriyazis + Bilinç kaybı + Travma = UNKAL HERNİYASYON. Göz dışa-aşağı bakar (3. sinir felci).',
+trap:'Todd paralizisi epilepsi sonrası geçici güçsüzlüktür. Kommosyo serebri bilinç kaybı ama fokal bulgu yoktur. Unkal herniasyonda ipsilateral 3. sinir baskısı vardır.',
+explain:'<strong>Unkal herniasyonda</strong> temporal lob uncusu N. oculomotoriusu baskılar → ipsilateral midriyazis + ışık refleksinin kaybolması + göz dışa-aşağı yönelimi. Kontralateral hemiparezi de oluşur. Acil müdahale gerektirir.'},
+
+{section:'herni',sectionLabel:'BEYİN FITIKLANMASI – Herniasyon',
+years:['Sonbahar 2005'],
+q:'Kafa travmasını takiben ilerleyici şuur kaybı, sağ midriyazis ve sol hemiparezi gelişmesi durumunda <u>öncelikle</u> aşağıdakilerden hangisi düşünülmelidir?',
+opts:['A) Falks altı herniasyon','B) Serebellar herniasyon','C) Unkal herniasyon','D) Tonsiller herniasyon','E) Santral transtentoryal herniasyon'],
+ans:'C',
+hint:'SAĞ midriyazis (3. sinir) + SOL hemiparezi = SAĞ UNKAL herniasyon.',
+trap:'İpsilateral midriyazis + kontralateral hemiparezi kombinasyonu UNKAL herniasyonun klasik tablosudur. Tonsiller herniasyon solunum arresti yapar.',
+explain:'<strong>Sağ unkal herniasyonda:</strong> Sağda N. oculomotorius baskısı → sağ midriyazis. Sağ hemisfer kitlesi kortikospinal yolları sol tarafı etkiler → sol hemiparezi. Bu "sabit ve dilate pupil + karşı taraf hemiparezi" kombinasyonu unkal herniasyonun habercisidir.'},
+
+{section:'herni',sectionLabel:'BEYİN FITIKLANMASI – Herniasyon',
+years:['Sonbahar 2001'],
+q:'Aşağıdakilerden hangisi temporal lob herniasyonu bulgularından <u>değildir</u>?',
+opts:['A) Primer optik atrofi','B) Oftalmopleji','C) Piramidal traktus tutulumu','D) Bradikardi','E) Cheyne-Stokes solunumu'],
+ans:'A',
+hint:'Primer optik atrofi direkt optik sinir hasarından olur — transtentoryal herniasyon buna neden olmaz.',
+trap:'Temporal lob herniasyonunda papil ödemi görülebilir, ancak primer optik atrofi görülmez. Oftalmopleji (3. sinir), piramidal tutulum ve Cheyne-Stokes solunumu herniasyon bulgularıdır.',
+explain:'<strong>Temporal lob herniasyonu bulguları:</strong> 3. sinir felci (oftalmopleji, midriyazis), kontralateral hemiparezi (piramidal tutulum), Cheyne-Stokes solunumu, bradikardi (Cushing refleksi). <strong>Primer optik atrofi</strong> görülmez; uzun süreli papil ödemi sekonder optik atrofiye yol açabilir.'},
+
+// ═══════════════════════════════════════
+// İNTRAKRANİAL KANAMALAR
+// ═══════════════════════════════════════
+{section:'kanama',sectionLabel:'İNTRAKRANİAL KANAMALAR – Epidural Hematom',
+years:['İlkbahar 2015 Orijinal','İlkbahar 2015 BENZERİ'],
+q:'Bir kavga sırasında darp edilerek yaralanan ve acil servise getirilen 32 yaşındaki erkek hastanın fizik muayenesinde bilincinin bulanık olduğu ve konfüzyon olduğu görülüyor. BT görüntüsünde bikonveks (dış bükey hiperdens) kitle görüntüsü veren kanama saptanıyor.',
+opts:['A) Internal karotid arter','B) Orta serebral arter','C) Orta meningeal arter','D) Vertebral arter','E) Sinüzoidal venler'],
+ans:'C',
+hint:'Epidural hematom = ORTA MENİNGEAL ARTER kanaması. BT\'de bikonveks (mercek şekli) görünüm.',
+trap:'Subdural hematom venöz kaynaklıdır (köprü venleri). Epidural hematom arteriyel kaynaklıdır ve en sık orta meningeal arterden olur.',
+explain:'<strong>Epidural hematom</strong>: En acil intrakranial kanama çeşididir. Kranium ile dura arasında birikir. Kaynağı çoğunlukla <strong>a. meningea media</strong>dır. BT\'de <strong>bikonveks (mercek/lens şekli)</strong> hiperdens görünüm tipiktir. Vakaların %90\'ında temporal kemikte kırık vardır.'},
+
+{section:'kanama',sectionLabel:'İNTRAKRANİAL KANAMALAR – Epidural Hematom',
+years:['Sonbahar 1991'],
+q:'Kafa travmasında A. meningea media yırtıldığında dura ile kemik arasında kan toplanması hangisinde görülür?',
+opts:['A) Subdural hematom','B) İntraserebral hematom','C) Subaraknoid kanama','D) Epidural hematom','E) Sefal hematom'],
+ans:'D',
+hint:'Kemik-Dura arası = EPİDURAL. Dura-Araknoid arası = SUBDURAL.',
+trap:'Subdural hematom dura ile araknoid arasındadır. Epidural hematom ise kemik ile dura arasındadır. Anatomik konumu bilmek yeterli.',
+explain:'<strong>Epidural hematom</strong>: Kranium (kemik) ile dura mater arasında kan birikmesidir. En sık <strong>temporal kemik kırığına</strong> bağlı orta meningeal arter kanamasından oluşur. Klasik "lusid interval" (kısa bilinç açıklığı dönemi) ardından şuur kaybı gelir.'},
+
+{section:'kanama',sectionLabel:'İNTRAKRANİAL KANAMALAR – Epidural Hematom',
+years:['İlkbahar 2002'],
+q:'Kafa travması geçirmiş, fokal nörolojik bulguları bulunan, şuuru kapalı olan altmışiki yaşındaki bir erkek hastada akut evrede <u>ilk</u> başvuruda gereken radyolojik yöntem hangisidir?',
+opts:['A) Ön-arka kafa grafisi','B) Ultrasonografi','C) Anjiyografi','D) Bilgisayarlı tomografi','E) Manyetik rezonans görüntüleme'],
+ans:'D',
+hint:'Akut kafa travmasında ilk tetkik = BT. Hızlı, kanı iyi gösterir.',
+trap:'MRI daha ayrıntılı bilgi verir ama acil şartlarda yavaştır. Kafa grafisi yetersizdir. Akut travmada BT altın standarttır.',
+explain:'<strong>Akut kafa travmasında ilk radyolojik tetkik BT\'dir.</strong> Epidural, subdural ve intraserebral hematomları hızlıca gösterir. Kemik kırıklarını da saptayabilir. MRI ise sonraki değerlendirmelerde veya spesifik durumlarda tercih edilir.'},
+
+{section:'kanama',sectionLabel:'İNTRAKRANİAL KANAMALAR – Subdural Hematom',
+years:['Sonbahar 1997'],
+q:'Travmatik kafa kırığında orta meningeal arterin yaralanması sonucu hangisi gelişir?',
+opts:['A) Subaraknoid kanama','B) Subdural kanama','C) Epidural kanama','D) Pons tabanına kanama','E) Eksternal kapsül içinde hematom'],
+ans:'C',
+hint:'Orta meningeal arter = Epidural hematom. "Meningea Media = Epidural"',
+trap:'Subdural hematom köprü venlerinin yırtılmasıyla oluşur, arterden değil. Orta meningeal arterin kanaması epidural hematomdur.',
+explain:'<strong>A. meningea media</strong> kırık kemik kenarlarından (diploe mesafesinden) zarar görerek epidural hematomu oluşturur. Temporal bölgede en sık görülür. SAK ise anevrizma rüptüründen kaynaklanır.'},
+
+{section:'kanama',sectionLabel:'İNTRAKRANİAL KANAMALAR – Subdural Hematom',
+years:['İlkbahar 1988'],
+q:'On beş gün önce kafa travması geçiren, gün geçtikçe baş ağrısı şiddetinde artış ve son aylarda giderek artan unutkanlık ve kusma şikâyetleri ile gelen hastada <u>en olası</u> tanı aşağıdakilerden hangisidir?',
+opts:['A) Epidural hematom','B) Kronik Subdural hematom','C) Subaraknoid kanama','D) İntraserebral hematom','E) İntraventriküler hematom'],
+ans:'B',
+hint:'Travma + 2 HAFTA SONRA ilerleyici bulgular = KRONİK SUBDURAL HEMATOM.',
+trap:'Epidural hematom 24 saat içinde kritik hale gelir (akut). 15 gün sonra gelişen tablo kronik subdural hematomdur.',
+explain:'<strong>Kronik subdural hematom:</strong> Travmadan 2 hafta veya daha sonra ortaya çıkan hematomlardır. Yaşlılarda, alkoliklerde sık görülür. Genellikle olaya neden olan travma unutulur. Baş ağrısı, demans, kişilik değişiklikleri ile prezente olur. MR ile kesin tanı konulur.'},
+
+{section:'kanama',sectionLabel:'İNTRAKRANİAL KANAMALAR – Subdural Hematom',
+years:['İlkbahar 2022 Orijinal'],
+q:'Kafa travması geçirmiş ve pariyetal kemikte kırığı olan bir hastada, aksiyel bilgisayarlı tomografi kesitinde, konkavitesi serebral parankime doğru izlenen kanama tipi aşağıdakilerden hangisidir?',
+opts:['A) Subdural kanama','B) Subaraknoid kanama','C) Parankimal kanama','D) Epidural kanama','E) Parafalsin kanama'],
+ans:'A',
+hint:'Subdural = Konkav (ayın şekli). Epidural = Konveks (mercek şekli). "Sub=Ay, Epi=Mercek"',
+trap:'Epidural hematom BT\'de dışa doğru konveks (bikonveks/mercek) görünüm verir. Subdural hematom ise beyin yüzeyini izleyerek içbükey (konkav) görünüm verir.',
+explain:'<strong>Subdural hematom BT görüntüsü:</strong> Dura ile araknoid arasında yer alır, beyin yüzeyini izler ve <strong>konkav (hilal/ay şekli)</strong> görünüm verir. Epidural hematom ise <strong>konveks (mercek/bikonveks)</strong> görünüm verir.'},
+
+{section:'kanama',sectionLabel:'İNTRAKRANİAL KANAMALAR – Subdural Hematom',
+years:['İlkbahar 2024 Orijinal'],
+q:'Elli sekiz yaşındaki erkek hasta 3-4 gündür olan baş ağrısı ve sol tarafında kuvvetsizlik yakınmalarıyla başvuruyor. Öyküsünden 1 ay önce yola yürürken ayağının takılıp düştüğünü ve kafasını çarptığı ancak bilinç kaybı yaşamadığı öğreniliyor. Muayenesinde sol hemiparezi (4/5), sol hemihipoestezi saptanan hastadan acil bilgisayarlı beyin tomografisi isteniyor.',
+opts:['A) Subaraknoid kanama','B) Subdural kanama','C) Oksipital lobda kanama','D) İntraventriküler kanama','E) Epidural kanama'],
+ans:'B',
+hint:'Düşme + 1 AY SONRA hemiparezi + Yaşlı hasta = KRONİK SUBDURAL HEMATOM.',
+trap:'Akut travma sonrası 24 saat içinde = epidural. 1-14 gün = subakut subdural. >2 hafta = kronik subdural. Burada 1 ay geçmiş → kronik subdural.',
+explain:'<strong>Kronik subdural hematom</strong>: 1 ay önce minör travma → köprü venlerinin yavaş kanaması → 3-4 haftada birikme → kitle etkisi → hemiparezi. Yaşlılarda beyin atrofisi köprü venlerini daha gergin yapar ve küçük travmalarla dahi yırtılabilirler.'},
+
+{section:'kanama',sectionLabel:'İNTRAKRANİAL KANAMALAR – Subdural Hematom',
+years:['İlkbahar 1992'],
+q:'Aşağıdakilerden hangisi venöz kanamadir?',
+opts:['A) Subaraknoid kanama','B) Epidural kanama','C) Subdural kanama','D) İntraserebral kanama','E) İntraserebellar kanama'],
+ans:'C',
+hint:'Subdural = Köprü VENLERİ = Venöz kanama. Epidural = Meningeal ARTER = Arteriyel.',
+trap:'Epidural hematom arteriyel (orta meningeal arterden) kaynaklanır. Subdural hematom ise köprü venlerinin yırtılması sonucu venöz kaynamdır.',
+explain:'<strong>Subdural hematom</strong>: Dura ile araknoid arasındaki <strong>köprü venlerin (bridging veins)</strong> yırtılması sonucu oluşan venöz kanamadir. Bu nedenle daha yavaş gelişir. Epidural hematom ise arteriyel olduğu için hızlı basınç artışına yol açar.'},
+
+{section:'kanama',sectionLabel:'İNTRAKRANİAL KANAMALAR – SAK',
+years:['İlkbahar 1989'],
+q:'Kırk yaşındaki erkek hasta ani gelişen bilinç kapanması, ense sertliği ve konfüzyon aşağıdakilerden hangisini düşündürür?',
+opts:['A) Subaraknoid kanama','B) Subdural kanama','C) Epidural kanama','D) Ensefalit','E) Menenjit'],
+ans:'A',
+hint:'ANİ BAŞ AĞRISI + Ense sertliği + Bilinç değişikliği = SAK. "Hayatının en kötü baş ağrısı"',
+trap:'Menenjitte ateş baskındır ve yavaş başlar. SAK ise ani "şimşek çakar" tarzda başlar. Ense sertliği her ikisinde de olabilir ama aniden başlaması SAK\'ı önce düşündürür.',
+explain:'<strong>Subaraknoid kanama (SAK)</strong>: "Hayatının en şiddetli baş ağrısı" olarak tanımlanır, aniden başlar. Beyin damarlarının subaraknoid mesafedeki kanamasıdır. Ense sertliği, fotofobi, şuur değişikliği eşlik edebilir. Tanıda BT ilk (72 saatte %98 sensitif), negatifse LP yapılır.'},
+
+{section:'kanama',sectionLabel:'İNTRAKRANİAL KANAMALAR – SAK',
+years:['Sonbahar 1990','Sonbahar 2009'],
+q:'Elli yaş civarında ortaya çıkan <u>spontan</u> subaraknoid kanamaların en sık rastlanan nedeni aşağıdakilerden hangisidir?',
+opts:['A) Koagülopatiler','B) Beyin tümörü','C) Anevrizma rüptürü','D) Ateroskleroz','E) Arteriovenöz malformasyon'],
+ans:'C',
+hint:'SAK\'ın en sık nedeni = ANEVRİZMA RÜPTÜRÜ. AVM çocuklarda daha sık.',
+trap:'Travma dışı spontan SAK\'ta en sık neden anevrizmalardır. AVM ise çocuklarda spontan SAK\'ın en sık nedenidir.',
+explain:'<strong>Travmasız spontan SAK</strong>: En sık neden <strong>anevrizma rüptürüdür</strong> (%80). İkinci sırada AVM gelir. Anevrizmaların en sık yerleştiği yer anterior kommunikan arter, ikinci sırada posterior kommunikan arterdir.'},
+
+{section:'kanama',sectionLabel:'İNTRAKRANİAL KANAMALAR – SAK',
+years:['Sonbahar 1995'],
+q:'Ani başlayan şiddetli baş ağrısı ve kısa süreli şuur kaybı nedeniyle muayene edilen 30 yaşındaki bir hastada yalnızca meningeal irritasyon bulguları saptanmıştır. Bu hastada <u>öncelikle</u> aşağıdakilerden hangisi düşünülmelidir?',
+opts:['A) Subaraknoid kanama','B) Beyin apsesi','C) Menenjit','D) Epidural kanama','E) Subdural kanama'],
+ans:'A',
+hint:'"Thunderclap headache" (şimşek çakar gibi ani baş ağrısı) + Meningeal irritasyon = SAK.',
+trap:'Menenjite ateş ve daha yavaş başlangıç tipiktir. Ani başlayan şiddetli baş ağrısı öncelikle SAK\'ı düşündürür.',
+explain:'<strong>SAK öncelikli düşünme nedenleri:</strong> Ani başlayan ("thunderclap") en kötü baş ağrısı, meningeal bulgular (ense sertliği, kernig, brudzinski), kısa şuur kaybı. BT\'de %98 sensitiflik, negatifse LP xantokromik BOS gösterir.'},
+
+{section:'kanama',sectionLabel:'İNTRAKRANİAL KANAMALAR – SAK',
+years:['Sonbahar 2012'],
+q:'Beyinde anevrizmaların en sık kaynaklandığı arter aşağıdakilerden hangisidir?',
+opts:['A) Orta serebral arter','B) Posteriorkomunikan arter','C) Baziler arter','D) Anteriorkomunikan arter','E) Vertebral arter'],
+ans:'D',
+hint:'SAK anevrizmaları: ANTERİOR komm. %30-35 (1. sıra), POSTERIOR komm. %25 (2. sıra).',
+trap:'Posterior kommunikan anevrizma rüptüründe 3. sinir felci (midriyazis) görülür. Ama en SIK lokalizasyon anterior kommunikan arterdir.',
+explain:'<strong>Serebral anevrizmalar</strong>: En sık <strong>anterior kommunikan arter</strong>den kaynaklanır (%30-35). İkinci sırada posterior kommunikan arterdir (%25). Posterior komm. anevrizması rüptüründe ipsilateral 3. sinir felci gelişir (tanısal önem taşır).'},
+
+{section:'kanama',sectionLabel:'İNTRAKRANİAL KANAMALAR – SAK',
+years:['İlkbahar 2007'],
+q:'Ani başlayan şiddetli baş ağrısı ve kısa süreli şuur kaybı nedeniyle muayene edilen 30 yaşındaki bir hastada yalnızca meningeal irritasyon bulguları saptanmıştır. Bu hastada <u>öncelikle</u> aşağıdakilerden hangisi düşünülmelidir?',
+opts:['A) Subaraknoid kanama','B) Beyin apsesi','C) Menenjit','D) Epidural kanama','E) Subdural kanama'],
+ans:'A',
+hint:'Ani "şimşek" baş ağrısı + Meningeal irritasyon + Genç hasta = SAK ilk akla gelmeli.',
+trap:'Beyin apsesi yavaş gelişir ve ateş eşlik eder. Menenjitte ateş ön planda. Ani başlangıç SAK\'ı önce düşündürür.',
+explain:'<strong>SAK tanı algoritması:</strong> Ani başlayan en şiddetli baş ağrısı → BT (ilk 72 saat), BT negatifse LP (ksantokromi). Tanı doğrulanırsa serebral anjiyografi ile anevrizma lokalizasyonu belirlenir.'},
+
+{section:'kanama',sectionLabel:'İNTRAKRANİAL KANAMALAR – İntraserebral',
+years:['Sonbahar 1999'],
+q:'Hipertansiyonla ilişkili spontan intraserebral hemorajilerin <u>en sık</u> lokalizasyonu aşağıdakilerden hangisidir?',
+opts:['A) Oksipital lob','B) Putamen','C) Serebellum','D) Frontal lob','E) Pons'],
+ans:'B',
+hint:'Hipertansif intraserebral kanama = EN SIK PUTAMEN. "HİPERTANSİF = PUTAMEn"',
+trap:'Pons kanaması pin-point pupil ve derin koma yapar ama en sık yer değildir. En mortal olanı pons kanamasıdır ama en sık yer putamendir.',
+explain:'<strong>Hipertansif intraserebral kanamada</strong> yerleşim: (1) Putamen %50 (en sık), (2) Talamus, (3) Pons, (4) Serebellum, (5) Beyaz cevher. Kanamaların yarısı bazal ganglionlarda (putamen) görülür. En mortal olanı pons kanamasıdır.'},
+
+{section:'kanama',sectionLabel:'İNTRAKRANİAL KANAMALAR – İntraserebral',
+years:['Sonbahar 2001'],
+q:'İntraserebral kanamanın <u>en sık</u> görüldüğü beyin bölgesi neresidir?',
+opts:['A) Parietal lob','B) Beyin sapı','C) Putamen','D) Serebellum','E) Serebral hemisferler'],
+ans:'C',
+hint:'İntraserebral kanama en sık = PUTAMEN (bazal ganglion). Hipertansiyon birinci nedeni.',
+trap:'Serebral hemisfer genel bir tanımdır. Putamen bu alanda en sık kanamanın olduğu spesifik bölgedir.',
+explain:'<strong>İntraserebral kanama</strong>: En sık görülen yer <strong>putamen</strong>dir (bazal ganglionda). Hipertansiyon en sık nedenidir. Charcot-Bouchard mikroanevrizmaları hipertansiyon ile birlikte putamende oluşur ve kanamalara yol açabilir.'},
+
+{section:'kanama',sectionLabel:'İNTRAKRANİAL KANAMALAR – İntraserebral',
+years:['Sonbahar 1999'],
+q:'Hipertansiyonu olan hastalardaki intrakranial kanamanın <u>en sık</u> lokalizasyonu neresidir?',
+opts:['A) Talamus','B) Putamen','C) Cerebellum','D) Beyin sapı','E) Serebral korteks'],
+ans:'B',
+hint:'Hipertansiyon → Putamen en sık. A. lenticostriat ve A. thalamogenikülat dalları etkilenir.',
+trap:'Talamus ikinci sırada gelir. Putamen birinci sıradadır.',
+explain:'<strong>Hipertansiyona bağlı intraserebral kanamalarda</strong> en sık etkilenen damar <strong>a. lenticostriata</strong>dır ve kanama <strong>putamende</strong> görülür. İkinci sırada talamus, ardından pons ve serebellum gelir.'},
+
+{section:'kanama',sectionLabel:'İNTRAKRANİAL KANAMALAR – Beyin kan akımı',
+years:['Sonbahar 1995'],
+q:'Kafa içi basıncının arttığı durumda aşağıdakilerden hangisi beyin kan akımını <u>azaltır</u>?',
+opts:['A) Hiperventilasyon','B) Hiperkapni','C) Hipoksi','D) Asidoz','E) Hipertansiyon'],
+ans:'A',
+hint:'HİPERVENTİLASYON → CO₂ azalır → Vazokonstriksiyon → Beyin kan akımı AZALIR.',
+trap:'Hiperkapni, hipoksi, asidoz ve hipertansiyon beyin kan akımını ARTTIRIR. Yalnızca hiperventilasyon azaltır.',
+explain:'<strong>Hiperventilasyonda</strong> CO₂ atılımı artar, PaCO₂ düşer → serebral vazokonstriksiyon → beyin kan akımı azalır. Bu nedenle akut KİBAS\'ta kontrollü hiperventilasyon kullanılır. CO₂ artışı ise vazodilatasyona yol açar.'},
+
+{section:'kanama',sectionLabel:'İNTRAKRANİAL KANAMALAR – Beyin kan akımı',
+years:['İlkbahar 1998'],
+q:'Aşağıdakilerden hangisi beyin kan akımını artırır?',
+opts:['A) CO₂ düşüklüğü','B) O₂ yüksekliği','C) Hipotermi','D) Hipotansiyon','E) pH düşüklüğü'],
+ans:'E',
+hint:'pH düşüklüğü = ASİDOZ = CO₂ artışı = Vazodilatasyon = Beyin kan akımı ARTAR.',
+trap:'CO₂ düşüklüğü (hiperventilasyon) beyin kan akımını azaltır. O₂ yüksekliği değil düşüklüğü artırır. pH düşüklüğü asidoz anlamına gelir ve vazodilatasyona yol açar.',
+explain:'<strong>Beyin kan akımını artıran faktörler:</strong> CO₂ artışı, O₂ azalması, pH azalması (asidoz), hiperkapni, hipertermi, hipertansiyon, bradikardi. <strong>pH düşüklüğü (asidoz)</strong> serebral vazodilatasyona neden olarak beyin kan akımını artırır.'},
+
+{section:'kanama',sectionLabel:'İNTRAKRANİAL KANAMALAR – Serebral Perfüzyon',
+years:['Sonbahar 2017 Orijinal','Sonbahar 2017 BENZERİ'],
+q:'Ağır kafa travması nedeniyle yoğun bakımda yatmakta olan şuuru kapalı 50 yaşındaki bir hastanın kafa içi basıncı: 25 mmHg, ortalama arter basıncı: 110 mmHg ve santral venöz basınç: 5 mmHg ölçülüyor. Bu hastanın serebral perfüzyon basıncı (SPB) kaç mmHg\'dir?',
+opts:['A) 20','B) 25','C) 80','D) 85','E) 105'],
+ans:'D',
+hint:'SPB = OAB - İKB = 110 - 25 = 85 mmHg. "Serebral Perfüzyon = Ortalama Arter - İntrakranial Basınç"',
+trap:'Santral venöz basınç (SVB) bu formülde kullanılmaz. SPB = OAB - İKB. SVB\'yi formüle sokmak klasik tuzaktır.',
+explain:'<strong>Serebral perfüzyon basıncı (SPB) = Ortalama Arter Basıncı (OAB) - İntrakraniyal Basınç (İKB)</strong>. OAB = 2/3 diastolik + 1/3 sistolik. Bu hastada: SPB = 110 - 25 = <strong>85 mmHg</strong>. Normal SPB 60-70 mmHg üzerinde olmalıdır.'},
+// ═══════════════════════════════════════
+// KAFA TRAVMALARI
+// ═══════════════════════════════════════
+{section:'travma',sectionLabel:'KAFA TRAVMALARI',
+years:['Sonbahar 2024'],
+q:'Araç dışı trafik kazası nedeniyle acil servise getirilen bir hastanın fizik muayenesinde kulak arkasında ekimoz ve rakun göz bulgusu tespit ediliyor. Bu hastada tespit edilen fizik muaye bulgularına neden olan <u>en olası</u> majör yaralanma bölgesi aşağıdakilerden hangisidir?',
+opts:['A) Kafatası tabanı','B) Mastoid kemik','C) Burun','D) Kulak','E) Göz'],
+ans:'A',
+hint:'Rakun gözü (periorbital ekimoz) + Retroauriküler ekimoz (Battle işareti) = KAFA TABANI KIRIGI.',
+trap:'Rakun gözü sadece göz çevresinde darp gibi görünse de travma sonrası gelişmesi kafa tabanı kırığını gösterir. Direkt gözü etkileyen bir travmadan değildir.',
+explain:'<strong>Kafa tabanı kırığı bulguları:</strong> Rakun gözü (periorbital ekimoz — bilateral), Battle işareti (retroauriküler/mastoid ekimoz), BOS rinore/otore, hemotimpanum. Bu bulgular 12-24 saatte belirginleşir. Tanıda BT tercih edilir.'},
+
+{section:'travma',sectionLabel:'KAFA TRAVMALARI – Karotiko-Kavernöz Fistül',
+years:['İlkbahar 2018 Orijinal','İlkbahar 2018 BENZERİ'],
+q:'Başının sağ tarafından ağır kafa travması almış bir hastada, sağ gözde pulsatil proptozis ve kemozis izleniyor. Sağ göz orbita kenarında oskültasyonda sistolik fazda üfürüm alınıyor. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?',
+opts:['A) Sağ karotid-kavernöz fistül','B) Sağ oftalmik arter diseksiyonu','C) Sağ internal karotis arterin petröz segmentinde travmatik rüptür','D) Sol oftalmik arter diseksiyonu','E) İntraorbital hematom'],
+ans:'A',
+hint:'Pulsatil PROPTOZIS + Kemozis + Orbital ÜFÜRÜM = KAROTİKO-KAVERNÖz FİSTÜL.',
+trap:'İntraorbital hematom pulsatil değildir. Pulsatil proptozis ve üfürüm birlikteliği vasküler fistülü işaret eder. Kafa travması sonrası gelişmesi karotiko-kavernöz fistülü düşündürür.',
+explain:'<strong>Karotiko-kavernöz fistül</strong>: Internal karotid arterin kavernöz sinüs kısmındaki yırtık. Travma sonrası gelişir. Klinik: <strong>Pulsatil proptozis, kemozis, orbital üfürüm</strong>, çift görme. Tanıda serebral anjiyografi (altın standart). Tedavide endovasküler embolizasyon.'},
+
+{section:'kanama',sectionLabel:'İNTRAKRANİAL KANAMALAR – SAK',
+years:['Sonbahar 2019 BENZERİ'],
+q:'Subaraknoid kanama tanısında kullanılacak işlemlerin sıralaması aşağıdakilerden hangisinde <u>doğru</u> olarak verilmiştir?',
+opts:['A) III, II, I','B) II, I, III','C) I, II, III','D) III, I, II','E) I, II, III'],
+ans:'C',
+hint:'SAK tanı sırası: BT (1.) → Lomber ponksiyon (2.) → Serebral anjiyografi (3.). "BT-LP-Anj"',
+trap:'I: Serebral anjiyografi, II: Kraniyal BT, III: Lomber ponksiyon — sıralamada II önce, III sonra, I en son. Bu soru seçenekteki numaraları (I, II, III) doğru okumayı gerektirir.',
+explain:'<strong>SAK tanı algoritması sırası:</strong> (1) Kraniyal BT kontrastsız — ilk 72 saatte %98 sensitif, (2) Lomber ponksiyon — BT negatifse xantokromik BOS gösterir, (3) Serebral anjiyografi — anevrizma/AVM lokalizasyonu için altın standart. Tüm işlemler bu sırayla yapılır.'},
+
+{section:'travma',sectionLabel:'KAFA TRAVMALARI',
+years:['İlkbahar 2009'],
+q:'Bir trafik kazasında otomobil, elektrik direğine önden çarpmıştır. Sürücü, emniyet kemeri takılı olmasına rağmen, şuuru kapalı durumda hastaneye götürülmüş, kafada harici herhangi bir lezyon ve çekilen kafa grafilerinde kafatasında kırık saptanmamıştır. Yapılacak adli otopside ölüm nedeni olarak kafa içerisinde beklenen <u>en olası</u> bulgu aşağıdakilerden hangisidir?',
+opts:['A) Subdural kanama','B) Epidural kanama','C) Serebral laserasyon','D) İntraserebral kanama','E) Spontan subaraknoid kanama'],
+ans:'A',
+hint:'Dışarıdan kırık YOK + Ani fren/çarpma = Akselerasyon-deselerasyon → Köprü venleri yırtılır → SUBDURAL hematom.',
+trap:'Epidural hematomda kırık %90 vardır. Burada kırık yok. İnsan hızla durduğunda beyin momentumla ileri gider, köprü venleri yırtılır → subdural.',
+explain:'<strong>Hızlı deselerasyon travmasında</strong> (emniyet kemeri varlığına rağmen) kafa içi kırık olmaksızın köprü venlerinin yırtılması sonucu <strong>subdural hematom</strong> gelişir. Dışarıdan bulgu olmaması tanıyı zorlaştırır. Otopside en sık beklenen bulgu subdural hematomdur.'},
+
 ];
 
-let idx=0, filteredQ=[...ALL_QUESTIONS];
-const answered=new Set(), correct=new Set(), wrong=new Set(), starred=new Set();
+let idx=0,filteredQ=[...ALL_QUESTIONS];
+let answered=new Set(),correct=new Set(),wrong=new Set(),starred=new Set();
 
 function renderQuestion(){
   const q=filteredQ[idx];
-  const gi=ALL_QUESTIONS.indexOf(q);
-  document.getElementById('sec-badge').textContent=q.sectionLabel;
+  document.getElementById('sect-label').textContent=q.sectionLabel;
   document.getElementById('q-num').textContent=`Soru ${idx+1}/${filteredQ.length}`;
-  document.getElementById('star-btn').textContent=starred.has(gi)?'★':'☆';
-  const yt=document.getElementById('year-tags');
-  yt.innerHTML=q.years.map(y=>`<span class="year-tag">${y}</span>`).join('');
+  document.getElementById('star-btn').textContent=starred.has(idx)?'★':'☆';
+  const yt=document.getElementById('year-tags');yt.innerHTML='';
+  q.years.forEach(y=>{const s=document.createElement('span');s.className='year-tag';s.textContent=y;yt.appendChild(s);});
   document.getElementById('q-text').innerHTML=q.q;
+  document.getElementById('hint-box').style.display='none';
   document.getElementById('hint-box').textContent=q.hint;
-  const isAns=answered.has(gi);
-  const hb=document.getElementById('hint-box');
-  hb.className=isAns?'open':'';
+  const optsEl=document.getElementById('options');optsEl.innerHTML='';
+  q.opts.forEach(opt=>{
+    const letter=opt[0],text=opt.slice(3);
+    const btn=document.createElement('button');btn.className='opt-btn';
+    btn.innerHTML=`<span class="opt-letter">${letter}</span>${text}`;
+    btn.onclick=()=>selectAnswer(letter,idx,q);optsEl.appendChild(btn);
+  });
+  document.getElementById('feedback').classList.remove('open');
   document.getElementById('trap-text').innerHTML=q.trap;
   document.getElementById('explain-text').innerHTML=q.explain;
-  const opts=document.getElementById('options');
-  opts.innerHTML=q.opts.map(o=>{
-    const letter=o[0];
-    const txt=o.slice(3);
-    return `<button class="opt-btn" onclick="selectAnswer('${letter}',${gi},${idx})" data-letter="${letter}">
-      <span class="opt-letter">${letter}</span><span>${txt}</span>
-    </button>`;
-  }).join('');
-  document.getElementById('feedback').className='feedback';
-  if(isAns) restoreAnswerUI(gi,q);
-  updateNavBtns();
-  updateProgress();
-  updateToggleBtn();
+  updateNavBtns();updateToggleBtn();updateProgress();
+  if(answered.has(idx))restoreAnswerUI(idx,q);
 }
-
-function selectAnswer(letter,gi,qIdx){
-  if(answered.has(gi)) return;
+function selectAnswer(letter,gi,q){
+  if(answered.has(gi))return;
   answered.add(gi);
-  const q=filteredQ[qIdx];
-  const isCorrect=letter===q.ans;
-  if(isCorrect) correct.add(gi); else wrong.add(gi);
-  const btns=document.querySelectorAll('.opt-btn');
-  btns.forEach(b=>{
-    b.disabled=true;
-    if(b.dataset.letter===q.ans) b.classList.add('correct');
-    else if(b.dataset.letter===letter && !isCorrect) b.classList.add('wrong');
+  const isCorrect=(letter===q.ans);
+  if(isCorrect)correct.add(gi);else wrong.add(gi);
+  document.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.disabled=true;
+    const l=btn.querySelector('.opt-letter').textContent;
+    if(l===q.ans)btn.classList.add('correct');
+    else if(l===letter&&!isCorrect)btn.classList.add('wrong');
   });
-  document.getElementById('feedback').className='feedback open';
-  document.getElementById('hint-box').className='open';
-  setTimeout(()=>document.getElementById('feedback').scrollIntoView({behavior:'smooth',block:'start'}),150);
-  updateNavBtns();
-  updateProgress();
+  document.getElementById('feedback').classList.add('open');
+  setTimeout(()=>document.getElementById('feedback').scrollIntoView({behavior:'smooth',block:'start'}),100);
+  updateNavBtns();updateProgress();
 }
-
 function restoreAnswerUI(gi,q){
-  const btns=document.querySelectorAll('.opt-btn');
-  const userAns=correct.has(gi)?q.ans:(()=>{
-    let found=null;
-    btns.forEach(b=>{if(b.dataset.letter!==q.ans)found=b.dataset.letter;});
-    return found;
-  })();
-  btns.forEach(b=>{
-    b.disabled=true;
-    if(b.dataset.letter===q.ans) b.classList.add('correct');
-    else if(wrong.has(gi)&&b.dataset.letter!==q.ans) b.classList.add('wrong');
+  document.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.disabled=true;
+    if(btn.querySelector('.opt-letter').textContent===q.ans)btn.classList.add('correct');
   });
-  document.getElementById('feedback').className='feedback open';
+  document.getElementById('feedback').classList.add('open');
 }
-
-function toggleHint(){
-  const hb=document.getElementById('hint-box');
-  hb.className=hb.className.includes('open')?'':'open';
-}
-
-function toggleStar(){
-  const q=filteredQ[idx];
-  const gi=ALL_QUESTIONS.indexOf(q);
-  if(starred.has(gi)) starred.delete(gi); else starred.add(gi);
-  document.getElementById('star-btn').textContent=starred.has(gi)?'★':'☆';
-  buildGrid();
-}
-
-function toggleQuestionList(){
-  buildGrid();
-  document.getElementById('q-modal-overlay').className='q-modal-overlay open';
-}
-
-function closeModalOnOverlay(e){
-  if(e.target===document.getElementById('q-modal-overlay'))
-    document.getElementById('q-modal-overlay').className='q-modal-overlay';
-}
-
+function toggleHint(){const h=document.getElementById('hint-box');h.style.display=h.style.display==='none'?'block':'none';}
+function toggleStar(){if(starred.has(idx))starred.delete(idx);else starred.add(idx);document.getElementById('star-btn').textContent=starred.has(idx)?'★':'☆';updateToggleBtn();}
+function toggleQuestionList(){const ov=document.getElementById('modal-overlay');if(!ov.classList.contains('open')){buildGrid();ov.classList.add('open');}else ov.classList.remove('open');}
+function closeModalOnOverlay(e){if(e.target===document.getElementById('modal-overlay'))toggleQuestionList();}
 function buildGrid(){
-  const grid=document.getElementById('q-grid');
-  grid.innerHTML=filteredQ.map((q,i)=>{
-    const gi=ALL_QUESTIONS.indexOf(q);
-    let cls='q-grid-btn';
-    if(i===idx) cls+=' current';
-    else if(correct.has(gi)) cls+=' done-correct';
-    else if(wrong.has(gi)) cls+=' done-wrong';
-    if(starred.has(gi)) cls+=' starred-q';
-    return `<button class="${cls}" onclick="goTo(${i})">${i+1}</button>`;
-  }).join('');
+  const grid=document.getElementById('q-grid');grid.innerHTML='';
+  filteredQ.forEach((_,i)=>{
+    const btn=document.createElement('button');btn.className='q-grid-btn';btn.textContent=i+1;
+    if(i===idx)btn.classList.add('current');
+    if(correct.has(i))btn.classList.add('done-correct');
+    if(wrong.has(i))btn.classList.add('done-wrong');
+    if(starred.has(i))btn.classList.add('starred-q');
+    btn.onclick=()=>{idx=i;renderQuestion();toggleQuestionList();window.scrollTo({top:0,behavior:'smooth'});};
+    grid.appendChild(btn);
+  });
 }
-
-function goTo(i){
-  idx=i;
-  document.getElementById('q-modal-overlay').className='q-modal-overlay';
-  renderQuestion();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function navigate(dir){
-  const newIdx=idx+dir;
-  if(newIdx<0||newIdx>=filteredQ.length) return;
-  idx=newIdx;
-  renderQuestion();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
+function navigate(dir){idx=Math.max(0,Math.min(filteredQ.length-1,idx+dir));renderQuestion();window.scrollTo({top:0,behavior:'smooth'});}
 function updateNavBtns(){
-  document.getElementById('prev-btn').disabled=idx===0;
-  const nb=document.getElementById('next-btn');
-  const q=filteredQ[idx];
-  const gi=ALL_QUESTIONS.indexOf(q);
-  if(idx===filteredQ.length-1 && answered.has(gi)){
-    nb.textContent='Sonuçları Gör →';
-    nb.onclick=showResult;
-  } else {
-    nb.textContent='Sonraki →';
-    nb.onclick=()=>navigate(1);
-    nb.disabled=false;
-  }
+  document.getElementById('prev-btn').disabled=(idx===0);
+  const next=document.getElementById('next-btn');
+  if(idx===filteredQ.length-1&&answered.has(idx)){next.textContent='Sonuçları Gör →';next.classList.add('finish');next.onclick=showResult;}
+  else{next.textContent='Sonraki →';next.classList.remove('finish');next.onclick=()=>navigate(1);next.disabled=false;}
 }
-
-function updateProgress(){
-  const pct=answered.size/ALL_QUESTIONS.length*100;
-  document.getElementById('prog-bar').style.width=pct+'%';
-}
-
-function updateToggleBtn(){
-  document.getElementById('q-counter').textContent=`${idx+1} / ${filteredQ.length} ☰`;
-}
-
+function updateProgress(){document.getElementById('prog-bar').style.width=(answered.size/filteredQ.length*100)+'%';}
+function updateToggleBtn(){document.getElementById('q-counter').textContent=`${idx+1} / ${filteredQ.length} ☰`;}
 function showResult(){
   document.getElementById('quiz-card').style.display='none';
-  document.getElementById('nav').style.display='none';
+  document.getElementById('nav-bar').style.display='none';
   document.getElementById('result-screen').style.display='block';
-  const total=filteredQ.length;
-  const c=filteredQ.filter(q=>correct.has(ALL_QUESTIONS.indexOf(q))).length;
-  const w=filteredQ.filter(q=>wrong.has(ALL_QUESTIONS.indexOf(q))).length;
-  const s=filteredQ.filter(q=>starred.has(ALL_QUESTIONS.indexOf(q))).length;
-  document.getElementById('res-score').textContent=Math.round(c/total*100)+'%';
-  document.getElementById('res-correct').textContent=c;
-  document.getElementById('res-wrong').textContent=w;
-  document.getElementById('res-star').textContent=s;
-  document.getElementById('retry-wrong-btn').style.display=w===0?'none':'block';
-  document.getElementById('retry-star-btn').style.display=s===0?'none':'block';
+  const pct=Math.round(correct.size/filteredQ.length*100);
+  document.getElementById('res-pct').textContent=pct+'%';
+  document.getElementById('res-correct').textContent=correct.size;
+  document.getElementById('res-wrong').textContent=wrong.size;
+  document.getElementById('res-star').textContent=starred.size;
+  document.getElementById('retry-wrong-btn').style.display=wrong.size===0?'none':'block';
+  document.getElementById('retry-star-btn').style.display=starred.size===0?'none':'block';
 }
-
 function restartQuiz(){
-  answered.clear();correct.clear();wrong.clear();starred.clear();
-  filteredQ=[...ALL_QUESTIONS];
-  idx=0;
+  answered.clear();correct.clear();wrong.clear();filteredQ=[...ALL_QUESTIONS];idx=0;
   document.getElementById('quiz-card').style.display='block';
-  document.getElementById('nav').style.display='flex';
+  document.getElementById('nav-bar').style.display='flex';
   document.getElementById('result-screen').style.display='none';
   renderQuestion();
 }
-
 function retryWrong(){
-  const wq=filteredQ.filter(q=>wrong.has(ALL_QUESTIONS.indexOf(q)));
-  answered.clear();correct.clear();wrong.clear();
-  filteredQ=wq;idx=0;
+  const wq=filteredQ.filter((_,i)=>wrong.has(i));if(!wq.length)return;
+  answered.clear();correct.clear();wrong.clear();filteredQ=wq;idx=0;
   document.getElementById('quiz-card').style.display='block';
-  document.getElementById('nav').style.display='flex';
-  document.getElementById('result-screen').style.display='none';
-  renderQuestion();
+  document.getElementById('nav-bar').style.display='flex';
+  document.getElementById('result-screen').style.display='none';renderQuestion();
 }
-
 function retryStar(){
-  const sq=ALL_QUESTIONS.filter(q=>starred.has(ALL_QUESTIONS.indexOf(q)));
-  answered.clear();correct.clear();wrong.clear();
-  filteredQ=sq;idx=0;
+  const sq=filteredQ.filter((_,i)=>starred.has(i));if(!sq.length)return;
+  answered.clear();correct.clear();wrong.clear();starred.clear();filteredQ=sq;idx=0;
   document.getElementById('quiz-card').style.display='block';
-  document.getElementById('nav').style.display='flex';
-  document.getElementById('result-screen').style.display='none';
-  renderQuestion();
+  document.getElementById('nav-bar').style.display='flex';
+  document.getElementById('result-screen').style.display='none';renderQuestion();
 }
-
 renderQuestion();
 </script>
 </body>

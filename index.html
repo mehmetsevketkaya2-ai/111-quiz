@@ -1,685 +1,376 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kebap Menüsü</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aşk Şarkıları 🌹</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:        #0d0a10;
+      --surface:   #16101e;
+      --rose:      #c4556a;
+      --rose-soft: #e8a0b0;
+      --lavender:  #9b7ec8;
+      --cream:     #f0e8e0;
+      --muted:     #6b5a74;
+      --glow:      rgba(196, 85, 106, 0.18);
+    }
 
-  :root {
-    --kirmizi: #C0392B;
-    --kirmizi-koyu: #922B21;
-    --kirmizi-acik: #F5B7B1;
-    --bej: #FDF6EC;
-    --bej-koyu: #F0E6D3;
-    --kahve: #5D4037;
-    --koyu: #1A0A00;
-    --beyaz: #FFFFFF;
-    --gri: #7F8C8D;
-    --yesil: #27AE60;
-  }
+    html { scroll-behavior: smooth; }
 
-  html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bej);
-    color: var(--koyu);
-    min-height: 100vh;
-  }
+    /* ── Floating petals ── */
+    .petals {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .petal {
+      position: absolute;
+      top: -60px;
+      font-size: 1.4rem;
+      animation: fall linear infinite;
+      opacity: 0;
+    }
+    @keyframes fall {
+      0%   { transform: translateY(-60px) rotate(0deg);   opacity: 0; }
+      5%   { opacity: 0.7; }
+      95%  { opacity: 0.5; }
+      100% { transform: translateY(110vh) rotate(540deg); opacity: 0; }
+    }
 
-  /* HERO */
-  .hero {
-    background: var(--kirmizi-koyu);
-    padding: 3rem 1.5rem 2.5rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 30% 50%, rgba(255,100,50,0.18) 0%, transparent 70%),
-                radial-gradient(ellipse at 80% 20%, rgba(255,200,100,0.10) 0%, transparent 60%);
-    pointer-events: none;
-  }
-  .hero-eyebrow {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--kirmizi-acik);
-    margin-bottom: 0.75rem;
-  }
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.4rem, 8vw, 4rem);
-    font-weight: 900;
-    color: var(--beyaz);
-    line-height: 1.05;
-    margin-bottom: 0.75rem;
-  }
-  .hero-sub {
-    font-size: 0.95rem;
-    color: rgba(255,255,255,0.65);
-    max-width: 340px;
-    margin: 0 auto 1.75rem;
-    line-height: 1.6;
-  }
-  .hero-tags {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .hero-tag {
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: rgba(255,255,255,0.85);
-    font-size: 0.72rem;
-    font-weight: 500;
-    padding: 0.3rem 0.75rem;
-    border-radius: 100px;
-    letter-spacing: 0.03em;
-  }
+    /* ── Header ── */
+    header {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 5rem 1rem 3rem;
+    }
+    .eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: .65rem;
+      letter-spacing: .35em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 1.2rem;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.1;
+      background: linear-gradient(135deg, var(--cream) 30%, var(--rose-soft) 70%, var(--lavender));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subtitle {
+      margin-top: 1rem;
+      color: var(--muted);
+      font-size: .85rem;
+      letter-spacing: .1em;
+    }
+    .heart-divider {
+      margin: 2.5rem auto 0;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      width: fit-content;
+      color: var(--rose);
+      font-size: .9rem;
+    }
+    .heart-divider::before,
+    .heart-divider::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--rose));
+    }
+    .heart-divider::after { transform: scaleX(-1); }
 
-  /* NAV TABS */
-  .tab-nav {
-    display: flex;
-    background: var(--bej-koyu);
-    border-bottom: 2px solid #DDD0BE;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .tab-btn {
-    flex: 1;
-    padding: 1rem 0.5rem;
-    border: none;
-    background: transparent;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--gri);
-    cursor: pointer;
-    transition: all 0.2s;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -2px;
-  }
-  .tab-btn.active {
-    color: var(--kirmizi);
-    border-bottom-color: var(--kirmizi);
-  }
-  .tab-btn:hover:not(.active) { color: var(--kahve); }
+    /* ── Song grid ── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.2rem 6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
 
-  /* CONTENT */
-  .tab-content { display: none; }
-  .tab-content.active { display: block; }
+    .song-card {
+      background: var(--surface);
+      border: 1px solid rgba(196, 85, 106, 0.15);
+      border-radius: 18px;
+      overflow: hidden;
+      transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+      position: relative;
+    }
+    .song-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at top left, rgba(196,85,106,.08), transparent 60%);
+      pointer-events: none;
+    }
+    .song-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(0,0,0,.5), 0 0 0 1px rgba(196,85,106,.35);
+      border-color: rgba(196,85,106,.4);
+    }
 
-  /* RECIPE LAYOUT */
-  .recipe-page { padding: 1.75rem 1.25rem 3rem; max-width: 540px; margin: 0 auto; }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 1.4rem 1.6rem 1rem;
+    }
+    .track-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-style: italic;
+      color: var(--rose);
+      opacity: .4;
+      min-width: 2.5rem;
+      line-height: 1;
+    }
+    .track-info h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.35rem;
+      color: var(--cream);
+      margin-bottom: .2rem;
+    }
+    .track-info p {
+      font-size: .75rem;
+      color: var(--muted);
+      letter-spacing: .06em;
+    }
+    .tag {
+      margin-left: auto;
+      font-size: .65rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--rose-soft);
+      background: rgba(196,85,106,.12);
+      border: 1px solid rgba(196,85,106,.2);
+      padding: .25rem .7rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
 
-  .recipe-header {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid #DDD0BE;
-  }
-  .recipe-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.6rem;
-    flex-shrink: 0;
-  }
-  .recipe-icon.red { background: var(--kirmizi); }
-  .recipe-icon.amber { background: #E67E22; }
+    .embed-wrap {
+      padding: 0 1.2rem 1.4rem;
+    }
+    .yt-btn {
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+      background: rgba(196, 85, 106, 0.12);
+      border: 1px solid rgba(196, 85, 106, 0.25);
+      border-radius: 12px;
+      padding: .9rem 1.2rem;
+      color: var(--cream);
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      font-size: .82rem;
+      font-weight: 300;
+      letter-spacing: .04em;
+      transition: background .25s, border-color .25s, transform .2s;
+    }
+    .yt-btn:hover, .yt-btn:active {
+      background: rgba(196, 85, 106, 0.22);
+      border-color: rgba(196, 85, 106, 0.5);
+      transform: scale(1.01);
+    }
+    .yt-icon {
+      width: 38px;
+      height: 38px;
+      background: #ff0000;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .yt-icon svg { width: 18px; height: 18px; fill: white; }
+    .yt-label { font-size: .85rem; color: var(--cream); }
+    .yt-sub { font-size: .7rem; color: var(--muted); margin-top: .15rem; }
 
-  .recipe-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.55rem;
-    font-weight: 700;
-    line-height: 1.15;
-    margin-bottom: 0.3rem;
-  }
-  .recipe-meta {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-  }
-  .meta-pill {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    color: var(--gri);
-    background: var(--bej-koyu);
-    padding: 0.2rem 0.55rem;
-    border-radius: 100px;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-  }
-  .meta-pill svg { width: 11px; height: 11px; }
+    /* ── Ambient glow behind active card ── */
+    .song-card:focus-within {
+      box-shadow: 0 0 0 1px rgba(196,85,106,.5), 0 20px 60px rgba(196,85,106,.2);
+    }
 
-  /* SERVINGS CONTROL */
-  .servings-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--beyaz);
-    border: 1px solid #DDD0BE;
-    border-radius: 12px;
-    padding: 0.75rem 1rem;
-    margin-bottom: 1.5rem;
-  }
-  .servings-label { font-size: 0.8rem; font-weight: 600; color: var(--kahve); }
-  .servings-ctrl { display: flex; align-items: center; gap: 0.75rem; }
-  .sv-btn {
-    width: 30px; height: 30px;
-    border-radius: 50%;
-    border: none;
-    background: var(--kirmizi);
-    color: #fff;
-    font-size: 1.1rem;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700;
-    transition: background 0.15s;
-  }
-  .sv-btn:hover { background: var(--kirmizi-koyu); }
-  .sv-val {
-    font-size: 1rem;
-    font-weight: 700;
-    min-width: 24px;
-    text-align: center;
-  }
+    /* ── Footer ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: .72rem;
+      letter-spacing: .1em;
+    }
+    footer span { color: var(--rose); }
 
-  /* SECTION HEADERS */
-  .section-label {
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--kirmizi);
-    margin-bottom: 0.75rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--kirmizi-acik);
-  }
+    /* ── Pulse heart ── */
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.18); }
+    }
+    .pulse { display: inline-block; animation: pulse 1.8s ease-in-out infinite; }
 
-  /* INGREDIENTS */
-  .ingredients-card {
-    background: var(--beyaz);
-    border-radius: 14px;
-    border: 1px solid #DDD0BE;
-    overflow: hidden;
-    margin-bottom: 1.75rem;
-  }
-  .ingredient-row {
-    display: flex;
-    align-items: center;
-    padding: 0.65rem 1rem;
-    border-bottom: 1px solid #F0E6D3;
-    gap: 0.75rem;
-    transition: background 0.1s;
-  }
-  .ingredient-row:last-child { border-bottom: none; }
-  .ingredient-row:hover { background: #FFFAF4; }
-  .ing-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--kirmizi);
-    flex-shrink: 0;
-    opacity: 0.5;
-  }
-  .ing-name { font-size: 0.88rem; color: var(--koyu); flex: 1; }
-  .ing-amount {
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--kahve);
-    text-align: right;
-    white-space: nowrap;
-  }
-
-  .sub-group-label {
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gri);
-    padding: 0.45rem 1rem 0.2rem;
-    background: #FAFAFA;
-    border-bottom: 1px solid #F0E6D3;
-  }
-
-  /* STEPS */
-  .steps-list { list-style: none; margin-bottom: 1.75rem; }
-  .step-item {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    padding: 1rem;
-    background: var(--beyaz);
-    border-radius: 12px;
-    border: 1px solid #DDD0BE;
-    transition: border-color 0.2s;
-  }
-  .step-item:hover { border-color: var(--kirmizi-acik); }
-  .step-num {
-    width: 28px; height: 28px;
-    border-radius: 8px;
-    background: var(--kirmizi);
-    color: #fff;
-    font-size: 0.75rem;
-    font-weight: 700;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-  .step-text { font-size: 0.88rem; line-height: 1.6; color: #2C1810; }
-
-  /* TIP */
-  .tip-card {
-    background: #FFFBF0;
-    border: 1px solid #F0DC9A;
-    border-radius: 12px;
-    padding: 0.9rem 1rem;
-    display: flex;
-    gap: 0.6rem;
-    align-items: flex-start;
-  }
-  .tip-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
-  .tip-text { font-size: 0.82rem; color: #7D6000; line-height: 1.5; }
-
-  /* TIMER */
-  .timer-card {
-    background: linear-gradient(135deg, var(--kirmizi) 0%, var(--kirmizi-koyu) 100%);
-    border-radius: 12px;
-    padding: 0.9rem 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 0.5rem;
-  }
-  .timer-info { color: #fff; }
-  .timer-title { font-size: 0.75rem; opacity: 0.75; margin-bottom: 0.15rem; }
-  .timer-display { font-size: 1.4rem; font-weight: 700; font-variant-numeric: tabular-nums; }
-  .timer-btns { display: flex; gap: 0.4rem; }
-  .t-btn {
-    border: none;
-    border-radius: 8px;
-    padding: 0.4rem 0.7rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    background: rgba(255,255,255,0.2);
-    color: #fff;
-    transition: background 0.15s;
-  }
-  .t-btn:hover { background: rgba(255,255,255,0.32); }
-  .t-btn.start { background: rgba(255,255,255,0.9); color: var(--kirmizi-koyu); }
-  .t-btn.start:hover { background: #fff; }
-
-  /* ABOUT */
-  .about-tab { padding: 1.75rem 1.25rem 3rem; max-width: 540px; margin: 0 auto; }
-  .combo-card {
-    background: var(--beyaz);
-    border: 1px solid #DDD0BE;
-    border-radius: 16px;
-    padding: 1.25rem;
-    margin-bottom: 1.25rem;
-  }
-  .combo-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.15rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-  }
-  .combo-text { font-size: 0.85rem; color: var(--gri); line-height: 1.6; }
-  .badge {
-    display: inline-block;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 0.2rem 0.6rem;
-    border-radius: 100px;
-    margin-bottom: 0.6rem;
-  }
-  .badge-red { background: #FCE8E6; color: var(--kirmizi); }
-  .badge-amber { background: #FEF3E2; color: #E67E22; }
-  .badge-green { background: #E8F8F0; color: var(--yesil); }
-
-  .summary-row {
-    display: flex;
-    align-items: center;
-    padding: 0.65rem 0;
-    border-bottom: 1px solid #F0E6D3;
-    gap: 0.75rem;
-  }
-  .summary-row:last-child { border-bottom: none; }
-  .sum-icon { font-size: 1.1rem; width: 28px; text-align: center; }
-  .sum-label { font-size: 0.8rem; color: var(--gri); flex: 1; }
-  .sum-val { font-size: 0.85rem; font-weight: 600; }
-
-  @media (prefers-reduced-motion: reduce) {
-    * { transition: none !important; animation: none !important; }
-  }
-</style>
+    @media (prefers-reduced-motion: reduce) {
+      .petal, .pulse { animation: none; }
+      .song-card { transition: none; }
+    }
+  </style>
 </head>
 <body>
 
-<header class="hero">
-  <p class="hero-eyebrow">Ev Yapımı Lezzet</p>
-  <h1>Tavuk Kebabı<br>Menüsü</h1>
-  <p class="hero-sub">İzli tavada çıtır tavuk kebabı ve kebapçı soğanıyla tam bir sofra.</p>
-  <div class="hero-tags">
-    <span class="hero-tag">🍗 Ana Yemek</span>
-    <span class="hero-tag">🧅 Meze</span>
-    <span class="hero-tag">4–6 Kişilik</span>
-    <span class="hero-tag">~40 dk</span>
-  </div>
+<!-- Floating petals -->
+<div class="petals" id="petals"></div>
+
+<header>
+  <p class="eyebrow">Bir Aşk Çalma Listesi</p>
+  <h1>Kalbimin<br>Şarkıları</h1>
+  <p class="subtitle">Seninle dinlemek için seçildi</p>
+  <div class="heart-divider">♥</div>
 </header>
 
-<nav class="tab-nav">
-  <button class="tab-btn active" onclick="switchTab('kebap')">🍗 Tavuk Kebabı</button>
-  <button class="tab-btn" onclick="switchTab('sogan')">🧅 Kebapçı Soğanı</button>
-  <button class="tab-btn" onclick="switchTab('about')">📋 Menü</button>
-</nav>
+<main>
 
-<!-- TAB 1: TAVUK KEBABI -->
-<div id="tab-kebap" class="tab-content active">
-  <div class="recipe-page">
-
-    <div class="recipe-header">
-      <div class="recipe-icon red">🍗</div>
-      <div>
-        <div class="recipe-title">Tavada Tavuk Kebabı</div>
-        <div class="recipe-meta">
-          <span class="meta-pill">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            20 dk hazırlık
-          </span>
-          <span class="meta-pill">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            20 dk pişirme
-          </span>
-          <span class="meta-pill">👩‍🍳 Yasemin Atalar</span>
-        </div>
+  <!-- Şarkı 1 -->
+  <article class="song-card">
+    <div class="card-header">
+      <span class="track-num">01</span>
+      <div class="track-info">
+        <h2>Kör</h2>
+        <p>Ati242</p>
       </div>
+      <span class="tag">Duygusal</span>
     </div>
+    <div class="embed-wrap">
+      <a class="yt-btn" href="https://www.youtube.com/watch?v=ZQv9Mtk0AdA" target="_blank">
+        <div class="yt-icon"><svg viewBox="0 0 24 24"><path d="M10 15.5l6-3.5-6-3.5v7zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div>
+        <div><div class="yt-label">YouTube'da Dinle</div><div class="yt-sub">Kör — Ati242</div></div>
+      </a>
+    </div>
+  </article>
 
-    <!-- Servings -->
-    <div class="servings-bar">
-      <span class="servings-label">Porsiyon</span>
-      <div class="servings-ctrl">
-        <button class="sv-btn" onclick="changeServings('k', -1)">−</button>
-        <span class="sv-val" id="k-sv">5</span>
-        <button class="sv-btn" onclick="changeServings('k', 1)">+</button>
+  <!-- Şarkı 2 -->
+  <article class="song-card">
+    <div class="card-header">
+      <span class="track-num">02</span>
+      <div class="track-info">
+        <h2>Qerejdaxê Berbaye</h2>
+        <p>Hozan Serwan</p>
       </div>
+      <span class="tag">Kürtçe</span>
     </div>
-
-    <!-- Ingredients -->
-    <p class="section-label">Malzemeler</p>
-    <div class="ingredients-card" id="k-ingredients">
-      <div class="sub-group-label">Harç</div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Tavuk göğüs</div><div class="ing-amount" data-base="800" data-unit="g" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Kırmızı biber</div><div class="ing-amount" data-base="1" data-unit="adet" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Yeşil biber</div><div class="ing-amount" data-base="1" data-unit="adet" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Kuru soğan</div><div class="ing-amount" data-base="1" data-unit="adet" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Sarımsak</div><div class="ing-amount" data-base="2" data-unit="diş" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Galeta unu</div><div class="ing-amount" data-base="3" data-unit="yemek kaşığı" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Maydanoz</div><div class="ing-amount" data-base="0.5" data-unit="demet" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Tuz</div><div class="ing-amount" data-base="1" data-unit="tatlı kaşığı" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Toz kırmızı biber</div><div class="ing-amount" data-base="1" data-unit="çay kaşığı" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Karabiber</div><div class="ing-amount" data-base="0.5" data-unit="çay kaşığı" data-base-sv="5"></div></div>
-      <div class="sub-group-label">Baharatlı Yağ</div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Sıvı yağ</div><div class="ing-amount" data-base="5" data-unit="yemek kaşığı" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Toz kırmızı biber</div><div class="ing-amount" data-base="1" data-unit="tatlı kaşığı" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Zerdeçal</div><div class="ing-amount" data-base="0.5" data-unit="tatlı kaşığı" data-base-sv="5"></div></div>
+    <div class="embed-wrap">
+      <a class="yt-btn" href="https://www.youtube.com/watch?v=mQiA9IfsPRk" target="_blank">
+        <div class="yt-icon"><svg viewBox="0 0 24 24"><path d="M10 15.5l6-3.5-6-3.5v7zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div>
+        <div><div class="yt-label">YouTube'da Dinle</div><div class="yt-sub">Qerejdaxê Berbaye — Hozan Serwan</div></div>
+      </a>
     </div>
+  </article>
 
-    <!-- Steps -->
-    <p class="section-label">Yapılışı</p>
-    <ol class="steps-list">
-      <li class="step-item"><div class="step-num">1</div><div class="step-text">Birkaç parçaya kestiğiniz tavuk göğsünü rondodan geçirip karıştırma kabına alın.</div></li>
-      <li class="step-item"><div class="step-num">2</div><div class="step-text">İri parçalar halinde doğradığınız yeşil biber, kırmızı biber, sarımsaklar ve soğanı da rondodan geçirin. Sebzelerin suyunu almadan kaşıkla alıp kaba ilave edin.</div></li>
-      <li class="step-item"><div class="step-num">3</div><div class="step-text">Üzerine galeta unu, ince doğranmış maydanoz, tuz, toz kırmızı biber ve karabiberi ekleyip güzelce yoğurun.</div></li>
-      <li class="step-item">
-        <div class="step-num">4</div>
-        <div>
-          <div class="step-text">Harcın üzerini streçleyin ve mümkünse 1–2 saat buzdolabında dinlendirin.</div>
-          <div class="timer-card" style="margin-top:0.75rem;">
-            <div class="timer-info">
-              <div class="timer-title">Dinlendirme süresi</div>
-              <div class="timer-display" id="timer1-display">01:00:00</div>
-            </div>
-            <div class="timer-btns">
-              <button class="t-btn start" onclick="startTimer('timer1', 3600)">Başlat</button>
-              <button class="t-btn" onclick="resetTimer('timer1', 3600)">Sıfırla</button>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="step-item"><div class="step-num">5</div><div class="step-text">Dinlenen harcı köşeli ve izli bir tavaya eşit şekilde yayın. 6 eşit parçaya ayırın, kaşığın ucuyla hafifçe bastırarak izler yapın.</div></li>
-      <li class="step-item"><div class="step-num">6</div><div class="step-text">Baharatlı yağ için tüm malzemeleri karıştırın. Kenara alın.</div></li>
-      <li class="step-item">
-        <div class="step-num">7</div>
-        <div>
-          <div class="step-text">Tavayı ocağa alın, kısık ateşte pişirmeye başlayın. Alt kısımlar renk almaya başlayınca baharatlı yağı üzerine gezdirin. Alt taraflar kızarınca çevirin, diğer yüzü de kızartın. Yan tarafları da pişirin.</div>
-          <div class="timer-card" style="margin-top:0.75rem;">
-            <div class="timer-info">
-              <div class="timer-title">Pişirme süresi</div>
-              <div class="timer-display" id="timer2-display">00:20:00</div>
-            </div>
-            <div class="timer-btns">
-              <button class="t-btn start" onclick="startTimer('timer2', 1200)">Başlat</button>
-              <button class="t-btn" onclick="resetTimer('timer2', 1200)">Sıfırla</button>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="step-item"><div class="step-num">8</div><div class="step-text">15–20 dakika içinde güzelce pişen tavuk kebaplarınız servise hazır. Afiyet olsun! 🎉</div></li>
-    </ol>
-
-    <div class="tip-card">
-      <div class="tip-icon">💡</div>
-      <div class="tip-text">Harcı 1–2 saat buzdolabında dinlendirirseniz lezzet çok daha iyi olur. Fırın tepsisine yayarak da pişirebilirsiniz.</div>
-    </div>
-
-  </div>
-</div>
-
-<!-- TAB 2: KEBAPÇI SOĞANI -->
-<div id="tab-sogan" class="tab-content">
-  <div class="recipe-page">
-
-    <div class="recipe-header">
-      <div class="recipe-icon amber">🧅</div>
-      <div>
-        <div class="recipe-title">Kebapçı Soğanı</div>
-        <div class="recipe-meta">
-          <span class="meta-pill">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            10 dk hazırlık
-          </span>
-          <span class="meta-pill">✅ Pişirme yok</span>
-          <span class="meta-pill">👩‍🍳 Derya Altuntaş</span>
-        </div>
+  <!-- Şarkı 3 -->
+  <article class="song-card">
+    <div class="card-header">
+      <span class="track-num">03</span>
+      <div class="track-info">
+        <h2>Yara Tuz</h2>
+        <p>Murat Boz</p>
       </div>
+      <span class="tag">Romantik</span>
     </div>
+    <div class="embed-wrap">
+      <a class="yt-btn" href="https://www.youtube.com/watch?v=8b2gGowKuKg" target="_blank">
+        <div class="yt-icon"><svg viewBox="0 0 24 24"><path d="M10 15.5l6-3.5-6-3.5v7zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div>
+        <div><div class="yt-label">YouTube'da Dinle</div><div class="yt-sub">Yara Tuz — Murat Boz</div></div>
+      </a>
+    </div>
+  </article>
 
-    <!-- Servings -->
-    <div class="servings-bar">
-      <span class="servings-label">Porsiyon</span>
-      <div class="servings-ctrl">
-        <button class="sv-btn" onclick="changeServings('s', -1)">−</button>
-        <span class="sv-val" id="s-sv">5</span>
-        <button class="sv-btn" onclick="changeServings('s', 1)">+</button>
+  <!-- Şarkı 4 -->
+  <article class="song-card">
+    <div class="card-header">
+      <span class="track-num">04</span>
+      <div class="track-info">
+        <h2>Adresler Karıştı</h2>
+        <p>Gökçe & Pamela · Talu Şarkıları</p>
       </div>
+      <span class="tag">Pop</span>
     </div>
-
-    <!-- Ingredients -->
-    <p class="section-label">Malzemeler</p>
-    <div class="ingredients-card" id="s-ingredients">
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Orta boy soğan</div><div class="ing-amount" data-base="2" data-unit="adet" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Pulbiber</div><div class="ing-amount" data-base="1" data-unit="tatlı kaşığı" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Kekik</div><div class="ing-amount" data-base="1" data-unit="tatlı kaşığı" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Sumak</div><div class="ing-amount" data-base="1" data-unit="tatlı kaşığı" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">İsot</div><div class="ing-amount" data-base="1" data-unit="çay kaşığı" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Domates salçası</div><div class="ing-amount" data-base="1" data-unit="tatlı kaşığı" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Biber salçası</div><div class="ing-amount" data-base="1" data-unit="tatlı kaşığı" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Zeytinyağı</div><div class="ing-amount" data-base="3" data-unit="yemek kaşığı" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Nar ekşisi</div><div class="ing-amount" data-base="3" data-unit="yemek kaşığı" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Limon suyu</div><div class="ing-amount" data-base="0.5" data-unit="limon" data-base-sv="5"></div></div>
-      <div class="ingredient-row"><div class="ing-dot"></div><div class="ing-name">Kıyılmış maydanoz</div><div class="ing-amount" data-base="1" data-unit="tutam" data-base-sv="5"></div></div>
+    <div class="embed-wrap">
+      <a class="yt-btn" href="https://www.youtube.com/watch?v=4uks9kCcXV8" target="_blank">
+        <div class="yt-icon"><svg viewBox="0 0 24 24"><path d="M10 15.5l6-3.5-6-3.5v7zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div>
+        <div><div class="yt-label">YouTube'da Dinle</div><div class="yt-sub">Adresler Karıştı — Gökçe & Pamela</div></div>
+      </a>
     </div>
+  </article>
 
-    <!-- Steps -->
-    <p class="section-label">Yapılışı</p>
-    <ol class="steps-list">
-      <li class="step-item"><div class="step-num">1</div><div class="step-text">Soğanları ay şeklinde ince ince doğrayın ve uygun bir kaba alın.</div></li>
-      <li class="step-item"><div class="step-num">2</div><div class="step-text">Diğer tüm malzemeleri (pulbiber, kekik, sumak, isot, domates salçası, biber salçası, zeytinyağı, nar ekşisi, limon suyu ve maydanoz) üzerine ekleyip iyice karıştırın.</div></li>
-      <li class="step-item"><div class="step-num">3</div><div class="step-text">Servis tabağına alın, kebabın yanında soğuk servis edin. Afiyet olsun! 🧅</div></li>
-    </ol>
-
-    <div class="tip-card">
-      <div class="tip-icon">💡</div>
-      <div class="tip-text">Soğanı önceden tuzlayıp bir süre bekletip sıkarsanız acılığı azalır. Kebap, köfte veya ızgara etlerin yanında harika gider.</div>
-    </div>
-
-  </div>
-</div>
-
-<!-- TAB 3: MENU ABOUT -->
-<div id="tab-about" class="tab-content">
-  <div class="about-tab">
-
-    <p class="section-label">Menü Özeti</p>
-
-    <div class="combo-card">
-      <span class="badge badge-red">Ana Yemek</span>
-      <div class="combo-title">🍗 Tavada Tavuk Kebabı</div>
-      <div class="combo-text">Rondodan geçirilmiş tavuk göğsü ve sebzelerle hazırlanan, baharatlı yağıyla servis edilen çıtır kebap.</div>
-      <div style="margin-top:0.85rem; border-top:1px solid #F0E6D3; padding-top:0.85rem;">
-        <div class="summary-row"><div class="sum-icon">🕐</div><div class="sum-label">Hazırlık</div><div class="sum-val">20 dk</div></div>
-        <div class="summary-row"><div class="sum-icon">🔥</div><div class="sum-label">Pişirme</div><div class="sum-val">20 dk</div></div>
-        <div class="summary-row"><div class="sum-icon">👥</div><div class="sum-label">Kişi sayısı</div><div class="sum-val">4–6 kişi</div></div>
-        <div class="summary-row"><div class="sum-icon">🍳</div><div class="sum-label">Alet</div><div class="sum-val">Rondo + İzli tava</div></div>
+  <!-- Şarkı 5 -->
+  <article class="song-card">
+    <div class="card-header">
+      <span class="track-num">05</span>
+      <div class="track-info">
+        <h2>Bana Bir Gülümseme Ismarla</h2>
+        <p>Funda Arar</p>
       </div>
+      <span class="tag">Romantik</span>
     </div>
-
-    <div class="combo-card">
-      <span class="badge badge-amber">Meze</span>
-      <div class="combo-title">🧅 Kebapçı Soğanı</div>
-      <div class="combo-text">Sumak, nar ekşisi ve isot ile hazırlanan, pişirme gerektirmeyen klasik kebapçı mezesi.</div>
-      <div style="margin-top:0.85rem; border-top:1px solid #F0E6D3; padding-top:0.85rem;">
-        <div class="summary-row"><div class="sum-icon">🕐</div><div class="sum-label">Hazırlık</div><div class="sum-val">10 dk</div></div>
-        <div class="summary-row"><div class="sum-icon">✅</div><div class="sum-label">Pişirme</div><div class="sum-val">Yok</div></div>
-        <div class="summary-row"><div class="sum-icon">👥</div><div class="sum-label">Kişi sayısı</div><div class="sum-val">4–6 kişi</div></div>
-        <div class="summary-row"><div class="sum-icon">🔪</div><div class="sum-label">Alet</div><div class="sum-val">Sadece bıçak</div></div>
-      </div>
+    <div class="embed-wrap">
+      <a class="yt-btn" href="https://www.youtube.com/watch?v=ztW7o23dHLA" target="_blank">
+        <div class="yt-icon"><svg viewBox="0 0 24 24"><path d="M10 15.5l6-3.5-6-3.5v7zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div>
+        <div><div class="yt-label">YouTube'da Dinle</div><div class="yt-sub">Bana Bir Gülümseme Ismarla — Funda Arar</div></div>
+      </a>
     </div>
+  </article>
 
-    <div class="combo-card">
-      <span class="badge badge-green">Öneri</span>
-      <div class="combo-title">⏱️ Yapım Sırası</div>
-      <div class="combo-text" style="margin-bottom:0.75rem;">En iyi sonuç için bu sırayla hazırlayın:</div>
-      <div class="summary-row"><div class="sum-icon">1️⃣</div><div class="sum-label">Tavuk harcını hazırlayın</div><div class="sum-val" style="color:var(--gri);font-size:0.75rem;">~10 dk</div></div>
-      <div class="summary-row"><div class="sum-icon">2️⃣</div><div class="sum-label">Harç buzdolabında dinlensin</div><div class="sum-val" style="color:var(--gri);font-size:0.75rem;">1–2 saat</div></div>
-      <div class="summary-row"><div class="sum-icon">3️⃣</div><div class="sum-label">Pişirirken soğanı hazırlayın</div><div class="sum-val" style="color:var(--gri);font-size:0.75rem;">10 dk</div></div>
-      <div class="summary-row"><div class="sum-icon">4️⃣</div><div class="sum-label">Birlikte servis edin</div><div class="sum-val" style="color:var(--yesil);font-size:0.75rem;">Afiyet!</div></div>
-    </div>
+</main>
 
-  </div>
-</div>
+<footer>
+  Seninle dinlemek için seçildi &nbsp;<span class="pulse">♥</span>&nbsp; hazırlandı
+</footer>
 
 <script>
-  // Tab switching
-  function switchTab(name) {
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('tab-' + name).classList.add('active');
-    event.currentTarget.classList.add('active');
-  }
+  // Floating petals
+  const emojis = ['🌸','🌹','✨','💕','🌷','💫'];
+  const container = document.getElementById('petals');
+  const count = 18;
 
-  // Servings
-  const servings = { k: 5, s: 5 };
-
-  function changeServings(recipe, delta) {
-    servings[recipe] = Math.max(1, Math.min(20, servings[recipe] + delta));
-    document.getElementById(recipe + '-sv').textContent = servings[recipe];
-    updateAmounts(recipe);
-  }
-
-  function updateAmounts(recipe) {
-    const container = document.getElementById(recipe + '-ingredients');
-    container.querySelectorAll('.ing-amount').forEach(el => {
-      const base = parseFloat(el.dataset.base);
-      const baseSv = parseInt(el.dataset.baseSv);
-      const unit = el.dataset.unit;
-      const current = servings[recipe];
-      const val = (base / baseSv) * current;
-      const display = val % 1 === 0 ? val : parseFloat(val.toFixed(1));
-      el.textContent = display + ' ' + unit;
-    });
-  }
-
-  // Init amounts
-  updateAmounts('k');
-  updateAmounts('s');
-
-  // Timers
-  const timerState = {};
-
-  function pad(n) { return String(n).padStart(2, '0'); }
-
-  function formatTime(s) {
-    const h = Math.floor(s / 3600);
-    const m = Math.floor((s % 3600) / 60);
-    const sec = s % 60;
-    return pad(h) + ':' + pad(m) + ':' + pad(sec);
-  }
-
-  function startTimer(id, defaultSecs) {
-    if (timerState[id] && timerState[id].running) return;
-    if (!timerState[id]) timerState[id] = { remaining: defaultSecs, running: false };
-
-    timerState[id].running = true;
-    timerState[id].interval = setInterval(() => {
-      timerState[id].remaining--;
-      document.getElementById(id + '-display').textContent = formatTime(timerState[id].remaining);
-      if (timerState[id].remaining <= 0) {
-        clearInterval(timerState[id].interval);
-        timerState[id].running = false;
-        document.getElementById(id + '-display').textContent = '✅ Hazır!';
-      }
-    }, 1000);
-  }
-
-  function resetTimer(id, defaultSecs) {
-    if (timerState[id] && timerState[id].interval) clearInterval(timerState[id].interval);
-    timerState[id] = { remaining: defaultSecs, running: false };
-    document.getElementById(id + '-display').textContent = formatTime(defaultSecs);
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('span');
+    el.className = 'petal';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.animationDuration = (7 + Math.random() * 10) + 's';
+    el.style.animationDelay = (Math.random() * 12) + 's';
+    el.style.fontSize = (.9 + Math.random() * .9) + 'rem';
+    container.appendChild(el);
   }
 </script>
+
 </body>
 </html>

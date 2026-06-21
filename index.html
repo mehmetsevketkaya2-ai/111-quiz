@@ -3,372 +3,519 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aşk Şarkıları 🌹</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+  <title>🎵 Çalma Listesi 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:        #0d0a10;
-      --surface:   #16101e;
-      --rose:      #c4556a;
-      --rose-soft: #e8a0b0;
-      --lavender:  #9b7ec8;
-      --cream:     #f0e8e0;
-      --muted:     #6b5a74;
-      --glow:      rgba(196, 85, 106, 0.18);
+      --bg: #080612;
+      --card: #110d1e;
+      --soft: rgba(255,255,255,0.55);
     }
-
-    html { scroll-behavior: smooth; }
 
     body {
       background: var(--bg);
-      color: var(--cream);
-      font-family: 'Inter', sans-serif;
-      font-weight: 300;
+      font-family: 'Outfit', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
+      color: #fff;
     }
 
-    /* ── Floating petals ── */
-    .petals {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
-    }
-    .petal {
-      position: absolute;
-      top: -60px;
-      font-size: 1.4rem;
-      animation: fall linear infinite;
-      opacity: 0;
-    }
-    @keyframes fall {
-      0%   { transform: translateY(-60px) rotate(0deg);   opacity: 0; }
-      5%   { opacity: 0.7; }
-      95%  { opacity: 0.5; }
-      100% { transform: translateY(110vh) rotate(540deg); opacity: 0; }
+    /* BG orbs */
+    .bg-orbs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: .22; animation: drift ease-in-out infinite alternate; }
+    .orb1 { width:400px;height:400px;background:#ff2d78;top:-100px;left:-100px;animation-duration:8s; }
+    .orb2 { width:350px;height:350px;background:#bf5aff;bottom:0;right:-80px;animation-duration:11s; }
+    .orb3 { width:300px;height:300px;background:#00e5ff;top:40%;left:30%;animation-duration:9s; }
+    @keyframes drift { from{transform:translate(0,0) scale(1)} to{transform:translate(30px,20px) scale(1.1)} }
+
+    /* Particles */
+    .particles { position:fixed;inset:0;z-index:0;pointer-events:none; }
+    .particle { position:absolute;border-radius:50%;animation:rise linear infinite;opacity:0; }
+    @keyframes rise {
+      0%   { transform:translateY(100vh) scale(0); opacity:0; }
+      10%  { opacity:1; }
+      90%  { opacity:.6; }
+      100% { transform:translateY(-10vh) scale(1); opacity:0; }
     }
 
-    /* ── Header ── */
-    header {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      padding: 5rem 1rem 3rem;
-    }
-    .eyebrow {
-      font-family: 'Inter', sans-serif;
-      font-size: .65rem;
-      letter-spacing: .35em;
-      text-transform: uppercase;
-      color: var(--rose);
-      margin-bottom: 1.2rem;
+    /* Header */
+    header { position:relative;z-index:1;text-align:center;padding:3.5rem 1.5rem 2rem; }
+    .badge {
+      display:inline-block;
+      background:linear-gradient(135deg,#ff2d78,#bf5aff);
+      font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+      padding:.3rem .9rem;border-radius:999px;margin-bottom:1.2rem;
     }
     h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(3rem, 8vw, 5.5rem);
-      font-weight: 300;
-      font-style: italic;
-      line-height: 1.1;
-      background: linear-gradient(135deg, var(--cream) 30%, var(--rose-soft) 70%, var(--lavender));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size:clamp(2.5rem,8vw,4.5rem);font-weight:900;line-height:1;
+      background:linear-gradient(135deg,#fff 0%,#ff2d78 40%,#bf5aff 80%,#00e5ff 100%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+      margin-bottom:.5rem;
     }
-    .subtitle {
-      margin-top: 1rem;
-      color: var(--muted);
-      font-size: .85rem;
-      letter-spacing: .1em;
-    }
-    .heart-divider {
-      margin: 2.5rem auto 0;
+    .sub { color:var(--soft);font-size:.85rem;font-weight:300; }
+
+    /* Now playing bar */
+    #now-playing {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8,6,18,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      padding: .75rem 1.2rem;
       display: flex;
       align-items: center;
-      gap: 1rem;
-      width: fit-content;
-      color: var(--rose);
-      font-size: .9rem;
+      gap: .8rem;
+      transition: opacity .3s;
     }
-    .heart-divider::before,
-    .heart-divider::after {
-      content: '';
-      display: block;
-      width: 60px;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--rose));
-    }
-    .heart-divider::after { transform: scaleX(-1); }
-
-    /* ── Song grid ── */
-    main {
-      position: relative;
-      z-index: 1;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 2rem 1.2rem 6rem;
-      display: flex;
-      flex-direction: column;
-      gap: 2.5rem;
-    }
-
-    .song-card {
-      background: var(--surface);
-      border: 1px solid rgba(196, 85, 106, 0.15);
-      border-radius: 18px;
-      overflow: hidden;
-      transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
-      position: relative;
-    }
-    .song-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at top left, rgba(196,85,106,.08), transparent 60%);
-      pointer-events: none;
-    }
-    .song-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 20px 50px rgba(0,0,0,.5), 0 0 0 1px rgba(196,85,106,.35);
-      border-color: rgba(196,85,106,.4);
-    }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
-      padding: 1.4rem 1.6rem 1rem;
-    }
-    .track-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.5rem;
-      font-style: italic;
-      color: var(--rose);
-      opacity: .4;
-      min-width: 2.5rem;
-      line-height: 1;
-    }
-    .track-info h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
-      font-size: 1.35rem;
-      color: var(--cream);
-      margin-bottom: .2rem;
-    }
-    .track-info p {
-      font-size: .75rem;
-      color: var(--muted);
-      letter-spacing: .06em;
-    }
-    .tag {
-      margin-left: auto;
-      font-size: .65rem;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--rose-soft);
-      background: rgba(196,85,106,.12);
-      border: 1px solid rgba(196,85,106,.2);
-      padding: .25rem .7rem;
-      border-radius: 999px;
-      white-space: nowrap;
-    }
-
-    .embed-wrap {
-      padding: 0 1.2rem 1.4rem;
-    }
-    .yt-btn {
-      display: flex;
-      align-items: center;
-      gap: .85rem;
-      background: rgba(196, 85, 106, 0.12);
-      border: 1px solid rgba(196, 85, 106, 0.25);
-      border-radius: 12px;
-      padding: .9rem 1.2rem;
-      color: var(--cream);
-      text-decoration: none;
-      font-family: 'Inter', sans-serif;
-      font-size: .82rem;
-      font-weight: 300;
-      letter-spacing: .04em;
-      transition: background .25s, border-color .25s, transform .2s;
-    }
-    .yt-btn:hover, .yt-btn:active {
-      background: rgba(196, 85, 106, 0.22);
-      border-color: rgba(196, 85, 106, 0.5);
-      transform: scale(1.01);
-    }
-    .yt-icon {
-      width: 38px;
-      height: 38px;
-      background: #ff0000;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    #now-playing.hidden { opacity:0; pointer-events:none; }
+    .np-pulse {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: #ff2d78;
+      animation: npulse .8s ease-in-out infinite alternate;
       flex-shrink: 0;
     }
-    .yt-icon svg { width: 18px; height: 18px; fill: white; }
-    .yt-label { font-size: .85rem; color: var(--cream); }
-    .yt-sub { font-size: .7rem; color: var(--muted); margin-top: .15rem; }
-
-    /* ── Ambient glow behind active card ── */
-    .song-card:focus-within {
-      box-shadow: 0 0 0 1px rgba(196,85,106,.5), 0 20px 60px rgba(196,85,106,.2);
+    @keyframes npulse { from{transform:scale(1);opacity:1} to{transform:scale(1.5);opacity:.5} }
+    .np-info { flex:1; min-width:0; }
+    .np-title { font-size:.82rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+    .np-artist { font-size:.65rem;color:var(--soft); }
+    .np-controls { display:flex;gap:.5rem;align-items:center; }
+    .np-btn {
+      background: rgba(255,255,255,0.08);
+      border: none; border-radius: 8px;
+      color: #fff; font-size: .75rem; font-weight:600;
+      padding: .35rem .7rem; cursor:pointer;
+      transition: background .2s;
+    }
+    .np-btn:hover { background:rgba(255,255,255,0.16); }
+    .np-open {
+      background: linear-gradient(135deg,#ff2d78,#bf5aff);
+      border:none;border-radius:8px;
+      color:#fff;font-size:.7rem;font-weight:700;
+      padding:.35rem .8rem;cursor:pointer;
+      text-decoration:none;white-space:nowrap;
     }
 
-    /* ── Footer ── */
-    footer {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      padding: 2rem;
-      color: var(--muted);
-      font-size: .72rem;
-      letter-spacing: .1em;
+    /* Main */
+    main {
+      position:relative;z-index:1;
+      max-width:680px;margin:0 auto;
+      padding:.8rem 1rem 5rem;
+      display:flex;flex-direction:column;gap:.7rem;
     }
-    footer span { color: var(--rose); }
 
-    /* ── Pulse heart ── */
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50%       { transform: scale(1.18); }
+    /* Card */
+    .song-card {
+      background: var(--card);
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.06);
+      overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
     }
-    .pulse { display: inline-block; animation: pulse 1.8s ease-in-out infinite; }
+    .song-card.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent), 0 8px 30px rgba(0,0,0,.4);
+    }
+    .song-card:hover { transform:translateY(-2px); }
 
-    @media (prefers-reduced-motion: reduce) {
-      .petal, .pulse { animation: none; }
-      .song-card { transition: none; }
+    /* Per-card colors */
+    .song-card:nth-child(1)  { --accent:#ff2d78; }
+    .song-card:nth-child(2)  { --accent:#bf5aff; }
+    .song-card:nth-child(3)  { --accent:#00e5ff; }
+    .song-card:nth-child(4)  { --accent:#ff6b2b; }
+    .song-card:nth-child(5)  { --accent:#ff2d78; }
+    .song-card:nth-child(6)  { --accent:#00e5ff; }
+    .song-card:nth-child(7)  { --accent:#bf5aff; }
+    .song-card:nth-child(8)  { --accent:#ff6b2b; }
+    .song-card:nth-child(9)  { --accent:#ff2d78; }
+    .song-card:nth-child(10) { --accent:#bf5aff; }
+    .song-card:nth-child(11) { --accent:#00e5ff; }
+    .song-card:nth-child(12) { --accent:#ff6b2b; }
+    .song-card:nth-child(13) { --accent:#ff2d78; }
+    .song-card:nth-child(14) { --accent:#00e5ff; }
+    .song-card:nth-child(15) { --accent:#bf5aff; }
+    .song-card:nth-child(16) { --accent:#ff6b2b; }
+    .song-card:nth-child(17) { --accent:#ff2d78; }
+    .song-card:nth-child(18) { --accent:#bf5aff; }
+    .song-card:nth-child(19) { --accent:#00e5ff; }
+    .song-card:nth-child(20) { --accent:#ff6b2b; }
+
+    .card-inner {
+      display:flex;align-items:center;gap:.9rem;
+      padding:.85rem 1rem;
+    }
+
+    /* Play button */
+    .play-btn {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), rgba(255,255,255,0.1));
+      border: none;
+      display: flex; align-items:center; justify-content:center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: transform .15s, filter .15s;
+      box-shadow: 0 0 16px rgba(0,0,0,.4);
+    }
+    .play-btn:hover { transform:scale(1.1); filter:brightness(1.2); }
+    .play-btn:active { transform:scale(0.95); }
+    .play-btn svg { width:18px;height:18px;fill:#fff;margin-left:2px; }
+    .song-card.active .play-btn {
+      animation: glowing 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes glowing {
+      from { box-shadow: 0 0 8px var(--accent); }
+      to   { box-shadow: 0 0 22px var(--accent), 0 0 40px var(--accent); }
+    }
+
+    .num { font-size:.65rem;font-weight:700;color:rgba(255,255,255,.3);margin-top:2px; }
+
+    .track-info { flex:1;min-width:0; }
+    .track-info h2 {
+      font-size:.92rem;font-weight:700;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+    .track-info p { font-size:.7rem;color:var(--soft);margin-top:.1rem; }
+
+    .tag {
+      font-size:.55rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+      color:var(--accent);
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.1);
+      padding:.18rem .5rem;border-radius:999px;white-space:nowrap;flex-shrink:0;
+    }
+
+    /* Footer */
+    footer { position:relative;z-index:1;text-align:center;padding:2rem 1rem 3rem;color:rgba(255,255,255,.2);font-size:.7rem; }
+    .fheart { font-size:1.3rem;display:block;margin-bottom:.4rem;animation:beat .9s ease-in-out infinite; }
+    @keyframes beat { 0%,100%{transform:scale(1)} 50%{transform:scale(1.3)} }
+
+    @media (prefers-reduced-motion:reduce) {
+      .orb,.particle,.fheart,.np-pulse,.song-card.active .play-btn { animation:none; }
     }
   </style>
 </head>
 <body>
 
-<!-- Floating petals -->
-<div class="petals" id="petals"></div>
+<div class="bg-orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+<div class="particles" id="particles"></div>
+
+<!-- Sticky now-playing bar -->
+<div id="now-playing" class="hidden">
+  <div class="np-pulse"></div>
+  <div class="np-info">
+    <div class="np-title" id="np-title">—</div>
+    <div class="np-artist" id="np-artist">—</div>
+  </div>
+  <div class="np-controls">
+    <button class="np-btn" onclick="prevSong()">⏮</button>
+    <button class="np-btn" onclick="nextSong()">⏭</button>
+  </div>
+  <a id="np-link" class="np-open" href="#" target="_blank">▶ Aç</a>
+</div>
 
 <header>
-  <p class="eyebrow">Bir Aşk Çalma Listesi</p>
-  <h1>Kalbimin<br>Şarkıları</h1>
-  <p class="subtitle">Seninle dinlemek için seçildi</p>
-  <div class="heart-divider">♥</div>
+  <div class="badge">✦ Haziran 2026 ✦</div>
+  <h1>Çalma<br>Listesi</h1>
+  <p class="sub">Yeni Türkçe şarkılar · Haziran 2026</p>
 </header>
 
-<main>
+<main id="song-list">
 
-  <!-- Şarkı 1 -->
-  <article class="song-card">
-    <div class="card-header">
-      <span class="track-num">01</span>
-      <div class="track-info">
-        <h2>Kör</h2>
-        <p>Ati242</p>
+  <article class="song-card" data-title="Bunun Adı Aşksa" data-artist="Oğuzhan Koç" data-url="https://music.youtube.com/search?q=Oğuzhan+Koç+Bunun+Adı+Aşksa">
+    <div class="card-inner">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="play-btn" onclick="playSong(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <span class="num">01</span>
       </div>
+      <div class="track-info"><h2>Bunun Adı Aşksa</h2><p>Oğuzhan Koç</p></div>
+      <span class="tag">Romantik</span>
+    </div>
+  </article>
+
+  <article class="song-card" data-title="Akşamüstü" data-artist="Yalın" data-url="https://music.youtube.com/search?q=Yalın+Akşamüstü">
+    <div class="card-inner">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="play-btn" onclick="playSong(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <span class="num">02</span>
+      </div>
+      <div class="track-info"><h2>Akşamüstü</h2><p>Yalın</p></div>
       <span class="tag">Duygusal</span>
     </div>
-    <div class="embed-wrap">
-      <a class="yt-btn" href="https://www.youtube.com/watch?v=ZQv9Mtk0AdA" target="_blank">
-        <div class="yt-icon"><svg viewBox="0 0 24 24"><path d="M10 15.5l6-3.5-6-3.5v7zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div>
-        <div><div class="yt-label">YouTube'da Dinle</div><div class="yt-sub">Kör — Ati242</div></div>
-      </a>
+  </article>
+
+  <article class="song-card" data-title="Geçmiş Geçmişte" data-artist="Emir Can İğrek" data-url="https://music.youtube.com/search?q=Emir+Can+İğrek+Geçmiş+Geçmişte">
+    <div class="card-inner">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="play-btn" onclick="playSong(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <span class="num">03</span>
+      </div>
+      <div class="track-info"><h2>Geçmiş Geçmişte</h2><p>Emir Can İğrek</p></div>
+      <span class="tag">Duygusal</span>
     </div>
   </article>
 
-  <!-- Şarkı 2 -->
-  <article class="song-card">
-    <div class="card-header">
-      <span class="track-num">02</span>
-      <div class="track-info">
-        <h2>Qerejdaxê Berbaye</h2>
-        <p>Hozan Serwan</p>
+  <article class="song-card" data-title="Gidişat" data-artist="Tan Taşçı" data-url="https://music.youtube.com/search?q=Tan+Taşçı+Gidişat">
+    <div class="card-inner">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="play-btn" onclick="playSong(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <span class="num">04</span>
       </div>
-      <span class="tag">Kürtçe</span>
-    </div>
-    <div class="embed-wrap">
-      <a class="yt-btn" href="https://www.youtube.com/watch?v=mQiA9IfsPRk" target="_blank">
-        <div class="yt-icon"><svg viewBox="0 0 24 24"><path d="M10 15.5l6-3.5-6-3.5v7zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div>
-        <div><div class="yt-label">YouTube'da Dinle</div><div class="yt-sub">Qerejdaxê Berbaye — Hozan Serwan</div></div>
-      </a>
-    </div>
-  </article>
-
-  <!-- Şarkı 3 -->
-  <article class="song-card">
-    <div class="card-header">
-      <span class="track-num">03</span>
-      <div class="track-info">
-        <h2>Yara Tuz</h2>
-        <p>Murat Boz</p>
-      </div>
-      <span class="tag">Romantik</span>
-    </div>
-    <div class="embed-wrap">
-      <a class="yt-btn" href="https://www.youtube.com/watch?v=8b2gGowKuKg" target="_blank">
-        <div class="yt-icon"><svg viewBox="0 0 24 24"><path d="M10 15.5l6-3.5-6-3.5v7zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div>
-        <div><div class="yt-label">YouTube'da Dinle</div><div class="yt-sub">Yara Tuz — Murat Boz</div></div>
-      </a>
-    </div>
-  </article>
-
-  <!-- Şarkı 4 -->
-  <article class="song-card">
-    <div class="card-header">
-      <span class="track-num">04</span>
-      <div class="track-info">
-        <h2>Adresler Karıştı</h2>
-        <p>Gökçe & Pamela · Talu Şarkıları</p>
-      </div>
+      <div class="track-info"><h2>Gidişat</h2><p>Tan Taşçı</p></div>
       <span class="tag">Pop</span>
     </div>
-    <div class="embed-wrap">
-      <a class="yt-btn" href="https://www.youtube.com/watch?v=4uks9kCcXV8" target="_blank">
-        <div class="yt-icon"><svg viewBox="0 0 24 24"><path d="M10 15.5l6-3.5-6-3.5v7zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div>
-        <div><div class="yt-label">YouTube'da Dinle</div><div class="yt-sub">Adresler Karıştı — Gökçe & Pamela</div></div>
-      </a>
+  </article>
+
+  <article class="song-card" data-title="Sabaha Kadar" data-artist="Nilüfer" data-url="https://music.youtube.com/search?q=Nilüfer+Sabaha+Kadar">
+    <div class="card-inner">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="play-btn" onclick="playSong(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <span class="num">05</span>
+      </div>
+      <div class="track-info"><h2>Sabaha Kadar</h2><p>Nilüfer</p></div>
+      <span class="tag">Nostaljik</span>
     </div>
   </article>
 
-  <!-- Şarkı 5 -->
-  <article class="song-card">
-    <div class="card-header">
-      <span class="track-num">05</span>
-      <div class="track-info">
-        <h2>Bana Bir Gülümseme Ismarla</h2>
-        <p>Funda Arar</p>
+  <article class="song-card" data-title="Başa Bela" data-artist="Ezhel" data-url="https://music.youtube.com/search?q=Ezhel+Başa+Bela">
+    <div class="card-inner">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="play-btn" onclick="playSong(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <span class="num">06</span>
       </div>
-      <span class="tag">Romantik</span>
+      <div class="track-info"><h2>Başa Bela</h2><p>Ezhel</p></div>
+      <span class="tag">Trap</span>
     </div>
-    <div class="embed-wrap">
-      <a class="yt-btn" href="https://www.youtube.com/watch?v=ztW7o23dHLA" target="_blank">
-        <div class="yt-icon"><svg viewBox="0 0 24 24"><path d="M10 15.5l6-3.5-6-3.5v7zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div>
-        <div><div class="yt-label">YouTube'da Dinle</div><div class="yt-sub">Bana Bir Gülümseme Ismarla — Funda Arar</div></div>
-      </a>
+  </article>
+
+  <article class="song-card" data-title="Ağla" data-artist="Oğuzhan Koç" data-url="https://music.youtube.com/search?q=Oğuzhan+Koç+Ağla">
+    <div class="card-inner">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="play-btn" onclick="playSong(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <span class="num">07</span>
+      </div>
+      <div class="track-info"><h2>Ağla</h2><p>Oğuzhan Koç</p></div>
+      <span class="tag">Duygusal</span>
+    </div>
+  </article>
+
+  <article class="song-card" data-title="Kör" data-artist="Ati242" data-url="https://music.youtube.com/search?q=Ati242+Kör">
+    <div class="card-inner">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="play-btn" onclick="playSong(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <span class="num">08</span>
+      </div>
+      <div class="track-info"><h2>Kör</h2><p>Ati242</p></div>
+      <span class="tag">Rap</span>
+    </div>
+  </article>
+
+  <article class="song-card" data-title="Yara Tuz" data-artist="Murat Boz" data-url="https://music.youtube.com/search?q=Murat+Boz+Yara+Tuz">
+    <div class="card-inner">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="play-btn" onclick="playSong(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <span class="num">09</span>
+      </div>
+      <div class="track-info"><h2>Yara Tuz</h2><p>Murat Boz</p></div>
+      <span class="tag">Pop</span>
+    </div>
+  </article>
+
+  <article class="song-card" data-title="Bana Bir Gülümseme Ismarla" data-artist="Funda Arar" data-url="https://music.youtube.com/search?q=Funda+Arar+Bana+Bir+Gülümseme+Ismarla">
+    <div class="card-inner">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="play-btn" onclick="playSong(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <span class="num">10</span>
+      </div>
+      <div class="track-info"><h2>Bana Bir Gülümseme Ismarla</h2><p>Funda Arar</p></div>
+      <span class="tag">Pop</span>
+    </div>
+  </article>
+
+  <article class="song-card" data-title="Adresler Karıştı" data-artist="Gökçe & Pamela" data-url="https://music.youtube.com/search?q=Gökçe+Pamela+Adresler+Karıştı">
+    <div class="card-inner">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="play-btn" onclick="playSong(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <span class="num">11</span>
+      </div>
+      <div class="track-info"><h2>Adresler Karıştı</h2><p>Gökçe & Pamela</p></div>
+      <span class="tag">Düet</span>
+    </div>
+  </article>
+
+  <article class="song-card" data-title="Tatlı Kaçık" data-artist="Aybüke Albere" data-url="https://music.youtube.com/search?q=Aybüke+Albere+Tatlı+Kaçık">
+    <div class="card-inner">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="play-btn" onclick="playSong(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <span class="num">12</span>
+      </div>
+      <div class="track-info"><h2>Tatlı Kaçık</h2><p>Aybüke Albere</p></div>
+      <span class="tag">Pop</span>
+    </div>
+  </article>
+
+  <article class="song-card" data-title="Canımsın" data-artist="Duman" data-url="https://music.youtube.com/search?q=Duman+Canımsın+Pür+Cunda">
+    <div class="card-inner">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="play-btn" onclick="playSong(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <span class="num">13</span>
+      </div>
+      <div class="track-info"><h2>Canımsın</h2><p>Duman</p></div>
+      <span class="tag">Rock</span>
+    </div>
+  </article>
+
+  <article class="song-card" data-title="Haberim Yok" data-artist="Duygu Karakuş ft. Metin Şentürk" data-url="https://music.youtube.com/search?q=Duygu+Karakuş+Haberim+Yok">
+    <div class="card-inner">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="play-btn" onclick="playSong(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <span class="num">14</span>
+      </div>
+      <div class="track-info"><h2>Haberim Yok</h2><p>Duygu Karakuş ft. Metin Şentürk</p></div>
+      <span class="tag">Duygusal</span>
+    </div>
+  </article>
+
+  <article class="song-card" data-title="Yalan Mı" data-artist="Ece Mumay ft. Hüseyin Mehmedoğlu" data-url="https://music.youtube.com/search?q=Ece+Mumay+Yalan+Mı">
+    <div class="card-inner">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="play-btn" onclick="playSong(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <span class="num">15</span>
+      </div>
+      <div class="track-info"><h2>Yalan Mı</h2><p>Ece Mumay ft. Hüseyin Mehmedoğlu</p></div>
+      <span class="tag">Pop</span>
+    </div>
+  </article>
+
+  <article class="song-card" data-title="Hanımefendi" data-artist="Emre Nalbantoğlu ft. Cenk Erdoğan" data-url="https://music.youtube.com/search?q=Emre+Nalbantoğlu+Hanımefendi">
+    <div class="card-inner">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="play-btn" onclick="playSong(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <span class="num">16</span>
+      </div>
+      <div class="track-info"><h2>Hanımefendi</h2><p>Emre Nalbantoğlu ft. Cenk Erdoğan</p></div>
+      <span class="tag">Pop</span>
+    </div>
+  </article>
+
+  <article class="song-card" data-title="Sen Yoluna Git" data-artist="Hakan Peker" data-url="https://music.youtube.com/search?q=Hakan+Peker+Sen+Yoluna+Git">
+    <div class="card-inner">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="play-btn" onclick="playSong(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <span class="num">17</span>
+      </div>
+      <div class="track-info"><h2>Sen Yoluna Git</h2><p>Hakan Peker</p></div>
+      <span class="tag">Arabesk</span>
+    </div>
+  </article>
+
+  <article class="song-card" data-title="Sen Gibi" data-artist="Selçuk Balcı" data-url="https://music.youtube.com/search?q=Selçuk+Balcı+Sen+Gibi">
+    <div class="card-inner">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="play-btn" onclick="playSong(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <span class="num">18</span>
+      </div>
+      <div class="track-info"><h2>Sen Gibi</h2><p>Selçuk Balcı</p></div>
+      <span class="tag">Pop</span>
+    </div>
+  </article>
+
+  <article class="song-card" data-title="Ay Yıldızım" data-artist="Sıla Şahin & Samet Kardeşler" data-url="https://music.youtube.com/search?q=Sıla+Şahin+Ay+Yıldızım">
+    <div class="card-inner">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="play-btn" onclick="playSong(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <span class="num">19</span>
+      </div>
+      <div class="track-info"><h2>Ay Yıldızım</h2><p>Sıla Şahin & Samet Kardeşler</p></div>
+      <span class="tag">Türkü</span>
+    </div>
+  </article>
+
+  <article class="song-card" data-title="Bitti Mi Hikayemiz" data-artist="Zaaf" data-url="https://music.youtube.com/search?q=Zaaf+Bitti+mi+hikayemiz">
+    <div class="card-inner">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <button class="play-btn" onclick="playSong(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <span class="num">20</span>
+      </div>
+      <div class="track-info"><h2>Bitti Mi Hikayemiz</h2><p>Zaaf</p></div>
+      <span class="tag">R&B</span>
     </div>
   </article>
 
 </main>
 
 <footer>
-  Seninle dinlemek için seçildi &nbsp;<span class="pulse">♥</span>&nbsp; hazırlandı
+  <span class="fheart">♥</span>
+  Haziran 2026 · Yeni Türkçe Şarkılar
 </footer>
 
 <script>
-  // Floating petals
-  const emojis = ['🌸','🌹','✨','💕','🌷','💫'];
-  const container = document.getElementById('petals');
-  const count = 18;
+  // Particles
+  const colors = ['#ff2d78','#bf5aff','#00e5ff','#ff6b2b','#fff'];
+  const pc = document.getElementById('particles');
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const s = 2 + Math.random() * 3;
+    p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}vw;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${7+Math.random()*9}s;animation-delay:${Math.random()*10}s;`;
+    pc.appendChild(p);
+  }
 
-  for (let i = 0; i < count; i++) {
-    const el = document.createElement('span');
-    el.className = 'petal';
-    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-    el.style.left = Math.random() * 100 + 'vw';
-    el.style.animationDuration = (7 + Math.random() * 10) + 's';
-    el.style.animationDelay = (Math.random() * 12) + 's';
-    el.style.fontSize = (.9 + Math.random() * .9) + 'rem';
-    container.appendChild(el);
+  // Player state
+  const cards = Array.from(document.querySelectorAll('.song-card'));
+  let currentIdx = -1;
+
+  const npBar   = document.getElementById('now-playing');
+  const npTitle = document.getElementById('np-title');
+  const npArtist= document.getElementById('np-artist');
+  const npLink  = document.getElementById('np-link');
+
+  function playSong(btn) {
+    const card = btn.closest('.song-card');
+    const idx  = cards.indexOf(card);
+
+    // Deactivate previous
+    cards.forEach(c => c.classList.remove('active'));
+
+    // Activate new
+    card.classList.add('active');
+    currentIdx = idx;
+
+    const title  = card.dataset.title;
+    const artist = card.dataset.artist;
+    const url    = card.dataset.url;
+
+    // Update sticky bar
+    npTitle.textContent  = title;
+    npArtist.textContent = artist;
+    npLink.href = url;
+    npBar.classList.remove('hidden');
+
+    // Open YTM
+    window.open(url, '_blank');
+
+    // Scroll card into view
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function nextSong() {
+    if (currentIdx < cards.length - 1) {
+      const nextBtn = cards[currentIdx + 1].querySelector('.play-btn');
+      playSong(nextBtn);
+    }
+  }
+
+  function prevSong() {
+    if (currentIdx > 0) {
+      const prevBtn = cards[currentIdx - 1].querySelector('.play-btn');
+      playSong(prevBtn);
+    }
   }
 </script>
 

@@ -1,751 +1,835 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TUS Fizik Tedavi ve Rehabilitasyon - Part 1</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #0f1117;
-            --surface: #1a1d27;
-            --card: #20243a;
-            --border: #2e3354;
-            --accent: #5b8dee;
-            --accent2: #e05c7a;
-            --gold: #f5c842;
-            --green: #3ecf74;
-            --red: #f0476d;
-            --text: #dde3f5;
-            --muted: #7b85a8;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            background: var(--bg); 
-            color: var(--text); 
-            font-family: 'Inter', sans-serif; 
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        .progress-wrap {
-            position: fixed;
-            top: 0; left: 0; width: 100%;
-            height: 3px;
-            background: rgba(255,255,255,0.1);
-            z-index: 1000;
-        }
-        .progress-bar {
-            height: 100%;
-            background: var(--accent);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .container {
-            max-width: 650px;
-            margin: 40px auto;
-            padding: 20px;
-        }
-
-        .section-badge {
-            font-family: 'IBM Plex Mono', monospace;
-            color: var(--accent2);
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            margin-bottom: 20px;
-        }
-
-        .q-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        #q-num {
-            font-family: 'IBM Plex Mono', monospace;
-            font-weight: 600;
-            color: var(--muted);
-        }
-
-        .star-btn {
-            background: none;
-            border: none;
-            color: var(--muted);
-            font-size: 24px;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-        .star-btn.active { color: var(--gold); }
-
-        .question-text {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 24px;
-            color: #fff;
-        }
-
-        .year-tags {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-        }
-        .year-tag {
-            background: rgba(91, 141, 238, 0.1);
-            color: var(--accent);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 600;
-            font-family: 'IBM Plex Mono', monospace;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .opt-btn {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 16px;
-            border-radius: 12px;
-            color: var(--text);
-            text-align: left;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.2s;
-            font-size: 15px;
-        }
-
-        .opt-letter {
-            font-family: 'IBM Plex Mono', monospace;
-            font-weight: 600;
-            background: var(--card);
-            width: 30px; height: 30px;
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-            flex-shrink: 0;
-        }
-
-        .opt-btn:hover:not(:disabled) {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        .opt-btn.correct {
-            background: rgba(62, 207, 116, 0.15);
-            border-color: var(--green);
-        }
-        .opt-btn.wrong {
-            background: rgba(240, 71, 109, 0.15);
-            border-color: var(--red);
-        }
-
-        .hint-toggle {
-            margin-top: 20px;
-            background: none;
-            border: 1px dashed var(--muted);
-            color: var(--muted);
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        #hint-box {
-            display: none;
-            margin-top: 12px;
-            padding: 12px;
-            background: rgba(245, 200, 66, 0.05);
-            border-left: 3px solid var(--gold);
-            font-size: 14px;
-            color: var(--gold);
-        }
-
-        .feedback {
-            display: none;
-            margin-top: 24px;
-            animation: slideIn 0.4s ease-out;
-        }
-        .feedback.open { display: block; }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .trap-box {
-            background: rgba(240, 71, 109, 0.1);
-            border: 1px solid rgba(240, 71, 109, 0.2);
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-        }
-        .trap-title {
-            color: var(--red);
-            font-family: 'IBM Plex Mono', monospace;
-            font-weight: 600;
-            font-size: 12px;
-            margin-bottom: 4px;
-        }
-
-        .explain-box {
-            background: rgba(91, 141, 238, 0.1);
-            border: 1px solid rgba(91, 141, 238, 0.2);
-            padding: 16px;
-            border-radius: 12px;
-        }
-        .explain-title {
-            color: var(--accent);
-            font-family: 'IBM Plex Mono', monospace;
-            font-weight: 600;
-            font-size: 12px;
-            margin-bottom: 4px;
-        }
-
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 24px;
-        }
-        .nav-btn {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 12px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-        .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-
-        #result-screen {
-            display: none;
-            text-align: center;
-            padding: 40px 20px;
-        }
-        .result-score {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 64px;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 20px;
-        }
-        .result-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 30px;
-        }
-        .stat-card {
-            background: var(--card);
-            padding: 16px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-        .stat-val { font-size: 20px; font-weight: 700; display: block; }
-        .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; }
-
-        .action-btn {
-            width: 100%;
-            padding: 16px;
-            border-radius: 12px;
-            border: none;
-            background: var(--accent);
-            color: #fff;
-            font-weight: 700;
-            margin-bottom: 12px;
-            cursor: pointer;
-        }
-        .action-btn.secondary { background: var(--surface); border: 1px solid var(--border); }
-
-        .q-modal-overlay {
-            position: fixed;
-            top:0; left:0; width:100%; height:100%;
-            background: rgba(0,0,0,0.8);
-            display: none;
-            z-index: 2000;
-        }
-        .q-modal {
-            position: fixed;
-            bottom: 0; left: 0; width: 100%;
-            background: var(--card);
-            border-radius: 24px 24px 0 0;
-            padding: 30px 20px;
-            max-height: 80vh;
-            overflow-y: auto;
-            transform: translateY(100%);
-            transition: transform 0.3s ease-out;
-        }
-        .q-modal.open { transform: translateY(0); }
-        .q-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 10px;
-        }
-        .q-grid-btn {
-            aspect-ratio: 1;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--surface);
-            color: var(--text);
-            font-family: 'IBM Plex Mono', monospace;
-            cursor: pointer;
-        }
-        .q-grid-btn.correct { background: var(--green); color: #000; }
-        .q-grid-btn.wrong { background: var(--red); color: #fff; }
-        .q-grid-btn.active { border: 2px solid var(--accent); }
-
-        @media (max-width: 480px) {
-            .q-grid { grid-template-columns: repeat(4, 1fr); }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FTR Quiz – PART 1</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;
+  --accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;--green:#3ecf74;
+  --red:#f0476d;--text:#dde3f5;--muted:#7b85a8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding-bottom:80px}
+.progress-wrap{position:fixed;top:0;left:0;width:100%;height:3px;background:var(--border);z-index:100}
+.progress-bar{height:3px;background:var(--accent);width:0%;transition:width .3s}
+.section-badge{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent2);letter-spacing:2px;text-transform:uppercase;text-align:center;padding:18px 0 4px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;max-width:720px;margin:14px auto;padding:22px 22px 18px}
+.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+#q-num{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)}
+#star-btn{background:none;border:none;font-size:20px;cursor:pointer;color:var(--gold);transition:transform .15s}
+#star-btn:hover{transform:scale(1.2)}
+.year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.year-tag{font-family:'IBM Plex Mono',monospace;font-size:10px;background:var(--surface);border:1px solid var(--border);color:var(--accent);border-radius:20px;padding:2px 10px}
+.q-text{font-size:15px;line-height:1.65;margin-bottom:14px}
+.hint-toggle{background:none;border:1px solid var(--border);color:var(--muted);font-size:12px;border-radius:8px;padding:5px 12px;cursor:pointer;margin-bottom:12px;transition:border-color .2s}
+.hint-toggle:hover{border-color:var(--accent)}
+#hint-box{display:none;background:var(--surface);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:10px 14px;font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.6}
+#hint-box.open{display:block}
+.options{display:flex;flex-direction:column;gap:8px}
+.opt-btn{display:flex;align-items:flex-start;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 14px;cursor:pointer;text-align:left;color:var(--text);font-size:14px;line-height:1.5;transition:border-color .18s,background .18s}
+.opt-btn:hover:not(:disabled){border-color:var(--accent);background:#1e2235}
+.opt-letter{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--accent);min-width:18px;padding-top:1px}
+.opt-btn.correct{background:#0d2e1c;border-color:var(--green);color:var(--green)}
+.opt-btn.correct .opt-letter{color:var(--green)}
+.opt-btn.wrong{background:#2a0e14;border-color:var(--red);color:var(--red)}
+.opt-btn.wrong .opt-letter{color:var(--red)}
+.feedback{display:none;margin-top:14px}
+.feedback.open{display:block}
+.trap-box{background:#1e0e14;border:1px solid #5a1828;border-radius:10px;padding:12px 14px;margin-bottom:10px}
+.trap-title{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent2);margin-bottom:6px;letter-spacing:1px}
+.trap-text{font-size:13px;color:#d08090;line-height:1.6}
+.explain-box{background:#0e1624;border:1px solid #1e3a5a;border-radius:10px;padding:12px 14px}
+.explain-title{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);margin-bottom:6px;letter-spacing:1px}
+.explain-text{font-size:13px;color:#90aad0;line-height:1.6}
+.nav{position:fixed;bottom:0;left:0;width:100%;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:10px 18px;z-index:99}
+.nav-btn{background:var(--card);border:1px solid var(--border);color:var(--text);font-size:13px;border-radius:8px;padding:8px 18px;cursor:pointer;transition:border-color .2s}
+.nav-btn:hover{border-color:var(--accent)}
+#q-counter{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);cursor:pointer;padding:6px 12px;border-radius:8px;border:1px solid var(--border)}
+#q-counter:hover{border-color:var(--accent)}
+#result-screen{display:none;max-width:720px;margin:60px auto 100px;padding:32px 24px;text-align:center}
+.result-score{font-family:'IBM Plex Mono',monospace;font-size:72px;font-weight:600;color:var(--accent);line-height:1}
+.result-pct{font-family:'IBM Plex Mono',monospace;font-size:22px;color:var(--muted);margin-bottom:24px}
+.result-stats{display:flex;justify-content:center;gap:28px;margin-bottom:32px;flex-wrap:wrap}
+.stat-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 22px;min-width:100px}
+.stat-val{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:600}
+.stat-val.g{color:var(--green)}.stat-val.r{color:var(--red)}.stat-val.y{color:var(--gold)}
+.stat-lbl{font-size:11px;color:var(--muted);margin-top:4px}
+.result-btn{display:block;width:100%;max-width:320px;margin:8px auto;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:14px;border-radius:10px;padding:12px;cursor:pointer;transition:border-color .2s}
+.result-btn:hover{border-color:var(--accent)}
+.q-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:flex-end}
+.q-modal-overlay.open{display:flex}
+.q-modal{background:var(--surface);border-radius:16px 16px 0 0;width:100%;max-height:70vh;overflow-y:auto;padding:20px}
+.q-modal-title{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:14px;text-align:center}
+.q-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+.q-grid-btn{background:var(--card);border:1px solid var(--border);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;border-radius:8px;padding:8px 4px;cursor:pointer;transition:border-color .2s}
+.q-grid-btn:hover{border-color:var(--accent)}
+.q-grid-btn.answered-c{background:#0d2e1c;border-color:var(--green);color:var(--green)}
+.q-grid-btn.answered-w{background:#2a0e14;border-color:var(--red);color:var(--red)}
+.q-grid-btn.starred{border-color:var(--gold)}
+.q-modal-close{display:block;margin:16px auto 0;background:none;border:1px solid var(--border);color:var(--muted);font-size:13px;border-radius:8px;padding:8px 24px;cursor:pointer}
+</style>
 </head>
 <body>
+<div class="progress-wrap"><div class="progress-bar" id="prog"></div></div>
 
-<div class="progress-wrap"><div class="progress-bar" id="p-bar"></div></div>
-
-<div class="container" id="quiz-container">
-    <span class="section-badge">Fizik Tedavi ve Rehabilitasyon</span>
-    
-    <div class="card">
-        <div class="q-header">
-            <span id="q-num">Soru 1/22</span>
-            <button class="star-btn" id="star-btn" onclick="toggleStar()">☆</button>
-        </div>
-
-        <div class="year-tags" id="year-tags"></div>
-        <div class="question-text" id="question"></div>
-
-        <button class="hint-toggle" onclick="toggleHint()">🔑 İpucu</button>
-        <div id="hint-box"></div>
-
-        <div class="options" id="options"></div>
-
-        <div class="feedback" id="feedback">
-            <div class="trap-box">
-                <div class="trap-title">⚠️ TUZAK NOKTA</div>
-                <div class="trap-text" id="trap"></div>
-            </div>
-            <div class="explain-box">
-                <div class="explain-title">📖 AÇIKLAMA</div>
-                <div class="explain-text" id="explanation"></div>
-            </div>
-        </div>
+<div id="quiz-wrap">
+  <div class="section-badge" id="sect-badge">FİZİK TEDAVİ VE REHABİLİTASYON</div>
+  <div class="card" id="card">
+    <div class="q-header">
+      <span id="q-num">Soru 1 / 45</span>
+      <button id="star-btn" onclick="toggleStar()">☆</button>
     </div>
-
-    <div class="nav">
-        <button class="nav-btn" onclick="prevQ()" id="prev-btn">← Önceki</button>
-        <div id="q-counter" style="cursor:pointer" onclick="openModal()">1/22 ☰</div>
-        <button class="nav-btn" onclick="nextQ()" id="next-btn">Sonraki →</button>
+    <div class="year-tags" id="year-tags"></div>
+    <div class="q-text" id="q-text"></div>
+    <button class="hint-toggle" onclick="toggleHint()">🔑 İpucu</button>
+    <div id="hint-box"></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback">
+      <div class="trap-box"><div class="trap-title">⚠️ TUZAK NOKTA</div><div class="trap-text" id="trap-text"></div></div>
+      <div class="explain-box"><div class="explain-title">📖 AÇIKLAMA</div><div class="explain-text" id="explain-text"></div></div>
     </div>
+  </div>
 </div>
 
-<div id="result-screen" class="container">
-    <div class="result-score" id="res-score">0%</div>
-    <div class="result-stats">
-        <div class="stat-card">
-            <span class="stat-val" id="res-correct" style="color:var(--green)">0</span>
-            <span class="stat-label">Doğru</span>
-        </div>
-        <div class="stat-card">
-            <span class="stat-val" id="res-wrong" style="color:var(--red)">0</span>
-            <span class="stat-label">Yanlış</span>
-        </div>
-        <div class="stat-card">
-            <span class="stat-val" id="res-starred" style="color:var(--gold)">0</span>
-            <span class="stat-label">Yıldızlı</span>
-        </div>
-    </div>
-    <button class="action-btn" onclick="restartQuiz()">Tüm Soruları Yeniden Çöz</button>
-    <button class="action-btn secondary" id="retry-wrong-btn" onclick="retryWrong()">Yanlışları Tekrar Çöz</button>
-    <button class="action-btn secondary" onclick="retryStarred()">Yıldızlıları Tekrar Çöz</button>
+<div id="result-screen">
+  <div class="result-score" id="res-score">0</div>
+  <div class="result-pct" id="res-pct">% Doğru</div>
+  <div class="result-stats">
+    <div class="stat-box"><div class="stat-val g" id="res-c">0</div><div class="stat-lbl">Doğru</div></div>
+    <div class="stat-box"><div class="stat-val r" id="res-w">0</div><div class="stat-lbl">Yanlış</div></div>
+    <div class="stat-box"><div class="stat-val y" id="res-s">0</div><div class="stat-lbl">Yıldızlı</div></div>
+  </div>
+  <button class="result-btn" onclick="restartAll()">🔄 Tüm Soruları Yeniden Çöz</button>
+  <button class="result-btn" onclick="retryWrong()">❌ Yanlışları Tekrar Çöz</button>
+  <button class="result-btn" onclick="retryStar()">⭐ Yıldızlıları Tekrar Çöz</button>
 </div>
 
-<div class="q-modal-overlay" id="modal-overlay" onclick="closeModal()">
-    <div class="q-modal" id="modal" onclick="event.stopPropagation()">
-        <h3 style="margin-bottom:20px; font-family:'IBM Plex Mono'">Soru Listesi</h3>
-        <div class="q-grid" id="q-grid"></div>
-    </div>
+<div class="nav">
+  <button class="nav-btn" onclick="go(-1)">← Önceki</button>
+  <span id="q-counter" onclick="openModal()">1/45 ☰</span>
+  <button class="nav-btn" onclick="go(1)">Sonraki →</button>
+</div>
+
+<div class="q-modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="q-modal">
+    <div class="q-modal-title">SORU LİSTESİ</div>
+    <div class="q-grid" id="q-grid"></div>
+    <button class="q-modal-close" onclick="closeModal()">Kapat</button>
+  </div>
 </div>
 
 <script>
-const questions = [
-    {
-        "question": "Ön kol kırığı sonrası operasyon geçiren bir hastada ağrı, şişlik, solukluk, eklemlerde sertlik ve çekilen grafisinde benekli osteoporoz varsa en olası tanı hangisidir?",
-        "options": ["Vollkman iskemik kontraktürü", "Refleks sempatik distrofi", "Kullanmama atrofisi", "Kosalji", "Osteomyelit"],
-        "answer": 1,
-        "years": ["Sonbahar 2001"],
-        "hint": "Kırık sonrası gelişen benekli (spotty) osteoporoz ve vazomotor semptomlar.",
-        "trap": "Vollkman kontraktürü ile ağrı ve solukluk karışabilir ancak benekli osteoporoz Refleks Sempatik Distrofi için karakteristiktir.",
-        "explanation": "Refleks sempatik distrofi (Kompleks Bölgesel Ağrı Sendromu Tip I), doku travması sonrası sempatik sinir sistemi aracılığıyla gelişen, ağrı ve benekli osteoporozla karakterize bir durumdur."
-    },
-    {
-        "question": "Aşağıdaki bulgulardan hangisi kompleks bölgesel ağrı sendromunun erken döneminde görülmez?",
-        "options": ["Şiddetli ağrı", "Şişlik", "Aşırı terleme", "Eritem", "Eklem hareketinde kısıtlılık"],
-        "answer": 4,
-        "years": ["Sonbahar 2006"],
-        "hint": "KBS'de evreleme (Klinik Dönemler).",
-        "trap": "Ağrı, şişlik ve terleme erken (1. dönem) bulgusudur; eklem kısıtlılığı genellikle geç dönemde belirginleşir.",
-        "explanation": "Eklemlerde kısıtlılık, refleks sempatik distrofinin (KBS) genellikle geç dönem (3. dönem) bulgusudur. Erken dönemde daha çok vazomotor değişiklikler (eritem, ödem, terleme) ön plandadır."
-    },
-    {
-        "question": "İki ay önce geçirilmiş inme sonrası sağ hemiparezik olan 60 yaşındaki erkek hasta, sağ üst ekstremitesinde ağrı şikayetiyle başvuruyor. Fizik muayenesinde sağ elinde diffüz şişlik, kızarıklık ve eklemlerde kısıtlılık saptanıyor. Bu hasta için en olası tanı aşağıdakilerden hangisidir?",
-        "options": ["Brakial pleksus lezyonu", "Kompleks bölgesel ağrı sendromu", "Adeziv kapsülit", "Heterotopik ossifikasyon", "Glenohumeral subluksasyon"],
-        "answer": 1,
-        "years": ["İlkbahar 2016 Orijinal"],
-        "hint": "İnme sonrası elde gelişen şişlik ve kızarıklık.",
-        "trap": "Hemiparezik hastalarda omuz-el sendromu (KBS Tip I) sık görülür. Sadece eklem kısıtlılığı değil, vazomotor bozukluklar tanıyı destekler.",
-        "explanation": "İnme, travma veya cerrahi sonrası ekstremitede ağrı, ödem ve otonomik değişikliklerle giden tablo Kompleks Bölgesel Ağrı Sendromu'dur."
-    },
-    {
-        "question": "Travma, cerrahi ya da nörolojik hasar sonrası özellikle ekstremite distallerinde ağrı, diffüz şişlik, kızarıklık ve eklemlerde kısıtlılık saptanması durumunda öncelikle akla gelmesi gereken hastalık aşağıdakilerden hangisidir? (BENZERİ)",
-        "options": ["Torasik outlet sendromu", "Pleksus brakialis yaralanması", "Kompleks bölgesel ağrı sendromu", "Humerus başında subluksasyon", "Miyozitis ossifikans"],
-        "answer": 2,
-        "years": ["İlkbahar 2016 BENZERİ"],
-        "hint": "Nörolojik hasar sonrası distalde ağrı ve otonomik sistem değişiklikleri.",
-        "trap": "Soruda 'distallerde' vurgusu KBS için anahtar kelimedir.",
-        "explanation": "KBS; travma, cerrahi ya da nörolojik hasar sonrası evreler halinde otonom sistem değişiklikleri ile karakterize bir hastalıktır."
-    },
-    {
-        "question": "T4 seviyesinde, medulla spinalis sağ yarısında kronik lezyon olan bir hastada aşağıdaki bulgulardan hangisi görülür?",
-        "options": ["Sağ üst ekstremitede paralizi", "Solda vibrasyon duyusunda kayıp", "Sağda Babinski işareti", "Sağ alt ekstremitede yüzeyel ağrı duyusu kaybı", "Sağ patella refleksinde kayıp"],
-        "answer": 2,
-        "years": ["Sonbahar 2013 Orijinal"],
-        "hint": "Brown-Sequard Sendromu: İpsilateral motor/vibrasyon kaybı, kontralateral ağrı/ısı kaybı.",
-        "trap": "T4 seviyesindeki lezyon üst ekstremiteyi (C5-T1) etkilemez, dolayısıyla üst ekstremite bulguları elenir.",
-        "explanation": "Sağ yarı keside: İpsilateral (sağ) motor ve derin duyu (vibrasyon) kaybı, kontralateral (sol) ağrı ve ısı duyusu kaybı olur. Sağda Babinski pozitiftir çünkü üst motor nöron hasarı vardır."
-    },
-    {
-        "question": "Alt torakal seviyeli bir spinal kord epandimomu, medulla spinalisin sağ yarısını tutmuşsa aşağıdaki bulgulardan hangisi görülür? (BENZERİ)",
-        "options": ["Sağ patella refleksinde kayıp", "Sağ üst ekstremitede paralizi", "Solda vibrasyon duyusunda kayıp", "Sağda Babinski işareti", "Sağ alt ekstremitede yüzeyel ağrı duyusu kaybı"],
-        "answer": 3,
-        "years": ["Sonbahar 2013 BENZERİ"],
-        "hint": "Hemiseksiyon lezyonunda ipsilateral üst motor nöron bulguları.",
-        "trap": "Patella refleksi üst motor nöron hasarında kaybolmaz, artar.",
-        "explanation": "Sağ yarı keside (Brown-Sequard), sağ tarafta Babinski işareti pozitifleşir ve motor kayıp görülür."
-    },
-    {
-        "question": "Dupuytren kontraktürüne neden olmayan hastalık aşağıdakilerden hangisidir?",
-        "options": ["Diabetes mellitus", "Alkol", "Kronik karaciğer hastalığı", "Yaşlılık", "Diabetes insipidus"],
-        "answer": 4,
-        "years": ["Sonbahar 87"],
-        "hint": "Metabolik hastalıklar ve etyoloji.",
-        "trap": "Diabetes Mellitus risk faktörüyken, Diabetes Insipidus'un bu tabloyla ilişkisi yoktur.",
-        "explanation": "Dupuytren kontraktürü palmar fasyanın fibrozisidir. DM, alkol, siroz, epilepsi ilaçları ve yaşlılık risk faktörleridir. Diabetes insipidus etyolojide yer almaz."
-    },
-    {
-        "question": "Elli altı yaşındaki kronik alkolik erkek hastada, yaklaşık 1 yıl önce avuç içinde sertleşmiş nodüller şeklinde başladıktan sonra zaman içerisinde artarak distale doğru yayılıp metakarpofalangeal ve interfalangeal eklemlerde fleksiyon kontraktürüne neden olan en olası durum aşağıdakilerden hangisidir?",
-        "options": ["Tendon kılıfı dev hücreli tümörü", "Kalsifiye aponörotik fibroma", "Dupuytren hastalığı", "Hemanjiotendotelioma", "Nörofibroma"],
-        "answer": 2,
-        "years": ["İlkbahar 2020 Orijinal"],
-        "hint": "Kronik alkol kullanımı + palmar nodüller + fleksiyon kontraktürü.",
-        "trap": "Tendon kılıfı tümörleri genellikle kontraktür yapmaz, ağrısız şişlik yapar.",
-        "explanation": "Dupuytren hastalığı, palmar fasyanın ilerleyici fibrozisi sonucu parmaklarda (özellikle 4. parmak) fleksiyon kontraktürü ile karakterizedir."
-    },
-    {
-        "question": "Abduktor pollis longus ve extensor pollis brevis tendonlarında tenosinovit oluşumu aşağıdakilerden hangisidir?",
-        "options": ["De-Quervain hastalığı", "Dupuytren kontraktürü", "Karpal tünel sendromu", "Charcot eklemi", "Epikondilit"],
-        "answer": 0,
-        "years": ["Sonbahar 92"],
-        "hint": "1. dorsal kompartman tenosinoviti.",
-        "trap": "Tendon isimlerini De Quervain ile eşleştirmek kritiktir.",
-        "explanation": "Radius styloid çıkıntısında APL ve EPB tendonlarının sıkışması ve inflamasyonu De Quervain hastalığıdır."
-    },
-    {
-        "question": "Mesleği tornacı olan kırk yaşındaki erkek hasta dirsek lokalizasyonunda başlayan önkol arka yüzüne yayılan ağrıdan yakınmaktadır. Ağrı özellikle bileğin dorsifleksiyonunda artmaktadır. Dirseğinin lateralinde de şişlik bulunan hastada en olası tanı aşağıdakilerden hangisidir?",
-        "options": ["Tenisçi dirseği", "Olekranon bursiti", "Golfçü dirseği", "Medial epikondilit", "Karpal tünel sendromu"],
-        "answer": 0,
-        "years": ["İlkbahar 98"],
-        "hint": "Lateral epikondil + bilek dorsifleksiyonunda ağrı.",
-        "trap": "Golfçü dirseği (medial) ile karıştırmayın; lateral epikondilit 'Tenisçi Dirseği'dir.",
-        "explanation": "Tenisçi dirseği (Lateral Epikondilit), bilek ekstansörlerinin (dorsifleksiyon) aşırı kullanımıyla oluşan lateral ağrı tablosudur."
-    },
-    {
-        "question": "Aşağıdaki periferik sinirlerin hangisindeki tuzaklanmanın lateral epikondilit benzeri bir klinik tabloya neden olması en olasıdır?",
-        "options": ["Anterior interosseöz sinir", "Posterior interosseöz sinir", "Ulnar sinir", "Lateral brakial kutanöz sinir", "Muskulokutanöz sinir"],
-        "answer": 1,
-        "years": ["Sonbahar 2021 Orijinal"],
-        "hint": "Radial sinirin motor dalı ve supinator kas.",
-        "trap": "Anterior interosseöz (median sinir dalı) ile karıştırılmamalıdır.",
-        "explanation": "Posterior interosseöz sinir (PİS), supinator kasın iki başı (Frohse arkı) arasında sıkışarak lateral dirsek ağrısına (Radial Tünel Sendromu) neden olabilir."
-    },
-    {
-        "question": "Dirsek lateralinde, özellikle dış rotasyon sırasında ağrı ile karakterize tuzak nöropati posterior interosseöz sinirlerinden hangisiyle ilişkilidir? (BENZERİ)",
-        "options": ["Posterior interosseöz sinir", "Aksiller sinir", "Muskulokutanöz sinir", "Median sinir", "Ulnar sinir"],
-        "answer": 0,
-        "years": ["Sonbahar 2021 BENZERİ"],
-        "hint": "Supinator kas seviyesinde tuzaklanma.",
-        "trap": "PİS tuzaklanması motor bulgu önceliklidir ancak ağrı lateral epikondiliti taklit eder.",
-        "explanation": "Dirsel lateralindeki ağrı ile karakterize tuzak nöropati, posterior interosseöz sinirin supinator kas düzeyinde sıkışmasıyla oluşur."
-    },
-    {
-        "question": "Polimiyozit tanısında en duyarlı laboratuar testi aşağıdakilerden hangisidir?",
-        "options": ["Aspartat", "Kreatin fosfokinaz", "Alanin aminotransferaz", "Laktat dehidrogenaz", "Aldolaz"],
-        "answer": 1,
-        "years": ["İlkbahar 2002"],
-        "hint": "Kas yıkımını gösteren en spesifik enzim.",
-        "trap": "Diğer enzimler (AST, ALT) de yükselebilir ama CPK (Kreatin Fosfokinaz) en duyarlısıdır.",
-        "explanation": "Polimiyozitte kas enzimlerinden en duyarlı olanı Kreatin Kinaz (CK/CPK) yüksekliğidir."
-    },
-    {
-        "question": "Elli yaş üzerindeki kadınlarda omuz kalça kuşağında ağrı, eritrosit sedimentasyon hızında artış ile seyreden ve düşük doz steroide iyi cevap veren hastalık aşağıdakilerden hangisidir?",
-        "options": ["Polimyaljia romatika", "Okranozis", "Romatoid atrit", "Gut", "Osteoporoz"],
-        "answer": 0,
-        "years": ["İlkbahar 2002"],
-        "hint": "Yaşlı hasta + Proksimal ağrı + Çok yüksek ESR + Düşük doz steroid.",
-        "trap": "Polimiyozit ile karışabilir ama Polimyaljia Romatika'da kas gücü normaldir ve steroid yanıtı dramatik hızlıdır.",
-        "explanation": "Polimyaljia Romatika (PMR); 50 yaş üstü, proksimal eklem ağrısı, sabah sertliği ve yüksek sedimentasyonla giden, steroide çok iyi yanıt veren bir tablodur."
-    },
-    {
-        "question": "Dupuytren kontraktürünü aşağıdakilerden hangisi en iyi tanımlar?",
-        "options": ["Dijital stenozan tenovajinit", "Metakarpofalangeal eklemlerde hiperekstansiyon, PIP ve DIP eklemlerde fleksiyon deformitesi", "Metakarpofalangeal eklemlerde kontraktür", "Proksimal interfalangeal eklemlerde hiperekstansiyon kontraktürü", "Palmar fasiyanın fibrozisine bağlı dijital fleksiyon kontraktürü"],
-        "answer": 4,
-        "years": ["Sonbahar 2005"],
-        "hint": "Fasyal fibrozis ve fleksiyon.",
-        "trap": "PIP/DIP deformiteleri (Boutonniere veya Swan-neck) ile karıştırılmamalıdır.",
-        "explanation": "Dupuytren kontraktürü, palmar aponeurozis (fasya) fibrozisidir ve parmaklarda fleksiyon kontraktürüne yol açar."
-    },
-    {
-        "question": "DeQuervain tenosinovitinde etkilenen tendonlar aşağıdakilerin hangisinde birlikte verilmiştir?",
-        "options": ["M. abduktor pollisis longus + ekstensör pollisis brevis", "M. adduktor pollisis longus + ekstensör pollisis brevis", "M. abduktor pollisis brevis + fleksör pollisis longus", "M. adduktor pollisis brevis + fleksör pollisis longus", "M. abduktor pollisis longus + ekstensör pollisis longus"],
-        "answer": 0,
-        "years": ["Sonbahar 2010"],
-        "hint": "1. dorsal kompartman: Bir abduktör bir ekstensör (ikiside brevis/longus farkına dikkat).",
-        "trap": "Adduktor değil Abduktor; Longus ve Brevis kombinasyonuna dikkat edin.",
-        "explanation": "De Quervain tenosinoviti, m. abduktor pollisis longus ve m. extensor pollisis brevis tendonlarını içeren kılıfın inflamasyonudur."
-    },
-    {
-        "question": "Yirmi sekiz yaşındaki kadın hasta, doğum sonrası 3. ayda, sağ el bileğindeki ağrı şikayetiyle başvuruyor. Muayenesinde, sağ başparmak metakarpofalangeal eklem tam fleksiyonunda tutulurken el bileği aniden ulnar deviasyona getirildiğinde radyal stiloid üzerinde belirgin ağrı saptanıyor. Bu hastadaki klinik tablonun aşağıdaki tendonlardan hangisinin inflamasyonundan kaynaklanmış olması en olasıdır?",
-        "options": ["Ekstansör pollisis brevis, ekstansör pollisis longus", "Ekstansör pollisis longus, abdüktör pollisis longus", "Ekstansör pollisis brevis, abdüktör pollisis longus", "Fleksör pollisis longus, abdüktör pollisis longus", "Ekstansör pollisis longus, ekstansör dijiti quinti"],
-        "answer": 2,
-        "years": ["Sonbahar 2020 Orijinal"],
-        "hint": "Finkelstein testi tarifi yapılmış.",
-        "trap": "EPB ve APL ikilisini unutmayın.",
-        "explanation": "Soruda tarif edilen manevra Finkelstein testidir ve De Quervain tenosinoviti tanısında kullanılır. Etkilenen tendonlar APL ve EPB'dir."
-    },
-    {
-        "question": "De Quervain tendinopatisinde etkilenen kas grubu ve yapılan test aşağıdakilerden hangisinde doğru olarak verilmiştir? (BENZERİ)",
-        "options": ["Ekstansör pollisis brevis, ekstansör pollisis longus - Speed testi", "Ekstansör pollisis longus, abdüktör pollisis longus - Yergason testi", "Ekstansör pollisis brevis, abdüktör pollisis longus - Finkelstein testi", "Fleksör pollisis longus, abdüktör pollisis longus - Yergason testi", "Ekstansör pollisis longus, ekstansör dijiti quinti- Finkelstein testi"],
-        "answer": 2,
-        "years": ["Sonbahar 2020 BENZERİ"],
-        "hint": "APL + EPB + Finkelstein.",
-        "trap": "Speed ve Yergason omuz (biseps) testleridir.",
-        "explanation": "De Quervain tendinopatisinde APL ve EPB kasları tutulur ve tanıda Finkelstein testi kullanılır."
-    },
-    {
-        "question": "Yirmi dört yaşındaki kadın hasta, sol el bileğinin lateralinde ve başparmak hareketlerinde ağrı yakınmasıyla başvuruyor. Fizik muayenede, radial stiloidde hassasiyeti olan, hastada sağ el birinci parmak fleksiyonunda ve birinci parmak avuç içine alınıp el bileğine ulnar deviasyon yaptırıldığında ağrıda artış saptanıyor. Bu hasta için en olası tanı aşağıdakilerden hangisidir?",
-        "options": ["Skafoid fraktürü", "DeQuervain tenosinoviti", "Karpal tünel sendromu", "Birinci metakarpofalangeal eklem osteoartriti", "El bileğinde ganglion kisti"],
-        "answer": 1,
-        "years": ["Sonbahar 2019 Orijinal"],
-        "hint": "Finkelstein testi pozitifliği.",
-        "trap": "Skafoid fraktürü enfiye çukurunda hassasiyet yapar ancak Finkelstein pozitifliği DeQuervain'i işaret eder.",
-        "explanation": "Başparmak avuç içine alınıp ulnar deviasyon yapılması Finkelstein testidir ve DeQuervain tenosinoviti için tipiktir."
-    },
-    {
-        "question": "Finkelstein testi pozitifliği görülen hastalık aşağıdakilerden hangisidir? (BENZERİ)",
-        "options": ["Karpal tünel sendromu", "Birinci metakarpofalangeal eklem osteoartriti", "El bileğinde ganglion kisti", "DeQuervain tenosinoviti", "Skafoid kırığı"],
-        "answer": 3,
-        "years": ["Sonbahar 2019 BENZERİ"],
-        "hint": "Başparmak hareketleriyle artan radial bilek ağrısı.",
-        "trap": "Tinel ve Phalen testleri KTS içindir.",
-        "explanation": "Finkelstein testi DeQuervain tenosinoviti tanısında kullanılan en önemli klinik testtir."
-    },
-    {
-        "question": "Altmış yaşındaki kadın hasta, 2 aydan beri boyun, omuz ve pelvik bölgede şiddetli ağrı ve 2 saat süren sabah tutukluğu şikayetiyle başvuruyor. Laboratuar incelemesinde eritrosit sedimentasyon hızı 48 mm/saat olarak bulunuyor. Romatoid faktör, ANA ve anti-CCP değerleri negatif olan hastaya 10 mg/gün prednizolon tedavisi başlanıyor. Bu tedaviye kısa sürede yanıt alınan hasta için en olası tanı aşağıdakilerden hangisidir?",
-        "options": ["Polimyalji romatika", "Skolyoz", "Osteoartrit", "Osteoporoz", "İmpingement sendromu"],
-        "answer": 0,
-        "years": ["İlkbahar 2015 Orijinal"],
-        "hint": "Proksimal kas ağrısı + Yüksek ESR + Düşük doz steroide dramatik yanıt.",
-        "trap": "Romatoid Artrit RF/Anti-CCP negatifliği ve düşük doz steroid yanıtı ile elenir.",
-        "explanation": "Polimyaljia Romatika (PMR), 50 yaş üstünde omuz ve pelvik kuşak ağrısı, yüksek sedimentasyon ve düşük doz steroid tedavisine hızlı yanıt ile karakterizedir."
-    },
-    {
-        "question": "Omuz ve pelvik bölgede şiddetli ağrı ve sabah tutukluğu şikayeti olan hastanın laboratuar incelemesinde eritrosit sedimentasyon hızı 52 mm/saat olarak bulunuyor. Düşük doz steroid tedavisine kısa sürede yanıt alınan hasta için en olası tanı aşağıdakilerden hangisidir? (BENZERİ)",
-        "options": ["Rotator manşet sıkışma sendromu", "Aseptik avasküler nekroz", "Osteoartrit", "Polimyalji romatika", "Skolyoz"],
-        "answer": 3,
-        "years": ["İlkbahar 2015 BENZERİ"],
-        "hint": "Kuşak ağrısı ve yüksek ESR.",
-        "trap": "Kas güçsüzlüğü yoktur, ağrı ön plandadır.",
-        "explanation": "Polimyaljia Romatika proksimal kuşak ağrısı ve yüksek inflamasyon göstergeleri ile karakterizedir."
-    }
+const Qs = [
+  // ─── AĞRILI KAS SENDROMLARI ───
+  {
+    sect:"AĞRILI KAS SENDROMLARI",
+    year:"Sonbahar 2001",
+    q:"Ön kol kırığı sonrası operasyon geçiren bir hastada ağrı, şişlik, solukluk, eklemlerde sertlik ve çekilen grafisinde benekli osteoporoz varsa <u>en olası</u> tanı hangisidir?",
+    opts:["Vollkman iskemik kontraktürü","Refleks sempatik distrofi","Kullanmama atrofisi","Kosalji","Osteomyelit"],
+    ans:1,
+    hint:"Travma/operasyon sonrası sempatik sinir sistemi aracılı ağrı sendromu — benekli osteoporoz kritik ipucu.",
+    trap:"Vollkman iskemik kontraktürü ile karıştırılır; ancak Vollkman'da kompartman sendromu öyküsü ve fleksör kontraktür ön plandadır. Burada benekli osteoporoz ve otonom bulgular refleks sempatik distrof'ye işaret eder.",
+    explain:"Refleks sempatik distrofi (Kompleks Bölgesel Ağrı Sendromu Tip I), fonksiyon kaybı ve otonomik disfonksiyon ile karakterize bir ağrılı sendromdur. Travma/cerrahi sonrası görülür. Klinik dönemler: 1. Dönem (~3 ay) lokalize yanıcı ağrı, hiperhidroz, direkt grafi normal; 2. Dönem (3-6 ay) benekli osteoporoz, kan akımı azalmış; 3. Dönem kas atrofisi, ankiloz. Tedavide kalsitonin, bifosfonatlar, steroid, sempatik blokaj ve TENS kullanılır."
+  },
+  {
+    sect:"AĞRILI KAS SENDROMLARI",
+    year:"Sonbahar 2006",
+    q:"Aşağıdaki bulgulardan hangisi kompleks bölgesel ağrı sendromunun erken döneminde <u>görülmez</u>?",
+    opts:["Şiddetli ağrı","Şişlik","Aşırı terleme","Eritem","Eklem hareketinde kısıtlılık"],
+    ans:4,
+    hint:"KBAS'ın erken döneminde sıcak, kırmızı, ıslak deri hakimdir; geç dönem özellikleri nelerdir?",
+    trap:"Erken dönemde ağrı, şişlik, terleme ve eritem (kızarıklık) görülür. Eklem hareketinde kısıtlılık 3. dönem (geç dönem) bulgusudur.",
+    explain:"Kompleks Bölgesel Ağrı Sendromu'nda eklemlerde kısıtlılık geç dönem (3. dönem) bulgusudur. Erken dönemde (1. dönem) lokalize yanıcı ağrı, hiperestezi, lokalize ödem, kas spazmı, hiperhidroz, başlangıçta sıcak ve kuru deri görülür. Direkt grafi bu dönemde normaldir."
+  },
+  // ─── AĞRILI KAS SENDROMLARI S3 ───
+  {
+    sect:"AĞRILI KAS SENDROMLARI",
+    year:"İlkbahar 2016 Orijinal",
+    q:"İki ay önce geçirilmiş inme sonrası sağ hemiparezik olan 60 yaşındaki erkek hasta, sağ üst ekstremitesinde ağrı şikayetiyle başvuruyor. Fizik muayenesinde sağ elinde diffüz şişlik, kızarıklık ve eklemlerde kısıtlılık saptanıyor. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
+    opts:["Brakial pleksus lezyonu","Kompleks bölgesel ağrı sendromu","Adeziv kapsülit","Heterotopik ossifikasyon","Glenohumeral subluksasyon"],
+    ans:1,
+    hint:"İnme sonrası gelişen üst ekstremitede diffüz şişlik + kızarıklık + eklem kısıtlılığı triadı.",
+    trap:"Adeziv kapsülit tek eklem kısıtlılığı yapar; brakial pleksus lezyonunda motor kayıp ön planda olur. Buradaki diffüz şişlik+kızarıklık+kısıtlılık triadı KBAS'ı işaret eder.",
+    explain:"Kompleks bölgesel ağrı sendromu (KBAS), travma, cerrahi ya da nörolojik hasar sonrası özellikle ekstremite distallerinde ağrı, diffüz şişlik, kızarıklık ve eklemlerde kısıtlılıkla seyreden bir hastalıktır. İnme sonrasında da gelişebilir."
+  },
+  {
+    sect:"AĞRILI KAS SENDROMLARI – BENZERİ",
+    year:"İlkbahar 2016 BENZERİ",
+    q:"Travma, cerrahi ya da nörolojik hasar sonrası özellikle ekstremite distallerinde ağrı, diffüz şişlik, kızarıklık ve eklemlerde kısıtlılık saptanması durumunda <u>öncelikle</u> akla gelmesi gereken hastalık aşağıdakilerden hangisidir?",
+    opts:["Torasik outlet sendromu","Pleksus brakialis yaralanması","Kompleks bölgesel ağrı sendromu","Humerus başında subluksasyon","Miyozitis ossifikans"],
+    ans:2,
+    hint:"Sempatik sinir sistemi hiperaktivasyonu sonucu gelişen ağrılı sendrom — travma/cerrahi/nörolojik hasar sonrası.",
+    trap:"Pleksus brakialis yaralanmasında motor ve duyu kayıpları ön plandadır; torasik outlet sendromunda subklavian kompresyon bulguları olur. KBAS otonom bulgularla ayırt edilir.",
+    explain:"KBAS (Refleks Sempatik Distrofi/Kozalji), sempatik sinir sistemi hiperaktivasyonuyla karakterize ağrılı bir sendromdur. Travma, cerrahi ya da nörolojik hasar sonrası ortaya çıkar. Miyozitis ossifikans ise intramusküler hematomun kalsifik değişime uğramasıyla oluşur."
+  },
+  // ─── SPİNAL KORD YARALANMALARI ───
+  {
+    sect:"SPİNAL KORD YARALANMALARI",
+    year:"Sonbahar 2013 Orijinal",
+    q:"T4 seviyesinde, medulla spinalis sağ yarısında kronik lezyon olan bir hastada aşağıdaki bulgulardan hangisi görülür?",
+    opts:["Sağ üst ekstremitede paralizi","Solda vibrasyon duyusunda kayıp","Sağda Babinski işareti","Sağ alt ekstremitede yüzeyel ağrı duyusu kaybı","Sağ patella refleksinde kayıp"],
+    ans:2,
+    hint:"Brown-Séquard sendromu — ipsilateral motor+derin duyu kaybı, karşı taraf ağrı-ısı duyusu kaybı.",
+    trap:"T4 yarı kesi: İpsilateral (sağ) spastik paralizi ve derin duyu kaybı, karşı tarafta (sol) yüzeyel ağrı-ısı kaybı. Vibrasyon duyusu ipsilateral kaybolur, karşıda değil. Patella refleksi ikinci motor nöron hasarını gösterir, yarı kesimde değil.",
+    explain:"Brown-Séquard sendromu (spinal kord yarı kesisi): İpsilateral distalde motor paralizi ve derin duyu (vibrasyon, propriosepsiyon) kaybı; karşı tarafta distalde ağrı ve ısı duyusu kaybı görülür. T4 sağ yarı kesisinde sağ tarafta Babinski işareti pozitif (üst motor nöron bulgusudur), sağda vibrasyon kaybı, solda ağrı-ısı kaybı beklenir."
+  },
+  {
+    sect:"SPİNAL KORD YARALANMALARI – BENZERİ",
+    year:"Sonbahar 2013 BENZERİ",
+    q:"Alt torakal seviyeli bir spinal kord epandimomu, medulla spinalisin sağ yarısını tutmuşsa aşağıdaki bulgulardan hangisi görülür?",
+    opts:["Sağ patella refleksinde kayıp","Sağ üst ekstremitede paralizi","Solda vibrasyon duyusunda kayıp","Sağda Babinski işareti","Sağ alt ekstremitede yüzeyel ağrı duyusu kaybı"],
+    ans:3,
+    hint:"Yine Brown-Séquard: İpsilateral Babinski, karşıda yüzeyel duyu kaybı.",
+    trap:"Alt torakal lesyon — üst ekstremite etkilenmez. Sol vibrasyon kaybı olmaz, sağ olur. Sol ağrı-ısı kaybı olur. Sağda Babinski pozitif.",
+    explain:"Brown-Séquard sendromunda medulla spinalis yarı kesisinde: İpsilateral distalde motor ve derin duyu kaybı; kontralateral distalde ağrı-ısı duyusu kaybı. Sağ yarı kesisinde sağda Babinski işareti pozitif olması en belirgin beklenen bulgudur."
+  },
+  // ─── YUMUŞAK DOKU ROMATİZMALARI ───
+  {
+    sect:"YUMUŞAK DOKU ROMATİZMALARI",
+    year:"Sonbahar 87",
+    q:"Dupuytren kontraktürüne neden <u>olmayan</u> hastalık aşağıdakilerden hangisidir?",
+    opts:["Diabetes mellitus","Alkol","Kronik karaciğer hastalığı","Yaşlılık","Diabetes insipidus"],
+    ans:4,
+    hint:"Dupuytren risk faktörleri: heredite, alkol, cinsiyet, DM, kronik KC hastalığı, barbitürat… Hangisi yok?",
+    trap:"Diabetes mellitus (DM) risk faktörüdür ancak Diabetes insipidus etiyolojide yer almaz — isim benzerliği tuzaktır!",
+    explain:"Dupuytren kontraktürü palmar fasyanın fibrozisine bağlı gelişen fleksiyon kontraktürüdür. Risk faktörleri: erkek cinsiyet, miyokard infarktüsü, yaş, sigara, el fazla kullananlar, el yaralanması, Ledderhose hastalığı, siroz, diabetes mellitus, HIV, barbitürat, tuberküloz, epilepsi. <b>Diabetes insipidus etiyolojide yer almaz.</b>"
+  },
+  {
+    sect:"YUMUŞAK DOKU ROMATİZMALARI",
+    year:"İlkbahar 2020 Orijinal",
+    q:"Elli altı yaşındaki kronik alkolik erkek hastada, yaklaşık 1 yıl önce avuç içinde sertleşmiş nodüller şeklinde başladıktan sonra zaman içerisinde artarak distale doğru yayılıp metakarpofalangeal ve interfalangeal eklemlerde fleksiyon kontraktürüne neden olan <u>en olası</u> durum aşağıdakilerden hangisidir?",
+    opts:["Tendon kılıfı dev hücreli tümörü","Kalsifiye aponörotik fibroma","Dupuytren hastalığı","Hemanjioendotelioma","Nörofibroma"],
+    ans:2,
+    hint:"Kronik alkolik + avuç içi nodüller + fleksiyon kontraktürü = klasik tanı.",
+    trap:"Tendon kılıfı dev hücreli tümörü soliter şişlik ile başvurur, fleksiyon kontraktürü yapmaz. Kalsifiye aponörotik fibroma gençlerde görülür. Hemanjioendotelioma damarsal tümördür.",
+    explain:"Dupuytren kontraktürü palmar fasyanın fibrozisine bağlı gelişen fleksiyon kontraktürüdür. En çok etkilenen parmak <b>4. parmak</b>tır. Kronik alkolizm önemli bir risk faktörüdür."
+  },
+  {
+    sect:"YUMUŞAK DOKU ROMATİZMALARI",
+    year:"Sonbahar 92",
+    q:"Abduktor pollisis longus ve ekstensor pollisis brevis tendonlarında tenosinovit oluşumu aşağıdakilerden hangisidir?",
+    opts:["De-Quervain hastalığı","Dupuytren kontraktürü","Karpal tünel sendromu","Charcot eklemi","Epikondilit"],
+    ans:0,
+    hint:"Radius stiloidinde kalın bir tendon kılıfından geçen iki tendon — Finkelstein testi.",
+    trap:"Karpal tünel sendromu median sinir sıkışmasıdır; Dupuytren palmar fasya fibrozisidir. De Quervain'de A POL LO ve EL VİS kasları tutulur.",
+    explain:"De Quervain tenosinoviti; ekstansör pollisis brevis ve abduktör pollisis longus tendonlarını çevreleyen kılıfın inflamasyonudur. Radius stiloid çıkıntısında kalın bir tendon kılıfından geçen bu tendonlar sıkışır. <b>Finkelstein testi</b> ile tanı konulur."
+  },
+  // ─── YUMUŞAK DOKU S4 ───
+  {
+    sect:"YUMUŞAK DOKU ROMATİZMALARI",
+    year:"İlkbahar 98",
+    q:"Mesleği tornavidacı olan kırk yaşındaki erkek hasta dirsek lokalizasyonunda başlayan önkol arka yüzüne yayılan ağrıdan yakınmaktadır. Ağrı özellikle bileğin dorsifleksiyonunda artmaktadır. Dirseğinin lateralinde de şişlik bulunan hastada <u>en olası</u> tanı aşağıdakilerden hangisidir?",
+    opts:["Tenisçi dirseği","Olekranon bursiti","Golfçü dirseği","Medial epikondilit","Karpal tünel sendromu"],
+    ans:0,
+    hint:"Lateral dirsek ağrısı + dorsifleksiyonda artış + profesyonel kullanım → lateral epikondilit.",
+    trap:"Golfçü dirseği (medial epikondilit) iç taraftadır. Olekranon bursitinde eklem üzerinde yumuşak şişlik vardır. Lateral şişlik + dorsifleksiyonla artan ağrı tenisçi dirseğini işaret eder.",
+    explain:"Tenisçi Dirseği (lateral epikondilit): Dirseğin aşırı aktivitesiyle ilgili, genellikle 18 yaş altında başlayan ve en sık 4. ve 5. dekadda görülen bir sendromdur. Dirseğin lateralindeki ağrılı şişlik tenisçi dirseğini işaret eder. Tedavide nonsteroid antiinflamatuar ilaçlar, kortikosteroidler, elastik bandaj kullanılır."
+  },
+  {
+    sect:"YUMUŞAK DOKU ROMATİZMALARI – BENZERİ",
+    year:"Sonbahar 2021 BENZERİ",
+    q:"Dirsek lateralinde, özellikle dış rotasyon sırasında ağrı ile karakterize tuzak nöropati aşağıdaki sinirlerden hangisiyle ilişkilidir?",
+    opts:["Posterior interosseöz sinir","Aksiller sinir","Muskulokutanöz sinir","Median sinir","Ulnar sinir"],
+    ans:0,
+    hint:"PIN (Posterior İnterosseöz Sinir) — radyal sinirin dalı, supinator kas düzeyinde sıkışır.",
+    trap:"Median sinir karpal tünel sendromunu yapar; ulnar sinir medial epikondilit bölgesinden geçer. Lateral dirsek tuzak nöropatisi PIN'e aittir.",
+    explain:"Posterior interosseöz sinir (PIN), radyal sinirin pür motor dalıdır. En sık tuzaklandığı bölge önkol proksimal kesimde, supinator kas liflerinin arasından geçtiği noktadır. Tuzaklanma halinde inerve ettiği tüm kaslar etkilenebilir ve lateralde epikondilitte olduğu gibi ağrı hissi ortaya çıkar."
+  },
+  {
+    sect:"YUMUŞAK DOKU ROMATİZMALARI",
+    year:"İlkbahar 2021 Orijinal",
+    q:"Aşağıdaki periferik sinirlerin hangisindeki tuzaklanmanın lateral epikondilit benzeri bir klinik tabloya neden olması <u>en olasıdır</u>?",
+    opts:["Anterior interosseöz sinir","Posterior interosseöz sinir","Ulnar sinir","Lateral brakial kutanöz sinir","Muskulokutanöz sinir"],
+    ans:1,
+    hint:"Supinator kas düzeyinde sıkışan, radyal sinirin dalı.",
+    trap:"Anterior interosseöz sinir ön kola ait motor daldır; lateral epikondilit benzeri tablo için posterior interosseöz sinir (PIN) doğrudur.",
+    explain:"Posterior interosseöz sinir (PIN) supinator kas düzeyinde sıkışarak lateral epikondilit benzeri klinik tabloya yol açabilir. Bu nedenle tedaviye yanıt vermeyen tenisçi dirseği vakalarında PIN tuzak nöropatisi akla gelmelidir."
+  },
+  {
+    sect:"YUMUŞAK DOKU ROMATİZMALARI",
+    year:"İlkbahar 2002",
+    q:"Polimiyozit tanısında <u>en duyarlı</u> laboratuar test aşağıdakilerden hangisidir?",
+    opts:["Aspartat","Kreatin fosfokinaz","Alanin aminotransferaz","Laktat dehidrogenaz","Aldolaz"],
+    ans:1,
+    hint:"Çizgili kas inflamasyonunda en spesifik ve duyarlı enzim hangisi?",
+    trap:"LDH ve AST da yükselebilir ancak karaciğer hastalığında da artar. Kreatin kinaz kas için en spesifik ve duyarlı testtir.",
+    explain:"Polimiyozit (PM) çizgili kasın inflamasyonu ile karakterize, etyolojisi bilinmeyen akkiz ve kronik bir hastalıktır. Tanıda <b>kreatin kinaz yüksekliği</b> çok değerlidir ve en duyarlı laboratuar testidir."
+  },
+  {
+    sect:"YUMUŞAK DOKU ROMATİZMALARI",
+    year:"İlkbahar 2002",
+    q:"Elli yaş üzerindeki kadınlarda omuz kalça kuşağında ağrı, eritrosit sedimentasyon hızında artış ile seyreden ve düşük doz steroide iyi cevap veren hastalık aşağıdakilerden hangisidir?",
+    opts:["Polimyaljia romatika","Okranozis","Romatoid atrit","Gut","Osteoporoz"],
+    ans:0,
+    hint:"50 yaş üstü kadın + omuz-kalça ağrısı + ESR yüksek + steroid yanıtlı.",
+    trap:"Romatoid artrit daha genç yaşlarda ve küçük eklemlerde başlar. Osteoporoz ağrı yapabilir ama ESR yüksekliği ve steroid yanıtı yoktur. Sedimentasyon yüksekliği + steroid yanıtı polimyalji romatikayı düşündürür.",
+    explain:"Polimyalji Romatika: Omuz ve kalça kuşağı kaslarında yaygın ağrı, sabah sertliği ve sedimentasyon artışı ile karakterizedir. Temporal arterit ile birliktelik sıktır. 10-20 mg/gün steroid ile dramatik yanıt alınır. Kas atrofisi yoktur, objektif fizik muayene bulgusu yoktur."
+  },
+  {
+    sect:"YUMUŞAK DOKU ROMATİZMALARI",
+    year:"Sonbahar 2005",
+    q:"Dupuytren kontraktürünü aşağıdakilerden hangisi <u>en iyi</u> tanımlar?",
+    opts:["Dijital stenozan tenovajinit","Metakarpofalangeal eklemlerde hiperekstansiyon, PİP ve DİP eklemlerde fleksiyon defisi","Metakarpofalangeal eklemlerde kontraktür","Proksimal interfalangeal eklemlerde hiperekstansiyon kontraktürü","Palmar fasyanın fibrozisine bağlı dijital fleksiyon kontraktürü"],
+    ans:4,
+    hint:"Dupuytren = palmar fasya fibrozisi → MKF ve PİP'te fleksiyon kontraktürü.",
+    trap:"Tetik parmak (trigger finger) dijital stenozan tenovajinittir — Dupuytren ile karıştırılır. Dupuytren'de ise palmar fasyanın fibrozisi söz konusudur.",
+    explain:"Dupuytren kontraktürü palmar fasyanın fibrozisine bağlı dijital fleksiyon kontraktürüdür. Metakarpofalangeal eklemlerde kontraktür ve PİP eklemlerde fleksiyon deformitesi görülür. En çok etkilenen parmak 4. parmaktır."
+  },
+  {
+    sect:"YUMUŞAK DOKU ROMATİZMALARI",
+    year:"Sonbahar 2010",
+    q:"DeQuervain tenosinovitinde etkilenen tendonlar aşağıdakilerin hangisinde birlikte verilmiştir?",
+    opts:["M. abduktor pollisis longus + ekstensör pollisis brevis","M. adduktor pollisis longus + ekstensör pollisis brevis","M. abduktor pollisis brevis + fleksör pollisis longus","M. adduktor pollisis brevis + fleksör pollisis longus","M. abduktor pollisis longus + ekstensör pollisis longus"],
+    ans:0,
+    hint:"De Quervain = A POL LO + EL VİS (Abduktör Pollisis Longus + Ekstansör Pollisis Brevis).",
+    trap:"Ekstensör pollisis LONGUS değil, BREVIS tutulur. Adduktor değil, ABDUKTÖR tutulur.",
+    explain:"DeQuervian tenosinoviti; ekstansör pollisis brevis ve abduktör pollisis longus tendonlarını çevreleyen kılıfın inflamasyonudur. Bu iki tendon radius stiloidinde dar bir kanaldan geçer ve sıkışır."
+  },
+  {
+    sect:"YUMUŞAK DOKU ROMATİZMALARI",
+    year:"Sonbahar 2020 Orijinal",
+    q:"Yirmi sekiz yaşındaki kadın hasta, doğum sonrası 3. ayda, sağ el bileğindeki ağrı şikayetiyle başvuruyor. Şikayetlerinin altı hafta kadar önce başladığını ve giderek arttığını, özellikle bebeğiyle ilgilendiği zamanlarda şiddetlendiğini ve istirahat edebildiğinde ise hafiflediğini söylüyor. Muayenesinde, sağ başparmak metakarpofalangeal eklem tam fleksiyonda tutulurken el bileği aniden ulnar deviasyona getirildiğinde radyal stiloid üzerinde belirgin ağrı saptanıyor. Bu hastadaki klinik tablonun aşağıdaki tendonlardan hangisinin inflamasyonundan kaynaklanmış olması <u>en olasıdır</u>?",
+    opts:["Ekstansör pollissis brevis, ekstansör polliss longus","Ekstansör polliss longus, abdüktör polliss longus","Ekstansör polliss brevis, abdüktör polliss longus","Fleksör polliss longus, abdüktör polliss longus","Ekstansör polliss longus, ekstansör digiti quinti"],
+    ans:2,
+    hint:"Doğum sonrası bebek bakımı + Finkelstein testi pozitif = De Quervain.",
+    trap:"Ekstansör pollisis LONGUS değil BREVIS tutulur. Postpartum dönemde De Quervain çok sık görülür.",
+    explain:"Postpartum dönemde bebek kaldırma gibi tekrarlayan hareketler De Quervain tenosinovitin klasik nedenidir. Finkelstein testi (başparmak avuç içinde fleksiyonda tutulurken ulnar deviasyon) pozitifliği tanıyı doğrular. Etkilenen tendonlar: <b>Abdüktör pollisis longus + Ekstansör pollisis brevis</b>."
+  },
+  {
+    sect:"YUMUŞAK DOKU ROMATİZMALARI – BENZERİ",
+    year:"Sonbahar 2020 BENZERİ",
+    q:"De Quervain tendinopatisinde etkilenen kas grubu ve yapılan aşağıdaki testlerden hangisi doğru olarak verilmiştir?",
+    opts:["Ekstansör pollisis brevis, ekstansör pollisis longus – Speed testi","Ekstansör pollisis longus, abdüktör pollisis longus – Yergason testi","Ekstansör pollisis brevis, abdüktör pollisis longus – Finkelstein testi","Fleksör pollisis longus, abdüktör pollisis longus – Yergason testi","Ekstansör pollisis longus, ekstansör digiti quinti – Finkelstein testi"],
+    ans:2,
+    hint:"De Quervain = APL + EPB; tanı testi = Finkelstein.",
+    trap:"Speed ve Yergason testleri biseps tendiniti için kullanılır. De Quervain tanısında Finkelstein testi kullanılır.",
+    explain:"De Quervain tendinopatisinde A POL LO (Abduktör Pollisis Longus) ve EL VİS (Ekstansör Pollisis Brevis) kasları tutulur. Tanıda <b>Finkelstein testi</b> kullanılır."
+  },
+  {
+    sect:"YUMUŞAK DOKU ROMATİZMALARI",
+    year:"Sonbahar 2019 Orijinal",
+    q:"Yirmi dört yaşındaki kadın hasta, sol el bileğinin lateralinde ve başparmak hareketlerinde ağrı yakınmasıyla başvuruyor. Fizik muayene, radyal stiloidde hassasiyeti olan, hastada sağ el birinci parmak fleksiyonunda ve birinci parmak avuç içerisine alınıp el bileğine ulnar deviasyon yaptırıldığında ağrıda artış saptanıyor. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
+    opts:["Skafoid fraktürü","DeQuervain tenosinoviti","Karpal tünel sendromu","Birinci metakarpofalangeal eklem osteoartriti","El bileğinde ganglion kisti"],
+    ans:1,
+    hint:"Radyal stiloid hassasiyet + Finkelstein testi pozitif → klasik tanı.",
+    trap:"Skafoid fraktürde enfiye çukurunda ağrı görülür. Karpal tünel sendromunda median sinir dağılımında ağrı, geceleri artar. Finkelstein pozitifliği De Quervain'e özgüdür.",
+    explain:"De Quervain tenosinoviti el bileği ve ön kolun baş parmak köküne yayılan ağrı ve şişlikle kendini gösterir. Baş parmağı hareket ettiren, onu diğer parmaklardan uzaklaştıran (abduktor pollisis longus) ve geriye doğru büken (ekstansör pollisis brevis) kaslarının tendonlarının iltihaplanmasıdır. <b>Finkelstein testi</b> tanıda kullanılır."
+  },
+  {
+    sect:"YUMUŞAK DOKU ROMATİZMALARI – BENZERİ",
+    year:"Sonbahar 2019 BENZERİ",
+    q:"Finkelstein testi pozitifliği görülen hastalık aşağıdakilerden hangisidir?",
+    opts:["Karpal tünel sendromu","Birinci metakarpofalangeal eklem osteoartriti","El bileğinde ganglion kisti","DeQuervain tenosinoviti","Skafoid kırığı"],
+    ans:3,
+    hint:"Finkelstein = başparmak avuçta + ulnar deviasyon = radyal ağrı.",
+    trap:"Speed ve Yergason testleri biseps tendinitini değerlendirmek için kullanılır. Karpal tünel sendromu için Tinel ve Phalen testleri kullanılır.",
+    explain:"Finkelstein testi De Quervain tenosinovitin tanısında kullanılır. Başparmak avuç içine sıkıştırılıp, el bileğinin ulnar tarafa götürülmesiyle ağrının oluşması pozitif test kabul edilir."
+  },
+  {
+    sect:"YUMUŞAK DOKU ROMATİZMALARI",
+    year:"İlkbahar 2015 Orijinal",
+    q:"Altmış yaşındaki kadın hasta, 2 aydan beri boyun, omuz ve pelvik bölge şiddetli ağrı ve 2 saat süren sabah tutukluğu şikayetleriyle başvuruyor. Laboratuvar incelemesinde eritrosit sedimentasyon hızı 48 mm/saat olarak bulunuyor. Romatoid faktör, ANA ve anti-CCP değerleri negatif olan hastaya 10 mg/gün prednizolon tedavisi başlanıyor. Bu tedaviye kısa sürede yanıt alınan hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
+    opts:["Polimyalji romatika","Skolyoz","Osteoartrit","Osteoporoz","İmpingement sendromu"],
+    ans:0,
+    hint:"Yaşlı kadın + omuz-pelvik ağrı + sabah tutukluğu + yüksek ESR + steroid yanıtı.",
+    trap:"Romatoid artrit RF(+), küçük eklem tutulumu ile ayırt edilir. Osteoartrit için sedimentasyon yüksekliği beklenmez. Polimyalji romatikada steroid ile dramatik iyileşme karakteristiktir.",
+    explain:"Polimyalji Romatika: Omuz-pelvik kemerde ağrı ile karakterizedir. Sedimentasyon yüksektir. Steroide cevap iyidir. Temporal arterite birliktelik sıktır. Hastanın verimsiz uyku uyuması tipiktir. RF, ANA, anti-CCP negatiftir."
+  },
+  {
+    sect:"YUMUŞAK DOKU ROMATİZMALARI – BENZERİ",
+    year:"İlkbahar 2015 BENZERİ",
+    q:"Omuz ve pelvik bölgede şiddetli ağrı ve sabah tutukluğu şikayeti olan hastanın laboratuvar incelemesinde eritrosit sedimentasyon hızı 52 mm/saat olarak bulunuyor. Düşük doz steroid tedavisine kısa sürede yanıt alınan hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
+    opts:["Rotator manşet sıkışma sendromu","Aseptik avasküler nekroz","Osteoartrit","Polimyalji romatika","Skolyoz"],
+    ans:3,
+    hint:"ESR yüksekliği + omuz-pelvik ağrı + düşük doz steroid yanıtı = tanı.",
+    trap:"Rotator manşet sıkışma sendromunda sedimentasyon yüksekliği beklenmez. Steroid yanıtı polimyalji romatikanın ayırt edici özelliğidir.",
+    explain:"Polimyalji Romatika: Genellikle ileri yaş kadında görülür. Omuz-pelvik kemerde ağrı ile karakterizedir. Sedimentasyon yüksektir. Steroide cevap iyidir. Diğer şıklarda ifade edilen hastalıklarda ESR yüksekliği ve düşük doz steroid yanıtı birlikteliği mevcut değildir."
+  },
+  // ─── OMUZ ───
+  {
+    sect:"YUMUŞAK DOKU ROMATİZMALARI",
+    year:"İlkbahar 2017 Orijinal",
+    q:"Cirit atmayı takiben omuzun ön tarafında ağrı başlayan 25 yaşındaki hasta, dirsek fleksiyonuyla ağrısının arttığını söylüyor. Geceleri omuz ağrısının arttığını belirten hastanın fizik muayenesinde dirseğin 90 derece fleksiyonunda ön kol supinasyonuna direnç uygulandığında, omzun ön tarafında ağrı artıyor. Aynı zamanda dirsek ekstansiyon ve ön kol supinasyonunda iken omuzdan öne fleksiyona direnç verildiğinde yine omuz ön tarafında artış oluyor. Hastanın direkt omuz grafisi normal olarak değerlendiriliyor. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
+    opts:["Rotator kafta yırtık","Biseps tendiniti","Akromiyoklaviküler eklemde zorlanma","Brakiyal pleksopati","Omuz subluksasyonu"],
+    ans:1,
+    hint:"Ön omuz ağrısı + dirsek fleksiyonunda + Speed ve Yergason testi pozitif.",
+    trap:"Rotator kaf yırtığında hiperabdüksiyonla ağrı artar, impingement işaretleri pozitiftir. Biseps tendinitinde Yergason (supinasyon direnci) ve Speed (ön fleksiyon direnci) testleri pozitiftir.",
+    explain:"Biseps tendiniti: Omuz ekleminin anteriora sık zorlandığı sporla uğraşan birinde ön omuz ağrısı biseps tendinitini düşündürür. Speed testi (ön fleksiyona direnç) ve Yergason testi (supinasyona direnç) pozitifliği biseps tanısında kullanılır."
+  },
+  {
+    sect:"YUMUŞAK DOKU ROMATİZMALARI – BENZERİ",
+    year:"İlkbahar 2017 BENZERİ",
+    q:"Gülle atmayı takiben omuz ön bölgesinde ağrı olan hastanın yapılan muayenesinde ağrı dirsek fleksiyonu ile belirginleşiyor, omuz hareketleri etkilenmiyor ve omuz grafisi normal ise <u>en olası</u> tanı aşağıdakilerden hangisidir?",
+    opts:["Omuz subluksasyonu","Brakiyal pleksopati","Akromiyoklaviküler eklemde zorlanma","Rotator kafta yırtık","Biseps tendiniti"],
+    ans:4,
+    hint:"Ön omuz ağrısı + dirsek fleksiyonuyla artış + grafisi normal = biseps.",
+    trap:"Omuz hareketleri normal olması rotator kaf ve akromioklaviküler patolojiyi ekarte ettirir. Dirsek fleksiyonuyla ağrı bisepsi gösterir.",
+    explain:"Biseps tendiniti: Omuz ekleminin anteriora zorlandığı durumlarda ön omuz ağrısı biseps tendinitini düşündürür. Yergason testi pozitifliği biseps tanısında kullanılır. Omuz hareketleri normal, grafisi normaldır."
+  },
+  {
+    sect:"YUMUŞAK DOKU ROMATİZMALARI",
+    year:"Sonbahar 2018 Orijinal",
+    q:"Cirit sporu yapan 23 yaşındaki erkek hasta, sağ omuzunun ön kısmında dirsek fleksiyonu ile artan ağrı yakınmasıyla başvuruyor. Fizik muayenesinde, omuzun ön kısmında lokalize hassasiyet, Speed ve Yergason testi pozitifliği saptanıyor. Nörolojik muayenesi normal olan bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
+    opts:["Rotator 'cuff' yırtığı","Lateral epikondilit","Servikal radükülopati","Glenohumeral dejeneratif artrit","Biseps tendiniti"],
+    ans:4,
+    hint:"Speed + Yergason pozitif = biseps tendiniti.",
+    trap:"Lateral epikondilit dirsek lateralindedir. Servikal radükülopatide boyun ve kol ağrısı olur. Speed ve Yergason testleri bisepse özgüdür.",
+    explain:"Biseps tendiniti: Omuzun anteriora sık zorlandığı sporla uğraşan birinde ön omuz ağrısı biseps tendinitini düşündürür. Speed testi (ön fleksiyona direnç) ve Yergason testi (supinasyona direnç) pozitifliği tanıda kullanılır."
+  },
+  {
+    sect:"YUMUŞAK DOKU ROMATİZMALARI – BENZERİ",
+    year:"Sonbahar 2018 BENZERİ",
+    q:"Yergason testi pozitifliği aşağıdakilerin hangisinin tanısında kullanılır?",
+    opts:["Supraspinatus tendiniti","Servikal disk hernisi","Lateral epikondilit","Biseps tendiniti","Glenohumeral subluksasyon"],
+    ans:3,
+    hint:"Yergason = supinasyona direnç + ön omuz ağrısı = biseps.",
+    trap:"Supraspinatus tendiniti için impingement testleri (Neer, Hawkins) kullanılır. Yergason spesifik olarak biseps tendinitinde pozitiftir.",
+    explain:"Yergason testi biseps tendinitinin muayenesinde kullanılır. Dirsek 90 derece fleksiyonda, ön kol supinasyonuna direnç uygulandığında ön omuz ağrısının oluşması pozitif kabul edilir."
+  },
+  // ─── YÜRÜME ANALİZİ ───
+  {
+    sect:"YÜRÜME ANALİZİ",
+    year:"İlkbahar 2005",
+    q:"Pelvis rotasyonunun normal yürüyüşteki temel fonksiyonu aşağıdakilerden hangisidir?",
+    opts:["Gövdenin laterale kaydırılması","Adım uzunluğunun artırılması","Diz ve ayak bileği fleksiyonunun artırılması","Topuğun yere vurulması aşamasında şok absorbsiyonu","Çift destek döneminde ağırlık merkezinin vertikal konumunun alçaltılması"],
+    ans:4,
+    hint:"Pelvis rotasyonu ağırlık merkezinin dikey hareketini azaltır.",
+    trap:"Pelvis rotasyonu adım uzunluğunu artırmaz (bu pelvis inklinasyonudur). Vücut ağırlık merkezinin devamlılığını sağlamak temel fonksiyondur.",
+    explain:"Pelvis rotasyonunun normal yürüyüşteki temel fonksiyonu vücut ağırlık merkezinin devamlılığını sağlamaktır. Normal yürüyüş siklüsü basma fazı (ayak yerle temas) ve salınım fazı (ayak yerden kesilir) olmak üzere 2 temel komponent içerir."
+  },
+  // ─── FİZİK TEDAVİ MODALİTELERİ ───
+  {
+    sect:"FİZİK TEDAVİ MODALİTELERİ",
+    year:"İlkbahar 91",
+    q:"Ankilozan spondilitte egzersiz tedavisi aşağıdaki amaçlardan hangisini sağlamaya yönelik <u>değildir</u>?",
+    opts:["Omurga hareketliliğinin korunması","Vital kapasitenin artırılması","Radyolojik ankiloz tesbit edilen bölgelerde mobilizasyonun sağlanması","İnaktivite atrofilerin önlenmesi","Dik postür sağlanması"],
+    ans:2,
+    hint:"Ankiloz oluşmuş bölgelerde hareket sağlanabilir mi?",
+    trap:"Ankilozan spondilitte egzersizin amacı ankilozu kırmak değil, progresyonu yavaşlatmak ve mevcut hareketi korumaktır. Radyolojik ankiloz tespit edilen bölgelerde hareketi sağlamak egzersizin amacı değildir.",
+    explain:"Ankilozan spondilitte egzersiz: Özellikle sırt hareketleri üzerinde durulmalı, omurga göğüs bölümünün düzleştirilmesine, omurganın mümkün olduğunca her yöne hareketi için çalışılmalıdır. Ancak <b>radyolojik ankiloz tespit edilen bölgelerde hareketi sağlamak egzersizin amacı değildir.</b>"
+  },
+  {
+    sect:"FİZİK TEDAVİ MODALİTELERİ",
+    year:"İlkbahar 91",
+    q:"Masajın <u>kontrendike</u> olduğu hastalık aşağıdakilerden hangisidir?",
+    opts:["Myalji","Lenfödem","Tromboflebit","Fibrozit","Ankilozan Spondilit"],
+    ans:2,
+    hint:"Masaj emboli riskini artıran bir durum.",
+    trap:"Lenfödem ve myalji masaj endikasyonlarıdır. Tromboflebit varken masaj emboli riskini artıracağı için kontrendikedir.",
+    explain:"Masaj kontrendikasyonları: En önemlisi enfeksiyonlar, malignite, cilt hastalıkları (mantar vb.), açık yara ve yanıklı kişiler, <b>Tromboflebitli hastalarda emboliyi artırır</b>, yapılmaz."
+  },
+  {
+    sect:"FİZİK TEDAVİ MODALİTELERİ",
+    year:"İlkbahar 2007",
+    q:"Aşağıdaki durumların hangisinde masaj uygulaması kontrendikedir?",
+    opts:["Malign durumlarda","Venöz dolaşımı kolaylaştırmada","Cilt altı yapışıklıkların açılmasında","Kas spazmlarının giderilmesinde","Lenfatik drenajı kolaylaştırmada"],
+    ans:0,
+    hint:"Tümörde masaj ne yapar?",
+    trap:"Venöz dolaşımı kolaylaştırma, lenfatik drenaj, kas spazmı giderilmesi masajın endikasyonlarıdır. Malignite ise büyüme ve metastaz oluşturabilir.",
+    explain:"Masaj malign durumlarda kontrendikedir çünkü tümörde büyüme ve metastaz oluşturabilir. Diğer kontrendikasyonlar: enfeksiyonlar, tromboflebit, açık yara, yanıklı kişiler."
+  },
+  {
+    sect:"FİZİK TEDAVİ MODALİTELERİ",
+    year:"İlkbahar 92",
+    q:"Ankilozan spondilit egzersizlerinde gerekli <u>olmayan</u> aşağıdakilerden hangisidir?",
+    opts:["Germe","Koordinasyon egzersizi","Solunum egzersizi","Fleksiyon egzersizleri","Postür egzersizi"],
+    ans:3,
+    hint:"AS'ta omurga fleksiyonu artan kifoz yapar — fleksiyon egzersizleri istenir mi?",
+    trap:"Ankilozan spondilitte dorsal kifoz gelişme riski nedeniyle fleksiyon egzersizleri önerilmez. Germe, koordinasyon, solunum ve postür egzersizleri yapılabilir.",
+    explain:"Ankilozan spondilitte ilerlemiş vakalarda omurga göğüs bölümünün öne doğru fleksiyonu sonucu dorsal kifoz veya bütün omurgada ankiloz gelişebilir. Bu nedenle <b>fleksiyon egzersizlerine gerek yoktur.</b> Germe, koordinasyon, solunum ve postür egzersizleri yapılabilir."
+  },
+  {
+    sect:"FİZİK TEDAVİ MODALİTELERİ",
+    year:"Sonbahar 93",
+    q:"Koksartrozun fiziksel tedavisi ve rehabilitasyonunda aşağıdaki uygulamaların hangisi geçerli <u>değildir</u>?",
+    opts:["Adduktor kas gerginliğinin giderilmesine yönelik egzersizler","Musculus gluteus maximusu kuvvetlendirme egzersizleri","Su içi jimnastiği ve su içi egzersizler","Ağrı azalıncaya kadar kalça ekleminin fleksiyon pozisyonunda uygun desteklerle korunması","Ekleme aşırı yük binmesini engelleyici yöntemlerin kullanılması"],
+    ans:3,
+    hint:"Kalça ekleminin fleksiyon pozisyonunda tutulması kas kontraktürü açısından uygun mudur?",
+    trap:"Koksartroz rehabilitasyonunda kalça fleksiyon pozisyonunda tutmak kontraktür geliştirme riski taşır ve uygun değildir. Kalça nötr pozisyonda korunmalıdır.",
+    explain:"Koksartroz fizik tedavi ve rehabilitasyonunda gergin kas gruplarını rahatlatma, aşırı yük binmeyi engelleyici egzersizler yapılabilir. Ancak <b>ağrı azalıncaya kadar kalça ekleminin fleksiyon pozisyonunda</b> uygun desteklerle korunması gibi bir yöntem uygulanamaz."
+  },
+  {
+    sect:"FİZİK TEDAVİ MODALİTELERİ",
+    year:"İlkbahar 97",
+    q:"Romatoid artritin akut eklem tutulumunda <u>ilk</u> dönemde yapılması gereken egzersiz aşağıdakilerden hangisidir?",
+    opts:["Güçlendirme egzersizi","Relaksasyon egzersizi","Yardımlı pasif egzersiz","Proprioseptif kolaylaştırma egzersizi","Koordinasyon egzersizi"],
+    ans:2,
+    hint:"Akut inflamasyonda aktif egzersiz yapılır mı?",
+    trap:"Akut dönemde güçlendirme egzersizi inflamasyonu artırır. Relaksasyon önemlidir ama asıl amaç kontraktür önlemektir. Yardımlı pasif egzersiz kontraktürü önlemek için idealdir.",
+    explain:"Romatoid artritte akut dönemde, akut iltihabi olay kontrol altına girmeden önce, kontraktür gelişmesini önlemek amacıyla, ağrı sınırları içerisinde ve dikkatle <b>yardımlı pasif egzersizler</b> yaptırılır."
+  },
+  {
+    sect:"FİZİK TEDAVİ MODALİTELERİ",
+    year:"Sonbahar 2025",
+    q:"Romatoid artrit tedavisinde kullanılan aşağıdaki ilaçlardan hangisi janus kinaz (JAK) reseptörleri üzerinden etki eder?",
+    opts:["Barisitinib","Rituksimab","Tosilizumab","Adalimumab","Abatasept"],
+    ans:0,
+    hint:"JAK inhibitörleri: Tofasitinib (JAK1+3), Baricitinib (JAK1+2), Upadacitinib (selektif JAK1).",
+    trap:"Rituksimab Anti-CD20, Tosilizumab IL-6 reseptör antikoru, Adalimumab Anti-TNF alfa, Abatasept ko-stimülasyon inhibitörüdür. Bunların hiçbiri JAK inhibitörü değildir.",
+    explain:"JAK (Janus Kinase) inhibitörleri: <b>Tofasitinib</b> (JAK1 ve JAK3 inhibitörü), <b>Baricitinib</b> (JAK1 ve JAK2 inhibitörü), <b>Upadacitinib</b> (selektif JAK1 inhibitörü). Baricitinib JAK inhibitörüdür ve doğru cevaptır."
+  },
+  {
+    sect:"FİZİK TEDAVİ MODALİTELERİ",
+    year:"İlkbahar 99",
+    q:"Tortikollis tedavisinde kullanılan ve 5-6 ay süreyle kas felci yaparak etki yapan ajan aşağıdakilerden hangisidir?",
+    opts:["Tubokurarin","Suksinilkolin","Botulinum toksini","Aflatoksin","Bombesin"],
+    ans:2,
+    hint:"Uzun süreli kas felci yapan toksin.",
+    trap:"Tubokurarin ve suksinilkolin kas gevşeticiler ama kısa etkilidir. Botulinum toksini uzun süreli (5-6 ay) lokal kas felci yapar.",
+    explain:"C. botulinum'a bağlı beyin zehirlenmesinde bu durum ölüme neden olabilir. Çok küçük miktarda botulinum toksini kas içine enjekte edilerek şaşılık, hipertroidizme bağlı oküler miyopati, esansiyel blefarospazm, hemifasiyal spazm ve <b>tortikollis</b> tedavisinde kullanılabilir."
+  },
+  {
+    sect:"FİZİK TEDAVİ MODALİTELERİ",
+    year:"İlkbahar 2000",
+    q:"Musküler tortikollisin erken dönem tedavisinde hangisi uygulanır?",
+    opts:["Spinal aksesuar sinir kesilmesi","Kası uzatan germe egzersizleri","Cerrahi tenotomi","Atelleme","Minerva tarzı alçı"],
+    ans:1,
+    hint:"Musküler tortikollis erken dönem tedavisi konservatif mi cerrahı mi?",
+    trap:"Cerrahi tenotomi stenokleidomastoid kasın nedbeleşmesi tamamlanmışsa uygulanır. Erken dönemde konservatif tedavi (germe egzersizleri) tercih edilir.",
+    explain:"Musküler tortikollis'de ilk olarak boyundaki şişlik üzerine enzimli pomadlar uygulanır. Şişliğin üzerine masaj yapılmamalıdır. Sonra sternokleidomastoid kasın kasılmasını önlemek için <b>uzatma egzersizleri</b> yapılmalıdır. Ancak stenokleidomastoid kasın nedbeleşmesi tamamlanmışsa bu tedaviler faydalı olmamaktadır; bu dönemde yapılacak en uygun tedavi tenotomidir."
+  },
+  {
+    sect:"FİZİK TEDAVİ MODALİTELERİ",
+    year:"İlkbahar 2001",
+    q:"Fonksiyonel elektriksel stimülasyon tedavisi için aşağıdaki durumlardan hangisinin olması istenir?",
+    opts:["Sağlam üst motor nöron, ön boynuz ve periferal sinir zedelenmesi","Sağlam üst motor nöron ve periferal sinir ile ön boynuz hücresi zedelenmesi","Sağlam üst motor nöron ve ön boynuz hücreleri ile periferal sinir zedelenmesi","Üst motor nöron zedelenmiş, sağlam alt motor ünite","Üst ve alt motor nöron zedelenmesi, periferal sinirlerin sağlam olması"],
+    ans:3,
+    hint:"FES için alt motor nöron sağlam olmalı — hangi şıkta alt motor ünite sağlamdır?",
+    trap:"FES için periferik sinir (alt motor nöron) sağlam olmalıdır. Üst motor nöron hasarında (spastik paralizi) alt motor ünite sağlam kalır ve FES çalışır.",
+    explain:"Fonksiyonel elektriksel stimülasyon tedavisi; sağlam bir alt motor nöron ve zedelenmiş üst motor nöron tipi paralizilerde kullanılır. Yürüme fonksiyonunu sağlamak için kullanılır."
+  },
+  {
+    sect:"FİZİK TEDAVİ MODALİTELERİ",
+    year:"İlkbahar 2003",
+    q:"Koltuk değneği veya baston kullanımında, özellikle kuvvetlendirilmesi gereken kas aşağıdakilerden hangisidir?",
+    opts:["M. deltoideus","M. biseps brachii","M. triseps brachii","M. brakhialis","M. supraspinatus"],
+    ans:2,
+    hint:"Koltuk değneğiyle yürürken ön kola yeterli ekstansiyon yaptırmak için hangi kas çalışır?",
+    trap:"Biseps brachii fleksiyon yapar; deltoid abdüksiyon yapar. Koltuk değneği kullanımında ön kola ekstansiyon yaptırmak için triseps kasılması gerekir.",
+    explain:"Koltuk değneği gibi yardımcı araçların kullanımında ön kola yeterli ekstansiyon yaptırabilmek için güçlendirilmesi gereken kas <b>triseps kasıdır.</b> Triseps radial sinir (C6-C7-C8) tarafından innerve edilir ve dirsek eklemine ekstansiyon yaptırır."
+  },
+  {
+    sect:"FİZİK TEDAVİ MODALİTELERİ",
+    year:"İlkbahar 2010",
+    q:"Aşağıdaki fiziksel ajanlardan hangisinin derin dokuları ısıtıcı etkisi vardır?",
+    opts:["Sıcak paket","Kısa dalga diatermi","İnfraruj lambası","Parafin banyosu","Hidroterapi"],
+    ans:1,
+    hint:"Yüzeyel ve derin ısıtıcılar ayrımı — kısa dalga nereye ulaşır?",
+    trap:"Sıcak paket, parafin banyosu, infraruj ve hidroterapi yüzeyel ısıtıcılardır. Kısa dalga diatermi, ultrason ve mikrodalga diatermi derin ısıtıcılardır.",
+    explain:"Termoterapi yöntemleri: Yüzeyel ısıtıcılar (sıcak paketler, ısı yastıkları, parafin banyoları, fluidoterapi, hidroterapi, infraruj); Derin ısıtıcılar (ultrason, kısa dalga diatermi, mikrodalga diatermi). <b>Kısa dalga diatermi</b> fizik tedavide kullanılan bir derin ısıtıcıdır."
+  },
+  {
+    sect:"FİZİK TEDAVİ MODALİTELERİ",
+    year:"Sonbahar 2022 Orijinal",
+    q:"Aşağıdaki fizik tedavi modalitelerinden hangisi derin dokuları ısıtma amacıyla kullanılır?",
+    opts:["Parafin banyosu","Sıcak paket","Hidroterapi","İnfrared","Ultrason"],
+    ans:4,
+    hint:"Derin ısıtıcılar = US + KDD + MDD.",
+    trap:"Parafin banyosu, sıcak paket, hidroterapi ve infrared yüzeyel ısıtıcılardır. Ultrason derin dokuları ısıtır.",
+    explain:"Derin ısıtıcılar: Ultrason, Kısa dalga diatermi, Mikrodalga diatermi. <b>Ultrason</b> derin dokuları ısıtma amacıyla kullanılır. Daha önce de defalarca kez sorulmuş olan fizik tedavi modalitelerinden kolay bir sorudur."
+  },
+  {
+    sect:"FİZİK TEDAVİ MODALİTELERİ",
+    year:"İlkbahar 2022 Orijinal",
+    q:"Aşağıdaki klinik durumların hangisinde kriyoterapi kontrendikedir?",
+    opts:["Bursit","Raynaud fenomeni","Kas spazmı","Tendinit","Myofasiyal tetik nokta"],
+    ans:1,
+    hint:"Soğuk uygulama vazokonstrüksiyon yapar — hangisinde bu zarar verir?",
+    trap:"Bursit, kas spazmı, tendinit ve miyofasiyal tetik noktalarda kriyoterapi (soğuk uygulama) kullanılabilir. Raynaud fenomeninde soğuk vazokonstrüksiyonu tetikler.",
+    explain:"Kriyoterapi terapötik amaçla kullanılan lokal soğuk uygulamalarıdır. İnflamasyonu ve ağrıyı azaltır, kas iğciklerini etkileyerek kas spazmını çözer. <b>Raynaud fenomeni</b> sıklıkla el parmaklarında epizodik vazokonstrüksiyondur ve kriyoterapi kontrendikedir."
+  },
+  {
+    sect:"FİZİK TEDAVİ MODALİTELERİ – BENZERİ",
+    year:"İlkbahar 2022 BENZERİ",
+    q:"I. Kas spazmı<br>II. Myofasiyal ağrı sendromu<br>III. Raynaud fenomeni<br><br>Yukarıdaki hastalıkların hangisi ya da hangilerinde kriyoterapi tedavi seçenekleri arasında yer almaktadır?",
+    opts:["Yalnız I","I ve II","I ve III","II ve III","I, II ve III"],
+    ans:1,
+    hint:"Raynaud'da soğuk kontredirekedir; kas spazmı ve miyofasiyal ağrıda kullanılır.",
+    trap:"Raynaud fenomeninde soğuk uygulaması vazokonstrüksiyonu artırdığı için kontrendikedir. I ve II'de kullanılabilir.",
+    explain:"Kriyoterapi kas spazmı ve miyofasiyal ağrı sendromunda kullanılabilir. Raynaud fenomeninde soğuk uygulamaları sıklıkla vazokonstrüksiyonu tetikler ve kontrendikedir."
+  },
+  {
+    sect:"FİZİK TEDAVİ MODALİTELERİ",
+    year:"Sonbahar 2014 Orijinal",
+    q:"Osteoporoza bağlı akut vertebral kırığı olan bir hastanın rehabilitasyonunda, aşağıdaki tedavi yaklaşımlarından hangisi uygun <u>değildir</u>?",
+    opts:["Yatak istirahati","Steroid olmayan antiinflamatuvar ve analjezik ilaçlar","Breysler ve yardımcı cihazlar","Dirençli egzersizler","Analjezik etkili elektroterapi yöntemleri"],
+    ans:3,
+    hint:"Kırık olan vertebraya yük bindiren egzersizler uygun mu?",
+    trap:"Dirençli egzersizler vertebraya yük artıracağından osteoporotik kırıklarda tercih edilmez. TENS ve analjezik elektroterapi kullanılabilir.",
+    explain:"Osteoporoza bağlı akut vertebral kırığı olan hastanın tedavisinde yatak istirahati, NSAİİ ve analjezik ilaçlar, breysler ve yardımcı cihazlar ve analjezik etkili elektroterapi yöntemleri kullanılabilir. Ancak <b>dirençli egzersizler</b> osteoporotik kırıklarda vertebraya olan yükü artıracağından tercih edilmez."
+  },
+  {
+    sect:"FİZİK TEDAVİ MODALİTELERİ – BENZERİ",
+    year:"Sonbahar 2014 BENZERİ",
+    q:"Osteoporotik vertebral çökme kırığının tedavi ve rehabilitasyonunda aşağıdaki tedavi modalitelerinden hangisi kullanılmaz?",
+    opts:["Parasetamol","Naproksen sodyum","İbuprofen","Dirençli egzersizler","TENS"],
+    ans:3,
+    hint:"Vertebra kırığında yük bindiren tedavi kontredirekedir.",
+    trap:"Parasetamol, naproksen, ibuprofen analjezik/antiinflamatuar olarak kullanılabilir. TENS analjezik elektroterapidir. Dirençli egzersizler yükü artırır.",
+    explain:"Osteoporotik vertebral çökme kırığının rehabilitasyonunda <b>dirençli egzersizler</b> kullanılmaz çünkü vertebraya yük artışı kırığın ilerlemesine neden olabilir."
+  },
+  // ─── HETEROTOPİK OSSİFİKASYON ───
+  {
+    sect:"HETEROTOPİK OSSİFİKASYON",
+    year:"İlkbahar 2013",
+    q:"Eklem hareketlerinde kısıtlanma, eritrosit sedimentasyon hızında ve serum alkalen fosfataz düzeyinde yükselmeyle seyredebilen, kemik sintigrafisinde 2. haftada saptanabilen ve spastisiteyi artırabilen omurilik yaralanması komplikasyonu aşağıdakilerden hangisidir?",
+    opts:["Otonomik disrefleksi","İmmobilizasyon hiperkalsemisi","Bası yarası","Derin ven trombozu","Heterotopik ossifikasyon"],
+    ans:4,
+    hint:"Omurilik yaralanması + ESR/ALP yükselme + sintigrafi 2. haftada + eklem kısıtlılığı.",
+    trap:"İmmobilizasyon hiperkalsemisinde ALP yükselmesi belirgin değildir. DVT'de ekstremitede çap farkı ve kızarıklık beklenir. HO'da periartiküler kemik oluşumu sintigrafide 2. haftada görülür.",
+    explain:"Heterotopik ossifikasyon (HO): Periartiküler alanlarda matür lamellar kemik formasyonu şeklinde tariflenen nörojenik HO, beyin ya da omurilik hasarlı hastaların %11-76'sında bildirilmiştir. Laboratuvarda kalsiyum seviyesinde geçici düşme ve alkalen fosfataz değerlerinde yükselme görülür. En sık nörolojik olarak etkilenen taraf ve omuz, kalça, diz ve dirseği içeren majör eklemleri etkiler."
+  },
+  // ─── İMMOBİLİZASYON ───
+  {
+    sect:"İMMOBİLİZASYON",
+    year:"Sonbahar 2005",
+    q:"Aşağıdakilerden hangisi immobilizasyona ikincil olarak <u>gelişmez</u>?",
+    opts:["Kas gücünde azalma","Eklem laksitesi","Osteoporoz","Postural hipotansiyon","Konstipasyon"],
+    ans:1,
+    hint:"İmmobilizasyonda eklem sertliği mi, yoksa gevşekliği mi beklenir?",
+    trap:"İmmobilizasyonda eklem kontraktürü (sertlik) gelişir, laksitesi (gevşeklik) değil. Kas gücü, osteoporoz, ortostatik hipotansiyon ve kabızlık immobilizasyon komplikasyonlarıdır.",
+    explain:"İmmobilizasyon sürecinde kas gücünde azalma, osteoporoz, ortostatik hipotansiyon, kabızlık görülebilmektedir. Ancak <b>eklem laksitesi beklenen bir bulgu değildir</b> — aksine eklem kontraktürü gelişir."
+  },
+  {
+    sect:"İMMOBİLİZASYON",
+    year:"İlkbahar 2006",
+    q:"Aşağıdakilerden hangisi vücudun immobilizasyonu sonucu oluşan klinik belirtilerinden biridir?",
+    opts:["Bradikardi","Polifaji","Oligüri","Hipertansiyon","Otonom labilite"],
+    ans:4,
+    hint:"İmmobil kişilerde postür değişikliğine uyum bozulur, kardiyovasküler sistem değişir.",
+    trap:"İmmobilizasyonda bradikardi değil taşikardi olabilir; hipertansiyon değil ortostatik hipotansiyon gelişir; oligüri değil üriner staz ve enfeksiyon beklenir.",
+    explain:"İmmobilizasyon: Uzun süreli yatağa bağlı, immobil kişilerde postür değişikliği gibi günlük streslere uyum sağlayamaz, kardiyovasküler sistem fonksiyonları belirgin şekilde etkilenir. <b>Otonom labilite</b> immobilizasyon komplikasyonlarından biridir."
+  },
+  // ─── ALT EKSTREMİTE KAS-TENDON ───
+  {
+    sect:"ALT EKSTREMİTE KAS-TENDON GRUPLARININ BOZUKLUKLARI",
+    year:"Sonbahar 95",
+    q:"Ober testi aşağıdakilerden hangisinin tesbitinde kullanılır?",
+    opts:["Kalçanın abdüksiyon kısıtlılığını değerlendirmede","Gluteus medius kasının zayıflığında","Uyluk fleksiyon kısıtlılığında","Dizin fleksiyon kısıtlılığında","Fasia latanın gerginliğinde"],
+    ans:4,
+    hint:"İliotibial bant gerginliği testi.",
+    trap:"Ober testi Trendelenburg testi değildir (o gluteus medius için). Ober testi tensor fasia lata (iliotibial bant) gerginliğini değerlendirir.",
+    explain:"Ober testinde hasta sağlam tarafa yatırılır, kalça fleksiyona getirilir, sonra aşırı abdüksiyonda ekstansiyona getirilir ve uyluk adduksiyona indirilir. Tensor fasia lata gergin ise uyluk öne düşmeden bir an için abdüksiyonda kalır. <b>Fasia latanın gerginliğini</b> değerlendirir."
+  },
+  {
+    sect:"ALT EKSTREMİTE KAS-TENDON GRUPLARININ BOZUKLUKLARI",
+    year:"İlkbahar 2009",
+    q:"Bir haftadır devam eden sağ kalça ağrısından yakınan altmış sekiz yaşında kadın hastanın öyküsünden gece sağ tarafına yatınca ağrısının arttığı, yürürken uyluk lateralinde aşağı doğru yayılan ağrısı olduğu öğreniliyor. Bacağı dış rotasyona ve abdüksiyona getirilince ağrısı artan bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
+    opts:["Kalça ekleminde septik artrit","Romatoid artrit","Trokanterik bursit","Lomber disk hernisi","Tıkayıcı arter hastalığı"],
+    ans:2,
+    hint:"Kalça laterali + gece yan yatışta ağrı + abdüksiyonla artan = trokanterik bursit.",
+    trap:"Lomber disk hernisinde nörolojik bulgular beklenir. Septik artritte ateş ve sistemik bulgular olur. Abdüksiyonla artan lateral ağrı trokanterik bursiti işaret eder.",
+    explain:"Trokanterik Bursit: Kalçada ve uyluğun yan tarafında en sık ağrıya neden olan olaydır. Genellikle 40-60 yaş gurubunda ve özellikle kadınlarda çok görülür. Kalçanın dirence karşı abdüksiyon ve dış rotasyon hareketi yapması ağrıyı artırabilir."
+  },
+  {
+    sect:"ALT EKSTREMİTE KAS-TENDON GRUPLARININ BOZUKLUKLARI",
+    year:"Sonbahar 2023",
+    q:"Otuz yaşındaki erkek hasta, uzun süre oturduğunda başlayan ve ara ara bacak arkasına yayılan sol kalça ağrısı nedeniyle başvuruyor. Fizik muayenede sol kalçanın pasif abdüksiyon ve internal rotasyona getirilmesiyle, ayrıca dirençli abdüksiyon ve eksternal rotasyon yaptırılmasıyla ağrı artıyor. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
+    opts:["İliotibial bant sendromu","L4-L5 radükülopati","Piriformis sendromu","İskial bursit","Trokanterik bursit"],
+    ans:2,
+    hint:"Uzun oturmada başlayan kalça ağrısı + abdüksiyon/internal rotasyonda artan ağrı + dirençli abdüksiyon-eksternal rotasyonda artış.",
+    trap:"Trokanterik bursit kalça lateralinde sınırlıdır. L4-L5 radükülopatide periferik nörolojik bulgular ortaya çıkar. Piriformis sendromunda siyatik sinirin piriformis kasında tuzaklanması söz konusudur.",
+    explain:"Piriformis sendromu (PS): Siyatik sinirin piriformis kası tarafından tuzaklanmasıyla oluşan bir klinik tablodur. Piriformis kası kalça eklemine uyluk ekstansiyondayken dış rotasyon, kalça fleksiyondayken abdüksiyon yaptırır. Freiberg testi, Pace bulgusu ve Lasegue belirtisi tanıda sık kullanılan özel testlerdir."
+  },
+  {
+    sect:"ALT EKSTREMİTE KAS-TENDON GRUPLARININ BOZUKLUKLARI",
+    year:"Sonbahar 2010",
+    q:"Kayak yaptıktan sonra sağ dizinde ağrı başladığı öğrenilen otuz iki yaşında bir kadın hasta özellikle istirahat sonrası ayağa kalkarken ve tutukluktan ağrısı artmaktadır. Ağrısı fleksiyon ile artan hastanın muayenesinde inflamasyon bulgusu bulunmuyor ve fleksiyonda hafif krepitasyon hissediliyor. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
+    opts:["Tibiofemoral osteoartrit","Dış menisküs lezyonu","İç menisküs lezyonu","Kondromalazi patella","Ön çapraz bağ lezyonu"],
+    ans:3,
+    hint:"Genç kadın + diz önü ağrısı + fleksiyonla artış + krepitasyon + merdiven inme-çıkmada sorun.",
+    trap:"Menisküs lezyonunda eklem çizgisi hassasiyeti ve kilitleme beklenir. İnflamasyon yok, krepitasyon var ve diz fleksiyonuyla ağrı kondromalazi patellayı işaret eder.",
+    explain:"Kondromalazi patella patellanın eklem yüzeyinin dejenere olması ile ortaya çıkan bozukluktur. Diz önü ağrısı sızı şeklinde, künt veya zonklayıcı tarzda olabilir. Merdiven inme-çıkma ve diz 90 derecede bükülü durumda özellikle yolculuklarda, sinemada ortaya çıkar. Krepitasyon karakteristik bulgudur."
+  },
+  {
+    sect:"ALT EKSTREMİTE KAS-TENDON GRUPLARININ BOZUKLUKLARI",
+    year:"İlkbahar 2021 Orijinal",
+    q:"Altmış beş yaşındaki kadın hasta sağ kasığından başlayıp bacağın ön yüzüne ve dize kadar yayılan, istirahatle azalıp üzerine basmakla ve yürümekle artan ağrı şikayetiyle başvuruyor. Hasta ayrıca 15 dakika kadar süren istirahat tutukluğundan, oturduğu yerden kalkarken ve sağ tarafta çorabını giyerken güçlük yaşadığından yakınıyor. Öyküsünde ilaç kullanımı veya travma bulunmuyor. Analjik yürümesi olan hastanın fizik muayenesinde sağ kalçasının fleksiyonu ve iç rotasyonu ağrılı saptanıyor, sağ bacak germe testi negatif tespit ediliyor, nörolojik muayene normal olarak değerlendiriliyor. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
+    opts:["Trokanterik bursit","Lomber stenoz","Kalça osteoartriti","Meralgia parestetika","Lomber disk hernisi"],
+    ans:2,
+    hint:"Kasık ağrısı + kalça fleksiyon/iç rotasyon kısıtlılığı + analjik yürüme + 15 dk istirahat tutukluğu.",
+    trap:"Trokanterik bursit kalça lateralinde sınırlıdır. Lomber disk hernisinde bacak germe testi pozitif ve nörolojik bulgular beklenir. Kalça osteoartriti için tipik tablo: kasık ağrısı, kalça iç rotasyon kısıtlılığı, analjik yürüme.",
+    explain:"Kalça osteoartriti (koksartroz): Kalçada özellikle abdüksiyon ve internal rotasyon hareketi kısıtlanır, bacakta giderek addüksiyon ve eksternal rotasyon deformitesi gelişir. Tandelenburg testi pozitiftir. Kalça lateralinde, abdüksiyonla artan ağrı trokanterik bursiti düşündürür."
+  },
+  {
+    sect:"ALT EKSTREMİTE KAS-TENDON GRUPLARININ BOZUKLUKLARI – BENZERİ",
+    year:"İlkbahar 2021 BENZERİ",
+    q:"I- Trokanterik bursit<br>II- Lomber stenoz<br>III- Kalça osteoartriti<br><br>a- Periferik nörolojik bulgu<br>b- Eşlik eden kasık ağrısı<br>c- Kalça lateralinde sınırlı ağrı<br><br>Yukarıdaki hastalık ve bulgular için aşağıdaki eşleştirmelerden hangisi doğrudur?",
+    opts:["I-c, II-a, III-b","I-c, II-b, III-a","I-b, II-a, III-c","I-b, II-c, III-a","I-a, II-b, III-c"],
+    ans:0,
+    hint:"Trokanterik bursit = lateral ağrı; Lomber stenoz = periferik nörolojik bulgu; Kalça OA = kasık ağrısı.",
+    trap:"Meralgia parestetikada n.kutaneus femoralis lateralis sıkışır, sadece duyusal kayıp olur. Lomber disk hernisinde nörolojik bulgular olur. Kalça OA'da kasık ağrısı tipiktir.",
+    explain:"Trokanterik bursit: kalça lateralinde sınırlı ağrı (c). Lomber stenoz: özellikle fleksiyonda artan periferik nörolojik bulgular (a). Kalça osteoartriti: eşlik eden kasık ağrısı, iç rotasyon kısıtlılığı (b)."
+  },
+  {
+    sect:"ALT EKSTREMİTE EKLEM BOZUKLUKLARI",
+    year:"Sonbahar 2021 Orijinal",
+    q:"Yirmi bir yaşındaki erkek hastanın öyküsünden; halı sahada futbol oynarken herhangi bir darbe olmaksızın, koşarken yönünü aniden değiştirdiği sırada dizinden bir ses geldiği ve dizinin hızlıca şiştiği öğreniliyor. Bu hastanın dizinde aşağıdaki yaralanmalardan hangisi <u>öncelikle</u> düşünülmelidir?",
+    opts:["İç menisküs yırtığı","Ön çapraz bağ yaralanması","İç yan bağ yaralanması","Patella çıkığı","Patella kırığı"],
+    ans:1,
+    hint:"Temas olmadan ani yön değişikliği + ani diz şişmesi → ACL.",
+    trap:"İç menisküs yırtığında ani rotasyon durumunda olur ama tipik bulgu kilitlenme ve eklem çizgisi ağrısıdır. Ani şişme (hemartröz) ön çapraz bağ yaralanmasının klasik bulgusudur.",
+    explain:"Ön çapraz bağ zedelenmesi: Kliniğe geliş şikayetleri arasında ön planda akut şişlik olması nedeniye menisküs zedelenmesinden ayrılır. Akut ağrı ve dizden gelen klik sesi hastaların kliniğe alış geliş şikayetleridir. Dizde öne ve arkaya doğru çekmece testi ile değerlendirilir."
+  },
+  {
+    sect:"ALT EKSTREMİTE EKLEM BOZUKLUKLARI – BENZERİ",
+    year:"Sonbahar 2021 BENZERİ",
+    q:"On altı yaşında kız hasta dizinde ağrı ve şişme şikayeti ile geliyor. Jimnastikle uğraştığı ve şikayetlerinin antrenman sırasında ani bir hareket sonrasında olduğu ve dizinden ses geldiği öğreniliyor. Bu hastada <u>en olası</u> patoloji düşünüldüğünde hangi muayene bulgusunun pozitif olması <u>en olasıdır</u>?",
+    opts:["Mcmurray testi","Ön çekmece testi","Femoral germe testi","Spurling testi","Homans testi"],
+    ans:1,
+    hint:"Ani hareket + diz şişmesi = ACL → hangi test?",
+    trap:"Mcmurray testi menisküs lezyonunu değerlendirir. ACL için ön-arka çekmece testi ve Lachman testi kullanılır.",
+    explain:"Ani şişmenin ön planda olduğu diz yaralanmalarında ön planda ön çapraz bağ zedelenmesi düşünülmelidir. Dizde öne ve arkaya doğru <b>çekmece testi</b> ile değerlendirilir."
+  },
+  {
+    sect:"ALT EKSTREMİTE EKLEM BOZUKLUKLARI",
+    year:"Sonbahar 2006",
+    q:"Kalça ağrısı ve topallama şikayetleriyle getirilen adölesan çağda şişman bir erkek çocukta fizik muayenede kalçada abdüksiyon ve iç rotasyona hareketlerinin kısıtlı, bacağın dış rotasyonunda olduğu saptanıyor. Kanda beyaz küre sayısı ve sedimentasyon hızı normal bulunuyor. Bu çocuk için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
+    opts:["Femur başı epifiz kayması","Tüberküloz artrit","Septik artrit","Romatoid artrit","Perthes hastalığı"],
+    ans:0,
+    hint:"Adölesan + şişman + abdüksiyon/iç rotasyon kısıtlı + dış rotasyon deformitesi + normal ESR.",
+    trap:"Septik artrit ve tüberküloz artritte inflamasyon bulguları ve ESR yüksekliği beklenir. Perthes hastalığı daha küçük yaşlarda görülür. Femur başı epifiz kayması şişman adölesanda tipiktir.",
+    explain:"Femur başı epifiz kayması (Adölesan koksa vara): Genellikle 10-12 yaş civarında, erkeklerde kızlara göre daha sık görülür. Bu çocuklar sıklıkla uzun boylu, uzun bacaklı ya da obez hastalardır. Tanıda pelvis AP grafisinde Klein çizgisi yararlı olup femur boynu süperior konturunun epifizden geçmediği tespit edilir."
+  },
+  {
+    sect:"ALT EKSTREMİTE EKLEM BOZUKLUKLARI",
+    year:"İlkbahar 2024 Orijinal",
+    q:"Aşağıdaki radyolojik parametrelerden hangisi femur başı epifiz kayması tanısında kullanılır?",
+    opts:["Hilgenreiner çizgisi","Klein çizgisi","Perkins çizgisi","Shenton çizgisi","Asetabuler indeks"],
+    ans:1,
+    hint:"Femur boynu üst konturu ile epifiz ilişkisini gösteren çizgi.",
+    trap:"Hilgenreiner, Perkins, Shenton ve asetabuler indeks gelişimsel kalça displazisini değerlendirmek için kullanılır. Klein çizgisi femur başı epifiz kaymasına özgüdür.",
+    explain:"Femur başı epifiz kayması ve gelişimsel kalça displazilerinde pelvis grafileri ile yapılan ölçümler ile tanı konulmaktadır. Adolesanlarda en sık görülen kalça bozukluğu femur başı epifiz kaymasıdır. Tanıda Pelvis AP grafisinde <b>Klein çizgisi</b> yararlı olup femur boynu süperior konturunun epifizden geçmediği tespit edilir."
+  }
 ];
 
-let currentQ = 0;
-let score = 0;
-let userAnswers = new Array(questions.length).fill(null);
-let starred = new Set(JSON.parse(localStorage.getItem('tus_starred_p1') || '[]'));
+let queue=[], cur=0, answered={}, starred=new Set(), hintOpen=false;
 
-function loadQuestion() {
-    const q = questions[currentQ];
-    document.getElementById('q-num').innerText = `Soru ${currentQ + 1}/${questions.length}`;
-    document.getElementById('q-counter').innerText = `${currentQ + 1}/${questions.length} ☰`;
-    document.getElementById('question').innerHTML = q.question;
-    document.getElementById('hint-box').innerText = q.hint;
-    document.getElementById('hint-box').style.display = 'none';
-    document.getElementById('trap').innerText = q.trap;
-    document.getElementById('explanation').innerText = q.explanation;
-    document.getElementById('star-btn').innerText = starred.has(currentQ) ? '★' : '☆';
-    document.getElementById('star-btn').classList.toggle('active', starred.has(currentQ));
-
-    const tagsBox = document.getElementById('year-tags');
-    tagsBox.innerHTML = '';
-    q.years.forEach(y => {
-        const span = document.createElement('span');
-        span.className = 'year-tag';
-        span.innerText = y;
-        tagsBox.appendChild(span);
-    });
-
-    const optionsBox = document.getElementById('options');
-    optionsBox.innerHTML = '';
-    q.options.forEach((opt, i) => {
-        const btn = document.createElement('button');
-        btn.className = 'opt-btn';
-        if (userAnswers[currentQ] !== null) {
-            btn.disabled = true;
-            if (i === q.answer) btn.classList.add('correct');
-            if (i === userAnswers[currentQ] && i !== q.answer) btn.classList.add('wrong');
-        }
-        btn.onclick = () => checkAnswer(i);
-        btn.innerHTML = `<div class="opt-letter">${String.fromCharCode(65 + i)}</div>${opt}`;
-        optionsBox.appendChild(btn);
-    });
-
-    document.getElementById('feedback').classList.toggle('open', userAnswers[currentQ] !== null);
-    document.getElementById('prev-btn').disabled = currentQ === 0;
-    updateProgress();
+function init(arr){
+  queue=[...arr];cur=0;answered={};hintOpen=false;
+  document.getElementById('quiz-wrap').style.display='';
+  document.getElementById('result-screen').style.display='none';
+  render();
 }
 
-function checkAnswer(idx) {
-    if (userAnswers[currentQ] !== null) return;
-    userAnswers[currentQ] = idx;
-    loadQuestion();
-    setTimeout(() => {
-        document.getElementById('feedback').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 100);
-}
-
-function nextQ() {
-    if (currentQ < questions.length - 1) {
-        currentQ++;
-        loadQuestion();
+function render(){
+  if(cur>=queue.length){showResult();return;}
+  const q=queue[cur];
+  document.getElementById('sect-badge').textContent=q.sect;
+  document.getElementById('q-num').textContent=`Soru ${cur+1} / ${queue.length}`;
+  document.getElementById('star-btn').textContent=starred.has(q)? '★':'☆';
+  // year tags
+  const yt=document.getElementById('year-tags');
+  yt.innerHTML='';
+  if(q.year){const sp=document.createElement('span');sp.className='year-tag';sp.textContent=q.year;yt.appendChild(sp);}
+  document.getElementById('q-text').innerHTML=q.q;
+  // hint
+  hintOpen=false;
+  const hb=document.getElementById('hint-box');
+  hb.innerHTML=q.hint;hb.classList.remove('open');
+  // options
+  const op=document.getElementById('options');op.innerHTML='';
+  const letters=['A','B','C','D','E'];
+  q.opts.forEach((o,i)=>{
+    const btn=document.createElement('button');
+    btn.className='opt-btn';
+    btn.innerHTML=`<span class="opt-letter">${letters[i]}</span><span>${o}</span>`;
+    if(answered[cur]!==undefined){
+      btn.disabled=true;
+      if(i===q.ans)btn.classList.add('correct');
+      else if(i===answered[cur])btn.classList.add('wrong');
     } else {
-        showResults();
+      btn.onclick=()=>answer(i);
     }
+    op.appendChild(btn);
+  });
+  // feedback
+  const fb=document.getElementById('feedback');
+  if(answered[cur]!==undefined){
+    document.getElementById('trap-text').innerHTML=q.trap;
+    document.getElementById('explain-text').innerHTML=q.explain;
+    fb.classList.add('open');
+    setTimeout(()=>fb.scrollIntoView({behavior:'smooth',block:'nearest'}),100);
+  } else {
+    fb.classList.remove('open');
+  }
+  // progress
+  document.getElementById('prog').style.width=((cur+1)/queue.length*100)+'%';
+  document.getElementById('q-counter').textContent=`${cur+1}/${queue.length} ☰`;
+  buildGrid();
 }
 
-function prevQ() {
-    if (currentQ > 0) {
-        currentQ--;
-        loadQuestion();
+function answer(i){
+  if(answered[cur]!==undefined)return;
+  answered[cur]=i;
+  render();
+}
+
+function toggleHint(){
+  hintOpen=!hintOpen;
+  document.getElementById('hint-box').classList.toggle('open',hintOpen);
+}
+
+function toggleStar(){
+  const q=queue[cur];
+  if(starred.has(q))starred.delete(q);else starred.add(q);
+  document.getElementById('star-btn').textContent=starred.has(q)?'★':'☆';
+  buildGrid();
+}
+
+function go(d){
+  cur=Math.max(0,Math.min(queue.length-1,cur+d));
+  render();
+}
+
+function buildGrid(){
+  const g=document.getElementById('q-grid');g.innerHTML='';
+  queue.forEach((q,i)=>{
+    const btn=document.createElement('button');
+    btn.className='q-grid-btn';
+    btn.textContent=i+1;
+    if(answered[i]!==undefined){
+      btn.classList.add(answered[i]===q.ans?'answered-c':'answered-w');
     }
+    if(starred.has(q))btn.classList.add('starred');
+    btn.onclick=()=>{cur=i;render();closeModal();};
+    g.appendChild(btn);
+  });
 }
 
-function toggleHint() {
-    const box = document.getElementById('hint-box');
-    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+function openModal(){document.getElementById('modal').classList.add('open');buildGrid();}
+function closeModal(e){if(!e||e.target===document.getElementById('modal'))document.getElementById('modal').classList.remove('open');}
+
+function showResult(){
+  document.getElementById('quiz-wrap').style.display='none';
+  const rs=document.getElementById('result-screen');rs.style.display='block';
+  let c=0,w=0;
+  queue.forEach((q,i)=>{if(answered[i]!==undefined){if(answered[i]===q.ans)c++;else w++;}});
+  const total=queue.length;
+  const pct=total?Math.round(c/total*100):0;
+  document.getElementById('res-score').textContent=pct;
+  document.getElementById('res-pct').textContent='% Doğru';
+  document.getElementById('res-c').textContent=c;
+  document.getElementById('res-w').textContent=w;
+  document.getElementById('res-s').textContent=starred.size;
 }
 
-function toggleStar() {
-    if (starred.has(currentQ)) starred.delete(currentQ);
-    else starred.add(currentQ);
-    localStorage.setItem('tus_starred_p1', JSON.stringify([...starred]));
-    loadQuestion();
+function restartAll(){answered={};cur=0;document.getElementById('quiz-wrap').style.display='';document.getElementById('result-screen').style.display='none';render();}
+function retryWrong(){
+  const wrong=queue.filter((q,i)=>answered[i]!==undefined&&answered[i]!==q.ans);
+  if(!wrong.length){alert('Yanlış soru yok!');return;}
+  init(wrong);
+}
+function retryStar(){
+  const st=[...starred];
+  if(!st.length){alert('Yıldızlı soru yok!');return;}
+  init(st);
 }
 
-function updateProgress() {
-    const progress = ((currentQ + 1) / questions.length) * 100;
-    document.getElementById('p-bar').style.width = `${progress}%`;
-}
-
-function openModal() {
-    const grid = document.getElementById('q-grid');
-    grid.innerHTML = '';
-    questions.forEach((_, i) => {
-        const btn = document.createElement('button');
-        btn.className = 'q-grid-btn';
-        if (userAnswers[i] !== null) {
-            btn.classList.add(userAnswers[i] === questions[i].answer ? 'correct' : 'wrong');
-        }
-        if (i === currentQ) btn.classList.add('active');
-        btn.innerText = i + 1;
-        btn.onclick = () => { currentQ = i; loadQuestion(); closeModal(); };
-        grid.appendChild(btn);
-    });
-    document.getElementById('modal-overlay').style.display = 'block';
-    setTimeout(() => document.getElementById('modal').classList.add('open'), 10);
-}
-
-function closeModal() {
-    document.getElementById('modal').classList.remove('open');
-    setTimeout(() => document.getElementById('modal-overlay').style.display = 'none', 300);
-}
-
-function showResults() {
-    document.getElementById('quiz-container').style.display = 'none';
-    document.getElementById('result-screen').style.display = 'block';
-    const correct = userAnswers.filter((a, i) => a === questions[i].answer).length;
-    const wrong = userAnswers.filter((a, i) => a !== null && a !== questions[i].answer).length;
-    document.getElementById('res-score').innerText = Math.round((correct / questions.length) * 100) + '%';
-    document.getElementById('res-correct').innerText = correct;
-    document.getElementById('res-wrong').innerText = wrong;
-    document.getElementById('res-starred').innerText = starred.size;
-    document.getElementById('retry-wrong-btn').style.display = wrong > 0 ? 'block' : 'none';
-}
-
-function restartQuiz() {
-    userAnswers = new Array(questions.length).fill(null);
-    currentQ = 0;
-    document.getElementById('quiz-container').style.display = 'block';
-    document.getElementById('result-screen').style.display = 'none';
-    loadQuestion();
-}
-
-function retryWrong() {
-    const wrongIndices = questions.map((_, i) => i).filter(i => userAnswers[i] !== null && userAnswers[i] !== questions[i].answer);
-    // Basitlik için sadece yanlışları sıfırla ve ilk yanlışa git
-    wrongIndices.forEach(i => userAnswers[i] = null);
-    currentQ = wrongIndices[0];
-    document.getElementById('quiz-container').style.display = 'block';
-    document.getElementById('result-screen').style.display = 'none';
-    loadQuestion();
-}
-
-function retryStarred() {
-    if (starred.size === 0) return alert('Yıldızlı soru yok!');
-    const starIndices = [...starred];
-    starIndices.forEach(i => userAnswers[i] = null);
-    currentQ = starIndices[0];
-    document.getElementById('quiz-container').style.display = 'block';
-    document.getElementById('result-screen').style.display = 'none';
-    loadQuestion();
-}
-
-loadQuestion();
+init(Qs);
 </script>
 </body>
 </html>

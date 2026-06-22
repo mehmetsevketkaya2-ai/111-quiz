@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FTR TUS Quiz — PART 2</title>
+<title>FTR TUS Quiz — PART 3</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;--accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;--green:#3ecf74;--red:#f0476d;--text:#dde3f5;--muted:#7b85a8;}
@@ -37,7 +37,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 .opt-btn.wrong .opt-letter{color:var(--red)}
 .opt-btn:disabled{cursor:default}
 .feedback{max-height:0;overflow:hidden;transition:max-height .4s ease}
-.feedback.open{max-height:600px}
+.feedback.open{max-height:700px}
 .trap-box{background:rgba(240,71,109,.08);border:1px solid rgba(240,71,109,.25);border-radius:8px;padding:12px 14px;margin-top:12px}
 .trap-title{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:6px}
 .trap-text{font-size:12px;color:var(--muted);line-height:1.6}
@@ -78,11 +78,11 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 <div class="progress-wrap"><div class="progress-bar" id="prog"></div></div>
 <div class="top-header">
   <div class="section-badge">FİZİK TEDAVİ ve REHABİLİTASYON</div>
-  <div class="top-title">TUS Soru Bankası — Part 2 / 3</div>
+  <div class="top-title">TUS Soru Bankası — Part 3 / 3</div>
 </div>
 <div class="card" id="q-card">
   <div class="q-header">
-    <span id="q-num">Soru 1 / 27</span>
+    <span id="q-num">Soru 1 / 28</span>
     <button id="star-btn" onclick="toggleStar()">☆</button>
   </div>
   <div class="year-tags" id="year-tags"></div>
@@ -97,7 +97,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 </div>
 <div class="nav">
   <button class="nav-btn" onclick="navigate(-1)">← Önceki</button>
-  <span id="q-counter" onclick="openModal()">1/27 ☰</span>
+  <span id="q-counter" onclick="openModal()">1/28 ☰</span>
   <button class="nav-btn" onclick="navigate(1)">Sonraki →</button>
 </div>
 <div class="q-modal-overlay" id="modal-overlay" onclick="closeModal(event)">
@@ -123,274 +123,284 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 <script>
 const ALL_QUESTIONS = [
   {
-    id:29,
-    year:"İlkbahar 2007",
-    question:"Aşağıdaki durumların hangisinde masaj uygulaması <strong>kontrendikedir</strong>?",
-    options:["Malign durumlarda","Venöz dolaşımı kolaylaştırmada","Cilt altı yapışıklıkların açılmasında","Kas spazmlarının giderilmesinde","Lenfatik drenajı kolaylaştırmada"],
+    id:56,
+    year:"Sonbahar 90",
+    question:"Ankilozan spondilit ile ilişkili olabilen kalp rahatsızlığı aşağıdakilerden hangisidir?",
+    options:["Aort yetmezliği","Mitral yetmezliği","Aort koarktasyonu","Mitral darlığı","Triküspit yetmezliği"],
     answer:0,
-    hint:"Malignite, enfeksiyon, tromboflebit masaj kontrendikasyonlarıdır. Tümörde büyüme ve metastaz oluşabilir.",
-    trap:"Venöz dolaşım, lenfatik drenaj, kas spazmı, yapışıklık — bunlar masajın ENDİKASYONLARIDIR. Malignite kontrendikasyondur.",
-    explain:"Masaj kontrendikasyonları: En önemlisi enfeksiyonlar, malignitede yapılmaz (tümörde büyüme ve metastaz oluşturabilir), cilt hastalıkları, açık yara ve yanıklı kişilerde yapılmaz, tromboflebitli hastalarda emboliyi artırır."
+    hint:"Ankilozan spondilitte kalp tutulumu → Aort yetmezliği (en sık), kardiyomegali, AV iletim defektleri.",
+    trap:"Mitral kapak tutulumu ankilozan spondilitte beklenmez. Aort yetmezliği seronegatif spondiloartritlerde karakteristik kardiyak bulgudur.",
+    explain:"Ankilozan spondilitte görülebilen sistemik bulgular: Kalp tutulumu — Aort yetmezliği (en sık), kardiyomegali, AV iletim defektleri. Anterior üveit: akut, hemen daima tek taraflı, HLA-B27 ile çok yakından ilişkilidir. Akciğer tutulumu: bilateral apikal lob fibrozisi. Renal tutulum: mezangiyoproliferatif glomerülonefrit. Osteoporoz: en belirgin olarak vertebralarda görülür."
   },
   {
-    id:30,
-    year:"İlkbahar 92",
-    question:"Ankilozan spondilitte egzersizlerinde gerekli <strong>olmayan</strong> aşağıdakilerden hangisidir?",
-    options:["Germe","Koordinasyon egzersizi","Solunum egzersizi","Fleksiyon egzersizleri","Postür egzersizi"],
-    answer:3,
-    hint:"Ankilozan spondilitte omurga GÖĞÜs bölümünün fleksiyonu sorun yarattığı için fleksiyon egzersizleri yapılmaz.",
-    trap:"Germe, koordinasyon, solunum ve postür egzersizleri yapılır. Fleksiyon egzersizleri ilerlemiş vakalarda dorsal kifoz veya tüm omurgada ankiloze yol açabilir.",
-    explain:"Ankilozan spondilitte ilerlemiş vakalarda omurga göğüs bölümünün öne doğru fleksiyonu sonucu dorsal kifoz veya bütün omurgada ankiloz gelişebilir. Bu nedenle germe, koordinasyon, solunum ve postür egzersizleri yapılabilir. Ancak fleksiyon egzersizlerine gerek yoktur."
-  },
-  {
-    id:31,
-    year:"Sonbahar 93",
-    question:"Koksartrozun fiziksel tedavi ve rehabilitasyonunda aşağıdaki uygulamaların hangisi geçerli <strong>değildir</strong>?",
-    options:["Adduktor kas gerginliğinin giderilmesine yönelik egzersizler","Musculus gluteus maximusu kuvvetlendirme egzersizleri","Su içi jimnastiği ve su içi egzersizler","Ağrı azalıncaya kadar kalça ekleminin fleksiyon pozisyonunda uygun desteklerle korunması","Ekleme aşırı yük binmesini engelleyici yöntemlerin kullanılması"],
-    answer:3,
-    hint:"Koksartrozda kalça fleksiyon pozisyonunda tutmak kontraktür gelişimine yol açar — amaç nötral pozisyon korumaktır.",
-    trap:"Ağrı azalıncaya kadar kalça FLEKSİYON pozisyonunda korumak yanlıştır; bu kontraktüre neden olur. Destekle korunacaksa nötral pozisyonda olmalıdır.",
-    explain:"Koksartroz; kalça eklem kıkırdak ve kemik yapısının dejenerasyonuna bağlı olarak kalçada ve uylukta ağrı ve hareket kısıtlılığının gelişmesi ile karakterize ileri yaş hastalığıdır. Fizik tedavide ağrı azalıncaya kadar kalça ekleminin fleksiyon pozisyonunda uygun desteklerle korunması uygulanmaz — bu kontraktüre neden olur."
-  },
-  {
-    id:32,
-    year:"İlkbahar 97",
-    question:"Romatoid artritin akut eklem tutulumunda <strong>ilk</strong> dönemde yapılması gereken egzersiz aşağıdakilerden hangisidir?",
-    options:["Güçlendirme egzersizi","Relaksasyon egzersizi","Yardımlı pasif egzersiz","Proprioseptif kolaylaştırma egzersizi","Koordinasyon egzersizi"],
+    id:57,
+    year:"Sonbahar 90",
+    question:"Osteoartritte <strong>ilk</strong> patolojik değişikliğin meydana geldiği anatomik yapı aşağıdakilerden hangisidir?",
+    options:["Sinovial membran","Eklem kapsülü","Artiküler kıkırdak","Eklem çevresi","Epifiz"],
     answer:2,
-    hint:"Akut iltihap döneminde kontraktür gelişmesini önlemek için yardımlı pasif egzersiz yapılır.",
-    trap:"Güçlendirme egzersizi akut dönemde kontrendikedir. Akut dönemde ağrı sınırları içinde dikkatle yardımlı pasif egzersiz yapılır.",
-    explain:"Romatoid artritte akut dönemde akut iltihabi olay kontrol altına girmeden önce, kontraktür gelişmesini önlemek amacıyla, ağrı sınırları içerisinde ve dikkatle yardımlı pasif egzersizler yaptırılır."
+    hint:"OA'da ilk patolojik değişiklik eklem kıkırdağında başlar.",
+    trap:"Romatoid artritte ilk değişiklik sinovyal membranda başlar. OA'da ise kıkırdak dejenerasyonu ilk bulgudur.",
+    explain:"Osteoartrit patoloji ilk olarak eklem kıkırdağından başlar. Kıkırdak zedelenmesiyle romatoid artrit sinovyal membrandan başlar. Osteoartrit primer ve sekonder olarak sınıflandırılır."
   },
   {
-    id:33,
-    year:"Sonbahar 2025",
-    question:"Romatoid artrit tedavisinde kullanılan aşağıdaki ilaçlardan hangisi janus kinaz (JAK) reseptörleri üzerinden etki eder?",
-    options:["Barisitinib","Rituksimab","Tosilizumab","Adalimumab","Abatasept"],
+    id:58,
+    year:"İlkbahar 94",
+    question:"Psöriatik artritin <strong>en sık</strong> tuttuğu eklem aşağıdakilerden hangisidir?",
+    options:["İnterfalangeal eklemler","Diz ve dirsek eklemleri","Sakroiliak eklem","Kostovertebral eklemler","El ve ayak bilekleri"],
     answer:0,
-    hint:"JAK inhibitörleri: Tofacitinib (JAK1/3), Baricitinib (JAK1/2), Upadacitinib (selektif JAK1).",
-    trap:"Rituksimab Anti-CD20, Tosilizumab IL-6 reseptörü, Adalimumab Anti-TNF alfa, Abatasept CTLA4 inhibitörüdür. Yalnızca Barisitinib JAK inhibitörüdür.",
-    explain:"Anti TNF alfa dışı DMARD'lar: Anakinra (IL-1 antagonisti), Rituximab (Anti CD20), Abatacept (CTLA4 inhibitörü), Tocilizumab/sarilumab (IL-6 reseptörüne karşı monoklonal antikor). JAK inhibitörleri: Tofacitinib (JAK1/3), Baricitinib (JAK1/2), Upadacitinib (selektif JAK1). Barisitinib JAK1 ve JAK2 inhibitörüdür."
+    hint:"Psöriatik artritte ilk belirtiler genelde tek eklemdedir; el ve ayak parmaklarının distal interfalangeal eklemleri en sık ve en erken tutulma bölgeleridir.",
+    trap:"Sakroiliak eklem tutulumu olabilir ancak en sık tutulan eklem DİF eklemlerdir. Bu özellik RA'dan farklılaştırır (RA'da DIF tutulmaz).",
+    explain:"Psöriatik artritte ilk belirtiler genelde tek eklemdedir. Sinsi veya birden başlar, el ve ayak parmaklarının distal interfalangeal eklemleri en sık ve en erken tutulma bölgeleridir."
   },
   {
-    id:34,
-    year:"İlkbahar 99",
-    question:"Tortikollis tedavisinde kullanılan ve 5-6 ay süreyle kas felci yaparak etki yapan ajan aşağıdakilerden hangisidir?",
-    options:["Tubokurarin","Suksinilkolin","Botulinum toksini","Aflatoksin","Bombesin"],
+    id:59,
+    year:"İlkbahar 95",
+    question:"Ankilozan spondilitte <strong>en sık</strong> görülen göz bulgusu nedir?",
+    options:["Glokom","Katarakt","Üveit","Sklerit","Band keratopati"],
     answer:2,
-    hint:"Botulinum toksini nöromüsküler kavşakta asetilkolin salınımını bloke ederek kas felci yapar — tortikollis tedavisinde kullanılır.",
-    trap:"Tubokurarin ve suksinilkolin genel anestezide kullanılır. Botulinum toksini lokal enjeksiyon ile aylarca etki gösterir.",
-    explain:"C. botulinum'a bağlı beyin zehirlenmesinde bu durum ölüme neden olabilir. Çok küçük miktarda botulinum toksini kas içine enjekte edilerek şaşılık, hipertrofikme bağlı oküler myopati, esansiyel blefarospazm, hemifasial spazm ve tortikollis tedavisinde kullanılabilir."
+    hint:"Ankilozan spondilitte en sık ekstraartiküler bulgu anterior üveittir.",
+    trap:"Sklerit ve band keratopati Romatoid artritte görülebilir. Ankilozan spondilitte göz bulgusu üveittir.",
+    explain:"Ankilozan spondilitte yaklaşık %25 oranında üveit görülür. Gözde en sık bulgu da üveittir. Ankilozan spondilitte görülen anterior üveit, akut, hemen daima tek taraflı, HLA-B27 ile çok yakından ilişkilidir. En sık görülen ekstraartiküler bulgudur."
   },
   {
-    id:35,
-    year:"İlkbahar 2000",
-    question:"Musküler tortikollisin erken dönem tedavisinde hangisi uygulanır?",
-    options:["Spinal aksesuar sinir kesilmesi","Kası uzatan germe egzersizleri","Cerrahi tenotomi","Atelleme","Minerva tarzı alçı"],
-    answer:1,
-    hint:"Erken dönemde konservatif: şişlik üzerine pomad, masaj yapılmaz; sternokleidomastoid germe egzersizleri yapılır.",
-    trap:"Cerrahi tenotomi, kasın nedbeleşmesi tamamlandıktan sonra (geç dönem) uygulanır. Erken dönemde şişlik üzerine masaj yapılmamalı, uzatma egzersizleri tercih edilmelidir.",
-    explain:"Musküler tortikolliste erken dönemde boyundaki şişlik üzerine enzimli pomadlar uygulanır. Şişliğin üzerine masaj yapılmamalıdır (hematom riski). Sternokleidomastoid kasın kasılmasını önlemek için uzatma egzersizleri yapılmalıdır. Kasın nedbeleşmesi tamamlanmışsa en uygun tedavi tenotomidir."
+    id:60,
+    year:"İlkbahar 95",
+    question:"Akut gut krizini başlatan aşağıdakilerden hangisidir?",
+    options:["Eklem sıvısında monosodyum ürat kristallerinin yerleşmesi","Sinoviyal membrana karşı antikor gelişimi","Ürik asidin plazmada 6 mg/dl'nin üstünde olması","İdrarda ürik asidin atılımının 600 mg'ı aşması","Hiçbiri"],
+    answer:0,
+    hint:"Akut gut krizini tetikleyen: eklem içine monosodyum ürat kristallerinin çökmesi → inflamasyon.",
+    trap:"Plazmada ürik asit yüksekliği tek başına krizi başlatmaz. Kristallerin eklem içine çökmesi inflamatuvar süreci başlatır.",
+    explain:"Monosodyum ürat kristallerinin kristallerinin eklem ve çevresine çökmesi tofüse ve iltihabi odakların oluşmasına neden olur. Akut gut krizini başlatan eklem sıvısında monosodyum ürat kristallerinin yerleşmesidir."
   },
   {
-    id:36,
-    year:"İlkbahar 2001",
-    question:"Fonksiyonel elektriksel stimülasyon tedavisi için aşağıdaki durumlardan hangisinin olması istenir?",
-    options:["Sağlam üst motor nöron, ön boynuz ve periferal sinir zedelenmesi","Sağlam üst motor nöron ve periferal sinir ile ön boynuz hücresi zedelenmesi","Sağlam üst motor nöron ve ön boynuz hücreleri ile periferal sinir zedelenmesi","Üst motor nöron zedelenmiş, sağlam alt motor ünite","Üst ve alt motor nöron zedelenmesi, periferal sinirlerin sağlam olması"],
+    id:61,
+    year:"Sonbahar 96",
+    question:"Ankilozan spondilitte <strong>en sık</strong> tutulan eklem aşağıdakilerden hangisidir?",
+    options:["Diz","Bilek","Dirsek","İntervertebral","Sakroiliak eklem"],
+    answer:4,
+    hint:"Ankilozan spondilitte ilk ve en sık tutulan eklem sakroiliak eklemdir — radyolojik kesin tanı da sakroileitin gösterilmesiyle konur.",
+    trap:"İntervertebral eklem tutulumu olur ancak ilk ve en sık tutulan sakroiliak eklemdir.",
+    explain:"Ankilozan spondilitte ilk ve en sık tutulan eklem sakroiliak eklemdir ve kesin tanısı da sakroileitin radyolojik olarak gösterilmesi ile konur."
+  },
+  {
+    id:62,
+    year:"Sonbahar 97",
+    question:"Primer osteoartritte <strong>en sık</strong> tutulan eklem aşağıdakilerden hangisidir?",
+    options:["Distal interfalangeal","Metakarpofalangeal","El bileği","Sakroiliak","Tibiotalar"],
+    answer:0,
+    hint:"Primer OA'da en sık tutulan eklemler DİF eklemlerdir (Heberden nodülleri).",
+    trap:"MKF eklemler RA'da tutulur, OA'da nadirdir. Primer OA'da en sık DİF tutulumu ve Heberden nodülleri görülür.",
+    explain:"Osteoartritin en yaygın tutulumu distal interfalangeal, proksimal interfalangeal, 1. karpometakarpal, kalça, diz, 1. metatarsofalangeal, servikal ve lomber apofizyal eklemlerde görülür. Ağrı hareketle artar, dinlenmekle geçer."
+  },
+  {
+    id:63,
+    year:"Sonbahar 98",
+    question:"Aşağıdakilerden hangisi sistemik juvenil romatoid artritte diğerlerinden <strong>daha nadir</strong> görülen bir bulgudur?",
+    options:["Yüksek intermittan ateş","Cilt döküntüsü","Hepatosplenomegali","İridosiklit","Lökositoz"],
     answer:3,
-    hint:"Fonksiyonel elektriksel stimülasyon; sağlam bir alt motor nöron ve zedelenmiş üst motor nöron tipi paralizilerde kullanılır.",
-    trap:"Alt motor nöron hasarında (ön boynuz veya periferik sinir hasarı) FES çalışmaz. FES için alt motor nöron (periferik sinir + ön boynuz) SAĞLAM olmalıdır.",
-    explain:"Fonksiyonel elektriksel stimülasyon tedavisi; sağlam bir alt motor nöron ve zedelenmiş üst motor nöron tipi paralizilerde kullanılır. Yürüme fonksiyonunu sağlamak için kullanılır. Fonksiyonel endikasyonları arasında hemipleji, parapleji, kuadropleji, serebral palsi, multipl skleroz ve kafa travması gibi merkezi sinir sistemi hastalıkları vardır."
+    hint:"Sistemik JRA'nın klasik bulgularında kronik üveit (iridosiklit) nadirdir; poliartiküler başlangıçlı JRA'da daha sık görülür.",
+    trap:"Yüksek ateş, cilt döküntüsü, hepatosplenomegali, lökositoz sistemik JRA'nın tipik bulgularıdır. Kronik üveit sistemik JRA'da nadir, poliartiküler JRA'da daha sıktır.",
+    explain:"Sistemik form JRA olan vakaların %90'ında açık pembe, gelip geçici maküler bir döküntü ateşe eşlik eder. Diğer bulgu ve semptomlar artralji, myalji, boy ağrısı, huzursuzluk, jeneralize lenfadenopati, hepatosplenomegali, anemi ve trombositozdur. Kronik üveit ise sistemik JRA'nın nadir bir bulgusudur."
   },
   {
-    id:37,
-    year:"İlkbahar 2003",
-    question:"Koltuk değneği veya baston kullanımında, özellikle kuvvetlendirilmesi gereken kas aşağıdakilerden hangisidir?",
-    options:["M. deltoideus","M. biseps brachii","M. triseps brachii","M. brakhialis","M. supraspinatus"],
-    answer:2,
-    hint:"Koltuk değneği kullanırken ön kola yeterli ekstansiyon yapabilmek için triseps kasının güçlü olması gerekir.",
-    trap:"Biseps brachii fleksör kastır, destekleyici değil. Koltuk değneğinde ağırlık ön koldan geçer ve ekstansiyon için TRİSEPS gerekir.",
-    explain:"Koltuk değneği gibi yardımcı araçların kullanımında ön kola yeterli ekstansiyon yaptırabilmek için güçlendirilmesi gereken kas triseps kasıdır. Hasta koltuk değneği veya baston kullanması ya da kanedyen gibi yardımcı cihazlar kullanması gereken hastalarda kuvvetlendirilmesi gereken kas triceps kasıdır."
+    id:64,
+    year:"Sonbahar 98",
+    question:"Osteoporoz için risk artışı <strong>yapmayan</strong> durum aşağıdakilerden hangisidir?",
+    options:["Sigara","Alkol","Diyabet","Obezite","Menopoz"],
+    answer:3,
+    hint:"Obezite osteoporoz için RİSK FAKTÖRÜ DEĞİLDİR — aksine koruyucudur. Obez kişilerde östrojen periferik çevrimle artar.",
+    trap:"Sigara, alkol, diyabet, menopoz osteoporoz risk faktörleridir. Obezite ise osteoporoza karşı KORUYUCUDUR.",
+    explain:"Osteoporoz kemik kitlesinde azalma ile giden bir hastalıktır. Sigara, alkol, diyabet ve menopoz osteoporoz için bilinen risk faktörlerindendir. Östrojen osteoporoza karşı koruyucudur. Obez kişilerde östrojenin periferik çevrimi yapılarak dolaşıma verildiğinden obez postmenopozal kadınlarda osteoporoz daha az görülür."
   },
   {
-    id:38,
+    id:65,
+    year:"Sonbahar 98",
+    question:"10 yıldır romatoid artrit tanısı ile izlenen bir kadın hastanın grafilerinde aşağıdakilerden hangisinin olması beklenir?",
+    options:["Subkondral skleroz","Osteofit oluşumu","Sakroiliak eklem tutulumu","Subkondral psödokistler","Bambu kamışı görüntüsü"],
+    answer:3,
+    hint:"RA erken dönem radyolojik bulgusu: subkondral erozyon ve psödokist. Osteofitler ve subkondral skleroz OA'ya özgüdür.",
+    trap:"Subkondral skleroz ve osteofit OA bulgusudur. Bambu kamışı ankilozan spondilitte görülür. RA'da subkondral psödokistler ve erozyon beklenir.",
+    explain:"Romatoid artritin erken döneminde subkondral erozyon ve psödokist oluşumu mevcuttur. Eklem aralığında başlangıçta genişleme sonra daralma ve eklem kıkırdağında harabiyet meydana gelir. Subkondral bileşkede kistik değişiklikler görülür. RA'daki en son radyolojik bulgu ankilozlardır. Osteofit ve subkondral skleroz osteoartritte görülür."
+  },
+  {
+    id:66,
+    year:"Sonbahar 99",
+    question:"Romatoid artrit <strong>en az</strong> ve <strong>en geç</strong> hangi eklemi tutar?",
+    options:["Distal interfalangeal eklem","Atlantoaksiyel eklem","Proksimal interfalangeal eklem","Metatarsofalangeal eklem","Diz eklemi"],
+    answer:0,
+    hint:"RA'da DİF eklemler genellikle tutulmaz — bu özellik OA'dan ayırımda önemlidir.",
+    trap:"MKF, PİF, el bileği tutulumu RA'da tipiktir. DİF tutulumu ise nadirdir ve geç gelişir; bu OA ile ayrımda kritik bir özelliktir.",
+    explain:"Romatoid Artritte simetrik, bilateral eklem tutulumu tipiktir; ellerde DİF eklemleri genellikle etkilenmez. Metakarpofalangeal, proksimal interfalangeal eklem ve el bileği tutulumları karakteristiktir. Atlantoaksiyal ligament tutuluşu C1 ve C2 boyun omurları arasında instabiliteye neden olur. DİF tutulumu genellikle osteoartritte gözlenen tutulumdur."
+  },
+  {
+    id:67,
+    year:"Sonbahar 2001",
+    question:"Aşağıdakilerden hangisi osteoartrit için bilinen risk faktörlerinden biri <strong>değildir</strong>?",
+    options:["Obezite","İleri yaş","Major travma","Diyabet","Osteoporoz"],
+    answer:4,
+    hint:"Osteoporoz, osteoartrit için risk faktörü DEĞİLDİR. OA ile OP zıt yönde ilişki gösterir.",
+    trap:"Obezite, ileri yaş, travma, diyabet OA risk faktörleridir. Osteoporoz kemik kitlesinde azalma ile gider ve OA ile korelasyonu yoktur.",
+    explain:"Osteoartrit; eklem kıkırdağında dejeneratif değişikliklerle aşınma ve eklem kenarında mahmuz şeklinde kemiksel büyümelerle karakterize bir eklem hastalığıdır. Osteoporoz, osteoartrit için risk faktörü değildir."
+  },
+  {
+    id:68,
+    year:"İlkbahar 2004",
+    question:"Kalsiyum pirofosfat dihidrat birikimi ile oluşan eklem hastalığında <strong>en çok</strong> etkilenen eklem aşağıdakilerden hangisidir?",
+    options:["Diz","Apofizer eklem","Sakroiliyak eklem","Temporomandibular eklem","Küçük el eklemleri"],
+    answer:0,
+    hint:"Psödogut (CPPD) en çok diz eklemini tutar.",
+    trap:"Gut en çok 1. MTP eklemi tutar. CPPD (psödogut) ise en sık diz eklemini etkiler.",
+    explain:"Pseudogut hastalığı eklemlerde kalsiyum pirofosfat dihidrat kristallerinin birikmesiyle oluşur. En çok tutuğu eklem diz eklemidir."
+  },
+  {
+    id:69,
+    year:"Sonbahar 2004",
+    question:"Postmenopozal osteoporozda aşağıdakilerden hangisi tedavi amacıyla <strong>kullanılmaz</strong>?",
+    options:["Bifosfonatlar","Kalsitonin","Kalsiyum","Östrojen","Nonsteroid antiinflamatuvar ilaçlar"],
+    answer:4,
+    hint:"NSAİİ'ler kemik yoğunluğuna etkisi olmayan analjeziklerdir — osteoporoz tedavisinde kullanılmazlar.",
+    trap:"Bifosfonatlar, kalsitonin, kalsiyum, östrojen osteoporoz tedavisinde kullanılır. NSAİİ'lerin kullanım endikasyonu yoktur.",
+    explain:"Osteoporozda tedavi: Kemik yıkımını azaltan ilaçlar — östrojen, kalsitonin, bifosfonatlar, vitamin D. Kemik yapımını artıran ilaçlar — anabolik steroidler, paratormon, growth hormon, florid, stransiyum, aliminyum (deneysel). NSAID ilaçların kullanım endikasyonu yoktur."
+  },
+  {
+    id:70,
+    year:"Sonbahar 2004",
+    question:"Aşağıdakilerden hangisi simetrik artrit tutulumu gözler?",
+    options:["Romatoid artrit","Gonokoksik artrit","Charcot eklemi","Gut","Eklem tüberkülozu"],
+    answer:0,
+    hint:"Romatoid artrit simetrik tutulumun prototipidir.",
+    trap:"Gonokoksik artrit, Charcot eklemi, Gut ve eklem tüberkülozu asimetrik tutulum gösterir.",
+    explain:"Simetrik eklem tutulumu Romatoid artritte görülür. Gonokoksik artrit, Charcot eklemi, Gut hastalığı ve eklem tüberkülozunda asimetrik tutulum izlenir."
+  },
+  {
+    id:71,
+    year:"Sonbahar 2008",
+    question:"Aşağıdakilerden hangisi osteoartritte <strong>sıklıkla</strong> tutulan ancak romatoid artritte çok nadiren tutulan bir eklemdir?",
+    options:["El-bilek","Dirsek","Ayak-bilek","Metakarpofalangeal","Distal interfalangeal"],
+    answer:4,
+    hint:"DİF eklemler OA'da sık (Heberden nodülleri), RA'da nadir tutulan eklemlerdir.",
+    trap:"MKF ve el bileği RA'nın tipik eklemleridir. DİF ise OA'ya özgüdür.",
+    explain:"Distal interfalangeal eklemler osteoartritte en sık tutulan eklemlerdir. Ancak Romatoid artritte nadiren tutulur. Romatoid artritte sıklıkla proksimal interfaengeal eklemler tutarken osteoartritte ise distal interfarengeal eklemler tutulur. Romatoid artritte distal interfaengeal eklem tutulumu nadirdir."
+  },
+  {
+    id:72,
+    year:"Sonbahar 2009",
+    question:"El parmak eklemlerinde görülen osteoartrit ile romatoid artritin ayırıcı tanılarıyla ilgili olarak aşağıdaki ifadelerden hangisi <strong>doğrudur</strong>?",
+    options:["Bouchard nodülleri, osteoartritte distal interfalangeal eklemlerde görülür","Heberden nodülleri, distal interfalangeal eklemlerde romatoid artrite özel bir bulgudur","Heberden nodülleri ve Bouchard nodülleri primer generalize osteoartritte ve romatoid artritte ortaya çıktığı zaman klinik olarak prognozun ağırlığına işaret eder","Primer osteoartritte Heberden nodülleri ağrısızdır ancak romatoid artritte ağrıya neden olur","Romatoid artritte distal interfalangeal eklem tutulumu nadirdir"],
+    answer:4,
+    hint:"RA'da DİF tutulumu nadirdir — en önemli ayırıcı özellik.",
+    trap:"Bouchard nodülleri PİF eklemlerdedir (proksimal), Heberden nodülleri DİF eklemlerdedir. Heberden nodülleri OA'ya özgüdür, RA'ya değil.",
+    explain:"Romatoid artrit en sık proksimal interfaengeal eklemleri tutarken osteoartritte ise distal interfarengeal eklemler tutulur. Romatoid artritte distal interfalangeal eklem tutulumu nadirdir. Heberden nodülleri Primer OA'nın en sık görülen bulgularından biridir ve distal interfalangeal eklemlerdeki nodüllere denir. Bouchard nodülleri Proksimal interfalangeal eklemlerdeki nodüllere denir."
+  },
+  {
+    id:73,
+    year:"İlkbahar 2008",
+    question:"Aşağıdakilerden hangisi seronegatif artropatilerden biri <strong>değildir</strong>?",
+    options:["Ankilozan spondilit","Reiter sendromu","Psöriatik artrit","Enteropatik artropati","Romatoid artrit"],
+    answer:4,
+    hint:"Romatoid artrit SEROPOZİTİF artropatidir (RF %80 pozitif). Seronegatif artritler: AS, Reiter, Psöryatik, Enteropatik.",
+    trap:"Romatoid faktör artitte RF %80 pozitiftir — seropozitif artropatidir. Diğerleri seronegatif spondiloartritlerdir.",
+    explain:"Seronegatif artritler: 1. Ankilozan spondilit, 2. Reiter sendromu/reaktif artrit, 3. Psöriyatik artrit, 4. Enteropatik artrit. Romatoid faktör, artitte ANA negatif, HLA B27 pozitif ve omurganın tutulumu varsa bu artritlere seronegatif artrit denmektedir. Romatoid artritte RF %80 pozitiftir. Seropozitif artropatidir."
+  },
+  {
+    id:74,
+    year:"Sonbahar 2013 Orijinal",
+    question:"Aşağıdakilerin hangisinde, direkt grafilerde her iki sakroiliak eklemde ankiloz ve vertebralarda 'bambu kamışı görünümü' izlenir?",
+    options:["Romatoid artrit","Dejeneratif osteoartrit","Kristal artropatisi","Juvenil artrit","Ankilozan spondilit"],
+    answer:4,
+    hint:"Bambu kamışı vertebra + sakroiliak ankiloz = Ankilozan spondilit.",
+    trap:"Bambu kamışı görüntüsü AS'ye özgüdür. Kristal artropatisinde tofüsler, OA'da osteofitler görülür.",
+    explain:"Ankilozan spondilit seronegatif spondiloartopatiler grubundan simetrik sakroiliak eklem tutulumunun görüldüğü bir hastalıktır. Entezopatiler ve köprüleşen sindesmofitlere bağlı direkt grafide 'bambu kamışı' görünümü bu hastalık için karakteristiktir. Zamanla omurga açıklığı azalıp kifoz gelişecektir."
+  },
+  {
+    id:75,
+    year:"İlkbahar 2014 Orijinal",
+    question:"Romatoid artritte <strong>en sık</strong> karşılaşılan tuzak nöropati aşağıdaki sinirlerin hangisinde görülür?",
+    options:["Nervus peroneus communis","Nervus ulnaris","Nervus radialis","Nervus femoralis","Nervus medianus"],
+    answer:4,
+    hint:"RA'da en sık periferik tuzak nöropati n.medianus — karpal tünel sendromu.",
+    trap:"Ulnar sinir tuzaklanması olabilir ancak RA'da en sık etkilenen periferik sinir n.medianustur (karpal tünel).",
+    explain:"Romatoid artrit sinir sisteminde hastalık en sık periferik tuzak nöropatiler şeklinde gözlenir bunlardan ise median sinirin etkilendiği karpal tünel sendromu 1. sırada, posterior tibial sinirin etkilendiği tarsal tünel sendromu 2. sırada yer alır. Romatoid artritte en sık karşılaşılan tuzak nöropati n.medianustur."
+  },
+  {
+    id:76,
+    year:"Sonbahar 2008",
+    question:"Aşağıdakilerden hangisi osteoartritte <strong>sıklıkla</strong> tutulan ancak romatoid artritte çok nadiren tutulan bir eklemdir? (Tekrar sorusu)",
+    options:["El-bilek","Dirsek","Ayak-bilek","Metakarpofalangeal","Distal interfalangeal"],
+    answer:4,
+    hint:"DİF = OA'da sık, RA'da nadir.",
+    trap:"MKF ve PİF RA'nın tipik eklemleridir. DİF ise OA'ya özgüdür — bu ayrım sınavda defalarca sorulmuştur.",
+    explain:"Distal interfalangeal eklemler osteoartritte en sık tutulan eklemlerdir. Ancak Romatoid artritte nadiren tutulur. Romatoid artritte sıklıkla proksimal interfaengeal eklemler tutarken osteoartritte ise distal interfarengeal eklemler tutulur."
+  },
+  {
+    id:77,
     year:"İlkbahar 2010",
-    question:"Aşağıdaki fiziksel ajanlardan hangisinin derin dokuları ısıtıcı etkisi vardır?",
-    options:["Sıcak paket","Kısa dalga diatermi","İnfraruj lambası","Parafin banyosu","Hidroterapi"],
-    answer:1,
-    hint:"Derin ısıtıcılar: Ultrason, Kısa dalga diatermi, Mikrodalga diatermi. Diğerleri yüzeyel ısıtıcılardır.",
-    trap:"Sıcak paket, parafin banyosu, infraruj, hidroterapi — hepsi yüzeyel ısıtıcılardır. Kısa dalga diatermi derin ısıtıcıdır.",
-    explain:"Termoterapi yöntemleri: Yüzeyel ısıtıcılar — sıcak paketler, ısı yastıkları, parafin banyoları, fluidoterapi, girdap banyoları, radyan ısı (infraruj). Derin ısıtıcılar — Ultrason, Kısa dalga diatermi, Mikrodalga diatermi. Kısa dalga diatermi fizik tedavide kullanılan bir derin ısıtıcıdır."
-  },
-  {
-    id:39,
-    year:"Sonbahar 2022 Orijinal",
-    question:"Aşağıdaki fizik tedavi modalitelerinden hangisi derin dokuları ısıtma amacıyla kullanılır?",
-    options:["Parafin banyosu","Sıcak paket","Hidroterapi","İnfrared","Ultrason"],
+    question:"Diz ve kalça eklemlerinde osteoartrit tanısı alan yetmiş yaşında bir kadın hastanın semptomlarının giderilmesi amacıyla medikal tedavide <strong>ilk</strong> olarak aşağıdakilerden hangisi tercih edilmelidir?",
+    options:["Non-steroidal antiinflamatuvar ilaçlar","Glukokortikoidler","Hiyalüronik asit","Asetilsalisilik asit","Parasetamol"],
     answer:4,
-    hint:"Ultrason = derin ısıtıcı. Diğerleri yüzeyel ısıtıcılardır.",
-    trap:"Parafin banyosu, sıcak paket, hidroterapi ve infrared yüzeyel ısıtıcılardır. Sadece ultrason derin dokulara ısı ulaştırabilir.",
-    explain:"Derin ısıtıcılar: Ultrason, Kısa dalga diatermi, Mikrodalga diatermi. Ultrason terapötik yüksek frekanslı ses enerjisi yolu ile dokuda termal etki üretmede kullanılır. Derin dokularda (kemik ve kas yüzeyleri) 46 dereceyi bulan sıcaklıklara ultrasonla kolayca ulaşılır."
+    hint:"OA tedavisinde ilk tercih parasetamol (asetaminofen) — en güvenli ve etkili ilk basamak ajandır.",
+    trap:"NSAİİ'ler yaşlılarda GİS ve renal yan etki riski taşıdığından ilk tercih değildir. OA non-inflamatuvar bir hastalıktır, ilk tercih parasetamoldür.",
+    explain:"Osteoartrit non-inflamatuvar bir hastalık olup tedavide ilk tercihimiz parasetamol olmalıdır. Medikal tedavide parasetamol (ilk tercih), analjezikler, NSAİİ, steroidler, kondroprotektif ilaçlar, intra-artiküler steroid tedavisi, Hiyalüronik asit, orgoteinin kullanılabilir."
   },
   {
-    id:40,
-    year:"İlkbahar 2022 Orijinal",
-    question:"Aşağıdaki klinik durumların hangisinde kriyoterapi kontrendikedir?",
-    options:["Bursit","Raynaud fenomeni","Kas spazmı","Tendinit","Myofasiyal tetik nokta"],
-    answer:1,
-    hint:"Raynaud fenomeni = soğuğa bağlı vazokonstriksiyon → soğuk uygulama (kriyoterapi) Raynaud'u tetikler.",
-    trap:"Kas spazmı, bursit, tendinit, myofasiyal tetik nokta kriyoterapinin ENDİKASYONLARIDIR. Raynaud fenomeni kontrendikasyondur.",
-    explain:"Kriyoterapi terapötik amaçla kullanılan lokal soğuk uygulamalardır. Tedavinin amacı inflamasyonu ve ağrıyı azaltmak, kas iğciklerini etkileyerek kas spazmını çözmektir. Raynaud fenomeni sıklıkla el parmaklarında, bazen ayaklarda epizodik olarak görülen vazokonstriksiyon olup soğuk ve emosyonel uyaranlar olayı başlatabilir. Bu nedenle kriyoterapi uygulamaları kontrendikedir."
+    id:78,
+    year:"İlkbahar 2012",
+    question:"Osteoartritli hastalarda aşağıdaki bulgulardan hangisi <strong>görülmez</strong>?",
+    options:["Direkt grafide osteofitler","Heberden nodülleri","Direkt grafide subkondral kistler","Bouchard nodülleri","Direkt grafide eklem aralığında genişleme"],
+    answer:4,
+    hint:"OA'da eklem aralığı DARALIR, genişlemez. Genişleme erken RA bulgusudur.",
+    trap:"Eklem aralığı genişlemesi romatoid artritin erken dönem bulgusudur. OA'da eklem aralığı daralır.",
+    explain:"Direkt grafide eklem aralığında genişleme, romatoid artritte erken dönemde görülebilen bir bulgudur. Osteoartritte beklenmez. Osteoartritli hastalarda direkt grafide osteofitler görülür. Osteoartritli eklemlerde kıkırdak ve kemikte saptanan proliferatif değişikliklere osteofit adı verilir. Heberden ve Bouchard nodülleri, osteorite özgüdür."
   },
   {
-    id:41,
-    year:"İlkbahar 2022 BENZERİ",
-    question:"Aşağıdaki hastalıkların hangisi ya da hangilerinde kriyoterapi tedavi seçenekleri arasında yer almaktadır?<br><br>I. Kas spazmı<br>II. Myofasiyal ağrı sendromu<br>III. Raynaud fenomeni",
-    options:["Yalnız I","I ve II","I ve III","II ve III","I, II ve III"],
-    answer:1,
-    hint:"Kas spazmı ve miyofasiyal ağrı sendromu kriyoterapi endikasyonudur. Raynaud fenomeni kontrendikasyondur.",
-    trap:"Raynaud'da soğuk tetikleyicidir, kriyoterapi yapılmaz. Kas spazmı ve miyofasiyal ağrı sendromu için kriyoterapi uygulanabilir.",
-    explain:"Kriyoterapi endikasyonları: Bursit, tendinit, myofasiyal tetik nokta, kas spazmı, akut travma enflamasyonu. Raynaud fenomeni kesin kontrendikasyondur — soğuk, Raynaud krizini tetikler."
-  },
-  {
-    id:42,
-    year:"Sonbahar 2014 Orijinal",
-    question:"Osteoporoza bağlı akut vertebral kırığı olan bir hastanın rehabilitasyonunda, aşağıdaki tedavi yaklaşımlarından hangisi uygun <strong>değildir</strong>?",
-    options:["Yatak istirahati","Steroid olmayan antiinflamatuvar ve analjezik ilaçlar","Breysler ve yardımcı cihazlar","Dirençli egzersizler","Analjezik etkili elektroterapi yöntemleri"],
+    id:79,
+    year:"İlkbahar 2021 Orijinal",
+    question:"Başparmak metakarpofalangeal eklemde ulnar kollateral bağ yaralanmalarında kopan ulnar kollateral bağ ile, bağın proksimal falanksa yapışma yeri arasına girerek primer iyileşmeyi engelleyen yapı (Stener lezyonu) aşağıdakilerden hangisidir?",
+    options:["Ekstensor pollicis longus lezyonu","Abduktor pollicis brevis kası","Radial süperfisyal sinir","Adduktor pollisis aponörozu","Fleksor pollisis brevis tendonu"],
     answer:3,
-    hint:"Osteoporozda dirençli egzersizler vertebraya yük artırır — akut kırıkta kontrendikedir.",
-    trap:"Yatak istirahati, NSAİİ, breys, analjezik elektroterapi kullanılabilir. Dirençli (ağırlık yükleyen) egzersizler akut vertebral kırıkta yükü artırır.",
-    explain:"Osteoporoza bağlı akut vertebral kırığı olan bir hastanın tedavisinde yatak istirahati, non-steroid antiinflamatuvar ve analjezik ilaçlar, breysler ve yardımcı cihazlar ve analjezik etkili elektroterapi yöntemleri kullanılabilir. Analjezik ajanlar ve her tip ağrıda kullanılabilen transkutanöz elektriksel nörostimülasyon (TENS) kullanılabilir. Ancak dirençli egzersizler osteoporotik kırıklarda vertebraya olan yükü artıracağından tercih edilmez."
+    hint:"Stener lezyonu = adduktor pollisis aponörozunun kopan UCL ile proksimal falanksa yapışma yeri arasına girmesi.",
+    trap:"Ekstensör pollisis longus veya fleksör pollisis brevis araya girmez. Stener lezyonunda adduktor pollisis aponörozu araya girer ve cerrahi gerektiren bir durum oluşturur.",
+    explain:"Stener lezyonu, el başparmağındaki metakarpofalangeal eklemde travmatik yaralanma sonucu, ulnar kollateral ligamentin (UCL) kopmasıyla, başparmak adduktor pollisis kası aponeurosisi, başparmağın rüptüre ulnar kollateral bağının tabandaki yerleşme bölgesi arasına girdiğinden, artık yerleşme alanıyla temas halinde olmayan UCL kendiliğinden iyileşemez."
   },
   {
-    id:43,
-    year:"İlkbahar 2013",
-    question:"Eklem hareketlerinde kısıtlanma, eritrosit sedimentasyon hızında ve serum alkalen fosfataz düzeyinde yükselmeyle seyredebilen, kemik sintigrafisinde 2. haftada saptanabilen ve spastisiteyi artırabilen omurilik yaralanması komplikasyonu aşağıdakilerden hangisidir?",
-    options:["Otonomik disrefleksi","İmmobilizasyon hiperkalsemisi","Bası yarası","Derin ven trombozu","Heterotopik ossifikasyon"],
-    answer:4,
-    hint:"Eklem kısıtlılığı + ALP yüksekliği + kemik sintigrafisi + spastisite artışı + omurilik yaralanması = Heterotopik ossifikasyon.",
-    trap:"Derin ven trombozu ekstremitede şişlik ve kızarıklık yapar. Heterotopik ossifikasyonda ALP yükselir ve kemik sintigrafisi tanıda kullanılır.",
-    explain:"Heterotopik ossifikasyon (HO): Periartiküler alanlarda matür lamellar kemik formasyonu şeklinde tariflenen nörojenik HO beyin yada omurilik hasarlı hastaların %11-76'sında bildirilmiştir. Laboratuvarda kalsiyum seviyesinde geçici bir düşme ve alkalen fosfataz (ALP) değerlerinde yükselme gözlenir. Kemik sintigrafisinde 2. haftada saptanabilir."
-  },
-  {
-    id:44,
-    year:"Sonbahar 2005",
-    question:"Aşağıdakilerden hangisi immobilizasyona ikincil olarak <strong>gelişmez</strong>?",
-    options:["Kas gücünde azalma","Eklem laksitesi","Osteoporoz","Postural hipotansiyon","Konstipasyon"],
-    answer:1,
-    hint:"İmmobilizasyon eklem LAKSİTESİ değil, eklem KONTRAKTÜRÜne yol açar.",
-    trap:"Kas gücünde azalma, osteoporoz, ortostatik hipotansiyon, kabızlık immobilizasyonun bilinen sonuçlarıdır. Eklem laksitesi (gevşekliği) immobilizasyon ile değil, aşırı hareketle gelişir.",
-    explain:"İmmobilizasyon süresince kas gücünde azalma, osteoporoz, ortostatik hipotansiyon, kabızlık görülebilmektedir. Ancak eklem laksitesi beklenen bir bulgu değildir — aksine eklemlerde kontraktür gelişir."
-  },
-  {
-    id:45,
-    year:"İlkbahar 2006",
-    question:"Aşağıdakilerden hangisi vücudun immobilizasyonu sonucu oluşan klinik belirtilerinden <strong>biridir</strong>?",
-    options:["Bradikardi","Polifaji","Oligüri","Hipertansiyon","Otonom labilite"],
-    answer:4,
-    hint:"İmmobilizasyonda santral sinir sistemi (emosyonel durum) bulguları arasında otonom labilite (ortostatik hipotansiyon vb.) yer alır.",
-    trap:"İmmobilizasyonda kardiyovasküler dekondisyon gelişir — BRADİKARDİ değil, ortostatik hipotansiyon beklenir. Otonom sistem stabilitesi bozulur.",
-    explain:"İmmobilizasyon sonucu santral sinir sistemi (emosyonel durum) bulguları şunlardır: Duysal yoksunluk, denge ve koordinasyon bozukluğu, ağrı, görme ve işitme düzeyinde değişiklikler, kompresyon nöropatileri, entellektüel kapasitede azalma, hallüsinasyonlar, dezoryantasyon, anksiyete, irritabilite. İmmobil kişilerde otonomik aktivitenin stabilitesinin korunması güçleşir — bu otonom labiliteye yol açar."
-  },
-  {
-    id:46,
+    id:80,
     year:"Sonbahar 2006",
+    question:"Kalça ağrısı ve topallama şikayetleriyle getirilen adölesan çağda şişman bir erkek çocukta fizik muayenede kalçada abdüksiyon ve iç rotasyon hareketlerinin kısıtlı, bacağın dış rotasyonda olduğu saptanıyor. Kanda beyaz küre sayısı ve sedimentasyon hızı normal bulunuyor.<br><br><strong>Bu çocuk için en olası tanı aşağıdakilerden hangisidir?</strong>",
+    options:["Femur başı epifiz kayması","Tüberküloz artrit","Septik artrit","Romatoid artrit","Perthes hastalığı"],
+    answer:0,
+    hint:"Adölesan + şişman erkek + kalça iç rotasyon kısıtlılığı + bacak dış rotasyonda = Femur başı epifiz kayması.",
+    trap:"Septik artrit ve tüberküloz artritte sedimentasyon ve lökosit yükselir. Perthes daha küçük yaşlarda görülür. Şişman adolesanda iç rotasyon kısıtlılığı femur başı epifiz kaymasını düşündürür.",
+    explain:"Femur başı epifiz kayması (Adölesan koksa vara): Genellikle 10-12 yaş civarında, erkeklerde kızlara göre daha sık görülür. Bu çocuklar sıklıkla uzun boylu, uzun bacaklı ya da az kıl sistemi ve testisleri az gelişmiş şişman hastalardır. Kalçada abdüksiyon ve iç rotasyon hareketleri kısıtlıdır, bacak genelde dış rotasyondadır."
+  },
+  {
+    id:81,
+    year:"İlkbahar 2024 Orijinal",
     question:"Aşağıdaki radyolojik parametrelerden hangisi femur başı epifiz kayması tanısında kullanılır?",
     options:["Hilgenreiner çizgisi","Klein çizgisi","Perkins çizgisi","Shenton çizgisi","Asetabuler indeks"],
     answer:1,
-    hint:"Femur başı epifiz kaymasında Klein çizgisi kullanılır — femur boynu üst konturunu geçmeyen epifiz.",
-    trap:"Hilgenreiner, Perkins, Shenton çizgisi ve asetabuler indeks gelişimsel kalça displazisi için kullanılır. Klein çizgisi epifiz kaymasına özgüdür.",
-    explain:"Femur başı epifiz kayması ve gelişimsel kalça displazilerinde pelvis grafileri ile yapılan ölçümler ile tanı konulmaktadır. Bu soruda da bu iki hastalığın grafi değerlendirmesindeki farkı bilmediğimiz soruluyor aslında. Klein çizgisi yararlı olup femur boynu süperior konturunun epifizden geçmediği tespit edilir. Hilgenreiner çizgisi, perkins hattı, shenton menard hattı ve asetabuler indeks gelişimsel kalça displazisinde değerlendirme için kullanılan parametrelerdir."
+    hint:"Klein çizgisi: femur boynu üst konturundan geçen çizginin epifizi kesmesi beklenir; kesmiyorsa kayma var demektir.",
+    trap:"Hilgenreiner, Perkins, Shenton ve asetabuler indeks gelişimsel kalça displazisi için kullanılır. Klein çizgisi yalnızca femur başı epifiz kaymasına özgüdür.",
+    explain:"Femur başı epifiz kayması ve gelişimsel kalça displazilerinde pelvis grafileri ile yapılan ölçümler ile tanı konulmaktadır. Klein çizgisi yararlı olup femur boynu süperior konturunun epifizden geçmediği tespit edilir. Hilgenreiner çizgisi, perkins hattı, shenton menard hattı ve asetabuler indeks gelişimsel kalça displazisinde değerlendirme için kullanılan parametrelerdir."
   },
   {
-    id:47,
-    year:"Sonbahar 2012",
-    question:"Aşağıdaki anatomik yapılardan hangisi <strong>bel ağrısı</strong> kaynağı <strong>olamaz</strong>?",
-    options:["Anterior longitudinal ligament","Nukleus pulposus","Sinir kökü","Kas ve fasya","Zigapofizyal eklem"],
+    id:82,
+    year:"Sonbahar 2022 Orijinal",
+    question:"İnfantil idiopatik skolyoz ile ilgili olarak aşağıdaki ifadelerden hangisi <strong>yanlıştır</strong>?",
+    options:["Eğrilikte spontan düzelme olabilir","Kızlarda daha çok görülür","En sık görülen tipi sol torasik eğriliktir","Plagisefali eşlik edebilir","Konjenital deformiteler eşlik edebilir"],
     answer:1,
-    hint:"Nukleus pulposus duyusal innervasyonu olmayan bir yapıdır — tek başına ağrı kaynağı olamaz.",
-    trap:"Anterior longitudinal ligaman, sinir kökü, kas/fasya, zigapofizyal eklem ağrıya neden olabilir. Nukleus pulposusun bir duyusal innervasyonu yoktur.",
-    explain:"Disk herniasyonu, degenerasyon, mikro yada makro travma nedeniyle diskin etrafındaki anulus fibrozusun yırtılması ve diskin santral kesimindeki nükleus pulpozusun fıtıklaşması olarak tanımlanabilir. Sinir kökleri basıya uğrayarak ağrıya sebep olur. Derin paraspinal kaslar, zigapofizyal eklemler ve ligamanlar sinir köklerinden çıkan köklerden duysal innervasyona sahip olduğu için ağrı kaynağıdır. Ancak nukleus pulpozusun bir duyusal inervasyonu olmadığı için ağrı kaynağı değildir."
+    hint:"İnfantil idiopatik skolyoz erkeklerde kızlara oranla daha sık görülür.",
+    trap:"İnfantil idiopatik skolyoz (0-3 yaş): erkeklerde kızlara oranla daha sık görülür ve genellikle SOL torasik eğrilik olarak karşımıza çıkar.",
+    explain:"İnfantil İdiyopatik Skolyoz, en sık 3 yaş ve altındaki çocuklarda görülen spinal deformitedir. PA ve lateral omurga grafileri ile tanı konur. Erkeklerde kızlara oranla daha sık görülür ve genellikle sol torakal eğrilik olarak görülür. Konjenital deformiteler eşlik edebilir. Eğrilikte spontan düzelme olabilir. Plagisefali eşlik edebilir."
   },
   {
-    id:48,
-    year:"Sonbahar 2015 Orijinal",
-    question:"Jimnastik sporu yapan 14 yaşındaki kız çocuğu istirahati kısıtlanmayan, bel ekstensiyonuyla artan ağrı tarifliyor. Fizik muayenesinde L5-S1 spinoz çıkıntılarda palpasyonla hassasiyet saptanıyor. Nörolojik muayenesi normal olan hastanın 4 yönlü lumbosakral vertebra grafisinde L5'te pars interartikülaris defekti tespit ediliyor.<br><br><strong>Bu hasta için en olası tanı aşağıdakilerden hangisidir?</strong>",
-    options:["Disk herniasyonu","Osteomiyelit","Spondilolizis","Ankilozan spondilit","Scheuermann hastalığı"],
-    answer:2,
-    hint:"Genç jimnastikçi + hiperekstansiyonla artan bel ağrısı + pars interartikülaris defekti = Spondilolizis.",
-    trap:"Disk herniasyonu ileri yaşta ve nörolojik bulgularla gelir. Spondilolizis adolesanda jimnastikçilerde sık görülür ve pars defekti karakteristiktir.",
-    explain:"Spondilolizis, pars interartikülarisin bir defekti olup çocuklar ve adölesanlarda bel ağrısının yaygın bir nedenidir. Olgunlaşmamış omurgadaki tekrarlayan hiperekstansiyon hareketleridir ki bu, adolesan çağındaki jimnastikçiler ve futbol oyuncularında sık bildirilmektedir. Bu lezyonların %90'ı L5-S1 düzeyinde ortaya çıkar."
-  },
-  {
-    id:49,
-    year:"İlkbahar 2019 Orijinal",
-    question:"Aşağıdakilerden hangileri ankilozan spondilit hastasında <strong>inflamatuvar</strong> bel ağrısını diğer bel ağrısı nedenlerinden ayırt etmede önemlidir?<br><br>I. Nörolojik defisit varlığı<br>II. Hareketle bel ağrısının azalması<br>III. Kırk yaşından önce başlaması<br>IV. Gece ağrısı<br>V. Ani bir hareket sonrası bel ağrısının başlaması",
-    options:["I, II ve III","II, III ve IV","III, IV ve V","I, IV ve V","I, II ve V"],
-    answer:1,
-    hint:"İnflamatuvar bel ağrısı kriterleri: hareketle azalır, istirahatle artmaz, <40 yaş, gece ağrısı.",
-    trap:"Nörolojik defisit inflamatuvar bel ağrısına özgü değildir. Ani hareketle başlama ise mekanik bel ağrısını düşündürür.",
-    explain:"İnflamatuvar bel ağrısı kriterleri (Calin kriterleri): 40 yaşından önce, >3 ay süren, sinsi başlangıçlı, sabah tutukluğu ile birlikte olan, egzersizle rahatlayan. Hareketle azalması, kırk yaşından önce başlaması ve gece ağrısı inflamatuvar bel ağrısının özelliklerindendir. Nörolojik defisit ve ani hareketle başlama mekanik nedenlerle daha uyumludur."
-  },
-  {
-    id:50,
-    year:"Sonbahar 2020 Orijinal",
-    question:"Osteoartrit ile ilgili yukarıdaki ifadelerden hangisi <strong>doğrudur</strong>?<br><br>I. Bir saatten uzun süren sabah tutukluğu görülür.<br>II. Fizik muayenede krepitasyon tespit edilebilir.<br>III. Eritrosit sedimentasyon hızı ve CRP genellikle yüksek bulunur.<br>IV. İstirahatle semptomlar azalır.<br>V. Eklem üzerinde kızarıklık beklenen bir bulgu değildir.",
-    options:["I,II ve IV","I,II ve V","I,III ve IV","II,IV ve V","III,IV ve V"],
-    answer:3,
-    hint:"OA'da: krepitasyon (+), istirahatle azalır, kızarıklık beklenmez. Sabah tutukluğu kısa (<30 dk), sedimentasyon normal.",
-    trap:"Bir saatten uzun sabah tutukluğu Romatoid Artrite özgüdür. OA'da sedimentasyon ve CRP genellikle yüksek değildir (inflamatuvar değil).",
-    explain:"Osteoartrit; genetik, mekanik ve biyokimyasal faktörlerin etkisi ile özellikle yük taşıyan eklemlerde progresif kıkırdak yıkımı ile karakterize dejeneratif bir hastalıktır. OA'da krepitasyon tespit edilebilir, istirahatle semptomlar azalır, eklem üzerinde kızarıklık beklenen bir bulgu değildir. Sabah tutukluğu 30 dakikadan az sürer. Eritrosit sedimentasyon hızı ve CRP genellikle yüksek beklenmez."
-  },
-  {
-    id:51,
-    year:"Sonbahar 87, Sonbahar 88",
-    question:"Gut hastalığında kanda artan biyokimyasal belirteç aşağıdakilerden hangisidir?",
-    options:["Üre","Kreatinin","Ürik asit","Hidroksiprolin","Kan üre azotu (BUN)"],
-    answer:2,
-    hint:"Gut = ürik asit metabolizması bozukluğu → kanda ürik asit yükselir.",
-    trap:"Üre ve kreatinin böbrek fonksiyon testleridir. Gut hastalığında ürik asit yükselir.",
-    explain:"Gut; ürik asit metabolizması bozukluğu sonucu oluşanhiperürisemi ile karakterizedir. Monosodyum ürat (MSU) kristalleri eklem içerisine ve çevresine birikir. En sık nedeni hipoksantin fosforibozil transferaz aktivitesindeki kısmi yetersizliktir. Serum ürik asit düzeyinde yükselmeye neden olur."
-  },
-  {
-    id:52,
-    year:"Sonbahar 87",
-    question:"Gut hastalığında kullanılan <strong>kesin</strong> tanı yöntemi aşağıdakilerden hangisidir?",
-    options:["Eklem ağrısının kolşisine yanıt vermesi","Ürik asit artması","Büyük eklemlerin tutulması","Eklem sıvısında monosodyum ürat kristallerinin görülmesi","Deri altı nodüllerin bulunması"],
-    answer:3,
-    hint:"Gut kesin tanısı = eklem sıvısında monosodyum ürat kristalleri görülmesi.",
-    trap:"Kolşisin yanıtı ve ürik asit yüksekliği destekleyici bulgulardır ancak kesin tanı koydurmaz. Eklem sıvısında kristal görülmesi kesin tanıdır.",
-    explain:"Gut hastalığında kesin tanı eklem sıvısında monosodyum ürat kristallerinin görülmesi ile konur. Monosodyum ürat kristallerinin kristallerinin eklem ve çevresine çökmesi tofüse ve iltihabi odakların oluşmasına neden olur."
-  },
-  {
-    id:53,
-    year:"Sonbahar 87",
-    question:"Juvenil Romatoid Artritli hastada <strong>görülmeyen</strong> bulgu aşağıdakilerden hangisidir?",
-    options:["Anemi","Büyük eklemlerin tutulması","Splenomegali","Deri altı nodülleri","Hemiatrofi"],
-    answer:3,
-    hint:"Deri altı nodülleri akut romatizmal ateşte görülür, JRA'ya özgü değildir.",
-    trap:"JRA'da anemi, lökositoz, hepatosplenomegali görülür. Deri altı nodülleri JRA'nın değil akut romatizmal ateşin bulgusudur.",
-    explain:"Juvenil Romatoid Artritte; anemi, lökositoz ve hepatosplenomegali görülür. Daha çok büyük eklemleri tutar, sonuçta çocuğun büyümesini gelişmesini aksatır. Deri döküntüleri, perikardit ve plevrada mayi toplanması da görülebilir. Deri altı nodülleri akut romatizmal ateşte görülür."
-  },
-  {
-    id:54,
-    year:"İlkbahar 88",
-    question:"Aşağıdaki hastalıklardan hangisinde simetrik artrit görülür?",
-    options:["Romatoid artrit","Gut","Juvenil romatoid artrit","Tüberküloz artrit","Osteoartrit"],
-    answer:0,
-    hint:"Romatoid artrit → simetrik, bilateral eklem tutulumu karakteristiktir.",
-    trap:"Gut ve tüberküloz artrit asimetrik tutulum gösterir. Osteoartrit asimetrik olabilir. Romatoid artrit simetrik tutulumun prototipidir.",
-    explain:"Romatoid artrit, periferik eklemlerde nonspesifik ve genelde simetrik tutulum şeklinde kendini gösteren eklemde ve çevresindeki oluşumlarda ilerleyici harabiyet yapan kronik bir hastalıktır. Gonokoksik artrit, Charcot eklemi, Gut hastalığı ve eklem tüberkülozunda asimetrik tutulum izlenir."
-  },
-  {
-    id:55,
-    year:"Sonbahar 89",
-    question:"HLA B27 ile birlikteliği sık görülen hastalık aşağıdakilerden hangisidir?",
-    options:["Ankilozan spondilit","Sistemik lupus eritematozus","Skleroderma","Romatoid artrit","Poliarteritis nodosa"],
-    answer:0,
-    hint:"HLA-B27 = Seronegatif spondiloartritler: en başta Ankilozan Spondilit.",
-    trap:"SLE, skleroderma, RA ve poliarteritis nodosa HLA-B27 ile ilişkili değildir. Ankilozan spondilitte hastaların çok büyük kısmı HLA-B27 pozitiftir.",
-    explain:"Seronegatif spondiloartritler: Ankilozan spondilit, Reiter sendromu/reaktif artrit, Psöryatik artrit, Enteropatik artrittir. Bu hastalıklarda ailesel bir yatkınlık söz konusudur ve hastaların çoğunda HLA-B27 doku grubu bulunur. Ankilozan spondilitte hastaların çok büyük kısmı HLA-B27 pozitiftir."
+    id:83,
+    year:"Sonbahar 96",
+    question:"Ankilozan spondilitte <strong>en sık</strong> tutulan eklem aşağıdakilerden hangisidir? (Tekrar kontrol sorusu)",
+    options:["Diz","Bilek","Dirsek","İntervertebral","Sakroiliak eklem"],
+    answer:4,
+    hint:"AS'de ilk ve en sık tutulan eklem daima sakroiliak eklemdir — tanı da buradan konulur.",
+    trap:"İntervertebral eklem tutulumu olur ancak ilk ve en sık tutulan sakroiliak eklemdir. Tanı sakroileitin radyolojik gösterimiyle konur.",
+    explain:"Ankilozan spondilitte ilk ve en sık tutulan eklem sakroiliak eklemdir ve kesin tanısı da sakroileitin radyolojik olarak gösterilmesi ile konur. Bambu kamışı vertebra, kare vertebra ankilozan spondilit bulgularıdır."
   }
 ];
 
@@ -449,11 +459,11 @@ function selectAnswer(i){
 }
 
 function checkResult(){
-  if(Object.keys(answers).length === questions.length) setTimeout(showResult,600);
+  if(Object.keys(answers).length === questions.length) setTimeout(showResult, 600);
 }
 
 function showResult(){
-  let correct=0,wrong=0;
+  let correct=0, wrong=0;
   questions.forEach(q=>{
     if(answers[q.id]===q.answer) correct++;
     else wrong++;

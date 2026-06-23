@@ -3,610 +3,399 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Halk Sağlığı TUS — Part 3</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<title>TUS Quiz – Gün 2</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;--accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;--green:#3ecf74;--red:#f0476d;--text:#dde3f5;--muted:#7b85a8;}
+:root{--bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;--accent:#22c55e;--accent2:#16a34a;--gold:#f5c842;--green:#4ade80;--red:#f0476d;--text:#dde3f5;--muted:#7b85a8}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding-bottom:100px}
-.progress-wrap{position:fixed;top:0;left:0;width:100%;height:3px;background:var(--border);z-index:100}
-.progress-bar{height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%;transition:width .3s}
-.section-badge{font-family:'IBM Plex Mono',monospace;color:var(--accent2);font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-align:center;padding:28px 0 8px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;max-width:780px;margin:0 auto 80px;padding:28px 24px 24px}
-.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-#q-num{font-family:'IBM Plex Mono',monospace;font-size:.82rem;color:var(--muted)}
-#star-btn{background:none;border:none;cursor:pointer;font-size:1.3rem;color:var(--muted);transition:color .2s}
-#star-btn.active{color:var(--gold)}
-.year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
-.year-tag{font-family:'IBM Plex Mono',monospace;font-size:.65rem;background:rgba(91,141,238,.13);border:1px solid rgba(91,141,238,.28);color:var(--accent);padding:3px 8px;border-radius:4px}
-.q-text{font-size:1rem;line-height:1.7;color:var(--text);margin-bottom:18px}
-.hint-toggle{background:none;border:1px solid var(--border);color:var(--muted);font-size:.78rem;padding:6px 14px;border-radius:6px;cursor:pointer;margin-bottom:10px;font-family:'IBM Plex Mono',monospace;transition:border-color .2s}
-.hint-toggle:hover{border-color:var(--accent);color:var(--accent)}
-#hint-box{display:none;background:rgba(91,141,238,.08);border:1px solid rgba(91,141,238,.25);border-radius:8px;padding:12px 14px;font-size:.85rem;color:var(--accent);margin-bottom:14px;line-height:1.6}
-#hint-box.open{display:block}
-.options{display:flex;flex-direction:column;gap:9px;margin-bottom:18px}
-.opt-btn{display:flex;align-items:flex-start;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 15px;cursor:pointer;text-align:left;transition:border-color .2s,background .2s;font-family:'Inter',sans-serif;font-size:.9rem;color:var(--text);line-height:1.5}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding-bottom:80px}
+.progress-wrap{position:fixed;top:0;left:0;width:100%;z-index:100;height:3px;background:var(--border)}
+.progress-bar{height:3px;background:linear-gradient(90deg,#16a34a,#4ade80);width:0%;transition:width .3s}
+.section-badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--accent2);border:1px solid var(--accent2);padding:3px 10px;border-radius:4px;margin:18px 0 8px 0;letter-spacing:.05em;text-transform:uppercase}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 20px;max-width:720px;margin:0 auto}
+.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+#q-num{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--muted)}
+#star-btn{background:none;border:none;cursor:pointer;font-size:1.3rem;color:var(--gold);transition:transform .2s}
+#star-btn:hover{transform:scale(1.2)}
+#q-text{font-size:1rem;line-height:1.65;margin-bottom:14px;color:var(--text)}
+.hint-toggle{background:none;border:1px solid var(--accent);color:var(--accent);padding:5px 14px;border-radius:6px;cursor:pointer;font-size:.78rem;font-family:'IBM Plex Mono',monospace;margin-bottom:12px;transition:background .2s}
+.hint-toggle:hover{background:rgba(91,141,238,.12)}
+#hint-box{display:none;background:rgba(91,141,238,.08);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;font-size:.85rem;color:var(--accent);margin-bottom:12px;line-height:1.55}
+.options{display:flex;flex-direction:column;gap:9px;margin-bottom:14px}
+.opt-btn{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 16px;cursor:pointer;font-size:.93rem;color:var(--text);transition:border-color .15s,background .15s;text-align:left}
 .opt-btn:hover:not(:disabled){border-color:var(--accent);background:rgba(91,141,238,.07)}
-.opt-letter{font-family:'IBM Plex Mono',monospace;font-size:.75rem;font-weight:700;color:var(--muted);min-width:20px;margin-top:2px}
-.opt-btn.correct{border-color:var(--green);background:rgba(62,207,116,.1);color:var(--green)}
+.opt-letter{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.85rem;color:var(--muted);min-width:20px}
+.opt-btn.correct{border-color:var(--green);background:rgba(62,207,116,.1)}
 .opt-btn.correct .opt-letter{color:var(--green)}
-.opt-btn.wrong{border-color:var(--red);background:rgba(240,71,109,.1);color:var(--red)}
+.opt-btn.wrong{border-color:var(--red);background:rgba(240,71,109,.1)}
 .opt-btn.wrong .opt-letter{color:var(--red)}
 .opt-btn:disabled{cursor:default}
-.feedback{display:none;flex-direction:column;gap:12px;margin-top:6px}
+.feedback{display:none;flex-direction:column;gap:12px;margin-top:8px}
 .feedback.open{display:flex}
-.trap-box{background:rgba(240,71,109,.08);border:1px solid rgba(240,71,109,.25);border-radius:10px;padding:14px 16px}
-.trap-title{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--red);font-weight:700;letter-spacing:.08em;margin-bottom:6px}
-.trap-text{font-size:.85rem;color:var(--text);line-height:1.6}
-.explain-box{background:rgba(91,141,238,.07);border:1px solid rgba(91,141,238,.22);border-radius:10px;padding:14px 16px}
-.explain-title{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--accent);font-weight:700;letter-spacing:.08em;margin-bottom:6px}
-.explain-text{font-size:.85rem;color:var(--text);line-height:1.6}
-.nav{position:fixed;bottom:0;left:0;width:100%;background:rgba(15,17,23,.97);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:12px 20px;z-index:99}
-.nav-btn{background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:.78rem;padding:9px 20px;border-radius:8px;cursor:pointer;transition:border-color .2s}
-.nav-btn:hover{border-color:var(--accent)}
-#q-counter{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted);cursor:pointer}
-#q-counter:hover{color:var(--accent)}
-.q-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:flex-end}
-.q-modal-overlay.open{display:flex}
-.q-modal{background:var(--surface);border:1px solid var(--border);border-radius:18px 18px 0 0;width:100%;max-height:60vh;overflow-y:auto;padding:20px}
-.q-modal h3{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--muted);margin-bottom:14px;text-align:center}
-.q-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
-.q-grid-btn{background:var(--card);border:1px solid var(--border);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:.72rem;padding:9px 4px;border-radius:7px;cursor:pointer;text-align:center;transition:border-color .2s}
-.q-grid-btn:hover{border-color:var(--accent)}
-.q-grid-btn.answered-correct{border-color:var(--green);color:var(--green)}
-.q-grid-btn.answered-wrong{border-color:var(--red);color:var(--red)}
-.q-grid-btn.starred{border-color:var(--gold)}
-.q-grid-btn.current{background:var(--accent);border-color:var(--accent);color:#fff}
-#result-screen{display:none;max-width:780px;margin:60px auto;padding:20px;text-align:center}
-.result-score{font-family:'IBM Plex Mono',monospace;font-size:3.5rem;font-weight:700;color:var(--accent);margin:20px 0}
-.result-stats{display:flex;justify-content:center;gap:28px;margin:18px 0 28px;flex-wrap:wrap}
-.stat-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 22px}
-.stat-num{font-family:'IBM Plex Mono',monospace;font-size:1.4rem;font-weight:700}
-.stat-num.g{color:var(--green)}.stat-num.r{color:var(--red)}.stat-num.y{color:var(--gold)}
-.stat-label{font-size:.75rem;color:var(--muted);margin-top:4px}
-.result-btns{display:flex;flex-direction:column;gap:10px;max-width:320px;margin:0 auto}
-.result-btn{padding:13px 20px;border-radius:9px;border:1px solid var(--border);cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:.8rem;transition:border-color .2s}
-.result-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
-.result-btn.secondary{background:var(--surface);color:var(--text)}
+.trap-box{background:rgba(240,71,109,.07);border:1px solid rgba(240,71,109,.25);border-radius:10px;padding:14px}
+.trap-title{font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:600;color:var(--accent2);margin-bottom:6px;letter-spacing:.04em}
+.trap-text{font-size:.87rem;color:var(--text);line-height:1.55}
+.explain-box{background:rgba(91,141,238,.06);border:1px solid rgba(91,141,238,.2);border-radius:10px;padding:14px}
+.explain-title{font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:600;color:var(--accent);margin-bottom:6px;letter-spacing:.04em}
+.explain-text{font-size:.87rem;color:var(--text);line-height:1.6}
+.nav{display:flex;justify-content:space-between;align-items:center;max-width:720px;margin:16px auto 0;gap:10px}
+.nav-btn{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px 20px;border-radius:9px;cursor:pointer;font-size:.9rem;transition:border-color .2s}
+.nav-btn:hover:not(:disabled){border-color:var(--accent)}
+.nav-btn:disabled{opacity:.35;cursor:default}
+#q-counter{background:var(--card);border:1px solid var(--border);color:var(--muted);padding:10px 18px;border-radius:9px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:.82rem}
+#q-counter:hover{border-color:var(--accent)}
+#next-btn.finish{border-color:var(--green);color:var(--green)}
+#result-screen{display:none;max-width:720px;margin:60px auto 0;text-align:center;padding:20px}
+.result-score{font-size:3rem;font-weight:700;color:var(--green);font-family:'IBM Plex Mono',monospace}
+.result-label{color:var(--muted);font-size:.9rem;margin-bottom:20px;font-family:'IBM Plex Mono',monospace}
+.result-stats{display:flex;justify-content:center;gap:24px;margin:20px 0 30px}
+.stat-item{display:flex;flex-direction:column;align-items:center;gap:4px}
+.stat-num{font-size:1.6rem;font-weight:700;font-family:'IBM Plex Mono',monospace}
+.stat-lbl{font-size:.72rem;color:var(--muted)}
+.stat-correct .stat-num{color:var(--green)}
+.stat-wrong .stat-num{color:var(--red)}
+.stat-star .stat-num{color:var(--gold)}
+.result-btns{display:flex;flex-direction:column;gap:10px;max-width:360px;margin:0 auto}
+.result-btn{padding:13px 20px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:.92rem;transition:border-color .2s}
 .result-btn:hover{border-color:var(--accent)}
+.result-btn.primary{border-color:var(--accent);color:var(--accent)}
+.q-modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,10,18,.75);z-index:200;align-items:flex-end;justify-content:center}
+.q-modal-overlay.open{display:flex}
+.q-modal{background:var(--surface);border:1px solid var(--border);border-radius:16px 16px 0 0;width:100%;max-width:720px;max-height:70vh;overflow-y:auto;padding:20px}
+.q-modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.q-modal-title{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--muted)}
+.q-modal-close{background:none;border:none;color:var(--muted);font-size:1.4rem;cursor:pointer}
+.q-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+.q-grid-btn{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:8px 4px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted);transition:all .15s;text-align:center}
+.q-grid-btn.current{border-color:var(--accent);color:var(--accent);background:rgba(91,141,238,.12)}
+.q-grid-btn.done-correct{border-color:var(--green);color:var(--green)}
+.q-grid-btn.done-wrong{border-color:var(--red);color:var(--red)}
+.q-grid-btn.starred-q{box-shadow:0 0 0 2px var(--gold)}
+#main-wrap{max-width:720px;margin:30px auto 0;padding:0 14px}
+.answer-box{background:rgba(62,207,116,.05);border:1px solid rgba(62,207,116,.2);border-radius:10px;padding:14px;margin-top:8px}
+.answer-label{font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:600;color:var(--green);margin-bottom:6px;letter-spacing:.04em}
+.answer-text{font-size:.87rem;color:var(--text);line-height:1.6}
+.day-info{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--muted);text-align:right;max-width:720px;margin:10px auto 0;padding:0 14px}
 </style>
 </head>
 <body>
-<div class="progress-wrap"><div class="progress-bar" id="prog"></div></div>
-<div id="quiz-area">
-  <div class="section-badge" id="section-label">HALK SAĞLIĞI — PART 3</div>
-  <div class="card">
-    <div class="q-header">
-      <span id="q-num">Soru 1 / 50</span>
-      <button id="star-btn" onclick="toggleStar()">☆</button>
-    </div>
-    <div class="year-tags" id="year-tags"></div>
-    <div class="q-text" id="q-text"></div>
-    <button class="hint-toggle" onclick="toggleHint()">🔑 İpucu</button>
+<div class="progress-wrap"><div class="progress-bar" id="prog-bar"></div></div>
+<div id="main-wrap">
+  <div class="section-badge" id="sect-label">GÜN 2</div>
+  <div class="day-info">15 SORU · KARMA TUS SORULARI</div>
+  <div class="card" id="quiz-card">
+    <div class="q-header"><span id="q-num">Soru 1/15</span><button id="star-btn" onclick="toggleStar()">&#9734;</button></div>
+    <div id="q-text"></div>
+    <button class="hint-toggle" onclick="toggleHint()" id="hint-btn">&#128272; İpucu</button>
     <div id="hint-box"></div>
     <div class="options" id="options"></div>
     <div class="feedback" id="feedback">
-      <div class="trap-box"><div class="trap-title">⚠️ TUZAK NOKTA</div><div class="trap-text" id="trap-text"></div></div>
-      <div class="explain-box"><div class="explain-title">📖 AÇIKLAMA</div><div class="explain-text" id="explain-text"></div></div>
+      <div class="trap-box"><div class="trap-title">&#9888;&#65039; TUZAK NOKTA</div><div class="trap-text" id="trap-text"></div></div>
+      <div class="explain-box"><div class="explain-title">&#128218; AÇIKLAMA</div><div class="explain-text" id="explain-text"></div></div>
+      <div class="answer-box"><div class="answer-label">&#10003; DOĞRU CEVAP</div><div class="answer-text" id="answer-text"></div></div>
     </div>
   </div>
-</div>
-<div id="result-screen">
-  <div class="section-badge">SONUÇ</div>
-  <div class="result-score" id="score-pct">0%</div>
-  <div class="result-stats">
-    <div class="stat-box"><div class="stat-num g" id="r-correct">0</div><div class="stat-label">Doğru</div></div>
-    <div class="stat-box"><div class="stat-num r" id="r-wrong">0</div><div class="stat-label">Yanlış</div></div>
-    <div class="stat-box"><div class="stat-num y" id="r-starred">0</div><div class="stat-label">Yıldızlı</div></div>
+  <div id="result-screen">
+    <div class="result-score" id="res-pct">0%</div>
+    <div class="result-label">Quiz Tamamlandı</div>
+    <div class="result-stats">
+      <div class="stat-item stat-correct"><span class="stat-num" id="res-correct">0</span><span class="stat-lbl">Doğru</span></div>
+      <div class="stat-item stat-wrong"><span class="stat-num" id="res-wrong">0</span><span class="stat-lbl">Yanlış</span></div>
+      <div class="stat-item stat-star"><span class="stat-num" id="res-star">0</span><span class="stat-lbl">Yıldızlı</span></div>
+    </div>
+    <div class="result-btns">
+      <button class="result-btn primary" onclick="restartQuiz()">&#128260; Tümünü Yeniden Çöz</button>
+      <button class="result-btn" id="retry-wrong-btn" onclick="retryWrong()">&#10007; Yanlışları Tekrar Çöz</button>
+      <button class="result-btn" id="retry-star-btn" onclick="retryStar()">&#9733; Yıldızlıları Tekrar Çöz</button>
+    </div>
   </div>
-  <div class="result-btns">
-    <button class="result-btn primary" onclick="restartAll()">Tüm Soruları Yeniden Çöz</button>
-    <button class="result-btn secondary" onclick="retryWrong()">Yanlışları Tekrar Çöz</button>
-    <button class="result-btn secondary" onclick="retryStar()">Yıldızlıları Tekrar Çöz</button>
+  <div class="nav" id="nav-bar">
+    <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&larr; Önceki</button>
+    <button id="q-counter" onclick="toggleQuestionList()">1 / 15 &#9776;</button>
+    <button class="nav-btn" id="next-btn" onclick="navigate(1)">Sonraki &rarr;</button>
   </div>
 </div>
-<div class="nav">
-  <button class="nav-btn" onclick="navigate(-1)">← Önceki</button>
-  <span id="q-counter" onclick="openModal()">1/50 ☰</span>
-  <button class="nav-btn" onclick="navigate(1)">Sonraki →</button>
-</div>
-<div class="q-modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+<div class="q-modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
   <div class="q-modal">
-    <h3>SORU LİSTESİ</h3>
+    <div class="q-modal-header"><span class="q-modal-title">SORULAR</span><button class="q-modal-close" onclick="toggleQuestionList()">&#10005;</button></div>
     <div class="q-grid" id="q-grid"></div>
   </div>
 </div>
 <script>
-const ALL_QUESTIONS = [
-  // ── HASTALIKLARDAN KORUNMA (devam s.209) ──
-  {id:"kor6",section:"Hastalıklardan Korunma",year:"İlkbahar 2012",
-   question:"Hastalıkların kontrolü amacıyla asemptomatik ama hastalık açısından riskli kişi ya da grupların, ilgilenilen hastalığın erken tanı ve tedavisi amacıyla incelenmesine toplum taramaları denir.<br><br><b>Bu amaçla aşağıdaki hastalıklardan hangisi toplum taramaları için uygundur?</b> (İlkbahar 2012)",
-   options:["Serviks kanseri","Akut lösemi","Behçet hastalığı","Malign melanom","Osteoartrit"],
-   answer:"A",
-   hint:"Tarama için uygun hastalık: sık görülen, presemptomatik evresi olan, erken tedavisi mümkün olan.",
-   trap:"Akut lösemi, Behçet, melanom tarama için uygun değildir. Serviks kanseri sık, erken dönemde tedavi edilebilir ve iyi bir tarama testi (smear) mevcuttur.",
-   explanation:"Toplum taramasına uygun hastalıklar: ciddi sağlık sorunu olmalı, presemptomatik evresi olmalı, erken tanı ve tedavisi mümkün olmalı, tarama testi kabul edilebilir olmalıdır. Serviks kanseri bu tüm kriterleri karşılar."},
+const ALL_QUESTIONS=[
+{num:1,section:"💊 FARMAKOLOJİ – ANTİBİYOTİKLER",
+text:"Aşağıdaki antibiyotiklerden hangisi, bakterilerde 30S ribozomal alt birimine geri dönüşümsüz bağlanarak protein sentezini inhibe eden, etkisini gösterebilmek için bakteri hücresine oksijene bağımlı aktif transport mekanizmasıyla giren ve bu nedenle anaerob bakterilere karşı doğal olarak etkisiz olan bir bakterisid etkilidir?",
+options:{A:"Doksisiklin",B:"Gentamisin",C:"Eritromisin",D:"Klindamisin",E:"Kloramfenikol"},
+correct:"B",
+hint:"Anaerob ortamda çalışmayan, aktif transport gerektiren, 30S'e irreversibl bağlanan aminoglikozid grubu antibiyotiği düşün.",
+trap:"Doksisiklin de 30S'e bağlanır ama reversibl bağlanır ve bakteriyostatiktir; aminoglikozidler ise irreversibl ve bakterisiddir.",
+explain:"Gentamisin bir aminoglikoziddir. 30S ribozomal alt birimine geri dönüşümsüz bağlanarak protein sentezini inhibe eder. Bakteriye girişi oksijene bağımlı aktif transport (elektrokimyasal gradyan) ile olur; bu nedenle anaerobik ortamda etkisizdir. Bakterisid etki mekanizması ile diğer 30S inhibitörlerinden (tetrasiklinler) ayrılır."},
 
-  {id:"kor7",section:"Hastalıklardan Korunma",year:"İlkbahar 99",
-   question:"Aşağıdakilerden hangisi sekonder koruma yoludur?",
-   options:["Mamografi","Aile planlaması","Baret kullanma","Aşılama","Sigaraya başlamama"],
-   answer:"A",
-   hint:"Mamografi meme kanserinin erken tespitine yönelik tarama → sekonder koruma.",
-   trap:"Aşılama ve sigaraya başlamama birincil korumadır. Mamografi erken tanıdır → sekonder.",
-   explanation:"Sekonder koruma erken tanı ve tedaviyi hedefler. Mamografi asemptomatik bireylerde meme kanserini erken tespit etmeye yönelik olduğundan sekonder koruma kapsamındadır."},
+{num:2,section:"🧬 PEDİATRİ – METABOLİK HASTALIKLAR",
+text:"14 aylık erkek bebek, kaba yüz görünümü, motor gerileme ve eklem kontraktürleri şikayetleriyle başvuruyor. Fizik muayenede hepatosplenomegali ve umbilikal herni saptanıyor. Kornea tamamen berrak. Gingival hiperplazi dikkat çekiyor. Fibroblast kültüründe lizozomal enzimler hücre içinde eksik, ancak plazmada aşırı yüksek bulunuyor. En olası tanı nedir?",
+options:{A:"Hurler Sendromu (MPS Tip 1)",B:"Hunter Sendromu (MPS Tip 2)",C:"I-Cell Hastalığı (Mukolipidoz Tip 2)",D:"Sanfilippo Sendromu (MPS Tip 3)",E:"Gaucher Hastalığı"},
+correct:"C",
+hint:"Enzimlerin hücre içinde eksik, dışarıda aşırı yüksek olması hangi hastalığın patolojisini anlatır? Fosforilasyon hatası düşün.",
+trap:"Hurler ile çok benzer; ayırt edici fark korneanın berrak olması (Hurler'da bulanık) ve enzimlerin plazmaya kaçmasıdır — bu I-Cell'e özgüdür.",
+explain:"I-Cell Hastalığı'nda (Mukolipidoz Tip 2), lizozomal enzimleri Golgi'den lizozoma yönlendiren mannoz-6-fosfat işaretleme sistemi bozuktur. Enzimler hücre dışına salgılanır, lizozomlar boş kalır. Klinik MPS'e benzer ama kornea berraktır ve plazma enzim aktivitesi çok yüksektir. Gingival hiperplazi bu hastalığa özgü önemli bir bulgudur."},
 
-  {id:"kor8",section:"Hastalıklardan Korunma",year:"Sonbahar 96",
-   question:"Hipertansiyonda ve hipertansiyona bağlı kalp hastalığında hangisi sekonder önemlidir?",
-   options:["Seri kan basıncı ölçümleri","Sigara içmenin önlenmesi","Fiziksel egzersizler yaptırılması","Eğitim verilmesi","40 yaşın üstündeki riskli kişilerin EKG takipleri"],
-   answer:"E",
-   hint:"40 yaş üstü riskli kişilerde EKG takibi = erken tanı = sekonder koruma.",
-   trap:"Seri kan basıncı ölçümü birincil korunmanın takibidir; riskli kişilerde EKG ile kalp hastalığının erken tespiti sekonder korumadır.",
-   explanation:"Sekonder koruma: var olan hastalığı erken dönemde tespit etmeye yönelik faaliyetlerdir. Hipertansif hastalarda EKG ile kalp komplikasyonlarının erken tespiti sekonder koruma kapsamındadır."},
+{num:3,section:"🩸 HEMATOLOJİ / PATOLOJİ",
+text:"DBBHL veya Burkitt lenfomayı taklit eden, kemoterapiye dirençli, KSS tutulum riski çok yüksek olan 'Double-hit' veya 'Triple-hit' Lenfoma tanısı için FISH ile hangi onkogenlerde translokasyon gösterilmelidir?",
+options:{A:"MYC ve BCL2 (veya BCL6)",B:"CCND1 (Siklin D1) ve BCL2",C:"BCL6 ve MALT1",D:"NPM1 ve FLT3",E:"JAK2 ve CALR"},
+correct:"A",
+hint:"'Hit' kelimesi bir gen kombinasyonunu işaret eder; MYC proliferasyon geni ile apoptozisi baskılayan gen birlikteliğini düşün.",
+trap:"CCND1+BCL2 Mantle Cell Lenfoma'yı akla getirir; Double-hit lenfomada kritik gen MYC'dir ve BCL2 veya BCL6 ile birlikte görülür.",
+explain:"High-grade B hücreli lenfomada MYC yeniden düzenlenmesine ek olarak BCL2 ve/veya BCL6 yeniden düzenlenmesi varsa 'Double-hit', üçü birlikte ise 'Triple-hit' lenfoma denir. Bu kombinasyon çok agresif seyir, kötü prognoz ve standart R-CHOP'a direnç anlamına gelir. Tanı FISH yöntemiyle konur."},
 
-  {id:"kor9",section:"Hastalıklardan Korunma",year:"İlkbahar 2002",
-   question:"Aşağıdakilerden hangisi serviks uteri kanseri erken tanısı amacıyla yapılan tarama çalışmalarının yararlı olup olmadığının en geçerli göstergesidir?",
-   options:["Serviks kanseri görülme sıklığının artması","Serviks kanseri görülme yaşının daha genç yaşlara kayması","Hastaların yaşam süresinin uzaması","Serviks kanseri mortalite hızının azalması","Serviks kanseri tanısı ile ameliyat edilen hasta sayısının azalması"],
-   answer:"D",
-   hint:"Tarama programının etkinliğini gösteren en güçlü kanıt mortalite hızının azalmasıdır.",
-   trap:"Yaşam süresinin uzaması lead-time bias nedeniyle yanıltıcı olabilir. Mortalite azalması gerçek etkinliği gösterir.",
-   explanation:"Bir tarama programının etkinliğini kanıtlayan en geçerli gösterge, o hastalığa bağlı ölüm hızının (mortalite) azalmasıdır. Yaşam süresinin uzaması 'lead-time bias' ile açıklanabildiğinden tek başına yeterli değildir."},
+{num:4,section:"🦠 ENFEKSİYON HASTALIKLARI",
+text:"42 yaşında veteriner hekim; yüksek ateş, baldır kası ağrısı, konjonktival süfüzyon, sarılık ve akut böbrek yetmezliği ile başvuruyor (Weil Hastalığı). Etken patojeni üretmek için kullanılması gereken en spesifik kültür besiyeri hangisidir?",
+options:{A:"Fletcher veya EMJH besiyeri",B:"Bordet-Gengou besiyeri",C:"Lowenstein-Jensen besiyeri",D:"BCYE besiyeri",E:"Skirrow besiyeri"},
+correct:"A",
+hint:"Weil hastalığı = Leptospirosis. Bu spiroketi üretmek için özel yarı katı besiyeri gerekir.",
+trap:"Weil hastalığını hepatit ile karıştırmayın; etken virus değil Leptospira spiroketi. Bordet-Gengou Bordetella, LJ-TBC, BCYE Legionella, Skirrow Campylobacter için kullanılır.",
+explain:"Weil hastalığı Leptospira interrogans'ın neden olduğu leptospirozun ağır formudur. Ateş + sarılık + akut böbrek yetmezliği klasik triadıdır. Mesleki maruziyet (veteriner, çiftçi, kanalizasyon işçisi) önemlidir. Kültür için Fletcher veya EMJH (Ellinghausen-McCullough-Johnson-Harris) yarı katı besiyerleri kullanılır."},
 
-  {id:"kor10",section:"Hastalıklardan Korunma",year:"İlkbahar 2015 Orijinal",
-   question:"Aşağıdaki aşılardan hangisinin tüm erişkinlere belirli aralıklarla uygulanması gerekir?",
-   options:["Hepatit B","Hepatit A","Tetanoz","Meningokok","Pnömokok"],
-   answer:"C",
-   hint:"Tetanoz aşısı primer seri tamamlandıktan sonra tüm erişkinlere 10 yılda bir tekrarlanır.",
-   trap:"Hepatit B, A, meningokok, pnömokok aşıları risk gruplarına yapılır; tetanoz aşısı tüm erişkinlere periyodik uygulanır.",
-   explanation:"Primer serisi tamamlanmış tüm yetişkinlere 10 yılda bir Td (erişkin tipi difteri-tetanoz) aşısı yapılmalıdır. Diğer aşılar yalnızca belirli risk gruplarına önerilir."},
+{num:5,section:"⚡ FİZYOLOJİ – AKSİYON POTANSİYELİ",
+text:"İskelet kası aksiyon potansiyelinin repolarizasyon evresinde, membran potansiyelini istirahat düzeyine getiren temel iyon mekanizması nedir?",
+options:{A:"Voltaj bağımlı Na⁺ kanallarının açılması",B:"Voltaj bağımlı Ca²⁺ kanallarının açılması",C:"Voltaj bağımlı K⁺ kanallarının açılması",D:"Na⁺-K⁺ ATPaz pompasının tersine çalışması",E:"Ligand bağımlı Cl⁻ kanallarının açılması"},
+correct:"C",
+hint:"Depolarizasyon Na⁺ girişi ile olur; repolarizasyon ise zıt yönde iyon hareketini gerektirir — pozitif iyon çıkışı.",
+trap:"Na⁺-K⁺ ATPaz pompası repolarizasyonu başlatmaz; repolarizasyon sonrası istirahat potansiyelini sürdürür. Ani repolarizasyonu K⁺ kanalları sağlar.",
+explain:"Aksiyon potansiyelinin depolarizasyon fazında voltaj bağımlı Na⁺ kanalları açılır ve Na⁺ hücre içine girer. Repolarizasyon fazında ise voltaj bağımlı K⁺ kanalları açılır ve K⁺ hücre dışına çıkar, membran potansiyelini negatife döndürür. Na⁺-K⁺ ATPaz istirahat potansiyelini uzun vadede korur."},
 
-  {id:"kor10b",section:"Hastalıklardan Korunma — BENZERİ",year:"İlkbahar 2015 BENZERİ",
-   question:"I. Tetanoz<br>II. Hepatit B<br>III. Pnömokok<br>IV. Meningokok<br><br><b>Aşağıdaki aşılardan hangisi/hangileri tüm erişkinlere belirli aralıklarla uygulanır?</b> (İlkbahar 2015 BENZERİ)",
-   options:["Yalnız I","I ve II","I, II ve III","I, II, III ve IV","Yalnız IV"],
-   answer:"A",
-   hint:"Tüm erişkinlere periyodik uygulanan tek aşı tetanozdur.",
-   trap:"Diğerleri risk grubu aşılarıdır; tetanoz evrensel erişkin aşısıdır.",
-   explanation:"Tüm erişkinlere 10 yılda bir Td aşısı uygulanmalıdır. Hepatit B, pnömokok, meningokok aşıları belirli risk gruplarına önerilir; evrensel erişkin aşısı değildir."},
+{num:6,section:"🫀 GASTROENTEROLOJİ – PRİMER BİLİYER KOLANJİT",
+text:"42 yaşında kadın hasta; gece kaşıntısı, hafif ikter, ALP ve GGT'nin 4 kat yüksekliği, normal AST/ALT ve normal kalibrasyonlu safra yollarıyla başvuruyor. En spesifik ve sensitif otoantikor hangisidir?",
+options:{A:"Anti-Nükleer Antikor (ANA)",B:"Anti-Düz Kas Antikoru (ASMA)",C:"Anti-Mitokondrial Antikor (AMA)",D:"Anti-Karaciğer Böbrek Mikrozomal Antikoru (Anti-LKM1)",E:"Anti-Sakaromyces Cerevisiae Antikoru (ASCA)"},
+correct:"C",
+hint:"Orta yaşlı kadın + kolestaz bulguları + normal safra yolları → intrahepatik kolestaz → hangi otoimmün karaciğer hastalığı?",
+trap:"ASMA Otoimmün Hepatit Tip 1'de, Anti-LKM1 Tip 2'de pozitiftir; fakat burada transaminazlar normal, kolestaz ön planda — bu Primer Biliyer Kolanjit (PBK) tablosudur.",
+explain:"Primer Biliyer Kolanjit (eski adı PBSiroz), orta yaşlı kadınlarda görülen otoimmün intrahepatik kolestaz hastalığıdır. ALP ve GGT yüksekliği ön plandayken AST/ALT neredeyse normaldir. Pruritus erken ve belirgin semptomdur. Anti-Mitokondrial Antikor (AMA-M2) %95 sensitivite ve spesifiteyle tanısal testtir."},
 
-  // ── NÜFUS PİRAMİDİ + DEMOGRAFİK DÖNÜŞÜM ──
-  {id:"np11",section:"Hastalıklardan Korunma",year:"İlkbahar 2019 Orijinal",
-   question:"I. Tetanoz<br>II. Hepatit A<br>III. Kızamık<br>IV. Suçiçeği<br><br><b>Yukarıdaki enfeksiyon hastalıklarından hangilerinin geçirilmesiyle doğal bağışıklık gelişmediği için, hastalığı geçiren kişilere bu enfeksiyon aşısı yapılmalıdır?</b> (İlkbahar 2019 Orijinal)",
-   options:["Yalnız IV","II ve III","Yalnız I","I ve IV","I, II ve III"],
-   answer:"D",
-   hint:"Tetanoz ve suçiçeği geçirildikten sonra yeterli doğal bağışıklık gelişmez → aşılama gerekir.",
-   trap:"Kızamık ve Hepatit A geçirildikten sonra güçlü doğal bağışıklık gelişir. Tetanoz toksin hastalığı olduğu için geçirilse bile bağışıklık oluşmaz.",
-   explanation:"Tetanoz bir toksin hastalığıdır; geçirilse dahi kalıcı bağışıklık oluşmaz. Suçiçeği geçirildikten sonra da yeterli bağışıklık gelişmeyebilir. Bu nedenle her ikisinde de aşılama gereklidir."},
+{num:7,section:"🔬 BİYOKİMYA – G6PD EKSİKLİĞİ",
+text:"G6PD eksikliği olan hastada, H₂O₂ detoksifikasyonunda Glutatyon Peroksidaz'ın kullandığı ve G6PD'nin normal şartlarda ürettiği temel molekül nedir?",
+options:{A:"NADH",B:"NADPH",C:"FADH₂",D:"FMNH₂",E:"ATP"},
+correct:"B",
+hint:"G6PD, pentoz fosfat yolunda hangi indirgenmiş kofaktörü üretir? Bu kofaktör glutatyonu indirgenmiş halde tutar.",
+trap:"NADH glikoliz ve TCA'da üretilir; eritrositlerde oksidatif streste koruyucu olan NADPH'dır ve yalnızca pentoz fosfat yolundan gelir.",
+explain:"G6PD (Glukoz-6-Fosfat Dehidrogenaz), pentoz fosfat yolunun ilk basamağında NADP⁺'yı NADPH'ya indirger. NADPH, Glutatyon Redüktaz aracılığıyla okside glutatyonu (GSSG) indirgenmiş glutatyona (GSH) çevirir. GSH ise Glutatyon Peroksidaz ile H₂O₂'yi suya parçalar. G6PD eksikliğinde bu zincir kırılır ve eritrositler oksidatif strese karşı savunmasız kalır."},
 
-  {id:"np11b",section:"Hastalıklardan Korunma — BENZERİ",year:"İlkbahar 2019 BENZERİ",
-   question:"<b>Aşağıdaki hastalıklardan hangisinin geçirilmesi ile doğal bağışıklık gelişmez?</b> (İlkbahar 2019 BENZERİ)",
-   options:["Hepatit A","Kızamık","Tetanoz","Kızamıkçık","Kabakulak"],
-   answer:"C",
-   hint:"Tetanoz toksin aracılı olduğundan geçirilse de bağışıklık gelişmez.",
-   trap:"Kızamık, kızamıkçık, kabakulak, Hepatit A geçirilince kalıcı bağışıklık oluşur. Tetanozda oluşmaz.",
-   explanation:"Tetanoz toksini vücutta çok az miktarda etkili olduğundan bağışıklık yanıtı yetersiz kalır. Bu nedenle tetanoz geçirilmiş olsa dahi aşılama programına devam edilmelidir."},
+{num:8,section:"🫁 GÖĞÜS HASTALIKLARI – PNÖMOKONYOZ",
+text:"54 yaşında erkek, 20 yıl taş ocağı ve tünel işçiliği sonrası; restriktif SFT (FEV1/FVC:%86, FVC:%58), bazallerde velcro raller, clubbing ve YKBT'de subplevral honeycombing + traksiyon bronşektazisi. Öncelikli pnömokonyoz tablosu nedir?",
+options:{A:"Silikozis",B:"Asbestozis",C:"Kömür İşçisi Pnömokonyozu (Antrakozis)",D:"Berilliyozis",E:"Bisinozis"},
+correct:"B",
+hint:"Taş ocağı = silika mı, asbest mi? Honeycombing + clubbing + bazal tutulum hangi pnömokonyoza özgüdür?",
+trap:"Taş ocağı ifadesi silika'yı akla getirir; ancak silikoziste üst lob nodüler görünüm ve 'yumurta kabuğu' kalsifikasyon beklenir. Honeycombing + bazal tutulum + clubbing asbestozisin klasik triadıdır.",
+explain:"Asbestozis, asbest liflerine maruziyet sonucu gelişen interstisyel akciğer fibrozisidir. Taş ocağı ve tünel inşaatında asbest maruziyeti sık görülür. Klinik; alt lob baskın restriktif patern, velcro raller, clubbing ve YKBT'de subplevral honeycombing ile traksiyon bronşektazisidir. Plevral plaklar da asbestozise özgü bulgulardandır."},
 
-  {id:"np1",section:"Nüfus Piramidi",year:"Sonbahar 93",
-   question:"Geniş tabanlı olan ve yukarı doğru hızla daralan nüfus piramidi olan toplumda aşağıdakilerden hangisi doğrudur?",
-   options:["Doğum hızı düşük, ölüm hızı yüksek","Doğum hızı yüksek, ölüm hızı düşük","Doğum hızı düşük, ölüm hızı düşük","Göç oranı yüksek","Doğum hızı yüksek, ölüm hızı yüksek"],
-   answer:"E",
-   hint:"Geniş taban = yüksek doğurganlık. Hızla daralma = genç yaşta ölüm (yüksek ölüm hızı).",
-   trap:"'Geniş taban + hızla daralma' kombinasyonu hem doğum hem ölümün yüksek olduğu gelişmemiş toplum tipini gösterir.",
-   explanation:"Geniş tabanlı nüfus piramidi yüksek doğurganlığa, yukarıya doğru hızla daralma ise yüksek ölüm hızına işaret eder. Bu piramit tipi sanayileşme öncesi dönemin özelliğidir."},
+{num:9,section:"🔬 PATOLOJİ – HÜCRE İÇİ BİRİKİMLER",
+text:"Otofaji ile tam sindirilemeyen, peroksitlenmiş lipid ve protein komplekslerinden oluşan, kahverengi-sarı renkli 'yaşlanma/yıpranma pigmenti' olarak bilinen hücre içi birikim nedir?",
+options:{A:"Hemosiderin",B:"Lipofuskin",C:"Melanin",D:"Bilirubin",E:"Karbon (Antrakotik pigment)"},
+correct:"B",
+hint:"'Wear-and-tear pigment', yaşlı hücrelerde biriken, zararsız ama hücrenin yorgunluğunu gösteren kahverengi pigment.",
+trap:"Hemosiderin de kahverengi görünür ama demir içerir ve Prusya mavisiyle boyanan hemoliz ürünüdür; lipofuskin ise lipid+protein bileşiğidir ve PAS pozitif boyanır.",
+explain:"Lipofuskin (lipokrom), lizozomal sindirim artıkları olan peroksitlenmiş lipid ve protein komplekslerinin birikmesiyle oluşur. Kalp, karaciğer ve beyin gibi uzun ömürlü post-mitotik hücrelerde yaşla birlikte birikir. Hücreye doğrudan zarar vermez; 'yaşlanma pigmenti' olarak bilinir. Elektron mikroskobunda perinükleer granüller şeklinde izlenir."},
 
-  {id:"dd2",section:"Demografik Dönüşüm",year:"Sonbahar 2021 Orijinal",
-   question:"Demografik dönüşüm süreciyle ilgili aşağıdaki ifadelerden hangisi <b>yanlıştır</b>?",
-   options:["İlk aşamada ölüm ve doğum hızları yüksek, nüfus artış hızı düşüktür.","Son aşamada toplam doğurganlık hızı ikinin altına düşebilir.","Pandemilerin azalması ile eş zamanlı olarak doğumlar da azalır.","İlk aşama, sanayi öncesi dönemi tanımlar.","Ölümlerin azalmasındaki temel belirleyici, düzelen çevre ve yaşam koşullarıdır."],
-   answer:"C",
-   hint:"Demografik dönüşümde ölümlerin azalması önce gelir; doğumların azalması sonra gerçekleşir — eş zamanlı değildir.",
-   trap:"Pandemilerin azalması ölüm hızını düşürür, fakat doğum hızı hemen düşmez; doğum azalması gecikmelidir.",
-   explanation:"Demografik dönüşüm kuramında önce ölüm hızları azalır, ardından doğum hızları azalır. Bu iki azalma eş zamanlı değildir. C şıkkı bu nedenle yanlıştır."},
+{num:10,section:"💊 FARMAKOLOJİ – OFTALMOLOJİ",
+text:"Göz bebeklerinde midriyazise neden olurken siliyer kası felç etmeyen (sikloplejiye yol açmayan) ve bu sayede görme bulanıklığı yaratmadan fundus muayenesi yapılmasına olanak tanıyan ilaç hangisidir?",
+options:{A:"Atropin",B:"Tropikamid",C:"Siklopentolat",D:"Fenilefrin",E:"Skopolamin"},
+correct:"D",
+hint:"Midriyazis için iki yol var: muskarinik blokaj (hem midriyazis hem siklopleji) veya sadece sempatik uyarı (yalnızca midriyazis).",
+trap:"Atropin, tropikamid ve siklopentolat muskarinik antagonisttir — hem midriyazis hem siklopleji yapar. Fenilefrin ise alfa-1 agonistidir; yalnızca dilatatör pupilla kasını uyarır, siliyer kası etkilemez.",
+explain:"Fenilefrin, alfa-1 adrenerjik agonisttir. İris dilatatör kasını uyararak midriyazise yol açar. Siliyer kas muskarinik reseptörlerle kontrol edildiğinden fenilefrin onu etkilemez ve siklopleji oluşturmaz. Bu özelliği sayesinde refraksiyon ölçümü yapılmaksızın fundus muayenesi (retina, optik disk görüntüleme) için idealdir."},
 
-  {id:"dd2b",section:"Demografik Dönüşüm — BENZERİ",year:"Sonbahar 2021 BENZERİ",
-   question:"<b>Demografik dönüşümün hangi aşamasında doğum ve ölüm oranları en düşüktür?</b> (Sonbahar 2021 BENZERİ)",
-   options:["Sanayileşme öncesi aşama","1. aşama","2. aşama","3. aşama","4. aşama"],
-   answer:"E",
-   hint:"4. aşamada hem doğum hem ölüm oranları çok düşüktür; nüfus dengeye ulaşmıştır.",
-   trap:"1. aşamada her ikisi de yüksektir; 4. aşamada her ikisi de düşüktür.",
-   explanation:"Demografik dönüşümün 4. (son) aşamasında hem doğum hem ölüm oranları çok düşüktür. Nüfus artışı durmuş veya minimuma inmiştir. Bu gelişmiş toplumların özelliğidir."},
+{num:11,section:"🧬 PEDİATRİ – ÜRE SİKLUSU",
+text:"3. günde hiperamonyemi (800 µg/dL) ve metabolik alkaloz olan yenidoğanda plazma Sitrülin düzeyi çok yüksek, idrar Orotik asit düzeyi normal/düşük. En olası eksik enzim hangisidir?",
+options:{A:"Karbamoil fosfat sentetaz 1 (CPS-1)",B:"Ornitin transkarbamoilaz (OTC)",C:"Arjininosüksinat sentetaz (ASS)",D:"Arjininosüksinat liyaz (ASL)",E:"Arjinaz"},
+correct:"C",
+hint:"Sitrülin yüksekliği hangi adımın tıkalı olduğunu gösterir? Sitrülin'den sonraki enzimi düşün.",
+trap:"OTC eksikliğinde de hiperamonyemi olur ama Sitrülin düşük/normal ve Orotik asit çok yüksektir. Sitrülin'in biriktiği yer ASS enzim bloğuna işaret eder.",
+explain:"Üre siklusunda Sitrülin + Aspartat → Arjininosüksinat dönüşümünü Arjininosüksinat Sentetaz (ASS) katalize eder. ASS eksikliğinde Sitrülin birikir (Sitrülinemi Tip 1). Orotik asit bu noktada normal/düşük kalır çünkü karbamoil fosfat mitokondride tüketilmekte ama sitozolik UMP sentezi artmamaktadır. Yenidoğan döneminde ağır hiperamonyemi ile prezente olur."},
 
-  // ── BİLDİRİMİ ZORUNLU HASTALIKLAR ──
-  {id:"bz1",section:"Bildirimi Zorunlu Hastalıklar",year:"Sonbahar 89",
-   question:"Aşağıdakilerden hangisinde verilen hastalıkların tümü için uluslararası bildirim (ihbar) zorunluluğu vardır?",
-   options:["Kızamık, lepra, tifo, çiçek, poliomiyelit","Veba, çiçek, sarı humma, tifüs","Şarbon, veba, ruam, kuduz, sarıhumma","Kolera, sarıhumma, kuduz, çiçek, şarbon","Çiçek, veba, kızıl, kuduz, enfeksiyöz hepatit"],
-   answer:"B",
-   hint:"WHO'ya bildirilmesi zorunlu hastalıklar: veba, çiçek, sarı humma, kolera.",
-   trap:"Kuduz, kızamık, tifo uluslararası bildirim zorunluluğu kapsamında değildir.",
-   explanation:"Uluslararası Sağlık Tüzüğü'ne göre WHO'ya bildirilmesi zorunlu hastalıklar: veba, çiçek (eradike), sarı humma ve kolera. B şıkkındaki tüm hastalıklar bu kapsamdadır."},
+{num:12,section:"❤️ KARDİYOLOJİ – POSTERİOR MI",
+text:"V1-V4'te ST depresyonu ve yüksek T dalgası olan hasta için kardiyolog posterior MI şüphesiyle V7-V8-V9 derivasyonlarını ekletiyor. Kesin tanı koydurucu EKG bulgusu ne olmalıdır?",
+options:{A:"≥ 0.5 mm ST segment elevasyonu",B:"≥ 1.0 mm ST segment depresyonu",C:"Derin ve geniş patolojik Q dalgaları",D:"Ters dönmüş (negatif) T dalgaları",E:"PR segmentinde belirgin elevasyon"},
+correct:"A",
+hint:"Posterior derivasyonlar arka duvarı 'doğrudan' gösterir; eşik değeri standart derivasyonlardan daha düşüktür.",
+trap:"Standart derivasyonlarda ST elevasyonu için ≥1 mm eşik kullanılır; ancak posterior derivasyonlarda (V7-V9) eşik ≥0.5 mm'dir. Ayrıca posterior MI'da Q dalgası geç bulgudur.",
+explain:"İzole posterior MI'da ön derivasyonlarda görülen ST depresyonu + tall R dalgası, posterior duvarın ayna görüntüsüdür (resiprok değişiklik). Doğrudan posterior derivasyonlar (V7, V8, V9) eklenerek ≥0.5 mm ST elevasyonu saptanırsa tanı konulur. Bu eşik değeri normal derivasyonlardan (≥1 mm) daha düşüktür çünkü posterior duvar uzak olduğundan sinyal zayıflar."},
 
-  {id:"bz2",section:"Bildirimi Zorunlu Hastalıklar",year:"Sonbahar 2012",
-   question:"Ülkemizde bildirimi zorunlu olan bulaşıcı hastalıklardan bazıları sadece seçilmiş sağlık merkezlerinden bildirilmektedir.<br><br><b>Aşağıdakilerden hangisi bu gruba yer alan hastalıklardan biridir?</b> (Sonbahar 2012)",
-   options:["Sıtma","Difteri","Tifüs","Tüberküloz","İnfluenza"],
-   answer:"E",
-   hint:"Grup C hastalıkları sadece seçilmiş (sentinel) sağlık merkezlerinden bildirilir. İnfluenza Grup C'dedir.",
-   trap:"Tüberküloz Grup A'dadır (her sağlık kuruluşundan bildirilir). İnfluenza benzeri hastalık Grup C'de sentinel sürveyans kapsamındadır.",
-   explanation:"Bildirimi zorunlu hastalık gruplarında Grup C hastalıkları yalnızca belirlenmiş standart tanı kriterleri çerçevesinde seçilmiş sağlık kuruluşlarından bildirilir. İnfluenza (H. influenzae tip B enfeksiyonları dahil) bu gruptadır."},
+{num:13,section:"🦠 MİKROBİYOLOJİ – VAJİNAL ENFEKSİYON",
+text:"Klue cells (ipucu hücreleri) ve pozitif whiff testi saptanan hamile hastada, Gram-değişken boyanma özelliği olan ve anaeroblarla sinerjistik çalışan mikroorganizma nedir?",
+options:{A:"Chlamydia trachomatis",B:"Neisseria gonorrhoeae",C:"Trichomonas vaginalis",D:"Gardnerella vaginalis",E:"Candida albicans"},
+correct:"D",
+hint:"Klue cell = vajinal epitel üzerini kaplayan bakteriler. Whiff testi = balık kokusu = amin üretimi. pH > 4.5. Bunların hepsi hangi hastalığa işaret eder?",
+trap:"Trichomonas protozoadır, mikroskopide hareketli trofozoitler görülür; Candida'da KOH'ta psödohif izlenir. Klue cell + whiff testi + pH>4.5 üçlüsü Bakteriyel Vajinoz = Gardnerella.",
+explain:"Bakteriyel Vajinoz'da dominant etken Gardnerella vaginalis'tir. Gram-değişken (Gram-variable) boyanır. Anaeroblarla (Mobiluncus, Prevotella) sinerjistik olarak vajinal floraya yerleşir. Laktobasillerin azalmasıyla pH yükselir (>4.5), aminler oluşur (balık kokusu), epitel hücreleri bakteri tabakasıyla kaplanır (klue cell). Metronidazol tedavide seçilir."},
 
-  // ── ELİMİNASYON VE ERADİKASYON ──
-  {id:"el1",section:"Eliminasyon ve Eradikasyon",year:"İlkbahar 2013",
-   question:"Aşağıdaki bulaşıcı hastalık - kontrol programı eşleştirmelerinden hangisi <b>yanlıştır</b>?",
-   options:["Kızamık - Eliminasyon","Neonatal tetanoz - Eliminasyon","Kızamıkçık - Eliminasyon","Polio - Eliminasyon","Tüberküloz - Hastalık kontrolü"],
-   answer:"D",
-   hint:"Polio için hedef ERADİKASYON'dur, eliminasyon değil.",
-   trap:"Eliminasyon: ülke içinde yerli virüs dolaşımının durdurulması. Eradikasyon: dünya genelinde virüsün yok edilmesi. Polio eradikasyon programındadır.",
-   explanation:"Polio Eradikasyon Programı kapsamındadır, eliminasyon değil. Kızamık ve kızamıkçık eliminasyon, neonatal tetanoz eliminasyon, tüberküloz hastalık kontrolü programındadır."},
+{num:14,section:"🦠 MİKROBİYOLOJİ – VİRÜLANS FAKTÖRLERİ",
+text:"Kanlı agarda alfa-hemolitik, ortası göbekli koloniler, safra ve optohine duyarlı gram pozitif kok. KOAH'lı hastada pnömoni yapan bu mikroorganizmanın en önemli virülans faktörü nedir?",
+options:{A:"M proteini",B:"Kapsül",C:"Protein A",D:"Kordon faktörü",E:"Endotoksin"},
+correct:"B",
+hint:"Alfa-hemoliz + optohine duyarlılık = Streptococcus pneumoniae. Bu organizmanın fagositozdan kaçış mekanizması nedir?",
+trap:"M proteini Streptococcus pyogenes'e, Protein A Staphylococcus aureus'a, Kordon faktörü M.tuberculosis'e aittir. Pnömokokun en kritik virülans faktörü polisakkarit kapsülüdür.",
+explain:"Streptococcus pneumoniae (pnömokok), alfa-hemolitik, optohine duyarlı, safra lizisine hassas gram pozitif diplokoktur. Polisakkarit kapsülü, fagositozdan kaçışı sağlayan en kritik virülans faktörüdür. Kapsül antijenik yapısı aşı geliştirmede de temel alınmıştır (PCV13, PPSV23). Pnömoni, menenjit, otit media ve sinüzitte etkendir."},
 
-  {id:"gbp2",section:"GBP Hastalık Programları",year:"İlkbahar 2012",
-   question:"Aşağıdaki hastalıklardan hangisinin eliminasyon programı yürütülmektedir?",
-   options:["Tüberküloz","Hepatit B","Poliomiyelit","Neonatal tetanoz","Boğmaca"],
-   answer:"D",
-   hint:"Maternal ve Neonatal Tetanoz Eliminasyon Programı aktif olarak yürütülmektedir.",
-   trap:"Polio eradikasyon programındadır. Hepatit B kontrol programındadır. Neonatal tetanoz eliminasyon programındadır.",
-   explanation:"Türkiye'de GBP kapsamında yürütülen programlar: Polio Eradikasyon, Kızamık Eliminasyon, Maternal ve Neonatal Tetanoz Eliminasyon, Hepatit B Kontrol Programı. Neonatal tetanoz eliminasyon programındadır."},
-
-  // ── BULAŞICI HASTALIKLARININ ÖNEMİ ──
-  {id:"bh1",section:"Bulaşıcı Hastalıkların Önemi",year:"İlkbahar 97",
-   question:"Aşağıdakilerden hangisi bulaşıcı hastalık sonrası enfeksiyon bulaşma zincirini kırmaya yönelik önlem <b>değildir</b>?",
-   options:["Hastaların izolasyonu","Kemoprofilaksi","Aşılama","Vektör kontrolü","Gıda ve su temizliği"],
-   answer:"B",
-   hint:"Kemoprofilaksi temas öncesinde veya sırasında enfeksiyon oluşumunu önlemek için kullanılır, enfeksiyon sonrası zincir kırma değildir.",
-   trap:"İzolasyon, vektör kontrolü, gıda-su temizliği bulaşma zincirini keser. Kemoprofilaksi enfeksiyondan ÖNCE veya SIRASINDA kullanılır.",
-   explanation:"Kemoprofilaksi: infeksiyon etkenle temastan önce veya temas sırasında hemen sonra infeksiyon oluşmasını önlemek için kullanılır. Bu nedenle 'bulaşıcı hastalık sonrası' zincir kırma önlemi değildir."},
-
-  {id:"bh2",section:"Bulaşıcı Hastalıkların Önemi",year:"Sonbahar 95",
-   question:"Bulaşıcı hastalık ihbarı yapılan bir köye giden hekim <b>ilk</b> olarak ne yapmalıdır?",
-   options:["Tanıyı doğrulamalı","Risk grubunu tayin etmeli","Vaka sayısını tespit etmeli","Kaynağı bulmalı","Kuluçka süresini tespit etmeli"],
-   answer:"A",
-   hint:"Salgın yönetiminin ilk ve en önemli adımı tanının doğrulanmasıdır.",
-   trap:"Vaka sayısı tespiti, kaynak araştırması sonraki aşamalardır. Her şeyden önce tanının doğruluğu teyit edilmelidir.",
-   explanation:"Bulaşıcı hastalık salgınlarında hekimin ilk yapması gereken mevcut imkânlarla tanıyı koymak ve doğrulamaktır. Ardından vakalar tespit edilir, risk grupları belirlenir, kaynak araştırılır ve kontrol önlemleri alınır."},
-
-  {id:"bh3",section:"Bulaşıcı Hastalıkların Önemi",year:"Sonbahar 2025",
-   question:"Salgın sırasında kaynağa yönelik alınabilecek en olası tedbir aşağıdakilerden hangisidir?",
-   options:["Kesin tanı","Su dezenfeksiyonu","Aşılama","Sağlıklı beslenme","Vektör kontrolü"],
-   answer:"A",
-   hint:"Salgında kaynağa yönelik ilk ve en önemli adım kesin tanının konulmasıdır.",
-   trap:"Su dezenfeksiyonu ve vektör kontrolü bulaşma yolunu keser; kaynağa yönelik birincil adım tanıdır.",
-   explanation:"Bulaşıcı hastalıklarda kaynağa yönelik en önemli adım kesin tanının konulmasıdır. Tanı olmadan hangi kaynağa yönelik önlem alınacağı bilinemez."},
-
-  {id:"bh4",section:"Bulaşıcı Hastalıkların Önemi",year:"Sonbahar 87",
-   question:"Aşağıdakilerden hangisi, sıtmanın geçişinde rol oynayan anofel yoğunluğunu azaltmak için uygulanan mücadele yöntemi <b>değildir</b>?",
-   options:["Larvalara karşı kimyasal mücadele","Kişilerin kemoprofilaksisi","Larvalara karşı biyolojik mücadele","Bataklıkların kurutulması","Erişkin anofellere karşı uygun insektisit tatbikatı"],
-   answer:"B",
-   hint:"Kemoprofilaksi insanları korur; anofel yoğunluğunu azaltmaz.",
-   trap:"Larvalara karşı kimyasal, biyolojik mücadele ve bataklık kurutma anofel yoğunluğunu azaltır. Kemoprofilaksi vektörü değil insanı etkiler.",
-   explanation:"Anofel yoğunluğunu azaltmak için; larvalara karşı kimyasal/biyolojik mücadele, bataklıkların kurutulması, erişkin anofellere insektisit kullanılabilir. Kemoprofilaksi ise kişiyi sıtmadan korur, vektör yoğunluğunu azaltmaz."},
-
-  // ── BULAŞICI HASTALIKLARDAN KORUNMA ──
-  {id:"bh5",section:"Bulaşıcı Hastalıklar",year:"Sonbahar 88",
-   question:"Aşağıdakilerden hangisi su ile bulaşan hastalıklardan <b>değildir</b>?",
-   options:["Tifo","Hepatit","Trahom","Polio","Dizanteri"],
-   answer:"C",
-   hint:"Trahom göz hastalığıdır; su ile değil temas ve sineklerle bulaşır.",
-   trap:"Tifo, hepatit A, polio, basilli dizanteri su ile bulaşır. Trahom Chlamydia trachomatis ile temas yoluyla bulaşır.",
-   explanation:"Su ile bulaşan hastalıklar: tifo, paratifo, kolera, basilli dizanteri, enterovirus enfeksiyonları, hepatit A, polio, amebiazis ve helmint enfestasyonları. Trahom bu gruba girmez."},
-
-  {id:"bh6",section:"Bulaşıcı Hastalıklar",year:"Sonbahar 88",
-   question:"Sağlıklı içme ve kullanma sularının sağlanamadığı durumlarda bireysel klorlama ile bulaşması önlenemeyecek hastalık aşağıdakilerden hangisidir?",
-   options:["Kolera","Tifo","Basilli dizanteri","Viral hepatit A","Paratifo"],
-   answer:"D",
-   hint:"Hepatit A virüsü normal klorlama konsantrasyonunda (0,5 PPM/L) inaktive olmaz.",
-   trap:"Kolera, tifo, dizanteri, paratifo normal klorlamayla önlenebilir; Hepatit A virüsü klorlamaya dirençlidir.",
-   explanation:"Normal bireysel klorlama (0,5 PPM/L), Hepatit A virüsünü inaktive etmeye yeterli değildir. Hepatit A'nın klorlamadan etkilenmemesi nedeniyle bireysel klorlamayla önlenemez. Giardia ve Amip de klorlamaya dirençlidir."},
-
-  // ── EPİDEMİYOLOJİ ──
-  {id:"ep1",section:"Epidemiyoloji",year:"Sonbahar 2011",
-   question:"Bir şehirde her yıl temmuz ayında 10 tifo olgusu görülmektedir. Bu yılın temmuz ayında anlamlı bir artış ile olgu sayısının 55 olduğu saptanmıştır.<br><br><b>Bu durum aşağıdakilerden hangisiyle tanımlanır?</b> (Sonbahar 2011)",
-   options:["Endemi","Hiperendemi","Pandemi","Hiperepidemi","Epidemi"],
-   answer:"E",
-   hint:"Beklenen vaka sayısından fazla vaka olması = epidemi.",
-   trap:"Endemi beklenen düzeyde sürekli görülme; epidemi beklenenin üzerinde artış; pandemi ise çok geniş coğrafi yayılımdır.",
-   explanation:"Epidemi: beklenen vaka sayısından anlamlı derecede fazla vaka olmasıdır. Her yıl 10 olan tifo vakasının bu yıl 55'e çıkması epidemidir. Salgınla eş anlamlı kullanılır."},
-
-  {id:"ep2",section:"Epidemiyoloji",year:"İlkbahar 2023",
-   question:"Bir enfeksiyon etkeninin ya da bir hastalığın belirli bir coğrafik alanda sürekli görülmesi aşağıdakilerden hangisidir?",
-   options:["Epidemi","Endemi","Pandemi","Kümelenme","Enfektivite"],
-   answer:"B",
-   hint:"Belirli bir coğrafi alanda sürekli ve beklenen düzeyde görülme = endemi.",
-   trap:"Epidemi beklenenin üzerinde artış; pandemi çok geniş alana yayılım; endemi o bölgede alışılmış düzeyde sürekli görülmedir.",
-   explanation:"Endemi: bir enfeksiyon etkeninin ya da hastalığın belirli bir coğrafyada sürekli görülmesidir. Hastalığın o bölgede alışılmış prevalans düzeyinde olduğunu gösterir."},
-
-  {id:"ep3",section:"Epidemiyoloji",year:"Sonbahar 2023",
-   question:"Sağlık problemlerinin takibi amacıyla sürekli ve sistematik olarak veri toplanması, analizi, yorumlanması ve konuyla ilgili kişilerin kullanımı için dağıtılması işlemine ne ad verilir?",
-   options:["Filyasyon","Vaka kontrol araştırması","Sürveyans","Epidemiyoloji","Tarama"],
-   answer:"C",
-   hint:"Sürekli ve sistematik veri toplama-analiz-dağıtım süreci = sürveyans.",
-   trap:"Filyasyon salgın hastalığın kaynağını bulmak ve zinciri takip etmektir. Sürveyans sürekli veri izleme sistemidir.",
-   explanation:"Sürveyans: bulaşıcı hastalıklardan korunma ve bunların kontrolü için düzenli ve rutin olarak sürekli veri toplanması, verilerin analizi, yorumlanması ve ilgili birimlere dağıtılması işlemlerinin tümüdür."},
-
-  {id:"ep4",section:"Epidemiyoloji",year:"Sonbahar 2009",
-   question:"Bulaşıcı hastalık şüphesi olan sağlam bir kişinin hastalığın en uzun inkübasyon süresi sonuna kadar gözetim altında tutulmasına ne ad verilir?",
-   options:["İzolasyon","Karantina","Eradikasyon","Eliminasyon","Sanitasyon"],
-   answer:"B",
-   hint:"Sağlam ama şüpheli kişiyi inkübasyon süresi boyunca gözetim altında tutmak = karantina.",
-   trap:"İzolasyon hasta kişiye uygulanır. Karantina şüpheli (henüz hasta olmayan) kişilere uygulanır.",
-   explanation:"Karantina: bulaşıcı bir hastalığa maruz kalmış şüpheli kişileri hastalığın en uzun kuluçka süresi boyunca başkalarıyla temas ettirmeden gözetim altında tutma uygulamasıdır. İzolasyon ise hasta olan kişiye uygulanır."},
-
-  // ── DİĞER SORULAR ──
-  {id:"dg1",section:"Diğer Sorular",year:"Sonbahar 94",
-   question:"Nüfus = 1 milyon, Yıllık doğum sayısı = 250, 12-23 aylık çocuk sayısı = 200, 24-72 aylık çocuk sayısı = 800, 6 yaşında çocuk sayısı = 200, 14 yaşında çocuk sayısı = 150.<br><br>Nüfus özellikleri yukarıdaki gibi olan bir bölgede yıllık DBT aşısı gereksinimi kaç dozdur?",
-   options:["750","950","1150","1750","1900"],
-   answer:"C",
-   hint:"DBT: 2, 4, 6. aylarda 3 doz + 15-16 ayda 1 rapel (toplam 3×250=750) + 6. yaşta rapel (200) + fire payı %10 ekle.",
-   trap:"Fire payı (%10) dahil edilmelidir: 600+200=800 → %10 fire → 880 değil, doğru hesap: 250×3=750 + 200 = 950, %10 fire=1050... Soru cevabı 1150'dir: (250×3+200)×%10 fire = 1150.",
-   explanation:"Yıllık DBT aşı takvimine göre: 3 kez DBT + Polio 15-16. ayda Rapel, 6. yaşta da DBT yapılır. 250×3=750 + 200 rapel = 950. Buna %10 fire payı ilave edilirse 1150 rakamı bulunur."},
-
-  {id:"dg2",section:"Diğer Sorular",year:"İlkbahar 2012",
-   question:"Aşağıdakilerden hangisi, sigara bırakmanın yararlarından birisi <b>değildir</b>?",
-   options:["Mortalitede azalma","Depresyonda düzelmesi","Kardiyovasküler olaylarda azalma","Artmış akciğer kanseri riskinde azalma","Akciğer fonksiyonlarında düzelme"],
-   answer:"B",
-   hint:"Sigara bırakma sürecinde depresyon artabilir; düzelmez.",
-   trap:"Sigarayı bırakma sırasında yoksunluğa bağlı depresyon ve anksiyete artabilir; mortalite, kardiyovasküler risk ve akciğer kanseri riski azalır.",
-   explanation:"Sigara içmek depresyon için bir risk faktörüdür ancak sigarayı bırakma sırasında yoksunluk belirtileri olarak depresyon ve anksiyete artabilir. Bu nedenle 'depresyonda düzelme' doğrudan bir yarar değildir."},
-
-  {id:"dg3",section:"Diğer Sorular",year:"İlkbahar 2014 Orijinal",
-   question:"Aşağıdakilerden hangisi, kuduz virüsüne duyarlı <b>değildir</b>?",
-   options:["Tavşan","Yarasa","Kurt","Yılan","Sıçan"],
-   answer:"D",
-   hint:"Yılan soğukkanlı bir hayvandır; kuduz virüsü yalnızca sıcakkanlı hayvanlara bulaşır.",
-   trap:"Sıçan, tavşan, yarasa, kurt sıcakkanlıdır ve kuduz virüsüne duyarlıdır. Yılan soğukkanlıdır.",
-   explanation:"Kuduz virüsü yalnızca sıcakkanlı hayvanlara bulaşır. Yılan soğukkanlı olduğundan kuduz virüsüne duyarlı değildir. Tüm memeliler (tavşan, yarasa, kurt, sıçan dahil) duyarlıdır."},
-
-  {id:"dg3b",section:"Diğer Sorular — BENZERİ",year:"İlkbahar 2014 BENZERİ",
-   question:"I. Sıçan<br>II. Yarasa<br>III. Kurt<br>IV. Yılan<br><br><b>Aşağıdakilerden hangisi/hangileri kuduz virüsüne duyarlı değildir?</b> (İlkbahar 2014 BENZERİ)",
-   options:["Yalnız I","I ve II","I, II ve III","III ve IV","Yalnız IV"],
-   answer:"E",
-   hint:"Soğukkanlı hayvanlar kuduz virüsüne duyarlı değildir.",
-   trap:"Sıçan, yarasa, kurt sıcakkanlıdır → duyarlıdır. Yılan soğukkanlıdır → duyarlı değildir.",
-   explanation:"Kuduz virüsü yalnızca sıcakkanlı hayvanlara bulaşır. I, II, III (sıçan, yarasa, kurt) sıcakkanlı hayvanlardır ve duyarlıdır. Yılan (IV) soğukkanlı olduğundan duyarlı değildir."},
-
-  {id:"dg4",section:"Diğer Sorular",year:"İlkbahar 2013",
-   question:"Aşağıdakilerden hangisi, yaşlılarda enteral beslenme komplikasyonlarından biri <b>değildir</b>?",
-   options:["Hiperkloremik metabolik asidoz","Kusma","Enfeksiyon","Diyare","Aspirasyon"],
-   answer:"A",
-   hint:"Hiperkloremik metabolik asidoz total parenteral nutrisyona bağlı gelişebilecek komplikasyondur; enteral beslenme komplikasyonu değildir.",
-   trap:"Kusma, enfeksiyon, diyare, aspirasyon enteral beslenmenin bilinen komplikasyonlarıdır. Metabolik asidoz parenteral beslenmeyle ilişkilidir.",
-   explanation:"Enteral beslenme komplikasyonları: mekanik (tüp sorunları, aspirasyon), gastrointestinal (bulantı, kusma, diyare, şişkinlik) ve metabolik (dehidrasyon, elektrolit dengesizliği). Hiperkloremik metabolik asidoz total parenteral nutrisyon komplikasyonudur."},
-
-  {id:"dg5",section:"Diğer Sorular",year:"Sonbahar 2012",
-   question:"Aşağıdakilerden hangisi yaşlanmayla beraber böbreklerde ortaya çıkan değişikliklerden biri <b>değildir</b>?",
-   options:["Böbrek boyutlarının artması","Glomerüler filtrasyonun azalması","Glomerülosklerozun artması","Böbrek kan akımının azalması","İdrarı konsantre etme yeteneğinin bozulması"],
-   answer:"A",
-   hint:"Yaşlanmayla böbrek boyutları KÜÇÜLÜR, büyümez.",
-   trap:"GFR azalma, glomerüloskleroz artma, kan akımı azalma ve konsantrasyon yeteneği bozulması yaşlanmanın bilinen böbrek değişiklikleridir.",
-   explanation:"Yaşlanmayla birlikte böbrek kitlesi azalır (30 yaşında 200-270 gr olan böbrek 90 yaşında 180-200 gr'a düşer). GFR azalır, glomerüloskleroz artar, böbrek kan akımı azalır, konsantrasyon yeteneği bozulur. Böbrek boyutları BÜYÜMEZ."},
-
-  {id:"dg6",section:"Diğer Sorular",year:"Sonbahar 2012",
-   question:"Zehirlenme tedavisiyle ilgili aşağıdaki toksik madde-antidot eşleştirmelerinden hangisi uygun <b>değildir</b>?",
-   options:["Cıva - Dimerkaprol","Heparin - Protamin sülfat","Asetaminofen - N-Asetil sistein","Bakır - Deferoksamin","Kurşun - Kalsiyum disodyum EDTA"],
-   answer:"D",
-   hint:"Bakır zehirlenmesinin antidotu Penisilamindir; Deferoksamin demire özgüdür.",
-   trap:"Deferoksamin demir intoksikasyonunda kullanılır. Bakır şelatörü olarak penisilamın kullanılır.",
-   explanation:"Bakır zehirlenmesi (Wilson hastalığı dahil) → Penisilamın. Deferoksamin → demir intoksikasyonu. Cıva → Dimerkaprol. Asetaminofen → N-Asetil sistein. Kurşun → EDTA. D eşleştirmesi yanlıştır."},
-
-  {id:"dg7",section:"Diğer Sorular",year:"Sonbahar 2012",
-   question:"Aşağıdakilerden hangisi rabdomiyoliz nedenleri arasında <b>değildir</b>?",
-   options:["Malign hipertermi","Elektrik çarpması","Hiperalbüminemi","Yanıklar","Ağır egzersiz"],
-   answer:"C",
-   hint:"Hiperalbüminemi rabdomiyoliz nedeni değildir.",
-   trap:"Malign hipertermi, elektrik çarpması, yanıklar ve ağır egzersiz kas hasarına yol açarak rabdomiyolize neden olabilir.",
-   explanation:"Rabdomiyoliz nedenleri: ezilme hasarı, elektrik çarpması, yanıklar, malign hipertermi, ağır egzersiz, genetik enzim defektleri, ilaçlar vb. Hiperalbüminemi kas hasarıyla ilişkili değildir."},
-
-  {id:"dg8",section:"Diğer Sorular",year:"İlkbahar 2012",
-   question:"Rotavirus enfeksiyonlarının en sık görüldüğü yaş grubu aşağıdakilerden hangisidir?",
-   options:["4 aydan küçük olanlar","6 ay ile 2 yaş arasında olanlar","2 yaş ile 4 yaş arasında olanlar","5 yaş ile 7 yaş arasında olanlar","8 yaşından büyük olanlar"],
-   answer:"B",
-   hint:"Rotavirüs en sık 6 ay - 2 yaş arası bebeklerde görülür.",
-   trap:"4 aydan küçük bebeklerde anne sütü koruyucudur. En sık yaş grubu 6 ay - 2 yaş arasıdır.",
-   explanation:"Rotavirüs 6 ay-2 yaş arası bebeklerde gelişir ve çoğunlukla hastane bakımı gerektiren ishallerin %50'sinden sorumludur. Bu grupta semptomlar daha ağırdır."},
-
-  {id:"dg9",section:"Temel Sağlık Hizmetleri",year:"İlkbahar 2006",
-   question:"Dünya Sağlık Örgütü (WHO) ve Birleşmiş Milletler Uluslararası Çocuk Fonu'nun (UNICEF) 1978'de birlikte yayımladığı Alma Ata Bildirgesine göre, bir faaliyetler bütününü temel sağlık hizmetleri içerisindeki Minimal Bakım kavramı aşağıdakilerden hangisini <b>kapsamaz</b>?",
-   options:["Halkın sağlık eğitimi","Beslenme durumunun geliştirilmesi","Temiz su sağlanması ve sanitasyon","Ana-çocuk sağlığı ve aile planlaması","Hava kirliliğinin önlenmesi"],
-   answer:"E",
-   hint:"Alma Ata 8 faaliyet içinde 'hava kirliliği' yoktur.",
-   trap:"Hava kirliliğinin önlenmesi Alma Ata bildirgesi kapsamındaki 8 temel faaliyetten değildir.",
-   explanation:"Alma Ata'nın 8 temel faaliyeti: halkın sağlık eğitimi, beslenme, temiz su ve sanitasyon, ana-çocuk sağlığı ve aile planlaması, başlıca bulaşıcı hastalıklara karşı bağışıklama, endemik hastalıkların kontrolü, sık görülen hastalıklar ve yaralanmaların uygun tedavisi, temel ilaçların sağlanması. Hava kirliliği bu listede yer almaz."},
-
-  {id:"tsh10",section:"Temel Sağlık Hizmetleri",year:"İlkbahar 2009",
-   question:"1978 yılında Kazakistan'ın başkenti Alma Ata'da hazırlanan Temel Sağlık Hizmetleri bildirgesi 8 faaliyet belirlemiş ve tüm ülkeler için bu faaliyetleri yapma zorunluluğu getirilmiştir.<br><br><b>Buna göre, aşağıdakilerden hangisi bu faaliyetler içerisinde yer almaz?</b> (İlkbahar 2009)",
-   options:["Beslenme durumunun geliştirilmesi","Ana-çocuk sağlığı ve aile planlaması","Temel ilaçların sağlanması","Sık görülen hastalıkların uygun tedavisi","Hava kirliliğinin önlenmesi"],
-   answer:"E",
-   hint:"Alma Ata 8 faaliyetinde hava kirliliği yoktur.",
-   trap:"Temel ilaçların sağlanması, beslenme, ana-çocuk sağlığı, sık görülen hastalıkların tedavisi faaliyetler arasındadır; hava kirliliği yoktur.",
-   explanation:"Alma Ata Bildirgesindeki 8 temel faaliyet: sağlık eğitimi, beslenme, temiz su/sanitasyon, ana-çocuk sağlığı ve aile planlaması, bağışıklama, endemik hastalık kontrolü, yaygın hastalıkların tedavisi, temel ilaçlar. Hava kirliliğinin önlenmesi bu 8 faaliyet arasında yer almaz."},
-
-  {id:"tsh11",section:"Temel Sağlık Hizmetleri",year:"İlkbahar 2008",
-   question:"Afetlerde günde kişi başına ortalama kaç litre su sağlanmalıdır?",
-   options:["10","20","30","40","50"],
-   answer:"B",
-   hint:"Afet sırasında kişi başı ortalama su miktarı 20 litredir.",
-   trap:"Normal koşullarda çok daha fazla su gerekir; afet koşullarında asgari 20 litre/gün/kişi hedeflenir.",
-   explanation:"Afet sırasında: kişi başı ortalama su miktarı 20 litre/gün. Tuvalet ihtiyacı için her 20 kişi için 1 tuvalet. Barınma için kişi başına 30 m² alan gerekir."},
-
-  {id:"tsh12",section:"Temel Sağlık Hizmetleri",year:"Sonbahar 2008",
-   question:"Aşağıdaki hastalıklardan hangisinin endemik olduğu bir ülkeye girişte, seyahat eden kişilerden uluslararası geçerli aşı sertifikası istenir?",
-   options:["Sıtma","Sarı humma","Kolera","Turist diyaresi","Kuş gribi"],
-   answer:"B",
-   hint:"Uluslararası zorunlu aşı olarak bugün yalnızca sarı humma aşısı geçerlidir.",
-   trap:"Kolera aşı sertifikası artık zorunlu değildir. Sarı humma tek zorunlu uluslararası aşıdır.",
-   explanation:"Uluslararası Sağlık Tüzüğü kapsamında günümüzde zorunlu uluslararası aşı yalnızca sarı hummadır. Sarı humma aşısı yapıldıktan 10 gün sonra geçerlilik kazanır ve 10 yıl boyunca geçerli sayılır."},
-
-  {id:"tsh13",section:"Temel Sağlık Hizmetleri",year:"Sonbahar 2006",
-   question:"Ozon tabakasını inceltmeye neden olan gaz aşağıdakilerden hangisidir?",
-   options:["Karbondioksit","Karbonmonoksit","Kükürt dioksit","Kloroflorokarbonlar","Azot oksitler"],
-   answer:"D",
-   hint:"Ozon tabakasını inceltmenin başlıca nedeni kloroflorokarbonlardır (CFC).",
-   trap:"Karbondioksit sera gazıdır; ozon delgisi yapan başlıca etken kloroflorokarbonlardır.",
-   explanation:"Ozon tabakasını inceltmeye yol açan maddelerin başında kloroflorokarbonlar (CFC), halonlar, karbontetraklorid, metilkloroform ve metil bromür gelir."},
-
-  {id:"tsh14",section:"Temel Sağlık Hizmetleri",year:"İlkbahar 2005",
-   question:"Bir yılda canlı doğum sayısının ortalama 50 olduğu bir sağlık ocağında yıllık çocuk felci aşısı fire hariç kaç dozdur?",
-   options:["50","100","150","200","250"],
-   answer:"C",
-   hint:"Çocuk felci aşısı 2, 4, 6. aylarda üç kez; 16-18. ayda bir kez rapel. 50 doğum × 3 = 150.",
-   trap:"Fire payı sorusu değil; fire HARİÇ sorulmaktadır. Yıllık doğum 50 × 3 doz = 150.",
-   explanation:"Çocuk felci aşısı (OPV) takvimi: 2, 4 ve 6. aylarda üç doz primer seri. 50 canlı doğum × 3 = 150 doz. 16-18. ay rapeliyle birlikte toplam 200 olurdu, ancak soru primer seri için yıllık dozu soruyor."},
-
-  {id:"tsh15",section:"Temel Sağlık Hizmetleri",year:"Sonbahar 2004",
-   question:"Aşağıdakilerden hangisi kurşun zehirlenmesinde gözlenen bulgulardan biri <b>değildir</b>?",
-   options:["Anemi","Diş etlerinde Burton çizgisi","Eritrositlerde bazofilik noktalanma","Pulmoner ödem","Periferal motor nöropati"],
-   answer:"D",
-   hint:"Pulmoner ödem kurşun zehirlenmesinde görülmez.",
-   trap:"Anemi, Burton çizgisi, bazofilik noktalanma, motor nöropati kurşun zehirlenmesinin klasik bulgularıdır. Pulmoner ödem görülmez.",
-   explanation:"Kurşun zehirlenmesinde: mikrositik hemolitik anemi, diş etlerinde Burton çizgisi, eritrositlerde bazofilik noktalanma, periferal motor nöropati görülür. Pulmoner ödem kurşun zehirlenmesinin bulgusu değildir."},
-
-  {id:"tsh16",section:"Temel Sağlık Hizmetleri",year:"Sonbahar 97",
-   question:"Kronik benzene maruz kalmada en belirgin değişiklik hangi organda olur?",
-   options:["Sindirim","Solunum","Dolaşım","Hematopoetik","Sinir sistemi"],
-   answer:"D",
-   hint:"Kronik benzen maruziyetinin en belirgin etkisi kemik iliğidir (hematopoetik sistem).",
-   trap:"Akut benzen toksisitesi sinir sistemini etkiler; kronik maruziyet hematopoetik sistemi (aplastik anemi) etkiler.",
-   explanation:"Kronik benzene maruz kalan kişilerde multipl hematolojik anomaliler gelişir; aplastik anemi bunların başında gelir. Benzenin neden olduğu kemik iliği toksisitesi geri dönebilir, ancak makrositoz gibi hafif anomaliler sürebilir."},
-
-  {id:"tsh17",section:"Temel Sağlık Hizmetleri",year:"",
-   question:"Hava kirliliğinde insan için en tehlikeli bileşim hangisidir?",
-   options:["Kükürt dioksit","Karbon monoksit","Karbon dioksit","Amonyum","Kurşun"],
-   answer:"A",
-   hint:"Kirli havanın içerdiği maddeler arasında insan yaşamını tehdit eden en önemli bileşim kükürt dioksitidir.",
-   trap:"Karbon monoksit de tehlikelidir; ancak hava kirliliğinde genel toplum sağlığı için en tehlikeli bileşim kükürt dioksitidir.",
-   explanation:"Kirli havanın içerdiği maddeler: kükürt dioksit, nitrojen oksitleri, hidrokarbonlar, kurşun, ozon, karbonmonoksit. Bunlar arasında insan yaşamını tehdit eden en önemli bileşim kükürt dioksitidir."},
-
-  {id:"tsh18",section:"Temel Sağlık Hizmetleri",year:"İlkbahar 2004",
-   question:"Aşağıdaki tabloda bir iş yerinde odyometrik tarama muayenesi sonucunda işitme kaybı saptanma yüzdeleri, ortamdaki gürültü düzeyi ve çalışma süresine göre verilmiştir.<br><br>Çalışma Süresi / 80 dBA / 90 dBA / 100 dBA<br>&lt;1 yıl: 0 / 0 / 3<br>1-5 yıl: 0 / 2 / 10<br>6-10 yıl: 0 / 8 / 18<br>11-19 yıl: 0 / 15 / 35<br>&gt;20 yıl: 0 / 25 / 55<br><br><b>Tablodaki bilgilere dayanarak aşağıdaki yargılardan hangisine ulaşılamaz?</b> (İlkbahar 2004)",
-   options:["Gürültüye bağlı işitme kaybı meydana gelmesi için gürültülü ortamda en az 5 yıldır çalışıyor olmak gerekir.","Gürültülü ortamda çalışma süresi arttıkça işitme kaybı olanların yüzdesi artmaktadır.","Ortamdaki ses basıncı düzeyi arttıkça işitme kaybı olanların yüzdesi artmaktadır.","Gürültü ve işitme kaybı arasında doz-cevap ilişkisi vardır.","Ses basıncı 80 DBA olduğu bölümlerde çalışanlarda işitme kaybı görülmemiştir."],
-   answer:"A",
-   hint:"Tabloda 100 dBA'da 1 yıldan az çalışanlarda bile %3 işitme kaybı var; dolayısıyla '5 yıl gerekir' iddiası yanlış.",
-   trap:"100 DBA'da 1 yıldan az çalışanlarda %3 işitme kaybı görülmüştür → 5 yıl şartı geçersiz. A yargısına ulaşılamaz.",
-   explanation:"Tablodan görüldüğü gibi 100 dBA'da 1 yıldan az çalışan grubunda dahi %3 işitme kaybı saptanmıştır. Dolayısıyla 'en az 5 yıl gerekir' yargısına tablodan ulaşılamaz; A yanlış yargıdır."},
-
-  {id:"tsh19",section:"Temel Sağlık Hizmetleri",year:"Sonbahar 92",
-   question:"İçme ve kullanma suyu dezenfeksiyonunda hangisi kullanılmaz?",
-   options:["Flor","Klor","İyot","Ozon","Potasyum permanganat"],
-   answer:"A",
-   hint:"Florür dezenfeksiyon değil diş çürümesini önlemek amacıyla kullanılır.",
-   trap:"Klor, iyot, ozon, potasyum permanganat su dezenfeksiyonunda kullanılır. Flor dezenfektan değil, diş sağlığı amaçlıdır.",
-   explanation:"Su dezenfeksiyonunda kullanılan maddeler: klor, iyot, kloraminler, klordioksit, çamaşır suyu, kireç kaymağı, potasyum permanganat, ozon ve ultraviyole. Flor suya eklenmesi diş çürüğünü önlemeye yönelik olup dezenfeksiyon amacı taşımaz."},
-
-  {id:"tsh20",section:"Temel Sağlık Hizmetleri",year:"İlkbahar 89",
-   question:"Halsizlik, yorgunluk, ağızda metalik tat, kabızlık, karın ağrısı gibi yakınmaları olan bir hastanın hemoglobin düzeyi 9 g/dl bulunuyor. Bu kişinin mesleği en büyük olasılıkla aşağıdakilerden hangisidir?",
-   options:["Ayakkabı yapımcısı","Kaynakçı","Akümülatör yapımcısı","Dokuma işçisi","Kömür madeni işçisi"],
-   answer:"C",
-   hint:"Akümülatör sanayisinde kurşun maruziyeti yaygındır; belirtiler kurşun zehirlenmesiyle uyumludur.",
-   trap:"Kaynakçılar mangan/kadmiyum, dokuma işçileri bisinozis, kömür madencileri pnömokonyoz riski taşır. Bu bulgular kurşunu işaret eder.",
-   explanation:"Ağızda metalik tat, karın ağrısı, anemi (Hb:9) kombinasyonu kurşun entoksikasyonunu düşündürür. Akü sanayisinde çalışanlarda kurşun maruziyeti yüksektir."},
-
-  {id:"tsh21",section:"Temel Sağlık Hizmetleri",year:"Sonbahar 96",
-   question:"Akümülatör sanayisinde çalışan; karın ağrısı, ağızda metalik bir tat olan hastada hangi metal toksisitesinden şüphelenilmelidir?",
-   options:["Cıva","Asbest","Selenyum","Bakır","Kurşun"],
-   answer:"E",
-   hint:"Akümülatör (akü) sanayisinde kurşun maruziyeti kaçınılmazdır.",
-   trap:"Asbest plevral hastalık yapar; cıva nörolojik bulgular verir; kurşun GI ve hematolojik bulgular verir.",
-   explanation:"Akümülatör (akü) üretiminde kurşun yoğun biçimde kullanılır. Karın ağrısı ve ağızda metalik tat kurşun entoksikasyonunun karakteristik bulgularıdır."},
-
-  {id:"tsh22",section:"Temel Sağlık Hizmetleri",year:"Sonbahar 94",
-   question:"Bisinozis hangi meslek dalında çalışanlarda görülür?",
-   options:["Akümülatör","Maden","Boya","Tekstil","Çiftçi"],
-   answer:"D",
-   hint:"Bisinozis pamuk tozuna maruziyetten kaynaklanır → tekstil/pamuk işçilerinde görülür.",
-   trap:"Maden işçilerinde pnömokonyoz, akümülatör işçilerinde kurşun toksisitesi görülür; bisinozis tekstil sektörüne özgüdür.",
-   explanation:"Bisinozis: pamuk işçilerinde ve tekstil sanayisinde çalışanlarda pamuk tozunun protein fraksiyonuna karşı oluşan bir reaksiyon sonucu ortaya çıkan mesleki akciğer hastalığıdır."},
-
-  {id:"tsh23",section:"Temel Sağlık Hizmetleri",year:"Sonbahar 90",
-   question:"Bölgesinde 200 yenidoğan bebeği olan bir sağlık ocağı, bu 200 bebeği, difteri-boğmaca-tetanoz hastalıklarına karşı bağışıklamak amacı ile sağlık müdürlüğünden bir yıl için ne kadar karma aşı dozu istemelidir?",
-   options:["200 doz+%10=220","(200x2)+%10=440","(200x3)+%10=660","(200x4)+%10=880","200 doz+%20=240"],
-   answer:"C",
-   hint:"DBT aşısı 1 yaşına kadar 3 doz. 200 bebek × 3 = 600 doz + %10 fire = 660.",
-   trap:"%20 fire değil %10 fire uygulanır. Rapel dahil 4 doz istenirse 880 olurdu; 1 yaş içinde primer 3 doz için 660.",
-   explanation:"BCG doğar doğmaz, DBT ve Polio 2, 4, 6. aylarda rapeli 1 yıl sonra yapılır. 1 yaşındaki çocukta 3 kez DBT yapılacağı için 600 aşı istenir. Buna %10 fire payı ilave edilir: 660 eder."}
+{num:15,section:"⚕️ FİZYOLOJİ – Gİ HORMONLAR",
+text:"Duodenal asit yüküne yanıt olarak S hücrelerinden salgılanan, pankreastan bikarbonatça zengin sıvı salgısını uyaran ve mide asidini inhibe eden hormon hangisidir?",
+options:{A:"Gastrin",B:"Sekretin",C:"Somatostatin",D:"Motilin",E:"GIP"},
+correct:"B",
+hint:"'S' hücresi + 'sekretin' kelimesi arasındaki bağ kolayca hatırlanır. Duodenal asidi nötralize etmek için pankreastan ne salgılanmalı?",
+trap:"Gastrin mide asidini artırır; GIP insülin salgısını uyarır; Somatostatin çoğu hormonu inhibe eder; Motilin migrasyon motor kompleksini düzenler. Bikarbonat = Sekretin.",
+explain:"Sekretin, duodenum ve jejunumun S hücrelerinden; duodenal lümene asit (pH<4.5) girişine yanıt olarak salgılanır. Pankreastan su ve bikarbonat açısından zengin sıvı salgısını uyarır (enzimatik salgıyı değil). Aynı zamanda mide asit salgısını ve gastrik motiliteyi inhibe eder. Brunner bezi salgısını da artırarak duodenal mukozayı korur."}
 ];
 
-let questions=[...ALL_QUESTIONS];
-let currentIdx=0;
-let answers={};
-let starred=new Set();
+let idx=0,filteredQ=[...ALL_QUESTIONS];
+let answered=new Map(),correctSet=new Set(),wrongSet=new Set(),starred=new Set();
+
+function escH(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+function renderQuestion(){
+  const q=filteredQ[idx];
+  document.getElementById('sect-label').textContent=q.section||'GÜN 2';
+  document.getElementById('q-num').textContent='Soru '+(idx+1)+'/'+filteredQ.length;
+  document.getElementById('star-btn').textContent=starred.has(idx)?'★':'☆';
+  document.getElementById('q-text').textContent=q.text;
+  const optsEl=document.getElementById('options');
+  optsEl.innerHTML='';
+  Object.entries(q.options).forEach(function(e){
+    const btn=document.createElement('button');btn.className='opt-btn';
+    const s1=document.createElement('span');s1.className='opt-letter';s1.textContent=e[0];
+    const s2=document.createElement('span');s2.textContent=e[1];
+    btn.appendChild(s1);btn.appendChild(s2);
+    btn.onclick=function(){selectAnswer(e[0],idx,q);};
+    optsEl.appendChild(btn);
+  });
+  const hb=document.getElementById('hint-box');
+  hb.style.display='none';hb.textContent='';
+  document.getElementById('hint-btn').textContent='🔒 İpucu';
+  document.getElementById('feedback').classList.remove('open');
+  document.getElementById('answer-text').innerHTML='';
+  document.getElementById('trap-text').textContent='';
+  document.getElementById('explain-text').textContent='';
+  updateNavBtns();updateProgress();updateCounter();
+  if(answered.has(idx))restoreAnswerUI(idx,q);
+}
+
 let hintOpen=false;
-
-function render(){
-  const q=questions[currentIdx];
-  document.getElementById('q-num').textContent=`Soru ${currentIdx+1} / ${questions.length}`;
-  document.getElementById('q-counter').textContent=`${currentIdx+1}/${questions.length} ☰`;
-  document.getElementById('section-label').textContent=q.section.toUpperCase();
-  document.getElementById('q-text').innerHTML=q.question;
-  const yt=document.getElementById('year-tags');
-  yt.innerHTML=q.year?`<span class="year-tag">${q.year}</span>`:'';
-  document.getElementById('hint-box').innerHTML=q.hint;
-  document.getElementById('hint-box').classList.remove('open');
-  hintOpen=false;
-  document.getElementById('trap-text').innerHTML=q.trap;
-  document.getElementById('explain-text').innerHTML=q.explanation;
-  const sb=document.getElementById('star-btn');
-  sb.textContent=starred.has(q.id)?'★':'☆';
-  sb.classList.toggle('active',starred.has(q.id));
-  const opts=document.getElementById('options');
-  opts.innerHTML='';
-  const letters=['A','B','C','D','E'];
-  q.options.forEach((opt,i)=>{
-    const btn=document.createElement('button');
-    btn.className='opt-btn';
-    btn.innerHTML=`<span class="opt-letter">${letters[i]}</span><span>${opt}</span>`;
-    if(answers[q.id]!==undefined){
-      btn.disabled=true;
-      if(letters[i]===q.answer)btn.classList.add('correct');
-      else if(letters[i]===answers[q.id])btn.classList.add('wrong');
-    }else{btn.onclick=()=>selectAnswer(letters[i]);}
-    opts.appendChild(btn);
-  });
-  document.getElementById('feedback').classList.toggle('open',answers[q.id]!==undefined);
-  const done=Object.keys(answers).length;
-  document.getElementById('prog').style.width=(done/questions.length*100)+'%';
+function toggleHint(){
+  const q=filteredQ[idx];
+  const hb=document.getElementById('hint-box');
+  if(hintOpen){hb.style.display='none';hintOpen=false;document.getElementById('hint-btn').textContent='🔒 İpucu';return;}
+  hintOpen=true;hb.style.display='block';hb.textContent=q.hint||'';
+  document.getElementById('hint-btn').textContent='🔓 İpucu Kapat';
 }
 
-function selectAnswer(letter){
-  const q=questions[currentIdx];
-  if(answers[q.id]!==undefined)return;
-  answers[q.id]=letter;
-  render();
-  setTimeout(()=>{document.getElementById('feedback').scrollIntoView({behavior:'smooth',block:'nearest'});},200);
-}
-function toggleHint(){hintOpen=!hintOpen;document.getElementById('hint-box').classList.toggle('open',hintOpen);}
-function toggleStar(){const q=questions[currentIdx];if(starred.has(q.id))starred.delete(q.id);else starred.add(q.id);render();}
-function navigate(dir){
-  const next=currentIdx+dir;
-  if(next<0)return;
-  if(next>=questions.length){showResult();return;}
-  currentIdx=next;render();window.scrollTo({top:0,behavior:'smooth'});
-}
-function showResult(){
-  document.getElementById('quiz-area').style.display='none';
-  document.querySelector('.nav').style.display='none';
-  document.getElementById('result-screen').style.display='block';
-  let correct=0,wrong=0;
-  questions.forEach(q=>{
-    if(answers[q.id]===q.answer)correct++;
-    else if(answers[q.id]!==undefined)wrong++;
+function selectAnswer(letter,gi,q){
+  if(answered.has(gi))return;
+  answered.set(gi,letter);
+  const isCorrect=(letter===q.correct);
+  if(isCorrect)correctSet.add(gi);else wrongSet.add(gi);
+  document.querySelectorAll('.opt-btn').forEach(function(btn){
+    btn.disabled=true;
+    const l=btn.querySelector('.opt-letter').textContent;
+    if(l===q.correct)btn.classList.add('correct');
+    else if(l===letter&&!isCorrect)btn.classList.add('wrong');
   });
-  document.getElementById('score-pct').textContent=Math.round(correct/questions.length*100)+'%';
-  document.getElementById('r-correct').textContent=correct;
-  document.getElementById('r-wrong').textContent=wrong;
-  document.getElementById('r-starred').textContent=starred.size;
+  const correctOpt=q.options[q.correct]||'';
+  document.getElementById('answer-text').innerHTML=isCorrect
+    ?'<strong style="color:var(--green)">✓ Doğru!</strong> '+q.correct+') '+escH(correctOpt)
+    :'<strong style="color:var(--red)">✗ Yanlış.</strong> Doğru: <strong>'+q.correct+')</strong> '+escH(correctOpt);
+  document.getElementById('trap-text').textContent=q.trap||'';
+  document.getElementById('explain-text').textContent=q.explain||'';
+  document.getElementById('feedback').classList.add('open');
+  updateNavBtns();updateProgress();updateCounter();
+  setTimeout(function(){document.getElementById('feedback').scrollIntoView({behavior:'smooth',block:'nearest'});},80);
 }
-function restartAll(){questions=[...ALL_QUESTIONS];currentIdx=0;answers={};document.getElementById('quiz-area').style.display='block';document.querySelector('.nav').style.display='flex';document.getElementById('result-screen').style.display='none';render();}
-function retryWrong(){const w=ALL_QUESTIONS.filter(q=>answers[q.id]&&answers[q.id]!==q.answer);if(!w.length){alert('Yanlış cevabınız yok!');return;}questions=w;currentIdx=0;answers={};document.getElementById('quiz-area').style.display='block';document.querySelector('.nav').style.display='flex';document.getElementById('result-screen').style.display='none';render();}
-function retryStar(){const s=ALL_QUESTIONS.filter(q=>starred.has(q.id));if(!s.length){alert('Yıldızlı soru yok!');return;}questions=s;currentIdx=0;answers={};document.getElementById('quiz-area').style.display='block';document.querySelector('.nav').style.display='flex';document.getElementById('result-screen').style.display='none';render();}
-function openModal(){
+
+function restoreAnswerUI(gi,q){
+  const chosen=answered.get(gi);
+  document.querySelectorAll('.opt-btn').forEach(function(btn){
+    btn.disabled=true;
+    const l=btn.querySelector('.opt-letter').textContent;
+    if(l===q.correct)btn.classList.add('correct');
+    else if(l===chosen&&chosen!==q.correct)btn.classList.add('wrong');
+  });
+  const correctOpt=q.options[q.correct]||'';
+  const isCorrect=chosen===q.correct;
+  document.getElementById('answer-text').innerHTML=isCorrect
+    ?'<strong style="color:var(--green)">✓ Doğru!</strong> '+q.correct+') '+escH(correctOpt)
+    :'<strong style="color:var(--red)">✗ Yanlış.</strong> Doğru: <strong>'+q.correct+')</strong> '+escH(correctOpt);
+  document.getElementById('trap-text').textContent=q.trap||'';
+  document.getElementById('explain-text').textContent=q.explain||'';
+  document.getElementById('feedback').classList.add('open');
+}
+
+function toggleStar(){
+  if(starred.has(idx))starred.delete(idx);else starred.add(idx);
+  document.getElementById('star-btn').textContent=starred.has(idx)?'★':'☆';
+}
+function toggleQuestionList(){
+  const ov=document.getElementById('modal-overlay');
+  if(!ov.classList.contains('open')){buildGrid();ov.classList.add('open');}else ov.classList.remove('open');
+}
+function closeModalOnOverlay(e){if(e.target===document.getElementById('modal-overlay'))toggleQuestionList();}
+function buildGrid(){
   const grid=document.getElementById('q-grid');grid.innerHTML='';
-  questions.forEach((q,i)=>{
-    const btn=document.createElement('button');btn.className='q-grid-btn';btn.textContent=i+1;
-    if(i===currentIdx)btn.classList.add('current');
-    else if(answers[q.id]===q.answer)btn.classList.add('answered-correct');
-    else if(answers[q.id])btn.classList.add('answered-wrong');
-    if(starred.has(q.id))btn.classList.add('starred');
-    btn.onclick=()=>{currentIdx=i;render();closeModal();window.scrollTo({top:0,behavior:'smooth'});};
+  filteredQ.forEach(function(_,i){
+    const btn=document.createElement('button');btn.className='q-grid-btn';btn.textContent=String(i+1);
+    if(i===idx)btn.classList.add('current');
+    if(correctSet.has(i))btn.classList.add('done-correct');
+    if(wrongSet.has(i))btn.classList.add('done-wrong');
+    if(starred.has(i))btn.classList.add('starred-q');
+    btn.onclick=function(){idx=i;renderQuestion();toggleQuestionList();window.scrollTo({top:0,behavior:'smooth'});};
     grid.appendChild(btn);
   });
-  document.getElementById('modal-overlay').classList.add('open');
 }
-function closeModal(e){if(!e||e.target===document.getElementById('modal-overlay'))document.getElementById('modal-overlay').classList.remove('open');}
-render();
+function navigate(dir){idx=Math.max(0,Math.min(filteredQ.length-1,idx+dir));renderQuestion();window.scrollTo({top:0,behavior:'smooth'});}
+function updateNavBtns(){
+  document.getElementById('prev-btn').disabled=(idx===0);
+  const next=document.getElementById('next-btn');
+  const isLast=idx===filteredQ.length-1;
+  if(isLast&&answered.has(idx)){next.textContent='Sonuçları Gör →';next.classList.add('finish');next.onclick=showResult;}
+  else{next.textContent='Sonraki →';next.classList.remove('finish');next.onclick=function(){navigate(1);};next.disabled=false;}
+}
+function updateProgress(){document.getElementById('prog-bar').style.width=(answered.size/filteredQ.length*100)+'%';}
+function updateCounter(){document.getElementById('q-counter').textContent=(idx+1)+' / '+filteredQ.length+' ☰';}
+function showResult(){
+  document.getElementById('quiz-card').style.display='none';
+  document.getElementById('nav-bar').style.display='none';
+  document.getElementById('result-screen').style.display='block';
+  const total=filteredQ.length,pct=Math.round(correctSet.size/total*100);
+  const col=pct>=70?'var(--green)':pct>=50?'#f59e0b':'var(--red)';
+  document.getElementById('res-pct').style.color=col;
+  document.getElementById('res-pct').textContent=pct+'%';
+  document.getElementById('res-correct').textContent=correctSet.size;
+  document.getElementById('res-wrong').textContent=wrongSet.size;
+  document.getElementById('res-star').textContent=starred.size;
+  document.getElementById('retry-wrong-btn').style.display=wrongSet.size?'block':'none';
+  document.getElementById('retry-star-btn').style.display=starred.size?'block':'none';
+}
+function restartQuiz(){
+  answered.clear();correctSet.clear();wrongSet.clear();starred.clear();filteredQ=[...ALL_QUESTIONS];idx=0;
+  document.getElementById('quiz-card').style.display='block';
+  document.getElementById('nav-bar').style.display='flex';
+  document.getElementById('result-screen').style.display='none';
+  renderQuestion();
+}
+function retryWrong(){
+  const wi=[...wrongSet],wq=filteredQ.filter(function(_,i){return wi.includes(i);});
+  if(!wq.length)return;
+  answered.clear();correctSet.clear();wrongSet.clear();filteredQ=wq;idx=0;
+  document.getElementById('quiz-card').style.display='block';
+  document.getElementById('nav-bar').style.display='flex';
+  document.getElementById('result-screen').style.display='none';
+  renderQuestion();
+}
+function retryStar(){
+  const si=[...starred],sq=filteredQ.filter(function(_,i){return si.includes(i);});
+  if(!sq.length)return;
+  answered.clear();correctSet.clear();wrongSet.clear();starred.clear();filteredQ=sq;idx=0;
+  document.getElementById('quiz-card').style.display='block';
+  document.getElementById('nav-bar').style.display='flex';
+  document.getElementById('result-screen').style.display='none';
+  renderQuestion();
+}
+renderQuestion();
 </script>
 </body>
 </html>

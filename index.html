@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ANESTEZİ & ACİL TIP – TUS Soru Bankası | 148 Soru</title>
+<title>ANESTEZİ & ACİL TIP – Orijinal TUS Soruları | 110 Soru</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -13,29 +13,22 @@
   --red:#f0476d;--text:#dde3f5;--muted:#7b85a8;
 }
 body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding-bottom:90px;}
-
-/* PROGRESS */
 .progress-wrap{position:fixed;top:0;left:0;width:100%;height:3px;background:var(--border);z-index:999;}
 .progress-bar{height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%;transition:width .3s;}
-
-/* HEADER */
 .header{padding:28px 20px 16px;text-align:center;}
 .section-badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:var(--accent2);letter-spacing:2px;text-transform:uppercase;border:1px solid var(--accent2);border-radius:4px;padding:3px 10px;margin-bottom:10px;}
 .header h1{font-family:'IBM Plex Mono',monospace;font-size:20px;color:var(--text);font-weight:700;}
 .header-sub{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-top:4px;}
-.stats-bar{display:flex;justify-content:center;gap:16px;margin-top:14px;flex-wrap:wrap;}
+.original-badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10px;background:rgba(62,207,116,.12);color:var(--green);border:1px solid rgba(62,207,116,.3);border-radius:4px;padding:2px 10px;margin-top:6px;}
+.stats-bar{display:flex;justify-content:center;gap:14px;margin-top:14px;flex-wrap:wrap;}
 .stat-pill{font-family:'IBM Plex Mono',monospace;font-size:11px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:4px 14px;color:var(--muted);}
 .stat-pill span{color:var(--text);font-weight:700;}
-
-/* FILTER */
 .filter-bar{display:flex;justify-content:center;gap:8px;padding:0 20px 16px;flex-wrap:wrap;}
 .filter-btn{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 14px;border-radius:20px;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;transition:all .15s;}
 .filter-btn:hover{border-color:var(--accent);color:var(--accent);}
 .filter-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
 .filter-btn.active-wrong{background:var(--red);border-color:var(--red);color:#fff;}
 .filter-btn.active-star{background:var(--gold);border-color:var(--gold);color:#000;}
-
-/* CARD */
 .card{background:var(--card);border:1px solid var(--border);border-radius:12px;margin:0 auto 12px;max-width:780px;padding:22px 22px 18px;display:none;}
 .card.active{display:block;}
 .q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
@@ -44,6 +37,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 .star-btn:hover{transform:scale(1.2);}
 .year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
 .year-tag{font-family:'IBM Plex Mono',monospace;font-size:10px;background:rgba(91,141,238,.12);color:var(--accent);border:1px solid rgba(91,141,238,.3);border-radius:4px;padding:2px 8px;}
+.orig-tag{background:rgba(62,207,116,.1);color:var(--green);border-color:rgba(62,207,116,.3);}
 .q-text{font-size:15px;line-height:1.7;color:var(--text);margin-bottom:16px;}
 .hint-toggle{background:rgba(91,141,238,.1);border:1px solid rgba(91,141,238,.25);border-radius:6px;color:var(--accent);font-size:13px;padding:6px 14px;cursor:pointer;margin-bottom:12px;font-family:'IBM Plex Mono',monospace;}
 .hint-toggle:hover{background:rgba(91,141,238,.18);}
@@ -66,16 +60,12 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 .explain-box{background:rgba(91,141,238,.07);border:1px solid rgba(91,141,238,.2);border-radius:8px;padding:12px 14px;}
 .explain-title{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:var(--accent);letter-spacing:1px;margin-bottom:5px;}
 .explain-text{font-size:13px;color:var(--text);line-height:1.6;}
-
-/* NAV */
 .nav{position:fixed;bottom:0;left:0;width:100%;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:10px 16px;z-index:100;gap:8px;}
 .nav-btn{background:var(--card);border:1px solid var(--border);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:13px;padding:8px 16px;border-radius:7px;cursor:pointer;transition:border-color .15s;white-space:nowrap;}
 .nav-btn:hover{border-color:var(--accent);}
 .nav-btn:disabled{opacity:.35;cursor:default;}
 #q-counter{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);cursor:pointer;padding:6px 10px;border-radius:6px;border:1px solid var(--border);background:var(--card);white-space:nowrap;}
 #q-counter:hover{border-color:var(--accent);}
-
-/* MODAL */
 .q-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;align-items:flex-end;}
 .q-modal-overlay.open{display:flex;}
 .q-modal{background:var(--surface);border-top:1px solid var(--border);border-radius:16px 16px 0 0;width:100%;max-height:75vh;overflow-y:auto;padding:20px;}
@@ -88,8 +78,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 .q-grid-btn.q-starred{border-color:var(--gold);}
 .q-grid-btn.current-q{outline:2px solid var(--accent2);outline-offset:1px;}
 .modal-close{display:block;width:100%;margin-top:14px;padding:10px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:13px;cursor:pointer;}
-
-/* RESULT */
 #result-screen{display:none;max-width:560px;margin:50px auto 90px;padding:0 20px;text-align:center;}
 .result-score{font-family:'IBM Plex Mono',monospace;font-size:72px;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
 .result-label{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);margin:8px 0 24px;}
@@ -106,12 +94,9 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 .res-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;}
 .res-btn.secondary{background:transparent;border-color:var(--red);color:var(--red);}
 .res-btn.tertiary{background:transparent;border-color:var(--gold);color:var(--gold);}
-
-/* responsive */
 @media(max-width:480px){
   .result-score{font-size:54px;}
   .q-grid{grid-template-columns:repeat(5,1fr);}
-  .filter-bar{gap:6px;}
   .filter-btn{font-size:10px;padding:4px 10px;}
 }
 </style>
@@ -122,13 +107,14 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 
 <div class="header">
   <div class="section-badge">ANESTEZİ × ACİL TIP</div>
-  <h1>TUS SORU BANKASI</h1>
-  <div class="header-sub">Toplam 148 Soru · Tüm Yıllar</div>
+  <h1>TUS ORİJİNAL SORU BANKASI</h1>
+  <div class="header-sub">Yalnızca Orijinal Sınavdan Gelen Sorular</div>
+  <div class="original-badge">✓ 110 Orijinal Soru · BENZERİ Sorular Çıkarıldı</div>
   <div class="stats-bar">
     <div class="stat-pill">Doğru: <span id="hdr-correct">0</span></div>
     <div class="stat-pill">Yanlış: <span id="hdr-wrong">0</span></div>
     <div class="stat-pill">Yıldızlı: <span id="hdr-star">0</span></div>
-    <div class="stat-pill">Kalan: <span id="hdr-left">148</span></div>
+    <div class="stat-pill">Kalan: <span id="hdr-left">110</span></div>
   </div>
 </div>
 
@@ -158,13 +144,13 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 
 <div class="nav">
   <button class="nav-btn" id="prev-btn" onclick="navigate(-1)" disabled>← Önceki</button>
-  <span id="q-counter" onclick="openModal()">1/148 ☰</span>
+  <span id="q-counter" onclick="openModal()">1/110 ☰</span>
   <button class="nav-btn" id="next-btn" onclick="navigate(1)">Sonraki →</button>
 </div>
 
 <div class="q-modal-overlay" id="modal" onclick="closeModal(event)">
   <div class="q-modal">
-    <h3>SORU LİSTESİ</h3>
+    <h3>SORU LİSTESİ — 110 ORİJİNAL SORU</h3>
     <div class="q-grid" id="q-grid"></div>
     <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">✕ Kapat</button>
   </div>
@@ -172,8 +158,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 
 <script>
 const ALL_QUESTIONS = [
-// ── GİRİŞ ──────────────────────────────────────────────────────────────────
-  {
+{
     id:1,
     year:"Sonbahar 2004",
     section:"Giriş",
@@ -183,7 +168,7 @@ const ALL_QUESTIONS = [
     hint:"Yaşlılarda hemoglobin düşüklüğü fizyolojik DEĞİL patolojik bir bulgudur.",
     trap:"Hemoglobinde düşüklük yaşa bağlı normal bir değişiklik gibi görünse de; etiyolojisi araştırılmalıdır.",
     explain:"Yaşla kemik iliğinde eritroid megakaryositer ve miyelositer seride önemli bir değişiklik olmaz. Sol ventriküler hipertrofi, osteopeni, kas kitlesinde azalma ve T hücre fonksiyonlarında azalma geriatrik hastalarda görülebilen fizyolojik değişikliklerdir. Hemoglobinde düşüklük ise patolojik olup etiyoloji araştırılmalıdır."
-  },
+  },,
   {
     id:2,
     year:"İlkbahar 2005",
@@ -194,7 +179,7 @@ const ALL_QUESTIONS = [
     hint:"Kristaloidler: dengeli tuz solüsyonları ve serum fizyolojik. Kolloidler: büyük moleküller.",
     trap:"Nişasta, dekstran ve jelatin kolloid solüsyonlardır. Yalnızca Ringer Laktat kristalloiddir.",
     explain:"Ringer laktat, dengeli tuz solüsyonu olarak kristaloid bir solüsyondur. Nişasta, dekstran, albumin ve jelatin ise kolloid solüsyonlardır. Kolloidler intravasküler onkotik basıncı artırıp interstisyel alandan damar içine sıvı çekerek daha az miktarla hemodinamik stabiliteyi sağlayabilir."
-  },
+  },,
   {
     id:3,
     year:"Sonbahar 2015 Orijinal",
@@ -205,18 +190,7 @@ const ALL_QUESTIONS = [
     hint:"ASA V: ameliyat olsa da, olmasa da 24 saatten fazla yaşaması beklenmeyen hasta.",
     trap:"ASA IV ile ASA V karıştırılır. ASA IV hayati tehlike taşıyan ama yaşama şansı olan hasta; ASA V ise son ümit cerrahi yapılan ölüm halindeki hasta.",
     explain:"ASA V: Ameliyat olsa da, olmasa da 24 saatten fazla yaşaması beklenmeyen, son ümit olarak cerrahi girişim yapılan, ölüm halindeki kişidir. Acil işlemse arkasına E harfi yazılır."
-  },
-  {
-    id:4,
-    year:"Sonbahar 2015 BENZERİ",
-    section:"Giriş – ASA Sınıflaması (BENZERİ)",
-    question:"Ameliyat olsa da, olmasa da 24 saatten fazla yaşaması beklenmeyen, son ümit olarak cerrahi girişim yapılan, ölüm halindeki hastalar Amerikan Anesteziyoloji Derneği (ASA) sınıflamasına göre hangi kategoride yer alır? (Sonbahar 2015 BENZERİ)",
-    opts:["ASA – 1","ASA – 2","ASA – 3","ASA – 4","ASA – 5"],
-    answer:4,
-    hint:"24 saatten fazla yaşaması beklenmeyen → ASA V.",
-    trap:"Son ümit cerrahi ifadesi ASA V'i işaret eder. ASA IV'te hayati tehlike var ama yaşam beklentisi mevcuttur.",
-    explain:"ASA sınıflaması hastaların fizik durumuna göre anestezi riskini tanımlar. ASA V: yaşaması beklenmeyen, son ümit ameliyat yapılan, ölüm halindeki hasta."
-  },
+  },,
   {
     id:5,
     year:"İlkbahar 2021 Orijinal",
@@ -228,18 +202,7 @@ const ALL_QUESTIONS = [
     trap:"Yüzeyel anestezi taşikardi + hipertansiyon yapar; derin anestezi ise bu tabloyu oluşturmaz.",
     explain:"Hiperkarbi, hipoksi, malign hipertermi ve tiroid fırtınası gibi hipermetabolik durumlar taşikardi ve hipertansiyona yol açabilir. Derin anestezi ise aksine bradikardi ve hipotansiyon oluşturur; bu nedenle ayırıcı tanıda en az olasıdır."
   },
-  // ── PREMEDİKASYON ─────────────────────────────────────────────────────────
-  {
-    id:6,
-    year:"İlkbahar 2021 BENZERİ",
-    section:"Giriş – Taşikardi (BENZERİ)",
-    question:"Genel anestezi altında ameliyat edilen bir hastada ortaya çıkan taşikardi ve hipertansiyon durumunda yukarıdakilerden hangisi/hangileri ayırıcı tanıda düşünülmelidir? (İlkbahar 2021 BENZERİ) — I. Anestezi derinliğinin yetersiz olması / II. Malign hipertermi / III. Tiroid fırtınası",
-    opts:["Yalnız I","Yalnız II","Yalnız III","I-II","I-II-III"],
-    answer:4,
-    hint:"Yetersiz anestezi derinliği (yüzeyel anestezi) de taşikardi + hipertansiyon yapar.",
-    trap:"Derin anestezi değil, YETERSİZ (yüzeyel) anestezi derinliği bu tabloyu yaratır.",
-    explain:"Genel anestezi altındaki taşikardi + hipertansiyon; yetersiz anestezi derinliği, malign hipertermi ve tiroid fırtınası başta olmak üzere pek çok nedeni olabilir. Üçü de ayırıcı tanıda düşünülmelidir. Doğru cevap D/I-II-III."
-  },
+  // ── PREMEDİKASYON ─────────────────────────────────────────────────────────,
   {
     id:7,
     year:"Sonbahar 87",
@@ -250,7 +213,7 @@ const ALL_QUESTIONS = [
     hint:"Morfin analjezik, antitüssif ve anestezi potansiyalizasyon etkisi olan bir opioiddir; kas gevşetici değildir.",
     trap:"Morfin bulantıyı ARTTIRIR, önlemez. Ancak bu soru bulantıyı azaltmayı değil; kas gevşemesini soruyor.",
     explain:"Morfin ve türevleri narkotik analjezik olup; analjezi, antitüssif etki, anestezi potansiyalizasyonu ve antidiyaretik amaçlarla kullanılır. Morfin ve türevleri bulantı-kusmayı artırır. Kas gevşemesine yardımcı olmak morfinin bir amacı değildir."
-  },
+  },,
   {
     id:8,
     year:"Sonbahar 91",
@@ -261,7 +224,7 @@ const ALL_QUESTIONS = [
     hint:"Premedikasyonun amaçları arasında bradikardi yoktur; aksine antikolinerjiklerle bradikardiden KAÇINILIR.",
     trap:"Atropin gibi antikolinerjikler premedikasyonda bradikardi YAPMADIĞI için değil, önlemek için kullanılır.",
     explain:"Premedikasyonun amaçları: anksiyeteyi azaltmak, sekresyonu azaltmak, anestezi ihtiyacını azaltmak, sedasyon sağlamak, refleksleri azaltmak, gastrik asiditeyi azaltmak. Bradikardi oluşturmak premedikasyonun amacı değildir."
-  },
+  },,
   {
     id:9,
     year:"Sonbahar 91",
@@ -272,7 +235,7 @@ const ALL_QUESTIONS = [
     hint:"Morfin ve türevleri bulantı-kusmayı artırır, önlemez.",
     trap:"Morfin antiemetik değildir; aksine bulantı-kusmayı artıran bir özelliktir.",
     explain:"Morfin ve türevleri klinikte daha çok analjezik, antitüssif, anestezi premedikasyonunda ve antidiyaretik olarak kullanılır. Morfin ve türevleri bulantı-kusmayı artırır. Premedikasyonda bradikardi yaratmak gibi bulantıyı önlemek de bir amaç olamaz."
-  },
+  },,
   {
     id:10,
     year:"Sonbahar 2000",
@@ -283,7 +246,7 @@ const ALL_QUESTIONS = [
     hint:"Atropin tersiyer amin yapısında bir antikolinerjiktir; vagal refleksler ve sekresyonları azaltır.",
     trap:"Atropinin göz damlası olarak midriazis etkisi bilinse de cerrahi premedikasyondaki amacı vagal refleksleri azaltmaktır.",
     explain:"Atropin tersiyer amin yapısındadır. Lipidde çözünür. Etki süresi 4-8 saattir. Premedikasyondaki amacı bronşial sekresyonların ve vagal (kardiak) reflekslerin azaltılmasıdır. Oftalmolojide midriazis için de kullanılır."
-  },
+  },,
   {
     id:11,
     year:"İlkbahar 2020 Orijinal",
@@ -295,7 +258,7 @@ const ALL_QUESTIONS = [
     trap:"Metoprolol de β1 kardiyoselektiftir ama etki süresi çok daha uzundur. Esmolol'ün kısa etkisi ayırt edicidir.",
     explain:"Esmolol, hızlı etki başlangıcı ve etki süresi kısa (yalnızca 10-20 dakika) olan β1 kardiyoselektif bir ajandır. Bu etki esmololu hemodinamik kararsız hastaların tedavisinde çekici yapmaktadır. Eritrosit sitozollerinde esterazlar yoluyla asit metaboliti ve matanole metabolize olur."
   },
-  // ── GENEL ANESTEZİKLER ────────────────────────────────────────────────────
+  // ── GENEL ANESTEZİKLER ────────────────────────────────────────────────────,
   {
     id:12,
     year:"Sonbahar 87",
@@ -306,7 +269,7 @@ const ALL_QUESTIONS = [
     hint:"Hava embolisi → sağ taraf yukarı + baş aşağı: hava baloncuğunun pulmoner artere geçişi engellenir.",
     trap:"Sol taraf değil SAĞ taraf yukarı. Hava sağ kalpte toplanır; sağ taraf yukarıda olunca çıkış yoluna geçmesi engellenir.",
     explain:"Hava embolisi çoğunlukla venöz kateterizasyon sonucu ya da oranda ise büyük bir venin yararlanması sonucu ortaya çıkar. Bu gibi durumlarda hasta sağ tarafı yukarı ve baş aşağı pozisyona getirilmelidir."
-  },
+  },,
   {
     id:13,
     year:"Sonbahar 2012",
@@ -317,7 +280,7 @@ const ALL_QUESTIONS = [
     hint:"Kapnografi (end-tidal CO₂): trakeal yerleşimin altın standardıdır.",
     trap:"Oskültasyon ilk bakışta doğru gibi görünür ama özefagus entübasyonunu gözden kaçırabilir. Kapnografi daha güvenlidir.",
     explain:"Endotrakeal tüpün, vokal kordlar arasından geçtiğinin görülmesi entübasyonun doğrulanması için çok önemli bir kriterdir; ancak tüpün işlem sırasında pozisyonunun değişmesi olası olduğundan her zaman için yeterli değildir. Kapnograf tarafından hızlı ve devamlı eden şekilde karbondioksit (her beş solunumdan üçünün oluşturduğu end-tidal CO₂ >30 mmHg) varlığı tüpün trakeal yerleşiminin en güçlü kanıtıdır."
-  },
+  },,
   {
     id:14,
     year:"Sonbahar 2013 Orijinal",
@@ -328,18 +291,7 @@ const ALL_QUESTIONS = [
     hint:"Hipoksi geç derlenmeye neden olurken, PaO₂ >95 mmHg (hiperoksi) geç derlenmeye yol açmaz.",
     trap:"Hiperkarbi değil hiperoksi sorulmuş. Hipoksi geç derlenmeye neden olur ama hiperoksi (PaO₂>95) değil.",
     explain:"Sepsis, hipernatremi, hipotiroidizm ve hipotermi ilaç metabolizmasını etkileyerek derlenmeyi geciktirebilir. Arteryal hiperoksi (PaO₂>95 mmHg) ise geç derlenmeye neden olmaz."
-  },
-  {
-    id:15,
-    year:"Sonbahar 2013 BENZERİ",
-    section:"Genel Anestezikler – Derlenme (BENZERİ)",
-    question:"Aşağıdakilerden hangisi hasta anesteziden uyanırken bilincinin geç açılmasına neden <u>olmaz</u>? (Sonbahar 2013 BENZERİ)",
-    opts:["Sepsis","Hipotiroidizm","Hipernatremi","PaO₂>95 mmHg","Hipotermi"],
-    answer:3,
-    hint:"PaO₂>95 mmHg (hiperoksi) geç derlenme nedeni değildir; hipoksi ise neden olur.",
-    trap:"PaO₂'nin yüksek olması (hiperoksi) zararlı değildir ve geç derlenmeye yol açmaz.",
-    explain:"Hipoksi geç derlenmeye yol açar. PaO₂>95 mmHg ise hiperoksi olup geç derlenmeye neden olmaz. Diğer seçeneklerin hepsi ilaç metabolizmasını etkileyerek geç derlenmeye yol açabilir."
-  },
+  },,
   {
     id:16,
     year:"İlkbahar 2016 Orijinal",
@@ -350,18 +302,7 @@ const ALL_QUESTIONS = [
     hint:"Entübasyon INTRAkraniyal BASINÇTA ARTIŞA yol açar; hipotansiyona değil.",
     trap:"Laringoskopi ve entübasyon sırasında intrakraniyal ve intraoküler basınç ARTAR. Hipotansiyon görülmez.",
     explain:"Endotrakeal entübasyona bağlı; özefagus entübasyonu, hava yolu hasarı, diş kırılması ve laringospazm görülebilir. Laringoskopi ve entübasyonla alınan kardiyovasküler yanıt sempatik aktivasyon sonucu taşikardi, kan basıncında yükselme ve intrakraniyal basınçta ARTMA oluşturur; hipotansiyon değil."
-  },
-  {
-    id:17,
-    year:"İlkbahar 2016 BENZERİ",
-    section:"Genel Anestezikler – Entübasyon Komplikasyonları (BENZERİ)",
-    question:"Aşağıdakilerden hangisi endotrakeal entübasyon işlemi sırasında ortaya çıkabilecek komplikasyonlardan biri <u>değildir</u>? (İlkbahar 2016 BENZERİ)",
-    opts:["İntrakraniyal hipotansiyon","Trakea ve bronş rüptürü","Bronşial entübasyonu","Servikal vertebra fraktürü","Mide içeriğinin aspirasyonu"],
-    answer:0,
-    hint:"Entübasyon intrakraniyal BASINÇ artışına yol açar; hipotansiyona değil.",
-    trap:"Entübasyon işlemi sırasında intrakraniyal basınç ARTAR; intrakraniyal hipotansiyon bu süreçte beklenen bir komplikasyon değildir.",
-    explain:"Entübasyon işlemi sırasında sempatik uyarılma ile intrakraniyal basınçta artma meydana gelir; hipotansiyon değil. Trakea bronş rüptürü, bronşial entübasyon, servikal vertebra fraktürü ve aspirasyon gerçek komplikasyonlardır."
-  },
+  },,
   {
     id:18,
     year:"Sonbahar 2018 Orijinal",
@@ -372,19 +313,7 @@ const ALL_QUESTIONS = [
     hint:"Azot protoksit kapalı hava boşluklarına diffüze olur; göz içi gaz varlığında kullanılmamalıdır.",
     trap:"Göz içi gaz (vitreus cerrahisi) sonrasında N₂O kullanmak göz içi basıncı tehlikeli derecede artırır.",
     explain:"Azot protoksit (Nitröz Oksit) kolaylıkla orta kulak, barsak, kraniyal hava sinüsleri, pnömoperitonyum, pnömotoraks ve oküler cerrahi sırasında oluşturulan gaz baloncukları gibi kapalı hava alanlarına diffüze olabilir ve alanın hacminde artma (barsak distansiyonu) ya da basınçta artma (örneğin gözde veya orta kulakta) ile sonuçlanır."
-  },
-  {
-    id:19,
-    year:"Sonbahar 2018 BENZERİ",
-    section:"Genel Anestezikler – N₂O (BENZERİ)",
-    question:"Hava dolu boşluklara diffüze olup bu boşlukları genişletebildiği için göz ve orta kulak gibi organ cerrahilerinde kullanımı uygun <u>olmayan</u> inhalasyon ajanı hangisidir? (Sonbahar 2018 BENZERİ)",
-    opts:["Propofol","Nitröz oksit","Sevofluran","Etomidat","Fentanil"],
-    answer:1,
-    hint:"Azot protoksit hava dolu boşluklara diffüze olur → basınç/hacim artışı.",
-    trap:"Kapalı boşluk sorunu yalnızca N₂O'ya özgüdür. Diğer inhalasyon ajanlarında bu özellik yoktur.",
-    explain:"Azot protoksit (N₂O) en önemli özelliği içi hava dolu organlarda birikmesidir. Kolaylıkla orta kulak, barsak, kraniyal hava sinüsleri, pnömoperitonyum, pnömotoraks ve oküler cerrahi sırasında oluşturulan gaz baloncukları gibi kapalı hava alanlarına diffüze olabilir."
-  },
-  // ── İNHALASYON ANESTEZİKLERİ ─────────────────────────────────────────────
+  },,
   {
     id:20,
     year:"Sonbahar 2000",
@@ -395,7 +324,7 @@ const ALL_QUESTIONS = [
     hint:"Ayılma sırasında N₂O alveollere hızlı diffüze olarak O₂'yi seyreltir → diffüzyon hipoksisi.",
     trap:"Diffüzyon hipoksisi yalnızca N₂O'ya özgüdür. Diğer inhalasyon ajanları bu etkiyi yapmaz.",
     explain:"Azot protoksit (N₂O) ayılma sırasında diffüzyon hipoksisine neden olur. N₂O alveollerden hızla çıkarken O₂'yi seyreltir; bu nedenle ayılma sırasında oksijen verilmelidir."
-  },
+  },,
   {
     id:21,
     year:"Sonbahar 2006",
@@ -406,7 +335,7 @@ const ALL_QUESTIONS = [
     hint:"N₂O renksiz, kokusuz inorganik gazdır. Diğerleri organik yapıda volatilajanlar.",
     trap:"Nitröz oksit tek inorganik inhalasyon anestetiğidir; patlayıcı değildir ve yanmayı idame ettiremez.",
     explain:"Azot Protoksit (Nitröz Oksit / N₂O): renksiz ve kokusuz bir gazdır. 50 atmosferlik basınç altında sıvılaştırılmış şekilde çelik silindirler içinde kullanılır. Anestetik olarak kullanılan tek inorganik maddedir. Patlayıcı değildir veya yanmayı idame ettiremez."
-  },
+  },,
   {
     id:22,
     year:"Sonbahar 2025",
@@ -417,7 +346,7 @@ const ALL_QUESTIONS = [
     hint:"Ketamin ve N₂O'nun analjezik etkisi bilinmelidir. Tiyopental ve N₂O hiperaljeziyi olmasa da analjezik etkisi yoktur/zayıftır denmesi N₂O için analjezik etkinin var olduğunu gösterir.",
     trap:"Diğer volatil ajanların analjezik etkisi yoktur ya da çok zayıftır. N₂O'nun analjezik etkisi vardır.",
     explain:"Analjezik etkisi olan ketamin ve nitröz oksit mutlaka bilinmelidir. Tiyopental analjezik etkisi yoktur, hatta hiperaljezi yapabilir. N₂O iyi bir analjezik ancak zayıf bir anestezik maddedir."
-  },
+  },,
   {
     id:23,
     year:"İlkbahar 2010",
@@ -428,7 +357,7 @@ const ALL_QUESTIONS = [
     hint:"En hepatotoksik inhalasyon anesteziği halotandır. Malign hipertermi de yapabilir.",
     trap:"Sevofluran organotoksisitesi az olan bir ajandır. Halotan hem en hepatotoksik hem de malign hipertermi yapan ajandır.",
     explain:"En hepatotoksik olan ve malign hipertermi oluşturan ajan Halotandır. Halotan: Vagomimetik etki ile BRADİKARDİ yapar; kalbin katekolaminlere duyarlılığını artırıp ARİTMİ yapar; en hepatotoksik ajandır."
-  },
+  },,
   {
     id:24,
     year:"İlkbahar 2022 Orijinal",
@@ -439,18 +368,7 @@ const ALL_QUESTIONS = [
     hint:"İzofluran bir inhalasyon anesteziğidir; IV yolla kullanılmaz.",
     trap:"Soru intravenöz kullanımı soruyor. İzofluran yalnızca inhalasyon yoluyla uygulanır.",
     explain:"Sevofluran, desfluran ve izofluran gibi anestezik maddeler inhalasyon anestezikleridir ve anestezi indüksiyonunda kullanılabilirler. Desfluranda inhalasyon ajanıdır ancak keskin ve irritan kokusu nedeniyle indüksiyobda tercih edilmez. Midazolam, Ketamin, Propofol ve Etomidat anestezi indüksiyonunda kullanılan intravenöz ajanlardır. İzofluran IV yolla kullanılamaz."
-  },
-  {
-    id:25,
-    year:"İlkbahar 2022 BENZERİ",
-    section:"İnhalasyon Anestezikleri – IV İndüksiyon (BENZERİ)",
-    question:"Seksen yaşında ciddi kardiyak problemleri olan ASA 4 erkek hastada mide kanseri nedeniyle ameliyatı planlanmıştır. Hastanın kardiyak sıkıntıları göz önüne alınarak anestezi indüksiyonunda karar verilmiştir. Bu hasta için indüksiyon amacıyla kullanılması uygun olan inhalasyon ajanı aşağıdakilerden hangisidir? (İlkbahar 2022 BENZERİ)",
-    opts:["Midazolam","Sevofluran","Ketamin","Propofol","Etomidat"],
-    answer:1,
-    hint:"Sevofluran solunumu deprese etmez, bronkodilatasyon yapar; çocuklarda ve kardiyak hastalarda indüksiyonda kullanılabilir.",
-    trap:"Soru inhalasyon ajanı soruyor. Midazolam, ketamin, propofol ve etomidat IV ajanlardır.",
-    explain:"Sevofluran solunum yollarında irritasyon yapmadığı için özellikle çocuklarda anestezi indüksiyonunda kullanılabilir. Kardiyak riskli hastalarda da tercih edilebilir. Desfluran keskin kokusu nedeniyle indüksiyobda kullanılmaz."
-  },
+  },,
   {
     id:26,
     year:"İlkbahar 2013",
@@ -461,7 +379,7 @@ const ALL_QUESTIONS = [
     hint:"En hepatotoksik olan ve malign hipertermi oluşturan ajan Halotandır.",
     trap:"Sevofluranın hepatotoksisitesi düşüktür çünkü karaciğerde daha az metabolize edilir.",
     explain:"Halotan en hepatotoksik ajandır. Halotan, enfluran, izofluran ve desfluran insanlarda metabolik hepatosellüler hasara neden olabilir. Sevofluranın daha az metabolize edilmesi, ana metabolitinin farklı olması ve hızla glukuronidasyona uğraması nedeniyle halotandan daha düşük oranda hepatotoksik olması beklenir."
-  },
+  },,
   {
     id:27,
     year:"İlkbahar 2014 Orijinal",
@@ -472,18 +390,7 @@ const ALL_QUESTIONS = [
     hint:"N₂O kapalı hava boşluklarında birikir → hava embolisi, pnömotoraks, ileus gibi durumlarda KONTRENDİKE. Yüksek kan basıncı kontrendikasyon değildir.",
     trap:"Yüksek kan basıncı N₂O için bir kontrendikasyon değildir. Kapalı hava boşlukları olan durumlar kontrendikasyondur.",
     explain:"Azot protoksit anestezide çok sık kullanılan bir gazdır. En önemli özelliği içi hava dolu organlarda birikmesidir. Bu nedenle pulmoner hava kistleri, pnömotoraks, akut bağırsak obstrüksiyonu ve hava embolisinde kullanımından kaçınılmalıdır. Yüksek kan basıncı bir kontrendikasyon değildir."
-  },
-  {
-    id:28,
-    year:"İlkbahar 2014 BENZERİ",
-    section:"İnhalasyon Anestezikleri – N₂O (BENZERİ)",
-    question:"Yukarıda verilen patolojilerden hangisi/hangilerinin anestezi yönetiminde azot protoksit kullanımından kaçınılması gerekir? (İlkbahar 2014 BENZERİ) — I. Hava embolisi / II. Pnömotoraks / III. Boş bağırsak (ileus) / IV. Hipertansiyon",
-    opts:["I ve II","I, II ve III","II, III ve IV","I ve IV","Yalnız IV"],
-    answer:1,
-    hint:"Kapalı hava boşlukları → N₂O kontrendike. Hipertansiyon kontrendikasyon değildir.",
-    trap:"IV (hipertansiyon) kontrendikasyon değildir. Yalnızca I, II ve III kontrendikasyon oluşturur.",
-    explain:"N₂O kapalı hava boşluklarında birikir. Hava embolisi, pnömotoraks ve ileus (barsak tıkanması/distansiyonu) N₂O için kontrendikasyondur. Hipertansiyon kontrendikasyon değildir. Doğru cevap I, II ve III."
-  },
+  },,
   {
     id:29,
     year:"İlkbahar 2025",
@@ -495,7 +402,7 @@ const ALL_QUESTIONS = [
     trap:"Desfluran keskin kokuludur ve irritasyon yapar (maskeyle indüksiyon uygun değil). Sevofluran değil.",
     explain:"Sevofluran solunum yollarında irritasyon YAPMADIĞI için (keskin kokulu değildir) özellikle çocuklarda anestezi indüksiyonunda kullanılabilir. Keskin ve irritan koku Desfluran'a aittir."
   },
-  // ── İNTRAVENÖZ ANESTEZİKLER ──────────────────────────────────────────────
+  // ── İNTRAVENÖZ ANESTEZİKLER ──────────────────────────────────────────────,
   {
     id:30,
     year:"İlkbahar 90",
@@ -506,7 +413,7 @@ const ALL_QUESTIONS = [
     hint:"Ketamin NMDA reseptör blokörü olup kan basıncını ve kardiyak output'u ARTTIRIR.",
     trap:"Diğer tüm seçenekler kan basıncını düşürür. Ketamin tek kan basıncını yükselten ajandır.",
     explain:"Ketamin dissosiyatif bir anesteziktir. Kan basıncını, nabız hızını ve kardiyak outputu diğer anesteziklerden farklı olarak artıran NMDA reseptör blokörüdür. Bu yüzden şoklu hastalarda indüksiyon için kullanılır."
-  },
+  },,
   {
     id:31,
     year:"İlkbahar 99",
@@ -517,7 +424,7 @@ const ALL_QUESTIONS = [
     hint:"Ketamin hem IV hem IM uygulanabilen disosiyatif bir genel anesteziktir.",
     trap:"Gallamin ve lidokain anestezik ajan değil; kas gevşetici ve lokal anesteziktir.",
     explain:"Ketamin intravenöz, intramusküler, oral ve rektal uygulanabilen dissosiyatif bir genel anesteziktir. Karaciğerde belirgin enzim indüksiyonu yapar. NMDA reseptör blokörüdür."
-  },
+  },,
   {
     id:32,
     year:"Sonbahar 2007",
@@ -528,7 +435,7 @@ const ALL_QUESTIONS = [
     hint:"Ketamin: dissosiyatif anestezi yaratır → göz içi basınç artışı ve nistagmus.",
     trap:"Nistagmus ketamine özgüdür; diğer IV ajanlar bu etkiyi yapmaz.",
     explain:"Ketamin dissosiyatif anestezik bir maddedir. Kardiyovasküler depresyon yapmaz. Kan basıncını ve kardiyak output'u arttırır bu yüzden şoklu hastalarda indüksiyon için kullanılır. Miyokardın oksijen tüketimini de arttırdığı için MİYOKARD İNFARKTÜSÜNDE kullanılmamalıdır. Nistagmusa neden olur."
-  },
+  },,
   {
     id:33,
     year:"İlkbahar 2017 Orijinal",
@@ -539,18 +446,7 @@ const ALL_QUESTIONS = [
     hint:"Ketamin sempatik sistem uyarımı ile hem kalp hızını hem de kan basıncını artırır.",
     trap:"Etomidat kardiyoprotektif ama kan basıncını artırmaz. Ketamin hem kalp hızı hem basıncı artıran tek ajandır.",
     explain:"Ketamin dissosiyatif bir anesteziktir. Kardiyovasküler depresyon yapmaz. Kan basıncını, nabız hızını ve kardiyak output'u arttırır bu yüzden şoklu hastada iyi bir seçenektir."
-  },
-  {
-    id:34,
-    year:"İlkbahar 2017 BENZERİ",
-    section:"İntravenöz Anestezikler – Ketamin (BENZERİ)",
-    question:"Kan kaybı nedeniyle hipovolemik şok tablosunda olan bir hastanın anestezi indüksiyonu için tercih edilmesi gereken anestezik ajan aşağıdakilerden hangisidir? (İlkbahar 2017 BENZERİ)",
-    opts:["Ketamin","Diazepam","Etomidat","Tiopental","Metoheksital"],
-    answer:0,
-    hint:"Hipovolemik şok → kan basıncı artıran ajan → KETAMİN.",
-    trap:"Etomidat kardiyostabil ama kan basıncını yükseltmez. Ketamin sempatomimetik etki ile hem kalp hızı hem basıncı artırır.",
-    explain:"Ketamin dissosiyatif bir anesteziktir. Kardiyovasküler depresyon yapmaz. Kan basıncını ve kardiyak output'u arttırır bu yüzden şoklu hastalarda indüksiyon için kullanılır."
-  },
+  },,
   {
     id:35,
     year:"Sonbahar 2019 Orijinal",
@@ -561,18 +457,7 @@ const ALL_QUESTIONS = [
     hint:"Hipovolemi → kan basıncını düşürmeyen / artıran ajan → KETAMİN.",
     trap:"Propofol, tiyopental ve midazolam kan basıncını düşürür; hipovolemik hastada tehlikelidir.",
     explain:"Ketamin dissosiyatif anestezik bir maddedir. Kardiyovasküler depresyon yapmaz. Kan basıncını ve kardiyak output'u arttırır bu yüzden şoktaki hastada indüksiyon için kullanılır. Diğer şıklarda bulunan sevofluran, tiyopental, midazolam ve propofol gibi ajanlar doz bağımlı olarak kardiyak outputu düşürülebilir ve şok tablosunu kötüleştirebilir."
-  },
-  {
-    id:36,
-    year:"Sonbahar 2019 BENZERİ",
-    section:"İntravenöz Anestezikler – Hipovolemi (BENZERİ)",
-    question:"Delici-kesici alet yaralanması nedeniyle acil servise getirilen hastanın kanamayı durdurmak amacıyla acil ameliyata alınmasına karar veriliyor. Yapılan pre-anestezik değerlendirmede şuuru yarı açık olan hastanın nabzı çok yüzeyel olarak zorlukla alınabiliyor ve kan basıncı 60/30mmHg olarak ölçülüyor. Yukarıda verilen hasta için anestezi indüksiyonu amacıyla kullanılması gereken <u>en uygun</u> ilaç aşağıdakilerden hangisinde verilmiştir? (Sonbahar 2019 BENZERİ)",
-    opts:["Sevofluran","Propofol","Ketamin","Midazolam","Tiyopental"],
-    answer:2,
-    hint:"Hipovolemik şok → kan basıncı ve kardiyak output'u artıran → KETAMİN.",
-    trap:"Hipovolemi varlığında propofol, tiyopental ve midazolam kan basıncını daha da düşürür.",
-    explain:"Yukarıda verilen hastada hipovolemik şok tablosu hakimdir ve bu durumda indüksiyonda seçilmesi gereken ajan kan basıncı ve kardiyak outputu artırması sebebiyle ketamin olmalıdır."
-  },
+  },,
   {
     id:37,
     year:"Sonbahar 2020 Orijinal",
@@ -583,18 +468,7 @@ const ALL_QUESTIONS = [
     hint:"Ketamin NMDA reseptör blokörüdür; disosiyatif anestezi ile birlikte güçlü analjezi sağlar.",
     trap:"Tiyopental, etomidat, midazolam ve propofol'ün analjezik etkisi ya yoktur ya da çok zayıftır.",
     explain:"Ketamin; bir NMDA reseptör blokörüdür ve dissosiyatif anestezi yapar. En önemli özelliklerinden birisi de analjezik etkisinin olmasıdır. Tiyopental, etomidat, midazolam ve propofol gibi ilaçların amnezi/hipnotik özelliği olmasına rağmen ketamin dışındakilerin ağrı kesici özelliği yoktur ya da minimaldir."
-  },
-  {
-    id:38,
-    year:"Sonbahar 2020 BENZERİ",
-    section:"İntravenöz Anestezikler – Analjezi (BENZERİ)",
-    question:"Saçlı deriden dev lipom çıkarılması planlanan 27 yaşındaki hastada anestezi ve analjezi planlanıyor. Bu hasta için sedasyon amacıyla aşağıdaki ilaçların hangisinin uygulanması durumunda ek ağrı kesici uygulanmasına gerek <u>kalmaz</u>? (Sonbahar 2020 BENZERİ)",
-    opts:["Tiyopental","Etomidat","Propofol","Midazolam","Ketamin"],
-    answer:4,
-    hint:"Yalnızca KETAMİN'in analjezik etkisi vardır; diğerleri analjezi sağlamaz.",
-    trap:"Propofol, etomidat, midazolam ve tiyopental sedatif ama analjezik değil. Ek opioid gerekmez yalnızca ketaminde.",
-    explain:"Şıklarda verilen ilaçların hepsinin amnezik/hipnotik özelliği olmasına rağmen ketamin dışındaki tiyopental, etomidat, midazolam ve propofol gibi ilaçların ağrı kesici özelliği yoktur ya da minimaldir. O yüzden bu ilaçlarla sedasyon yapıldığında ek bir analjezik ilaç (örn. fentanil gibi bir opioid) eklenmelidir. Ketamin ise sedasyon yaparken aynı zamanda güçlü analjezi sağlar."
-  },
+  },,
   {
     id:39,
     year:"Sonbahar 2021 Orijinal",
@@ -605,18 +479,7 @@ const ALL_QUESTIONS = [
     hint:"Ketamin = NMDA reseptör blokörü (nonkompetitif). Diğerleri GABA-A üzerinden çalışır.",
     trap:"Propofol, etomidat, midazolam ve tiyopental GABA-A reseptörleri üzerinden etki eder; ketamin ise NMDA blokörüdür.",
     explain:"Ketamin, nitröz oksid (N₂O), siklopropan ve xenon glutamatın NMDA reseptörlerini inhibe ederek etki gösterirler. Diğer genel anestezikler; inhalasyon anestezikleri, barbitüratlar, benzodiazepinler, etomidat, propofol GABA-A reseptörlerini aktive ederek genel anestezi oluştururlar."
-  },
-  {
-    id:40,
-    year:"Sonbahar 2021 BENZERİ",
-    section:"İntravenöz Anestezikler – NMDA (BENZERİ)",
-    question:"Yukarıdaki anestezik ajanlardan hangisi/hangileri NMDA reseptörleri üzerinden etki gösterir? (Sonbahar 2021 BENZERİ) — I. Tiyopental / II. Etomidat / III. Ketamin / IV. Propofol",
-    opts:["Yalnız I","I ve II","I, II ve III","II ve III","Yalnız III"],
-    answer:4,
-    hint:"Yalnızca Ketamin NMDA reseptör blokörüdür.",
-    trap:"Tiyopental, etomidat ve propofol GABA-A üzerinden çalışır; NMDA değil.",
-    explain:"Ketamin, N₂O, siklopropan ve xenon NMDA reseptörlerini inhibe ederek etki gösterir. Tiyopental, etomidat, propofol GABA-A üzerinden çalışır. Yalnızca III (Ketamin) NMDA reseptör blokörüdür."
-  },
+  },,
   {
     id:41,
     year:"Sonbahar 91",
@@ -627,7 +490,7 @@ const ALL_QUESTIONS = [
     hint:"Tiyopental kısa etkili barbitürat. Yağ partisyon katsayısı yüksek → yağ dokusunda toplanır.",
     trap:"İlk beş dakika yüksek beyin konsantrasyonu oluşturur ama uzun vadede yağ dokusunda birikim olur.",
     explain:"Tiyopental kısa süreli bir barbitürat olup anestezi indüksiyonunda kullanılır. Yağ partisyon katsayısı yüksek olduğu için önce beyne nüfus eder. İlk 5 dakika içinde beyinde fazla olmasına rağmen etkisi kısa sürer. Yağ dokusunda ise önemli miktarda toplanır."
-  },
+  },,
   {
     id:42,
     year:"İlkbahar 2006",
@@ -638,7 +501,7 @@ const ALL_QUESTIONS = [
     hint:"Tiyopental = çok kısa etkili barbitürat → anestezi indüksiyonunda kullanılır.",
     trap:"Metoheksital de çok kısa etkili barbitürattır; tiyopentale benzer grupta.",
     explain:"Çok kısa etkili barbitüratlar (tiyopental, metoheksital 20 dakika): anestezide indüksiyon amacıyla tercih edilir. Sedatif amaçla kullanılmaz. Tiyopental çok kısa etkili barbitürat grubundadır."
-  },
+  },,
   {
     id:43,
     year:"Sonbahar 2022 Orijinal",
@@ -649,7 +512,7 @@ const ALL_QUESTIONS = [
     hint:"Tiyopental ve barbitüratlar Porfiria'lı hastalarda KONTRENDİKEDİR.",
     trap:"Propofol Porfiria'lı hastalarda güvenle kullanılabilir. Tiyopental kontrendikedir.",
     explain:"Tiyopentalin özellikleri arasında: Aminolevülinik asit sentaz enzimini uyarması nedeniyle Porfiria'lı hastalarda, status astmatikus ve barbitürat allerjisi olan hastalarda KONTRENDİKEDİR."
-  },
+  },,
   {
     id:44,
     year:"İlkbahar 2012",
@@ -660,7 +523,7 @@ const ALL_QUESTIONS = [
     hint:"Etomidat: 11-β hidroksilaz inhibisyonu → adrenokortikal yetmezlik → uzun infüzyondan KAÇINILIR.",
     trap:"Propofol uzun kullanımda propofol infüzyon sendromuna yol açar ama adrenokortikal yetmezlik etomidatın özelliğidir.",
     explain:"Adrenokortikal yetmezlik oluşturabilecek intravenöz anestezik ajan Etomidattır. Etomidat adrenal steroid sentezini azaltır (11-ß hidroksilaz enzimini inhibe eder). Bu yüzden adrenokortikal yetmezlikte kullanılmamalıdır."
-  },
+  },,
   {
     id:45,
     year:"Sonbahar 2017 Orijinal",
@@ -671,18 +534,7 @@ const ALL_QUESTIONS = [
     hint:"Deksmedetomidin KARACİĞERDE metabolize edilir; böbreklerde değil.",
     trap:"Deksmedetomidinin metabolizması karaciğerde gerçekleşir; metabolitleri safra ve idrar yoluyla atılır.",
     explain:"Deksmedetomidin SSS'de alfa 2 adrenerjik reseptörleri aktive ederek sedatif etki gösterir. Analjezi, anksiyoliz ve sedatif etkileri vardır. Kalp hızını ve kan basıncını düşürür. KARACİĞERDE metabolize edilir; böbreklerde değil. Metabolitleri safra ve idrar yoluyla atılır."
-  },
-  {
-    id:46,
-    year:"Sonbahar 2017 BENZERİ",
-    section:"İntravenöz Anestezikler – Deksmedetomidin (BENZERİ)",
-    question:"Yoğun bakımda entübe olarak takip edilen hastanın aşırı hareketli ve ajite olması nedeniyle deksmedetomidin infüzyonu planlanmıştır. Bu ilaçla ilgili olarak aşağıdaki ifadelerden hangisi <u>yanlıştır</u>? (Sonbahar 2017 BENZERİ)",
-    opts:["Santral α2-reseptör stimülasyonu ile etki eder","Anksiyolitik, analjezik ve sedatif etkileri amacıyla kullanılabilir","Minimal respiratuar depresyon görülür","Böbreklerde metabolize edilir","Katekolamin salınımında azalmaya sekonder kalp hızı ve kan basıncını düşürür"],
-    answer:3,
-    hint:"Deksmedetomidin karaciğerde metabolize edilir; böbreklerde değil.",
-    trap:"Deksmedetomidinin solunum depresyonu yapmaması nedeniyle yoğun bakımda güvenle kullanılır ama böbreklerde metabolize olmaz.",
-    explain:"Deksmedetomidin karaciğerde hızlı bir şekilde metabolize olur; metabolitleri safra ve idrar yolu ile atılır. Renal ve hepatik yetmezlikler metabolitlerin atılımını geciktirebilir. Böbreklerde değil karaciğerde metabolize edilir."
-  },
+  },,
   {
     id:47,
     year:"İlkbahar 2021 Orijinal",
@@ -693,7 +545,7 @@ const ALL_QUESTIONS = [
     hint:"Deksmedetomidin SSS'de α₂ adrenerjik reseptörleri aktive ederek sedatif etki gösterir.",
     trap:"Adrenalin, efedrin ve dopeksamin sempatik/adrenerjik ajanlardır ama sedatif değildir.",
     explain:"Deksmedetomidin SSS'de alfa 2 adrenerjik reseptörleri aktive ederek sedatif etki gösterir. 24 saatten fazla sürekli infüzyonu yapılmamalıdır. Adrenalin ve efedrin karma etkinliği olan ilaçlardır ve sedatif etkileri yoktur."
-  },
+  },,
   {
     id:48,
     year:"İlkbahar 2018 Orijinal",
@@ -704,18 +556,7 @@ const ALL_QUESTIONS = [
     hint:"Propofolün antidotu benzodiyazepin antagonisti FLUMAZENIL değildir; propofol GABA-A'ya bağlanır ama flumazenil bunu geri döndürmez.",
     trap:"Flumazenil benzo reseptörüne yüksek afiniteyle bağlanan spesifik benzodiazepin kompetitif antagonistidir. Propofol GABA-A'ya bağlanır ama flumazenil propofol etkisini geri döndüremez.",
     explain:"Propofol GABA-A'ya bağlanarak etki eden ancak etkisi spesifik benzodiazepin reseptör antagonisti olan flumazenil ile geri döndürülEMEZ. Bakteri üremesi riski nedeniyle ampul açıldıktan sonraki ilk 6-8 saatte kullanılmalıdır."
-  },
-  {
-    id:49,
-    year:"İlkbahar 2018 BENZERİ",
-    section:"İntravenöz Anestezikler – Propofol (BENZERİ)",
-    question:"Etkinliğini GABA reseptörleri üzerinden gösteren, bakteri üremesi riski nedeniyle ampuldikten sonra 6 saat içinde kullanılması gereken, uygulanma bölgesinde ağrıya sebep olabilen ve doz bağımlı olarak sistemik vasküler rezistansı düşürerek hipotansiyon yapan intravenöz anestezik ajan aşağıdakilerden hangisidir? (İlkbahar 2018 BENZERİ)",
-    opts:["Etomidat","Ketamin","Midazolam","Tiyopental","Propofol"],
-    answer:4,
-    hint:"6 saat içinde kullanım + enjeksiyon yerinde ağrı + GABA-A + hipotansiyon → PROPOFOL.",
-    trap:"Etomidat da GABA-A üzerinden etki eder ama enjeksiyon yerinde ağrı ve 6 saatlik kullanım kuralı propofole özgüdür.",
-    explain:"Propofol GABA-A'ya bağlanarak etki eden genel anesteziktir. Kardiyovasküler sistemi deprese eder ve doz bağımlı hipotansiyon yapar. Emülsiyon bakteri gelişimine olanak sağlayabileceğinden dolayı propofolün sterilitesine dikkat edilmeli (6 saat). Enjeksiyon bölgesinde ağrıya sebep olur."
-  },
+  },,
   {
     id:50,
     year:"Sonbahar 2022 Orijinal",
@@ -727,7 +568,7 @@ const ALL_QUESTIONS = [
     trap:"Morfin, fentanil, azot protoksit ve remifentanil antiemetik değildir. Aksine opioidler bulantıyı artırır.",
     explain:"Propofol antiemetik etkisi vardır ve postoperatif bulantı kusma yapmadığı için ve mental durumun berraklığını iyi koruduğundan dolayı ayaktan cerrahi müdahelelerde iyi tercihtir."
   },
-  // ── İNTRAVENÖZ ANESTEZİKLER (devam) ─────────────────────────────────────
+  // ── İNTRAVENÖZ ANESTEZİKLER (devam) ─────────────────────────────────────,
   {
     id:51,
     year:"Sonbahar 91",
@@ -738,7 +579,7 @@ const ALL_QUESTIONS = [
     hint:"Tiyopental kısa etkili barbitürat; yağ partisyon katsayısı yüksek olduğu için yağ dokusunda birikir.",
     trap:"Beyne hızla geçer ama uzun vadede yağ dokusunda depolanır; bu nedenle rezervuar yağ dokusudur.",
     explain:"Tiyopental kısa süreli bir barbitürat olup anestezi indüksiyonunda kullanılır. Yağ partisyon katsayısı yüksek olduğu için önce beyne nüfus eder; ilk 5 dakika içinde beyinde fazla olmasına rağmen etkisi kısa sürer. Yağ dokusunda ise önemli miktarda toplanır (rezervuar)."
-  },
+  },,
   {
     id:52,
     year:"İlkbahar 2006",
@@ -749,7 +590,7 @@ const ALL_QUESTIONS = [
     hint:"Tiyopental = çok kısa etkili barbitürat → anestezi indüksiyonunda kullanılır.",
     trap:"Metoheksital de çok kısa etkili barbitürattır; tiyopentale benzer grupta yer alır.",
     explain:"Çok kısa etkili barbitüratlar (tiyopental, metoheksital; etki ~20 dakika): anestezide indüksiyon amacıyla tercih edilir. Sedatif amaçla kullanılmaz. Tiyopental çok kısa etkili barbitürat grubundadır."
-  },
+  },,
   {
     id:53,
     year:"Sonbahar 2022 Orijinal",
@@ -760,7 +601,7 @@ const ALL_QUESTIONS = [
     hint:"Barbitüratlar Porfiria'lı hastalarda KONTRENDİKEDİR; propofol güvenle kullanılabilir.",
     trap:"Propofol Porfiria için güvenlidir; tiyopental kontrendikedir.",
     explain:"Tiyopentalin aminolevülinik asit sentaz enzimini uyarması nedeniyle Porfiria'lı hastalarda, status astmatikusda ve barbitürat allerjisi olan hastalarda KONTRENDİKEDİR."
-  },
+  },,
   {
     id:54,
     year:"İlkbahar 2012",
@@ -771,7 +612,7 @@ const ALL_QUESTIONS = [
     hint:"Etomidat: 11-β hidroksilaz inhibisyonu → adrenokortikal yetmezlik → uzun infüzyondan kaçınılır.",
     trap:"Propofol infüzyon sendromu yapar ama adrenokortikal yetmezlik etomidatın özelliğidir.",
     explain:"Adrenokortikal yetmezlik oluşturabilecek intravenöz anestezik ajan Etomidattır. Etomidat adrenal steroid sentezini azaltır (11-ß hidroksilaz enzimini inhibe eder). Adrenokortikal yetmezlikte kullanılmamalıdır."
-  },
+  },,
   {
     id:55,
     year:"Sonbahar 2017 Orijinal",
@@ -782,18 +623,7 @@ const ALL_QUESTIONS = [
     hint:"Deksmedetomidin KARACİĞERDE metabolize edilir; böbreklerde değil.",
     trap:"Metabolizması karaciğerde; metabolitler safra ve idrar yoluyla atılır.",
     explain:"Deksmedetomidin SSS'de alfa 2 adrenerjik reseptörleri aktive ederek sedatif etki gösterir. Analjezi, anksiyoliz ve sedatif etkileri vardır. Kalp hızını ve kan basıncını düşürür. KARACİĞERDE metabolize edilir; metabolitleri safra ve idrar yoluyla atılır."
-  },
-  {
-    id:56,
-    year:"Sonbahar 2017 BENZERİ",
-    section:"İntravenöz Anestezikler – Deksmedetomidin (BENZERİ)",
-    question:"Yoğun bakımda entübe olarak takip edilen hastanın aşırı hareketli ve ajite olması nedeniyle deksmedetomidin infüzyonu planlanmıştır. Bu ilaçla ilgili olarak aşağıdaki ifadelerden hangisi <u>yanlıştır</u>? (Sonbahar 2017 BENZERİ)",
-    opts:["Santral α2-reseptör stimülasyonu ile etki eder","Anksiyolitik, analjezik ve sedatif etkileri amacıyla kullanılabilir","Minimal respiratuar depresyon görülür","Böbreklerde metabolize edilir","Katekolamin salınımında azalmaya sekonder kalp hızı ve kan basıncını düşürür"],
-    answer:3,
-    hint:"Deksmedetomidin karaciğerde metabolize edilir; böbreklerde değil.",
-    trap:"Yoğun bakımda solunum depresyonu yapmadan sedasyon sağlaması avantajıdır; ama böbreklerde metabolize olmaz.",
-    explain:"Deksmedetomidin karaciğerde hızlı bir şekilde metabolize olur; metabolitleri safra ve idrar yolu ile atılır. Renal ve hepatik yetmezlikler metabolitlerin atılımını geciktirebilir."
-  },
+  },,
   {
     id:57,
     year:"İlkbahar 2021 Orijinal",
@@ -804,18 +634,7 @@ const ALL_QUESTIONS = [
     hint:"Deksmedetomidin SSS'de α₂ adrenerjik reseptörleri aktive ederek sedatif etki gösterir.",
     trap:"Adrenalin, efedrin ve dopeksamin sempatomimetik ajanlardır; sedatif değildirler.",
     explain:"Deksmedetomidin SSS'de alfa 2 adrenerjik reseptörleri aktive ederek sedatif etki gösterir. 24 saatten fazla sürekli infüzyonu yapılmamalıdır; çünkü rebound hipertansiyon, rebound eksitabilite ve aritmi gelişebilir."
-  },
-  {
-    id:58,
-    year:"İlkbahar 2021 BENZERİ",
-    section:"İntravenöz Anestezikler – α₂ agonist (BENZERİ)",
-    question:"Yukarıda verilen alfa agonist ilaçlardan hangisi ya da hangilerinin sedatif etkinliği vardır? (İlkbahar 2021 BENZERİ) — I. Adrenalin / II. Efedrin / III. Deksmetodomidin",
-    opts:["Yalnız I","Yalnız II","Yalnız III","I-III","I-II-III"],
-    answer:2,
-    hint:"Yalnızca Deksmedetomidin sedatif etkinliği olan alfa agonisttir.",
-    trap:"Adrenalin ve efedrin karma (alfa ve beta) agonistlerdir; sedatif etkileri yoktur.",
-    explain:"Deksmedetomidin SSS'de alfa 2 adrenerjik reseptörleri aktive ederek sedatif etki gösterir. Adrenalin ve efedrin karma etkinliği olan ilaçlardır ve sedatif etkileri yoktur. Yalnız III doğrudur."
-  },
+  },,
   {
     id:59,
     year:"İlkbahar 2018 Orijinal",
@@ -826,7 +645,7 @@ const ALL_QUESTIONS = [
     hint:"Propofol GABA-A'ya bağlanır ama flumazenil (benzo antagonisti) propofol etkisini geri döndüremez.",
     trap:"Flumazenil benzodiazepin reseptörüne özgüdür; propofol etkisini antagonize etmez.",
     explain:"Propofol GABA-A'ya bağlanarak etki eden ancak etkisi spesifik benzodiazepin reseptör antagonisti olan flumazenil ile geri döndürülEMEZ. Bakteri üremesi riski nedeniyle ampul açıldıktan sonraki ilk 6-8 saatte kullanılmalıdır."
-  },
+  },,
   {
     id:60,
     year:"Sonbahar 2022 Orijinal",
@@ -838,7 +657,7 @@ const ALL_QUESTIONS = [
     trap:"Opioidler (morfin, fentanil, remifentanil) bulantıyı artırır; propofol ise azaltır.",
     explain:"Propofol antiemetik etkisi vardır ve postoperatif bulantı kusma yapmadığı için ve mental durumun berraklığını iyi koruduğundan dolayı ayaktan cerrahi müdahelelerde iyi tercihtir."
   },
-  // ── ANALJEZİKLER ─────────────────────────────────────────────────────────
+  // ── ANALJEZİKLER ─────────────────────────────────────────────────────────,
   {
     id:61,
     year:"İlkbahar 90",
@@ -849,7 +668,7 @@ const ALL_QUESTIONS = [
     hint:"Diasetilmorfin (eroin) bağımlılık yapıcı etkisi morfinden fazla olan yarı sentetik bir opioiddir.",
     trap:"Nalorfin parsiyel agonisttir; bağımlılık yapmaz. Diasetilmorfin (eroin) en yüksek bağımlılık potansiyeline sahiptir.",
     explain:"Diasetil morfin (eroin) bağımlılık yapıcı etkisi morfinden fazladır. Analjezik etkide morfinden 2,5 kat fazladır. Nalorfin parsiyel agonisttir."
-  },
+  },,
   {
     id:62,
     year:"Sonbahar 90",
@@ -860,7 +679,7 @@ const ALL_QUESTIONS = [
     hint:"Naloksan = saf narkotik antagonist. Nalorfin ise parsiyel agonisttir.",
     trap:"Nalorfin parsiyel agonist; Naloksan ise tam/saf antagonisttir. İkisi karıştırılır.",
     explain:"Naloksan saf narkotik antagonisttir. Nalorfin ise parsiyel agonisttir. Diğer şıklarda yer alan dolantin daha çok safra spazmı olan hastalarda analjezik olarak kullanılır, metadona bağımlılık tedavisinde kullanılır; hepsi saf narkotik etkilidir."
-  },
+  },,
   {
     id:63,
     year:"Sonbahar 96",
@@ -871,7 +690,7 @@ const ALL_QUESTIONS = [
     hint:"Nörolept analjezi = Fentanil + Droperidol (dehidrobenzperidol/haloperidol) kombinasyonu.",
     trap:"Ketamin dissosiyatif anestezi yapar, nörolept analjezi değil. Fentanil nörolept analjezinin opioid bileşenidir.",
     explain:"Fentanil ve donperidol anestezisiz nörolept analjezi yapar. Bu iki ajana azot protoksit inhalasyonu eklenirse buna da nörolept anestezi denir. Metoksifluran en güçlü genel anesteziktir. Ketamin dissosiyatif anestezi yapar. Mepivakain ve prilokain lokal anestezik ajanlardır."
-  },
+  },,
   {
     id:64,
     year:"İlkbahar 2002",
@@ -882,7 +701,7 @@ const ALL_QUESTIONS = [
     hint:"Fentanil hemodinamik stabilite açısından diğer opioidlerden üstündür; KVS depresyonu en azdır.",
     trap:"Morfin histamin salınımına yol açarak hipotansiyon yapabilir; fentanil yapmaz.",
     explain:"Kardiyovasküler depresyon etkisi en az olan ajan Fentanildir. Fentanil; lipofilik yapıda, potensi yüksek, hemodinamik stabilitesi diğer opioidlerden daha iyidir. Solunum depresyonu etkisinin morfine oranla daha kısa süre olması, hemodinamik etkilerinin daha az olması ve histamin salınımı yapmaması gibi özellikleri ile anestezi amacıyla tercih edilmektedir."
-  },
+  },,
   {
     id:65,
     year:"Sonbahar 2013 Orijinal",
@@ -893,18 +712,7 @@ const ALL_QUESTIONS = [
     hint:"Fentanil opioid analjeziktir; adjuvan ilaç değildir. Adjuvan ilaçlar asıl amacı ağrı tedavisi olmayan ama ağrıyı azaltan ilaçlardır.",
     trap:"Adjuvan ilaçlar antidepresanlar, antiepileptikler, kortikosteroidler vb.'dir. Fentanil opioid analjeziktir, adjuvan değil.",
     explain:"Bu soruda kritik olan 'adjuvan' kelimesidir. Adjuvan ilaçlar, asıl olarak ağrı tedavisi için değil, başka hastalıkların tedavisi amacı ile kullanılan ama ek ağrı kesici ilaçlardır. Fentanil ve Alfentanil ise bir opioid analjeziktir."
-  },
-  {
-    id:66,
-    year:"Sonbahar 2013 BENZERİ",
-    section:"Analjezikler – Adjuvan (BENZERİ)",
-    question:"Aşağıdakilerden hangisi prostat kanserinin vertebra metastazına bağlı ortaya çıkan ağrının palyatif tedavisinde kullanılabilecek adjuvan ilaçlardan biri <u>değildir</u>? (Sonbahar 2013 BENZERİ)",
-    opts:["Pregabalin","Lidokain","Amantadin","Sertralin","Alfentanil"],
-    answer:4,
-    hint:"Alfentanil opioid analjeziktir; adjuvan ajan değildir.",
-    trap:"Sertralin (SSRI) adjuvan; Lidokain (lokal anestezik/antiaritmik) adjuvan sayılabilir; Alfentanil ise opioid analjeziktir.",
-    explain:"Bu soruda kritik olan 'adjuvan' kelimesidir. Fentanil ve Alfentanil birer opioid analjeziktir. Adjuvan analjezik ilaçlar arasında antidepresanlar, antiepileptikler, lokal anestezikler, kortikosteroidler, NMDA reseptör antagonistleri yer alır."
-  },
+  },,
   {
     id:67,
     year:"İlkbahar 2022 Orijinal",
@@ -915,18 +723,7 @@ const ALL_QUESTIONS = [
     hint:"Meperidin postoperatif titremeyi azaltır ve sadece akut ağrıda kullanılır.",
     trap:"Sugammadeks nöromusküler blok antagonisti; flumazenil benzodiazepin antagonisti; bunların titreme ile ilgisi yoktur.",
     explain:"Postoperatif titreme oluşumu mekanizması tam olarak bilinmeyen ve ameliyat sonrası bakım ünitelerinde sık görülen bir komplikasyondur. Tedavisinde ilk tercih meperidin olmalıdır. Meperidin anestezi sonrası titremeyi azaltır ve sadece akut ağrıda kullanılır."
-  },
-  {
-    id:68,
-    year:"İlkbahar 2022 BENZERİ",
-    section:"Analjezikler – Postoperatif Titreme (BENZERİ)",
-    question:"Genel anestezi sonrası derlenme amacıyla ameliyat sonrası bakım ünitesinde takip edilen 32 yaşında kadın hastada gelişen postoperatif titreme tedavisinde kullanılması gereken ilaç aşağıdakilerden hangisidir? (İlkbahar 2022 BENZERİ)",
-    opts:["Parasetamol","Sugammadeks","Lidokain","Meperidin","Flumazenil"],
-    answer:3,
-    hint:"Postoperatif titreme → Meperidin ilk tercih.",
-    trap:"Sugammadeks ve flumazenil antagonisttir; titremede kullanılmaz. Meperidin antititreyici etkiye sahiptir.",
-    explain:"Meperidin antikolinerjik yan etkileri nedeniyle miyotik etkisi çok azdır. Postoperatif meydana gelebilecek titremeyi azaltır ve sadece akut ağrıda kullanılır. Postoperatif titremede ilk tercih meperidindir."
-  },
+  },,
   {
     id:69,
     year:"İlkbahar 2015 Orijinal",
@@ -937,18 +734,7 @@ const ALL_QUESTIONS = [
     hint:"Opioidler KABİZLIK yapar; diyare opioidlerin yan etkisi değildir.",
     trap:"Opioid intoksikasyonunda kabızlık beklenir; diyare opioidlerin değil, antikolinesterazların yan etkisidir.",
     explain:"Opioid intoksikasyonu: analjezi, solunum depresyonu, kabızlık, bulantı, kusma, ortostatik hipotansiyon, toplu iğne başı pupil, deri soğuk ve nemli, kas tonusu azalmış, duygu durum değişiklikleri, pruritis. Diyare değil KABİZLIK opioid yan etkisidir."
-  },
-  {
-    id:70,
-    year:"İlkbahar 2015 BENZERİ",
-    section:"Analjezikler – Opioid Yan Etki (BENZERİ)",
-    question:"Yukarıda verilen klinik durumlardan opioid yan etkisi olanlar aşağıdakilerden hangisinde doğru olarak verilmiştir? (İlkbahar 2015 BENZERİ) — I. Kasıntı / II. Sedasyon / III. Solunum depresyonu / IV. Diyare",
-    opts:["Yalnız I","I ve II","I, II ve III","II, III ve IV","Yalnız IV"],
-    answer:2,
-    hint:"Opioid yan etkileri: bulantı, solunum depresyonu, kabızlık, sedasyon, kasıntı. Diyare değil.",
-    trap:"IV (Diyare) opioid yan etkisi DEĞİLDİR; KABİZLIK yapar. Yalnızca I, II ve III doğrudur.",
-    explain:"Opioid yan etkileri: analjezi, solunum depresyonu, kabızlık, bulantı/kusma, sedasyon, kasıntı, pruritis vb. Diyare opioid yan etkisi değildir. I, II ve III doğrudur."
-  },
+  },,
   {
     id:71,
     year:"İlkbahar 2022 Orijinal",
@@ -959,18 +745,7 @@ const ALL_QUESTIONS = [
     hint:"Morfin doğal opioiddir; haşhaş bitkisinden (Papaver somniferum) elde edilir.",
     trap:"Metadon, fentanil ve sufentanil sentetik; morfin ise doğal opioiddir.",
     explain:"Doğal opioidler: morfin, kodein, papaverin. Yarı sentetik opioidler: eroin, dilaudid. Sentetik opioidler: morfin türevleri (levorfanol), metadon türevleri (metadon), fenilpiperidin türevleri (meperidin, fentanil vb.). Morfin doğal opioiddir."
-  },
-  {
-    id:72,
-    year:"İlkbahar 2022 BENZERİ",
-    section:"Analjezikler – Sentetik Opioid (BENZERİ)",
-    question:"Yukarıda verilen opioid türevlerinden hangisi ya da hangileri sentetik yapıdadır? (İlkbahar 2022 BENZERİ) — I. Metadon / II. Fentanil / III. Morfin",
-    opts:["Yalnız I","Yalnız II","Yalnız III","I-II","I-II-III"],
-    answer:3,
-    hint:"Metadon ve fentanil sentetik; morfin doğal opioiddir.",
-    trap:"Morfin doğal opioiddir. Yalnızca I ve II (metadon ve fentanil) sentetiktir.",
-    explain:"Doğal opioidler: morfin, kodein, papaverin. Sentetik opioidler: Morfin türevleri (levorfanol), Metadon türevleri (metadon), Fenilpiperidin türevleri (meperidin, fentanil vb.). I ve II sentetik; III (morfin) doğaldır."
-  },
+  },,
   {
     id:73,
     year:"Sonbahar 2019 Orijinal",
@@ -981,18 +756,7 @@ const ALL_QUESTIONS = [
     hint:"Opioid kaynaklı solunum depresyonu → antidot NALOKSANdır.",
     trap:"Flumazenil benzo antagonisti; sugammadeks nöromusküler blok antagonisti; nalokson opioid antagonistidir.",
     explain:"Opioid kullanımına veya doz aşımına bağlı meydana gelen solunum depresyonunda bu etkiyi geri çevirmek için kullanılması gereken en uygun ajan naloksandır."
-  },
-  {
-    id:74,
-    year:"Sonbahar 2019 BENZERİ",
-    section:"Analjezikler – Opioid Antagonist (BENZERİ)",
-    question:"Opioid kullanımına bağlı ortaya çıkan solunum depresyonunun ortadan kaldırılması için kullanılması gereken ilaç aşağıdakilerden hangisidir? (Sonbahar 2019 BENZERİ)",
-    opts:["Flumazenil","Sugammadeks","Neostigmin","Naloksan","Adrenalin"],
-    answer:3,
-    hint:"Opioid solunum depresyonu → NALOKSANdır.",
-    trap:"Flumazenil benzodiazepin, sugammadeks nöromusküler blok, neostigmin antikolinesteraz antagonistidir.",
-    explain:"Naloksan; Mü ve Kappa üzerine tam antagonistik etki oluşturarak, opioidlerin etkisini ortadan kaldırır (naltrekson gibi). Opioid kaynaklı solunum depresyonunu tersine çevirir."
-  },
+  },,
   {
     id:75,
     year:"Sonbahar 2015 Orijinal",
@@ -1003,18 +767,7 @@ const ALL_QUESTIONS = [
     hint:"NAC Türkiye'de tablet, şurup ve AMPUL formları olan bir ilaçtır; sadece oral form yanlıştır.",
     trap:"NAC'ın IV formu da mevcuttur ve özellikle ciddi vakalarda IV kullanılır.",
     explain:"N-asetil sistein (NAC) mukolitik ve antioksidan özellikleri için kullanılan, Türkiye'de tablet, şurup ve ampul formları olan bir ilaçtır. NAC asetaminofenin antidotudur. İlaç alımından sonraki ilk 8 saat içinde NAC uygulaması durumunda ciddi hepatotoksisite ve ölüm çok nadirdir."
-  },
-  {
-    id:76,
-    year:"İlkbahar 2015 BENZERİ",
-    section:"Analjezikler – Parasetamol Antidot (BENZERİ)",
-    question:"Parasetamol zehirlenmesinde antidot olarak kullanılan ilaç ile ilgili aşağıdaki ifadelerden hangisi <u>yanlıştır</u>? (İlkbahar 2015 BENZERİ)",
-    opts:["Glutatyon analogudur","Anti-oksidan özelliğe sahiptir","Mukolitik özelliğe sahiptir","Sadece intramuskuler formu vardır","Erken verilirse daha etkilidir"],
-    answer:3,
-    hint:"NAC tablet, şurup ve ampul (IV/oral) formlarında mevcuttur; sadece IM form yanlıştır.",
-    trap:"NAC'ın IM değil IV ve oral formu mevcuttur.",
-    explain:"N-asetil sistein (NAC) mukolitik ve antioksidan özellikleri için kullanılır. Türkiye'de tablet, şurup ve ampul formları olan bir ilaçtır. IV (intravenöz) ve oral olarak kullanılabilir. Sadece IM form yanlış ifadedir."
-  },
+  },,
   {
     id:77,
     year:"Sonbahar 2024",
@@ -1026,7 +779,7 @@ const ALL_QUESTIONS = [
     trap:"N-asetilsistein ketamin antagonisti değil; parasetamol zehirlenmesinde antidot olarak kullanılır.",
     explain:"İlaçlar ve antagonistleri: Midazolam→Flumazenil, Heparin→Protamin, Morfin→Naloksan, Rokuronyum→Sugammadeks. N-asetil sistein ise parasetamol zehirlenmesinde antidot olarak kullanılmaktadır; ketaminin antagonisti değildir."
   },
-  // ── NÖROMUSKÜLER BLOK VE KAS GEVŞETİCİLER ────────────────────────────────
+  // ── NÖROMUSKÜLER BLOK VE KAS GEVŞETİCİLER ────────────────────────────────,
   {
     id:78,
     year:"Sonbahar 89",
@@ -1037,7 +790,7 @@ const ALL_QUESTIONS = [
     hint:"Organofosfatlar psödokolinesteraz enzimini inhibe eder → süksinilkolinin uzamış etkisi → apne.",
     trap:"Neostigmin antikolinesteraz ama geri dönüşümlü; organofosfatlar geri dönüşümsüz inhibe eder.",
     explain:"Psödokolinesteraz enzim eksikliği, kalıtımsal ya da kazanılmış olarak görülebilen nadir bir durumdur. Organofosfatlar psödokolinesteraz enzimini inhibe ederek süksinilkolinin etkisini uzatabilir."
-  },
+  },,
   {
     id:79,
     year:"İlkbahar 2023",
@@ -1048,7 +801,7 @@ const ALL_QUESTIONS = [
     hint:"Organofosfatlar kolinerjik kriz → muskarinik: bradikardi, bronkore, bronkospazm.",
     trap:"Beta blokörlerde de bradikardi olur ama bronkospazm ve aşırı sekresyon (kolinerjik bulgular) organofosfatlara özgüdür.",
     explain:"Organofosfatlar tarımda pestisit olarak kullanılan ilaçlardır. Asetilkolinesterazı inhibe ederek kolinerjik kriz oluşturur. Muskarinik reseptör blokajı sonrası: tükürük salgısında artış, lakrimasyon, miyozis, idrar ve gaita inkontinansı, bulantı-kusma ve bradikardi, bronkore, bronkospazm görülür."
-  },
+  },,
   {
     id:80,
     year:"Sonbahar 90",
@@ -1059,7 +812,7 @@ const ALL_QUESTIONS = [
     hint:"Süksinilkolin plazmada psödokolinesteraz tarafından yıkılır; eksikliğinde etki uzar → apne.",
     trap:"Asetilkolin esteraz sinaptik aralıktaki ACh'yi yıkar; psödokolinesteraz ise plazmadaki süksinilkolini yıkar.",
     explain:"Süksinil kolin normalde depolarizandır ve psödokolinesteraz (plazma kolinesteraz) tarafından plazmada hızla yıkılır. Psödokolinesterazın genetik bozukluğunda uzamış apne ve malign hipertermi oluşabilir."
-  },
+  },,
   {
     id:81,
     year:"İlkbahar 93",
@@ -1070,7 +823,7 @@ const ALL_QUESTIONS = [
     hint:"Psödokolinesteraz eksikliğinde süksinilkolin yıkılamaz → uzamış nöromusküler blok → apne.",
     trap:"Aplastik anemi ile psödokolinesteraz eksikliğinin ilgisi yoktur. Apne nöbetinin uzaması asıl klinik tablodur.",
     explain:"Psödokolinesteraz enzim eksikliği, kalıtımsal ya da kazanılmış olarak görülebilen nadir bir durumdur. Klinikteki etkisi süksinilkolinin ve mivaküryum gibi ekzojen kolin ester ilaçlarının yıkılmasında anormal uzama şeklinde görülür. Operasyondan sonra apne nöbetinin uzaması en muhtemel klinik tablodur."
-  },
+  },,
   {
     id:82,
     year:"İlkbahar 95",
@@ -1081,7 +834,7 @@ const ALL_QUESTIONS = [
     hint:"Baklofen presinaptik GABA-B reseptörlerini aktive eder; oral yolla kullanılır.",
     trap:"Dantrolen santral değil periferik (sarkoplazmik retikulum) etkilidir. Baklofen GABA-B agonistidir.",
     explain:"Baklofen presinaptik GABA-B reseptörlerini aktive ederek inhibisyonu güçlendirir. GABA'ya benzer yapıdadır. Oral yolla kullanılır. Multipl skleroz ve omurilik lezyonlarındaki nörolojik hastalıklarda gelişen kronik spastisitede kullanılır."
-  },
+  },,
   {
     id:83,
     year:"İlkbahar 96",
@@ -1092,7 +845,7 @@ const ALL_QUESTIONS = [
     hint:"Süksinilkolin tek klinik kullanımda olan depolarizan kas gevşeticidir.",
     trap:"Gallamin, pankuronyum, atrakuryum, vekuronyum hepsi nondepolarizan. Yalnızca süksinilkolin depolarizan.",
     explain:"Süksinil kolin depolarizan tipte blok yapan kas gevşeticidir. Diğer şıklarda verilen ajanların hepsi non-depolarizan tipte blok yapan kas gevşetici ajanlardır."
-  },
+  },,
   {
     id:84,
     year:"Sonbahar 2010",
@@ -1103,7 +856,7 @@ const ALL_QUESTIONS = [
     hint:"Süksinilkolin depolarizan blok yapan tek klinik ajandır.",
     trap:"Diğer tüm seçenekler nondepolarizan blokörlardır.",
     explain:"Süksinil kolin depolarizan tipte blok yapan kas gevşeticidir. Diğer şıklarda verilen ajanlar (vekuronyum, atrakuryum, rokuronyum, mivakuryum) hepsi non-depolarizan tipte blok yapan kas gevşetici ajanlardır."
-  },
+  },,
   {
     id:85,
     year:"İlkbahar 2018 Orijinal",
@@ -1114,18 +867,7 @@ const ALL_QUESTIONS = [
     hint:"Pankuronyum yaklaşık %80 kadarı değişmeden böbrekler tarafından elimine edilir.",
     trap:"Atrakuryum ve süksinilkolin böbrek fonksiyonundan bağımsızdır. Pankuronyum renal atılımı en fazla olandır.",
     explain:"Pankuronyum uzun etkili, nondepolarizan blok yapan kas gevşeticidir. Yaklaşık %80 kadarı değişmeden böbrekler tarafından elimine edilir. Kronik böbrek yetmezliği olan hastalarda ilacın klerensi şiddetle etkileneceğinden daha az miktarda başlangıç ve idame dozu almalıdırlar."
-  },
-  {
-    id:86,
-    year:"İlkbahar 2018 BENZERİ",
-    section:"Nöromusküler Blok – Renal Yetmezlik (BENZERİ)",
-    question:"Son dönem renal yetmezliği olan bir hastada kas gevşemesi amacıyla kullanılması uygun <u>olmayan</u> nöromusküler blokör ilaç aşağıdakilerden hangisidir? (İlkbahar 2018 BENZERİ)",
-    opts:["Atrakuryum","Rokuronyum","Süksinilkolin","Pankuronyum","Vekuronyum"],
-    answer:3,
-    hint:"Pankuronyum %80 renal atılım → böbrek yetmezliğinde KONTRENDİKE.",
-    trap:"Atrakuryum ve süksinilkolinin eliminasyonu böbrek fonksiyonundan bağımsızdır; pankuronyum değildir.",
-    explain:"Pankuronyum yaklaşık %80 kadarı değişmeden böbrekler tarafından elimine edilir. Kronik böbrek yetmezliği olan hastalarda kullanılmamalıdır. Vekuronyum ve rokuronyum az da olsa böbrek tarafından elimine edilirler fakat etki süreleri böbrek hastalıklarından belirgin etkilenmez. Atrakuryum ve süksinilkolinin eliminasyonu böbrek fonksiyonundan bağımsızdır."
-  },
+  },,
   {
     id:87,
     year:"İlkbahar 89",
@@ -1136,7 +878,7 @@ const ALL_QUESTIONS = [
     hint:"Dantrolen direkt kasa etkili; sarkoplazmik retikulumdan Ca++ salınımını inhibe eder.",
     trap:"Suksinil kolin nöromusküler kavşakta etki eder; dantrolen ise doğrudan kas hücresi düzeyinde etki gösterir.",
     explain:"Dantrolen çizgili kasları kas düzeyinde gevşeten hidantoin türevi bir ilaçtır. Ancak kullanılış yerleri bakımından santral etkili kas gevşeticilere benzer. Dantrolen bu etkisinden başka malign hipertermi tedavisinde de kullanılır."
-  },
+  },,
   {
     id:88,
     year:"İlkbahar 89",
@@ -1147,7 +889,7 @@ const ALL_QUESTIONS = [
     hint:"Dantrolen sarkoplazmik retikulumdan Ca++ salınımını inhibe ederek çizgili kasta etki eder.",
     trap:"Baklofen santral etki gösterir (GABA-B). Dantrolen ise periferik (kas düzeyinde) etki gösterir.",
     explain:"Dantrolen kullanış yerleri bakımından santral etkili kas gevşeticilere benzer fakat etkisini çizgili kas hücrelerinin sarkoplazmik retikulumundan Ca++ salıvermesini inhibe ederek yapar. Malign hipertermi tedavisinde kullanılır."
-  },
+  },,
   {
     id:89,
     year:"İlkbahar 90",
@@ -1159,7 +901,7 @@ const ALL_QUESTIONS = [
     trap:"Baklofen GABA-B; diazepam GABA-A üzerinden çalışır. Dantrolen direkt kas hücresinde etki eder.",
     explain:"Dantrolen hidantoin türevi bir ilaçtır. Kas gevşetici etkisinin mekanizması ve etki yeri bakımından santral etkili kas gevşeticilerden ve nöromusküler blok edici ilaçlardan ayrılır. T-tübül membranına yayılan depolarizasyon, sarkoplazmik retikulumu etkilemesi ve bunun sonucu sarkoplazmik retikulumdan Ca++ salıverilmesini inhibe eder."
   },
-  // ── LOKAL ANESTEZİ VE LOKAL ANESTEZİKLER ────────────────────────────────
+  // ── LOKAL ANESTEZİ VE LOKAL ANESTEZİKLER ────────────────────────────────,
   {
     id:90,
     year:"Sonbahar 87",
@@ -1170,7 +912,7 @@ const ALL_QUESTIONS = [
     hint:"Lidokain her tip lokal anestezi uygulamasında kullanılabilir; en çok yönlü lokal anesteziktir.",
     trap:"Bupivakain topikal (yüzeyel) anestezi dışında kullanılır. Lidokain her tipte kullanılabilir.",
     explain:"Lidokain her tip lokal anestezide uygulanabilir. Etkisi çabuk başlar. IV yoldan (adrenalinsiz) antiaritmik olarak kullanılabilir."
-  },
+  },,
   {
     id:91,
     year:"İlkbahar 97",
@@ -1181,7 +923,7 @@ const ALL_QUESTIONS = [
     hint:"Bier bloğu (IV rejyonel anestezi) için lidokain kullanılır; turnike ile sistemik dolaşımdan izole edilir.",
     trap:"Kokain sadece topikal, prokain kısa etkili ester LA'dır. IV rejyonel anestezi için lidokain tercih edilir.",
     explain:"Lidokain her tip lokal anestezide uygulanabilir. IV yoldan (adrenalinsiz) antiaritmik olarak kullanılabilir. IV rejyonel anestezi (Bier bloğu) için lidokain kullanılır."
-  },
+  },,
   {
     id:92,
     year:"Sonbahar 87",
@@ -1192,7 +934,7 @@ const ALL_QUESTIONS = [
     hint:"Vazokonstriktör (adrenalin) eklenmesi absorbsiyonu yavaşlatır → etki süresi uzar.",
     trap:"Vazokonstriktör etki alanını değil ETKİ SÜRESİNİ uzatır ve sistemik toksik reaksiyonları azaltır. B ve C her ikisi de doğrudur; ancak B daha doğru/net cevaptır. (Orijinal cevap B/C).",
     explain:"Vazokonstriktör eklenmesi veya karbonasyon ile sağlanır. Absorbsiyon yavaşlar, sonuçta etki süresi uzar, sistemik toksik reaksiyonlar önlenir ve kanama azalır. Vazokonstriktör olarak en çok, 1/200.000'lik adrenalin kullanılır."
-  },
+  },,
   {
     id:93,
     year:"İlkbahar 92",
@@ -1203,7 +945,7 @@ const ALL_QUESTIONS = [
     hint:"Vazokonstriktör absorbsiyonu yavaşlatır → etki süresi uzar + sistemik toksisite azalır.",
     trap:"Vazokonstriktörün temel amacı etki süresini uzatmak ve sistemik toksisiteyi azaltmaktır.",
     explain:"Vazokonstriktör eklenmesi ile absorbsiyon yavaşlar; sonuçta etki süresi uzar, sistemik toksik reaksiyonlar önlenir ve kanama azalır. Vazokonstriktör olarak en çok, 1/200.000'lik adrenalin kullanılır."
-  },
+  },,
   {
     id:94,
     year:"Sonbahar 88",
@@ -1214,7 +956,7 @@ const ALL_QUESTIONS = [
     hint:"LA'lara duyarlılık sırası: C > B > A' > γ = β > α. Alfa motor aksonları en az etkilenir.",
     trap:"İnce miyelinsiz C lifleri en kolay bloke edilir; kalın miyelinli alfa motor aksonları en son etkilenir.",
     explain:"Lokal anestezikler membranda Na kanallarının açılmasını engelleyerek içe yönelik hızlı Na akımını azaltırlar. İnce myelinsiz lifler daha fazla etkiledikleri için en fazla C liflerini etkiler. En az motor aksonları (alfa motor aksonları) etkilenir. LA'lara duyarlılıkları şu şekilde sıralanır: C > B > A' > γ = β > α."
-  },
+  },,
   {
     id:95,
     year:"İlkbahar 88",
@@ -1225,7 +967,7 @@ const ALL_QUESTIONS = [
     hint:"Alfa motor aksonları kalın miyelinli lifler olduğundan LA'ya en az duyarlıdır.",
     trap:"Postgangliyonik sempatik ve C lifleri (ince, miyelinsiz) en duyarlı olanlardır.",
     explain:"İnce myelinsiz lifler daha fazla etkiledikleri için en fazla C liflerini etkiler. (Postgangliyonik sempatik ve dorsal kök C lifleri). En az motor aksonları (alfa motor aksonları) etkilenir."
-  },
+  },,
   {
     id:96,
     year:"Sonbahar 97",
@@ -1236,7 +978,7 @@ const ALL_QUESTIONS = [
     hint:"Bupivakain topikal (yüzeyel) anestezi DIŞINDA bütün lokal anestezi şekillerinde kullanılır.",
     trap:"Bupivakain özellikle epidural anestezide tercih edilir; topikal kullanım için uygun değildir.",
     explain:"Bupivakain topikal (yüzeyel) anestezi dışında bütün lokal anestezi şekillerinde kullanılır. En uzun etkili lokal anesteziktir. Lokal anestezi şekilleri: yüzeyel anestezi, infiltrasyon anestezi, kaudal anestezi, epidural anestezi, spinal anestezi."
-  },
+  },,
   {
     id:97,
     year:"İlkbahar 2008",
@@ -1247,7 +989,7 @@ const ALL_QUESTIONS = [
     hint:"Adrenalin sempatomimetik bir ajandır; vazokonstrüksiyon yaparak LA absorbsiyonunu yavaşlatır → etki uzar.",
     trap:"Atropin muskarinik reseptör blokörüdür; vazodilatasyon yapar ama LA etkisini uzatmaz.",
     explain:"Adrenalin sempatomimetik bir ajan olduğu için vazokonstrüksiyon yaparak verilen anesteziklerin absorbsiyon hızını azaltır. Yavaş emilen anesteziğin etki süresi ise uzar."
-  },
+  },,
   {
     id:98,
     year:"İlkbahar 2009",
@@ -1258,7 +1000,7 @@ const ALL_QUESTIONS = [
     hint:"Bupivakain amid yapılı LA'lar içinde en uzun etkili olandır (sistemik kullanımlarda).",
     trap:"Tetrakain de uzun etkilidir (spinal anestezide) ama sistemik kullanılanlarda bupivakain en uzun etkili.",
     explain:"Bupivakain özellikle epidural anestezide tercih edilen amid yapılı bir lokal anesteziktir. Sistemik kullanılanlar içinde en uzun etkili olandır. Ropivakain bazı kaynaklarda bupivakain ile birlikte en uzun etkili olarak kabul edilir."
-  },
+  },,
   {
     id:99,
     year:"Sonbahar 2009",
@@ -1269,7 +1011,7 @@ const ALL_QUESTIONS = [
     hint:"Prilokain vücutta oluşan toluidin metaboliti Methemoglobinemi oluşturur.",
     trap:"Lignokain (lidokain) SSS toksik etki gösterir; methemoglobin değil. Prilokain methemoglobin yapar.",
     explain:"Prilokain amid yapılı bir lokal anesteziktir. Vücutta oluşan toluidin metaboliti Methemoglobinemi oluşturur. Obstetride, KOAH'da ve siyanotik kalp hastalıklarında kullanılamaz."
-  },
+  },,
   {
     id:100,
     year:"Sonbahar 2011",
@@ -1281,7 +1023,7 @@ const ALL_QUESTIONS = [
     trap:"Kalsiyum kanal blokörü lidokain değil; verapamil vb. ilaçlardır. Lidokain sodyum kanal blokörüdür.",
     explain:"Lidokain her tip lokal anestezide uygulanabilir. IV yoldan (adrenalinsiz) antiaritmik olarak kullanılabilir. Karaciğerde yıkılır; oluşan monoetilglisin xylidid ve glisin xylidid metabolitleri SSS üzerine toksik etki gösterir (en erken bulgu nistagmus)."
   },
-  // ── LOKAL ANESTEZİ devam ─────────────────────────────────────────────────
+  // ── LOKAL ANESTEZİ devam ─────────────────────────────────────────────────,
   {
     id:1,
     year:"Sonbahar 2018 Orijinal",
@@ -1292,18 +1034,7 @@ const ALL_QUESTIONS = [
     hint:"Bupivakain kardiyotoksisitesinde standart KPR'ye dirençli arrest → İNTRALİPİD (IV lipid solüsyonu).",
     trap:"Metilen mavisi methemoglobin tedavisinde kullanılır; bupivakain toksisitesinde değil.",
     explain:"Lokal anestezik toksisitesinde özellikle bupivakain kullanımında resüsitasyona dirençli kardiyak arrest durumlarında tedavide kullanılacak ajan intravenöz lipid solüsyonudur. İntravenöz intralipid emülsiyonun bupivakaine bağlı KVS toksisitesini belirgin şekilde azalttığı gösterilmiştir."
-  },
-  {
-    id:2,
-    year:"Sonbahar 2018 BENZERİ",
-    section:"Lokal Anestezi – Bupivakain Toksisitesi (BENZERİ)",
-    question:"Bupivakain kardiyotoksisitesi sonucu meydana gelen resüsitasyona dirençli kardiyak arrest durumlarında kullanılması <u>en uygun</u> tedavi seçeneği aşağıdakilerden hangisidir? (Sonbahar 2018 BENZERİ)",
-    opts:["İntravenöz amino asit solüsyonu","İntravenöz lipid solüsyonu","D vitamini","C vitamini","Metilen mavisi"],
-    answer:1,
-    hint:"Bupivakain KVS toksisitesi → İntravenöz lipid solüsyonu (intralipid) ilk tercih.",
-    trap:"Amino asit solüsyonu değil LİPİD solüsyonu kullanılır. Buradaki mantık lipid 'sink' etkisiyle lipofil bupivakain moleküllerini bağlamasıdır.",
-    explain:"Lokal anestezik toksisitesinde özellikle bupivakain kullanımında resüsitasyona dirençli kardiyak arrest durumlarında tedavide kullanılacak ajan intravenöz lipid solüsyonudur."
-  },
+  },,
   {
     id:3,
     year:"İlkbahar 2021 Orijinal",
@@ -1314,19 +1045,7 @@ const ALL_QUESTIONS = [
     hint:"Obstrüktif uyku apnesi periferik sinir blokları için kontraendikasyon TEŞKİL ETMEZ; aksine genel anestezi yerine tercih sebebidir.",
     trap:"Obstrüktif uyku apnesinin periferik sinir blokları ile ilgili kontraendikasyon teşkil eden bir durumu yoktur.",
     explain:"Periferik sinir blokları için majör kontrendikasyonlar: hasta reddi, aktif enfeksiyon, lokal anestezik alerjisi, blok yapılacak alanda önceden sinir hasarı. Obstrüktif uyku apnesi ise aksine genel anestezi yerine bölgesel anestezi tercihini destekler; kontrendikasyon değildir."
-  },
-  {
-    id:4,
-    year:"İlkbahar 2021 BENZERİ",
-    section:"Lokal Anestezi – Aksiller Blok Kontrendikasyon (BENZERİ)",
-    question:"Yukarıdakilerden hangisi/hangilerinin varlığı aksiller blok için kontraendikasyon teşkil eden durumlardan biri <u>değildir</u>? (İlkbahar 2021 BENZERİ) — I. Hastanın onay vermemesi / II. Hastada lokal anestezik alerjisi öyküsü / III. Blok yapılacak alanda aktif enfeksiyon varlığı / IV. Hastada uyku apnesi varlığı",
-    opts:["Yalnız I","Yalnız IV","I-II","I-II-III","I-II-III-IV"],
-    answer:1,
-    hint:"Uyku apnesi (IV) aksiller blok için kontrendikasyon değildir; diğerleri (I, II, III) kontrendikasyondur.",
-    trap:"I, II ve III gerçek kontrendikasyonlar; IV (uyku apnesi) değildir.",
-    explain:"Periferik sinir bloklarının majör kontrendikasyonları: hasta reddi (I), lokal anestezik alerjisi (II), aktif enfeksiyon (III). Uyku apnesi (IV) kontrendikasyon değildir. Yalnız IV doğru cevaptır."
-  },
-  // ── SANTRAL (NÖROAKSİYEL) BLOKLAR ───────────────────────────────────────
+  },,
   {
     id:5,
     year:"Sonbahar 2008",
@@ -1337,7 +1056,7 @@ const ALL_QUESTIONS = [
     hint:"Doğum (vaginal doğum ve sezeryan) spinal/epidural anestezinin endikasyonlarındandır; kontrendikasyon değil.",
     trap:"Artmış kafa içi basıncı kontrendikasyon; doğum ise aksine yaygın endikasyondur.",
     explain:"Spinal anestezi endikasyonları: alt ekstremite, alt abdomen ve perinedeki girişimler ile analjezi amacıyla, ayrıca sezeryan ve vaginal doğumda kullanılır. Doğum kontrendikasyon değil endikasyondur. Enfeksiyon, koagülopati, artmış KİB ve ağır hipovolemi kontrendikasyonlardır."
-  },
+  },,
   {
     id:6,
     year:"Sonbahar 2020 Orijinal",
@@ -1348,18 +1067,7 @@ const ALL_QUESTIONS = [
     hint:"Menopoz spinal anestezinin dermatomal yayılımını etkileyen faktörler arasında değildir.",
     trap:"Hastanın menapozda olması spinal anestezi seviyesi için bizim için bir anlamı yoktur.",
     explain:"Spinal anestezide dermatomal yayılımda etkili olan faktörler: ilaç dozu, barisitesi, uygulanma noktası (enjeksiyonun yeri) ve hasta pozisyonu en önemli faktörlerdir. Menopoz bu faktörler arasında yer almaz."
-  },
-  {
-    id:7,
-    year:"Sonbahar 2020 BENZERİ",
-    section:"Santral Bloklar – Spinal Anestezi Seviyesi (BENZERİ)",
-    question:"Elli yedi yaşında kadın hastaya miyomektomi ameliyatı nedeniyle anestezi için oturur pozisyonda L3-4 seviyesinden spinal anestezi uygulanıyor. Hastaya BOS gelmesini takiben ilaç ağlayarak 2ml %0,5 hiperbarik bupivakain uygulanıyor. Hastanın operasyonu sorunsuz olarak gerçekleştirilisin sonlandırılıyor. Bu hasta için spinal anestezinin seviyesi üzerine etkisi olması <u>beklenmeyen</u> durum aşağıdakilerden hangisidir? (Sonbahar 2020 BENZERİ)",
-    opts:["Uygulanan ilacın barisitesi","Uygulanan ilacın dozu","Hastanın menapozda olması","Hastanın pozisyonu","Enjeksiyonun yeri"],
-    answer:2,
-    hint:"Menopoz spinal anestezi seviyesini etkileyen faktörler arasında yoktur.",
-    trap:"Doz, barisitesi, pozisyon ve enjeksiyon yeri etkili; menopoz etkisizdir.",
-    explain:"Spinal anestezide dermatomal yayılımda etkili olan faktörler: ilaç dozu, barisitesi, uygulanma noktası ve hasta pozisyonu. Hastanın menapozda olması bu faktörler arasında yer almaz."
-  },
+  },,
   {
     id:8,
     year:"Sonbahar 2023",
@@ -1370,7 +1078,7 @@ const ALL_QUESTIONS = [
     hint:"Hastanın mobilize edilme zamanı postspinal baş ağrısı insidansını artırmaz; iğne kalınlığı, genç yaş, kadın cinsiyet artırır.",
     trap:"Erken mobilizasyon baş ağrısını artırır mı? Hayır; bu inanış eskidir. Mobilizasyon zamanının etkisi yoktur.",
     explain:"Spinal anestezi sonrası geç görülen en önemli komplikasyon baş ağrısıdır. Kalın iğne ile blok yapıldığında, gençlerde, kadınlarda ve gebelerde daha sıktır. Genellikle frontal bazan oksipitalde yaygın özelliktedir, ayakta gezmekle artar. Hastanın mobilize edilme zamanı insidansı artıran faktörler arasında değildir."
-  },
+  },,
   {
     id:9,
     year:"İlkbahar 2024 Orijinal",
@@ -1382,7 +1090,7 @@ const ALL_QUESTIONS = [
     trap:"Spinal anestezi iğnesi cilt → cilt altı → supraspinöz → interspinöz → lig. flavum → epidural boşluk → dura → subaraknoid boşluk. Posterior longitudinal ligaman bu yolda yer almaz.",
     explain:"Spinal anestezi uygulamasında subaraknoid mesafeye erişim için geçilen yapılar: cilt, cilt altı yağ doku, supraspinöz ligaman, interspinöz ligaman, lig. flavum, epidural mesafe, dura mater, subaraknoid boşluk. Posterior longitudinal ligaman vertebra korpus posteriorunda yer almakta olup spinal anestezi ya da lomber ponksiyonda geçilen yapılardan değildir."
   },
-  // ── BAZI ÖZEL DURUMLARDA ANESTEZİK YAKLAŞIMLAR ───────────────────────────
+  // ── BAZI ÖZEL DURUMLARDA ANESTEZİK YAKLAŞIMLAR ───────────────────────────,
   {
     id:10,
     year:"Sonbahar 87",
@@ -1393,7 +1101,7 @@ const ALL_QUESTIONS = [
     hint:"Dantrolen sarkoplazmik retikulumdan Ca++ salınımını inhibe ederek direkt kas düzeyinde etki eder.",
     trap:"Suksinil kolin nöromusküler kavşakta; dantrolen ise direkt kasta etki eder.",
     explain:"Dantrolen çizgili kasları kas düzeyinde gevşeten hidantoin türevi bir ilaçtır. Kullanılış yerleri bakımından santral etkili kas gevşeticilere benzer fakat etkisini çizgili kas hücrelerinin sarkoplazmik retikulumundan Ca++ salıvermesini inhibe ederek yapar. Malign hipertermi tedavisinde de kullanılır."
-  },
+  },,
   {
     id:11,
     year:"İlkbahar 90",
@@ -1404,7 +1112,7 @@ const ALL_QUESTIONS = [
     hint:"Malign hipertermi tedavisinde hiperkalemi tedavisi için glukoz-insülin kullanılır ama hipernatremi kontrolü yapılmadan verilmez.",
     trap:"Dantrolen 2,5 mg/kg IV (başlangıç dozu); sodyum bikarbonat metabolik asidoz için. Hipernatremi kontrolsüz glukoz-insülin verilmez.",
     explain:"Malign hipertermi acildir ve süreç ortaya çıkar çıkmaz hastaya uygulanan tüm tetikleyici faktörler kesilir. Hastaya saf oksijen ile hiperventile edilmeli ve metabolik asidoz tedavisi için bikarbonat; renal problemler için hidrasyon ve diürez uygulanmalıdır. Hasta soğutularak dantrolen sodyum ile tedavi edilir. Hipernatremiyi kontrol etmeksizin glukoz solüsyonu içinde insülin uygulanması doğru değildir."
-  },
+  },,
   {
     id:12,
     year:"İlkbahar 92",
@@ -1415,7 +1123,7 @@ const ALL_QUESTIONS = [
     hint:"Dantrolen sarkoplazmik retikulumdan Ca++ salınımını inhibe ederek malign hipertermiyi hızla giderir.",
     trap:"Meklizin antihistaminiktir; atropin antikolinerjiktir. Malign hipertermi tedavisinde özgül ajan dantrolen sodyumdur.",
     explain:"Dantrolen çizgili kasları kas düzeyinde gevşetebilen bir ilaçtır. Malign hipertermide IV infüzyon şeklinde uygulanır. Hipertermiyi kısa zamanda tamamen ortadan kaldırır."
-  },
+  },,
   {
     id:13,
     year:"Sonbahar 2017 Orijinal",
@@ -1426,19 +1134,7 @@ const ALL_QUESTIONS = [
     hint:"Dantrolen uygulanan hastalara kalsiyum kanal blokörü VERİLMEMELİDİR; hiperkalemiyi ağırlaştırır.",
     trap:"Kalsiyum kanal blokörü + dantrolen kombinasyonu hiperkalemiyi artırır ve tehlikelidir.",
     explain:"Malign hipertermi tedavisinde: volatil anestezikler kesilir, %100 O₂ verilir, hiperventilasyon yapılır, bikarbonat metabolik asidoz için verilir, dantrolen sodyum uygulanır. Dantrolen uygulanan hastalara kalsiyum kanal blok ediciler verilmemelidir çünkü bu kombinasyonun hiperkalemiyi ağırlaştırdığı bilinmektedir."
-  },
-  {
-    id:14,
-    year:"Sonbahar 2017 BENZERİ",
-    section:"Özel Durumlar – Malign Hipertermi (BENZERİ)",
-    question:"Skolyoz nedeniyle genel anestezi altında vertebra cerrahisi yapılan bir hastada ameliyara ara verilerek monitörde end-tidal CO₂'de ani bir yükselme, taşikardi, aritmi tespit ediliyor. Ameliyata ara verilerek değerlendirmede yaygın kas rijiditesi olduğu ve hastanın ateşinin yüksek olduğu fark ediliyor. Vertebra cerrahisi nedeniyle nöromoniterizasyon uygulanan hastaya sadece entübasyon için süksinilkolin uygulanıyor ve daha sonra kas gevşetici idamesi yapılmıyor. Yukarıda tanımlanan hastada ortaya çıkan bu durumun tedavisi ile ilgili olarak aşağıdakilerden hangisi <u>yanlıştır</u>? (Sonbahar 2017 BENZERİ)",
-    opts:["Hastaya uygulanan tüm anestezik maddeler kesilmelidir","Dantrolene birlikte kalsiyum kanal blokörü kullanılmalıdır","Metabolik asidozun düzeltilmesi için bikarbonat uygulanmalıdır","Hasta saf oksijen ile hiperventile edilmelidir","Böbrek problemlerinin önlenmesi için hidrasyon ve diürez sağlanmalıdır"],
-    answer:1,
-    hint:"Dantrolen + kalsiyum kanal blokörü kombinasyonu hiperkalemiyi ağırlaştırır; YAPILMAMALIDIR.",
-    trap:"Kalsiyum kanal blokörü malign hipertermi tedavisine eklenmez; tersine tehlikelidir.",
-    explain:"Malign hipertermi tedavisinde dantrolen uygulanan hastalara kalsiyum kanal blok ediciler verilmemelidir çünkü bu kombinasyonun hiperkalemiyi ağırlaştırdığı bilinmektedir. Diğer tedaviler (anestezik kesilmesi, O₂, hiperventilasyon, bikarbonat, hidrasyon-diürez) doğrudur."
-  },
-  // ── KARDİYOPULMONER RESÜSSITASYON ────────────────────────────────────────
+  },,
   {
     id:15,
     year:"Sonbahar 2016 Orijinal",
@@ -1449,18 +1145,7 @@ const ALL_QUESTIONS = [
     hint:"SVB normal fizyolojik şartlarda sağ atrium basıncına eşdeğer kabul edilir.",
     trap:"Sol atrium değil SAĞ atrium. SVB sağ kalp dolum basıncını yansıtır.",
     explain:"SVB ölçümü için hastanın mutlaka santral kateri olması gereklidir. Normal fizyolojik şartlarda santral venöz basınç sağ atrium basıncına eşdeğer kabul edilir. SVB sağ atrium ve büyük venlerdeki basıncı, dolayısıyla kalbin fonksiyonunu, dolaşım volümünü ve vasküler tonusu en iyi yansıtan göstergedir."
-  },
-  {
-    id:16,
-    year:"Sonbahar 2016 BENZERİ",
-    section:"KPR – SVB (BENZERİ)",
-    question:"Fizyolojik şartlarda yapılan ölçümlerde sağ atrium basıncına eşit olduğu kabul edilen basınç aşağıdakilerden hangisidir? (Sonbahar 2016 BENZERİ)",
-    opts:["Pulmoner kapiller kama basıncı","Sol ventriküler diyastol sonu basıncı","Pulmoner ven basıncı","Santral venöz basınç","Vena kava superior basıncı"],
-    answer:3,
-    hint:"Normal fizyolojik şartlarda santral venöz basınç sağ atrium basıncına eşdeğer kabul edilir.",
-    trap:"Pulmoner kapiller kama basıncı sol atrium basıncını yansıtır; SVB sağ atriumu yansıtır.",
-    explain:"Normal fizyolojik şartlarda santral venöz basınç sağ atrium basıncına eşdeğer kabul edilir. SVB'nin normal ölçüm değeri 7-12 cm H₂O'dur."
-  },
+  },,
   {
     id:17,
     year:"İlkbahar 2023",
@@ -1471,7 +1156,7 @@ const ALL_QUESTIONS = [
     hint:"Hipertansiyon NIMV için kontrendikasyon değildir; aksine NIMV uygulanan hastalarda hemodinamik olarak stabil olma şartı aranır.",
     trap:"Gag refleksinde azalma, maksillofasiyal travma, solunum eforu olmaması ve ciddi burun kanaması kontrendikasyondur. Hipertansiyon değil.",
     explain:"Noninvaziv mekanik ventilasyon kontrendikasyonları: kalp ve/veya solunum durması, tıbbi olarak stabil olmayan hasta (septik şok, kardiyojenik şok vb.), sekresyonları atılamaması, kooperasyon kurulamaması, yüze maske yerleştirilememesi, üst solunum yolu ve GİS cerrahisi geçirmiş hasta. Hipertansiyon kontrendikasyon değildir."
-  },
+  },,
   {
     id:18,
     year:"İlkbahar 2016 Orijinal",
@@ -1482,18 +1167,7 @@ const ALL_QUESTIONS = [
     hint:"Mekanik ventilasyon kalp debisini AZALTIR; artırmaz. Artan intratorasik basınç venöz dönüşü engeller.",
     trap:"Mekanik ventilasyon venöz dönüşü engelleyerek kardiyak output'u DÜŞÜRÜR; artırmaz.",
     explain:"Pozitif basınçlı ventilasyon etkisi olarak ortaya çıkan volütravma ve barotravma hastalarda pnömotoraks ve akciğer hasarı riskini artırır. Artan intratorasik basınç nedeniyle pozitif basınçlı ventilasyon öncelikle venöz dönüşü engeller, pulmoner vasküler direnci artırır. Sonuç olarak mekanik ventilasyonda kalp debisinde artış değil AZALMA olur."
-  },
-  {
-    id:19,
-    year:"İlkbahar 2016 BENZERİ",
-    section:"KPR – Mekanik Ventilasyon Komplikasyon (BENZERİ)",
-    question:"Yukarıda verilen klinik tablolardan hangisi/hangileri mekanik ventilasyonun olası etkilerinden biri <u>değildir</u>? (İlkbahar 2016 BENZERİ) — I. Pnömotoraks / II. Kalp debisinde artış / III. Akciğer hasarı / IV. Göğüs içi basınç artışı",
-    opts:["Yalnız I","I ve II","II ve III","III ve IV","Yalnız II"],
-    answer:4,
-    hint:"Kalp debisinde artış mekanik ventilasyon komplikasyonu DEĞİLDİR; aksine azalma olur.",
-    trap:"Yalnızca II (kalp debisinde artış) komplikasyon değil; I, III ve IV gerçek komplikasyonlardır.",
-    explain:"Mekanik ventilasyon ile kalp debisi AZALIR (venöz dönüş azalması nedeniyle). Pnömotoraks, akciğer hasarı ve göğüs içi basınç artışı gerçek komplikasyonlardır. Yalnızca II doğru cevaptır."
-  },
+  },,
   {
     id:20,
     year:"İlkbahar 2016 Orijinal",
@@ -1504,18 +1178,7 @@ const ALL_QUESTIONS = [
     hint:"KOAH akut atak + bozulma var ama hasta stabil → bronkodilatör + NIMV; invaziv mekanik ventilasyona henüz gerek yok.",
     trap:"Hasta bilinci açık ve stabil; invaziv mekanik ventilasyon için henüz şartlar oluşmamış. I ve II yeterlidir.",
     explain:"Bu hastada soruda bu bozulma sadece kan gazı bazında belirtilmiş ancak hastanın kliniği hakkında bir kötüleşme ibaresi yok, vital bulguları stabil denilmiş. Bu hasta KOAH zemininde olduğu için zaten yüksek CO₂ değerleri ile yaşamaktadır. Bu hasta için en uygun tedavi yaygın ronküsleri nedeniyle bronkodilatör ve ek olarak oksijenizasyonu düzeltmek için non-invaziv mekanik ventilasyondur (I ve II)."
-  },
-  {
-    id:21,
-    year:"İlkbahar 2016 BENZERİ",
-    section:"KPR – KOAH NIMV (BENZERİ)",
-    question:"KOAH'lı hastada gelişen akut solunum yetmezliğinde kan gazı değerlerinde bozulma mevcut ancak klinik kötüleşme yoksa bu hastanın tedavisinde yukarıdaki yaklaşımların hangisi/hangileri uygulanmalıdır? (İlkbahar 2016 BENZERİ) — I. İnvaziv mekanik ventilasyon / II. Non-invaziv mekanik ventilasyon / III. Bronkodilatör",
-    opts:["I ve II","II ve III","I, II ve III","I ve III","Yalnız III"],
-    answer:1,
-    hint:"Klinik kötüleşme yoksa önce bronkodilatör + NIMV; invaziv mekanik ventilasyon gerekmez.",
-    trap:"Klinik kötüleşme yokken invaziv mekanik ventilasyona geçmek gerekmez; II ve III yeterlidir.",
-    explain:"KOAH akut atak hastasında klinik kötüleşme yok iken invaziv mekanik ventilasyona gerek yoktur. Non-invaziv mekanik ventilasyon (NIMV) ve bronkodilatör uygulanmalıdır. II ve III doğrudur."
-  },
+  },,
   {
     id:22,
     year:"İlkbahar 2013",
@@ -1526,7 +1189,7 @@ const ALL_QUESTIONS = [
     hint:"Akciğer kontüzyonu acil müdahale gerektirmez; konservatif yöntemlerle izlenir.",
     trap:"Tansiyon pnömotoraks, kardiyak tamponad, açık pnömotoraks ve masif hemotoraks acil müdahale gerektirir; akciğer kontüzyonu değil.",
     explain:"Tansiyon pnömotoraksta her inspiryumda plevral boşluğa giren hava kalbe ve ana damarlara bası yapıp kardiyak output'u azaltacağı için acil müdahale ile toraks tüpü takılmalıdır. Akciğer kontüzyonu toraks travmasına bağlı olarak sık görülen bir yaralanma şeklidir ancak acil müdahale edilmesi gereken bir durum olmayıp konservatif yöntemlerle izlenir."
-  },
+  },,
   {
     id:23,
     year:"İlkbahar 2013",
@@ -1537,7 +1200,7 @@ const ALL_QUESTIONS = [
     hint:"Şok tedavisinde hedef ortalama arteryal basınç ≥65 mmHg olmasıdır.",
     trap:"Mikst venöz O₂ satürasyonu hedefi %65-75; kardiyak indeks >2,1 (kardiyojenik şok) veya >4 (septik). Ortalama arteryal basınç ≥65 mmHg doğru.",
     explain:"Şok hastalarında destekte temel hedefler: Hemodinamik destekte ortalama arteryal basınç >60-65 mmHg, pulmoner kapiller wedge basıncı 15-18 mmHg. Oksijenlenmenin optimal olabilmesi için hemoglobin düzeyi >10 g/dl ve arteriyel oksijen satürasyonu >%92."
-  },
+  },,
   {
     id:24,
     year:"Sonbahar 2014 Orijinal",
@@ -1548,18 +1211,7 @@ const ALL_QUESTIONS = [
     hint:"Baş ağrısı orta risk kriteri olabilir ama şiddetsiz veya hafif baş ağrısı yüksek risk değildir.",
     trap:"Kusma yüksek risk; baş ağrısı ise düşük-orta risk kategorisinde değerlendirilir.",
     explain:"Kafa travmalı hastada yüksek risk kriterleri: fokal nörolojik bulgular, asimetrik pupiller, fizik muayenede kafatası kırığı, multiple travma, ciddi-ağrılı-rahatsız edici yaralanmalar, klavikula üzeri alanda travma bulguları, başlangıç Glasgow koma skalası <9, bilinç kaybı, posttravmatik konfüzyon/anemi, kusma, travma sonrası nöbet geçirme vb. Hafif baş ağrısı yüksek risk kriteri değildir."
-  },
-  {
-    id:25,
-    year:"Sonbahar 2014 BENZERİ",
-    section:"KPR – Kafa Travması Risk (BENZERİ)",
-    question:"Aşağıdakilerden hangisi, kafa travması geçirmiş bir hasta için düşük risk kriterlerinden biri <u>değildir</u>? (İlkbahar 2014 BENZERİ)",
-    opts:["Baş ağrısı","Tamamen asemptomatik olma","Başlangıç GKS 15 olması","Normal pupil varlığı","Hafıza ve oryantasyonun normal olması"],
-    answer:0,
-    hint:"Baş ağrısı düşük risk kriteri değil; tamamen asemptomatik olma, GKS 15 vb. düşük risk kriteridir.",
-    trap:"Baş ağrısı düşük risk kategorisinde yer almaz; orta risk belirtisi olabilir.",
-    explain:"Düşük risk kriterleri: tamamen asemptomatik olma, herhangi bir yaralanmanın olmaması, fizik muayenede bir özellik olmaması, normal pupil varlığı, bilinç değişikliğinin olmaması, hafıza ve oryantasyonun normal olması. Baş ağrısı düşük risk kriteri değildir."
-  },
+  },,
   {
     id:26,
     year:"İlkbahar 2014 Orijinal",
@@ -1570,18 +1222,7 @@ const ALL_QUESTIONS = [
     hint:"Ezilme (crush) sendromununda HİPERKALEMİ görülür; hipokalemi değil.",
     trap:"Crush sendromunda hücre yıkımı → potasyum hücre dışına çıkar → HİPERKALEMİ. Hipokalemi beklenmez.",
     explain:"Crush (ezilme) sendromunun sorgulandığı basit bir ortopedi sorusudur. Ezilme sendromunda hipokalemi olmaz hiperkalemi olur. Kasların nekrozu ile açığa çıkan potasyum, fosfat, ürik asit ve miyoglobin yükselmesi beklenir."
-  },
-  {
-    id:27,
-    year:"İlkbahar 2014 BENZERİ",
-    section:"KPR – Ezilme Sendromu (BENZERİ)",
-    question:"Aşağıdakilerden hangisi/hangileri Crush (ezilme) sendromunda gelişmesi beklenen durumlardandır? (İlkbahar 2014 BENZERİ) — I. Aspartat aminotransferaz artışı / II. Kreatin fosfokinaz artışı / III. Hiperfosfatemi / IV. Hipokalemi",
-    opts:["Yalnız I","I ve II","II ve III","I, II ve III","III ve IV"],
-    answer:3,
-    hint:"Ezilme sendromunda AST artışı, CKP artışı, hiperfosfatemi beklenir; hipokalemi değil (hiperkalemi olur).",
-    trap:"IV (Hipokalemi) crush sendromunda beklenmez; HİPERKALEMİ beklenir.",
-    explain:"Ezilme sendromundan I, II ve III beklenir. Hipokalemi (IV) beklenmez; aksine hiperkalemi görülür. Doğru cevap I, II ve III."
-  },
+  },,
   {
     id:28,
     year:"Sonbahar 2019 Orijinal",
@@ -1592,18 +1233,7 @@ const ALL_QUESTIONS = [
     hint:"Triyaj renkleri: Kırmızı, Sarı, Yeşil, Siyah. Beyaz triyaj rengi değildir.",
     trap:"Beyaz renk afet triyajında kullanılmaz. Dört ana renk: Kırmızı (acil), Sarı (ertelenebilir), Yeşil (hafif), Siyah (ölü/kurtarılamaz).",
     explain:"Afet koşullarında hasta değerlendirilmesi için kullanılan triyaj kategorileri: Kırmızı (hayatı tehdit eden, acil müdahale), Sarı (hayatı tehdit eden, tıbbi müdahale bekleyebilir), Yeşil (ayaktan tedavi), Siyah (ölü veya kurtarılamaz). Beyaz triyaj rengi değildir."
-  },
-  {
-    id:29,
-    year:"Sonbahar 2019 BENZERİ",
-    section:"KPR – Triyaj (BENZERİ)",
-    question:"Yukarıdakilerden hangisi/hangileri afet koşullarında hasta değerlendirilmesi için kullanılan triyaj kategorilerindendir? (Sonbahar 2019 BENZERİ) — I. Sarı / II. Siyah / III. Yeşil / IV. Kırmızı / V. Beyaz",
-    opts:["I ve II","I, II ve III","III, IV ve V","I, II, III ve IV","I, II, III, IV ve V"],
-    answer:3,
-    hint:"Triyaj renkleri I-IV: Sarı, Siyah, Yeşil, Kırmızı. V (Beyaz) triyaj rengi değildir.",
-    trap:"Beyaz (V) afet triyajında kullanılmaz. Yalnızca I, II, III ve IV doğrudur.",
-    explain:"Afet triyaj renkleri: Kırmızı (IV), Sarı (I), Yeşil (III), Siyah (II). Beyaz (V) triyaj rengi değildir. I, II, III ve IV doğrudur."
-  },
+  },,
   {
     id:30,
     year:"İlkbahar 2021 Orijinal",
@@ -1614,18 +1244,7 @@ const ALL_QUESTIONS = [
     hint:"T2 (Sarı): ciddi yaralanma ama 2 saate kadar bekleyebilir.",
     trap:"T1 (Kırmızı) derhal müdahale gerektirir. T2 (Sarı) ise bekleyebilir ama ciddi.",
     explain:"Afet koşullarında hasta değerlendirilmesi için kırmızı renk birinci öncelikli taşınması gereken hasta gruplarını belirtir. Bu gruba giren hastalar ivedi bir şekilde tedavisi yapılmalı ve sevk edilmelidir. Sarı (T2) kodlu hastalar bekleyebilir; ciddi yaralanması olan ancak müdahalesi 2 saate kadar geciktirilebilir hasta grubudur."
-  },
-  {
-    id:31,
-    year:"İlkbahar 2021 BENZERİ",
-    section:"KPR – Triyaj Yeşil (BENZERİ)",
-    question:"Deprem bölgesinde hafif yaralanan ancak ayaktan tedavi edilebilir hastalar hangi triyaj grubunda değerlendirilir? (İlkbahar 2021 BENZERİ)",
-    opts:["Beyaz","Siyah","Yeşil","Sarı","Kırmızı"],
-    answer:2,
-    hint:"Yeşil: yürüyebilenler, hafif yaralı, ayaktan tedavi edilebilir.",
-    trap:"Sarı ciddi ama bekleyebilir; Yeşil hafif yaralı ve ayaktan tedavi.",
-    explain:"Yeşil alan: ayaktan gelen ve genel durumu stabil olan ayaktan tedavi edilebilecek hastaların müdahale alanıdır. Hafif yaralı ve ayaktan tedavi edilebilir hastalar Yeşil (T3) kodla değerlendirilir."
-  },
+  },,
   {
     id:32,
     year:"Sonbahar 2023",
@@ -1636,7 +1255,7 @@ const ALL_QUESTIONS = [
     hint:"START triyajı: önce SOLUNUM → dolaşım → mental durum sırasıyla değerlendirilir.",
     trap:"Kan basıncı ve nabız basıncı START triyajında öncelikli değildir; solunum önce değerlendirilir.",
     explain:"START triyaj modelinde hastaların yürüyüp yürüyemediği, solunumu, dolaşım sistemi ve basit komutlara uyup uymadığı (mental durum) değerlendirilir. Solunum sayısı 30 un altında olan hastaların dolaşım değerlendirmesi yapılır. Solunum öncelikli değerlendirmedir."
-  },
+  },,
   {
     id:33,
     year:"Sonbahar 2019 Orijinal",
@@ -1647,18 +1266,7 @@ const ALL_QUESTIONS = [
     hint:"TYD sırası: Güvenlik → Yanıt kontrolü → 112 → Göğüs basısı → 2 nefes.",
     trap:"Önce kendi güvenliğini sağla (III), sonra hastaya bak (I), yanıt yoksa 112 ara (IV), göğüs basısı (V), nefes (II).",
     explain:"Erişkin temel yaşam desteğinde ani bir durumla karşılaşıldığında ilk yapılması gereken ortam güvenliğini sağlamaktır (III). Daha sonra hastanın uyaranlara yanıtı olup olmadığı kontrol edilir (I), yanıt yoksa hava yolu açılır, solunum değerlendirilir ve acil yardım merkezi aranır (IV). Daha sonra hastaya 30 göğüs kompresyonu uygulanır (V). Bunu takiben 2 kurtarıcı soluk verilir (II)."
-  },
-  {
-    id:34,
-    year:"Sonbahar 2019 BENZERİ",
-    section:"KPR – TYD (BENZERİ)",
-    question:"Spor yaparken aniden düşen 37 yaşında erkek hastanın güvenli bir alana çekildikten sonra yapılan ilk değerlendirmesinde uyaranlara yanıt vermediği tespit ediliyor. Solunumunun olmadığı anlaşılıyor ve acil yardım merkezi aranıyor. Bu aşamadan sonra yukarıda verilen hasta için yapılması gereken uygulama aşağıdakilerden hangisidir? (Sonbahar 2019 BENZERİ)",
-    opts:["İki kurtarıcı nefes vermek","Otuz göğüs kompresyonu uygulamak","Entübasyon hazırlığı yapmak","Bir araca bindirip hastaneye götürmek","Damar yolu açmak"],
-    answer:1,
-    hint:"TYD'de 112 arandıktan sonra sıradaki adım 30 göğüs kompresyonudur.",
-    trap:"Entübasyon, damar yolu TYD değil ileri yaşam desteği kapsamındadır. TYD'de önce 30 göğüs basısı.",
-    explain:"Erişkin temel yaşam desteği algoritmasını sorgulayan basit bir soru. 112 arandıktan sonra hastaya 30 göğüs kompresyonu uygulanır. Bunu takiben 2 kurtarıcı soluk verilir ve 30:2 şeklinde devam edilir."
-  },
+  },,
   {
     id:35,
     year:"İlkbahar 2020 Orijinal",
@@ -1669,7 +1277,7 @@ const ALL_QUESTIONS = [
     hint:"NEA'nın geri döndürülebilir nedenleri 6H-6T. Hipertermi bu listede YER ALMAZ; HİPOTERMİ var.",
     trap:"HİPOTERMİ NEA nedeni; hipertermi değil. 6H: Hipovolemi, Hipoksi, Asidoz, Hipo/Hiperkalemi, Hipoglisemi, Hipotermi.",
     explain:"Nabızsız elektriksel aktivite heterojen bir grup olarak karşımıza çıkar. NEA'nın geri döndürülebilir sebepleri vardır ve bu sebepler araştırılmalıdır (6H ve 6T). 6H: Hipovolemi, Hipoksi, Hidrojen iyonu (Asidoz), Hipo/Hiperkalemi, Hipoglisemi, HİPOTERMİ. Hipertemi bu listede yer almaz."
-  },
+  },,
   {
     id:36,
     year:"Sonbahar 2021 Orijinal",
@@ -1680,18 +1288,7 @@ const ALL_QUESTIONS = [
     hint:"HİPERGLİSEMİ NEA nedeni değildir; hipoglisemi 6H listesinde yer alır.",
     trap:"Hipoglisemi NEA nedeni; hiperglisemi değil. Hipergliseminin NEA ile doğrudan ilişkisi yoktur.",
     explain:"Nabızsız elektriksel aktivite nedenleri (6H): Hipovolemi, Hipoksi, Asidoz, Hipo/Hiperkalemi, Hipoglisemi, Hipotermi. (6T): Toksinler, Tamponad, Tansiyon pnömotoraks, Tromboz koroner, Tromboz pulmoner, Travma. Hiperglisemi bu listede yoktur."
-  },
-  {
-    id:37,
-    year:"Sonbahar 2021 BENZERİ",
-    section:"KPR – NEA Nedeni (BENZERİ)",
-    question:"Yukarıdakilerden hangileri nabızsız elektriksel aktivite nedenidir? (Sonbahar 2021 BENZERİ) — I. Hipovolemi / II. Asidoz / III. Hiperglisemi",
-    opts:["Yalnız I","Yalnız II","I ve II","I ve III","I, II ve III"],
-    answer:2,
-    hint:"I (Hipovolemi) ve II (Asidoz) NEA nedenidir; III (Hiperglisemi) değildir.",
-    trap:"Hiperglisemi NEA nedeni değildir; hipoglisemi listede yer alır.",
-    explain:"NEA nedenleri 6H listesinde: Hipovolemi (I) ve Asidoz (II) yer alır. Hiperglisemi (III) yer almaz; hipoglisemi yer alır. I ve II doğrudur."
-  },
+  },,
   {
     id:38,
     year:"Sonbahar 2021 Orijinal",
@@ -1702,18 +1299,7 @@ const ALL_QUESTIONS = [
     hint:"Metanol zehirlenmesinde acil servise başvuruya kadar emilim gerçekleşmiş → mide yıkama yeri yoktur.",
     trap:"Mide yıkama metanol zehirlenmesinde acil serviste rutin kullanılmaz çünkü emilim zaten gerçekleşmiştir.",
     explain:"Metanol zehirlenmesinde hastalar acil servise başvurana kadar emilim gerçekleşmiş olduğundan mide yıkama ve aktif kömür kullanılmaz. Hemodiyaliz, fomepizol, etanol ve folik asit tedavide yer alır."
-  },
-  {
-    id:39,
-    year:"Sonbahar 2021 BENZERİ",
-    section:"KPR – Metanol Tedavisi (BENZERİ)",
-    question:"Metanol intoksikasyonu nedeniyle acil servise getirilen hastanın tedavisinde yukarıdakilerden hangileri kullanılabilir? (Sonbahar 2021 BENZERİ) — I. Hemodiyaliz / II. Etanol / III. Aktif kömür",
-    opts:["Yalnız I","Yalnız II","I ve II","I ve III","II ve III"],
-    answer:2,
-    hint:"Hemodiyaliz ve etanol metanol tedavisinde kullanılır; aktif kömür kullanılmaz (emilim tamamlanmış).",
-    trap:"Aktif kömür (III) metanol zehirlenmesinde kullanılmaz; emilim zaten gerçekleşmiştir.",
-    explain:"Metanol zehirlenmesinde acil servise başvuruda emilim gerçekleşmiş olduğundan mide yıkama ve aktif kömür kullanılmaz. Hemodiyaliz (I), Etanol (II) ve Folik asit tedavide kullanılır. I ve II doğrudur."
-  },
+  },,
   {
     id:40,
     year:"Sonbahar 2021 Orijinal",
@@ -1724,19 +1310,7 @@ const ALL_QUESTIONS = [
     hint:"Hipokinezi kardiyak arrestin reversibl nedenleri arasında YER ALMAZ; 6H listesinde değildir.",
     trap:"6H: Hipovolemi, Hipoksi, Asidoz, Hipo/Hiperkalemi, Hipoglisemi, Hipotermi. Hipokinezi bu listede yoktur.",
     explain:"Kardiyopulmoner resüsitasyon sırasında kardiyak arrestin geri döndürülebilir nedenleri akılda tutmak gerekir. Potansiyel olarak reversibl nedenler: Hipovolemi, Hipoksi, Asidoz, Hipo/Hiperkalemi, Hipotermi, Tabletler, Tamponad, Tansiyon pnömotoraks, Tromboz koroner, Tromboz pulmoner. Hipokinezi bu listede yer almamaktadır."
-  },
-  {
-    id:41,
-    year:"Sonbahar 2021 BENZERİ",
-    section:"KPR – KPR Reversibl (BENZERİ)",
-    question:"Yukarıdakilerden hangisi/hangileri kardiyopulmoner resüsitasyon uygulanan bir hastada kardiyak arrestin geri döndürülebilir nedenleridir? (Sonbahar 2021 BENZERİ) — I. Hipovolemi / II. Hipoksi / III. Hipotermi / IV. Hipokinezi",
-    opts:["Yalnız I","I ve II","I, II ve III","I, II, III ve IV","Yalnız IV"],
-    answer:2,
-    hint:"I, II ve III reversibl nedenler; IV (Hipokinezi) değildir.",
-    trap:"Hipokinezi (IV) reversibl nedenler listesinde yer almaz. Yalnızca I, II ve III doğrudur.",
-    explain:"Kardiyak arrestin potansiyel reversibl nedenleri arasında Hipovolemi (I), Hipoksi (II) ve Hipotermi (III) yer alır. Hipokinezi (IV) bu listede yoktur. I, II ve III doğrudur."
-  },
-  // ── ACİL TIP – ZEHİRLENMELER ─────────────────────────────────────────────
+  },,
   {
     id:42,
     year:"İlkbahar 2019 Orijinal",
@@ -1747,18 +1321,7 @@ const ALL_QUESTIONS = [
     hint:"HBO endikasyonları: fokal nörolojik defisit, COHb>%25, gebede COHb>%15, koma, konvülziyon, akut miyokardiyal iskemi. COHb>%18 asemptomatik için HBO gerekmez.",
     trap:"I: COHb>%18 asemptomatik → HBO gerekmez. II ve III doğrudur. IV: bulantı-kusma tek başına HBO endikasyonu değildir.",
     explain:"Hiperbarik oksijen tedavisine başlama endikasyonları: Senkop, konfüzyon/bilinç değişiklikleri, konvülziyon, koma, fokal nörolojik defisit, kan COHb düzeyi>%25, COHb>%15 olan gebeler, akut miyokardiyal iskemi kanıtlarının varlığı. COHb>%18 asemptomatik hastalar endikasyon değildir."
-  },
-  {
-    id:43,
-    year:"İlkbahar 2019 BENZERİ",
-    section:"Acil Tıp – CO HBO (BENZERİ)",
-    question:"Aşağıdakilerden hangisi karbonmonoksit zehirlenmesinde hiperbarik oksijen tedavisi endikasyonlarından biri <u>değildir</u>? (Sonbahar 2014 BENZERİ)",
-    opts:["Bulantı ve kusma","Yüksek karboksihemoglobin düzeyine (%>15) gebeliğin eşlik etmesi","Akut miyokardiyal iskemi olduğuna dair bulgular","Mental durum değişikliği ve konfüzyon","Fokal nörolojik defisit"],
-    answer:0,
-    hint:"Bulantı ve kusma tek başına HBO endikasyonu değildir.",
-    trap:"Bulantı-kusma hafif zehirlenme bulgusu olup HBO endikasyonu sağlamaz. Diğerleri HBO endikasyonudur.",
-    explain:"Hiperbarik oksijen tedavisine başlama endikasyonları: Senkop, konfüzyon/bilinç değişiklikleri, konvülziyon, koma, fokal nörolojik defisit, kan COHb düzeyi>%25, COHb>%15 olan gebeler, akut miyokardiyal iskemi. Bulantı ve kusma tek başına HBO endikasyonu değildir."
-  },
+  },,
   {
     id:44,
     year:"Sonbahar 2014 Orijinal",
@@ -1769,7 +1332,7 @@ const ALL_QUESTIONS = [
     hint:"Bulantı-kusma tek başına HBO için yeterli değildir.",
     trap:"Soba zehirlenmesi sonrası CO zehirlenmesinde bulantı-kusma hafif belirti; HBO için yeterli endikasyon değil.",
     explain:"Hiperbarik oksijen tedavisi başlama endikasyonları: Senkop, konfüzyon/bilinç değişiklikleri, konvülziyon, koma, fokal nörolojik defisit, kan COHb>%25, COHb>%15 olan gebeler, akut miyokardiyal iskemi kanıtı. Bulantı ve kusma tek başına endikasyon değildir."
-  },
+  },,
   {
     id:45,
     year:"İlkbahar 2024 Orijinal",
@@ -1780,7 +1343,7 @@ const ALL_QUESTIONS = [
     hint:"Akü imalatı + diş eti çizgilenmesi (Burton çizgisi) + miyalji + tremor → KURŞUN zehirlenmesi.",
     trap:"Civa tremor yapar ama diş eti çizgisi kurşuna özgüdür. Akü imalatı kurşun maruziyetinin klasik mesleğidir.",
     explain:"Kurşunun günümüzdeki ana kaynağı petrol ürünleri, sprey boyalar, döküm işçiliği, madencilik, yanmış piller, egzoz gazları ve boyalardır. Batarya ya da cephane üretimi, radyatör onarımı gibi meslekler kurşun maruziyeti ile ilişkilidir. Diş eti çizgilenmesi (Burton çizgisi) kurşun zehirlenmesine özgüdür."
-  },
+  },,
   {
     id:46,
     year:"İlkbahar 2024 Orijinal",
@@ -1791,7 +1354,7 @@ const ALL_QUESTIONS = [
     hint:"Siyanür: artmış anyon açıklı metabolik asidoz + azalmış arteriyovenöz O₂ farkı (<10 mmHg) → dokular O₂ kullanamıyor.",
     trap:"Siyanür oksijen kullanımını ENGELLER → venöz O₂ yüksek kalır → arteriyel-venöz fark AZALIR (<10 mmHg).",
     explain:"Siyanür zehirlenmesinde: artmış anyon açıklı metabolik asidoz (laktat artışı), yüksek venöz oksijen konsantrasyonu (dokuların oksijen kullanımının azalması nedeniyle arteriyovenöz oksijen satürasyon farkı <10 mmHg). Bu nedenle A seçeneği doğrudur."
-  },
+  },,
   {
     id:47,
     year:"İlkbahar 2016 Orijinal",
@@ -1802,7 +1365,7 @@ const ALL_QUESTIONS = [
     hint:"SLUDGE: Salivasyon, Lakrimasyon, Ürinasyon, Diyare/Defekasyon, Gastrointestinal semptom, Emezis → KOLİNERJİK.",
     trap:"Antikolinerjik zehirlenmede tam tersine kuruluk, idrar retansiyonu, taşikardi ve kabızlık görülür.",
     explain:"Organofosfatlar asetilkolinesteraz enzimini güçlü şekilde inhibe ederek kolinerjik aktivitede artışa yol açarlar. Asetil Kolin aktivitesinde artış, kabaca vücudun tüm salgılarında artışa (parasempatik etkinlik artışı) ve nikotinik kas reseptörlerinin uyarılmasıyla kas fasikülasyonlarına yol açar. Bu tablo KOLİNERJİK zehirlenme tablosudur."
-  },
+  },,
   {
     id:48,
     year:"Sonbahar 2025",
@@ -1816,40 +1379,32 @@ const ALL_QUESTIONS = [
   }
 ];
 
-// ── STATE ─────────────────────────────────────────────────────────────────
 let answered  = new Array(ALL_QUESTIONS.length).fill(null);
 let starred   = new Set();
 let activeSet = [...Array(ALL_QUESTIONS.length).keys()];
 let current   = 0;
 let currentFilter = 'all';
 
-// ── BUILD ─────────────────────────────────────────────────────────────────
 function buildCards() {
   const container = document.getElementById('quiz-container');
   container.innerHTML = '';
-
   if (activeSet.length === 0) {
     container.innerHTML = '<p style="text-align:center;color:var(--muted);padding:40px;font-family:IBM Plex Mono,monospace;">Bu filtrede soru bulunamadı.</p>';
-    updateCounter();
-    buildGrid();
-    return;
+    updateCounter(); buildGrid(); return;
   }
-
   activeSet.forEach((qi, idx) => {
     const q = ALL_QUESTIONS[qi];
     const div = document.createElement('div');
     div.className = 'card' + (idx === 0 ? ' active' : '');
     div.id = 'card-' + idx;
-
-    const isStarred = starred.has(qi);
     const ans = answered[qi];
-
     div.innerHTML =
       '<div class="q-header">' +
-        '<span class="q-num-label">Soru ' + (idx+1) + '/' + activeSet.length + '</span>' +
-        '<button class="star-btn" onclick="toggleStar(' + qi + ')">' + (isStarred ? '⭐' : '☆') + '</button>' +
+        '<span class="q-num-label">Soru ' + (idx+1) + ' / ' + activeSet.length + '</span>' +
+        '<button class="star-btn" onclick="toggleStar(' + qi + ')">' + (starred.has(qi) ? '⭐' : '☆') + '</button>' +
       '</div>' +
       '<div class="year-tags">' +
+        '<span class="year-tag orig-tag">✓ ORİJİNAL</span>' +
         '<span class="year-tag">' + q.year + '</span>' +
         '<span class="year-tag">' + q.section + '</span>' +
       '</div>' +
@@ -1857,65 +1412,52 @@ function buildCards() {
       '<button class="hint-toggle" onclick="toggleHint(this)">🔑 İpucu</button>' +
       '<div class="hint-box">' + q.hint + '</div>' +
       '<div class="options">' +
-        q.opts.map((o,i) => {
+        q.opts.map((o, i) => {
           let cls = 'opt-btn';
           if (ans) {
             if (i === q.answer) cls += ' correct';
             else if (i === ans.chosen) cls += ' wrong';
           }
-          return '<button class="' + cls + '" ' + (ans ? 'disabled' : '') + ' onclick="answer(' + idx + ',' + i + ')">' +
+          return '<button class="' + cls + '" ' + (ans ? 'disabled' : '') +
+            ' onclick="answer(' + idx + ',' + i + ')">' +
             '<span class="opt-letter">' + String.fromCharCode(65+i) + '</span>' +
-            '<span class="opt-text">' + o + '</span>' +
-          '</button>';
+            '<span class="opt-text">' + o + '</span></button>';
         }).join('') +
       '</div>' +
       '<div class="feedback' + (ans ? ' open' : '') + '" id="fb-' + idx + '">' +
-        '<div class="trap-box"><div class="trap-title">⚠️ TUZAK NOKTA</div><div class="trap-text">' + q.trap + '</div></div>' +
-        '<div class="explain-box"><div class="explain-title">📖 AÇIKLAMA</div><div class="explain-text">' + q.explain + '</div></div>' +
+        '<div class="trap-box"><div class="trap-title">⚠️ TUZAK NOKTA</div>' +
+          '<div class="trap-text">' + q.trap + '</div></div>' +
+        '<div class="explain-box"><div class="explain-title">📖 AÇIKLAMA</div>' +
+          '<div class="explain-text">' + q.explain + '</div></div>' +
       '</div>';
-
     container.appendChild(div);
   });
-
   current = Math.min(current, Math.max(activeSet.length - 1, 0));
-  if (activeSet.length > 0) {
-    document.getElementById('card-' + current).classList.add('active');
-  }
-  updateCounter();
-  updateNavBtns();
-  buildGrid();
-  updateHeaderStats();
+  if (activeSet.length > 0) document.getElementById('card-' + current).classList.add('active');
+  updateCounter(); updateNavBtns(); buildGrid(); updateHeaderStats();
 }
 
 function toggleHint(btn) {
-  const box = btn.nextElementSibling;
-  box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+  const b = btn.nextElementSibling;
+  b.style.display = b.style.display === 'block' ? 'none' : 'block';
 }
 
-// ── ANSWER ────────────────────────────────────────────────────────────────
 function answer(idx, chosen) {
   const qi = activeSet[idx];
   if (answered[qi]) return;
   const q = ALL_QUESTIONS[qi];
   answered[qi] = { chosen, correct: chosen === q.answer };
-
   const card = document.getElementById('card-' + idx);
   card.querySelectorAll('.opt-btn').forEach((b, i) => {
     b.disabled = true;
     if (i === q.answer) b.classList.add('correct');
     else if (i === chosen) b.classList.add('wrong');
   });
-
-  const fb = document.getElementById('fb-' + idx);
-  fb.classList.add('open');
-  setTimeout(() => fb.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 120);
-
-  updateProgress();
-  buildGrid();
-  updateHeaderStats();
+  document.getElementById('fb-' + idx).classList.add('open');
+  setTimeout(() => document.getElementById('fb-' + idx).scrollIntoView({ behavior:'smooth', block:'nearest' }), 120);
+  updateProgress(); buildGrid(); updateHeaderStats();
 }
 
-// ── STAR ──────────────────────────────────────────────────────────────────
 function toggleStar(qi) {
   starred.has(qi) ? starred.delete(qi) : starred.add(qi);
   activeSet.forEach((q, idx) => {
@@ -1924,83 +1466,47 @@ function toggleStar(qi) {
       if (btn) btn.textContent = starred.has(qi) ? '⭐' : '☆';
     }
   });
-  buildGrid();
-  updateHeaderStats();
+  buildGrid(); updateHeaderStats();
 }
 
-// ── NAVIGATE ──────────────────────────────────────────────────────────────
 function navigate(dir) {
   if (activeSet.length === 0) return;
   const next = current + dir;
   if (next < 0) return;
   if (next >= activeSet.length) { showResult(); return; }
-
   document.getElementById('card-' + current).classList.remove('active');
   current = next;
   const card = document.getElementById('card-' + current);
   card.classList.add('active');
-  card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  updateCounter();
-  updateNavBtns();
-  buildGrid();
+  card.scrollIntoView({ behavior:'smooth', block:'start' });
+  updateCounter(); updateNavBtns(); buildGrid();
 }
 
 function updateCounter() {
-  const total = activeSet.length;
-  document.getElementById('q-counter').textContent =
-    total === 0 ? '0/0 ☰' : (current + 1) + '/' + total + ' ☰';
+  const t = activeSet.length;
+  document.getElementById('q-counter').textContent = t === 0 ? '0/0 ☰' : (current+1)+'/'+t+' ☰';
 }
 
 function updateNavBtns() {
   document.getElementById('prev-btn').disabled = current === 0;
   document.getElementById('next-btn').textContent =
-    (activeSet.length > 0 && current === activeSet.length - 1) ? 'Sonuçlar →' : 'Sonraki →';
+    (activeSet.length > 0 && current === activeSet.length-1) ? 'Sonuçlar →' : 'Sonraki →';
 }
 
 function updateProgress() {
   const done = activeSet.filter(qi => answered[qi] !== null).length;
-  const pct = activeSet.length > 0 ? (done / activeSet.length * 100) : 0;
-  document.getElementById('prog').style.width = pct + '%';
+  document.getElementById('prog').style.width =
+    activeSet.length > 0 ? (done / activeSet.length * 100) + '%' : '0%';
 }
 
 function updateHeaderStats() {
-  const totalAnswered = answered.filter(a => a !== null);
-  const correct = totalAnswered.filter(a => a && a.correct).length;
-  const wrong = totalAnswered.filter(a => a && !a.correct).length;
-  document.getElementById('hdr-correct').textContent = correct;
-  document.getElementById('hdr-wrong').textContent = wrong;
-  document.getElementById('hdr-star').textContent = starred.size;
-  document.getElementById('hdr-left').textContent = answered.filter(a => a === null).length;
+  const all = answered.filter(a => a !== null);
+  document.getElementById('hdr-correct').textContent = all.filter(a => a.correct).length;
+  document.getElementById('hdr-wrong').textContent   = all.filter(a => !a.correct).length;
+  document.getElementById('hdr-star').textContent    = starred.size;
+  document.getElementById('hdr-left').textContent    = answered.filter(a => a === null).length;
 }
 
-// ── FILTER ────────────────────────────────────────────────────────────────
-function applyFilter(type) {
-  currentFilter = type;
-  ['all','wrong','star','unanswered'].forEach(t => {
-    const btn = document.getElementById('f-' + t);
-    btn.className = 'filter-btn';
-    if (t === type) {
-      if (t === 'wrong') btn.classList.add('active-wrong');
-      else if (t === 'star') btn.classList.add('active-star');
-      else btn.classList.add('active');
-    }
-  });
-
-  const all = [...Array(ALL_QUESTIONS.length).keys()];
-  if (type === 'all') activeSet = all;
-  else if (type === 'wrong') activeSet = all.filter(qi => answered[qi] && !answered[qi].correct);
-  else if (type === 'star') activeSet = [...starred];
-  else if (type === 'unanswered') activeSet = all.filter(qi => answered[qi] === null);
-
-  current = 0;
-  document.getElementById('result-screen').style.display = 'none';
-  document.querySelector('.nav').style.display = 'flex';
-  document.getElementById('prog').style.width = '0%';
-  buildCards();
-  updateProgress();
-}
-
-// ── MODAL ─────────────────────────────────────────────────────────────────
 function buildGrid() {
   const grid = document.getElementById('q-grid');
   grid.innerHTML = '';
@@ -2025,73 +1531,71 @@ function closeModal(e) {
 
 function jumpTo(idx) {
   if (idx < 0 || idx >= activeSet.length) return;
-  const oldCard = document.getElementById('card-' + current);
-  if (oldCard) oldCard.classList.remove('active');
+  const old = document.getElementById('card-' + current);
+  if (old) old.classList.remove('active');
   current = idx;
-  const newCard = document.getElementById('card-' + current);
-  if (newCard) {
-    newCard.classList.add('active');
-    newCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-  updateCounter();
-  updateNavBtns();
-  buildGrid();
+  const nw = document.getElementById('card-' + current);
+  if (nw) { nw.classList.add('active'); nw.scrollIntoView({ behavior:'smooth', block:'start' }); }
+  updateCounter(); updateNavBtns(); buildGrid();
 }
 
-// ── RESULT ────────────────────────────────────────────────────────────────
 function showResult() {
   document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
   document.querySelector('.nav').style.display = 'none';
-  const rs = document.getElementById('result-screen');
-  rs.style.display = 'block';
-
-  const total = activeSet.length;
+  document.getElementById('result-screen').style.display = 'block';
+  const total   = activeSet.length;
   const correct = activeSet.filter(qi => answered[qi]?.correct).length;
-  const wrong = activeSet.filter(qi => answered[qi] && !answered[qi].correct).length;
-  const pct = total > 0 ? Math.round(correct / total * 100) : 0;
-
-  document.getElementById('res-pct').textContent = pct + '%';
+  const wrong   = activeSet.filter(qi => answered[qi] && !answered[qi].correct).length;
+  document.getElementById('res-pct').textContent     = total > 0 ? Math.round(correct/total*100)+'%' : '0%';
   document.getElementById('res-correct').textContent = correct;
-  document.getElementById('res-wrong').textContent = wrong;
-  document.getElementById('res-star').textContent = starred.size;
-  document.getElementById('res-label').textContent =
-    currentFilter === 'all' ? 'TÜM SORULAR TAMAMLANDI 🎉' :
+  document.getElementById('res-wrong').textContent   = wrong;
+  document.getElementById('res-star').textContent    = starred.size;
+  document.getElementById('res-label').textContent   =
     currentFilter === 'wrong' ? 'YANLIŞLAR TAMAMLANDI' :
-    currentFilter === 'star' ? 'YILDIZLILAR TAMAMLANDI' : 'TAMAMLANDI 🎉';
+    currentFilter === 'star'  ? 'YILDIZLILAR TAMAMLANDI' : 'TÜM ORİJİNAL SORULAR TAMAMLANDI 🎉';
+}
+
+function applyFilter(type) {
+  currentFilter = type;
+  ['all','wrong','star','unanswered'].forEach(t => {
+    const b = document.getElementById('f-'+t);
+    b.className = 'filter-btn';
+    if (t === type) b.classList.add(t==='wrong'?'active-wrong':t==='star'?'active-star':'active');
+  });
+  const all = [...Array(ALL_QUESTIONS.length).keys()];
+  if      (type === 'all')        activeSet = all;
+  else if (type === 'wrong')      activeSet = all.filter(qi => answered[qi] && !answered[qi].correct);
+  else if (type === 'star')       activeSet = [...starred];
+  else if (type === 'unanswered') activeSet = all.filter(qi => answered[qi] === null);
+  current = 0;
+  document.getElementById('result-screen').style.display = 'none';
+  document.querySelector('.nav').style.display = 'flex';
+  buildCards(); updateProgress();
 }
 
 function retryAll() {
   answered = new Array(ALL_QUESTIONS.length).fill(null);
   applyFilter('all');
 }
-
 function retryWrong() {
-  const wrongs = [...Array(ALL_QUESTIONS.length).keys()].filter(qi => answered[qi] && !answered[qi].correct);
-  if (!wrongs.length) { alert('Hiç yanlış cevap yok!'); return; }
+  const w = [...Array(ALL_QUESTIONS.length).keys()].filter(qi => answered[qi] && !answered[qi].correct);
+  if (!w.length) { alert('Hiç yanlış cevap yok!'); return; }
   answered = new Array(ALL_QUESTIONS.length).fill(null);
-  activeSet = wrongs;
-  current = 0;
+  activeSet = w; current = 0;
   document.getElementById('result-screen').style.display = 'none';
   document.querySelector('.nav').style.display = 'flex';
-  document.getElementById('prog').style.width = '0%';
-  buildCards();
-  updateProgress();
+  buildCards(); updateProgress();
 }
-
 function retryStar() {
-  const stars = [...starred];
-  if (!stars.length) { alert('Hiç yıldızlı soru yok!'); return; }
+  const s = [...starred];
+  if (!s.length) { alert('Hiç yıldızlı soru yok!'); return; }
   answered = new Array(ALL_QUESTIONS.length).fill(null);
-  activeSet = stars;
-  current = 0;
+  activeSet = s; current = 0;
   document.getElementById('result-screen').style.display = 'none';
   document.querySelector('.nav').style.display = 'flex';
-  document.getElementById('prog').style.width = '0%';
-  buildCards();
-  updateProgress();
+  buildCards(); updateProgress();
 }
 
-// ── INIT ──────────────────────────────────────────────────────────────────
 buildCards();
 updateProgress();
 </script>

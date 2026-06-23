@@ -3,14 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Halk Sağlığı TUS — Part 2</title>
+<title>Halk Sağlığı TUS — Part 3</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;
-  --accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;--green:#3ecf74;
-  --red:#f0476d;--text:#dde3f5;--muted:#7b85a8;
-}
+:root{--bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;--accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;--green:#3ecf74;--red:#f0476d;--text:#dde3f5;--muted:#7b85a8;}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding-bottom:100px}
 .progress-wrap{position:fixed;top:0;left:0;width:100%;height:3px;background:var(--border);z-index:100}
@@ -77,12 +73,11 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 </head>
 <body>
 <div class="progress-wrap"><div class="progress-bar" id="prog"></div></div>
-
 <div id="quiz-area">
-  <div class="section-badge" id="section-label">HALK SAĞLIĞI — PART 2</div>
-  <div class="card" id="main-card">
+  <div class="section-badge" id="section-label">HALK SAĞLIĞI — PART 3</div>
+  <div class="card">
     <div class="q-header">
-      <span id="q-num">Soru 1 / 31</span>
+      <span id="q-num">Soru 1 / 50</span>
       <button id="star-btn" onclick="toggleStar()">☆</button>
     </div>
     <div class="year-tags" id="year-tags"></div>
@@ -96,7 +91,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
     </div>
   </div>
 </div>
-
 <div id="result-screen">
   <div class="section-badge">SONUÇ</div>
   <div class="result-score" id="score-pct">0%</div>
@@ -111,519 +105,507 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
     <button class="result-btn secondary" onclick="retryStar()">Yıldızlıları Tekrar Çöz</button>
   </div>
 </div>
-
 <div class="nav">
   <button class="nav-btn" onclick="navigate(-1)">← Önceki</button>
-  <span id="q-counter" onclick="openModal()">1/31 ☰</span>
+  <span id="q-counter" onclick="openModal()">1/50 ☰</span>
   <button class="nav-btn" onclick="navigate(1)">Sonraki →</button>
 </div>
-
 <div class="q-modal-overlay" id="modal-overlay" onclick="closeModal(event)">
   <div class="q-modal">
     <h3>SORU LİSTESİ</h3>
     <div class="q-grid" id="q-grid"></div>
   </div>
 </div>
-
 <script>
 const ALL_QUESTIONS = [
-  // ── SAĞLIK ÖLÇÜTLERİ (devam) ──
-  {
-    id:"so10",
-    section:"Sağlık Ölçütleri",
-    year:"İlkbahar 2005",
-    question:"100.000 nüfuslu bir bölgede 1 yıllık bir sürede 50 yeni akciğer Ca vakası görülmüştür. 40'ı sigara içmekte olan bu 50 hastanın 30'u ölmüştür.<br><br><b>Bu bilgilere göre bölgeyle ilgili aşağıdaki ifadelerden hangisi doğrudur?</b>",
-    options:["Akciğer kanseri prevalansı 80/100.000","Sigara içenler de akciğer kanseri sıklığı 40/100.000","Akciğer kanseri mortalite hızı 30/50","Akciğer kanseri yıllık insidansı 50/100.000","Akciğer kanseri fatalite hızı 30/100.000"],
-    answer:"D",
-    hint:"50 yeni vaka / 100.000 nüfus → yıllık insidans. Fatalite hızı 30/50 olurdu.",
-    trap:"Fatalite hızı toplum değil, HASTA grubuna göre hesaplanır: 30/50. Mortalite hızı ise 30/100.000'dir.",
-    explanation:"İnsidans = yeni vaka sayısı / risk altındaki kişi sayısı. 50/100.000 = yıllık insidans. Prevalans hesaplanamaz (eski vakalar bilinmiyor). Fatalite = 30/50, mortalite = 30/100.000."
-  },
-  {
-    id:"so11",
-    section:"Sağlık Ölçütleri",
-    year:"Sonbahar 90",
-    question:"100.000 nüfuslu 'A' ilinde, 1980 yılında 1000 kişi ölmüştür. Aynı yerde aynı yıl kanser tanısı olan 50 kişinin 45'i kanser nedeniyle ölmüştür.<br><br><b>Kanserin fatalite hızı aşağıdakilerden hangisidir?</b>",
-    options:["%0,10","%0,05","%0,45","%90","%4,5"],
-    answer:"D",
-    hint:"Fatalite hızı = belirli bir hastalıktan ölenler / o hastalığa yakalananlar × 100.",
-    trap:"Fatalite hızı topluma göre değil, HASTALARA göre hesaplanır. 100.000 nüfus ile karıştırılmamalı.",
-    explanation:"Fatalite hızı = 45/50 × 100 = %90. Kanser tanısı alan 50 kişinin 45'i öldüğünden fatalite hızı %90'dır."
-  },
-  {
-    id:"so12",
-    section:"Sağlık Ölçütleri",
-    year:"İlkbahar 2003",
-    question:"İsteyerek yapılan düşük oranı, isteyerek yapılan düşük sayısının aşağıdakilerden hangisine bölünmesiyle hesaplanır?",
-    options:["Toplam nüfus","Doğurganlık çağındaki kadın nüfusu","Gebelik sayısı","Canlı doğum sayısı","Canlı doğum sayısı + ölü doğum sayısı"],
-    answer:"D",
-    hint:"İsteyerek düşük oranı = isteyerek düşük sayısı / canlı doğum sayısı × 100.",
-    trap:"Ölü doğum sayısının kullanıldığı tek formül perinatal ölüm hızıdır. İsteyerek düşük formülünde ölü doğum kullanılmaz.",
-    explanation:"İsteyerek yapılan düşük oranı (yüz canlı doğumda) = İsteyerek yapılan düşük sayısı / Canlı doğum sayısı × 100. Bu oran aile planlaması hizmetlerinin değerlendirilmesinde kullanılır."
-  },
-  {
-    id:"so13",
-    section:"Sağlık Ölçütleri",
-    year:"İlkbahar 2002",
-    question:"Yıl ortası nüfusu 10.000, canlı doğum sayısı 250, ölü doğum sayısı 25 olan bir ilçede aynı sürede:<br><br>0-4 yaş grubunda 15<br>5-14 yaş grubunda 12<br>15-44 yaş grubunda 15<br>45 yaş grubunda 43 ölüm olmuştur.<br><br><b>Bu bilgilere göre bu ilçede kaba ölüm hızı aşağıdakilerden hangisidir?</b>",
-    options:["(15/250)x1000","(25/250)x1000","(15/10.000)x1000","(85/10.000)x1000","(100/10.000)x1000"],
-    answer:"D",
-    hint:"Kaba ölüm hızı = tüm ölümler / yıl ortası nüfus × 1000. Tüm yaş gruplarındaki ölümler toplanır.",
-    trap:"Ölü doğumlar kaba ölüm hızında kullanılmaz. Toplam ölüm = 15+12+15+43 = 85.",
-    explanation:"Kaba ölüm hızı = toplam ölüm sayısı / yıl ortası nüfus × 1000. Toplam ölüm: 15+12+15+43=85. 85/10.000 × 1000."
-  },
-  {
-    id:"so14",
-    section:"Sağlık Ölçütleri",
-    year:"İlkbahar 2002",
-    question:"Aşağıdakilerden hangisi ana ve çocuk sağlığı hizmetlerini değerlendirmede ölçüt olarak kullanılabilir?",
-    options:["Yaşa özel ölüm hızları","Postnatal ölüm hızı","Perinatal ölüm hızı","Fatalite hızları","Kaba ölüm hızı"],
-    answer:"C",
-    hint:"Perinatal ölüm hızı, doğum öncesi ve doğum sırasında sağlık hizmetlerinin kalitesini gösterir.",
-    trap:"Bebek ölüm hızı genel sağlık düzeyini gösterir; perinatal ölüm hızı özellikle ANA sağlığını gösterir.",
-    explanation:"Perinatal ölüm hızı ana sağlığı düzeyini en iyi gösteren 2. ölçüttür. Doğum öncesi ve doğum sırasında verilen sağlık hizmetlerinin yeterliliğini gösterir. (1. ölçüt: Ana ölüm hızı)"
-  },
-  {
-    id:"so15",
-    section:"Sağlık Ölçütleri",
-    year:"İlkbahar 2001",
-    question:"Bir ilçe için aşağıdaki bilgiler mevcuttur:<br><br>Canlı doğum sayısı: 290<br>Yıl ortası nüfus: 10.000<br>Yıl ortası kadın nüfusu: 3000<br><br><b>Bu ilçedeki kaba doğum hızı nedir?</b>",
-    options:["290/3000×1000","300/3000×1000","290/10.000×1000","300/10.000×1000","280/10.000×1000"],
-    answer:"C",
-    hint:"Kaba doğum hızı = canlı doğum sayısı / yıl ortası TOPLAM nüfus × 1000.",
-    trap:"Kadın nüfusu (3000) paydaya alınırsa genel doğurganlık hızı olur; kaba doğum hızında tüm nüfus (10.000) kullanılır.",
-    explanation:"Kaba doğum hızı = 290/10.000 × 1000. 'Kaba' ifadesi, paydada doğurganlığa katkısı olmayan erkekler ve yaşlı kadınların da yer almasından kaynaklanır."
-  },
-  {
-    id:"so16",
-    section:"Sağlık Ölçütleri",
-    year:"Sonbahar 2000",
-    question:"Kanser nedenine özel ölüm hızı hesaplanırken kanserden ölen hastaların sayısını aşağıdakilerden hangisine bölmek gerekir?",
-    options:["Toplam doğum hızı","Toplam ölüm hızı","40 yaşındaki ölüm hızı","Kanserli hasta sayısı","Toplum nüfusu"],
-    answer:"E",
-    hint:"Nedene özel ölüm hızı = belirli nedenden ölen sayısı / toplum nüfusu × 1000.",
-    trap:"'Nedene özel' ifadesi hastalığın fatalitesini değil, toplumda kaç kişinin o nedenle öldüğünü gösterir. Fatalite = ölenler/hastalar.",
-    explanation:"Nedene özel ölüm hızı formülü: 'X' nedenine bağlı ölüm sayısı / Toplumun nüfusu × 1000. Bu formül toplumda en çok ölüme yol açan hastalıkları bulmak için kullanılır."
-  },
-  {
-    id:"so17",
-    section:"Sağlık Ölçütleri",
-    year:"İlkbahar 93",
-    question:"Canlı doğum sayısı: 210<br>0-7 gün ölüm: 3<br>0-28 gün ölüm: 4<br>0-365 gün ölüm: 18<br><br><b>Neonatal ölüm hızı nedir?</b>",
-    options:["4/210×1000","7/210×1000","3/210×1000","18/210×1000","14/210×1000"],
-    answer:"A",
-    hint:"Neonatal ölüm hızı = 0-28 gün içinde ölen bebek sayısı / canlı doğum sayısı × 1000.",
-    trap:"0-7 gün = erken neonatal; 0-28 gün = neonatal; 0-365 gün = bebek ölüm hızı. 4/210 neonatal hızıdır.",
-    explanation:"Neonatal bebek ölüm hızı = 0-28 günlükken ölen çocuk sayısı / canlı doğum sayısı × 1000 = 4/210 × 1000. Erken neonatal = 3/210 × 1000 (0-7 gün)."
-  },
-  {
-    id:"so18",
-    section:"Sağlık Ölçütleri",
-    year:"İlkbahar 92",
-    question:"Anne ölüm hızı hakkında güvenilir kayıt yoksa hangi veri kriter olarak kullanılabilir?",
-    options:["Perinatal ölüm hızı","Kaba ölüm hızı","Kaba doğum hızı","Bebek ölüm hızı","Doğurganlık hızı"],
-    answer:"A",
-    hint:"Kayıtların güvenilir olmadığı durumlarda anne ölüm hızı hakkında en iyi gösterge perinatal ölüm hızıdır.",
-    trap:"Bebek ölüm hızı genel sağlık düzeyini, perinatal ölüm hızı özellikle ana sağlığını gösterir.",
-    explanation:"Anne ölüm hızı doğrudan ölçülemediğinde en iyi vekil gösterge perinatal ölüm hızıdır. Her ikisi de doğum öncesi ve doğum sırasındaki hizmetlerin kalitesiyle doğrudan ilişkilidir."
-  },
-  {
-    id:"so19",
-    section:"Sağlık Ölçütleri",
-    year:"İlkbahar 88",
-    question:"Bir bölgedeki yüksek doğurganlığı kontrol etmek üzere ana sağlığı ve aile planlaması hizmetlerine özel önem veriliyor ve iki yıl sonra bu hizmetin değerlendirileceği değişiklik en erken aşağıdaki ölçütlerden hangisine yansır?",
-    options:["Kaba doğum hızı","Bebek ölüm hızı","Çocuk/kadın oranı","Ana ölüm hızı","Yaşa özel doğurganlık hızı"],
-    answer:"E",
-    hint:"Yaşa özel doğurganlık hızı 15-49 yaş kadınların doğurganlığını en hassas ve hızlı yansıtır.",
-    trap:"Kaba doğum hızı değişimi daha yavaş yansıtır; yaşa özel doğurganlık hızı aile planlaması etkinliğini en erken gösterir.",
-    explanation:"Yaşa özel doğurganlık hızı, 15-49 yaş kadınlar için gruplanmış doğurganlık verisi sunduğundan aile planlaması hizmetlerinin etkinliğini değerlendirmede en duyarlı ölçüttür."
-  },
-  // ── ÖRNEKLEME ──
-  {
-    id:"orn1",
-    section:"Örnekleme",
-    year:"İlkbahar 90",
-    question:"Bir bölgede 40 yaşın üzerindeki popülasyonda hipertansiyon taraması düşünülüyor. Bu bölgenin yaş, cins, sosyo-ekonomik durum gibi özellikleri yönünden homojen <b>olmayan</b> toplumunda hangi örnekleme metodunu tercih edersiniz?",
-    options:["Basit rastgele","Tabakalı","Küme","Sistemik rastgele","Panel"],
-    answer:"B",
-    hint:"Heterojen (homojen olmayan) toplum → tabakalı örnekleme.",
-    trap:"Küme örnekleme kasaba, köy gibi mekânsal grupları kapsar; tabakalı örnekleme ise homojen olmayan alt gruplar için kullanılır.",
-    explanation:"Tabakalı örneklemede araştırmanın uygulanacağı evren homojen yapıda değildir. Küme örnekleme kasaba, köy, okul gibi her kümeden örnek seçer. Basit rastgele ve sistematik örnekleme homojen gruplarda kullanılır."
-  },
-  // ── TANIMLAYICI İSTATİSTİKLER ──
-  {
-    id:"ti1",
-    section:"Tanımlayıcı İstatistikler",
-    year:"Sonbahar 99",
-    question:"Hangisinde median ve aritmetik değer birbirine eşittir?<br><br>A) İki tepeli dağılım<br>B) Simetrik normal dağılım<br>C) Sola çarpık dağılım<br>D) Sağa çarpık dağılım<br>E) Bimodal dağılım",
-    options:["İki tepeli dağılım","Simetrik normal dağılım","Sola çarpık dağılım","Sağa çarpık dağılım","Bimodal dağılım"],
-    answer:"B",
-    hint:"Simetrik dağılımlarda ortalama = ortanca = tepe değeri birbirine eşittir.",
-    trap:"Çarpık dağılımlarda medyan ile ortalama farklılaşır; yalnızca simetrik normal dağılımda eşittir.",
-    explanation:"Simetrik (normal) dağılımlarda aritmetik ortalama, ortanca (median) ve tepe değeri (mod) birbirine eşittir. Çarpık dağılımlarda bu üç ölçüt birbirinden uzaklaşır."
-  },
-  {
-    id:"ti2",
-    section:"Tanımlayıcı İstatistikler",
-    year:"Sonbahar 98",
-    question:"1 çocuk 61 cm, 1 çocuk 62 cm, 1 çocuk 63 cm, 2 çocuk 64 cm, 3 çocuk 65 cm, 1 çocuk 66 cm<br><br>Yukarıda 11 çocuğun boyları verilmiştir. <b>Çocuk boylarının median değer kaçtır?</b>",
-    options:["61","62","63","64","65"],
-    answer:"D",
-    hint:"11 veriyi küçükten büyüğe sırala; ortadaki (6. sıradaki) değer medyandır.",
-    trap:"Ortalama ile medyanı karıştırmayın. Medyan sıralı dizinin tam ortasındaki değerdir.",
-    explanation:"Sıralı dizi: 61, 62, 63, 64, 64, 64, 65, 65, 65, 65, 66. 11 elemanın ortası = 6. eleman = 64. Medyan 64'tür."
-  },
-  // ── TARAMA TESTLERİ ──
-  {
-    id:"tt1",
-    section:"Tarama Testleri",
-    year:"Sonbahar 2015 Orijinal",
-    question:"Bir tarama testi, çalışma kapsamındaki 500 kişiden 50 tanesini hasta olarak değerlendirmiştir. İleri incelemeler sonucunda bu 50 kişinin 10 tanesinin gerçekte hasta olmadığı bulunmuştur. Buna karşılık tarama testinin sağlam olarak değerlendirdiği 450 kişinin de 20 tanesinin ileri incelemelerde hasta olduğu saptanmıştır.<br><br>Bu tarama testiyle ilgili;<br>I. Pozitif prediktif değeri 40/60'tır<br>II. Negatif prediktif değeri 430/440'dır<br>III. Duyarlılığı 40/60'tır<br>IV. Özgüllüğü 430/500'dür<br><br><b>İfadelerinden hangileri doğrudur?</b> (Sonbahar 2015 Orijinal)",
-    options:["Yalnız I","Yalnız IV","Yalnız III","III ve IV","II, III ve IV"],
-    answer:"E",
-    hint:"Tabloyu oluştur: Gerçek hasta: 40+20=60; Gerçek sağlam: 10+430=440. Test (+): 40 gerçek hasta + 10 yanlış pozitif.",
-    trap:"Duyarlılık = gerçek hasta içinden test pozitif çıkanlar / tüm gerçek hastalar. Burada 40/60.",
-    explanation:"Tablo: Test(+)/Hasta(+)=40, Test(+)/Sağlam=10, Test(-)/Hasta=20, Test(-)/Sağlam=430. Toplam hasta=60, sağlam=440. PKD=40/50, NKD=430/450, Duyarlılık=40/60, Özgüllük=430/440. II, III, IV doğrudur."
-  },
-  {
-    id:"tt1b",
-    section:"Tarama Testleri — BENZERİ",
-    year:"Sonbahar 2015 BENZERİ",
-    question:"Yeni testin pozitif dediği toplam kişi sayısından kaçının gerçek gerçek hasta olduğunun oranı aşağıdakilerden hangisidir?",
-    options:["Pozitif kestirim değeri","Negatif kestirim değeri","Doğruluk oranı","Duyarlılık","Özgüllük"],
-    answer:"A",
-    hint:"Pozitif kestirim değeri (PKD) = test pozitif sonuç verdiğinde gerçekten hasta olma olasılığı.",
-    trap:"Duyarlılık gerçek hastalar içindeki pozitif oranını verir; PKD ise pozitif test sonuçları içindeki gerçek hasta oranını verir.",
-    explanation:"Pozitif prediktif değer (PKD / Pozitif kestirim değeri): Test hasta dediğinde gerçekten hasta olma olasılığıdır. = Gerçek pozitif / (Gerçek pozitif + Yalancı pozitif)."
-  },
-  {
-    id:"tt2",
-    section:"Tarama Testleri",
-    year:"Sonbahar 2012",
-    question:"Bir hastalıkla ilgili tarama testi yapılabilmesi için sağlanması gerekli koşullar göz önüne alındığında, aşağıdaki ifadelerden hangisi <b>yanlıştır</b>?",
-    options:["İlgili hastalık, ciddi bir sağlık sorunu olmalıdır.","İlgili hastalık, presemptomatik evresi olmayan bir hastalık olmalıdır.","Tarama testi ve takip eden tedavi, toplum tarafından kabul edilebilir olmalıdır.","Tarama testinin duyarlılığı ve özgüllüğü kabul edilebilir düzeyde olmalıdır.","Tarama testi ve takip eden tedavi maliyet-etkin olmalıdır."],
-    answer:"B",
-    hint:"Tarama testleri presemptomatik evrede yapılır; presemptomatik evresi olmayan hastalıkta taramanın yararı yoktur.",
-    trap:"Tarama = erken tanı = presemptomatik dönemde bulgudan önce tespit. Presemptomatik evresi olmayan hastalık tarama için UYGUN DEĞİLDİR.",
-    explanation:"İdeal tarama testi için hastalığın presemptomatik evresi OLMASI gerekir; bu dönemde tedaviye başlanabilmesi taramanın amacıdır. B şıkkı bu nedenle yanlıştır."
-  },
-  {
-    id:"tt3",
-    section:"Tarama Testleri",
-    year:"İlkbahar 2009",
-    question:"Meme kanseri ile ilgili olarak yürütülen bir çalışmada, fizik muayenede kitle saptanan kadınlara önce iğne aspirasyon biyopsisi uygulanmış ve ardından cerrahi biyopsi yapılmış ve aşağıdaki tablo elde edilmiştir:<br><br>İnce iğne / Cerrahi Pozitif / Cerrahi Negatif / Toplam<br>Pozitif: 14 / 8 / 22<br>Negatif: 1 / 91 / 92<br>Toplam: 15 / 99 / 114<br><br><b>İnce iğne aspirasyon biyopsisinin (+) prediktif değeri aşağıdakilerden hangisine eşittir?</b> (İlkbahar 2009)",
-    options:["14/(14+1) × 100","14/(14+8) × 100","15/(15+99) × 100","91/(91+1) × 100","91/(91+8) × 100"],
-    answer:"B",
-    hint:"PKD = gerçek pozitif / (gerçek pozitif + yalancı pozitif) = 14/(14+8).",
-    trap:"14+1 payda olursa duyarlılık olur (gerçek pozitif / tüm gerçek hastalar). PKD'de payda TEST POZİTİF grubunun toplamıdır.",
-    explanation:"Pozitif prediktif değer = Gerçek pozitif / Test pozitif toplam = 14/(14+8) × 100. Test pozitif dediği 22 kişiden 14'ü gerçekten hasta."
-  },
-  {
-    id:"tt4",
-    section:"Tarama Testleri",
-    year:"İlkbahar 2007",
-    question:"Bir tarama programında muayene edilen 1000 kişiden 110'u hastalık yönünden şüpheli bulunmuştur. İleri inceleme sonucunda 100 kişi hasta tanısı almıştır. Hastaların 20'si tarama testinin sağlam olarak değerlendirdiği gruptur. Hasta tanısı alanların 40'ı önceden hasta olduğunu bilmektedir.<br><br><b>Bu bilgilere dayanarak aşağıdaki yargılardan hangisine varılabilir?</b> (İlkbahar 2007)",
-    options:["Tarama testinin duyarlılığı 100/1000 dir.","Tarama testinin seçiciliği 110/1000 dir.","Pozitif testin prediktif değeri 40/100 dür.","Tarama testinin yanlış pozitif sayısı 30 dur.","Tarama testinin tutarlılığı 870/1000 dir."],
-    answer:"D",
-    hint:"Test pozitif: 110 kişi. Bunların 80'i gerçek hasta (100-20). Yanlış pozitif = 110-80 = 30.",
-    trap:"Yanlış pozitif = test pozitif ama gerçekte sağlam olanlar. 110 test (+) - 80 gerçek hasta = 30 yanlış pozitif.",
-    explanation:"Tablo: Test(+)=110; Gerçek hasta=100; Test(-)/hasta=20 → Test(+)/hasta=80. Yanlış pozitif=110-80=30. Seçicilik(özgüllük)=870/900. Duyarlılık=80/100. D şıkkı doğrudur."
-  },
-  {
-    id:"tt5",
-    section:"Tarama Testleri",
-    year:"İlkbahar 2008",
-    question:"1000 kişilik bir grupta yapılan diabetes mellitus taraması sonucunda test, 120 kişiyi diyabetik olarak değerlendirmiştir. Gerçekleme testi sonuçlarına göre ise 1000 kişiden 100 üne diyabet tanısı konmuştur. Tarama testinin diyabetik bulduğu 120 kişinin 80'i gerçekleme muayenesinde diyabetik olarak saptanmıştır.<br><br><b>Bu bilgilere göre, tarama testinin duyarlılığı aşağılakilerin hangisine eşittir?</b> (İlkbahar 2008)",
-    options:["80/100","80/120","80/1000","100/900","100/1000"],
-    answer:"A",
-    hint:"Duyarlılık = gerçek pozitif / tüm gerçek hastalar = 80/100.",
-    trap:"80/120 pozitif prediktif değer olurdu. Duyarlılıkta payda tüm gerçek hastalardır (100).",
-    explanation:"Duyarlılık (sensitivite) = Test gerçek hastalara pozitif deme oranı = 80/100. PKD = 80/120. Özgüllük = 820/900."
-  },
-  {
-    id:"tt6",
-    section:"Tarama Testleri",
-    year:"Sonbahar 2006",
-    question:"Bir grup araştırmacı Brusella tanısında yeni bir yöntem geliştirmiştir. Yeni tanı yöntemine ve onunla birlikte uyguladıkları altın standart teste göre aşağıdaki tabloyu elde etmişlerdir:<br><br>Yeni tanı / Altın standart Pozitif / Negatif / Toplam<br>Pozitif: 115 / 15 / 130<br>Negatif: 350 / 20 / 370<br>Toplam: 465 / 35 / 500<br><br><b>Yeni tanı yönteminin duyarlılığı aşağıdakilerden hangisidir?</b> (Sonbahar 2006)",
-    options:["15/130","20/370","115/130","115/465","350/370"],
-    answer:"D",
-    hint:"Duyarlılık = gerçek pozitif / (gerçek pozitif + yalancı negatif) = 115/465.",
-    trap:"115/130 = PKD olurdu. Duyarlılıkta payda tüm gerçek hastalardır (sütun toplamı): 465.",
-    explanation:"Duyarlılık = 115 / (115+350) = 115/465. Gerçek hasta sütunu toplamı 465'tir. Özgüllük = 20/35."
-  },
-  {
-    id:"tt7",
-    section:"Tarama Testleri",
-    year:"Sonbahar 2002",
-    question:"Yeni geliştirilen diabet teşhisine yönelik bir teste 100 tane diyabetli olduğu bilinen ve 100 tanede normal sağlıklı sıradan denek katılmıştır. Test sonuçlarına göre 110 deneğin diyabetik olduğu saptanmıştır. Bu 110 deneğin 90 tanesi diyabetik olduğu bilinen gruptandır.<br><br><b>Testin duyarlılığı nedir?</b> (Sonbahar 2002)",
-    options:["90/20","90/90","90/110","110/200","90/100"],
-    answer:"E",
-    hint:"Duyarlılık = gerçek pozitif / tüm gerçek hastalar = 90/100.",
-    trap:"90/110 = pozitif prediktif değer olurdu. Duyarlılıkta payda, gerçek hasta sayısıdır (100).",
-    explanation:"Duyarlılık = 90/100. Gerçek hasta grubu 100 kişidir; bunların 90'ı test pozitif çıkmıştır. Özgüllük = 80/100 (yanlış pozitif 20, gerçek sağlam 100)."
-  },
-  {
-    id:"tt8",
-    section:"Tarama Testleri",
-    year:"Sonbahar 99",
-    question:"Diyabet tanısı için ilk kez kullanılan bir testin diyabetik hastaların %98'ini diyabetik olarak tanımladığı, diyabetik olmayanların %20'sini ise diyabetik olarak yorumladığı saptanmıştır.<br><br><b>Buna göre bu testin duyarlılığı ve özgüllüğü için hangisi doğrudur?</b> (Sonbahar 99)",
-    options:["Duyarlılık %98 / Özgüllük %80","Duyarlılık %98 / Özgüllük %20","Duyarlılık %2 / Özgüllük %80","Duyarlılık %98 / Özgüllük %2","Duyarlılık %20 / Özgüllük %98"],
-    answer:"A",
-    hint:"Duyarlılık: hastalar içindeki pozitif oran = %98. Özgüllük: sağlamlar içindeki NEGATİF oran = 100-20 = %80.",
-    trap:"Sağlamların %20'si yanlış pozitif → Özgüllük = %80 (sağlamların yanlış negatif değil doğru negatif oranı).",
-    explanation:"Duyarlılık = hastaların %98'ini pozitif bulması → %98. Özgüllük = sağlamların %20'si yanlış pozitif → gerçek negatif = %80. A doğrudur."
-  },
-  // ── GRUPLARIN KARŞILAŞTIRILMASI ──
-  {
-    id:"gk1",
-    section:"Grupların Karşılaştırılması",
-    year:"İlkbahar 2003",
-    question:"Bir araştırmada 200 kadının bebek bakımı bilgi düzeyleri, bebek bakımıyla ilgili bir eğitim programına katılmadan önce ve katıldıktan sonra uygulanan belli bir testten aldıkları puanlarla ölçülmüştür.<br><br><b>Bu araştırmanın verilerine aşağıdaki istatistiksel testlerden hangisi uygulanmalıdır?</b> (İlkbahar 2003)",
-    options:["Mann-Whitney testi","İki bağımsız ortalama arasındaki farkın önemlilik testi","İki eş arasındaki ortalama farkın önemlilik testi","İki bağımsız yüzde arasındaki farkın önemlilik testi","Ki-kare uyum testi"],
-    answer:"C",
-    hint:"Aynı kişiler eğitim öncesi ve sonrası → bağımlı grup → bağımlı t-testi (eş arası ortalama fark testi).",
-    trap:"Farklı kişiler karşılaştırılsaydı bağımsız t-testi kullanılırdı. Burada aynı 200 kadın 'önce-sonra' karşılaştırılıyor → bağımlı.",
-    explanation:"Aynı kişilerin farklı zaman noktalarında ölçüldüğü çalışmalar bağımlı gruptur. Bağımlı grup ortalamaları karşılaştırması için 'bağımlı Student t-testi' (iki eş arası fark testi) kullanılır. Denek sayısı >30 olduğundan parametrik test uygundur."
-  },
-  {
-    id:"gk2",
-    section:"Grupların Karşılaştırılması",
-    year:"Sonbahar 2007",
-    question:"Bir sağlık ocağı bölgesinde yaşamakta olan 15-49 yaş grubu evli kadınların aile planlaması için rahim içi araç uygulama sıklığı ile, başka bir sağlık ocağı bölgesinde yaşamakta olan 15-49 yaş grubu evli kadınların aile planlaması için rahim içi araç uygulama sıklığı karşılaştırılmak isteniyor.<br><br><b>Bu araştırma için en uygun istatistiksel test aşağıdakilerden hangisidir?</b> (Sonbahar 2007)",
-    options:["Ki-kare testi","İki ortalama arasındaki farkın önemlilik testi","Mann-Whitney U testi","Wilcoxon testi","ANOVA testi"],
-    answer:"A",
-    hint:"İki farklı bölgede kullanan/kullanmayan oranları karşılaştırılıyor → bağımsız iki grup, kategorik veri → ki-kare.",
-    trap:"Ortalama değil ORAN (kullanan/kullanmayan) karşılaştırılıyor; rakamsal veri yoktur → t-testi değil ki-kare.",
-    explanation:"Ki-kare testi, bağımsız iki grupta bir özelliğin (var-yok, kullanan-kullanmayan) oranlarını karşılaştırmak için kullanılır. Burada RİA kullanan/kullanmayan oranı iki ayrı bölgede karşılaştırılmaktadır."
-  },
-  // ── HASTALIKLARDAN KORUNMA ──
-  {
-    id:"kor1",
-    section:"Hastalıklardan Korunma",
-    year:"İlkbahar 2020 Orijinal",
-    question:"Aşağıdakilerden hangisi birincil koruma uygulamaları arasında yer alır?",
-    options:["Mammografi tarama programı","Tarama amaçlı akciğer grafisi çekilmesi","HPV aşısı uygulanması","Gaitada gizli kan bakılması","Yataksız tedavi kurumlarında tanı tedavi hizmetleri"],
-    answer:"C",
-    hint:"Birincil koruma: hastalık ortaya çıkmadan önce, sağlıklı bireyde uygulanan önlemler. Aşılama hastalığı önler.",
-    trap:"Mammografi ve tarama testleri erken tanı (ikincil koruma) arasında yer alır; aşılama birincil korumadır.",
-    explanation:"Birincil (primer) koruma: Hastalıkların ortaya çıkışını (insidansını) önlemeye yönelik faaliyetlerdir. Aşılama (HPV aşısı) bu kapsamdadır. Tarama programları ise ikincil (sekonder) koruma kapsamındadır."
-  },
-  {
-    id:"kor2",
-    section:"Hastalıklardan Korunma",
-    year:"Sonbahar 2017 Orijinal",
-    question:"Aşağıdakilerden hangisi primer koruma için verilebilecek örneklerden biri <b>değildir</b>?",
-    options:["Sigara bırakma polikliniklerinin artırılması","Meme kanseri taramalarının etkinleştirilmesi","Kapalı alanlardaki sigara yasaklarına dair denetimlerin artırılması","Beslenme ve diyet danışmanlığı hizmetlerine erişimin kolaylaştırılması","Fiziksel aktivite danışmanlığı polikliniklerinin açılması"],
-    answer:"B",
-    hint:"Meme kanseri taraması erken tanı (ikincil koruma) kapsamındadır.",
-    trap:"Kanser taramaları ERKEN TANIYI amaçlar → ikincil koruma. Birincil koruma hasta olmayı önlemeye yönelik faaliyetlerdir.",
-    explanation:"Primer koruma: birey daha hasta olmadan onu koruyan önlemlerdir. Meme kanseri taramaları gibi varolan hastalığı araştırmaya yönelik erken tarama yöntemleri sekonder koruma kapsamında değerlendirilir."
-  },
-  {
-    id:"kor2b",
-    section:"Hastalıklardan Korunma — BENZERİ",
-    year:"Sonbahar 2017 BENZERİ",
-    question:"I. Sigara bırakma polikliniklerinin artırılması<br>II. Meme kanseri taramalarının etkinleştirilmesi<br>III. Beslenme ve diyet danışmanlığı hizmetlerine erişimin kolaylaştırılması<br>IV. Fiziksel aktivite danışmanlığı polikliniklerinin açılması<br><br><b>Aşağıdakilerden hangisi/hangileri Sekonder koruma için verilebilecek örneklendedir?</b> (Sonbahar 2017 BENZERİ)",
-    options:["Yalnız II","I ve II","I ve III","I, III ve IV","Yalnız IV"],
-    answer:"A",
-    hint:"Sekonder koruma = erken tanı; meme kanseri taraması erken tanıya yöneliktir.",
-    trap:"I, III ve IV sağlıklı bireylerde hastalığı önlemeye yönelik birincil koruma örnekleridir.",
-    explanation:"Sekonder koruma: erken tanıyı amaçlayan tarama (check-up) gibi önlemlerdir. Meme kanseri taraması (II) bu kapsamdadır. Diğerleri birincil koruma örnekleridir."
-  },
-  {
-    id:"kor3",
-    section:"Hastalıklardan Korunma",
-    year:"Sonbahar 2010",
-    question:"Aşağıdakilerden hangisi ikincil korumadır?",
-    options:["İşçinin baret takması","Aşılama","El yıkama","Atık su arıtımı","Verem taraması"],
-    answer:"E",
-    hint:"Verem taraması erken tanıyı amaçlar → ikincil (sekonder) koruma.",
-    trap:"Baret, el yıkama, atık su arıtımı ve aşılama birincil koruma (hastalığı önleme) kapsamındadır.",
-    explanation:"İkincil koruma: erken tanıyı amaçlayan tarama ve check-up gibi önlemlerdir. Verem taraması, mamografi, servikal smear gibi taramalar bu kapsamdadır."
-  },
-  {
-    id:"kor4",
-    section:"Hastalıklardan Korunma",
-    year:"İlkbahar 2014 Orijinal",
-    question:"Aşağıdaki uygulamalardan hangisi, sekonder koruma olarak kabul edilir?",
-    options:["Hipertansiyonu önlemek için toplumun tuz tüketiminin azaltılması","40 yaş üstü kadınların meme kanseri açısından taranması","Akut eklem romatizması geçiren çocuklara profilaktik penisilin uygulanması","Gebelere tetanoz aşısı yapılması","Suların klorlanması"],
-    answer:"B",
-    hint:"40 yaş üstü kadınların mammografisi → erken tanı → sekonder koruma.",
-    trap:"Penisilin profilaksisi ve aşılama birincil korumadır; tarama programları sekonder korumadır.",
-    explanation:"Sekonder koruma erken tanıyı amaçlar. 40 yaş üstü mamografi taraması varolan meme kanserinin erken dönemde tespitini hedefler. A, C, D, E birincil koruma örnekleridir."
-  },
-  {
-    id:"kor4b",
-    section:"Hastalıklardan Korunma — BENZERİ",
-    year:"İlkbahar 2014 BENZERİ",
-    question:"Aşağıdaki koruma tipleri ve örnek eşleştirmelerinden hangisi doğru <b>değildir</b>?<br><br>A) Primer koruma — Tüberküloz aşısı yapılmak<br>B) Primordial koruma — Fabrikalarda işitme taraması yapmak<br>C) Üçüncü koruma — Rektum kanserini ameliyat etmek<br>D) Dördüncü koruma — Kanserli hastalara ağrı kesici vermek<br>E) Sekonder koruma — 40 yaşından sonra açlık kan şekerine bakmak",
-    options:["Primer koruma — Tüberküloz aşısı yapılmak","Primordial koruma — Fabrikalarda işitme taraması yapmak","Üçüncü koruma — Rektum kanserini ameliyat etmek","Dördüncü koruma — Kanserli hastalara ağrı kesici vermek","Sekonder koruma — 40 yaşından sonra açlık kan şekerine bakmak"],
-    answer:"B",
-    hint:"Fabrikada işitme taraması = erken tanı = sekonder koruma. Primordial koruma toplumsal koşulları değiştirmeye yönelik faaliyetlerdir.",
-    trap:"Primordial koruma; sosyal, kültürel ve ekonomik koşulların iyileştirilmesini hedefler. Tarama işlemleri primordial değil sekonder korumadır.",
-    explanation:"Primordial koruma: toplumun sağlık düzeyini belirleyen sosyal, kültürel ve ekonomik koşulların iyileştirilmesidir. Fabrikalarda işitme taraması ise sekonder koruma (erken tanı) kapsamındadır. B eşleştirmesi yanlıştır."
-  },
-  {
-    id:"kor5",
-    section:"Hastalıklardan Korunma",
-    year:"Sonbahar 2012",
-    question:"Aşağıdaki uygulamalardan hangisi sağlıkta 'primer koruma' kapsamında yer alır?",
-    options:["Kızamık aşısı","Bronkoskopi","Cerrahi eksplorasyon","Papsmear incelemesi","ELISA testi"],
-    answer:"A",
-    hint:"Kızamık aşısı hastalığı önlemeye yönelik → primer (birincil) koruma.",
-    trap:"Papsmear, bronkoskopi, ELISA erken tanı testleridir → sekonder koruma. Cerrahi eksplorasyon ise tedavi kapsamındadır.",
-    explanation:"Primer koruma, hastalığın ortaya çıkmasını önlemeye yönelik uygulamalardır. Kızamık aşısı sağlıklı bireyi korur → primer koruma. Diğer seçenekler erken tanı (sekonder) ya da tedavi kapsamındadır."
-  }
+  // ── HASTALIKLARDAN KORUNMA (devam s.209) ──
+  {id:"kor6",section:"Hastalıklardan Korunma",year:"İlkbahar 2012",
+   question:"Hastalıkların kontrolü amacıyla asemptomatik ama hastalık açısından riskli kişi ya da grupların, ilgilenilen hastalığın erken tanı ve tedavisi amacıyla incelenmesine toplum taramaları denir.<br><br><b>Bu amaçla aşağıdaki hastalıklardan hangisi toplum taramaları için uygundur?</b> (İlkbahar 2012)",
+   options:["Serviks kanseri","Akut lösemi","Behçet hastalığı","Malign melanom","Osteoartrit"],
+   answer:"A",
+   hint:"Tarama için uygun hastalık: sık görülen, presemptomatik evresi olan, erken tedavisi mümkün olan.",
+   trap:"Akut lösemi, Behçet, melanom tarama için uygun değildir. Serviks kanseri sık, erken dönemde tedavi edilebilir ve iyi bir tarama testi (smear) mevcuttur.",
+   explanation:"Toplum taramasına uygun hastalıklar: ciddi sağlık sorunu olmalı, presemptomatik evresi olmalı, erken tanı ve tedavisi mümkün olmalı, tarama testi kabul edilebilir olmalıdır. Serviks kanseri bu tüm kriterleri karşılar."},
+
+  {id:"kor7",section:"Hastalıklardan Korunma",year:"İlkbahar 99",
+   question:"Aşağıdakilerden hangisi sekonder koruma yoludur?",
+   options:["Mamografi","Aile planlaması","Baret kullanma","Aşılama","Sigaraya başlamama"],
+   answer:"A",
+   hint:"Mamografi meme kanserinin erken tespitine yönelik tarama → sekonder koruma.",
+   trap:"Aşılama ve sigaraya başlamama birincil korumadır. Mamografi erken tanıdır → sekonder.",
+   explanation:"Sekonder koruma erken tanı ve tedaviyi hedefler. Mamografi asemptomatik bireylerde meme kanserini erken tespit etmeye yönelik olduğundan sekonder koruma kapsamındadır."},
+
+  {id:"kor8",section:"Hastalıklardan Korunma",year:"Sonbahar 96",
+   question:"Hipertansiyonda ve hipertansiyona bağlı kalp hastalığında hangisi sekonder önemlidir?",
+   options:["Seri kan basıncı ölçümleri","Sigara içmenin önlenmesi","Fiziksel egzersizler yaptırılması","Eğitim verilmesi","40 yaşın üstündeki riskli kişilerin EKG takipleri"],
+   answer:"E",
+   hint:"40 yaş üstü riskli kişilerde EKG takibi = erken tanı = sekonder koruma.",
+   trap:"Seri kan basıncı ölçümü birincil korunmanın takibidir; riskli kişilerde EKG ile kalp hastalığının erken tespiti sekonder korumadır.",
+   explanation:"Sekonder koruma: var olan hastalığı erken dönemde tespit etmeye yönelik faaliyetlerdir. Hipertansif hastalarda EKG ile kalp komplikasyonlarının erken tespiti sekonder koruma kapsamındadır."},
+
+  {id:"kor9",section:"Hastalıklardan Korunma",year:"İlkbahar 2002",
+   question:"Aşağıdakilerden hangisi serviks uteri kanseri erken tanısı amacıyla yapılan tarama çalışmalarının yararlı olup olmadığının en geçerli göstergesidir?",
+   options:["Serviks kanseri görülme sıklığının artması","Serviks kanseri görülme yaşının daha genç yaşlara kayması","Hastaların yaşam süresinin uzaması","Serviks kanseri mortalite hızının azalması","Serviks kanseri tanısı ile ameliyat edilen hasta sayısının azalması"],
+   answer:"D",
+   hint:"Tarama programının etkinliğini gösteren en güçlü kanıt mortalite hızının azalmasıdır.",
+   trap:"Yaşam süresinin uzaması lead-time bias nedeniyle yanıltıcı olabilir. Mortalite azalması gerçek etkinliği gösterir.",
+   explanation:"Bir tarama programının etkinliğini kanıtlayan en geçerli gösterge, o hastalığa bağlı ölüm hızının (mortalite) azalmasıdır. Yaşam süresinin uzaması 'lead-time bias' ile açıklanabildiğinden tek başına yeterli değildir."},
+
+  {id:"kor10",section:"Hastalıklardan Korunma",year:"İlkbahar 2015 Orijinal",
+   question:"Aşağıdaki aşılardan hangisinin tüm erişkinlere belirli aralıklarla uygulanması gerekir?",
+   options:["Hepatit B","Hepatit A","Tetanoz","Meningokok","Pnömokok"],
+   answer:"C",
+   hint:"Tetanoz aşısı primer seri tamamlandıktan sonra tüm erişkinlere 10 yılda bir tekrarlanır.",
+   trap:"Hepatit B, A, meningokok, pnömokok aşıları risk gruplarına yapılır; tetanoz aşısı tüm erişkinlere periyodik uygulanır.",
+   explanation:"Primer serisi tamamlanmış tüm yetişkinlere 10 yılda bir Td (erişkin tipi difteri-tetanoz) aşısı yapılmalıdır. Diğer aşılar yalnızca belirli risk gruplarına önerilir."},
+
+  {id:"kor10b",section:"Hastalıklardan Korunma — BENZERİ",year:"İlkbahar 2015 BENZERİ",
+   question:"I. Tetanoz<br>II. Hepatit B<br>III. Pnömokok<br>IV. Meningokok<br><br><b>Aşağıdaki aşılardan hangisi/hangileri tüm erişkinlere belirli aralıklarla uygulanır?</b> (İlkbahar 2015 BENZERİ)",
+   options:["Yalnız I","I ve II","I, II ve III","I, II, III ve IV","Yalnız IV"],
+   answer:"A",
+   hint:"Tüm erişkinlere periyodik uygulanan tek aşı tetanozdur.",
+   trap:"Diğerleri risk grubu aşılarıdır; tetanoz evrensel erişkin aşısıdır.",
+   explanation:"Tüm erişkinlere 10 yılda bir Td aşısı uygulanmalıdır. Hepatit B, pnömokok, meningokok aşıları belirli risk gruplarına önerilir; evrensel erişkin aşısı değildir."},
+
+  // ── NÜFUS PİRAMİDİ + DEMOGRAFİK DÖNÜŞÜM ──
+  {id:"np11",section:"Hastalıklardan Korunma",year:"İlkbahar 2019 Orijinal",
+   question:"I. Tetanoz<br>II. Hepatit A<br>III. Kızamık<br>IV. Suçiçeği<br><br><b>Yukarıdaki enfeksiyon hastalıklarından hangilerinin geçirilmesiyle doğal bağışıklık gelişmediği için, hastalığı geçiren kişilere bu enfeksiyon aşısı yapılmalıdır?</b> (İlkbahar 2019 Orijinal)",
+   options:["Yalnız IV","II ve III","Yalnız I","I ve IV","I, II ve III"],
+   answer:"D",
+   hint:"Tetanoz ve suçiçeği geçirildikten sonra yeterli doğal bağışıklık gelişmez → aşılama gerekir.",
+   trap:"Kızamık ve Hepatit A geçirildikten sonra güçlü doğal bağışıklık gelişir. Tetanoz toksin hastalığı olduğu için geçirilse bile bağışıklık oluşmaz.",
+   explanation:"Tetanoz bir toksin hastalığıdır; geçirilse dahi kalıcı bağışıklık oluşmaz. Suçiçeği geçirildikten sonra da yeterli bağışıklık gelişmeyebilir. Bu nedenle her ikisinde de aşılama gereklidir."},
+
+  {id:"np11b",section:"Hastalıklardan Korunma — BENZERİ",year:"İlkbahar 2019 BENZERİ",
+   question:"<b>Aşağıdaki hastalıklardan hangisinin geçirilmesi ile doğal bağışıklık gelişmez?</b> (İlkbahar 2019 BENZERİ)",
+   options:["Hepatit A","Kızamık","Tetanoz","Kızamıkçık","Kabakulak"],
+   answer:"C",
+   hint:"Tetanoz toksin aracılı olduğundan geçirilse de bağışıklık gelişmez.",
+   trap:"Kızamık, kızamıkçık, kabakulak, Hepatit A geçirilince kalıcı bağışıklık oluşur. Tetanozda oluşmaz.",
+   explanation:"Tetanoz toksini vücutta çok az miktarda etkili olduğundan bağışıklık yanıtı yetersiz kalır. Bu nedenle tetanoz geçirilmiş olsa dahi aşılama programına devam edilmelidir."},
+
+  {id:"np1",section:"Nüfus Piramidi",year:"Sonbahar 93",
+   question:"Geniş tabanlı olan ve yukarı doğru hızla daralan nüfus piramidi olan toplumda aşağıdakilerden hangisi doğrudur?",
+   options:["Doğum hızı düşük, ölüm hızı yüksek","Doğum hızı yüksek, ölüm hızı düşük","Doğum hızı düşük, ölüm hızı düşük","Göç oranı yüksek","Doğum hızı yüksek, ölüm hızı yüksek"],
+   answer:"E",
+   hint:"Geniş taban = yüksek doğurganlık. Hızla daralma = genç yaşta ölüm (yüksek ölüm hızı).",
+   trap:"'Geniş taban + hızla daralma' kombinasyonu hem doğum hem ölümün yüksek olduğu gelişmemiş toplum tipini gösterir.",
+   explanation:"Geniş tabanlı nüfus piramidi yüksek doğurganlığa, yukarıya doğru hızla daralma ise yüksek ölüm hızına işaret eder. Bu piramit tipi sanayileşme öncesi dönemin özelliğidir."},
+
+  {id:"dd2",section:"Demografik Dönüşüm",year:"Sonbahar 2021 Orijinal",
+   question:"Demografik dönüşüm süreciyle ilgili aşağıdaki ifadelerden hangisi <b>yanlıştır</b>?",
+   options:["İlk aşamada ölüm ve doğum hızları yüksek, nüfus artış hızı düşüktür.","Son aşamada toplam doğurganlık hızı ikinin altına düşebilir.","Pandemilerin azalması ile eş zamanlı olarak doğumlar da azalır.","İlk aşama, sanayi öncesi dönemi tanımlar.","Ölümlerin azalmasındaki temel belirleyici, düzelen çevre ve yaşam koşullarıdır."],
+   answer:"C",
+   hint:"Demografik dönüşümde ölümlerin azalması önce gelir; doğumların azalması sonra gerçekleşir — eş zamanlı değildir.",
+   trap:"Pandemilerin azalması ölüm hızını düşürür, fakat doğum hızı hemen düşmez; doğum azalması gecikmelidir.",
+   explanation:"Demografik dönüşüm kuramında önce ölüm hızları azalır, ardından doğum hızları azalır. Bu iki azalma eş zamanlı değildir. C şıkkı bu nedenle yanlıştır."},
+
+  {id:"dd2b",section:"Demografik Dönüşüm — BENZERİ",year:"Sonbahar 2021 BENZERİ",
+   question:"<b>Demografik dönüşümün hangi aşamasında doğum ve ölüm oranları en düşüktür?</b> (Sonbahar 2021 BENZERİ)",
+   options:["Sanayileşme öncesi aşama","1. aşama","2. aşama","3. aşama","4. aşama"],
+   answer:"E",
+   hint:"4. aşamada hem doğum hem ölüm oranları çok düşüktür; nüfus dengeye ulaşmıştır.",
+   trap:"1. aşamada her ikisi de yüksektir; 4. aşamada her ikisi de düşüktür.",
+   explanation:"Demografik dönüşümün 4. (son) aşamasında hem doğum hem ölüm oranları çok düşüktür. Nüfus artışı durmuş veya minimuma inmiştir. Bu gelişmiş toplumların özelliğidir."},
+
+  // ── BİLDİRİMİ ZORUNLU HASTALIKLAR ──
+  {id:"bz1",section:"Bildirimi Zorunlu Hastalıklar",year:"Sonbahar 89",
+   question:"Aşağıdakilerden hangisinde verilen hastalıkların tümü için uluslararası bildirim (ihbar) zorunluluğu vardır?",
+   options:["Kızamık, lepra, tifo, çiçek, poliomiyelit","Veba, çiçek, sarı humma, tifüs","Şarbon, veba, ruam, kuduz, sarıhumma","Kolera, sarıhumma, kuduz, çiçek, şarbon","Çiçek, veba, kızıl, kuduz, enfeksiyöz hepatit"],
+   answer:"B",
+   hint:"WHO'ya bildirilmesi zorunlu hastalıklar: veba, çiçek, sarı humma, kolera.",
+   trap:"Kuduz, kızamık, tifo uluslararası bildirim zorunluluğu kapsamında değildir.",
+   explanation:"Uluslararası Sağlık Tüzüğü'ne göre WHO'ya bildirilmesi zorunlu hastalıklar: veba, çiçek (eradike), sarı humma ve kolera. B şıkkındaki tüm hastalıklar bu kapsamdadır."},
+
+  {id:"bz2",section:"Bildirimi Zorunlu Hastalıklar",year:"Sonbahar 2012",
+   question:"Ülkemizde bildirimi zorunlu olan bulaşıcı hastalıklardan bazıları sadece seçilmiş sağlık merkezlerinden bildirilmektedir.<br><br><b>Aşağıdakilerden hangisi bu gruba yer alan hastalıklardan biridir?</b> (Sonbahar 2012)",
+   options:["Sıtma","Difteri","Tifüs","Tüberküloz","İnfluenza"],
+   answer:"E",
+   hint:"Grup C hastalıkları sadece seçilmiş (sentinel) sağlık merkezlerinden bildirilir. İnfluenza Grup C'dedir.",
+   trap:"Tüberküloz Grup A'dadır (her sağlık kuruluşundan bildirilir). İnfluenza benzeri hastalık Grup C'de sentinel sürveyans kapsamındadır.",
+   explanation:"Bildirimi zorunlu hastalık gruplarında Grup C hastalıkları yalnızca belirlenmiş standart tanı kriterleri çerçevesinde seçilmiş sağlık kuruluşlarından bildirilir. İnfluenza (H. influenzae tip B enfeksiyonları dahil) bu gruptadır."},
+
+  // ── ELİMİNASYON VE ERADİKASYON ──
+  {id:"el1",section:"Eliminasyon ve Eradikasyon",year:"İlkbahar 2013",
+   question:"Aşağıdaki bulaşıcı hastalık - kontrol programı eşleştirmelerinden hangisi <b>yanlıştır</b>?",
+   options:["Kızamık - Eliminasyon","Neonatal tetanoz - Eliminasyon","Kızamıkçık - Eliminasyon","Polio - Eliminasyon","Tüberküloz - Hastalık kontrolü"],
+   answer:"D",
+   hint:"Polio için hedef ERADİKASYON'dur, eliminasyon değil.",
+   trap:"Eliminasyon: ülke içinde yerli virüs dolaşımının durdurulması. Eradikasyon: dünya genelinde virüsün yok edilmesi. Polio eradikasyon programındadır.",
+   explanation:"Polio Eradikasyon Programı kapsamındadır, eliminasyon değil. Kızamık ve kızamıkçık eliminasyon, neonatal tetanoz eliminasyon, tüberküloz hastalık kontrolü programındadır."},
+
+  {id:"gbp2",section:"GBP Hastalık Programları",year:"İlkbahar 2012",
+   question:"Aşağıdaki hastalıklardan hangisinin eliminasyon programı yürütülmektedir?",
+   options:["Tüberküloz","Hepatit B","Poliomiyelit","Neonatal tetanoz","Boğmaca"],
+   answer:"D",
+   hint:"Maternal ve Neonatal Tetanoz Eliminasyon Programı aktif olarak yürütülmektedir.",
+   trap:"Polio eradikasyon programındadır. Hepatit B kontrol programındadır. Neonatal tetanoz eliminasyon programındadır.",
+   explanation:"Türkiye'de GBP kapsamında yürütülen programlar: Polio Eradikasyon, Kızamık Eliminasyon, Maternal ve Neonatal Tetanoz Eliminasyon, Hepatit B Kontrol Programı. Neonatal tetanoz eliminasyon programındadır."},
+
+  // ── BULAŞICI HASTALIKLARININ ÖNEMİ ──
+  {id:"bh1",section:"Bulaşıcı Hastalıkların Önemi",year:"İlkbahar 97",
+   question:"Aşağıdakilerden hangisi bulaşıcı hastalık sonrası enfeksiyon bulaşma zincirini kırmaya yönelik önlem <b>değildir</b>?",
+   options:["Hastaların izolasyonu","Kemoprofilaksi","Aşılama","Vektör kontrolü","Gıda ve su temizliği"],
+   answer:"B",
+   hint:"Kemoprofilaksi temas öncesinde veya sırasında enfeksiyon oluşumunu önlemek için kullanılır, enfeksiyon sonrası zincir kırma değildir.",
+   trap:"İzolasyon, vektör kontrolü, gıda-su temizliği bulaşma zincirini keser. Kemoprofilaksi enfeksiyondan ÖNCE veya SIRASINDA kullanılır.",
+   explanation:"Kemoprofilaksi: infeksiyon etkenle temastan önce veya temas sırasında hemen sonra infeksiyon oluşmasını önlemek için kullanılır. Bu nedenle 'bulaşıcı hastalık sonrası' zincir kırma önlemi değildir."},
+
+  {id:"bh2",section:"Bulaşıcı Hastalıkların Önemi",year:"Sonbahar 95",
+   question:"Bulaşıcı hastalık ihbarı yapılan bir köye giden hekim <b>ilk</b> olarak ne yapmalıdır?",
+   options:["Tanıyı doğrulamalı","Risk grubunu tayin etmeli","Vaka sayısını tespit etmeli","Kaynağı bulmalı","Kuluçka süresini tespit etmeli"],
+   answer:"A",
+   hint:"Salgın yönetiminin ilk ve en önemli adımı tanının doğrulanmasıdır.",
+   trap:"Vaka sayısı tespiti, kaynak araştırması sonraki aşamalardır. Her şeyden önce tanının doğruluğu teyit edilmelidir.",
+   explanation:"Bulaşıcı hastalık salgınlarında hekimin ilk yapması gereken mevcut imkânlarla tanıyı koymak ve doğrulamaktır. Ardından vakalar tespit edilir, risk grupları belirlenir, kaynak araştırılır ve kontrol önlemleri alınır."},
+
+  {id:"bh3",section:"Bulaşıcı Hastalıkların Önemi",year:"Sonbahar 2025",
+   question:"Salgın sırasında kaynağa yönelik alınabilecek en olası tedbir aşağıdakilerden hangisidir?",
+   options:["Kesin tanı","Su dezenfeksiyonu","Aşılama","Sağlıklı beslenme","Vektör kontrolü"],
+   answer:"A",
+   hint:"Salgında kaynağa yönelik ilk ve en önemli adım kesin tanının konulmasıdır.",
+   trap:"Su dezenfeksiyonu ve vektör kontrolü bulaşma yolunu keser; kaynağa yönelik birincil adım tanıdır.",
+   explanation:"Bulaşıcı hastalıklarda kaynağa yönelik en önemli adım kesin tanının konulmasıdır. Tanı olmadan hangi kaynağa yönelik önlem alınacağı bilinemez."},
+
+  {id:"bh4",section:"Bulaşıcı Hastalıkların Önemi",year:"Sonbahar 87",
+   question:"Aşağıdakilerden hangisi, sıtmanın geçişinde rol oynayan anofel yoğunluğunu azaltmak için uygulanan mücadele yöntemi <b>değildir</b>?",
+   options:["Larvalara karşı kimyasal mücadele","Kişilerin kemoprofilaksisi","Larvalara karşı biyolojik mücadele","Bataklıkların kurutulması","Erişkin anofellere karşı uygun insektisit tatbikatı"],
+   answer:"B",
+   hint:"Kemoprofilaksi insanları korur; anofel yoğunluğunu azaltmaz.",
+   trap:"Larvalara karşı kimyasal, biyolojik mücadele ve bataklık kurutma anofel yoğunluğunu azaltır. Kemoprofilaksi vektörü değil insanı etkiler.",
+   explanation:"Anofel yoğunluğunu azaltmak için; larvalara karşı kimyasal/biyolojik mücadele, bataklıkların kurutulması, erişkin anofellere insektisit kullanılabilir. Kemoprofilaksi ise kişiyi sıtmadan korur, vektör yoğunluğunu azaltmaz."},
+
+  // ── BULAŞICI HASTALIKLARDAN KORUNMA ──
+  {id:"bh5",section:"Bulaşıcı Hastalıklar",year:"Sonbahar 88",
+   question:"Aşağıdakilerden hangisi su ile bulaşan hastalıklardan <b>değildir</b>?",
+   options:["Tifo","Hepatit","Trahom","Polio","Dizanteri"],
+   answer:"C",
+   hint:"Trahom göz hastalığıdır; su ile değil temas ve sineklerle bulaşır.",
+   trap:"Tifo, hepatit A, polio, basilli dizanteri su ile bulaşır. Trahom Chlamydia trachomatis ile temas yoluyla bulaşır.",
+   explanation:"Su ile bulaşan hastalıklar: tifo, paratifo, kolera, basilli dizanteri, enterovirus enfeksiyonları, hepatit A, polio, amebiazis ve helmint enfestasyonları. Trahom bu gruba girmez."},
+
+  {id:"bh6",section:"Bulaşıcı Hastalıklar",year:"Sonbahar 88",
+   question:"Sağlıklı içme ve kullanma sularının sağlanamadığı durumlarda bireysel klorlama ile bulaşması önlenemeyecek hastalık aşağıdakilerden hangisidir?",
+   options:["Kolera","Tifo","Basilli dizanteri","Viral hepatit A","Paratifo"],
+   answer:"D",
+   hint:"Hepatit A virüsü normal klorlama konsantrasyonunda (0,5 PPM/L) inaktive olmaz.",
+   trap:"Kolera, tifo, dizanteri, paratifo normal klorlamayla önlenebilir; Hepatit A virüsü klorlamaya dirençlidir.",
+   explanation:"Normal bireysel klorlama (0,5 PPM/L), Hepatit A virüsünü inaktive etmeye yeterli değildir. Hepatit A'nın klorlamadan etkilenmemesi nedeniyle bireysel klorlamayla önlenemez. Giardia ve Amip de klorlamaya dirençlidir."},
+
+  // ── EPİDEMİYOLOJİ ──
+  {id:"ep1",section:"Epidemiyoloji",year:"Sonbahar 2011",
+   question:"Bir şehirde her yıl temmuz ayında 10 tifo olgusu görülmektedir. Bu yılın temmuz ayında anlamlı bir artış ile olgu sayısının 55 olduğu saptanmıştır.<br><br><b>Bu durum aşağıdakilerden hangisiyle tanımlanır?</b> (Sonbahar 2011)",
+   options:["Endemi","Hiperendemi","Pandemi","Hiperepidemi","Epidemi"],
+   answer:"E",
+   hint:"Beklenen vaka sayısından fazla vaka olması = epidemi.",
+   trap:"Endemi beklenen düzeyde sürekli görülme; epidemi beklenenin üzerinde artış; pandemi ise çok geniş coğrafi yayılımdır.",
+   explanation:"Epidemi: beklenen vaka sayısından anlamlı derecede fazla vaka olmasıdır. Her yıl 10 olan tifo vakasının bu yıl 55'e çıkması epidemidir. Salgınla eş anlamlı kullanılır."},
+
+  {id:"ep2",section:"Epidemiyoloji",year:"İlkbahar 2023",
+   question:"Bir enfeksiyon etkeninin ya da bir hastalığın belirli bir coğrafik alanda sürekli görülmesi aşağıdakilerden hangisidir?",
+   options:["Epidemi","Endemi","Pandemi","Kümelenme","Enfektivite"],
+   answer:"B",
+   hint:"Belirli bir coğrafi alanda sürekli ve beklenen düzeyde görülme = endemi.",
+   trap:"Epidemi beklenenin üzerinde artış; pandemi çok geniş alana yayılım; endemi o bölgede alışılmış düzeyde sürekli görülmedir.",
+   explanation:"Endemi: bir enfeksiyon etkeninin ya da hastalığın belirli bir coğrafyada sürekli görülmesidir. Hastalığın o bölgede alışılmış prevalans düzeyinde olduğunu gösterir."},
+
+  {id:"ep3",section:"Epidemiyoloji",year:"Sonbahar 2023",
+   question:"Sağlık problemlerinin takibi amacıyla sürekli ve sistematik olarak veri toplanması, analizi, yorumlanması ve konuyla ilgili kişilerin kullanımı için dağıtılması işlemine ne ad verilir?",
+   options:["Filyasyon","Vaka kontrol araştırması","Sürveyans","Epidemiyoloji","Tarama"],
+   answer:"C",
+   hint:"Sürekli ve sistematik veri toplama-analiz-dağıtım süreci = sürveyans.",
+   trap:"Filyasyon salgın hastalığın kaynağını bulmak ve zinciri takip etmektir. Sürveyans sürekli veri izleme sistemidir.",
+   explanation:"Sürveyans: bulaşıcı hastalıklardan korunma ve bunların kontrolü için düzenli ve rutin olarak sürekli veri toplanması, verilerin analizi, yorumlanması ve ilgili birimlere dağıtılması işlemlerinin tümüdür."},
+
+  {id:"ep4",section:"Epidemiyoloji",year:"Sonbahar 2009",
+   question:"Bulaşıcı hastalık şüphesi olan sağlam bir kişinin hastalığın en uzun inkübasyon süresi sonuna kadar gözetim altında tutulmasına ne ad verilir?",
+   options:["İzolasyon","Karantina","Eradikasyon","Eliminasyon","Sanitasyon"],
+   answer:"B",
+   hint:"Sağlam ama şüpheli kişiyi inkübasyon süresi boyunca gözetim altında tutmak = karantina.",
+   trap:"İzolasyon hasta kişiye uygulanır. Karantina şüpheli (henüz hasta olmayan) kişilere uygulanır.",
+   explanation:"Karantina: bulaşıcı bir hastalığa maruz kalmış şüpheli kişileri hastalığın en uzun kuluçka süresi boyunca başkalarıyla temas ettirmeden gözetim altında tutma uygulamasıdır. İzolasyon ise hasta olan kişiye uygulanır."},
+
+  // ── DİĞER SORULAR ──
+  {id:"dg1",section:"Diğer Sorular",year:"Sonbahar 94",
+   question:"Nüfus = 1 milyon, Yıllık doğum sayısı = 250, 12-23 aylık çocuk sayısı = 200, 24-72 aylık çocuk sayısı = 800, 6 yaşında çocuk sayısı = 200, 14 yaşında çocuk sayısı = 150.<br><br>Nüfus özellikleri yukarıdaki gibi olan bir bölgede yıllık DBT aşısı gereksinimi kaç dozdur?",
+   options:["750","950","1150","1750","1900"],
+   answer:"C",
+   hint:"DBT: 2, 4, 6. aylarda 3 doz + 15-16 ayda 1 rapel (toplam 3×250=750) + 6. yaşta rapel (200) + fire payı %10 ekle.",
+   trap:"Fire payı (%10) dahil edilmelidir: 600+200=800 → %10 fire → 880 değil, doğru hesap: 250×3=750 + 200 = 950, %10 fire=1050... Soru cevabı 1150'dir: (250×3+200)×%10 fire = 1150.",
+   explanation:"Yıllık DBT aşı takvimine göre: 3 kez DBT + Polio 15-16. ayda Rapel, 6. yaşta da DBT yapılır. 250×3=750 + 200 rapel = 950. Buna %10 fire payı ilave edilirse 1150 rakamı bulunur."},
+
+  {id:"dg2",section:"Diğer Sorular",year:"İlkbahar 2012",
+   question:"Aşağıdakilerden hangisi, sigara bırakmanın yararlarından birisi <b>değildir</b>?",
+   options:["Mortalitede azalma","Depresyonda düzelmesi","Kardiyovasküler olaylarda azalma","Artmış akciğer kanseri riskinde azalma","Akciğer fonksiyonlarında düzelme"],
+   answer:"B",
+   hint:"Sigara bırakma sürecinde depresyon artabilir; düzelmez.",
+   trap:"Sigarayı bırakma sırasında yoksunluğa bağlı depresyon ve anksiyete artabilir; mortalite, kardiyovasküler risk ve akciğer kanseri riski azalır.",
+   explanation:"Sigara içmek depresyon için bir risk faktörüdür ancak sigarayı bırakma sırasında yoksunluk belirtileri olarak depresyon ve anksiyete artabilir. Bu nedenle 'depresyonda düzelme' doğrudan bir yarar değildir."},
+
+  {id:"dg3",section:"Diğer Sorular",year:"İlkbahar 2014 Orijinal",
+   question:"Aşağıdakilerden hangisi, kuduz virüsüne duyarlı <b>değildir</b>?",
+   options:["Tavşan","Yarasa","Kurt","Yılan","Sıçan"],
+   answer:"D",
+   hint:"Yılan soğukkanlı bir hayvandır; kuduz virüsü yalnızca sıcakkanlı hayvanlara bulaşır.",
+   trap:"Sıçan, tavşan, yarasa, kurt sıcakkanlıdır ve kuduz virüsüne duyarlıdır. Yılan soğukkanlıdır.",
+   explanation:"Kuduz virüsü yalnızca sıcakkanlı hayvanlara bulaşır. Yılan soğukkanlı olduğundan kuduz virüsüne duyarlı değildir. Tüm memeliler (tavşan, yarasa, kurt, sıçan dahil) duyarlıdır."},
+
+  {id:"dg3b",section:"Diğer Sorular — BENZERİ",year:"İlkbahar 2014 BENZERİ",
+   question:"I. Sıçan<br>II. Yarasa<br>III. Kurt<br>IV. Yılan<br><br><b>Aşağıdakilerden hangisi/hangileri kuduz virüsüne duyarlı değildir?</b> (İlkbahar 2014 BENZERİ)",
+   options:["Yalnız I","I ve II","I, II ve III","III ve IV","Yalnız IV"],
+   answer:"E",
+   hint:"Soğukkanlı hayvanlar kuduz virüsüne duyarlı değildir.",
+   trap:"Sıçan, yarasa, kurt sıcakkanlıdır → duyarlıdır. Yılan soğukkanlıdır → duyarlı değildir.",
+   explanation:"Kuduz virüsü yalnızca sıcakkanlı hayvanlara bulaşır. I, II, III (sıçan, yarasa, kurt) sıcakkanlı hayvanlardır ve duyarlıdır. Yılan (IV) soğukkanlı olduğundan duyarlı değildir."},
+
+  {id:"dg4",section:"Diğer Sorular",year:"İlkbahar 2013",
+   question:"Aşağıdakilerden hangisi, yaşlılarda enteral beslenme komplikasyonlarından biri <b>değildir</b>?",
+   options:["Hiperkloremik metabolik asidoz","Kusma","Enfeksiyon","Diyare","Aspirasyon"],
+   answer:"A",
+   hint:"Hiperkloremik metabolik asidoz total parenteral nutrisyona bağlı gelişebilecek komplikasyondur; enteral beslenme komplikasyonu değildir.",
+   trap:"Kusma, enfeksiyon, diyare, aspirasyon enteral beslenmenin bilinen komplikasyonlarıdır. Metabolik asidoz parenteral beslenmeyle ilişkilidir.",
+   explanation:"Enteral beslenme komplikasyonları: mekanik (tüp sorunları, aspirasyon), gastrointestinal (bulantı, kusma, diyare, şişkinlik) ve metabolik (dehidrasyon, elektrolit dengesizliği). Hiperkloremik metabolik asidoz total parenteral nutrisyon komplikasyonudur."},
+
+  {id:"dg5",section:"Diğer Sorular",year:"Sonbahar 2012",
+   question:"Aşağıdakilerden hangisi yaşlanmayla beraber böbreklerde ortaya çıkan değişikliklerden biri <b>değildir</b>?",
+   options:["Böbrek boyutlarının artması","Glomerüler filtrasyonun azalması","Glomerülosklerozun artması","Böbrek kan akımının azalması","İdrarı konsantre etme yeteneğinin bozulması"],
+   answer:"A",
+   hint:"Yaşlanmayla böbrek boyutları KÜÇÜLÜR, büyümez.",
+   trap:"GFR azalma, glomerüloskleroz artma, kan akımı azalma ve konsantrasyon yeteneği bozulması yaşlanmanın bilinen böbrek değişiklikleridir.",
+   explanation:"Yaşlanmayla birlikte böbrek kitlesi azalır (30 yaşında 200-270 gr olan böbrek 90 yaşında 180-200 gr'a düşer). GFR azalır, glomerüloskleroz artar, böbrek kan akımı azalır, konsantrasyon yeteneği bozulur. Böbrek boyutları BÜYÜMEZ."},
+
+  {id:"dg6",section:"Diğer Sorular",year:"Sonbahar 2012",
+   question:"Zehirlenme tedavisiyle ilgili aşağıdaki toksik madde-antidot eşleştirmelerinden hangisi uygun <b>değildir</b>?",
+   options:["Cıva - Dimerkaprol","Heparin - Protamin sülfat","Asetaminofen - N-Asetil sistein","Bakır - Deferoksamin","Kurşun - Kalsiyum disodyum EDTA"],
+   answer:"D",
+   hint:"Bakır zehirlenmesinin antidotu Penisilamindir; Deferoksamin demire özgüdür.",
+   trap:"Deferoksamin demir intoksikasyonunda kullanılır. Bakır şelatörü olarak penisilamın kullanılır.",
+   explanation:"Bakır zehirlenmesi (Wilson hastalığı dahil) → Penisilamın. Deferoksamin → demir intoksikasyonu. Cıva → Dimerkaprol. Asetaminofen → N-Asetil sistein. Kurşun → EDTA. D eşleştirmesi yanlıştır."},
+
+  {id:"dg7",section:"Diğer Sorular",year:"Sonbahar 2012",
+   question:"Aşağıdakilerden hangisi rabdomiyoliz nedenleri arasında <b>değildir</b>?",
+   options:["Malign hipertermi","Elektrik çarpması","Hiperalbüminemi","Yanıklar","Ağır egzersiz"],
+   answer:"C",
+   hint:"Hiperalbüminemi rabdomiyoliz nedeni değildir.",
+   trap:"Malign hipertermi, elektrik çarpması, yanıklar ve ağır egzersiz kas hasarına yol açarak rabdomiyolize neden olabilir.",
+   explanation:"Rabdomiyoliz nedenleri: ezilme hasarı, elektrik çarpması, yanıklar, malign hipertermi, ağır egzersiz, genetik enzim defektleri, ilaçlar vb. Hiperalbüminemi kas hasarıyla ilişkili değildir."},
+
+  {id:"dg8",section:"Diğer Sorular",year:"İlkbahar 2012",
+   question:"Rotavirus enfeksiyonlarının en sık görüldüğü yaş grubu aşağıdakilerden hangisidir?",
+   options:["4 aydan küçük olanlar","6 ay ile 2 yaş arasında olanlar","2 yaş ile 4 yaş arasında olanlar","5 yaş ile 7 yaş arasında olanlar","8 yaşından büyük olanlar"],
+   answer:"B",
+   hint:"Rotavirüs en sık 6 ay - 2 yaş arası bebeklerde görülür.",
+   trap:"4 aydan küçük bebeklerde anne sütü koruyucudur. En sık yaş grubu 6 ay - 2 yaş arasıdır.",
+   explanation:"Rotavirüs 6 ay-2 yaş arası bebeklerde gelişir ve çoğunlukla hastane bakımı gerektiren ishallerin %50'sinden sorumludur. Bu grupta semptomlar daha ağırdır."},
+
+  {id:"dg9",section:"Temel Sağlık Hizmetleri",year:"İlkbahar 2006",
+   question:"Dünya Sağlık Örgütü (WHO) ve Birleşmiş Milletler Uluslararası Çocuk Fonu'nun (UNICEF) 1978'de birlikte yayımladığı Alma Ata Bildirgesine göre, bir faaliyetler bütününü temel sağlık hizmetleri içerisindeki Minimal Bakım kavramı aşağıdakilerden hangisini <b>kapsamaz</b>?",
+   options:["Halkın sağlık eğitimi","Beslenme durumunun geliştirilmesi","Temiz su sağlanması ve sanitasyon","Ana-çocuk sağlığı ve aile planlaması","Hava kirliliğinin önlenmesi"],
+   answer:"E",
+   hint:"Alma Ata 8 faaliyet içinde 'hava kirliliği' yoktur.",
+   trap:"Hava kirliliğinin önlenmesi Alma Ata bildirgesi kapsamındaki 8 temel faaliyetten değildir.",
+   explanation:"Alma Ata'nın 8 temel faaliyeti: halkın sağlık eğitimi, beslenme, temiz su ve sanitasyon, ana-çocuk sağlığı ve aile planlaması, başlıca bulaşıcı hastalıklara karşı bağışıklama, endemik hastalıkların kontrolü, sık görülen hastalıklar ve yaralanmaların uygun tedavisi, temel ilaçların sağlanması. Hava kirliliği bu listede yer almaz."},
+
+  {id:"tsh10",section:"Temel Sağlık Hizmetleri",year:"İlkbahar 2009",
+   question:"1978 yılında Kazakistan'ın başkenti Alma Ata'da hazırlanan Temel Sağlık Hizmetleri bildirgesi 8 faaliyet belirlemiş ve tüm ülkeler için bu faaliyetleri yapma zorunluluğu getirilmiştir.<br><br><b>Buna göre, aşağıdakilerden hangisi bu faaliyetler içerisinde yer almaz?</b> (İlkbahar 2009)",
+   options:["Beslenme durumunun geliştirilmesi","Ana-çocuk sağlığı ve aile planlaması","Temel ilaçların sağlanması","Sık görülen hastalıkların uygun tedavisi","Hava kirliliğinin önlenmesi"],
+   answer:"E",
+   hint:"Alma Ata 8 faaliyetinde hava kirliliği yoktur.",
+   trap:"Temel ilaçların sağlanması, beslenme, ana-çocuk sağlığı, sık görülen hastalıkların tedavisi faaliyetler arasındadır; hava kirliliği yoktur.",
+   explanation:"Alma Ata Bildirgesindeki 8 temel faaliyet: sağlık eğitimi, beslenme, temiz su/sanitasyon, ana-çocuk sağlığı ve aile planlaması, bağışıklama, endemik hastalık kontrolü, yaygın hastalıkların tedavisi, temel ilaçlar. Hava kirliliğinin önlenmesi bu 8 faaliyet arasında yer almaz."},
+
+  {id:"tsh11",section:"Temel Sağlık Hizmetleri",year:"İlkbahar 2008",
+   question:"Afetlerde günde kişi başına ortalama kaç litre su sağlanmalıdır?",
+   options:["10","20","30","40","50"],
+   answer:"B",
+   hint:"Afet sırasında kişi başı ortalama su miktarı 20 litredir.",
+   trap:"Normal koşullarda çok daha fazla su gerekir; afet koşullarında asgari 20 litre/gün/kişi hedeflenir.",
+   explanation:"Afet sırasında: kişi başı ortalama su miktarı 20 litre/gün. Tuvalet ihtiyacı için her 20 kişi için 1 tuvalet. Barınma için kişi başına 30 m² alan gerekir."},
+
+  {id:"tsh12",section:"Temel Sağlık Hizmetleri",year:"Sonbahar 2008",
+   question:"Aşağıdaki hastalıklardan hangisinin endemik olduğu bir ülkeye girişte, seyahat eden kişilerden uluslararası geçerli aşı sertifikası istenir?",
+   options:["Sıtma","Sarı humma","Kolera","Turist diyaresi","Kuş gribi"],
+   answer:"B",
+   hint:"Uluslararası zorunlu aşı olarak bugün yalnızca sarı humma aşısı geçerlidir.",
+   trap:"Kolera aşı sertifikası artık zorunlu değildir. Sarı humma tek zorunlu uluslararası aşıdır.",
+   explanation:"Uluslararası Sağlık Tüzüğü kapsamında günümüzde zorunlu uluslararası aşı yalnızca sarı hummadır. Sarı humma aşısı yapıldıktan 10 gün sonra geçerlilik kazanır ve 10 yıl boyunca geçerli sayılır."},
+
+  {id:"tsh13",section:"Temel Sağlık Hizmetleri",year:"Sonbahar 2006",
+   question:"Ozon tabakasını inceltmeye neden olan gaz aşağıdakilerden hangisidir?",
+   options:["Karbondioksit","Karbonmonoksit","Kükürt dioksit","Kloroflorokarbonlar","Azot oksitler"],
+   answer:"D",
+   hint:"Ozon tabakasını inceltmenin başlıca nedeni kloroflorokarbonlardır (CFC).",
+   trap:"Karbondioksit sera gazıdır; ozon delgisi yapan başlıca etken kloroflorokarbonlardır.",
+   explanation:"Ozon tabakasını inceltmeye yol açan maddelerin başında kloroflorokarbonlar (CFC), halonlar, karbontetraklorid, metilkloroform ve metil bromür gelir."},
+
+  {id:"tsh14",section:"Temel Sağlık Hizmetleri",year:"İlkbahar 2005",
+   question:"Bir yılda canlı doğum sayısının ortalama 50 olduğu bir sağlık ocağında yıllık çocuk felci aşısı fire hariç kaç dozdur?",
+   options:["50","100","150","200","250"],
+   answer:"C",
+   hint:"Çocuk felci aşısı 2, 4, 6. aylarda üç kez; 16-18. ayda bir kez rapel. 50 doğum × 3 = 150.",
+   trap:"Fire payı sorusu değil; fire HARİÇ sorulmaktadır. Yıllık doğum 50 × 3 doz = 150.",
+   explanation:"Çocuk felci aşısı (OPV) takvimi: 2, 4 ve 6. aylarda üç doz primer seri. 50 canlı doğum × 3 = 150 doz. 16-18. ay rapeliyle birlikte toplam 200 olurdu, ancak soru primer seri için yıllık dozu soruyor."},
+
+  {id:"tsh15",section:"Temel Sağlık Hizmetleri",year:"Sonbahar 2004",
+   question:"Aşağıdakilerden hangisi kurşun zehirlenmesinde gözlenen bulgulardan biri <b>değildir</b>?",
+   options:["Anemi","Diş etlerinde Burton çizgisi","Eritrositlerde bazofilik noktalanma","Pulmoner ödem","Periferal motor nöropati"],
+   answer:"D",
+   hint:"Pulmoner ödem kurşun zehirlenmesinde görülmez.",
+   trap:"Anemi, Burton çizgisi, bazofilik noktalanma, motor nöropati kurşun zehirlenmesinin klasik bulgularıdır. Pulmoner ödem görülmez.",
+   explanation:"Kurşun zehirlenmesinde: mikrositik hemolitik anemi, diş etlerinde Burton çizgisi, eritrositlerde bazofilik noktalanma, periferal motor nöropati görülür. Pulmoner ödem kurşun zehirlenmesinin bulgusu değildir."},
+
+  {id:"tsh16",section:"Temel Sağlık Hizmetleri",year:"Sonbahar 97",
+   question:"Kronik benzene maruz kalmada en belirgin değişiklik hangi organda olur?",
+   options:["Sindirim","Solunum","Dolaşım","Hematopoetik","Sinir sistemi"],
+   answer:"D",
+   hint:"Kronik benzen maruziyetinin en belirgin etkisi kemik iliğidir (hematopoetik sistem).",
+   trap:"Akut benzen toksisitesi sinir sistemini etkiler; kronik maruziyet hematopoetik sistemi (aplastik anemi) etkiler.",
+   explanation:"Kronik benzene maruz kalan kişilerde multipl hematolojik anomaliler gelişir; aplastik anemi bunların başında gelir. Benzenin neden olduğu kemik iliği toksisitesi geri dönebilir, ancak makrositoz gibi hafif anomaliler sürebilir."},
+
+  {id:"tsh17",section:"Temel Sağlık Hizmetleri",year:"",
+   question:"Hava kirliliğinde insan için en tehlikeli bileşim hangisidir?",
+   options:["Kükürt dioksit","Karbon monoksit","Karbon dioksit","Amonyum","Kurşun"],
+   answer:"A",
+   hint:"Kirli havanın içerdiği maddeler arasında insan yaşamını tehdit eden en önemli bileşim kükürt dioksitidir.",
+   trap:"Karbon monoksit de tehlikelidir; ancak hava kirliliğinde genel toplum sağlığı için en tehlikeli bileşim kükürt dioksitidir.",
+   explanation:"Kirli havanın içerdiği maddeler: kükürt dioksit, nitrojen oksitleri, hidrokarbonlar, kurşun, ozon, karbonmonoksit. Bunlar arasında insan yaşamını tehdit eden en önemli bileşim kükürt dioksitidir."},
+
+  {id:"tsh18",section:"Temel Sağlık Hizmetleri",year:"İlkbahar 2004",
+   question:"Aşağıdaki tabloda bir iş yerinde odyometrik tarama muayenesi sonucunda işitme kaybı saptanma yüzdeleri, ortamdaki gürültü düzeyi ve çalışma süresine göre verilmiştir.<br><br>Çalışma Süresi / 80 dBA / 90 dBA / 100 dBA<br>&lt;1 yıl: 0 / 0 / 3<br>1-5 yıl: 0 / 2 / 10<br>6-10 yıl: 0 / 8 / 18<br>11-19 yıl: 0 / 15 / 35<br>&gt;20 yıl: 0 / 25 / 55<br><br><b>Tablodaki bilgilere dayanarak aşağıdaki yargılardan hangisine ulaşılamaz?</b> (İlkbahar 2004)",
+   options:["Gürültüye bağlı işitme kaybı meydana gelmesi için gürültülü ortamda en az 5 yıldır çalışıyor olmak gerekir.","Gürültülü ortamda çalışma süresi arttıkça işitme kaybı olanların yüzdesi artmaktadır.","Ortamdaki ses basıncı düzeyi arttıkça işitme kaybı olanların yüzdesi artmaktadır.","Gürültü ve işitme kaybı arasında doz-cevap ilişkisi vardır.","Ses basıncı 80 DBA olduğu bölümlerde çalışanlarda işitme kaybı görülmemiştir."],
+   answer:"A",
+   hint:"Tabloda 100 dBA'da 1 yıldan az çalışanlarda bile %3 işitme kaybı var; dolayısıyla '5 yıl gerekir' iddiası yanlış.",
+   trap:"100 DBA'da 1 yıldan az çalışanlarda %3 işitme kaybı görülmüştür → 5 yıl şartı geçersiz. A yargısına ulaşılamaz.",
+   explanation:"Tablodan görüldüğü gibi 100 dBA'da 1 yıldan az çalışan grubunda dahi %3 işitme kaybı saptanmıştır. Dolayısıyla 'en az 5 yıl gerekir' yargısına tablodan ulaşılamaz; A yanlış yargıdır."},
+
+  {id:"tsh19",section:"Temel Sağlık Hizmetleri",year:"Sonbahar 92",
+   question:"İçme ve kullanma suyu dezenfeksiyonunda hangisi kullanılmaz?",
+   options:["Flor","Klor","İyot","Ozon","Potasyum permanganat"],
+   answer:"A",
+   hint:"Florür dezenfeksiyon değil diş çürümesini önlemek amacıyla kullanılır.",
+   trap:"Klor, iyot, ozon, potasyum permanganat su dezenfeksiyonunda kullanılır. Flor dezenfektan değil, diş sağlığı amaçlıdır.",
+   explanation:"Su dezenfeksiyonunda kullanılan maddeler: klor, iyot, kloraminler, klordioksit, çamaşır suyu, kireç kaymağı, potasyum permanganat, ozon ve ultraviyole. Flor suya eklenmesi diş çürüğünü önlemeye yönelik olup dezenfeksiyon amacı taşımaz."},
+
+  {id:"tsh20",section:"Temel Sağlık Hizmetleri",year:"İlkbahar 89",
+   question:"Halsizlik, yorgunluk, ağızda metalik tat, kabızlık, karın ağrısı gibi yakınmaları olan bir hastanın hemoglobin düzeyi 9 g/dl bulunuyor. Bu kişinin mesleği en büyük olasılıkla aşağıdakilerden hangisidir?",
+   options:["Ayakkabı yapımcısı","Kaynakçı","Akümülatör yapımcısı","Dokuma işçisi","Kömür madeni işçisi"],
+   answer:"C",
+   hint:"Akümülatör sanayisinde kurşun maruziyeti yaygındır; belirtiler kurşun zehirlenmesiyle uyumludur.",
+   trap:"Kaynakçılar mangan/kadmiyum, dokuma işçileri bisinozis, kömür madencileri pnömokonyoz riski taşır. Bu bulgular kurşunu işaret eder.",
+   explanation:"Ağızda metalik tat, karın ağrısı, anemi (Hb:9) kombinasyonu kurşun entoksikasyonunu düşündürür. Akü sanayisinde çalışanlarda kurşun maruziyeti yüksektir."},
+
+  {id:"tsh21",section:"Temel Sağlık Hizmetleri",year:"Sonbahar 96",
+   question:"Akümülatör sanayisinde çalışan; karın ağrısı, ağızda metalik bir tat olan hastada hangi metal toksisitesinden şüphelenilmelidir?",
+   options:["Cıva","Asbest","Selenyum","Bakır","Kurşun"],
+   answer:"E",
+   hint:"Akümülatör (akü) sanayisinde kurşun maruziyeti kaçınılmazdır.",
+   trap:"Asbest plevral hastalık yapar; cıva nörolojik bulgular verir; kurşun GI ve hematolojik bulgular verir.",
+   explanation:"Akümülatör (akü) üretiminde kurşun yoğun biçimde kullanılır. Karın ağrısı ve ağızda metalik tat kurşun entoksikasyonunun karakteristik bulgularıdır."},
+
+  {id:"tsh22",section:"Temel Sağlık Hizmetleri",year:"Sonbahar 94",
+   question:"Bisinozis hangi meslek dalında çalışanlarda görülür?",
+   options:["Akümülatör","Maden","Boya","Tekstil","Çiftçi"],
+   answer:"D",
+   hint:"Bisinozis pamuk tozuna maruziyetten kaynaklanır → tekstil/pamuk işçilerinde görülür.",
+   trap:"Maden işçilerinde pnömokonyoz, akümülatör işçilerinde kurşun toksisitesi görülür; bisinozis tekstil sektörüne özgüdür.",
+   explanation:"Bisinozis: pamuk işçilerinde ve tekstil sanayisinde çalışanlarda pamuk tozunun protein fraksiyonuna karşı oluşan bir reaksiyon sonucu ortaya çıkan mesleki akciğer hastalığıdır."},
+
+  {id:"tsh23",section:"Temel Sağlık Hizmetleri",year:"Sonbahar 90",
+   question:"Bölgesinde 200 yenidoğan bebeği olan bir sağlık ocağı, bu 200 bebeği, difteri-boğmaca-tetanoz hastalıklarına karşı bağışıklamak amacı ile sağlık müdürlüğünden bir yıl için ne kadar karma aşı dozu istemelidir?",
+   options:["200 doz+%10=220","(200x2)+%10=440","(200x3)+%10=660","(200x4)+%10=880","200 doz+%20=240"],
+   answer:"C",
+   hint:"DBT aşısı 1 yaşına kadar 3 doz. 200 bebek × 3 = 600 doz + %10 fire = 660.",
+   trap:"%20 fire değil %10 fire uygulanır. Rapel dahil 4 doz istenirse 880 olurdu; 1 yaş içinde primer 3 doz için 660.",
+   explanation:"BCG doğar doğmaz, DBT ve Polio 2, 4, 6. aylarda rapeli 1 yıl sonra yapılır. 1 yaşındaki çocukta 3 kez DBT yapılacağı için 600 aşı istenir. Buna %10 fire payı ilave edilir: 660 eder."}
 ];
 
-let questions = [...ALL_QUESTIONS];
-let currentIdx = 0;
-let answers = {};
-let starred = new Set();
-let hintOpen = false;
+let questions=[...ALL_QUESTIONS];
+let currentIdx=0;
+let answers={};
+let starred=new Set();
+let hintOpen=false;
 
 function render(){
-  const q = questions[currentIdx];
-  document.getElementById('q-num').textContent = `Soru ${currentIdx+1} / ${questions.length}`;
-  document.getElementById('q-counter').textContent = `${currentIdx+1}/${questions.length} ☰`;
-  document.getElementById('section-label').textContent = q.section.toUpperCase();
-  document.getElementById('q-text').innerHTML = q.question;
-  const yt = document.getElementById('year-tags');
-  yt.innerHTML = q.year ? `<span class="year-tag">${q.year}</span>` : '';
-  document.getElementById('hint-box').innerHTML = q.hint;
+  const q=questions[currentIdx];
+  document.getElementById('q-num').textContent=`Soru ${currentIdx+1} / ${questions.length}`;
+  document.getElementById('q-counter').textContent=`${currentIdx+1}/${questions.length} ☰`;
+  document.getElementById('section-label').textContent=q.section.toUpperCase();
+  document.getElementById('q-text').innerHTML=q.question;
+  const yt=document.getElementById('year-tags');
+  yt.innerHTML=q.year?`<span class="year-tag">${q.year}</span>`:'';
+  document.getElementById('hint-box').innerHTML=q.hint;
   document.getElementById('hint-box').classList.remove('open');
-  hintOpen = false;
-  document.getElementById('trap-text').innerHTML = q.trap;
-  document.getElementById('explain-text').innerHTML = q.explanation;
-  const sb = document.getElementById('star-btn');
-  sb.textContent = starred.has(q.id) ? '★' : '☆';
-  sb.classList.toggle('active', starred.has(q.id));
-  const opts = document.getElementById('options');
-  opts.innerHTML = '';
-  const letters = ['A','B','C','D','E'];
+  hintOpen=false;
+  document.getElementById('trap-text').innerHTML=q.trap;
+  document.getElementById('explain-text').innerHTML=q.explanation;
+  const sb=document.getElementById('star-btn');
+  sb.textContent=starred.has(q.id)?'★':'☆';
+  sb.classList.toggle('active',starred.has(q.id));
+  const opts=document.getElementById('options');
+  opts.innerHTML='';
+  const letters=['A','B','C','D','E'];
   q.options.forEach((opt,i)=>{
-    const btn = document.createElement('button');
-    btn.className = 'opt-btn';
-    btn.innerHTML = `<span class="opt-letter">${letters[i]}</span><span>${opt}</span>`;
-    if(answers[q.id] !== undefined){
-      btn.disabled = true;
-      if(letters[i] === q.answer) btn.classList.add('correct');
-      else if(letters[i] === answers[q.id]) btn.classList.add('wrong');
-    } else {
-      btn.onclick = ()=>selectAnswer(letters[i]);
-    }
+    const btn=document.createElement('button');
+    btn.className='opt-btn';
+    btn.innerHTML=`<span class="opt-letter">${letters[i]}</span><span>${opt}</span>`;
+    if(answers[q.id]!==undefined){
+      btn.disabled=true;
+      if(letters[i]===q.answer)btn.classList.add('correct');
+      else if(letters[i]===answers[q.id])btn.classList.add('wrong');
+    }else{btn.onclick=()=>selectAnswer(letters[i]);}
     opts.appendChild(btn);
   });
-  const fb = document.getElementById('feedback');
-  fb.classList.toggle('open', answers[q.id] !== undefined);
-  const done = Object.keys(answers).length;
-  document.getElementById('prog').style.width = (done/questions.length*100)+'%';
+  document.getElementById('feedback').classList.toggle('open',answers[q.id]!==undefined);
+  const done=Object.keys(answers).length;
+  document.getElementById('prog').style.width=(done/questions.length*100)+'%';
 }
 
 function selectAnswer(letter){
-  const q = questions[currentIdx];
-  if(answers[q.id] !== undefined) return;
-  answers[q.id] = letter;
+  const q=questions[currentIdx];
+  if(answers[q.id]!==undefined)return;
+  answers[q.id]=letter;
   render();
-  setTimeout(()=>{
-    document.getElementById('feedback').scrollIntoView({behavior:'smooth',block:'nearest'});
-  },200);
+  setTimeout(()=>{document.getElementById('feedback').scrollIntoView({behavior:'smooth',block:'nearest'});},200);
 }
-
-function toggleHint(){
-  hintOpen = !hintOpen;
-  document.getElementById('hint-box').classList.toggle('open', hintOpen);
-}
-
-function toggleStar(){
-  const q = questions[currentIdx];
-  if(starred.has(q.id)) starred.delete(q.id);
-  else starred.add(q.id);
-  render();
-}
-
+function toggleHint(){hintOpen=!hintOpen;document.getElementById('hint-box').classList.toggle('open',hintOpen);}
+function toggleStar(){const q=questions[currentIdx];if(starred.has(q.id))starred.delete(q.id);else starred.add(q.id);render();}
 function navigate(dir){
-  const next = currentIdx + dir;
-  if(next < 0) return;
-  if(next >= questions.length){ showResult(); return; }
-  currentIdx = next;
-  render();
-  window.scrollTo({top:0,behavior:'smooth'});
+  const next=currentIdx+dir;
+  if(next<0)return;
+  if(next>=questions.length){showResult();return;}
+  currentIdx=next;render();window.scrollTo({top:0,behavior:'smooth'});
 }
-
 function showResult(){
   document.getElementById('quiz-area').style.display='none';
   document.querySelector('.nav').style.display='none';
-  const rs = document.getElementById('result-screen');
-  rs.style.display='block';
-  const total = questions.length;
-  let correct=0, wrong=0;
+  document.getElementById('result-screen').style.display='block';
+  let correct=0,wrong=0;
   questions.forEach(q=>{
-    if(answers[q.id] === q.answer) correct++;
-    else if(answers[q.id] !== undefined) wrong++;
+    if(answers[q.id]===q.answer)correct++;
+    else if(answers[q.id]!==undefined)wrong++;
   });
-  document.getElementById('score-pct').textContent = Math.round(correct/total*100)+'%';
-  document.getElementById('r-correct').textContent = correct;
-  document.getElementById('r-wrong').textContent = wrong;
-  document.getElementById('r-starred').textContent = starred.size;
+  document.getElementById('score-pct').textContent=Math.round(correct/questions.length*100)+'%';
+  document.getElementById('r-correct').textContent=correct;
+  document.getElementById('r-wrong').textContent=wrong;
+  document.getElementById('r-starred').textContent=starred.size;
 }
-
-function restartAll(){
-  questions = [...ALL_QUESTIONS];
-  currentIdx = 0;
-  answers = {};
-  document.getElementById('quiz-area').style.display='block';
-  document.querySelector('.nav').style.display='flex';
-  document.getElementById('result-screen').style.display='none';
-  render();
-}
-
-function retryWrong(){
-  const wrong = ALL_QUESTIONS.filter(q => answers[q.id] && answers[q.id] !== q.answer);
-  if(!wrong.length){alert('Yanlış cevabınız yok!');return;}
-  questions = wrong;
-  currentIdx = 0;
-  answers = {};
-  document.getElementById('quiz-area').style.display='block';
-  document.querySelector('.nav').style.display='flex';
-  document.getElementById('result-screen').style.display='none';
-  render();
-}
-
-function retryStar(){
-  const star = ALL_QUESTIONS.filter(q => starred.has(q.id));
-  if(!star.length){alert('Yıldızlı soru yok!');return;}
-  questions = star;
-  currentIdx = 0;
-  answers = {};
-  document.getElementById('quiz-area').style.display='block';
-  document.querySelector('.nav').style.display='flex';
-  document.getElementById('result-screen').style.display='none';
-  render();
-}
-
+function restartAll(){questions=[...ALL_QUESTIONS];currentIdx=0;answers={};document.getElementById('quiz-area').style.display='block';document.querySelector('.nav').style.display='flex';document.getElementById('result-screen').style.display='none';render();}
+function retryWrong(){const w=ALL_QUESTIONS.filter(q=>answers[q.id]&&answers[q.id]!==q.answer);if(!w.length){alert('Yanlış cevabınız yok!');return;}questions=w;currentIdx=0;answers={};document.getElementById('quiz-area').style.display='block';document.querySelector('.nav').style.display='flex';document.getElementById('result-screen').style.display='none';render();}
+function retryStar(){const s=ALL_QUESTIONS.filter(q=>starred.has(q.id));if(!s.length){alert('Yıldızlı soru yok!');return;}questions=s;currentIdx=0;answers={};document.getElementById('quiz-area').style.display='block';document.querySelector('.nav').style.display='flex';document.getElementById('result-screen').style.display='none';render();}
 function openModal(){
-  const grid = document.getElementById('q-grid');
-  grid.innerHTML = '';
+  const grid=document.getElementById('q-grid');grid.innerHTML='';
   questions.forEach((q,i)=>{
-    const btn = document.createElement('button');
-    btn.className = 'q-grid-btn';
-    btn.textContent = i+1;
-    if(i===currentIdx) btn.classList.add('current');
-    else if(answers[q.id] === q.answer) btn.classList.add('answered-correct');
-    else if(answers[q.id]) btn.classList.add('answered-wrong');
-    if(starred.has(q.id)) btn.classList.add('starred');
-    btn.onclick = ()=>{ currentIdx=i; render(); closeModal(); window.scrollTo({top:0,behavior:'smooth'}); };
+    const btn=document.createElement('button');btn.className='q-grid-btn';btn.textContent=i+1;
+    if(i===currentIdx)btn.classList.add('current');
+    else if(answers[q.id]===q.answer)btn.classList.add('answered-correct');
+    else if(answers[q.id])btn.classList.add('answered-wrong');
+    if(starred.has(q.id))btn.classList.add('starred');
+    btn.onclick=()=>{currentIdx=i;render();closeModal();window.scrollTo({top:0,behavior:'smooth'});};
     grid.appendChild(btn);
   });
   document.getElementById('modal-overlay').classList.add('open');
 }
-
-function closeModal(e){
-  if(!e || e.target===document.getElementById('modal-overlay'))
-    document.getElementById('modal-overlay').classList.remove('open');
-}
-
+function closeModal(e){if(!e||e.target===document.getElementById('modal-overlay'))document.getElementById('modal-overlay').classList.remove('open');}
 render();
 </script>
 </body>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Halk Sağlığı TUS — Part 1</title>
+<title>Halk Sağlığı TUS — Part 2</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -50,7 +50,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 .nav-btn:hover{border-color:var(--accent)}
 #q-counter{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted);cursor:pointer}
 #q-counter:hover{color:var(--accent)}
-/* Modal */
 .q-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:flex-end}
 .q-modal-overlay.open{display:flex}
 .q-modal{background:var(--surface);border:1px solid var(--border);border-radius:18px 18px 0 0;width:100%;max-height:60vh;overflow-y:auto;padding:20px}
@@ -62,7 +61,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 .q-grid-btn.answered-wrong{border-color:var(--red);color:var(--red)}
 .q-grid-btn.starred{border-color:var(--gold)}
 .q-grid-btn.current{background:var(--accent);border-color:var(--accent);color:#fff}
-/* Result */
 #result-screen{display:none;max-width:780px;margin:60px auto;padding:20px;text-align:center}
 .result-score{font-family:'IBM Plex Mono',monospace;font-size:3.5rem;font-weight:700;color:var(--accent);margin:20px 0}
 .result-stats{display:flex;justify-content:center;gap:28px;margin:18px 0 28px;flex-wrap:wrap}
@@ -81,10 +79,10 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 <div class="progress-wrap"><div class="progress-bar" id="prog"></div></div>
 
 <div id="quiz-area">
-  <div class="section-badge" id="section-label">HALK SAĞLIĞI — PART 1</div>
+  <div class="section-badge" id="section-label">HALK SAĞLIĞI — PART 2</div>
   <div class="card" id="main-card">
     <div class="q-header">
-      <span id="q-num">Soru 1 / 39</span>
+      <span id="q-num">Soru 1 / 31</span>
       <button id="star-btn" onclick="toggleStar()">☆</button>
     </div>
     <div class="year-tags" id="year-tags"></div>
@@ -116,7 +114,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 
 <div class="nav">
   <button class="nav-btn" onclick="navigate(-1)">← Önceki</button>
-  <span id="q-counter" onclick="openModal()">1/39 ☰</span>
+  <span id="q-counter" onclick="openModal()">1/31 ☰</span>
   <button class="nav-btn" onclick="navigate(1)">Sonraki →</button>
 </div>
 
@@ -129,469 +127,352 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 
 <script>
 const ALL_QUESTIONS = [
-  // ── GÖZLEMSEL ARAŞTIRMALAR ──
+  // ── SAĞLIK ÖLÇÜTLERİ (devam) ──
   {
-    id:1,
-    section:"Gözlemsel Araştırmalar",
-    year:"Sonbahar 2007",
-    question:"Hipertansiyon etiyolojisinde çeşitli risk faktörlerinin incelendiği bir araştırmada, hipertansiyonu olan 45 hasta ile aynı yaş ve cinsten hipertansiyonu olmayan 90 kişinin sigara içme alışkanlıkları inceleniyor.<br><br><b>Bu araştırmanın türü aşağıdakilerden hangisidir?</b>",
-    options:["Retrospektif kohort","Prospektif kohort","Vaka-kontrol","Tanımlayıcı","Kesitsel"],
-    answer:"C",
-    hint:"Hasta grubu (hipertansiyon var) ile kontrol grubu (hipertansiyon yok) karşılaştırılıyor. Hastalıktan nedene gidiş vardır.",
-    trap:"Kohort ile vaka-kontrol karıştırılmamalı. Kohort'ta sağlıklıdan başlanır; vaka-kontrolde hasta sayısı bilerek başlanır.",
-    explanation:"Vaka-kontrol araştırması: hasta grubu (vaka) + kontrol grubu belirlenir, geçmişteki etken maruziyeti araştırılır. Araştırma başladığında hasta sayısı zaten bellidir. Genellikle retrospektiftir."
-  },
-  {
-    id:2,
-    section:"Gözlemsel Araştırmalar",
+    id:"so10",
+    section:"Sağlık Ölçütleri",
     year:"İlkbahar 2005",
-    question:"Nonsteroid antiinflamatuar ilaç kullanımı ile akut non variköz üst gastrointestinal sistem kanaması arasındaki ilişkiyi incelemek için bir çalışma yapılmıştır. Bu amaçla bir sağlık kuruluşu nonvariköz üst gastrointestinal sistem tanısı almış olan 57 hastanın tıbbi kayıtları incelenmiş, yaşa ve cinsiyete göre eşleştirilmiş 123 kişi de kontrol edilmiş ve kontrollere göre hastaların daha büyük bir oranın NSAİ ilaç almış olduğu bulunmuştur.<br><br><b>Bu araştırmanın türü aşağıdakilerden hangisidir?</b>",
-    options:["Kesitsel","Vaka-kontrol","Kohort","Metodolojik","Deneysel"],
-    answer:"B",
-    hint:"Tanısı konmuş 57 hasta (vaka) + eşleştirilmiş 123 kontrol. Geriye dönük kayıt incelemesi.",
-    trap:"57 hasta ile başlanmış olması retrospektif vaka-kontrol olduğunu gösterir; kohort sağlıklılardan başlar.",
-    explanation:"Vaka-kontrol araştırmasında hasta sayısı bilinerek başlanır ve geçmişe dönük kayıtlar incelenerek etken araştırılır. Bu sorudaki tüm özellikler vaka-kontrol desenine uymaktadır."
-  },
-  {
-    id:3,
-    section:"Gözlemsel Araştırmalar",
-    year:"İlkbahar 91",
-    question:"İki ayrı klinikte yapılan bir araştırma sonucunda ortopedi kliniğinde 60 kırık şikayetiyle yatan, üroloji kliniğinde de 60 mesane kanseri şikayetiyle yatan hasta incelenmiş; sonuçta ürolojide yatan hastaların %75'inin; ortopedi kliniğinde yatanların da %33'ünün sigara içtiği saptanmıştır.<br><br><b>Bu araştırma ne tür bir araştırmadır?</b>",
-    options:["Randomize klinik çalışma","Vaka kontrol","Kohort","Kesitsel","Tanımlayıcı çalışma"],
-    answer:"B",
-    hint:"Mesane kanseri olan 60 kişi (vaka) ve kırık olan 60 kişi (kontrol) — sigara içme oranları karşılaştırılıyor.",
-    trap:"İki grubun sigara oranlarını karşılaştırmak vaka-kontrol özünü taşır; kohort değildir çünkü sağlıklıdan başlanmamıştır.",
-    explanation:"Vaka-kontrol deseninde hasta grubu (mesane Ca) ile kontrol grubu (ortopedi hastaları) sigara gibi bir etken açısından karşılaştırılır. Bu tanım bu soruya tam oturmaktadır."
-  },
-  {
-    id:4,
-    section:"Gözlemsel Araştırmalar",
-    year:"Sonbahar 2024",
-    question:"Mesane kanseri sıklığını ve ilişkili değişkenleri saptamak üzere bir araştırma yapılıyor. 18 yaş üstü bireylerden Türkiye'yi temsil edecek sayıda ve özellikte rastgele örneklem seçiliyor. Tarama çalışmasına katılan bireylerin %2'sine mesane kanseri tanısı konuluyor.<br><br><b>Bu çalışmada uygulanan araştırma türü aşağıdakilerden hangisidir?</b>",
-    options:["Kohort","Vaka-kontrol","Kesitsel","Müdahale","Metodolojik"],
-    answer:"C",
-    hint:"Belirli bir zaman kesitinde toplumdan örnek alınıp prevalans hesaplanıyor.",
-    trap:"Tarama çalışması = kesitsel (prevalans) araştırmadır; kohort değildir çünkü ileriye dönük takip yoktur.",
-    explanation:"Kesitsel araştırmada toplumdan alınan örnekte hastalığın o andaki sıklığı (prevalansı) belirlenir. Burada %2 oranı prevalansdır."
-  },
-  {
-    id:5,
-    section:"Vaka Kontrol Araştırmaları",
-    year:"Sonbahar 2005",
-    question:"Aşağıdaki tabloda sigara ile akciğer kanseri arasındaki ilişkinin incelendiği bir araştırma ile ilgili bazı bilgiler verilmiştir.<br><br>Akciğer Kanseri Olan: Sigara İçen 400, Sigara İçmeyen 100 → Toplam 500<br>Akciğer Kanseri Olmayan: Sigara İçen 200, Sigara İçmeyen 300 → Toplam 500<br><br><b>Buna göre aşağıdaki ifadelerden hangisi <u>yanlıştır</u>?</b>",
-    options:["Bu çalışma vaka kontrol tipi bir araştırmadır.","Sigara içen kişilerin akciğer kanserine yakalanma olasılığı %80'dir.","Akciğer kanseri olmayan gruptakilerin %40'ı sigara içmektedir.","Akciğer kanserli hastalar grubunda sigara içenlerin oranı, akciğer kanseri olmayan grubundakinin iki katıdır.","Bu tür bir araştırmada akciğer kanseri olmayanlar grubu yaş, cinsiyet gibi özellikler bakımından akciğer kanserli hastalar grubuyla benzer olacak biçimde seçilmelidir."],
-    answer:"B",
-    hint:"Vaka-kontrol çalışmalarında olasılık (probability) değil tahmini rölatif risk hesaplanır.",
-    trap:"400/600 = %67 olsa da vaka-kontrol çalışmasında 'yakalanma olasılığı' hesaplanamaz; sadece tahmini rölatif risk bulunabilir.",
-    explanation:"Vaka-kontrol çalışmalarında 'olasılık' diye bir sonuç bulunamaz. Tahmini rölatif risk bulunabilir. Bu çalışmada tahmini rölatif risk = (400×300)/(200×100) = 6'dır."
-  },
-  {
-    id:6,
-    section:"Vaka Kontrol Araştırmaları",
-    year:"İlkbahar 2013",
-    question:"Gebelikte ilaç kullanımı ve otizm ilişkisinin incelendiği bir olgu kontrol araştırmasının sonuçları aşağıdaki tabloda gösterilmiştir.<br><br>İlaç kullananlar: Olgu grubu 40, Kontrol grubu 45, Toplam 85<br>İlaç kullanmayanlar: Olgu grubu 20, Kontrol grubu 75, Toplam 95<br>Toplam: 60 / 120 / 180<br><br><b>Bu araştırmanın odds oranı (tahmini rölatif risk) aşağıdakilerden hangisiyle hesaplanabilir?</b>",
-    options:["40/85","20/95","40×75 / 20×45","60×120 / 180","75×60 / 20×120"],
-    answer:"C",
-    hint:"Odds ratio = a×d / b×c formülü; köşeleri çapraz çarpmak.",
-    trap:"Formülde pay: ilaç kullanan olgular × ilaç kullanmayan kontroller; payda: ilaç kullanmayan olgular × ilaç kullanan kontroller.",
-    explanation:"Tahmini rölatif risk (odds ratio) = (a×d)/(b×c) = (40×75)/(20×45) = 3000/900 = 3,33. Dört gözlü tabloda köşeler çapraz çarpılıp birbirine bölünür."
-  },
-  {
-    id:7,
-    section:"Vaka Kontrol Araştırmaları",
-    year:"Sonbahar 97",
-    question:"Vaka-kontrol çalışmasının özelliği <u>olmayan</u> hangisidir?",
-    options:["Kolay","Ucuz","Hatırlama zorluğu","Seyrek hastalıklar için uygun olma","Uzun zamanda sonuçlanma"],
-    answer:"E",
-    hint:"Vaka-kontrol araştırmaları retrospektif olduğu için kısa sürede tamamlanır.",
-    trap:"Uzun zamanda sonuçlanma kohort araştırmasının özelliğidir, vaka-kontrol değil.",
-    explanation:"Vaka-kontrol çalışmaları geriye dönük (retrospektif) yapıldığından kolay, ucuz ve hızlıdır. Uzun süre gerektiren kohort araştırmaları olup bu seçenek vaka-kontrol için YANLIŞ özelliktir."
-  },
-  {
-    id:8,
-    section:"Kohort Araştırmaları",
-    year:"İlkbahar 2014",
-    question:"Aşağıdaki ifadelerden hangisi, kohort tipi epidemiyolojik araştırma yöntemlerinin avantajlarından biri <b>değildir</b>?",
-    options:["Vaka kontrol tipi araştırmalara göre hafıza faktöründen (recall bias) daha az etkilenirler.","İnsidans hızı hesaplanabilir.","Genellikle vaka kontrol çalışmalarına göre daha az çalışmalar gerektiren çalışmalardır.","Aynı anda birden çok hastalık araştırılabilir.","Etkilenimin boyutunu tahmin etmek mümkündür."],
-    answer:"C",
-    hint:"Kohort araştırmaları pahalı, büyük ekip gerektiren çalışmalardır.",
-    trap:"'Daha az çalışma gerektiren' ifadesi kohort için yanlış; tam tersi vaka-kontrol daha az zahmetlidir.",
-    explanation:"Kohort araştırmaları maliyet, zaman ve insan gücü açısından pahalı araştırmalardır. 'Daha az çalışma gerektirme' vaka-kontrol araştırmalarının özelliğidir."
-  },
-  {
-    id:9,
-    section:"Kohort Araştırmaları",
-    year:"İlkbahar 96",
-    question:"Koroner kalp hastalığı faktörlerini araştırmak amacıyla bir bölgede son 3 ayda miyokard enfarktüsü geçiren 376 ve sağlıklı 330 kişiye sigara içip içmedikleri soruluyor. Enfarktüs geçirenlerin 176'sı, geçirmeyenlerin 110'u sigara içiyor.<br><br><b>Yukarıda anlatılan çalışma türü aşağıdakilerden hangisidir?</b>",
-    options:["Vaka-kontrol çalışması","Kohort çalışması","Kontrollü klinik çalışma","Kesitsel araştırma","Tanımlayıcı çalışma"],
-    answer:"A",
-    hint:"MI geçirenler (vaka) + sağlıklılar (kontrol) → sigaraya maruz kalım sorgulanıyor.",
-    trap:"Geriye dönük sigara sorgulama ve hasta-kontrol grupları vaka-kontrol tasarımına işaret eder.",
-    explanation:"Enfarktüs geçirenler vaka, geçirmeyenler kontrol grubudur. Geçmişte sigara içip içmediği sorgulanmaktadır. Bu tam bir vaka-kontrol araştırması desenidir."
-  },
-  {
-    id:10,
-    section:"Vaka Kontrol Araştırmaları",
-    year:"İlkbahar 96",
-    question:"Bir önceki (9 numaralı) sorudaki çalışmada sigara içme ile miyokard enfarktüsü arasındaki ilişkiyi göstermek için hangi istatistiksel yöntemlere baş vurursunuz?",
-    options:["İnsidans","Prevalans","Tahmini Rölatif risk","Atfedilen risk","Korunabilirlik hızı"],
-    answer:"C",
-    hint:"Vaka-kontrol çalışmalarında sadece tahmini rölatif risk hesaplanabilir.",
-    trap:"İnsidans kohort araştırmasında, prevalans kesitsel araştırmada hesaplanır; vaka-kontrolde bunlar bulunamaz.",
-    explanation:"Vaka-kontrol çalışmalarında sadece tahmini rölatif risk (odds ratio) hesaplanabilir. İnsidans kohort araştırmasına, prevalans kesitsel araştırmaya aittir."
-  },
-  {
-    id:11,
-    section:"Vaka Kontrol Araştırmaları",
-    year:"Sonbahar 2020 Orijinal",
-    question:"Hodgkin lenfoma tanısı almış olgulara ve benzer yaştaki kontrol grubuna, geçmişte tonsillektomi olup olmadıkları sorulmuştur.<br><br><b>Araştırma sonuçlandığında, tonsillektomi ve lenfoma olma arasındaki ilişkiye dair, aşağıdaki risk ölçütlerinden hangisi elde edilir?</b>",
-    options:["Korunabilirlik hızı","Rölatif risk","Epizod hızı","Tahmini rölatif risk","İnsidans"],
+    question:"100.000 nüfuslu bir bölgede 1 yıllık bir sürede 50 yeni akciğer Ca vakası görülmüştür. 40'ı sigara içmekte olan bu 50 hastanın 30'u ölmüştür.<br><br><b>Bu bilgilere göre bölgeyle ilgili aşağıdaki ifadelerden hangisi doğrudur?</b>",
+    options:["Akciğer kanseri prevalansı 80/100.000","Sigara içenler de akciğer kanseri sıklığı 40/100.000","Akciğer kanseri mortalite hızı 30/50","Akciğer kanseri yıllık insidansı 50/100.000","Akciğer kanseri fatalite hızı 30/100.000"],
     answer:"D",
-    hint:"Hasta sayısı bilinerek başlanan araştırma → vaka-kontrol → sadece tahmini rölatif risk.",
-    trap:"Rölatif risk kohort araştırmasından elde edilir; vaka-kontrolde sadece TAHMİNİ rölatif risk bulunabilir.",
-    explanation:"Vaka-kontrol araştırmalarında hasta sayısı başlangıçta bellidir; sonuçlandığında etken sayısına ulaşılır. Elde edilen ölçüt tahmini rölatif risktir (odds ratio)."
+    hint:"50 yeni vaka / 100.000 nüfus → yıllık insidans. Fatalite hızı 30/50 olurdu.",
+    trap:"Fatalite hızı toplum değil, HASTA grubuna göre hesaplanır: 30/50. Mortalite hızı ise 30/100.000'dir.",
+    explanation:"İnsidans = yeni vaka sayısı / risk altındaki kişi sayısı. 50/100.000 = yıllık insidans. Prevalans hesaplanamaz (eski vakalar bilinmiyor). Fatalite = 30/50, mortalite = 30/100.000."
   },
   {
-    id:"11B",
-    section:"Vaka Kontrol Araştırmaları — BENZERİ",
-    year:"Sonbahar 2020 BENZERİ",
-    question:"Akciğer kanseri tanısı almış hastalara ve benzer yaştaki kontrol grubuna, geçmişte sigara içip içmediği soruluyor.<br><br><b>Çalışma sonuçlarında akciğer kanseri ve sigara arasındaki ilişkiye dair, aşağıdaki risk ölçütlerinden hangisi elde edilir?</b>",
-    options:["İnsidans","Epizod hızı","Tahmini rölatif risk","Rölatif risk","Korunabilirlik hızı"],
-    answer:"C",
-    hint:"Hasta sayısı bilinerek başlanan vaka-kontrol araştırması → tahmini rölatif risk.",
-    trap:"Rölatif risk ile tahmini rölatif riski karıştırmayın; biri kohort, diğeri vaka-kontrole aittir.",
-    explanation:"Hasta sayısı bilinerek başlanan vaka-kontrol çalışmaları sonuçlandığında etken sayısına ulaşılır. Elde edilen ölçüt tahmini rölatif risktir."
-  },
-  {
-    id:12,
-    section:"Kohort Araştırmaları",
-    year:"İlkbahar 2017 Orijinal",
-    question:"Aşağıdaki araştırma tiplerinin hangisinde insidans hesaplanabilir?",
-    options:["Tanımlayıcı","Kesitsel","Olgu-kontrol","Kohort","Ekolojik"],
-    answer:"D",
-    hint:"İnsidans = yeni vaka sayısı / risk altındaki sağlam kişi sayısı → bu oran kohort araştırmasından elde edilir.",
-    trap:"Kesitsel araştırmada prevalans, vaka-kontrolde tahmini rölatif risk, kohort çalışmasında insidans hesaplanır.",
-    explanation:"Kohort araştırmalarında etkene maruz kalan sağlıklı kişi sayısı bilinerek başlanır; çalışma sonuçlandığında kaç kişinin hastalandığı öğrenilir ve insidans hesaplanır."
-  },
-  {
-    id:"12B",
-    section:"Kohort Araştırmaları — BENZERİ",
-    year:"İlkbahar 2017 BENZERİ",
-    question:"Kohort araştırmasında elde edilen sonuç aşağıdakilerden hangisidir?",
-    options:["Prevalans","Tahmini rölatif risk","Korelasyon","İnsidans","Ki-kare"],
-    answer:"D",
-    hint:"Kohort araştırmalarının en önemli çıktısı insidanstır.",
-    trap:"Tahmini rölatif risk vaka-kontrol çalışmasından; prevalans kesitsel araştırmadan elde edilir.",
-    explanation:"Kohort araştırmalarında elde edilen en önemli hız insidanstır. Bunun yanı sıra rölatif risk, atfedilen risk ve korunabilirlik hızı da hesaplanabilir."
-  },
-  {
-    id:13,
-    section:"Kesitsel Araştırmalar",
-    year:"Sonbahar 2011",
-    question:"Aşağıdaki araştırma yöntemlerinden hangisinde prevalans saptanır?",
-    options:["Olgu-kontrol","Kohort","Olgu-kohort","Deneysel","Kesitsel"],
-    answer:"E",
-    hint:"Prevalans = belirli bir zaman kesitinde var olan vaka sayısı → kesitsel araştırmada hesaplanır.",
-    trap:"İnsidans kohort araştırmasında, tahmini rölatif risk vaka-kontrolde hesaplanır; bunları prevalansla karıştırmayın.",
-    explanation:"Kesitsel araştırmalarda hastalık-etken ilişkisi aynı zaman kesitinde birlikte incelenir ve prevalans hesaplanır. Bu araştırmalara 'prevalans araştırması' da denir."
-  },
-  {
-    id:14,
-    section:"Kohort Araştırmaları",
-    year:"İlkbahar 2010",
-    question:"Sigara ve akciğer kanseri ilişkisinin incelendiği bir araştırmada, 30 yaş ve üzerindeki 10.000 kişinin sigara alışkanlıkları şöyle bulunuyor:<br><br>Hiç sigara içmeyen 5000 kişi (I. Grup)<br>Günde 1-10 adet içen 2000 kişi (II. Grup)<br>Günde 11-20 adet içen 2000 kişi (III. Grup)<br>Günde 21 ve daha fazla içen 1000 kişi (IV. Grup)<br><br>10 yıllık süre içinde, I. grupta 10 kişi, II. grupta 15 kişi, III. grupta 20 kişi ve IV. grupta da 15 kişi akciğer kanserine yakalanmış veya bu hastalıktan ölmüştür.<br><br><b>Bu araştırmanın türü aşağıdakilerden hangisidir?</b>",
-    options:["Kesitsel","Vaka-kontrol","Kohort","Tanımlayıcı","Prospektif randomize"],
-    answer:"C",
-    hint:"Sağlıklı 10.000 kişiden başlanmış, 10 yıl takip edilmiş → kohort araştırması.",
-    trap:"Sağlıklılardan başlayıp ileriye dönük takip etmek prospektif kohort özelliğidir; geriye dönük değil.",
-    explanation:"Kohort araştırmasında etkene maruz kalan sağlıklı kişi sayısı bilinerek başlanır, takip sonunda kaç kişinin hastalandığı öğrenilir (insidans). Bu soruda 10.000 sağlıklı kişi 10 yıl takip edilmiştir."
-  },
-  {
-    id:15,
-    section:"Kohort Araştırmaları",
-    year:"İlkbahar 2025",
-    question:"İl Sağlık Müdürlüğü 18 yaş ve üzeri bireylerin diyabet durumunu araştırmak için öncelikle hasta olmayan kişi sayısını belirleyerek her yıl bir kez kontrol edip 10 yıl boyunca izleme yapıyor. Çalışmada sosyo-demografik özellikler, ailenin diyabet öyküsü, sigara kullanımı ve fiziksel aktivitelere dair veriler toplanıyor. Sürecin sonunda sigara içmenin ve fiziksel aktivite eksikliğinin diyabet oluşumuna etkisi belirleniyor.<br><br><b>Bu çalışmada kullanılan en olası araştırma türü aşağıdakilerden hangisidir?</b>",
-    options:["Kesitsel","Tanımlayıcı","Deneysel","Vaka-kontrol","Kohort"],
-    answer:"E",
-    hint:"Hasta olmayan kişilerden başlanmış, 10 yıl boyunca ileriye dönük takip yapılmış.",
-    trap:"10 yıl takip = prospektif kohort; kesitsel araştırma tek zaman noktasında yapılır.",
-    explanation:"Prospektif kohort araştırmasında hasta olmayan kişilerden başlanır, ileriye dönük takip yapılır ve insidans, rölatif risk hesaplanır. Bu soruda tüm özellikler kohort desenine uymaktadır."
-  },
-  {
-    id:16,
-    section:"Kohort Araştırmaları",
-    year:"Sonbahar 2002",
-    question:"Yapılan bir araştırmada atom bombası atıldığında bir kentte bulunan kişiler üzerinde bombanın atılmasından 20 yıl sonra gelişen kanser oluşumu incelenmiştir.<br><br><b>Bu araştırmanın türü hangisidir?</b>",
-    options:["Kesitsel araştırma","Kohort araştırma","Vaka kontrol araştırması","Deneysel araştırma","Tanımlayıcı araştırma"],
-    answer:"B",
-    hint:"Bomba patlamasına maruz kalanlar (etkene maruz kalan kohort) ileriye dönük olarak izlenmiş.",
-    trap:"Bomba patlaması anında sağlıklı kişilerden başlanmış; bu prospektif kohort özelliğidir.",
-    explanation:"Kohort araştırması: etkene maruz kalan sağlıklı kişiler izlenerek hastalık gelişimi araştırılır. Burada bomba patlamasına maruz kalanlar kohort grubudur ve 20 yıl sonra kanser gelişimi incelenmektedir."
-  },
-  {
-    id:17,
-    section:"Kohort Araştırmaları",
-    year:"Sonbahar 2001",
-    question:"Bir hastalığın etkeniyle karşılaşmış bir grup ve karşılaşmamış bir grup arasındaki söz konusu hastalığın insidans hızı bakımından gözlenen farka ne denir?",
-    options:["Atak hızı","Epizod hızı","Hastalığın gücü","İnfektivite","Atfedilen risk"],
-    answer:"E",
-    hint:"İki kohort grubu arasındaki insidans FARKI → atfedilen risk.",
-    trap:"Rölatif risk insidansların oranı; atfedilen risk ise insidansların FARKI'dır.",
-    explanation:"Atfedilen risk: etkene maruz kalan grubun insidansından etkene maruz kalmayan grubun insidansının çıkarılmasıyla bulunur. Kohort araştırmasında hesaplanır."
-  },
-  {
-    id:18,
-    section:"Kohort Araştırmaları",
-    year:"İlkbahar 2022 Orijinal",
-    question:"Belirli bir bölgede ve belirli bir süre içerisinde izlenen örnek gruptaki bireylerde, etkene maruz kalanlardaki insidans hızının, etkene maruz kalmayanlardaki insidans hızına bölünmesi ile elde edilen ölçüt aşağıdakilerden hangisidir?",
-    options:["Atfedilen risk","Rölatif risk","Tahmini rölatif risk","Atak hızı","Fatalite"],
-    answer:"B",
-    hint:"İnsidans hızlarının ORANI → rölatif risk.",
-    trap:"Tahmini rölatif risk vaka-kontrolde, rölatif risk kohort araştırmasında hesaplanır.",
-    explanation:"Rölatif risk: etkene maruz kalan grubun insidansı / etkene maruz kalmayan grubun insidansı. Kohort araştırmalarında hesaplanır. Atfedilen risk ise bu iki insidans arasındaki FARKTIR."
-  },
-  {
-    id:"18B",
-    section:"Kohort Araştırmaları — BENZERİ",
-    year:"İlkbahar 2022 BENZERİ",
-    question:"Aşağıdaki seçeneklerden hangisi rölatif riski tanımlamak için kullanılan ifadedir?",
-    options:["Etkene maruz kalanlardaki insidansın, etkene maruz kalmayanlardaki insidansa oranı","Etkene maruz kalanlardaki insidans ile etkene maruz kalmayanlardaki insidans arasındaki fark","Etkene maruz kalanlardaki yeni gelişen vaka sayısının risk altındaki kişi sayısına oranı","Atfedilen riskin etkene maruz kalanlardaki insidansa oranı","Etkene maruz kalanlardaki yeni gelişen vaka sayısı ile eski vaka sayısı toplamının risk altındaki kişi sayısına oranı"],
-    answer:"A",
-    hint:"Rölatif risk = oran (bölme işlemi); atfedilen risk = fark (çıkarma işlemi).",
-    trap:"'Fark' seçeneği atfedilen riski tanımlar; 'oran' seçeneği rölatif riski tanımlar.",
-    explanation:"Rölatif risk: iki grubun insidansları birbirine BÖLÜNEREK hesaplanır. Bu oran etkene maruziyetin hastalık geliştirme riskini kaç kat artırdığını gösterir."
-  },
-  {
-    id:19,
-    section:"Retrospektif Kohort",
-    year:"Sonbahar 94",
-    question:"Atom bombası atılan Hiroşima ve bomba atılmayan Tokyo'da radyasyonun neden olduğu yeni gelişen hastalıkları araştırmak için kayıtlar geriye doğru taranarak yapılan bir araştırma ne tür bir araştırmadır?",
-    options:["Kohort","Vaka-kontrol","Retrospektif kohort","Tanımlayıcı","Prevalans"],
-    answer:"C",
-    hint:"Kohort grupları var, ancak geçmişe ait kayıtlar taranıyor → retrospektif kohort.",
-    trap:"Geriye dönük yapılması bu çalışmayı vaka-kontrol yapmaz; etkene maruz olan/olmayan gruplar bellidir.",
-    explanation:"Retrospektif kohort araştırmasında etkenle karşılaşan ve karşılaşmayan gruplar daha önceden tutulmuş kayıtlardan incelenir. Zaman içinde hastalık oluşup oluşmadığı saptanır."
-  },
-  {
-    id:20,
-    section:"Kohort Araştırmaları",
-    year:"İlkbahar 94",
-    question:"Bir bölgede 40 yaşından büyük sigara içen 1000 kişi 10 yıl boyunca takip edilmiş bu süreçte 60 koroner kalp hastası tesbit edilmiş ve 40 tanesi ölmüştür. Bu ne tip bir araştırmadır?",
-    options:["Kohort","Vaka-kontrol","Kesitsel","Meta-analiz","Tanımlayıcı"],
-    answer:"A",
-    hint:"Belirli bir özelliği olan (sigara içen) 1000 kişi ileriye dönük 10 yıl izlenmiş.",
-    trap:"Sağlıklılardan başlanıp ileriye dönük takip yapılmış; vaka-kontrol değil.",
-    explanation:"Kohort araştırması: belirli özelliği olan 1000 kişi 10 yıl prospektif olarak takip edilmiş. Koroner kalp hastalığı insidansı ve fatalite hızı bu araştırmadan elde edilebilir."
-  },
-  {
-    id:21,
-    section:"Tanımlayıcı Araştırmalar",
-    year:"İlkbahar 2004",
-    question:"Bir fabrikada çalışan işçilerde hastalıkların belirlenmesi amacıyla araştırma yapılması planlanıyor. Fabrikada çalışan işçilerde oluşan sağlık sorunları yaş, cinsiyet, boy, kilo gibi özelliklere göre değerlendiriliyor.<br><br><b>Yukarıda anlatılan çalışma aşağıdakilerden hangisidir?</b>",
-    options:["Vaka kontrol","Kesitsel","Tanımlayıcı","Meta-analiz","Retrospektif kohort"],
-    answer:"C",
-    hint:"Yaş, cinsiyet, boy, kilo gibi özelliklerle tanımlama yapılıyor; etken-hastalık ilişkisi araştırılmıyor.",
-    trap:"Etken-hastalık ilişkisi araştırılmadığından analitik bir çalışma değildir; yalnızca tanımlayıcıdır.",
-    explanation:"Tanımlayıcı araştırmalarda sağlık sorunları tanımlanır, yaş-cinsiyet gibi özelliklerle değerlendirilir. Herhangi bir etken-hastalık ilişkisi araştırılmaz."
-  },
-  {
-    id:22,
-    section:"Kesitsel Araştırmalar",
-    year:"İlkbahar 1998 / Sonbahar 2003",
-    question:"Diabet konusundaki bir tarama çalışmasında, tarama programına alınan 3000 kişinin 500 ünde diabet saptanmıştır. Muayenede diabet olmadığı belirlenenler 1 yıl sonra tekrar muayene edildiğinde, 50 kişide daha diabet bulunmuştur.<br><br><b>Bu bilgilere göre, 500/3000 oranı aşağıdakilerden hangisini gösterir?</b>",
-    options:["Diabet prevalansını","Tarama testinin duyarlılığını","Tarama testinin prediktif değerini","Diyabetin insidansını","Tarama testinin seçiciiliğini"],
-    answer:"A",
-    hint:"3000 kişilik kesit alınmış; 500 kişide hastalık mevcut → bu prevalanstır.",
-    trap:"50/2500 insidans olurdu; 500/3000 ise kesitsel taramada bulunan prevalanstır.",
-    explanation:"500/3000 = prevalans. Bir zaman kesitinde var olan (eski+yeni) vaka sayısının risk altındaki kişi sayısına oranıdır. İnsidans olsaydı 1 yıl sonra yeni gelişen 50/2500 hesaplanırdı."
-  },
-  {
-    id:23,
+    id:"so11",
     section:"Sağlık Ölçütleri",
-    year:"Sonbahar 2009",
-    question:"Nüfusunun 750.000 kişi olduğu bilinen bir şehirde, 2006 yılı içerisinde tanısı konan bütün kanser hastalarının 1600 kişi olduğu biliniyor.<br><br><b>Bu veriler kullanılarak aşağıdaki epidemiyolojik ölçütlerden hangisi hesaplanabilir?</b>",
-    options:["Rölatif risk","Fatalite hızı","Atfedilen risk","İnsidans","Prevalans"],
+    year:"Sonbahar 90",
+    question:"100.000 nüfuslu 'A' ilinde, 1980 yılında 1000 kişi ölmüştür. Aynı yerde aynı yıl kanser tanısı olan 50 kişinin 45'i kanser nedeniyle ölmüştür.<br><br><b>Kanserin fatalite hızı aşağıdakilerden hangisidir?</b>",
+    options:["%0,10","%0,05","%0,45","%90","%4,5"],
     answer:"D",
-    hint:"2006 yılı içinde yeni tanı konan vaka sayısı / yıl ortası nüfus → insidans.",
-    trap:"Prevalans için eski+yeni vakaların toplamı gerekir; burada sadece yeni tanı konulanlar var.",
-    explanation:"İnsidans = yeni vaka sayısı / risk altındaki sağlam kişi sayısı. 1600 yeni kanser vakası / 750.000 nüfus → insidans hızı hesaplanabilir."
+    hint:"Fatalite hızı = belirli bir hastalıktan ölenler / o hastalığa yakalananlar × 100.",
+    trap:"Fatalite hızı topluma göre değil, HASTALARA göre hesaplanır. 100.000 nüfus ile karıştırılmamalı.",
+    explanation:"Fatalite hızı = 45/50 × 100 = %90. Kanser tanısı alan 50 kişinin 45'i öldüğünden fatalite hızı %90'dır."
   },
   {
-    id:24,
+    id:"so12",
     section:"Sağlık Ölçütleri",
-    year:"İlkbahar 2010",
-    question:"Bir zaman periyodunda, bir bulaşıcı hastalığa yakalanan kişi sayısının aynı dönemde toplam duyarlı kişi sayısına bölünmesi ile elde edilen sağlık ölçütü aşağıdakilerden hangisidir?",
-    options:["Atak hızı","Fatalite hızı","Atfedilen risk","Prevalans hızı","İnsidans hızı"],
-    answer:"A",
-    hint:"'Belirli süre - duyarlı kişiler' ifadesi atak hızına işaret eder.",
-    trap:"İnsidans hızında 'risk altındaki sağlam kişi' paydadadır; atak hızında 'duyarlı kişi sayısı' kullanılır.",
-    explanation:"Atak hızı: belirli bir süre içinde bir hastalığa yakalanan kişi sayısının aynı süredeki toplam duyarlı kişi sayısına bölünmesiyle hesaplanır. Salgınlarda kullanılır."
-  },
-  {
-    id:25,
-    section:"Sağlık Ölçütleri",
-    year:"Sonbahar 2008",
-    question:"Sıfır-altı yaş arası aşısız 1000 çocuk bulunan bir bölgede kızamık salgını görülmüştür. Bu salgında ilk vaka 3 Ocak'ta görülmüştür. 4 Ocak-23 Ocak arasında 89, 24 Ocak-14 Şubat arasında 46 çocukta kızamık saptanmıştır.<br><br><b>Bu bölgede, kızamık salgınındaki primer ve sekonder atak hızları % kaçtır?</b>",
-    options:["Primer 8.9 / Sekonder 4.6","Primer 8.9 / Sekonder 5.2","Primer 9.0 / Sekonder 4.6","Primer 9.0 / Sekonder 5.1","Primer 9.0 / Sekonder 13.6"],
+    year:"İlkbahar 2003",
+    question:"İsteyerek yapılan düşük oranı, isteyerek yapılan düşük sayısının aşağıdakilerden hangisine bölünmesiyle hesaplanır?",
+    options:["Toplam nüfus","Doğurganlık çağındaki kadın nüfusu","Gebelik sayısı","Canlı doğum sayısı","Canlı doğum sayısı + ölü doğum sayısı"],
     answer:"D",
-    hint:"Primer atak hızı: ilk vakadan sonra 90 kişi hastalandığı için 90/1000. Sekonder: kızamık olmayacak ilk 90 kişi çıkarılır.",
-    trap:"İlk vakadan sonra 89 kişi hastalandı → primer atak hızı 90/1000 ile hesaplanır (ilk vaka dahil).",
-    explanation:"Primer atak hızı: ilk vakadan sonra 89 hastalanmış; ilk vaka dahil 90 kişi → 90/1000 = %9,0. Sekonder atak hızı: artık 90 kişi kızamık olamaz → risk altında 910 kişi kaldı. 46 yeni hasta / 910 = %5,1."
+    hint:"İsteyerek düşük oranı = isteyerek düşük sayısı / canlı doğum sayısı × 100.",
+    trap:"Ölü doğum sayısının kullanıldığı tek formül perinatal ölüm hızıdır. İsteyerek düşük formülünde ölü doğum kullanılmaz.",
+    explanation:"İsteyerek yapılan düşük oranı (yüz canlı doğumda) = İsteyerek yapılan düşük sayısı / Canlı doğum sayısı × 100. Bu oran aile planlaması hizmetlerinin değerlendirilmesinde kullanılır."
   },
   {
-    id:26,
-    section:"Tanımlayıcı Araştırmalar",
-    year:"İlkbahar 1995",
-    question:"Aşağıdaki hastalıklardan hangisi gözlemsel çalışma <b>değildir</b>?",
-    options:["Olgu sunumu","Vaka-kontrol çalışması","Kohort çalışması","Kesitsel çalışma","Deneysel çalışma"],
+    id:"so13",
+    section:"Sağlık Ölçütleri",
+    year:"İlkbahar 2002",
+    question:"Yıl ortası nüfusu 10.000, canlı doğum sayısı 250, ölü doğum sayısı 25 olan bir ilçede aynı sürede:<br><br>0-4 yaş grubunda 15<br>5-14 yaş grubunda 12<br>15-44 yaş grubunda 15<br>45 yaş grubunda 43 ölüm olmuştur.<br><br><b>Bu bilgilere göre bu ilçede kaba ölüm hızı aşağıdakilerden hangisidir?</b>",
+    options:["(15/250)x1000","(25/250)x1000","(15/10.000)x1000","(85/10.000)x1000","(100/10.000)x1000"],
+    answer:"D",
+    hint:"Kaba ölüm hızı = tüm ölümler / yıl ortası nüfus × 1000. Tüm yaş gruplarındaki ölümler toplanır.",
+    trap:"Ölü doğumlar kaba ölüm hızında kullanılmaz. Toplam ölüm = 15+12+15+43 = 85.",
+    explanation:"Kaba ölüm hızı = toplam ölüm sayısı / yıl ortası nüfus × 1000. Toplam ölüm: 15+12+15+43=85. 85/10.000 × 1000."
+  },
+  {
+    id:"so14",
+    section:"Sağlık Ölçütleri",
+    year:"İlkbahar 2002",
+    question:"Aşağıdakilerden hangisi ana ve çocuk sağlığı hizmetlerini değerlendirmede ölçüt olarak kullanılabilir?",
+    options:["Yaşa özel ölüm hızları","Postnatal ölüm hızı","Perinatal ölüm hızı","Fatalite hızları","Kaba ölüm hızı"],
+    answer:"C",
+    hint:"Perinatal ölüm hızı, doğum öncesi ve doğum sırasında sağlık hizmetlerinin kalitesini gösterir.",
+    trap:"Bebek ölüm hızı genel sağlık düzeyini gösterir; perinatal ölüm hızı özellikle ANA sağlığını gösterir.",
+    explanation:"Perinatal ölüm hızı ana sağlığı düzeyini en iyi gösteren 2. ölçüttür. Doğum öncesi ve doğum sırasında verilen sağlık hizmetlerinin yeterliliğini gösterir. (1. ölçüt: Ana ölüm hızı)"
+  },
+  {
+    id:"so15",
+    section:"Sağlık Ölçütleri",
+    year:"İlkbahar 2001",
+    question:"Bir ilçe için aşağıdaki bilgiler mevcuttur:<br><br>Canlı doğum sayısı: 290<br>Yıl ortası nüfus: 10.000<br>Yıl ortası kadın nüfusu: 3000<br><br><b>Bu ilçedeki kaba doğum hızı nedir?</b>",
+    options:["290/3000×1000","300/3000×1000","290/10.000×1000","300/10.000×1000","280/10.000×1000"],
+    answer:"C",
+    hint:"Kaba doğum hızı = canlı doğum sayısı / yıl ortası TOPLAM nüfus × 1000.",
+    trap:"Kadın nüfusu (3000) paydaya alınırsa genel doğurganlık hızı olur; kaba doğum hızında tüm nüfus (10.000) kullanılır.",
+    explanation:"Kaba doğum hızı = 290/10.000 × 1000. 'Kaba' ifadesi, paydada doğurganlığa katkısı olmayan erkekler ve yaşlı kadınların da yer almasından kaynaklanır."
+  },
+  {
+    id:"so16",
+    section:"Sağlık Ölçütleri",
+    year:"Sonbahar 2000",
+    question:"Kanser nedenine özel ölüm hızı hesaplanırken kanserden ölen hastaların sayısını aşağıdakilerden hangisine bölmek gerekir?",
+    options:["Toplam doğum hızı","Toplam ölüm hızı","40 yaşındaki ölüm hızı","Kanserli hasta sayısı","Toplum nüfusu"],
     answer:"E",
-    hint:"Araştırmacının sürece müdahale ettiği çalışmalar gözlemsel değil, deneyseldir.",
-    trap:"Vaka-kontrol, kohort, kesitsel ve olgu sunumu gözlemseldir; deneysel çalışma araştırmacı müdahalesi içerir.",
-    explanation:"Gözlemsel çalışmalarda araştırmacı süreci yalnızca gözlemler. Deneysel çalışmada ise araştırmacı hangi ilacın alınacağına veya tedavi yöntemine karar verir; bu müdahale çalışmadır."
+    hint:"Nedene özel ölüm hızı = belirli nedenden ölen sayısı / toplum nüfusu × 1000.",
+    trap:"'Nedene özel' ifadesi hastalığın fatalitesini değil, toplumda kaç kişinin o nedenle öldüğünü gösterir. Fatalite = ölenler/hastalar.",
+    explanation:"Nedene özel ölüm hızı formülü: 'X' nedenine bağlı ölüm sayısı / Toplumun nüfusu × 1000. Bu formül toplumda en çok ölüme yol açan hastalıkları bulmak için kullanılır."
   },
   {
-    id:27,
-    section:"Deneysel Epidemiyoloji",
-    year:"Sonbahar 87",
-    question:"Bir ilacın etkili olup olmadığını anlamak için en iyi yöntem aşağıdakilerden hangisidir?",
-    options:["Randomize kontrollü klinik-deneysel","Gözlemsel araştırma","Tanımlayıcı çalışma","Vaka-kontrol araştırması","Kesitsel saha araştırması"],
+    id:"so17",
+    section:"Sağlık Ölçütleri",
+    year:"İlkbahar 93",
+    question:"Canlı doğum sayısı: 210<br>0-7 gün ölüm: 3<br>0-28 gün ölüm: 4<br>0-365 gün ölüm: 18<br><br><b>Neonatal ölüm hızı nedir?</b>",
+    options:["4/210×1000","7/210×1000","3/210×1000","18/210×1000","14/210×1000"],
     answer:"A",
-    hint:"İlacın etkinliğini kanıtlamak için en güçlü kanıt randomize kontrollü deney verir.",
-    trap:"Gözlemsel araştırmalar ilişkiyi gösterir ama nedenselliği kanıtlayamaz; bunu deneysel araştırmalar yapar.",
-    explanation:"Bir ilacın etkinliğini anlamak için hayvanlar veya insanlar üzerinde deneme yapmak gerekir. İlaç çalışmaları müdahale çalışmasıdır. Müdahale çalışmaları klinik ve saha deneyleri olarak yapılabilir."
+    hint:"Neonatal ölüm hızı = 0-28 gün içinde ölen bebek sayısı / canlı doğum sayısı × 1000.",
+    trap:"0-7 gün = erken neonatal; 0-28 gün = neonatal; 0-365 gün = bebek ölüm hızı. 4/210 neonatal hızıdır.",
+    explanation:"Neonatal bebek ölüm hızı = 0-28 günlükken ölen çocuk sayısı / canlı doğum sayısı × 1000 = 4/210 × 1000. Erken neonatal = 3/210 × 1000 (0-7 gün)."
   },
   {
-    id:28,
-    section:"Deneysel Epidemiyoloji",
-    year:"İlkbahar 2011",
-    question:"Toplumda hastalıkların nedenleri belirlendikten sonra sorunun çözümüne yönelik yapılan deneysel epidemiyolojik araştırmalara ne ad verilir?",
-    options:["Kohort çalışması","Kesitsel çalışma","Müdahale araştırması","Vaka-kontrol araştırması","Tanımlayıcı araştırma"],
-    answer:"C",
-    hint:"Sorunun çözümüne yönelik = müdahale (intervention) araştırması = deneysel araştırma.",
-    trap:"Kohort, kesitsel, vaka-kontrol gözlemsel araştırmalardır; müdahale araştırması deneyseldir.",
-    explanation:"Deneysel epidemiyolojik araştırmalar 'müdahale araştırmaları' olarak da adlandırılır. Nedeni belirlendikten sonra sorunun çözümü için uygulanacak önlemlerin etkinliğini değerlendirmek amacıyla yapılır."
+    id:"so18",
+    section:"Sağlık Ölçütleri",
+    year:"İlkbahar 92",
+    question:"Anne ölüm hızı hakkında güvenilir kayıt yoksa hangi veri kriter olarak kullanılabilir?",
+    options:["Perinatal ölüm hızı","Kaba ölüm hızı","Kaba doğum hızı","Bebek ölüm hızı","Doğurganlık hızı"],
+    answer:"A",
+    hint:"Kayıtların güvenilir olmadığı durumlarda anne ölüm hızı hakkında en iyi gösterge perinatal ölüm hızıdır.",
+    trap:"Bebek ölüm hızı genel sağlık düzeyini, perinatal ölüm hızı özellikle ana sağlığını gösterir.",
+    explanation:"Anne ölüm hızı doğrudan ölçülemediğinde en iyi vekil gösterge perinatal ölüm hızıdır. Her ikisi de doğum öncesi ve doğum sırasındaki hizmetlerin kalitesiyle doğrudan ilişkilidir."
   },
   {
-    id:29,
-    section:"Meta-Analiz",
-    year:"İlkbahar 2016",
-    question:"Benzer konulardaki çalışmaları sistematik olarak derleyen, bir araya getiren, yapılan farklı çalışmaları birleştirerek istatistiksel analizini sağlayan ve istatistiksel kanıtın gücünü artırabilen çalışmalar aşağıdakilerden hangisidir?",
-    options:["Geleneksel derleme","Randomize kontrollü çalışma","Ekolojik çalışma","Meta analiz","Tanımlayıcı çalışma"],
-    answer:"D",
-    hint:"Farklı çalışmaların sonuçlarını birleştirip istatistiksel analiz yapan yöntem meta-analizdir.",
-    trap:"Randomize kontrollü deney tek bir çalışmadır; meta-analiz birçok çalışmanın sentezini yapar.",
-    explanation:"Meta-analiz: birden fazla bağımsız çalışmanın sonuçlarını birleştirerek istatistiksel analiz yapan yöntemdir. Kanıt piramidinin en üst basamağında yer alır ve mevcut tüm kanıta ulaşabilmeyi sağlar."
+    id:"so19",
+    section:"Sağlık Ölçütleri",
+    year:"İlkbahar 88",
+    question:"Bir bölgedeki yüksek doğurganlığı kontrol etmek üzere ana sağlığı ve aile planlaması hizmetlerine özel önem veriliyor ve iki yıl sonra bu hizmetin değerlendirileceği değişiklik en erken aşağıdaki ölçütlerden hangisine yansır?",
+    options:["Kaba doğum hızı","Bebek ölüm hızı","Çocuk/kadın oranı","Ana ölüm hızı","Yaşa özel doğurganlık hızı"],
+    answer:"E",
+    hint:"Yaşa özel doğurganlık hızı 15-49 yaş kadınların doğurganlığını en hassas ve hızlı yansıtır.",
+    trap:"Kaba doğum hızı değişimi daha yavaş yansıtır; yaşa özel doğurganlık hızı aile planlaması etkinliğini en erken gösterir.",
+    explanation:"Yaşa özel doğurganlık hızı, 15-49 yaş kadınlar için gruplanmış doğurganlık verisi sunduğundan aile planlaması hizmetlerinin etkinliğini değerlendirmede en duyarlı ölçüttür."
   },
+  // ── ÖRNEKLEME ──
   {
-    id:30,
-    section:"Meta-Analiz",
-    year:"Sonbahar 2022 Orijinal",
-    question:"İki ameliyat tekniğinden sonra enfeksiyon gelişme olasılığını karşılaştırmalı olarak inceleyen küçük çaplı araştırmalarda oldukça farklı relatif risk değerleri elde edilmiştir.<br><br><b>Bu farklı sonuçları derlemek ve daha keskin bir tahmin yapmak için aşağıdaki yöntemlerden hangisine başvurulur?</b>",
-    options:["Kronolojik derleme","Meta-analiz","Etki modifikasyonu","Karıştırıcıların kontrolü","Seçim yanlılığının giderilmesi"],
+    id:"orn1",
+    section:"Örnekleme",
+    year:"İlkbahar 90",
+    question:"Bir bölgede 40 yaşın üzerindeki popülasyonda hipertansiyon taraması düşünülüyor. Bu bölgenin yaş, cins, sosyo-ekonomik durum gibi özellikleri yönünden homojen <b>olmayan</b> toplumunda hangi örnekleme metodunu tercih edersiniz?",
+    options:["Basit rastgele","Tabakalı","Küme","Sistemik rastgele","Panel"],
     answer:"B",
-    hint:"Küçük çaplı araştırmaların farklı sonuçlarını birleştirmek = meta-analiz.",
-    trap:"Meta-analiz bir araştırma türüdür, analitik bir teknik değil; farklı çalışmaları istatistiksel olarak birleştirir.",
-    explanation:"Meta-analiz, belirli bir konudaki birbirinden bağımsız çalışmaların sonuçlarını birleştirerek daha güçlü ve güvenilir tahminler elde etmeyi sağlar. Halk sağlığının en önemli konularından analitik çalışmalar arasında yer alır."
+    hint:"Heterojen (homojen olmayan) toplum → tabakalı örnekleme.",
+    trap:"Küme örnekleme kasaba, köy gibi mekânsal grupları kapsar; tabakalı örnekleme ise homojen olmayan alt gruplar için kullanılır.",
+    explanation:"Tabakalı örneklemede araştırmanın uygulanacağı evren homojen yapıda değildir. Küme örnekleme kasaba, köy, okul gibi her kümeden örnek seçer. Basit rastgele ve sistematik örnekleme homojen gruplarda kullanılır."
   },
-  // ── SAĞLIK ÖLÇÜTLERİ ──
+  // ── TANIMLAYICI İSTATİSTİKLER ──
   {
-    id:"so1",
-    section:"Sağlık Ölçütleri",
-    year:"Sonbahar 2010 / İlkbahar 2018",
-    question:"<b>Aşağıdaki formül verilmiştir:</b><br><br>(0-7 gün ölen bebek sayısı + ölü doğum sayısı) / (Canlı doğum sayısı + ölü doğum sayısı) × 1000<br><br><b>Yukarıda formülü verilen ölüm hızı ölçütü aşağıdakilerden hangisidir?</b>",
-    options:["Postnatal ölüm hızı","Neonatal ölüm hızı","Perinatal ölüm hızı","Bebek ölüm hızı","Postneonatal ölüm hızı"],
-    answer:"C",
-    hint:"Formülde pay ve paydada ölü doğumlar da var → perinatal.",
-    trap:"Ölü doğumlar sadece perinatal ölüm hızında kullanılır; diğer formüllerde yer almaz.",
-    explanation:"Perinatal ölüm hızı = (0-7 gün ölen bebek sayısı + ölü doğum sayısı) / (Canlı doğum sayısı + ölü doğum sayısı) × 1000. Ana sağlığı düzeyini en iyi gösteren 2. ölçüttür."
-  },
-  {
-    id:"so2",
-    section:"Sağlık Ölçütleri",
+    id:"ti1",
+    section:"Tanımlayıcı İstatistikler",
     year:"Sonbahar 99",
-    question:"Bir şehirde şu şekilde istatistiksel veriler varsa perinatal mortalite hızı nedir?<br><br>Canlı doğan yenidoğan sayısı: 100<br>Ölü doğan bebek sayısı: 10<br>0-7 gün arası ölen bebek sayısı: 5<br>0-28 gün arası ölen bebek sayısı: 6<br>Anne ölümü: 3",
-    options:["15 / 100 x 1000","15 / 110 x 1000","16 / 110 x 1000","21 / 100 x 1000","16 / 100 x 1000"],
+    question:"Hangisinde median ve aritmetik değer birbirine eşittir?<br><br>A) İki tepeli dağılım<br>B) Simetrik normal dağılım<br>C) Sola çarpık dağılım<br>D) Sağa çarpık dağılım<br>E) Bimodal dağılım",
+    options:["İki tepeli dağılım","Simetrik normal dağılım","Sola çarpık dağılım","Sağa çarpık dağılım","Bimodal dağılım"],
     answer:"B",
-    hint:"Perinatal = (0-7 gün ölüm + ölü doğum) / (canlı doğum + ölü doğum) × 1000.",
-    trap:"Paydaya ölü doğumlar da eklenir: 100+10=110. Pay: 5+10=15.",
-    explanation:"Perinatal ölüm hızı = (5+10)/(100+10) × 1000 = 15/110 × 1000. Paydada canlı ve ölü doğumların toplamı yer alır."
+    hint:"Simetrik dağılımlarda ortalama = ortanca = tepe değeri birbirine eşittir.",
+    trap:"Çarpık dağılımlarda medyan ile ortalama farklılaşır; yalnızca simetrik normal dağılımda eşittir.",
+    explanation:"Simetrik (normal) dağılımlarda aritmetik ortalama, ortanca (median) ve tepe değeri (mod) birbirine eşittir. Çarpık dağılımlarda bu üç ölçüt birbirinden uzaklaşır."
   },
   {
-    id:"so3",
-    section:"Sağlık Ölçütleri",
-    year:"İlkbahar 2007",
-    question:"Yıl ortası nüfusu 10.763, toplam kadın nüfusu 5233, 15-49 yaş grubu kadın nüfusu 5051, canlı doğum sayısı 308, gebeliğin 28. haftasını tamamladıktan sonra ölü doğan bebek sayısı 10 olan bir ilçede aynı yılki bebek ölümleri ile ilgili bilgiler şöyle:<br><br>0-7 günlükken ölen bebek sayısı: 8<br>8-28 günlükken ölen bebek sayısı: 15<br>29-365 günlükken ölen bebek sayısı: 56<br><br><b>Bu bilgilere göre, ilçedeki perinatal ölüm hızı aşağıdaki işlemlerden hangisiyle hesaplanır?</b>",
-    options:["(10+8)/(10+308) × 1000","10/(10+308) × 1000","(10+8)/308 × 1000","(8+15+56)/308 × 1000","(10+8+15)/308 × 1000"],
-    answer:"A",
-    hint:"Perinatal = (ölü doğum + 0-7 gün ölüm) / (ölü doğum + canlı doğum) × 1000.",
-    trap:"Paydada canlı doğum + ölü doğum toplamı kullanılır: 308+10=318.",
-    explanation:"Perinatal ölüm hızı = (10+8)/(10+308) × 1000. Pay: ölü doğum sayısı + 0-7 günlük ölümler. Payda: ölü doğum + canlı doğum toplamı."
-  },
-  {
-    id:"so4",
-    section:"Sağlık Ölçütleri",
-    year:"Sonbahar 2010",
-    question:"<b>Aşağıdaki formül verilmiştir:</b><br><br>(28 haftalık ve üzeri gebelikten ölü doğumların sayısı + postnatal ilk 7 günlük ölümler) / Toplam doğum sayısı × 1000<br><br><b>Yukarıda formülü verilen ölüm hızı ölçütü aşağıdakilerden hangisidir?</b>",
-    options:["Postnatal ölüm hızı","Neonatal ölüm hızı","Perinatal ölüm hızı","Bebek ölüm hızı","Postneonatal ölüm hızı"],
-    answer:"C",
-    hint:"Ölü doğum içeren formül → perinatal ölüm hızı. Payda toplam doğum = canlı+ölü doğum.",
-    trap:"Toplam doğum sayısı = canlı doğum + ölü doğum anlamına gelir.",
-    explanation:"Perinatal ölüm hızı formülünün alternatif yazımıdır. Pay: ölü doğum + 0-7 gün ölüm. Payda: toplam doğum (canlı + ölü). Ölü doğumlar sadece bu formülde bulunur."
-  },
-  {
-    id:"so5",
-    section:"Sağlık Ölçütleri",
-    year:"Sonbahar 2011",
-    question:"Bir toplumda bir yılda meydana gelen canlı doğum sayısının yıl ortası nüfusa bölünmesi ile elde edilen epidemiyolojik ölçüt aşağıdakilerden hangisidir?",
-    options:["Fertilite oranı","Kaba doğum hızı","insidans","Genel doğurganlık hızı","Toplam doğurganlık hızı"],
-    answer:"B",
-    hint:"Canlı doğum / yıl ortası nüfus × 1000 → kaba doğum hızı.",
-    trap:"Genel doğurganlık hızı paydaya 15-49 yaş kadın nüfusunu alır; kaba doğum hızı tüm nüfusu alır.",
-    explanation:"Kaba doğum hızı = bir yılda canlı doğum sayısı / yıl ortası nüfus × 1000. 'Kaba' kelimesi, doğurganlığa katkısı olmayan yaş ve cinsiyetlerin de paydada yer almasından kaynaklanır."
-  },
-  {
-    id:"so6",
-    section:"Sağlık Ölçütleri",
-    year:"İlkbahar 2006",
-    question:"Elli bin nüfuslu bir bölgede bir yıllık sürede 1000 doğum, 500 ölüm olmuştur, ölenlerin 20'si bir yaşından küçük, 200'ü de 60 yaşından büyüktür.<br><br><b>Bu bölgedeki sağlık düzeyi ölçütleri ile ilgili olarak aşağıdaki ifadelerden hangisi doğrudur?</b>",
-    options:["Bebek ölüm hızı 20/1000, kaba ölüm hızı 10/1000, 60 yaş üzeri ölüm hızı 40/1000 tır.","Bebek ölüm hızı 5/1000, kaba doğum hızı 20/1000, 60 yaş üzeri ölüm hızı 40/100 tır.","Bebek ölüm hızı 20/1000, kaba doğum hızı 20/1000, kaba ölüm hızı 10/1000 dur.","Kaba doğum hızı 20/1000, nüfus artış hızı 10/1000, bebek ölüm hızı 4/1000 tür.","Kaba ölüm hızı 10/100, kaba doğum hızı 10/100, nüfus artış hızı 20/1000 dir."],
-    answer:"C",
-    hint:"Bebek ölüm hızı = 20/1000 (canlı doğum). Kaba doğum = 1000/50.000. Kaba ölüm = 500/50.000.",
-    trap:"Bebek ölüm hızı paydasında canlı doğum sayısı (1000) kullanılır, nüfus değil.",
-    explanation:"Bebek ölüm hızı = 20/1000 × 1000 = 20/1000. Kaba doğum hızı = 1000/50.000 × 1000 = 20/1000. Kaba ölüm hızı = 500/50.000 × 1000 = 10/1000. C şıkkı doğrudur."
-  },
-  {
-    id:"so7",
-    section:"Sağlık Ölçütleri",
+    id:"ti2",
+    section:"Tanımlayıcı İstatistikler",
     year:"Sonbahar 98",
-    question:"İlk gün ölen bebek sayısı: 5<br>Ölü doğum: 10<br>1 yılda ölen bebek sayısı: 12<br><br><b>1 yılda doğan bebek sayısı: 100; ise bebek ölüm hızı nedir?</b>",
-    options:["12/100 x1000","12/110 x1000","17/100 x100","12/100 x100","15/110 x100"],
+    question:"1 çocuk 61 cm, 1 çocuk 62 cm, 1 çocuk 63 cm, 2 çocuk 64 cm, 3 çocuk 65 cm, 1 çocuk 66 cm<br><br>Yukarıda 11 çocuğun boyları verilmiştir. <b>Çocuk boylarının median değer kaçtır?</b>",
+    options:["61","62","63","64","65"],
+    answer:"D",
+    hint:"11 veriyi küçükten büyüğe sırala; ortadaki (6. sıradaki) değer medyandır.",
+    trap:"Ortalama ile medyanı karıştırmayın. Medyan sıralı dizinin tam ortasındaki değerdir.",
+    explanation:"Sıralı dizi: 61, 62, 63, 64, 64, 64, 65, 65, 65, 65, 66. 11 elemanın ortası = 6. eleman = 64. Medyan 64'tür."
+  },
+  // ── TARAMA TESTLERİ ──
+  {
+    id:"tt1",
+    section:"Tarama Testleri",
+    year:"Sonbahar 2015 Orijinal",
+    question:"Bir tarama testi, çalışma kapsamındaki 500 kişiden 50 tanesini hasta olarak değerlendirmiştir. İleri incelemeler sonucunda bu 50 kişinin 10 tanesinin gerçekte hasta olmadığı bulunmuştur. Buna karşılık tarama testinin sağlam olarak değerlendirdiği 450 kişinin de 20 tanesinin ileri incelemelerde hasta olduğu saptanmıştır.<br><br>Bu tarama testiyle ilgili;<br>I. Pozitif prediktif değeri 40/60'tır<br>II. Negatif prediktif değeri 430/440'dır<br>III. Duyarlılığı 40/60'tır<br>IV. Özgüllüğü 430/500'dür<br><br><b>İfadelerinden hangileri doğrudur?</b> (Sonbahar 2015 Orijinal)",
+    options:["Yalnız I","Yalnız IV","Yalnız III","III ve IV","II, III ve IV"],
+    answer:"E",
+    hint:"Tabloyu oluştur: Gerçek hasta: 40+20=60; Gerçek sağlam: 10+430=440. Test (+): 40 gerçek hasta + 10 yanlış pozitif.",
+    trap:"Duyarlılık = gerçek hasta içinden test pozitif çıkanlar / tüm gerçek hastalar. Burada 40/60.",
+    explanation:"Tablo: Test(+)/Hasta(+)=40, Test(+)/Sağlam=10, Test(-)/Hasta=20, Test(-)/Sağlam=430. Toplam hasta=60, sağlam=440. PKD=40/50, NKD=430/450, Duyarlılık=40/60, Özgüllük=430/440. II, III, IV doğrudur."
+  },
+  {
+    id:"tt1b",
+    section:"Tarama Testleri — BENZERİ",
+    year:"Sonbahar 2015 BENZERİ",
+    question:"Yeni testin pozitif dediği toplam kişi sayısından kaçının gerçek gerçek hasta olduğunun oranı aşağıdakilerden hangisidir?",
+    options:["Pozitif kestirim değeri","Negatif kestirim değeri","Doğruluk oranı","Duyarlılık","Özgüllük"],
     answer:"A",
-    hint:"Bebek ölüm hızı = 0-365 günlükken ölen bebek sayısı / canlı doğum sayısı × 1000.",
-    trap:"Ölü doğumlar bebek ölüm hızı formülünde yer ALMAZ; sadece perinatal ölüm hızında kullanılır.",
-    explanation:"Bebek ölüm hızı = bir yıl içinde 0-365 günlükken ölen bebek sayısı / o yıl canlı doğum sayısı × 1000. = 12/100 × 1000."
+    hint:"Pozitif kestirim değeri (PKD) = test pozitif sonuç verdiğinde gerçekten hasta olma olasılığı.",
+    trap:"Duyarlılık gerçek hastalar içindeki pozitif oranını verir; PKD ise pozitif test sonuçları içindeki gerçek hasta oranını verir.",
+    explanation:"Pozitif prediktif değer (PKD / Pozitif kestirim değeri): Test hasta dediğinde gerçekten hasta olma olasılığıdır. = Gerçek pozitif / (Gerçek pozitif + Yalancı pozitif)."
   },
   {
-    id:"so8",
-    section:"Sağlık Ölçütleri",
-    year:"Sonbahar 92",
-    question:"Bebek ölüm hızı = (1 yıllık süre içinde canlı doğup 1 yıl içinde ölen bebek sayısı/x) ise 'x' nedir?",
-    options:["Bir yıl içinde ölen ve doğan toplam çocuk sayısı","Bir yıl içinde canlı doğan çocuk sayısı","Maternal ölüm hızı (Yıllık)","Bir yıl içinde ölen çocuk sayısı","Bir yıl içinde ölü doğum sayısı"],
+    id:"tt2",
+    section:"Tarama Testleri",
+    year:"Sonbahar 2012",
+    question:"Bir hastalıkla ilgili tarama testi yapılabilmesi için sağlanması gerekli koşullar göz önüne alındığında, aşağıdaki ifadelerden hangisi <b>yanlıştır</b>?",
+    options:["İlgili hastalık, ciddi bir sağlık sorunu olmalıdır.","İlgili hastalık, presemptomatik evresi olmayan bir hastalık olmalıdır.","Tarama testi ve takip eden tedavi, toplum tarafından kabul edilebilir olmalıdır.","Tarama testinin duyarlılığı ve özgüllüğü kabul edilebilir düzeyde olmalıdır.","Tarama testi ve takip eden tedavi maliyet-etkin olmalıdır."],
     answer:"B",
-    hint:"Bebek ölüm hızının paydasında canlı doğan bebek sayısı kullanılır.",
-    trap:"Ölü doğan bebekler paydaya dahil edilmez.",
-    explanation:"Bebek ölüm hızı = 1 yıl içinde ölen bebek sayısı / o yılki canlı doğum sayısı × 1000. Payda = canlı doğan çocuk sayısıdır."
+    hint:"Tarama testleri presemptomatik evrede yapılır; presemptomatik evresi olmayan hastalıkta taramanın yararı yoktur.",
+    trap:"Tarama = erken tanı = presemptomatik dönemde bulgudan önce tespit. Presemptomatik evresi olmayan hastalık tarama için UYGUN DEĞİLDİR.",
+    explanation:"İdeal tarama testi için hastalığın presemptomatik evresi OLMASI gerekir; bu dönemde tedaviye başlanabilmesi taramanın amacıdır. B şıkkı bu nedenle yanlıştır."
   },
   {
-    id:"so9",
-    section:"Sağlık Ölçütleri",
-    year:"Sonbahar 2005",
-    question:"Aşağıdakilerden hangisi bebek ölüm hızını verir?",
-    options:["Bir yıl içinde 0-28 günlükken ölen bebek sayısı / Aynı süredeki canlı doğum sayısı x 1000","Bir yıl içinde 0-365 günlükken ölen bebek sayısı / Aynı süredeki canlı doğum sayısı x 1000","Bir yıl içinde 0-7 günlükken ölen bebek sayısı / Aynı süredeki canlı doğum sayısı x 1000","Bir yıl içinde 0-365 günlükken ölen bebek sayısı / Aynı süredeki canlı doğum sayısı x 1000","Bir yıl içinde 0-7 günlükken ölen bebek sayısı / Aynı süredeki ölü doğum sayısı x 1000"],
+    id:"tt3",
+    section:"Tarama Testleri",
+    year:"İlkbahar 2009",
+    question:"Meme kanseri ile ilgili olarak yürütülen bir çalışmada, fizik muayenede kitle saptanan kadınlara önce iğne aspirasyon biyopsisi uygulanmış ve ardından cerrahi biyopsi yapılmış ve aşağıdaki tablo elde edilmiştir:<br><br>İnce iğne / Cerrahi Pozitif / Cerrahi Negatif / Toplam<br>Pozitif: 14 / 8 / 22<br>Negatif: 1 / 91 / 92<br>Toplam: 15 / 99 / 114<br><br><b>İnce iğne aspirasyon biyopsisinin (+) prediktif değeri aşağıdakilerden hangisine eşittir?</b> (İlkbahar 2009)",
+    options:["14/(14+1) × 100","14/(14+8) × 100","15/(15+99) × 100","91/(91+1) × 100","91/(91+8) × 100"],
     answer:"B",
-    hint:"Bebek ölüm hızı = 0-365 gün (1 yıl içinde) ölen bebek / canlı doğum × 1000.",
-    trap:"A şıkkı neonatal (0-28 gün), C şıkkı erken neonatal (0-7 gün) ölüm hızıdır.",
-    explanation:"Bebek ölüm hızı formülü: 0-365 günlükken ölen bebek sayısı / aynı süredeki canlı doğum sayısı × 1000. Tüm bebek ölümlerini kapsar."
+    hint:"PKD = gerçek pozitif / (gerçek pozitif + yalancı pozitif) = 14/(14+8).",
+    trap:"14+1 payda olursa duyarlılık olur (gerçek pozitif / tüm gerçek hastalar). PKD'de payda TEST POZİTİF grubunun toplamıdır.",
+    explanation:"Pozitif prediktif değer = Gerçek pozitif / Test pozitif toplam = 14/(14+8) × 100. Test pozitif dediği 22 kişiden 14'ü gerçekten hasta."
+  },
+  {
+    id:"tt4",
+    section:"Tarama Testleri",
+    year:"İlkbahar 2007",
+    question:"Bir tarama programında muayene edilen 1000 kişiden 110'u hastalık yönünden şüpheli bulunmuştur. İleri inceleme sonucunda 100 kişi hasta tanısı almıştır. Hastaların 20'si tarama testinin sağlam olarak değerlendirdiği gruptur. Hasta tanısı alanların 40'ı önceden hasta olduğunu bilmektedir.<br><br><b>Bu bilgilere dayanarak aşağıdaki yargılardan hangisine varılabilir?</b> (İlkbahar 2007)",
+    options:["Tarama testinin duyarlılığı 100/1000 dir.","Tarama testinin seçiciliği 110/1000 dir.","Pozitif testin prediktif değeri 40/100 dür.","Tarama testinin yanlış pozitif sayısı 30 dur.","Tarama testinin tutarlılığı 870/1000 dir."],
+    answer:"D",
+    hint:"Test pozitif: 110 kişi. Bunların 80'i gerçek hasta (100-20). Yanlış pozitif = 110-80 = 30.",
+    trap:"Yanlış pozitif = test pozitif ama gerçekte sağlam olanlar. 110 test (+) - 80 gerçek hasta = 30 yanlış pozitif.",
+    explanation:"Tablo: Test(+)=110; Gerçek hasta=100; Test(-)/hasta=20 → Test(+)/hasta=80. Yanlış pozitif=110-80=30. Seçicilik(özgüllük)=870/900. Duyarlılık=80/100. D şıkkı doğrudur."
+  },
+  {
+    id:"tt5",
+    section:"Tarama Testleri",
+    year:"İlkbahar 2008",
+    question:"1000 kişilik bir grupta yapılan diabetes mellitus taraması sonucunda test, 120 kişiyi diyabetik olarak değerlendirmiştir. Gerçekleme testi sonuçlarına göre ise 1000 kişiden 100 üne diyabet tanısı konmuştur. Tarama testinin diyabetik bulduğu 120 kişinin 80'i gerçekleme muayenesinde diyabetik olarak saptanmıştır.<br><br><b>Bu bilgilere göre, tarama testinin duyarlılığı aşağılakilerin hangisine eşittir?</b> (İlkbahar 2008)",
+    options:["80/100","80/120","80/1000","100/900","100/1000"],
+    answer:"A",
+    hint:"Duyarlılık = gerçek pozitif / tüm gerçek hastalar = 80/100.",
+    trap:"80/120 pozitif prediktif değer olurdu. Duyarlılıkta payda tüm gerçek hastalardır (100).",
+    explanation:"Duyarlılık (sensitivite) = Test gerçek hastalara pozitif deme oranı = 80/100. PKD = 80/120. Özgüllük = 820/900."
+  },
+  {
+    id:"tt6",
+    section:"Tarama Testleri",
+    year:"Sonbahar 2006",
+    question:"Bir grup araştırmacı Brusella tanısında yeni bir yöntem geliştirmiştir. Yeni tanı yöntemine ve onunla birlikte uyguladıkları altın standart teste göre aşağıdaki tabloyu elde etmişlerdir:<br><br>Yeni tanı / Altın standart Pozitif / Negatif / Toplam<br>Pozitif: 115 / 15 / 130<br>Negatif: 350 / 20 / 370<br>Toplam: 465 / 35 / 500<br><br><b>Yeni tanı yönteminin duyarlılığı aşağıdakilerden hangisidir?</b> (Sonbahar 2006)",
+    options:["15/130","20/370","115/130","115/465","350/370"],
+    answer:"D",
+    hint:"Duyarlılık = gerçek pozitif / (gerçek pozitif + yalancı negatif) = 115/465.",
+    trap:"115/130 = PKD olurdu. Duyarlılıkta payda tüm gerçek hastalardır (sütun toplamı): 465.",
+    explanation:"Duyarlılık = 115 / (115+350) = 115/465. Gerçek hasta sütunu toplamı 465'tir. Özgüllük = 20/35."
+  },
+  {
+    id:"tt7",
+    section:"Tarama Testleri",
+    year:"Sonbahar 2002",
+    question:"Yeni geliştirilen diabet teşhisine yönelik bir teste 100 tane diyabetli olduğu bilinen ve 100 tanede normal sağlıklı sıradan denek katılmıştır. Test sonuçlarına göre 110 deneğin diyabetik olduğu saptanmıştır. Bu 110 deneğin 90 tanesi diyabetik olduğu bilinen gruptandır.<br><br><b>Testin duyarlılığı nedir?</b> (Sonbahar 2002)",
+    options:["90/20","90/90","90/110","110/200","90/100"],
+    answer:"E",
+    hint:"Duyarlılık = gerçek pozitif / tüm gerçek hastalar = 90/100.",
+    trap:"90/110 = pozitif prediktif değer olurdu. Duyarlılıkta payda, gerçek hasta sayısıdır (100).",
+    explanation:"Duyarlılık = 90/100. Gerçek hasta grubu 100 kişidir; bunların 90'ı test pozitif çıkmıştır. Özgüllük = 80/100 (yanlış pozitif 20, gerçek sağlam 100)."
+  },
+  {
+    id:"tt8",
+    section:"Tarama Testleri",
+    year:"Sonbahar 99",
+    question:"Diyabet tanısı için ilk kez kullanılan bir testin diyabetik hastaların %98'ini diyabetik olarak tanımladığı, diyabetik olmayanların %20'sini ise diyabetik olarak yorumladığı saptanmıştır.<br><br><b>Buna göre bu testin duyarlılığı ve özgüllüğü için hangisi doğrudur?</b> (Sonbahar 99)",
+    options:["Duyarlılık %98 / Özgüllük %80","Duyarlılık %98 / Özgüllük %20","Duyarlılık %2 / Özgüllük %80","Duyarlılık %98 / Özgüllük %2","Duyarlılık %20 / Özgüllük %98"],
+    answer:"A",
+    hint:"Duyarlılık: hastalar içindeki pozitif oran = %98. Özgüllük: sağlamlar içindeki NEGATİF oran = 100-20 = %80.",
+    trap:"Sağlamların %20'si yanlış pozitif → Özgüllük = %80 (sağlamların yanlış negatif değil doğru negatif oranı).",
+    explanation:"Duyarlılık = hastaların %98'ini pozitif bulması → %98. Özgüllük = sağlamların %20'si yanlış pozitif → gerçek negatif = %80. A doğrudur."
+  },
+  // ── GRUPLARIN KARŞILAŞTIRILMASI ──
+  {
+    id:"gk1",
+    section:"Grupların Karşılaştırılması",
+    year:"İlkbahar 2003",
+    question:"Bir araştırmada 200 kadının bebek bakımı bilgi düzeyleri, bebek bakımıyla ilgili bir eğitim programına katılmadan önce ve katıldıktan sonra uygulanan belli bir testten aldıkları puanlarla ölçülmüştür.<br><br><b>Bu araştırmanın verilerine aşağıdaki istatistiksel testlerden hangisi uygulanmalıdır?</b> (İlkbahar 2003)",
+    options:["Mann-Whitney testi","İki bağımsız ortalama arasındaki farkın önemlilik testi","İki eş arasındaki ortalama farkın önemlilik testi","İki bağımsız yüzde arasındaki farkın önemlilik testi","Ki-kare uyum testi"],
+    answer:"C",
+    hint:"Aynı kişiler eğitim öncesi ve sonrası → bağımlı grup → bağımlı t-testi (eş arası ortalama fark testi).",
+    trap:"Farklı kişiler karşılaştırılsaydı bağımsız t-testi kullanılırdı. Burada aynı 200 kadın 'önce-sonra' karşılaştırılıyor → bağımlı.",
+    explanation:"Aynı kişilerin farklı zaman noktalarında ölçüldüğü çalışmalar bağımlı gruptur. Bağımlı grup ortalamaları karşılaştırması için 'bağımlı Student t-testi' (iki eş arası fark testi) kullanılır. Denek sayısı >30 olduğundan parametrik test uygundur."
+  },
+  {
+    id:"gk2",
+    section:"Grupların Karşılaştırılması",
+    year:"Sonbahar 2007",
+    question:"Bir sağlık ocağı bölgesinde yaşamakta olan 15-49 yaş grubu evli kadınların aile planlaması için rahim içi araç uygulama sıklığı ile, başka bir sağlık ocağı bölgesinde yaşamakta olan 15-49 yaş grubu evli kadınların aile planlaması için rahim içi araç uygulama sıklığı karşılaştırılmak isteniyor.<br><br><b>Bu araştırma için en uygun istatistiksel test aşağıdakilerden hangisidir?</b> (Sonbahar 2007)",
+    options:["Ki-kare testi","İki ortalama arasındaki farkın önemlilik testi","Mann-Whitney U testi","Wilcoxon testi","ANOVA testi"],
+    answer:"A",
+    hint:"İki farklı bölgede kullanan/kullanmayan oranları karşılaştırılıyor → bağımsız iki grup, kategorik veri → ki-kare.",
+    trap:"Ortalama değil ORAN (kullanan/kullanmayan) karşılaştırılıyor; rakamsal veri yoktur → t-testi değil ki-kare.",
+    explanation:"Ki-kare testi, bağımsız iki grupta bir özelliğin (var-yok, kullanan-kullanmayan) oranlarını karşılaştırmak için kullanılır. Burada RİA kullanan/kullanmayan oranı iki ayrı bölgede karşılaştırılmaktadır."
+  },
+  // ── HASTALIKLARDAN KORUNMA ──
+  {
+    id:"kor1",
+    section:"Hastalıklardan Korunma",
+    year:"İlkbahar 2020 Orijinal",
+    question:"Aşağıdakilerden hangisi birincil koruma uygulamaları arasında yer alır?",
+    options:["Mammografi tarama programı","Tarama amaçlı akciğer grafisi çekilmesi","HPV aşısı uygulanması","Gaitada gizli kan bakılması","Yataksız tedavi kurumlarında tanı tedavi hizmetleri"],
+    answer:"C",
+    hint:"Birincil koruma: hastalık ortaya çıkmadan önce, sağlıklı bireyde uygulanan önlemler. Aşılama hastalığı önler.",
+    trap:"Mammografi ve tarama testleri erken tanı (ikincil koruma) arasında yer alır; aşılama birincil korumadır.",
+    explanation:"Birincil (primer) koruma: Hastalıkların ortaya çıkışını (insidansını) önlemeye yönelik faaliyetlerdir. Aşılama (HPV aşısı) bu kapsamdadır. Tarama programları ise ikincil (sekonder) koruma kapsamındadır."
+  },
+  {
+    id:"kor2",
+    section:"Hastalıklardan Korunma",
+    year:"Sonbahar 2017 Orijinal",
+    question:"Aşağıdakilerden hangisi primer koruma için verilebilecek örneklerden biri <b>değildir</b>?",
+    options:["Sigara bırakma polikliniklerinin artırılması","Meme kanseri taramalarının etkinleştirilmesi","Kapalı alanlardaki sigara yasaklarına dair denetimlerin artırılması","Beslenme ve diyet danışmanlığı hizmetlerine erişimin kolaylaştırılması","Fiziksel aktivite danışmanlığı polikliniklerinin açılması"],
+    answer:"B",
+    hint:"Meme kanseri taraması erken tanı (ikincil koruma) kapsamındadır.",
+    trap:"Kanser taramaları ERKEN TANIYI amaçlar → ikincil koruma. Birincil koruma hasta olmayı önlemeye yönelik faaliyetlerdir.",
+    explanation:"Primer koruma: birey daha hasta olmadan onu koruyan önlemlerdir. Meme kanseri taramaları gibi varolan hastalığı araştırmaya yönelik erken tarama yöntemleri sekonder koruma kapsamında değerlendirilir."
+  },
+  {
+    id:"kor2b",
+    section:"Hastalıklardan Korunma — BENZERİ",
+    year:"Sonbahar 2017 BENZERİ",
+    question:"I. Sigara bırakma polikliniklerinin artırılması<br>II. Meme kanseri taramalarının etkinleştirilmesi<br>III. Beslenme ve diyet danışmanlığı hizmetlerine erişimin kolaylaştırılması<br>IV. Fiziksel aktivite danışmanlığı polikliniklerinin açılması<br><br><b>Aşağıdakilerden hangisi/hangileri Sekonder koruma için verilebilecek örneklendedir?</b> (Sonbahar 2017 BENZERİ)",
+    options:["Yalnız II","I ve II","I ve III","I, III ve IV","Yalnız IV"],
+    answer:"A",
+    hint:"Sekonder koruma = erken tanı; meme kanseri taraması erken tanıya yöneliktir.",
+    trap:"I, III ve IV sağlıklı bireylerde hastalığı önlemeye yönelik birincil koruma örnekleridir.",
+    explanation:"Sekonder koruma: erken tanıyı amaçlayan tarama (check-up) gibi önlemlerdir. Meme kanseri taraması (II) bu kapsamdadır. Diğerleri birincil koruma örnekleridir."
+  },
+  {
+    id:"kor3",
+    section:"Hastalıklardan Korunma",
+    year:"Sonbahar 2010",
+    question:"Aşağıdakilerden hangisi ikincil korumadır?",
+    options:["İşçinin baret takması","Aşılama","El yıkama","Atık su arıtımı","Verem taraması"],
+    answer:"E",
+    hint:"Verem taraması erken tanıyı amaçlar → ikincil (sekonder) koruma.",
+    trap:"Baret, el yıkama, atık su arıtımı ve aşılama birincil koruma (hastalığı önleme) kapsamındadır.",
+    explanation:"İkincil koruma: erken tanıyı amaçlayan tarama ve check-up gibi önlemlerdir. Verem taraması, mamografi, servikal smear gibi taramalar bu kapsamdadır."
+  },
+  {
+    id:"kor4",
+    section:"Hastalıklardan Korunma",
+    year:"İlkbahar 2014 Orijinal",
+    question:"Aşağıdaki uygulamalardan hangisi, sekonder koruma olarak kabul edilir?",
+    options:["Hipertansiyonu önlemek için toplumun tuz tüketiminin azaltılması","40 yaş üstü kadınların meme kanseri açısından taranması","Akut eklem romatizması geçiren çocuklara profilaktik penisilin uygulanması","Gebelere tetanoz aşısı yapılması","Suların klorlanması"],
+    answer:"B",
+    hint:"40 yaş üstü kadınların mammografisi → erken tanı → sekonder koruma.",
+    trap:"Penisilin profilaksisi ve aşılama birincil korumadır; tarama programları sekonder korumadır.",
+    explanation:"Sekonder koruma erken tanıyı amaçlar. 40 yaş üstü mamografi taraması varolan meme kanserinin erken dönemde tespitini hedefler. A, C, D, E birincil koruma örnekleridir."
+  },
+  {
+    id:"kor4b",
+    section:"Hastalıklardan Korunma — BENZERİ",
+    year:"İlkbahar 2014 BENZERİ",
+    question:"Aşağıdaki koruma tipleri ve örnek eşleştirmelerinden hangisi doğru <b>değildir</b>?<br><br>A) Primer koruma — Tüberküloz aşısı yapılmak<br>B) Primordial koruma — Fabrikalarda işitme taraması yapmak<br>C) Üçüncü koruma — Rektum kanserini ameliyat etmek<br>D) Dördüncü koruma — Kanserli hastalara ağrı kesici vermek<br>E) Sekonder koruma — 40 yaşından sonra açlık kan şekerine bakmak",
+    options:["Primer koruma — Tüberküloz aşısı yapılmak","Primordial koruma — Fabrikalarda işitme taraması yapmak","Üçüncü koruma — Rektum kanserini ameliyat etmek","Dördüncü koruma — Kanserli hastalara ağrı kesici vermek","Sekonder koruma — 40 yaşından sonra açlık kan şekerine bakmak"],
+    answer:"B",
+    hint:"Fabrikada işitme taraması = erken tanı = sekonder koruma. Primordial koruma toplumsal koşulları değiştirmeye yönelik faaliyetlerdir.",
+    trap:"Primordial koruma; sosyal, kültürel ve ekonomik koşulların iyileştirilmesini hedefler. Tarama işlemleri primordial değil sekonder korumadır.",
+    explanation:"Primordial koruma: toplumun sağlık düzeyini belirleyen sosyal, kültürel ve ekonomik koşulların iyileştirilmesidir. Fabrikalarda işitme taraması ise sekonder koruma (erken tanı) kapsamındadır. B eşleştirmesi yanlıştır."
+  },
+  {
+    id:"kor5",
+    section:"Hastalıklardan Korunma",
+    year:"Sonbahar 2012",
+    question:"Aşağıdaki uygulamalardan hangisi sağlıkta 'primer koruma' kapsamında yer alır?",
+    options:["Kızamık aşısı","Bronkoskopi","Cerrahi eksplorasyon","Papsmear incelemesi","ELISA testi"],
+    answer:"A",
+    hint:"Kızamık aşısı hastalığı önlemeye yönelik → primer (birincil) koruma.",
+    trap:"Papsmear, bronkoskopi, ELISA erken tanı testleridir → sekonder koruma. Cerrahi eksplorasyon ise tedavi kapsamındadır.",
+    explanation:"Primer koruma, hastalığın ortaya çıkmasını önlemeye yönelik uygulamalardır. Kızamık aşısı sağlıklı bireyi korur → primer koruma. Diğer seçenekler erken tanı (sekonder) ya da tedavi kapsamındadır."
   }
 ];
 
@@ -607,21 +488,16 @@ function render(){
   document.getElementById('q-counter').textContent = `${currentIdx+1}/${questions.length} ☰`;
   document.getElementById('section-label').textContent = q.section.toUpperCase();
   document.getElementById('q-text').innerHTML = q.question;
-  // year tags
   const yt = document.getElementById('year-tags');
   yt.innerHTML = q.year ? `<span class="year-tag">${q.year}</span>` : '';
-  // hint
   document.getElementById('hint-box').innerHTML = q.hint;
   document.getElementById('hint-box').classList.remove('open');
   hintOpen = false;
-  // trap & explain
   document.getElementById('trap-text').innerHTML = q.trap;
   document.getElementById('explain-text').innerHTML = q.explanation;
-  // star
   const sb = document.getElementById('star-btn');
   sb.textContent = starred.has(q.id) ? '★' : '☆';
   sb.classList.toggle('active', starred.has(q.id));
-  // options
   const opts = document.getElementById('options');
   opts.innerHTML = '';
   const letters = ['A','B','C','D','E'];
@@ -638,10 +514,8 @@ function render(){
     }
     opts.appendChild(btn);
   });
-  // feedback
   const fb = document.getElementById('feedback');
   fb.classList.toggle('open', answers[q.id] !== undefined);
-  // progress
   const done = Object.keys(answers).length;
   document.getElementById('prog').style.width = (done/questions.length*100)+'%';
 }

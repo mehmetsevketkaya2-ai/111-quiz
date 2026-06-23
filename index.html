@@ -3,105 +3,86 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Radyoloji ve Nükleer Tıp – PART 1</title>
+<title>TUS ANESTEZİ QUIZ — TAM SET</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;
-  --accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;--green:#3ecf74;
-  --red:#f0476d;--text:#dde3f5;--muted:#7b85a8;
+--bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;
+--accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;--green:#3ecf74;
+--red:#f0476d;--text:#dde3f5;--muted:#7b85a8;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding-bottom:100px;}
-
-.progress-wrap{position:fixed;top:0;left:0;width:100%;height:3px;background:var(--surface);z-index:100;}
-.progress-bar{height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%;transition:width .3s;}
-
-.section-badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:var(--accent2);border:1px solid var(--accent2);border-radius:4px;padding:3px 10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;}
-
-.main-wrap{max-width:720px;margin:0 auto;padding:40px 16px 20px;}
-.quiz-title{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:700;color:var(--accent);margin-bottom:4px;}
-.quiz-sub{font-size:13px;color:var(--muted);margin-bottom:32px;}
-
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:24px;}
-
-.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
-#q-num{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);font-weight:600;}
-#star-btn{background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted);transition:color .2s;padding:4px;}
-#star-btn.starred{color:var(--gold);}
-
-.year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
-.year-tag{font-family:'IBM Plex Mono',monospace;font-size:10px;background:rgba(91,141,238,.12);color:var(--accent);border:1px solid rgba(91,141,238,.3);border-radius:4px;padding:2px 8px;}
-
-.q-text{font-size:15px;line-height:1.65;color:var(--text);margin-bottom:18px;}
-.q-text strong{color:var(--accent2);}
-
-.hint-toggle{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:12px;padding:6px 14px;cursor:pointer;margin-bottom:14px;font-family:'IBM Plex Mono',monospace;transition:all .2s;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;}
+.progress-wrap{position:fixed;top:0;left:0;width:100%;height:3px;background:var(--border);z-index:100;}
+.progress-bar{height:3px;background:var(--accent);transition:width .3s;}
+.section-badge{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--accent2);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.5rem;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.4rem;margin-bottom:1rem;}
+.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem;}
+#q-num{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--muted);}
+#star-btn{background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--muted);transition:color .2s;}
+#star-btn.active{color:var(--gold);}
+.year-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem;}
+.year-tag{font-family:'IBM Plex Mono',monospace;font-size:.65rem;background:var(--surface);border:1px solid var(--border);color:var(--accent);padding:.2rem .5rem;border-radius:4px;}
+.q-text{font-size:.98rem;line-height:1.6;margin-bottom:1rem;}
+.hint-toggle{background:none;border:1px solid var(--border);color:var(--muted);font-size:.78rem;padding:.3rem .8rem;border-radius:6px;cursor:pointer;margin-bottom:.8rem;font-family:'IBM Plex Mono',monospace;}
 .hint-toggle:hover{border-color:var(--accent);color:var(--accent);}
-#hint-box{display:none;background:rgba(91,141,238,.07);border:1px solid rgba(91,141,238,.2);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.6;}
+#hint-box{display:none;background:var(--surface);border-left:3px solid var(--gold);padding:.7rem 1rem;border-radius:0 6px 6px 0;font-size:.85rem;color:var(--gold);margin-bottom:.8rem;}
 #hint-box.open{display:block;}
-
-.options{display:flex;flex-direction:column;gap:10px;}
-.opt-btn{display:flex;align-items:flex-start;gap:12px;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;cursor:pointer;text-align:left;transition:all .2s;width:100%;}
-.opt-btn:hover:not(:disabled){border-color:var(--accent);background:rgba(91,141,238,.08);}
-.opt-letter{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;color:var(--accent);min-width:20px;padding-top:1px;}
-.opt-text{font-size:14px;color:var(--text);line-height:1.5;}
-.opt-btn.correct{border-color:var(--green);background:rgba(62,207,116,.1);}
+.options{display:flex;flex-direction:column;gap:.5rem;}
+.opt-btn{display:flex;align-items:center;gap:.8rem;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:.7rem 1rem;border-radius:8px;cursor:pointer;font-size:.9rem;text-align:left;transition:border-color .2s,background .2s;}
+.opt-btn:hover:not(:disabled){border-color:var(--accent);background:#1e2235;}
+.opt-letter{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--accent);min-width:1.2rem;font-weight:700;}
+.opt-btn.correct{border-color:var(--green);background:#1a2e22;}
 .opt-btn.correct .opt-letter{color:var(--green);}
-.opt-btn.wrong{border-color:var(--red);background:rgba(240,71,109,.1);}
+.opt-btn.wrong{border-color:var(--red);background:#2e1a1f;}
 .opt-btn.wrong .opt-letter{color:var(--red);}
 .opt-btn:disabled{cursor:default;}
-
-.feedback{display:none;margin-top:18px;}
-.feedback.open{display:block;}
-.trap-box{background:rgba(240,71,109,.07);border:1px solid rgba(240,71,109,.25);border-radius:10px;padding:14px;margin-bottom:10px;}
-.trap-title{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:var(--red);margin-bottom:6px;letter-spacing:.5px;}
-.trap-text{font-size:13px;color:var(--text);line-height:1.6;}
-.explain-box{background:rgba(91,141,238,.07);border:1px solid rgba(91,141,238,.25);border-radius:10px;padding:14px;}
-.explain-title{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:var(--accent);margin-bottom:6px;letter-spacing:.5px;}
-.explain-text{font-size:13px;color:var(--text);line-height:1.6;}
-
-.nav{position:fixed;bottom:0;left:0;width:100%;background:var(--surface);border-top:1px solid var(--border);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;z-index:50;}
-.nav-btn{font-family:'IBM Plex Mono',monospace;font-size:13px;background:var(--card);border:1px solid var(--border);color:var(--text);padding:8px 18px;border-radius:8px;cursor:pointer;transition:all .2s;}
-.nav-btn:hover{border-color:var(--accent);color:var(--accent);}
-#q-counter{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);cursor:pointer;}
-#q-counter:hover{color:var(--accent);}
-
+.feedback{max-height:0;overflow:hidden;transition:max-height .5s ease;}
+.feedback.open{max-height:700px;}
+.trap-box{background:#1e1020;border:1px solid #5c1a2e;border-radius:8px;padding:.9rem;margin-top:.8rem;}
+.trap-title{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--accent2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;}
+.trap-text{font-size:.85rem;color:#e8a0b0;line-height:1.5;}
+.explain-box{background:#0d1a2e;border:1px solid #1a3a5c;border-radius:8px;padding:.9rem;margin-top:.6rem;}
+.explain-title{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;}
+.explain-text{font-size:.85rem;color:#a8c4e8;line-height:1.5;}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:1rem;position:fixed;bottom:0;left:0;width:100%;background:var(--surface);border-top:1px solid var(--border);z-index:50;}
+.nav-btn{font-family:'IBM Plex Mono',monospace;background:var(--card);border:1px solid var(--border);color:var(--text);padding:.5rem 1.2rem;border-radius:8px;cursor:pointer;font-size:.85rem;transition:border-color .2s;}
+.nav-btn:hover{border-color:var(--accent);}
+#q-counter{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--muted);cursor:pointer;padding:.3rem .6rem;border-radius:6px;border:1px solid var(--border);}
+#q-counter:hover{border-color:var(--accent);color:var(--accent);}
+.main{max-width:700px;margin:0 auto;padding:3rem 1rem 6rem;}
 .q-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:flex-end;}
 .q-modal-overlay.open{display:flex;}
-.q-modal{background:var(--surface);border-top:1px solid var(--border);border-radius:16px 16px 0 0;width:100%;max-height:70vh;overflow-y:auto;padding:20px;}
-.q-modal h3{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);margin-bottom:14px;}
-.q-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;}
-.q-grid-btn{font-family:'IBM Plex Mono',monospace;font-size:12px;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px 0;cursor:pointer;text-align:center;transition:all .2s;}
+.q-modal{background:var(--surface);border-radius:16px 16px 0 0;padding:1.5rem;width:100%;max-height:70vh;overflow-y:auto;}
+.q-modal h3{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--muted);margin-bottom:1rem;text-transform:uppercase;letter-spacing:.1em;}
+.q-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.5rem;}
+.q-grid-btn{font-family:'IBM Plex Mono',monospace;font-size:.75rem;padding:.5rem;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;text-align:center;}
 .q-grid-btn.answered-correct{border-color:var(--green);color:var(--green);}
 .q-grid-btn.answered-wrong{border-color:var(--red);color:var(--red);}
-.q-grid-btn.starred-q{background:rgba(245,200,66,.1);border-color:var(--gold);}
-.q-grid-btn.current{border-color:var(--accent);color:var(--accent);}
-
-#result-screen{display:none;max-width:720px;margin:60px auto;padding:0 16px;}
-.result-score{font-family:'IBM Plex Mono',monospace;font-size:64px;font-weight:700;color:var(--accent);text-align:center;line-height:1;}
-.result-pct{font-family:'IBM Plex Mono',monospace;font-size:18px;color:var(--muted);text-align:center;margin-top:4px;}
-.result-stats{display:flex;justify-content:center;gap:32px;margin:28px 0;}
-.stat{text-align:center;}
-.stat-val{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:700;}
-.stat-label{font-size:12px;color:var(--muted);margin-top:2px;}
-.result-btns{display:flex;flex-direction:column;gap:10px;margin-top:24px;}
-.result-btn{font-family:'IBM Plex Mono',monospace;font-size:13px;padding:14px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;transition:all .2s;}
-.result-btn:hover{border-color:var(--accent);color:var(--accent);}
+.q-grid-btn.starred{border-color:var(--gold);}
+.q-grid-btn.current{background:var(--accent);color:#fff;border-color:var(--accent);}
+#result-screen{display:none;max-width:700px;margin:0 auto;padding:3rem 1rem;text-align:center;}
+.result-score{font-family:'IBM Plex Mono',monospace;font-size:4rem;font-weight:700;color:var(--green);margin:1rem 0;}
+.result-stats{display:flex;justify-content:center;gap:2rem;margin:1.5rem 0;flex-wrap:wrap;}
+.stat{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--muted);}
+.stat span{display:block;font-size:1.5rem;font-weight:700;color:var(--text);}
+.result-btn{display:block;width:100%;max-width:320px;margin:.6rem auto;padding:.9rem;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:.85rem;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--text);transition:border-color .2s;}
+.result-btn:hover{border-color:var(--accent);}
 .result-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;}
+.mode-bar{display:flex;gap:.5rem;max-width:700px;margin:1rem auto 0;padding:0 1rem;flex-wrap:wrap;}
+.mode-btn{font-family:'IBM Plex Mono',monospace;font-size:.72rem;padding:.35rem .8rem;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;transition:all .2s;}
+.mode-btn:hover,.mode-btn.active{border-color:var(--accent);color:var(--accent);}
+.section-divider{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;padding:.4rem .6rem;border-bottom:1px solid var(--border);margin-bottom:.4rem;}
 </style>
 </head>
 <body>
-<div class="progress-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+<div class="progress-wrap"><div class="progress-bar" id="prog"></div></div>
 
-<div id="quiz-area" class="main-wrap">
-  <div class="section-badge">RADYOLOJİ & NÜKLEER TIP</div>
-  <div class="quiz-title">TUS Soru Bankası</div>
-  <div class="quiz-sub" id="part-label">PART 1 / 3 &nbsp;·&nbsp; Soru 1–20</div>
-
-  <div class="card" id="question-card">
+<div class="main" id="quiz-area">
+  <div class="section-badge" id="section-label">ANESTEZİ — TAM SET</div>
+  <div class="card">
     <div class="q-header">
-      <span id="q-num">Soru 1 / 20</span>
+      <span id="q-num">Soru 1 / 119</span>
       <button id="star-btn" onclick="toggleStar()">☆</button>
     </div>
     <div class="year-tags" id="year-tags"></div>
@@ -110,392 +91,1459 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
     <div id="hint-box"></div>
     <div class="options" id="options"></div>
     <div class="feedback" id="feedback">
-      <div class="trap-box"><div class="trap-title">⚠️ TUZAK NOKTA</div><div class="trap-text" id="trap-text"></div></div>
-      <div class="explain-box"><div class="explain-title">📖 AÇIKLAMA</div><div class="explain-text" id="explain-text"></div></div>
+      <div class="trap-box">
+        <div class="trap-title">⚠️ TUZAK NOKTA</div>
+        <div class="trap-text" id="trap-text"></div>
+      </div>
+      <div class="explain-box">
+        <div class="explain-title">📖 AÇIKLAMA</div>
+        <div class="explain-text" id="explain-text"></div>
+      </div>
     </div>
   </div>
 </div>
 
 <div id="result-screen">
   <div class="section-badge">SONUÇ</div>
-  <div class="result-score" id="res-score">0</div>
-  <div class="result-pct" id="res-pct">% doğru</div>
+  <div class="result-score" id="res-score">0%</div>
   <div class="result-stats">
-    <div class="stat"><div class="stat-val" style="color:var(--green)" id="res-correct">0</div><div class="stat-label">Doğru</div></div>
-    <div class="stat"><div class="stat-val" style="color:var(--red)" id="res-wrong">0</div><div class="stat-label">Yanlış</div></div>
-    <div class="stat"><div class="stat-val" style="color:var(--gold)" id="res-star">0</div><div class="stat-label">Yıldızlı</div></div>
+    <div class="stat"><span id="res-correct">0</span>Doğru</div>
+    <div class="stat"><span id="res-wrong">0</span>Yanlış</div>
+    <div class="stat"><span id="res-starred">0</span>Yıldızlı</div>
   </div>
-  <div class="result-btns">
-    <button class="result-btn primary" onclick="restartAll()">🔄 Tüm Soruları Yeniden Çöz</button>
-    <button class="result-btn" onclick="retryWrong()">❌ Yanlışları Tekrar Çöz</button>
-    <button class="result-btn" onclick="retryStar()">⭐ Yıldızlıları Tekrar Çöz</button>
-  </div>
+  <button class="result-btn primary" onclick="retryAll()">Tüm Soruları Yeniden Çöz</button>
+  <button class="result-btn" onclick="retryWrong()">Yanlışları Tekrar Çöz</button>
+  <button class="result-btn" onclick="retryStar()">Yıldızlıları Tekrar Çöz</button>
 </div>
 
 <div class="nav">
-  <button class="nav-btn" onclick="prevQ()">← Önceki</button>
-  <span id="q-counter" onclick="openModal()">1/20 ☰</span>
-  <button class="nav-btn" onclick="nextQ()">Sonraki →</button>
+  <button class="nav-btn" onclick="go(-1)">← Önceki</button>
+  <span id="q-counter" onclick="openModal()">1/119 ☰</span>
+  <button class="nav-btn" onclick="go(1)">Sonraki →</button>
 </div>
 
-<div class="q-modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+<div class="q-modal-overlay" id="modal" onclick="closeModal(event)">
   <div class="q-modal">
-    <h3>SORU LİSTESİ</h3>
+    <h3>Soru Listesi</h3>
     <div class="q-grid" id="q-grid"></div>
   </div>
 </div>
 
 <script>
-const QUESTIONS = [
+const ALL_QUESTIONS = [
+// ===== GİRİŞ =====
   {
-    id:1,
-    year:"Sonbahar 2023",
-    question:"Aşağıdaki organlardan hangisi radyasyona diğerlerine göre daha <u>duyarlıdır</u>?",
-    opts:["Karaciğer","Mesane","İnce bağırsaklar","Pankreas","Böbrekler"],
-    correct:2,
-    hint:"Hızlı bölünen hücreler radyasyona daha duyarlıdır.",
-    trap:"Karaciğer ve pankreas radyasyona dayanıklıdır. İnce bağırsakların epiteli hızlı döngülüdür.",
-    explain:"Dokuların radyasyon duyarlılığı bölünme hızlarıyla doğru orantılıdır. İnce bağırsakların mukozal epiteli çok hızlı bölündüğünden en duyarlı organlar arasındadır. Yüksek duyarlı dokular: Lenfoid doku, dalak, timus, kemik iliği, GIS epiteli, gonadlar, lens, embriyo, meme."
+    section:"GİRİŞ",
+    year:"Sonbahar 2004",
+    question:"Aşağıdakilerden hangisi yaşlanmanın yol açtığı doğal değişikliklerden biri <strong>değildir</strong>?",
+    opts:["Sol ventriküler hipertrofi","Osteopeni","Kas kitlesinde azalma","Hemoglobinde düşüklük","T hücre fonksiyonlarında azalma"],
+    answer:3,
+    hint:"Yaşla kemik iliğinde eritroid megakaryositer ve miyelositer seride önemli bir değişiklik olmaz.",
+    trap:"Sol ventriküler hipertrofi, osteopeni, kas kitlesinde azalma ve T hücre fonksiyonlarında azalma geriatrik hastalarda görülen değişikliklerdir; ancak hemoglobindeki düşüklük patolojiktir.",
+    explain:"Yaşla kemik iliğinde eritroid megakaryositer ve miyelositer seride önemli bir değişiklik olmaz. Bundan dolayı yaşlılarda hemoglobindeki düşüklük patolojiktir ve etyolojisi araştırılmalıdır. Sol ventriküler hipertrofi, osteopeni, kas kitlesinde azalma ve T hücre fonksiyonlarında azalma geriatrik hastalarda görülebilen değişikliklerdir."
   },
   {
-    id:2,
-    year:"İlkbahar 98",
-    question:"Diafragma hareketlerini <u>en iyi</u> görüntüleyen yöntem aşağıdakilerden hangisidir?",
-    opts:["PA akciğer grafisi","Bilgisayarlı tomografi","Lateral dekübit akciğer grafisi","Fluoroskopi","Apikolordotik akciğer grafisi"],
-    correct:3,
-    hint:"Diafragmanın gerçek zamanlı hareket değerlendirmesi hangi yöntemle yapılır?",
-    trap:"BT statik bir görüntüleme yöntemidir, hareketi izleyemez. PA akciğer grafisi tek pozisyonda görüntü verir.",
-    explain:"Fluoroskopi 'real-time' görüntüleme sağlar. Diafragma hareketlerini en iyi gösteren yöntemdir. Başlıca endikasyonları: diafragma hareketlerinin incelenmesi, obstrüktif amfizem araştırılması ve periferal akciğer lezyonlarının lokalizasyonudur."
+    section:"GİRİŞ",
+    year:"İlkbahar 2005",
+    question:"Aşağıdakilerden hangisi kristalloid solüsyonlarından birisidir?",
+    opts:["Ringer Laktat","Nişasta","Dekstran","Albümin","Jelatin"],
+    answer:0,
+    hint:"Kristaloidler: Kanama miktarının 3 katı kadar kristaloid replasmanı gerektirir.",
+    trap:"Nişasta, dekstran, albumin ve jelatin kolloid solüsyonlardır; Ringer Laktat ise dengeli tuz solüsyonu olarak kristaloid bir solüsyondur.",
+    explain:"Ringer laktat, dengeli tuz solüsyonu olarak kristaloid bir solüsyondur. Nişasta, dekstran, albumin ve jelatin ise kolloid solüsyonlardır. Kristaloidler kanama miktarının 3 katı kadar kristaloid replasmanı gerektirir. Fazla kristaloid replasmanı sonrasında intravasküler onkotik basıncın düşerek özellikle akciğer ödemi ve organ disfonksiyonuna yol açabileceği iddia edilmektedir."
   },
   {
-    id:3,
-    year:"Sonbahar 2001",
-    question:"Ultrasonografi, hangi organ patolojilerini değerlendirmede uygun <u>değildir</u>?",
-    opts:["Pankreas","Karaciğer","Plevra","Akciğer","Prostat"],
-    correct:3,
-    hint:"USG ses dalgalarını kullanır; hava içeren alanlarda çalışmaz.",
-    trap:"Akciğer parankiminin değerlendirilmesi için ultrasonografi uygun değildir; ancak plevral efüzyon değerlendirilebilir.",
-    explain:"İçerisinde hava olan alanların görüntülenmesi ultrasonografi ile yapılamaz. Akciğer parankimi değerlendirmesinde ultrason uygun yöntem değildir. Toraks patolojileri içinde ultrasonografinin yararlı olduğu durum plevral efüzyonun değerlendirilmesidir."
+    section:"GİRİŞ",
+    year:"Sonbahar 2015 Orijinal",
+    question:"Çok ciddi yandaş hastalığı olan ancak ameliyat olmazsa hayatta kalması da mümkün olmayan hastalar Amerikan Anesteziyoloji Derneği (American Society of Anesthesiologists - ASA) sınıflamasına göre hangi kategoride yer alır?",
+    opts:["ASA – 1","ASA – 2","ASA – 3","ASA – 4","ASA – 5"],
+    answer:3,
+    hint:"ASA IV: Gücünü tamamen yitirmesine neden olup hayati tehlike taşıyan durumu olan kişi.",
+    trap:"ASA V ameliyat olsa da olmasa da 24 saatten fazla yaşaması beklenmeyen hastadır. ASA IV ise gücünü tamamen yitirmesine neden olup hayati tehlike taşıyan (şok, dekompanze kalp ve solunum yetmezliği, böbrek yetmezliği olan) kişidir.",
+    explain:"ASA sınıflamasına göre: ASA I normal sağlıklı kişi, ASA II hafif sistemik bozukluk, ASA III aktivitesini sınırlayan güçsüz bırakmayan hastalığı olan kişi, ASA IV gücünü tamamen yitirmesine neden olup hayati tehlike taşıyan kişi, ASA V ameliyat olsa da olmasa da 24 saatten fazla yaşaması beklenmeyen son ümit olarak cerrahi girişim yapılan ölüm halindeki kişi."
   },
   {
-    id:4,
-    year:"İlkbahar 2015 Orijinal",
-    question:"Aşağıdaki radyolojik incelemelerden hangisi, dejeneratif disk hastalığını <u>en iyi</u> gösterir?",
-    opts:["Spinal dijital \"subtraction\" anjiyografi","Spinal manyetik rezonans görüntüleme","Spinal bilgisayarlı tomografi","Spinal ultrasonografi","İki yönlü lumbosakral grafi"],
-    correct:1,
-    hint:"Yumuşak doku ayrım özelliği en yüksek olan görüntüleme yöntemi hangisidir?",
-    trap:"BT kemik yapıları iyi gösterir ancak disk için MRG üstündür. Lumbosakral grafi sadece kemik yapıları gösterir.",
-    explain:"Yumuşak doku rezolüsyonu diğer radyolojik yöntemlerden çok daha iyi olan manyetik rezonans görüntüleme, disk hastalığı için en iyi tanı yöntemidir. Disk patolojileri için algoritma: MRG'dir."
-  },
-  {
-    id:5,
-    year:"Sonbahar 2025",
-    question:"Aşağıdaki görüntüleme yöntemlerinden hangisinin yumuşak doku kontrast rezolüsyonu diğerlerine göre daha <u>yüksektir</u>?",
-    opts:["Konvansiyonel radyografi","Dijital radyografi","Bilgisayarlı tomografi","Pozitron emisyon tomografisi","Manyetik rezonans görüntüleme"],
-    correct:4,
-    hint:"Yumuşak dokuları incelemek için kullanılan ve kemik yapıları, hava içeren alanları iyi değerlendiremeyen yöntem.",
-    trap:"BT kemik ve kalsifikasyonları iyi gösterir. MRG ise yumuşak doku ayrımında en üstün yöntemdir.",
-    explain:"Manyetik rezonans görüntüleme, yumuşak doku ayrım özelliği en yüksek olan görüntüleme yöntemidir. Demyelinizan hastalıkların, disk patolojilerinin tanısında en iyi görüntüleme yöntemidir."
-  },
-  {
-    id:6,
-    year:"İlkbahar 2016 Orijinal",
-    question:"Kronik böbrek yetmezliği tanısıyla 5 yıldır hemodiyaliz tedavisi uygulanan 60 yaşındaki kadın hasta 2 gündür devam eden nefes darlığı, sağ yan ağrısı, sol bacakta şişlik ve ağrı şikâyetleriyle acil servise getiriliyor. Laboratuvar incelemesinde serum D-dimer seviyesinin normalden yüksek olduğu tespit ediliyor.<br><br>Bu hastada ayırıcı tanı için aşağıdaki nükleer tıp görüntüleme yöntemlerinden hangisinin <u>öncelikle</u> tercih edilmesi gerekir?",
-    opts:["Galyum-67 sintigrafisi","Ventilasyon-perfüzyon sintigrafisi","Miyokard pervüzyon sintigrafisi","İyot-131 MIBG sintigrafisi","Kaptoprilli böbrek sintigrafisi"],
-    correct:1,
-    hint:"Bacakta şişlik + D-dimer yüksekliği + nefes darlığı → hangi tanıyı düşündürür?",
-    trap:"Kronik böbrek yetmezliğinde kontraastlı BT kontraendike olabilir. PTE tanısında iyotlu kontrast kullanımı sınırlı bu hastada V/P sintigrafisi tercih edilir.",
-    explain:"Venöz tromboz düşündüren bacakta şişlik ve ağrı kliniği ile D-dimer düzeyinde yükseklik mevcut olup öncelikle ekarte edilmesi gereken durum pulmoner tromboembolidir (PTE). Ventilasyon-perfüzyon sintigrafisi PTE tanısında oldukça yararlıdır."
-  },
-  {
-    id:7,
-    year:"Sonbahar 2022 Orijinal",
-    question:"Dekompanse böbrek ve kalp yetmezliği tanıları ile takip edilen 82 yaşındaki erkek hasta; ani başlayan dispne, sağ bacakta şişlik ve taşikardi şikâyetleri ile acil servise başvuruyor.<br><br>Bu hastada aşağıdaki ventilasyon-perfüzyon sintigrafisi paternlerinden hangisi, yüksek olasılıkla pulmoner emboliyi düşündürür?",
-    opts:["Ventilasyon ve perfüzyon çalışmalarında çok sayıda alanda nonsegmental defektlerin varlığı","Perfüzyon çalışmasında üç adet büyük segmental defekt varlığı, ventilasyon çalışmasında aynı segmentlerde defekt olmaması","Ventilasyon çalışmasında defekt, perfüzyon çalışmasında normal bulguların olması","Perfüzyon çalışmasındaki defektin akciğer grafisindeki defektten küçük olması","Perfüzyon ve ventilasyon çalışmasında üst akciğer bölgesinde aynı büyüklükte soliter defektin varlığı"],
-    correct:1,
-    hint:"Ventilasyon-Perfüzyon sintigrafisinde PTE için tipik bulgu 'mismatch' prensibidir.",
-    trap:"PTE'de ventilasyon normalken perfüzyon bozulur (Mis-match). Ventilasyon bozulursa başka bir neden düşünülmeli.",
-    explain:"Ventilasyon-Perfüzyon sintigrafisinde pulmoner emboli için tipik bulgu; perfüzyon paterni bozulmuş iken ventilasyon paterninin korunmuş olmasıdır. Büyük segmental perfüzyon defektleri + normal ventilasyon = yüksek olasılıklı PTE."
-  },
-  {
-    id:8,
-    year:"İlkbahar 2016 Orijinal",
-    question:"Foliküler tiroid kanseri tanısıyla total tiroidektomi uygulanan 35 yaşındaki erkek hastaya rezidü doku ablasyonu amacıyla radyoaktif madde veriliyor.<br><br>Bu hastanın takibi için aşağıdakilerden hangisi <u>en uygun</u> yaklaşımdır?",
-    opts:["Galyum-67 tüm vücut tarama sintigrafisi","Teknesyum-99m DTPA sintigrafisi","İyot-131 tüm vücut tarama sintigrafisi","Teknesyum-99m HIG tüm vücut tarama sintigrafisi","Teknesyum-99m HMPAO sintigrafisi"],
-    correct:2,
-    hint:"Tiroid dokusu iyot tutulumu yapar; tiroid kanseri cerrahisi sonrası rezidü doku takibinde hangi izotop kullanılır?",
-    trap:"Galyum-67 malign hastalıkları genel olarak değerlendirir. Tiroid kanser cerrahisi sonrası rezidü için spesifik olan İyot-131'dir.",
-    explain:"Tiroid dokusu iyot tutulumu yaptığından, iyot-131 tüm vücut tarama sintigrafisi ile yapılacak değerlendirmede kanser cerrahisi sonrası rezidü/nüks tiroid dokusu varsa tespit edilebilir."
-  },
-  {
-    id:9,
-    year:"İlkbahar 2023",
-    question:"Aşağıdaki radyoizotoplardan hangisi hem beta partikülü emisyonu hem de gama emisyonu yapma özelliklerinin olması nedeniyle tedavide kullanımının yanı sıra görüntüleme amacıyla da kullanılır?",
-    opts:["³²P (32-Fosfor)","¹³¹I (131-İyot)","⁸⁶Sr (89-Stronsiyum)","⁹⁰Y (90-Yitriyum)","¹⁶⁹Er (169-Erbiyum)"],
-    correct:1,
-    hint:"Hem tedavi hem görüntüleme yapabilen izotop için beta + gama birlikte emisyonu şarttır.",
-    trap:"⁹⁰Y sadece beta yapar (görüntüleme yapmaz). ³²P sadece beta yapar. ¹³¹I hem beta hem gama yapar.",
-    explain:"¹³¹I (İyot-131) hem beta partikülü hem de gama ışını yayar. Bu özelliği nedeniyle hem tedavide (tiroid kanseri, hipertiroidi) hem de görüntülemede kullanılabilir. Diğer izotoplar yalnızca beta veya sadece gama yayar."
-  },
-  {
-    id:10,
-    year:"Sonbahar 2020 Orijinal",
-    question:"Kırk üç yaşındaki kadın hasta diferansiye tiroid kanseri nedeni ile opere ediliyor. Patoloji sonucunda sol lobda en büyüğünün çapı 1.9 cm olan multisentrik papiller karsinom odakları ve biri ekstrakapsüler uzanım gösteren beş adet santral lenf nodu metastazı saptanıyor. Bu hastaya yüksek doz radyoaktif iyot-131 tedavisi veriliyor.<br><br>Bu hasta aşağıdaki yan etkilerden hangisinin erken dönemde görülmesi <u>en az</u> olasıdır?",
-    opts:["Bulantı","Kusma","Pulmoner fibrozis","Tükürük bezi lokalizasyonunda ağrı ve hassasiyet","Boyunda şişlik ve ağrı"],
-    correct:2,
-    hint:"Radyoaktif iyot tedavisinin erken dönem yan etkileri nelerdir?",
-    trap:"Pulmoner fibrozis nadir ve geç dönem yan etkisidir. Erken dönemde genellikle bulantı, boyun/tükürük bezi etkileri görülür.",
-    explain:"Radyoaktif iyot tedavisine bağlı erken dönem yan etkiler: bulantı, kusma, boyunda şişlik ve ağrı, hassasiyet, boğaz ağrısı, yutma güçlüğü, tükürük bezlerinde ağrı ve şişme. Pulmoner fibrozis ise çok nadir ve kronik bir yan etkidir; erken dönemde görülmesi en az olasıdır."
-  },
-  {
-    id:11,
-    year:"İlkbahar 2017 Orijinal",
-    question:"Aşağıdaki nükleer tıp tedavi uygulamalarından hangisi, kişinin hastalığına özgü <u>değildir</u>?",
-    opts:["Diferansiye tiroid kanserinde iyot-131 tedavisi","Diferansiye nöroendokrin tümörde lutetyum-177-DOTATATE tedavisi","Prostat kanserinde radyum-226 tedavisi","Nöroblastomda iyot-131-MIBG tedavisi","Non-Hodgkin lenfomada iyot-131-işaretli mürin anti-CD20 antikor radyoimmünoterapisi"],
-    correct:2,
-    hint:"Prostat kanserinin nükleer tıp ile tedavisinde hangi radyofarmasötik kullanılır?",
-    trap:"Prostat kanserinde Radyum-226 değil, Galyum 68 PSMA tedavisi yapılır. Seçenekteki 'radyum-226' yanlış eşleşmedir.",
-    explain:"Prostat kanserinin nükleer tıp ile tedavisinde radyum-226 tedavisi değil Galyum 68 PSMA tedavisi yapılır. Nükleer tıp kanser tedavileri: Diferansiye tiroid → iyot-131, Diferansiye nöroendokrin tümör → lutetyum-177-DOTATATE, Nöroblastom → iyot-131-MIBG, Non-Hodgkin lenfoma → iyot-131 mürin anti-CD20."
-  },
-  {
-    id:12,
-    year:"İlkbahar 2025",
-    question:"Aşağıdaki klinik durumların hangisinde diüretikli dinamik Tc-99m MAG sintigrafisinin <u>ilk</u> seçenek olarak kullanılması <u>en az</u> uygundur?",
-    opts:["Akut piyelonefrit ile başvuran hastaların böbrek hasarının değerlendirilmesi","Üreteropelvik bileşke darlığının değerlendirilmesi","At nalı böbrek tanısı ile başvuran hastaların böbrek fonksiyonlarının değerlendirilmesi","Renal transplantasyon hastalarında postoperatif obstrüksiyonun değerlendirilmesi","Ektopik üreteroseli olan hastaların böbrek fonksiyonlarının değerlendirilmesi"],
-    correct:0,
-    hint:"Renal hasar değerlendirilmesinde dinamik değil statik yöntem tercih edilir.",
-    trap:"Akut piyelonefrit ile böbrek hasarı değerlendirmesinde dinamik sintigrafi değil, statik yöntem olan DMSA tercih edilir.",
-    explain:"Renal hasar değerlendirilmesinde dinamik değil statik yöntem olan DMSA tercih edilir. Dinamik böbrek sintigrafisinde kullanılanlar: TcGH, TcDTPA, TcEC, TcMAG3. Akut piyelonefrit böbrek hasarında DMSA sintigrafisi tercih edilir."
-  },
-  {
-    id:13,
-    year:"Sonbahar 2024",
-    question:"Aşağıdakilerden hangisinde cerrahi sonrası radyoaktif iyot tedavisi yapılması <u>en uygun</u>dur?",
-    opts:["Paratiroid kanseri","Tiroid lenfoması","Anaplastik tip tiroid kanseri","Medüller tip tiroid kanseri","Papiller tip tiroid kanseri"],
-    correct:4,
-    hint:"Tiroid kanserlerinde tedaviyi belirleyen en önemli parametre kanserin türüdür.",
-    trap:"Medüller tiroid kanseri ve anaplastik kanser iyot tutmaz; radyoaktif iyot tedavisi çalışmaz. Yalnızca diferansiye (papiller, foliküler) kanserlerde kullanılır.",
-    explain:"Tiroid kanserlerinde radyoaktif iyot tedavisi yalnızca diferansiye tiroid kanserlerinde (papiller ve foliküler) kullanılır. Medüller, anaplastik, lenfoma türlerinde radyoaktif iyot tedavisi uygulanmaz."
-  },
-  {
-    id:14,
-    year:"Sonbahar 2017 Orijinal",
-    question:"Travma sonrası çekilen direkt grafilerde, sağ femurunda insidental kemik lezyonu saptanan 25 yaşındaki erkek hastaya yapılan tüm vücut kemik sintigrafisinde, grafi ile uyumlu alanda, osteoblastik aktivite artışı saptanıyor.<br><br>Tüm vücut kemik sintigrafisi bulgular göz önüne alındığında, ayırıcı tanıda <u>en son</u> düşünülmesi gereken aşağıdakilerden hangisidir?",
-    opts:["Osteid osteom","Kondroblastom","Fibröz displazi","Dev hücreli tümör","Kırık bulunmayan kemik kisti"],
-    correct:4,
-    hint:"Basit kemik kistleri osteoblastik aktivite gösterir mi?",
-    trap:"Basit kemik kistleri sıvı natüründe olduğundan osteoblastik aktivite göstermez; sintigrafide artış en az beklenen lezyondur.",
-    explain:"Basit kistik oluşum sıvı natüründe olacağından osteoblastik aktivite göstermez. Sintigrafik değerlendirmede osteoblastik aktivite artışının en az bekleneceği lezyon basit kemik kistleridir. Fraktür geliştirmemiş kemik kistleri kemik doku içermediğinden periosteal bölgede zaman zaman görülebilecek skleroz alanı dışında aktivite artışı beklenmez."
-  },
-  {
-    id:15,
-    year:"Sonbahar 2023",
-    question:"Tc-99m MDP ile yapılan kemik sintigrafisi bulguları ve endikasyonları ile ilgili aşağıdaki ifadelerden hangisi <u>doğrudur</u>?",
-    opts:["Multipl miyelom tanılı bir hastada, kemik lezyonlarının tamamında artmış radyoaktif madde tutulumu olan hiperaktif odaklar izlenir.","Fibröz displazi ve Paget hastalığında, kemik lezyonlarında artmış radyoaktif madde tutulumları izlenir.","Kemik sintigrafisi, sadece metastatik kemik lezyonlarının tespitinde kullanılır.","İyileşmekte olan kemik kırıklarında artmış radyoaktif madde tutulumu izlenmez.","Radyasyon dozunun yüksek olması nedeniyle çocukluk yaş grubunda kemik sintigrafisi kullanılmaz."],
-    correct:1,
-    hint:"Fibröz displazi ve Paget hastalığında kemik metabolizması nasıl seyreder?",
-    trap:"Multipl miyelom litik lezyonlar yapar ve sintigrafide tutulum göstermeyebilir (false-negative). Sintigrafi sadece metastaz için değil, pek çok kemik patolojisinde kullanılır.",
-    explain:"Fibröz displazi ve Paget hastalığında kemik lezyonlarında artmış radyoaktif madde tutulumları izlenir. Multipl miyelom klonal proliferasyon nedeniyle litik lezyon yapar ve kemik sintigrafisinde false-negative olabilir. Kemik sintigrafisi çocuklarda da kullanılabilir."
-  },
-  {
-    id:16,
-    year:"İlkbahar 2020 Orijinal",
-    question:"Feokromasitoma ön tanısı ile araştırılan bir hastada aşağıdaki nükleer tıp görüntüleme yöntemlerinden hangisinin kullanılması <u>en uygun</u>dur?",
-    opts:["99mTc-MIBI sintigrafisi","99mTc-MAG3 sintigrafisi","123-I MIBG sintigrafisi","99mTc-MDP sintigrafisi","99mTc-DMSA sintigrafisi"],
-    correct:2,
-    hint:"Feokromasitoma bir endokrin tümördür; adrenal medullar kökenlidir.",
-    trap:"MIBI miyokard perfüzyon, MAG3 renal fonksiyon, MDP kemik mineral, DMSA renal skar içindir. Feokromasitoma gibi endokrin tümörlerde 123-I MIBG kullanılır.",
-    explain:"Feokromasitoma gibi endokrin tümörlerin değerlendirilmesinde 123-I MIBG sintigrafisi kullanılır. 99mTc-MIBI: Miyokard perfüzyon. 99mTc-MAG3: Renal fonksiyon. 123-I MIBG: Endokrin tümörler (feokromasitoma, nöroblastom). 99mTc-MDP: Kemik mineral yoğunluğu. 99mTc-DMSA: Renal skar."
-  },
-  {
-    id:17,
+    section:"GİRİŞ",
     year:"İlkbahar 2021 Orijinal",
-    question:"Aşağıdaki klinik durumların hangisinde, tiroid fonksiyonları ile uyumsuz olarak tiroid bezindeki radyoaktif iyot tutulumunda azalma <u>beklenmez</u>?",
-    opts:["Antitiroid ilaç tedavisi sırasında","Graves hastalığı","Subakut tiroidit","İyotlu kontrast madde uygulaması sonrasında","Sekonder hipotiroidisi"],
-    correct:1,
-    hint:"Graves hastalığında tiroid bezi ne yapar?",
-    trap:"Antitiroid ilaçlar, subakut tiroidit, iyotlu kontrast madde ve sekonder hipotiroidide iyot uptake'i azalır. Graves hastalığında ise artış beklenir.",
-    explain:"Graves hastalığında tiroid bezinde radyoaktif iyot tutulumu ARTAR. Radyoaktif iyot uptake'inin düşük olduğu durumlar: Tiroiditler, aşırı tiroid hormon maruziyeti, aşırı iyot maruziyeti. Graves hastalığında tutulum artışı beklenir."
+    question:"Rinoplasti ameliyatı için %50 azot protoksit/oksijen içinde sevofluran anestezisi uygulanan 25 yaşındaki hastada, operasyonun 30. dakikasında taşikardi ve hipertansiyon saptanıyor. Bu hastada aşağıdakilerden hangisinin ayırıcı tanıda yer alması <span style='text-decoration:underline'>en az olasıdır</span>?",
+    opts:["Hiperkarbi","Hipoksi","Malign hipertermi","Derin anestezi","Tiroid fırtınası"],
+    answer:3,
+    hint:"Genel anestezi altında bile strese sekonder sempatik stimulus sonucu taşikardi ve hipertansiyon oluşur.",
+    trap:"Derin anestezi taşikardi ve hipertansiyona neden olmaz; aksine yüzeyel anestezi bu tabloyu oluşturur. Hiperkarbi, hipoksi, malign hipertermi ve tiroid fırtınası gibi hipermetabolik olaylar taşikardi ve hipertansiyon yapabilir.",
+    explain:"Hiperkarbi ve hipoksi gibi durumlarda hastada meydana gelen stres nedeniyle sempatik deşarj meydana gelir. Malign hipertermi ve tiroid fırtınası gibi hipermetabolik olaylarda hasta genel anestezi altında bile stres yanıt olarak taşikardi ve hipertansiyon meydana gelir. Anestezi derinliği azaldığında (yüzeyel anestezi) hastada taşikardi ve hipertansiyon şeklinde yanıt meydana gelirken derin anestezide bu olmaz."
+  },
+  // ===== PREMEDİKASYON =====
+  {
+    section:"PREMEDİKASYON",
+    year:"Sonbahar 87",
+    question:"Aşağıdakilerden hangisi anestezik madde verilmeden önce morfin kullanılmasının bir amacı <span style='text-decoration:underline'>olamaz</span>?",
+    opts:["Anestezik maddeden dolayı oluşabilecek bulantıyı önlemek","Öksürük refleksinin inhibisyonuna yardımcı olmak","Postoperatif meydana gelebilecek eksitasyonu önlemek","Kas gevşemesine yardımcı olmak","Anestezik maddenin etkisini arttırmak"],
+    answer:3,
+    hint:"Morfin ve türevleri narkotik analjezik olup klinik olarak analjezik, antitussif, anestezi premedikasyonunda kullanılır.",
+    trap:"Morfin ve türevleri bulantı-kusmayı arttırır; premedikasyonda bradikardi yaratmak bir amaç olamaz. Kas gevşemesine yardımcı olmak ise morfinin kullanım amacı değildir.",
+    explain:"Morfin ve türevleri narkotik analjezik olup klinik olarak daha çok analjezik, antitussif, anestezi premedikasyonunda ve antidiyaretik olarak kullanılır. Morfin ve türevleri bulantı-kusmayı arttırır. Premedikasyonda bradikardi yaratmak gibi bir amaç olamaz. Kas gevşemesine yardımcı olmak morfinin premedikasyon amacı değildir."
   },
   {
-    id:18,
-    year:"İlkbahar 2024 Orijinal",
-    question:"Birkaç hafta önce viral enfeksiyon geçirme öyküsü olan ve hamile olduğu bilinen 20 yaşındaki bir hasta, boyun ağrısı şikâyeti ile başvuruyor. Fizik muayenesinde boynunda hassasiyet tespit ediliyor. Kan tetkiklerinde, eritrosit sedimentasyon hızı yüksek, TSH değeri düşük, serbest T3 ve T4 değerleri yüksek olarak bulunuyor. Boyun ultrasonografisinde tiroidde nodül tespit edilmiyor.<br><br>Bu hastaya tedavi yaklaşımında aşağıdaki ifadelerden hangisi <u>doğrudur</u>?",
-    opts:["Radyoaktif iyot (I-131) ile hemen tedavi edilmelidir.","Hamileliginin hemen bitiminde radyoaktif iyot (I-131) ile tedavi edilmelidir.","I-131 ile tiroid 'uptake' testi yapıldıktan sonra radyoaktif iyot tedavisi planlanmalıdır.","Bu hastada radyoaktif iyot (I-131) tedavisinin yeri yoktur.","Daha düşük radyasyon dozu olduğu için I-123 ile tedavi edilmelidir."],
-    correct:3,
-    hint:"Viral enfeksiyon sonrası boyun ağrısı + ESH yüksekliği + T3/T4 yüksek + TSH düşük → tanı nedir?",
-    trap:"Subakut tiroiditte tedavide radyoaktif iyot ablasyonunun yeri yoktur. Ayrıca hamilelikte I-131 kesinlikle kullanılmaz.",
-    explain:"Gebelik öyküsü kafa karıştırıcı gibi görünse de ÜSYE sonrası boyunda hassasiyet ve ağrı durumunda De Quervain tiroiditi (Subakut Tiroidit) düşünülmelidir. Subakut tiroiditte tedavide radyoaktif iyot ablasyonunun yeri yoktur. Tedavide aspirin veya NSAİİ'ler, ciddi vakalarda glukokortikoidler kullanılır."
+    section:"PREMEDİKASYON",
+    year:"Sonbahar 91",
+    question:"Aşağıdakilerden hangisi premedikasyonun bir amacı <span style='text-decoration:underline'>olamaz</span>?",
+    opts:["Sekresyonu azaltmak","Bradikardi","Anestezik madde dozunu azaltma","Sedasyon","Refleksleri azaltma"],
+    answer:1,
+    hint:"Premedikasyonun amaçları: Anksiyeteyi ortadan kaldırmak, sekresyonları azaltmak, otonom refleks yanıtlarını azaltmak.",
+    trap:"Bradikardi premedikasyonun amacı değildir. Atropin gibi antikolinerjikler bradikardi önlemek için kullanılır, bradikardi oluşturmak için değil.",
+    explain:"Premedikasyonun amaçları arasında anksiyeteyi ortadan kaldırmak, sekresyonları azaltmak, çeşitli otonom sistem refleks yanıtlarını azaltmak, amnezi sağlamak, analjezi sağlamak, sedasyon, antiemetik etki, metabolik aktiviteyi azaltarak anestezik gereksinimi azaltmak, gastrik sıvı volümünü ve artmış pH'ı azaltmak sayılabilir. Bradikardi ise premedikasyonun bir amacı değildir."
   },
   {
-    id:19,
+    section:"PREMEDİKASYON",
+    year:"Sonbahar 91",
+    question:"Aşağıdakilerden hangisi inhalasyon yoluyla genel anestezi uygulanacak bir hastaya anesteziden önce morfin verilmesinin amacı <span style='text-decoration:underline'>olamaz</span>?",
+    opts:["Genel anestezik maddeye bağlı bulantı ve kusmaları önlemek","SSS depresyonuna yardım etmek","Öksürük refleksini baskılamak","Ağrıyı kaldırmak","Anesteziden çıkma sürecinde görülebilecek eksitasyonu azaltmak"],
+    answer:0,
+    hint:"Morfin ve türevleri bulantı-kusmayı arttırır, azaltmaz.",
+    trap:"Morfin bulantı-kusmayı önlemez, aksine arttırır. Bu nedenle bulantı-kusmayı önlemek premedikasyonda morfin kullanım amacı olamaz.",
+    explain:"Morfin ve türevleri narkotik analjezik olup klinik olarak daha çok analjezik, antitussif, anestezi premedikasyonunda ve antidiyaretik olarak kullanılır. Morfin ve türevleri bulantı-kusmayı arttırır. Premedikasyonda bradikardi yaratmak gibi bir amaç olamaz."
+  },
+  {
+    section:"PREMEDİKASYON",
+    year:"Sonbahar 2000",
+    question:"Premedikasyon esnasında kullanılan atropinin veriliş sebebi hangisidir?",
+    opts:["Parasempatik bronşial ve kardiak reflekslerin azaltılması","Midriazis oluşturma","Anti histaminik etki oluşturması","Antipiretik etki oluşturması","Sedatif ve spazmolitik etki elde etmek"],
+    answer:0,
+    hint:"Atropin tersiyer amin yapısındadır, lipidde çözünür. Etki süresi 4-8 saattir.",
+    trap:"Atropin midriazis yapar ancak cerrahi öncesi premedikasyonda kullanılma amacı bu değildir; asıl amaç bronşial sekresyonların ve reflekslerin azaltılmasıdır.",
+    explain:"Atropin tersiyer amin yapısındadır. Lipidde çözünür. Etki süresi 4-8 saattir. Terapotik kullanımı: oftalmolojide midriazis (siklopleji için), GIS ve GÜS'deki spastik durumlarda, organofosfat zehirlenmesinde ve cerrahi öncesi premedikasyonda, bronşial sekresyonların ve reflekslerin azaltılması amacıyla kullanılır."
+  },
+  {
+    section:"PREMEDİKASYON",
+    year:"İlkbahar 2020 Orijinal",
+    question:"Etkisinin hızlı başlaması ve etki süresinin kısa olması nedeniyle perioperatif dönemde tercih edilen, esterazlar ile hidrolize olan beta blokör ajan aşağıdakilerden hangisidir?",
+    opts:["Labetalol","Karvedilol","Esmolol","Metoprolol","Propranolol"],
+    answer:2,
+    hint:"Esmolol hızlı etki başlangıçlı ve etki süresi kısa olan (yalnızca 10-20 dakika) β1 kardiyoselektif bir ajandır.",
+    trap:"Labetalol alfa ve beta bloker, nabız sayısını arttırmadan periferik direnci azaltır. Metoprolol kardiyoselektif beta blokerdir ancak etki süresi uzundur. Esmolol esterazlarla hidrolize olması ile diğerlerinden ayrılır.",
+    explain:"Esmolol hızlı etki başlangıçlı ve etki süresi kısa olan (yalnızca 10-20 dakika) β1 kardiyoselektif bir ajandır. Bu etki esmololu hemodinamik olarak kararsız hastaların tedavisinde çekici yapmaktadır. Esmolol, beta 1 selektif (kardioselektif) adrenerjik reseptör blokeridir. Kısa eliminasyon yarı ömrüne sahiptir. Esmololun eliminasyonu renal ve hepatik fonksiyondan bağımsızdır, eritrosit sitozollerinde esterazlar yoluyla asit metaboliti ve matanole metabolize olur."
+  },
+  // ===== GENEL ANESTEZİKLER =====
+  {
+    section:"GENEL ANESTEZİKLER",
+    year:"Sonbahar 87",
+    question:"Venöz kateterizasyon veya büyük bir venin açılması sırasında gelişen hava embolisinde hasta hangi pozisyona getirilmelidir?",
+    opts:["Sağ tarafı yukarı, başı aşağı","Sol tarafı yukarı, başı aşağı","Başı yukarı","Sırt üstü düz duruma","Yüz üstü duruma"],
+    answer:0,
+    hint:"Hava embolisi çoğunlukla venöz kateterizasyon sonucu ya da oranda ise büyük bir venin yararlanması sonucu ortaya çıkar.",
+    trap:"Hava embolisinde sol taraf yukarı ve baş aşağı pozisyon düşünülebilir ancak doğru pozisyon sağ tarafı yukarı, başı aşağıdır. Bu pozisyonda hava sağ ventrikül çıkış yolundan uzak tutulur.",
+    explain:"Hava embolisi çoğunlukla venöz kateterizasyon sonucu ya da oranda ise büyük bir venin yararlanması sonucu ortaya çıkar. Bu gibi durumlarda hasta sağ tarafı yukarı ve baş aşağı pozisyona getirilmelidir."
+  },
+  {
+    section:"GENEL ANESTEZİKLER",
+    year:"Sonbahar 2012",
+    question:"Endotrakeal entübasyonda tüpün trakea içine yerleştirilmiş olduğunu aşağıdakilerden hangisi <span style='text-decoration:underline'>en iyi</span> gösterir?",
+    opts:["Solunum seslerinin oskültasyonu","End-tidal karbondioksit basıncı ölçümü","Oksijen satürasyonu","Nabız ve arteryal basınç izlemi","Hastanın dudak renginin izlemi"],
+    answer:1,
+    hint:"Kapnograf tarafından hızlı ve devamlı eden şekilde karbondioksit (her beş solunumdan üçünün oluşturduğu end-tidal karbondioksit >30 mmHg) varlığı tüpün trakeal yerleşiminin en güçlü kanıtıdır.",
+    trap:"Solunum seslerinin oskültasyonu önemli bir kriter ancak tüpün işlem sırasında pozisyonunun değişmesi olası olduğundan her zaman için entübasyon başarısını belirlemede yeterli değildir.",
+    explain:"Endotrakeal tüpün, vokal kordlar arasından geçtiğinin görülmesi, entübasyonun doğrulanması için çok önemli bir kriterdir. Kapnograf tarafından hızlı ve devamlı eden şekilde karbondioksit (her beş solunumdan üçünün oluşturduğu end-tidal karbondioksit >30 mmHg) varlığı tüpün trakeal yerleşiminin en güçlü kanıtıdır. Tüpün yanlışlıkla özofagusa yerleştirildiği durumlarda ekshalasyon havasında karbondioksitin devamlılığı olmayacaktır."
+  },
+  {
+    section:"GENEL ANESTEZİKLER",
+    year:"Sonbahar 2013 Orijinal",
+    question:"Aşağıdakilerden hangisi, genel anesteziden sonra uzamış derlenmeye neden olabilecek durumlardan biri <strong>değildir</strong>?",
+    opts:["İlaçların artık etkisi","İntrakraniyal patoloji","Elektrolit anomalileri","Arteryal hiperoksi","Hipotermi"],
+    answer:3,
+    hint:"Hipoksi geç derlenmeye neden olurken PaO2'nin 95 mmHg üstü olması geç derlenmeye neden olmaz.",
+    trap:"Arteryal hiperoksi (PaO2>95 mmHg) geç derlenmeye neden olmaz. Hipoksi, sepsis, hipernatremi, hipotiroidi ve hipotermi gibi durumlarda ilaç metabolizmasında değişiklikler nedeniyle derlenme gecikebilir.",
+    explain:"Geç derlenme sebepleri: İlaca bağlı (doz, absorpsiyon, distribüsyon, farmakodinamik etkileşme, kas ve solunum bozuklukları, akciğer yetmezliği), hastaya bağlı (yaş, genetik, renal ve hepatik yetmezlik, nörolojik hastalıklar, intraserebral olaylar, santral hipoksi/iskemi, hipo-hiperglisemi, hipernatremi, hipotermi, hipotroidizm, sepsis). Arteryal hiperoksi (PaO2>95 mmHg) bu liste dışındadır."
+  },
+  {
+    section:"GENEL ANESTEZİKLER",
+    year:"İlkbahar 2016 Orijinal",
+    question:"Aşağıdakilerden hangisi laringoskopi veya endotrakeal entübasyon komplikasyonlarından biri <strong>değildir</strong>?",
+    opts:["Özefagus entübasyonu","Hava yolu hasarı","İntrakraniyal hipotansiyon","Diş kırılması","Laringospazm"],
+    answer:2,
+    hint:"Entübasyon yapılırken ve entübasyon süresince hastada komplikasyonlar gelişebilir. Entübasyonda intrakraniyal ve intraoküler alanda hipotansiyon değil hipertansiyon meydana gelmektedir.",
+    trap:"İntrakraniyal hipotansiyon laringoskopi ve endotrakeal entübasyon komplikasyonu değildir; tam tersine intrakraniyal HİPERTANSİYON gelişir. Laringoskopi sırasında alınan kardiyovasküler yanıt sempatik ve sempatoadrenal aktivite artışı sonucu ortaya çıkar.",
+    explain:"Laringoskopi ve endotrakeal entübasyona alınan kardiyovasküler yanıt, bu işlem sırasında laringeal ve trakeal dokuların uyarılmasının sempatik ve sempatoadrenal aktivitede yaptığı refleks artış sonucu ortaya çıkmaktadır. Bu nedenle endotrakeal entübasyon yapılmasını takiben taşikardi, kan basıncında yükselme, intrakraniyal basınçta artma, göz içi basınç artışı gibi fizyopatolojik etkiler ortaya çıkmaktadır. Dolayısıyla intrakraniyal ve intraoküler alanda hipotansiyon değil hipertansiyon meydana gelmektedir."
+  },
+  {
+    section:"GENEL ANESTEZİKLER",
+    year:"Sonbahar 2018 Orijinal",
+    question:"Komorbid bir hastalığı bulunmayan ve bir gün önce vitreus cerrahisi sırasında göz içi gaz enjeksiyonu uygulanan 65 yaşındaki erkek hastaya ani idrar retansiyonu gelişmesi nedeniyle sistoskopi planlanıyor. Bu hastanın anestezi uygulamasında aşağıdaki anestezik ajanlardan hangisi <span style='text-decoration:underline'>kullanılmamalıdır</span>?",
+    opts:["Propofol","Sevofluran","Fentanil","Etomidat","Nitröz oksit"],
+    answer:4,
+    hint:"Azot protoksit (Nitröz oksit) kolaylıkla orta kulak, barsak, kraniyal hava sinüsleri, pnömoperitonyum, pnömotoraks ve oküler cerrahi sırasında oluşturulan gaz baloncukları gibi kapalı hava alanlarına difüze olabilir.",
+    trap:"Azot protoksit göz içi gaz varlığında kesinlikle kontrendikedir çünkü kapalı hava alanlarına difüze olarak volüm genişlemesi ve basınç artışına neden olur. Propofol, sevofluran, fentanil ve etomidat kullanılabilir.",
+    explain:"Azot protoksit (Nitröz oksit) kolaylıkla orta kulak, barsak, kraniyal hava sinüsleri, pnömoperitonyum, pnömotoraks ve oküler cerrahi sırasında oluşturulan gaz baloncukları gibi kapalı hava alanlarına difüze olabilir ve bu alanın hacminde artma (barsak distansiyonu) ya da basınçta artma ile sonuçlanır."
+  },
+  // ===== İNHALASYON ANESTEZİKLERİ =====
+  {
+    section:"İNHALASYON ANESTEZİKLERİ",
+    year:"Sonbahar 2000",
+    question:"Genel anestezi altında hasta uyanırken diffüzyon hipoksisine sebep olan hangisidir?",
+    opts:["Halotan","Dietil eter","İsofloran","Metoksifloran","N₂O"],
+    answer:4,
+    hint:"Ayılma sırasında difüzyon hipoksisi meydana gelebilir — bu azot protoksitin önemli bir özelliğidir.",
+    trap:"Diffüzyon hipoksisi N2O'ya özgü bir yan etkidir. Diğer inhalasyon anestezikleri bu etkiye yol açmaz.",
+    explain:"Azot Protoksit (Nitröz Oksit) — ayılma sırasında difüzyon hipoksisi meydana gelebilir. Vücutta gaz içeren bölümlerde birikime eğilimlidir, volüm genişlemesi oluşturabilir. Ayrıca methemoglobinemi yapabilir, vitamin B12 bağımlı enzimleri inhibe eder ve kemik iliği depresyonu oluşturabilir."
+  },
+  {
+    section:"İNHALASYON ANESTEZİKLERİ",
+    year:"Sonbahar 2006",
+    question:"Aşağıdaki inhalasyon anestetiklerinden hangisi inorganik gazdır?",
+    opts:["Halotan","Kloroform","Nitröz oksit","Dietileter","Trikloretilen"],
+    answer:2,
+    hint:"Azot protoksit renksiz ve kokusuz bir gazdır. 50 atmosferlik basınç altında sıvılaştırılmış şekilde çelik silindirler içinde kullanılmak üzere sunulur.",
+    trap:"Halotan, kloroform, dietil eter ve trikloretilen organik yapılı anesteziklerdir. Nitröz oksit (N2O) ise anestetik olarak kullanılan tek inorganik maddedir.",
+    explain:"Difüzyon hipoksisine neden olan ajan Azot Protoksittir. Azot protoksit renksiz ve kokusuz bir gazdır. 50 atmosferlik basınç altında sıvılaştırılmış şekilde çelik silindirler içinde kullanılmak üzere sunulur. Anestetik olarak kullanılan tek inorganik maddedir. Patlayıcı değildir veya yanmayı idame ettiremez."
+  },
+  {
+    section:"İNHALASYON ANESTEZİKLERİ",
+    year:"Sonbahar 2025",
+    question:"Genel anestezi altında açık kolesistektomi ameliyatı planlanan bir hastaya uygulanabilecek aşağıdaki inhalasyon anesteziklerinden hangisinin analjezik etkisinin olması <span style='text-decoration:underline'>en olasıdır</span>?",
+    opts:["Nitröz oksit","Halotan","Enfluran","İzofluran","Desfluran"],
+    answer:0,
+    hint:"Analjezik etkisi olan ketamin ve nitröz oksitin mutlaka bilinmesi gerekir. Tiyopental ve nitröz oksit analjezik etkisi yoktur, hatta hiperaljezi yapabilir — bu TUS'ta yanlış bir bilgidir; N2O analjezik etkiye sahiptir.",
+    trap:"Sevofluran, desfluran, halotan, enfluran, izofluran analjezik etkiye sahip değildir. Nitröz oksit (N2O) analjezik etkisi olan inhalasyon ajanıdır.",
+    explain:"Analjezik etkisi olan ketamin ve nitröz oksit mutlaka bilinmelidir. Azot Protoksit (Nitröz Oksit / N2O) iyi bir analjezik ancak zayıf bir anestezik maddedir (genel anestezik etki gücü zayıf). Tiyopental, propofol, midazolam, etomidat gibi intravenöz anestezikler analjezik etkiye sahip değildir."
+  },
+  {
+    section:"İNHALASYON ANESTEZİKLERİ",
+    year:"İlkbahar 2010",
+    question:"Aşağıdaki volatil anesteziklerden hangisinin karaciğerde hasar oluşturma olasılığı diğerlerine göre daha <span style='text-decoration:underline'>yüksektir</span>?",
+    opts:["Eter","İzofluran","Sevofluran","Halotan","Enfluran"],
+    answer:3,
+    hint:"En hepatotoksik olan ve malign hipertermi oluşturan ajan Halotandır.",
+    trap:"Halotan en hepatotoksik inhalasyon anesteziğidir. Sevofluranın daha az metabolize edilmesi, ana metabolitinin farklı olması ve hızla glukuronidasyona uğraması nedeniyle halotandan daha düşük oranda hepatotoksik olması beklenir.",
+    explain:"En hepatotoksik olan ve malign hipertermi oluşturan ajan Halotandır. Anestezik ajanlardan halotan, enfluran, izofluran ve desfluran insanlarda metabolik hepatosellüler hasara neden olabilir. Sevofluranın daha az metabolize edilmesi, ana metabolitinin farklı olması ve hızla glukuronidasyona uğraması nedeniyle halotandan daha düşük oranda hepatotoksik olması beklenir."
+  },
+  {
+    section:"İNHALASYON ANESTEZİKLERİ",
+    year:"İlkbahar 2022 Orijinal",
+    question:"Anestezi indüksiyonu için aşağıdaki ilaçlardan hangisinin intravenöz olarak kullanımı <span style='text-decoration:underline'>en az uygundur</span>?",
+    opts:["Midazolam","İzofluran","Etomidat","Propofol","Ketamin"],
+    answer:1,
+    hint:"Sevofluran, desfluran ve izofluran gibi anestezik maddeler inhalasyon anestezikleridir ve anestezi indüksiyonunda kullanılabilirler. Midazolam, Ketamin, Propofol ve Etomidat anestezi indüksiyonunda kullanılan intravenöz ajanlardır.",
+    trap:"İzofluran inhalasyon yoluyla kullanılan bir anesteziktir; intravenöz kullanımı uygun değildir. Desfluranda inhalasyon ajanıdır ancak irritan kokusu nedeniyle indüksiyoda tercih edilmez.",
+    explain:"Sevofluran, desfluran ve izofluran gibi anestezik maddeler inhalasyon anestezikleridir ve anestezi indüksiyonunda kullanılabilirler. Desfluranda inhalasyon ajanıdır ancak keskin ve irritan kokusu nedeniyle indüksiyoda tercih edilmez. Midazolam, Ketamin, Propofol ve Etomidat anestezi indüksiyonunda kullanılan intravenöz ajanlardır."
+  },
+  {
+    section:"İNHALASYON ANESTEZİKLERİ",
+    year:"İlkbahar 2013",
+    question:"İnhalasyon anestezik ajanları içerisinde hepatik hasara neden olma sıklığı <span style='text-decoration:underline'>en yüksek</span> olan aşağıdakilerden hangisidir?",
+    opts:["Sevofluran","Halotan","Desfluran","Enfluran","İzofluran"],
+    answer:1,
+    hint:"En hepatotoksik olan ajan Halotandır.",
+    trap:"Sevofluranın daha az metabolize edilmesi, ana metabolitinin farklı olması nedeniyle halotandan daha düşük oranda hepatotoksik olması beklenir.",
+    explain:"En hepatotoksik olan ve malign hipertermi oluşturan ajan Halotandır. Halotana bağlı hepatotoksisite obezite, kadın cinsiyet, ilaç allerjisi öyküsü ve anestezik ajanlara birden fazla maruz kalınması risk faktörlerini içerir."
+  },
+  {
+    section:"İNHALASYON ANESTEZİKLERİ",
+    year:"İlkbahar 2014 Orijinal",
+    question:"Aşağıdaki durumların hangisinde azot protoksit kullanımından <span style='text-decoration:underline'>kaçınılması</span> gerekez?",
+    opts:["Pulmoner hava kistleri","Pnömotoraks","Akut bağırsak obstrüksiyonu","Yüksek kan basıncı","Hava embolisi"],
+    answer:3,
+    hint:"Azot protoksit anestezide çok sık kullanılan bir gazdır. En önemli özelliği içi hava dolu organlarda birikmesidir.",
+    trap:"Yüksek kan basıncı (hipertansiyon) azot protoksit kullanımında kontrendikasyon oluşturmaz. Pulmoner hava kistleri, pnömotoraks, akut bağırsak obstrüksiyonu ve hava embolisi ise kontrendikasyonlardır.",
+    explain:"Azot protoksit anestezide çok sık kullanılan bir gazdır. En önemli özelliği içi hava dolu organlarda birikmesidir. Bu nedenle pulmoner hava kistleri, pnömotoraks, akut bağırsak obstrüksiyonu ve hava embolisi durumlarında kullanımdan kaçınılmalıdır. Yüksek kan basıncı kontrendikasyon oluşturmaz."
+  },
+  {
+    section:"İNHALASYON ANESTEZİKLERİ",
+    year:"İlkbahar 2025",
+    question:"İnhalasyon anestezikleri ile ilgili aşağıdaki ifadelerden hangisi <span style='text-decoration:underline'>yanlıştır</span>?",
+    opts:["Nitröz aksit kokusuz olup vücuttan hızlı elimine edilir.","İzofluranın kas gevşetici etkisi vardır.","Sevofluran keskin kokuludur ve bronkospazma neden olur.","Desfluran vücuttan hızlı elimine olur ve kısa uyanma süresine sahiptir.","Nitröz oksitin analjezik etkisi vardır."],
+    answer:2,
+    hint:"Sevofluran solunum yollarında irritasyon yapmadığı için özellikle çocuklarda anestezi indüksiyonunda kullanılabilir.",
+    trap:"Sevofluran solunum yollarında irritasyon yapmaz (keskin kokulu değildir) ve bronkospazmı önler; bu nedenle astımlı hastalarda kullanılabilir. Desfluran ise keskin ve irritan kokuludur.",
+    explain:"Sevofluran karaciğerde en az metabolize olan inhalasyon anesteziğidir. Miyokardda katekolamin duyarlılığını arttırmaz (nitröz oksit gibi) ve taşikardi yapmaz. Solunum yollarında irritasyon yapmadığı için özellikle çocuklarda anestezi indüksiyonunda kullanılabilir. Bronkodilatasyon yapar. Yanlış olan şık 'Sevofluran keskin kokuludur ve bronkospazma neden olur' ifadesidir."
+  },
+  // ===== İNTRAVENÖZ ANESTEZİKLER =====
+  {
+    section:"İNTRAVENÖZ ANESTEZİKLER",
+    year:"İlkbahar 90",
+    question:"Kan basıncını <span style='text-decoration:underline'>düşürmeyen</span> anestezik madde aşağıdakilerden hangisidir?",
+    opts:["Halotan","Azot protoksit","Enfluran","Metoksifluran","Ketamin"],
+    answer:4,
+    hint:"Ketamin dissosiatif anestezik bir maddedir. Kardiyovasküler depresyon yapmaz. Kan basıncını, nabız hızını ve kardiyak outputu diğer anesteziklerden farklı olarak artıran NMDA reseptör blokörüdür.",
+    trap:"Halotan, enfluran, azot protoksit, metoksifluran kan basıncını düşürür. Yalnızca ketamin kan basıncını artırır.",
+    explain:"Ketamin dissosiatif anestezik bir maddedir. Kardiyovasküler depresyon yapmaz. Kan basıncını ve kardiyak output'u artırır bu yüzden şoklu hastalarda indüksiyon için kullanılır. NMDA reseptör blokörüdür (nonkompetitif blokaj yapar). Miyokardın oksijen tüketimini de arttırdığı için MİYOKARD İNFARKTÜSÜNDE kullanılmamalıdır."
+  },
+  {
+    section:"İNTRAVENÖZ ANESTEZİKLER",
+    year:"İlkbahar 99",
+    question:"Aşağıdakilerden hangisi intravenöz genel anesteziktir?",
+    opts:["Gallamin","Ketamin","Enfluran","Lidokain","Adrenalin"],
+    answer:1,
+    hint:"Ketamin NMDA reseptör blokörüdür (nonkompetitif blokaj yapar). İntravenöz kullanılır.",
+    trap:"Gallamin nöromusküler bloker, enfluran inhalasyon anesteziği, lidokain lokal anestezik, adrenalin sempatomimetik ajandır. Ketamin intravenöz genel anesteziktir.",
+    explain:"Ketamin dissosiatif anestezik bir maddedir. İntravenöz kullanılır. Kan basıncını ve kardiyak output'u artırır bu yüzden şoklu hastalarda indüksiyon için kullanılır. Miyokardın oksijen tüketimini de arttırdığı için MİYOKARD İNFARKTÜSÜNDE kullanılmamalıdır."
+  },
+  {
+    section:"İNTRAVENÖZ ANESTEZİKLER",
+    year:"Sonbahar 2007",
+    question:"Aşağıdaki anestezik maddelerden hangisi nistagmusa neden olur?",
+    opts:["Propofol","Enfluran","Droperidol","Ketamin","Halotan"],
+    answer:3,
+    hint:"Ketamin kısa etkili, hastanın uyanık olduğu ancak birinci kapalı olduğundan ağrıyı algılayamadığı dissosiatif anestezi oluşturur.",
+    trap:"Nistagmus ketamine özgü bir yan etkidir. Diğer anestezik ajanlarda bu etki görülmez.",
+    explain:"Ketamin kısa etkili, hastanın uyanık olduğu ancak birinci kapalı olduğundan ağrıyı algılayamadığı dissosiatif anestezi oluşturur. Özellikle çocuklarda ve gençlerde kullanılır. Ketamin fenisiklidinin analoğu, amnezi, bilinçsizlik ve analjezi sağlaması ile tam anestezik özelliğe en yakın ilaçtır. Nistagmusa neden olur."
+  },
+  {
+    section:"İNTRAVENÖZ ANESTEZİKLER",
+    year:"İlkbahar 2017 Orijinal",
+    question:"Aşağıdaki intravenöz anestezik ajanlardan hangisi hem kalp hızını hem de ortalama arter basıncını artırır?",
+    opts:["Tiopental","Metoheksital","Diazepam","Ketamin","Etomidat"],
+    answer:3,
+    hint:"Ketamin kan basıncını ve kardiyak output'u artırır; şoktaki hastada iyi bir seçenektir.",
+    trap:"Tiopental, metoheksital, diazepam ve etomidat kardiyovasküler sistemi deprese eder ve hipotansiyon yapabilir. Yalnızca ketamin hem kalp hızını hem de kan basıncını artırır.",
+    explain:"Ketamin dissosiatif anestezik bir maddedir. Kardiyovasküler depresyon yapmaz. İntravenöz kullanılır. Kan basıncını ve kardiyak output'u artırır bu yüzden şoktaki hastada iyi bir seçenektir. Bu yüzden şoklu hastalarda indüksiyon için kullanılır."
+  },
+  {
+    section:"İNTRAVENÖZ ANESTEZİKLER",
+    year:"Sonbahar 2019 Orijinal",
+    question:"Ciddi hipovolemisi olduğu düşünülen bir hastada <span style='text-decoration:underline'>en uygun</span> anestezi indüksiyon ajanı aşağıdakilerden hangisidir?",
+    opts:["Propofol","Tiyopental","Sevofluran","Midazolam","Ketamin"],
+    answer:4,
+    hint:"Ketamin kan basıncını ve kardiyak outputu artırır; şoktaki hastada iyi bir seçenektir.",
+    trap:"Propofol, tiyopental, midazolam ve sevofluran kardiyovasküler sistemi deprese eder ve şok tablosunu kötüleştirebilir. Hipovolemik şokta ketamin tercih edilir.",
+    explain:"Diğer şıklarda bulunan sevofluran, tiyopental, midazolam ve propofol gibi ajanlar doz bağımlı olarak kardiyak outputu düşürüebilir ve şok tablosunu kötüleştirebilirler. Ketamin bir NMDA reseptör blokörüdür ve dissosiyatif anestezi yapar. Kan basıncını ve kardiyak output'u artırır, şoktaki hastada iyi bir seçenektir."
+  },
+  {
+    section:"İNTRAVENÖZ ANESTEZİKLER",
+    year:"Sonbahar 2020 Orijinal",
+    question:"Aşağıdaki intravenöz anestezik ajanlardan hangisinin analjezik etkisi <span style='text-decoration:underline'>en güçlüdür</span>?",
+    opts:["Propofol","Tiyopental","Ketamin","Etomidat","Midazolam"],
+    answer:2,
+    hint:"Ketamin; bir NMDA reseptör blokörüdür ve dissosiyatif anestezi yapar. En önemli özelliklerinden birisi de analjezik etkisinin olmasıdır.",
+    trap:"Propofol, tiyopental, midazolam ve etomidat analjezik etkiye sahip değildir ya da minimaldir. Yalnızca ketamin güçlü analjezik etkiye sahip intravenöz anesteziktir.",
+    explain:"Şıklarda verilen ilaçların hepsinin amnezik/hipnotik özelliği olmasına rağmen ketamin dışındaki tiyopental, etomidat, midazolam ve propofol gibi ilaçların analjezik yani ağrı kesici özelliği yoktur ya da minimaldir. Ketamin bir NMDA reseptör blokörüdür ve dissosiyatif anestezi yapar. En önemli özelliklerinden birisi de analjezik etkisinin olmasıdır."
+  },
+  {
+    section:"İNTRAVENÖZ ANESTEZİKLER",
     year:"Sonbahar 2021 Orijinal",
-    question:"Otuz beş yaşındaki kadın hasta, üst solunum yolu enfeksiyonu sonrası sinirlilik, kilo kaybı ve taşikardi şikâyetleri ile başvuruyor. TSH değeri 0.02 mU/L (0.4-4.5) olan hastaya Tc-99m perteknetat tiroid sintigrafisi ve radyoaktif iyot (I-131) tiroid tutulum testi yapılıyor.<br><br>Aşağıda sonuçları verilen sintigrafik bulgulardan hangisi, bu hastada subakut tiroidit tanısını düşündürür?",
-    opts:["Tc-99m: Hiperaktif — I-131: Artmış tutulum","Tc-99m: Hiperaktif — I-131: Azalmış tutulum","Tc-99m: Suprese — I-131: Artmış tutulum","Tc-99m: Suprese — I-131: Azalmış tutulum","Tc-99m: Hiperaktif — I-131: Normal tutulum"],
-    correct:3,
-    hint:"Subakut tiroiditte tiroid bezi fonksiyon gösteremez hale gelir.",
-    trap:"Subakut tiroiditte tiroid bezi hasar görmüştür; hem Tc-99m hem de I-131 tutulumu azalır/supresedir. Graves hastalığında her ikisi de artar.",
-    explain:"Subakut tiroiditte Tc-99m perteknetat baskılı olduğu ve radyoaktif iyot (I-131) tiroid tutulumunun azaldığı durum subakut tiroidittir. Hipertiroidisi olan ve düşük TSH değeri saptanan hastada Tc-99m suprese + I-131 azalmış ise subakut tiroidit, her ikisi de artmış ise Graves/toksik adenom düşünülür."
+    question:"Aşağıdaki anestezik ajanlardan hangisi NMDA reseptörleri üzerinden etki gösterir?",
+    opts:["Ketamin","Midazolam","Propofol","Tiyopental","Etomidat"],
+    answer:0,
+    hint:"Ketamin, nitröz oksid (N2O), siklopropan ve xenon ise glutamatın NMDA reseptörlerini inhibe ederek etki gösterirler.",
+    trap:"Midazolam, propofol, tiyopental ve etomidat GABA-A reseptörü üzerinden etki gösterir. Yalnızca ketamin NMDA reseptör blokörüdür.",
+    explain:"Genel anestezikler, nöron membranın lipid matriksinde değişkenlik yaparak iyon kanallarını (özellikle sodyum kanalı) bloke ederler. GABA-A reseptör aktivitesini artırarak anestezi oluşturan genel anestezikler; inhalasyon anestezikleri, barbitüratlar, benzodiazepinler, etomidat, propofol dur. Ketamin, nitröz oksid (N O), siklopropan ve xenon ise glutamatın NMDA reseptörlerini inhibe ederek etki gösterirler."
   },
   {
-    id:20,
-    year:"Sonbahar 2011",
-    question:"Aşağıdakilerden hangisi osteoporozun radyolojik bulgularından biri <u>değildir</u>?",
-    opts:["Kemiklerde kortikal incelme","Psödofraktür","Bikonkav vertebra","Kemiklerde radyolusensi artışı","Vertebra kompresyonları"],
-    correct:1,
-    hint:"Psödofraktür hangi hastalığın tipik bulgusudur?",
-    trap:"Psödofraktür osteomalazinin tipik bulgusudur, osteoporozun değil. Osteoporozda kortikal incelme, radyolusensi artışı, vertebra kompresyonu görülür.",
-    explain:"Psödofraktür (Looser zonu) osteomalazinin tipik bulgusudur. Osteoporozun radyolojik bulguları: kemiklerde kortikal incelme, bikonkav vertebra (balık vertebra), kemiklerde radyolusensi artışı, vertebra kompresyonları, Schmorl nodülleri. En az %20-30 kemik kaybı gelişmişse röntgende görülebilir."
+    section:"İNTRAVENÖZ ANESTEZİKLER",
+    year:"Sonbahar 91",
+    question:"Tiyopentalin rezervuar dokusu hangisidir?",
+    opts:["Bağ dokusu","Kas","Eklem sıvısı","BOS","Yağ dokusu"],
+    answer:4,
+    hint:"Tiyopental kısa etkili bir barbitürat olup anestezi indüksiyonunda kullanılır. Yağ partisyon katsayısı yüksek olduğu için önce beyne nüfus eder.",
+    trap:"Tiyopentalin ilk etkisi kısa sürer çünkü hızla yağ dokusuna dağılır (redistribüsyon). Yağ dokusu rezervuar dokusudur.",
+    explain:"Tiyopental kısa etkili bir barbitürat olup anestezi indüksiyonunda kullanılır. Yağ partisyon katsayısı yüksek olduğu için önce beyne nüfus eder. İlk 5 dakika içinde beyinde fazla olmasına rağmen etkisi kısa sürer. Yağ dokusunda ise önemli miktarda toplanır."
+  },
+  {
+    section:"İNTRAVENÖZ ANESTEZİKLER",
+    year:"İlkbahar 2006",
+    question:"Tiopental aşağıdaki anestezik grupların hangisinde yer alır?",
+    opts:["Sedatifler","Çok kısa etkili barbitüratlar","Antiepileptikler","Opioid analjezikler","Benzodiazepinler"],
+    answer:1,
+    hint:"Çok kısa etkili barbitüratlar (tiopental, metoheksital 20 dakika) anestezide indüksiyon amacıyla tercih edilir.",
+    trap:"Tiopental barbitürat grubundadır, benzodiazepinler değil. Fenobarbital uzun etkili barbitürattır.",
+    explain:"Barbitüratlar — Çok kısa etkili barbitüratlar (tiopental, metoheksital 20 dakika): Anestezide indüksiyon amacıyla tercih edilir. Sedatif amaçla kullanılmaz. Metoheksital: En kısa etkili. Orta etkili barbitüratlar (pentobarbital, sekobarbital, amobarbital, 3-8 saat): Sedatif ve hipnotik amaçla kullanılır. Uzun etkili barbitüratlar (fenobarbital ve barbital, 1-2 gün): Uyku ilacı olarak kullanılmaz; artık etkiye neden olur."
+  },
+  {
+    section:"İNTRAVENÖZ ANESTEZİKLER",
+    year:"Sonbahar 2022 Orijinal",
+    question:"Aminolevülinik asit sentaz enzimini uyarması nedeniyle birçok porfiria türünde kullanılmaması gereken intravenöz anestezi indüksiyon ajanı aşağıdakilerden hangisidir?",
+    opts:["Propofol","Tiyopental","Etomidat","Ketamin","Midazolam"],
+    answer:1,
+    hint:"Tiyopental Porfirialı hastalarda, status astmatikusta ve barbitürat allerjisi olan hastalarda kontraendikedir.",
+    trap:"Propofol, etomidat, ketamin ve midazolam porfiria hastalarında kullanılabilir. Yalnızca tiyopental porfiriada kontrendikedir.",
+    explain:"Tiyopental — Porfirialı hastalarda, status astmatikusta ve barbitürat allerjisi olan hastalarda kontraendikedir. Aminolevülinik asit sentaz enzimini uyarması nedeniyle birçok porfiria türünde kullanılmamalıdır. Propofol porfiria hastalarında kullanılması önerilir."
+  },
+  {
+    section:"İNTRAVENÖZ ANESTEZİKLER",
+    year:"İlkbahar 2012",
+    question:"Uzun süreli intravenöz infüzyonda kullanıldığında adrenokortikal baskılanma sonucunda yoğun bakım hastalarında mortaliteyi artırmış olduğu bilinen intravenöz anestezik aşağıdakilerden hangisidir?",
+    opts:["Etomidat","Propofol","Ketamin","Tiopental","Droperidol"],
+    answer:0,
+    hint:"Adrenokortikal yetmezlik oluşturabilecek intravenöz anestezik ajan Etomidattır.",
+    trap:"Propofol propofol infüzyon sendromuna yol açabilir ancak adrenokortikal baskılanma etomidatın özelliğidir. Etomidat adrenal steroid sentezini azaltır (11-β hidroksilaz enzimini inhibe eder).",
+    explain:"Adrenokortikal yetmezlik oluşturabilecek intravenöz anestezik ajan Etomidattır. Etomidat; Direkt GABAA reseptörlerine bağlanarak reseptörlerin GABA'ya afinitesini artırmasına rağmen, tercihen GABAA reseptörlerinin beta subünitesi üzerinden etki eder. Adrenal steroid sentezini azaltır (11-ß hidroksilaz enzimini inhibe eder) bu yüzden adrenokortikal yetmezlikte kullanılmamalıdır."
+  },
+  {
+    section:"İNTRAVENÖZ ANESTEZİKLER",
+    year:"Sonbahar 2017 Orijinal",
+    question:"Deksmedetomidinle ilgili aşağıdaki ifadelerden hangisi <span style='text-decoration:underline'>yanlıştır</span>?",
+    opts:["Santral α₂-reseptör stimülanıdır.","Anksiyolitik ve sedatiftir.","Hafif analjezi sağlar.","Böbreklerde metabolize edilir.","Kalp hızını azaltır."],
+    answer:3,
+    hint:"Deksmedetomidin karaciğerde hızlı bir biçimde metabolize olur; metabolitleri safra ve idrar yolu ile atılır.",
+    trap:"Deksmedetomidin böbreklerde değil karaciğerde metabolize edilir. Bu önemli bir ayrıntıdır.",
+    explain:"Deksmedetomidin SSS'de alfa 2 adrenerjik reseptörleri aktive ederek sedatif etki gösterir. Anksiyolitik ve sedatif etkileri amacıyla kullanılabilir. Hafif analjezi sağlar. Katekolamin salınımında azalmaya sekonder kalp hızı ve kan basıncını düşürür. Deksmedetomidinin solunum ile ilgili olmayan sadece alfa 2 reseptörleri uyardığından minimal respiratuar depresyon gözlenir. Karaciğerde hızlı bir biçimde metabolize olur; metabolitleri safra ve idrar yolu ile atılır. Böbreklerde değil!"
+  },
+  {
+    section:"İNTRAVENÖZ ANESTEZİKLER",
+    year:"İlkbahar 2021 Orijinal",
+    question:"Aşağıdakilerden hangisi sedatif etkileri olan bir parenteral selektif α₂⁻ agonisttir?",
+    opts:["Deksmedetomidin","Adrenalin","Efedrin","Dopeksamin","Fentolamin"],
+    answer:0,
+    hint:"Deksmedetomidin SSS'de alfa 2 adrenerjik reseptörleri aktive ederek sedatif etki gösterir.",
+    trap:"Adrenalin ve efedrin karma alfa ve beta agonisttir, sedatif etkileri yoktur. Fentolamin alfa blokerdir. Dopeksamin beta-2 ve dopaminerjik agonisttir. Yalnızca deksmedetomidin selektif α₂ agonist ve sedatif etkilidir.",
+    explain:"Deksmedetomidin SSS'de alfa 2 adrenerjik reseptörleri aktive ederek sedatif etki gösterir. Belirgin respiratuar depresyon yapmadan sedasyon ve analjezi oluşturur. Adrenalin ve efedrin karma (alfa ve beta agonist) ilaçlardır ve sedatif etkileri yoktur. Dopeksamin sentetik bir katekolamindir ve sedatif etkisi yoktur. Fentolamin α-reseptörlerde kompepetif bloker olup sedatif etkisi yoktur."
+  },
+  {
+    section:"İNTRAVENÖZ ANESTEZİKLER",
+    year:"İlkbahar 2018 Orijinal",
+    question:"Propofolle ilgili aşağıdaki ifadelerden hangisi <span style='text-decoration:underline'>yanlıştır</span>?",
+    opts:["GABAA reseptörüne bağlanarak etkisini gösterdiği için flumazenil ile ortadan kaldırılabilir.","İntravenöz enjeksiyonu ağrılı olabilir.","Bakteri üremesi riski nedeniyle ampul açıldıktan sonraki ilk 6-8 saatte kullanılmalıdır.","Sistemik vasküler direnci düşürerek arteriyel kan basıncını düşürür.","Hızlı etki gösterir."],
+    answer:0,
+    hint:"Propofol GABA'nın GABAA reseptörüne bağlanma afinitesini yükseltir. Flumazenil benzodiazepinlerin etkisini geri çevirmede kullanılan antagonist ajandır.",
+    trap:"Profolün antidotu yoktur; flumazenil benzodiazepinlerin antagonistidir, profolün değil. Propofol GABA-A reseptörüne bağlanır ama flumazenil ile antagonize edilemez.",
+    explain:"Propofol GABA'nın GABAA reseptörüne bağlanma afinitesini yükseltir. Bağlanma ile klor kanalında ortaya çıkan aktivasyon, barbitüratların etki mekanizmasına benzer şekilde sinir membranında hiperpolarizasyona yol açar. Profolün herhangi bir antidotu yoktur. Flumazenil benzodiazepinlerin etkisini geri çevirmede kullanılan antagonist ajandır."
+  },
+  {
+    section:"İNTRAVENÖZ ANESTEZİKLER",
+    year:"Sonbahar 2022 Orijinal",
+    question:"Aşağıdakilerden hangisinin düşük dozlarda antiemetik etkisi vardır?",
+    opts:["Morfin","Fentanil","Azot protoksit","Remifentanil","Propofol"],
+    answer:4,
+    hint:"Propofol antiemetik etkisi vardır. Postoperatif bulantı kusma yapmadığı için ve mental durumun berraklığını iyi koruduğundan dolayı ayaktan cerrahi müdahelelerde iyi tercihtir.",
+    trap:"Morfin, fentanil, azot protoksit ve remifentanil bulantı-kusmayı arttırır. Düşük dozlarda antiemetik etkiye sahip olan propofoldir.",
+    explain:"Propofol GABA-A'ya bağlanarak etki eden genel anesteziktir. Antiemetik etkisi vardır. Postoperatif bulantı kusma yapmadığı için ve mental durumun berraklığını iyi koruduğundan dolayı ayaktan cerrahi müdahelelerde iyi tercihtir. Azot protoksit ise özellikle 1 saat üstü kullanımlarda postoperative bulantı-kusma insidansı fazladır."
+  },
+  // ===== ANALJEZİKLER =====
+  {
+    section:"ANALJEZİKLER",
+    year:"İlkbahar 90",
+    question:"Aşağıdaki narkotik analjeziklerden iptila (addiction) yapıcı etkisi <span style='text-decoration:underline'>en fazla</span> olan hangisidir?",
+    opts:["Pentazosin","Diasetilmorfin","Kodein","Metadon","Nalorfin"],
+    answer:1,
+    hint:"Diasetil morfin (eroin) bağımlılık yapıcı etkisi morfinden fazladır. Analjezik etkiside morfinden 2,5 kat fazladır.",
+    trap:"Pentazosin morfinden daha az bağımlılık yapar. Nalorfin saf narkotik antagonisttir. Diasetilmorfin (eroin) en güçlü bağımlılık yapıcı opioiddir.",
+    explain:"Diasetil morfin (eroin) bağımlılık yapıcı etkisi morfinden fazladır. Analjezik etkiside morfinden 2,5 kat fazladır. Pentazosin, bir morfin molekülünün benzomorfin çekirdeğini içeren ama oksijen köprüsünden yoksun olan ve morfin grubunun bileşiklerinin üçüncü altı üyeli çekirdeği içeren atipik bir bileşiktir."
+  },
+  {
+    section:"ANALJEZİKLER",
+    year:"Sonbahar 90",
+    question:"Aşağıda verilen ilaçlardan hangisi saf narkotik antagonist etkilidir?",
+    opts:["Naloksan","Metadon","Dolantin","Dinorfin","Nalorfin"],
+    answer:0,
+    hint:"Naloksan saf narkotik antagonisttir. Nalorfin ise parsiyel agonisttir.",
+    trap:"Nalorfin saf antagonist değil parsiyel agonisttir. Metadon ve dolantin analjezik opioidlerdir. Naloksan tek saf narkotik antagonisttir.",
+    explain:"Naloksan saf narkotik antagonisttir. Nalorfin ise parsiyel agonisttir. Diğer şıklarda yer alan dolantin daha çok safra spazmı olan hastalarda analjezik olarak kullanılır, metadonsa narkotik bağımlılığı tedavisinde kullanılır. Hepsi saf narkotik etkilidil. Naloksan — Mü ve Kappa üzerine tam antagonistik etki oluşturarak, opioidlerin etkisini ortadan kaldırır (naltrekson gibi)."
+  },
+  {
+    section:"ANALJEZİKLER",
+    year:"Sonbahar 96",
+    question:"Aşağıdaki ajanlardan hangisi nörolept analjezi için kullanılır?",
+    opts:["Mepivakain","Prilokain","Fentanil","Ketamin","Metoksifluran"],
+    answer:2,
+    hint:"Fentanil ve droperidol anestezisiz nörolept analjezi yapar. Bu iki ajana azot protoksit inhalasyonu eklenirse buna da nörolept anestezi denir.",
+    trap:"Mepivakain ve Prilokain lokal anestezik, metoksifluran inhalasyon anesteziği, ketamin dissosiatif anesteziktir. Nörolept analjezi için fentanil kullanılır.",
+    explain:"Fentanil ve droperidol anestezisiz nörolept analjezi yapar. Bu iki ajana azot protoksit inhalasyonu eklenirse buna da nörolept anestezi denir. Metoksifluran en güçlü genel anesteziktir. Ketamin dissosiatif anestezi yapar. Mepivakain ve Prilokain lokal anestezik ajanlardır."
+  },
+  {
+    section:"ANALJEZİKLER",
+    year:"İlkbahar 2002",
+    question:"Kardiovasküler depresyon etkisi <span style='text-decoration:underline'>en az</span> olan narkotik analjezik aşağıdakilerden hangisidir?",
+    opts:["Droperidol","Morfin","Gallamin","Tiopental","Fentanil"],
+    answer:4,
+    hint:"Kardiyovasküler depresyon etkisi en az olan ajan Fentanildir.",
+    trap:"Morfin histamin salınımı yapabilir ve kan basıncını düşürebilir. Droperidol alfa bloker etkiyle hipotansiyon yapabilir. Fentanilin solunum depresyonunun morfine oranla kısa, hemodinamik etkilerinin daha az olması onu anestezi amacıyla tercih edilmektedir.",
+    explain:"Kardiyovasküler depresyon etkisi en az olan ajan Fentanildir. Fentanil lipofilik yapıda, potensi yüksek, hemodinamik stabilitesi diğer opioidlerden daha iyidir. Solunum depresyonu etkisinin morfine oranla daha kısa olması, hemodinamik etkilerinin daha az olması ve histamin salınımı yapmaması gibi özellikleri ile anestezi amacıyla tercih edilmektedir."
+  },
+  {
+    section:"ANALJEZİKLER",
+    year:"Sonbahar 2013 Orijinal",
+    question:"Aşağıdakilerden hangisi, kronik kanser ağrısının tedavisinde yer alan adjuvan ilaçlardan biri <strong>değildir</strong>?",
+    opts:["Amitriptilin","Prednizon","Karbamazepin","Fentanil","Gabapentin"],
+    answer:3,
+    hint:"Adjuvan ilaçlar, asıl olarak ağrı tedavisi için değil, başka hastalıkların tedavisi amacı ile kullanılan ama ilaç ağrı kesici ilaçlardır.",
+    trap:"Fentanil bir opioid analjeziktir ve adjuvan ilaç değildir. Amitriptilin, prednizon, karbamazepin ve gabapentin adjuvan analjezik ilaçlardır.",
+    explain:"Adjuvan ilaçlar, asıl olarak ağrı tedavisi için değil, başka hastalıkların tedavisi amacı ile kullanılan ama ilaç ağrı kesici ilaçlardır. Adjuvan analjezik ilaçlar: Antidepresanlar (trisiklik antidepresanlar, SSRI, SNRI, Bupropion), Antiepileptikler (Karbamazepin, Gabapentin, Pregabalin), Lokal Anestezikler (Lidokain), Kortikosteroidler, NMDA reseptör antagonistleri, Alfa 2 adrenerjik agonistler, Periferik kas gevşeticiler, Santral etkili kas gevşeticiler. Fentanil ise bir opioid analjeziktir."
+  },
+  {
+    section:"ANALJEZİKLER",
+    year:"İlkbahar 2022 Orijinal",
+    question:"Postoperatif dönemde hipotermiye bağlı olarak titremenin durdurulması ile oksijen tüketiminin azaltılması için aşağıdakilerden hangisinin uygulanması diğerlerine göre <span style='text-decoration:underline'>daha uygundur</span>?",
+    opts:["Meperidin","Parasetamol","Lidokain","Sugammadeks","Flumazenil"],
+    answer:0,
+    hint:"Meperidin anestezi sonrası titremeyi azaltır ve sadece akut ağrıda kullanılır.",
+    trap:"Parasetamol, lidokain, sugammadeks ve flumazenil postoperatif titremeyi azaltma konusunda meperidin kadar etkili değildir. Meperidin bu amaç için ilk tercih olmalıdır.",
+    explain:"Postoperatif titreme oluşumu mekanizması tam olarak bilinmeyen ve ameliyat sonrası bakım ünitelerinde sık görülen bir komplikasyondur. Tedavisinde ilk tercih meperidin olmalıdır. Meperidin — Antitussif etkisi yoktur. Antikolinerjik yan etkileri nedeniyle miyotik etkisi çok azdır. Morfinden farklı olarak negatif inotropik özelliği vardır. Meperidin anestezi sonrası titremeyi azaltır ve sadece akut ağrıda kullanılır."
+  },
+  {
+    section:"ANALJEZİKLER",
+    year:"İlkbahar 2015 Orijinal",
+    question:"Aşağıdakilerden hangisi opioidlerin yan etkilerinden biri <strong>değildir</strong>?",
+    opts:["Bulantı","Kasıntı","Sedasyon","Solunum depresyonu","Diyare"],
+    answer:4,
+    hint:"Opioid intoksikasyonu bulguları arasında analjezi, solunum depresyonu, kabızlık, bulantı, kusma, ortostatik hipotansiyon, toplu iğne başı pupil, deri soğuk ve nemli, kas tonusu azalmış yer alır.",
+    trap:"Diyare opioidlerin yan etkisi değildir; aksine kabızlık (konstipasyon) opioidlerin tipik yan etkisidir. Opioidler barsak motilitesini azaltır.",
+    explain:"Opioid İntoksikasyonu bulguları: Analjezi, Solunum depresyonu, Kabızlık, Bulantı, kusma, Ortostatik hipotansiyon, Toplu iğne başı pupil, Deri soğuk ve nemli, Kas tonusu azalmış, Duygu durum değişiklikleri, Pruritis. Diyare opioidlerin yan etkisi değildir; aksine kabızlık görülür."
+  },
+  {
+    section:"ANALJEZİKLER",
+    year:"İlkbahar 2022 Orijinal",
+    question:"Aşağıdakilerden hangisi sentetik bir opioid türevi <strong>değildir</strong>?",
+    opts:["Morfin","Butorfanol","Metadon","Fentanil","Sufentanil"],
+    answer:0,
+    hint:"Doğal opioidler: morfin, kodein, papaverin. Yarı sentetik opioidler: eroin, dilaudid. Sentetik opioidler: Morfin türevleri (levorfanol), Metadon türevleri (metadon), Fenilpiperidin türevleri (meperidin, fentanil vb.)",
+    trap:"Morfin doğal opioiddir; sentetik değildir. Metadon, fentanil, sufentanil ve butorfanol sentetik opioidlerdir.",
+    explain:"Morfin opioidlerin prototipidir ve moleküler yapısı iç içe geçmiş beş adet halkadan oluşur. Doğal opioidler; morfin, kodein, papaverin. Yarı sentetik opioidler; eroin, dilaudid. Sentetik opioidler; Morfin türevleri (levorfanol), Metadon türevleri (metadon), Fenilpiperidin türevleri (meperidin, fentanil vb.)."
+  },
+  {
+    section:"ANALJEZİKLER",
+    year:"Sonbahar 2019 Orijinal",
+    question:"Yirmi beş yaşındaki gebenin doğumunda analjezi sağlamak amacıyla opioid uygulanmasından kısa bir süre sonra doğan bebeğin ilk muayenesinde solunumunun baskılanmış olduğu saptanıyor. Bu durumda aşağıdakilerden hangisinin uygulanması <span style='text-decoration:underline'>daha uygundur</span>?",
+    opts:["Nalokson","Atropin","Flumazenil","Sugammadeks","Neostigmin"],
+    answer:0,
+    hint:"Opioid kullanımına veya doz aşımına bağlı meydana gelen solunum depresyonunda bu etkiyi geri çevirmek için kullanılması gereken en uygun ajan naloksandır.",
+    trap:"Flumazenil benzodiazepinlerin antagonistidir. Sugammadeks nöromusküler blokerlerin antagonistidir. Neostigmin antikolinestaz. Atropinin opioid etkisini geri çevirmede etkinliği yoktur. Naloksan tek doğru seçenektir.",
+    explain:"Opioid yan etkisi ve antidotunu sorgulayan kolay bilgi sorusu. Opioid kullanımına veya doz aşımına bağlı meydana gelen solunum depresyonunda bu etkiyi geri çevirmek için kullanılması gereken en uygun ajan naloksandır."
+  },
+  {
+    section:"ANALJEZİKLER",
+    year:"Sonbahar 2024",
+    question:"Aşağıdaki verilen ilaç ve ilacın antagonisti eşleştirmelerinden hangisi <span style='text-decoration:underline'>yanlıştır</span>?",
+    opts:["Midazolam – Flumazenil","Heparin – Protamin","Morfin – Naloksan","Roküronyum – Sugammadeks","Ketamin – N-asetilsistein"],
+    answer:4,
+    hint:"İlaçlar ve antagonistleri her zaman sorulmaya aday konulardır. N-asetil sistein parasetamol zehirlenmesinde antidot olarak kullanılmaktadır.",
+    trap:"N-asetil sistein parasetamol zehirlenmesinde antidot olarak kullanılmaktadır, ketaminin antagonisti değildir. Ketaminin spesifik bir antagonisti yoktur.",
+    explain:"Midazolam kısa etkili bir benzodiyazepin olup etkisi flumazenil ile antagonize edilmektedir. Heparin antidotu protamin sülfatdır. Morfin opiyat grubu ilaç olup etkisi naloksan ile antagonize edilmektedir. Roküronyum non depolarizan orta etkili nöromusküler blokör olup etkisi sugammadeks ile antagonize edilmektedir. N-asetil sistein ise parasetamol zehirlenmesinde antidot olarak kullanılmaktadır."
+  },
+// ===== NÖROMUSKÜLEr BLOKERLER =====
+  {
+    section:"NÖROMUSKÜLEr BLOKERLER",
+    year:"Sonbahar 87",
+    question:"Aşağıdakilerden hangisi nöromusküler bloke eden ilaçların (kürar) etkisini potansiyalize etmez?",
+    opts:["Aminoglikozid antibiyotikler","Litiyum","Magnezyum","Fenitoin","İnhalasyon anestezikleri"],
+    answer:3,
+    hint:"Fenitoin nöromusküler blokerlerin etkisini azaltır, uzatmaz. Aminoglikozid antibiyotikler, litiyum, magnezyum ve inhalasyon anestezikleri nöromusküler blokajı potansiyalize eder.",
+    trap:"Fenitoin ve karbamazepin kronik kullanımda enzim indüksiyonu yaparak nöromusküler blokerlerin etkisini AZALTIR (kısaltır). Diğerleri ise blokajı uzatır.",
+    explain:"Nöromusküler bloke eden ilaçların etkisini uzatan (potansiyalize eden) faktörler: Aminoglikozid antibiyotikler (streptomisin, neomisin, gentamisin), polimiksin, linkomisin, klindamisin; Litiyum; Magnezyum; İnhalasyon anestezikleri (halotan, izofluran, enfluran, sevofluran); Hipotermi; Hipokalemi; Hipovolemi; Respiratuar asidoz. Fenitoin ise kronik kullanımda enzim indüksiyonu yoluyla nöromusküler blokerlerin etkisini azaltır."
+  },
+  {
+    section:"NÖROMUSKÜLEr BLOKERLER",
+    year:"Sonbahar 90",
+    question:"Aşağıdakilerden hangisi depolarizan nöromusküler blok yapan ajandır?",
+    opts:["Panküronyum","Veküronyum","Atraküronyum","Süksinilkolin","Tubokürarin"],
+    answer:3,
+    hint:"Süksinilkolin (süksamedonyum) tek klinik kullanımda olan depolarizan nöromusküler blokördür.",
+    trap:"Panküronyum, veküronyum, atraküronyum ve tubokürarin non-depolarizan nöromusküler blokördür. Süksinilkolin tek depolarizan blokerdir.",
+    explain:"Süksinilkolin (süksamedonyum) tek klinik kullanımda olan depolarizan nöromusküler blokördür. Nöromusküler kavşakta nikotinik reseptörlere bağlanarak asetilkolini taklit eder. Plazma kolinesterazı tarafından yıkılır. Diğer tüm şıklar (panküronyum, veküronyum, atraküronyum, tubokürarin) non-depolarizan blokerdir."
+  },
+  {
+    section:"NÖROMUSKÜLEr BLOKERLER",
+    year:"İlkbahar 91",
+    question:"Süksinilkolin (depolarizan kas gevşetici) verilmesinin kesinlikle kontrendike olduğu durum hangisidir?",
+    opts:["Apandisit","Diabetes mellitus","Hipertansiyon","Hiperkalemi","Kolesistit"],
+    answer:3,
+    hint:"Süksinilkolin hiperkalemi oluşturduğundan, zaten hiperkalemisi olan bir hastaya verilmesi lethal kardiyak aritmiye yol açabilir.",
+    trap:"Apandisit, diyabet, hipertansiyon ve kolesistit süksinilkolin için kesin kontrendikasyon değildir. Hiperkalemi ise mutlak kontrendikasyondur çünkü süksinilkolin serum K+ düzeyini 0.5-1 mEq/L artırır.",
+    explain:"Süksinilkolin hiperkalemi oluşturduğundan, zaten hiperkalemisi olan bir hastaya verilmesi lethal kardiyak aritmiye yol açabilir. Aynı zamanda yanık, denervasyonu olan, kaslarda büyük hasar olan, hiperkalemi olan kişilerde kontrendikedir. Malign hipertermi eğilimli kişilerde de kontrendikedir."
+  },
+  {
+    section:"NÖROMUSKÜLEr BLOKERLER",
+    year:"İlkbahar 2004",
+    question:"Aşağıdakilerden hangisi nöromusküler blokerlerin etkisini geri döndürmek için kullanılır?",
+    opts:["Atropin","Piridostigmin","Flumazenil","Naloksan","Protamin"],
+    answer:1,
+    hint:"Nondepolarizan blokerler asetilkolinesteraz inhibitörleri (neostigmin, piridostigmin, edrofonyum) ile antagonize edilebilir.",
+    trap:"Flumazenil benzodiyazepinlerin, naloksan opioidlerin, protamin heparinin antagonistidir. Atropin kolinerjik yan etkileri azaltmak için eklenir ama kendisi reversal yapmaz. Nöromusküler blokerleri reversal eden piridostigmin/neostigmindır.",
+    explain:"Nondepolarizan nöromusküler blokerler asetilkolinesteraz inhibitörleri (neostigmin, piridostigmin, edrofonyum) ile antagonize edilebilir. Bu ilaçlar kolinesterazı inhibe ederek asetilkolin miktarını artırır ve rekabetçi blokajı tersine çevirir. Uygulama sırasında muskarinik yan etkileri önlemek için atropin veya glikopirolat eklenir. Flumazenil benzodiyazepinlerin, naloksan opioidlerin, protamin heparinin antagonistidir."
+  },
+  {
+    section:"NÖROMUSKÜLEr BLOKERLER",
+    year:"Sonbahar 2006",
+    question:"Aşağıdaki nöromusküler blokerlerden hangisinin etkisi karaciğerden bağımsız Hofmann eliminasyonu yolu ile sonlandırılır?",
+    opts:["Tubokürarin","Panküronyum","Veküronyum","Atraküronyum","Roküronyum"],
+    answer:3,
+    hint:"Atraküronyum pH ve ısıya bağımlı Hofmann eliminasyonu ile inaktive olur. Bu özelliği sayesinde karaciğer ve böbrek yetmezliği olan hastalarda güvenle kullanılabilir.",
+    trap:"Tubokürarin, panküronyum ve roküronyum karaciğer/böbrekten elimine olur. Atraküronyum ve sisatraküronyum Hofmann eliminasyonu ile parçalanır.",
+    explain:"Atraküronyum pH ve ısıya bağımlı Hofmann eliminasyonu ile inaktive olur. Bu özelliği sayesinde karaciğer ve böbrek yetmezliği olan hastalarda güvenle kullanılabilir. Hofmann eliminasyonu spontan kimyasal bozunma sürecidir ve karaciğer/böbrek fonksiyonundan bağımsızdır."
+  },
+  {
+    section:"NÖROMUSKÜLEr BLOKERLER",
+    year:"İlkbahar 2009",
+    question:"Nöromusküler kavşakta postsinaptik kolinerjik reseptörlere bağlanarak asetilkolinin bu bölgelere erişimini engelleyen nöromusküler bloker grubu aşağıdakilerden hangisidir?",
+    opts:["Depolarizan nöromusküler blokerler","Nondepolarizan nöromusküler blokerler","Gangliyon bloke ediciler","Kolinerjik antagonistler","Muskarinik antagonistler"],
+    answer:1,
+    hint:"Nondepolarizan (kompetitif) nöromusküler blokerler nikotinik reseptörlere bağlanır ancak reseptörü aktive etmez; asetilkolinin bağlanmasını kompetitif olarak engeller.",
+    trap:"Depolarizan blokerler reseptörü aktive ederek depolarizan blok yapar. Nondepolarizan blokerler ise reseptöre bağlanır ama aktive etmez, asetilkolinin erişimini engeller.",
+    explain:"Nondepolarizan (kompetitif) nöromusküler blokerler, nöromusküler kavşakta postsinaptik nikotinik kolinerjik reseptörlere bağlanarak asetilkolinin bu bölgelere erişimini kompetitif olarak engeller. Reseptörü aktive etmezler. Etkileri asetilkolinesteraz inhibitörleri ile geri döndürülebilir."
+  },
+  {
+    section:"NÖROMUSKÜLEr BLOKERLER",
+    year:"Sonbahar 2010",
+    question:"Aşağıdaki ilaç kombinasyonlarından hangisi nöromusküler blok reversal için kullanılır?",
+    opts:["Neostigmin + Atropin","Flumazenil + Atropin","Naloksan + Atropin","Sugammadeks + Atropin","Edrofonyum + Naloksan"],
+    answer:0,
+    hint:"Nondepolarizan blok reversal için neostigmin + atropin veya edrofonyum + atropin kombinasyonu kullanılır.",
+    trap:"Flumazenil benzodiyazepinlerin, naloksan opioidlerin antagonistidir. Sugammadeks tek başına roküronyum ve veküronyumu antagonize eder, atropine gerek yoktur. Neostigmin+atropin klasik reversal kombinasyonudur.",
+    explain:"Nondepolarizan nöromusküler bloklerin reversal için neostigmin + atropin kombinasyonu kullanılır. Neostigmin kolinesterazı inhibe ederek asetilkolin birikimini sağlar; atropin ise neostigmine bağlı muskarinik yan etkileri (bradikardi, bronkospazm, hipersalivasyon) önler."
+  },
+  {
+    section:"NÖROMUSKÜLEr BLOKERLER",
+    year:"İlkbahar 2016 Orijinal",
+    question:"Aşağıdakilerden hangisi sugammadeksin reversal için kullandığı nöromusküler bloker değildir?",
+    opts:["Roküronyum","Veküronyum","Panküronyum","Süksinilkolin","Pipeküronyum"],
+    answer:3,
+    hint:"Sugammadeks aminosteroid (steroid yapılı) nöromusküler blokerleri (roküronyum, veküronyum, panküronyum) antagonize eder. Süksinilkolin depolarizan bloker olduğundan sugammadeksle antagonize edilemez.",
+    trap:"Sugammadeks süksinilkolini reversal etmez çünkü süksinilkolin depolarizan blokerdir ve benzilizokiolin grubu değildir. Sugammadeks yalnızca aminosteroid yapılı nöromusküler blokerleri reversal eder.",
+    explain:"Sugammadeks yeni bir tersine çevirme ajanıdır. Aminosteroid nöromusküler blokerler (roküronyum, veküronyum, panküronyum) için kullanılır. Süksinilkolin depolarizan nöromusküler bloker olduğu için sugammadeks ile antagonize edilemez. Süksinilkolinin etkisi plazma kolinesterazı tarafından sonlandırılır."
+  },
+  {
+    section:"NÖROMUSKÜLEr BLOKERLER",
+    year:"Sonbahar 2016 Orijinal",
+    question:"Plazma kolinesteraz (psödokolinesteraz) aktivitesi azalmış olan bir hastada aşağıdaki nöromusküler blokerlerden hangisinin etkisinin uzaması beklenmez?",
+    opts:["Süksinilkolin","Atraküronyum","Prokain","Kokain","Mivaküronyum"],
+    answer:1,
+    hint:"Atraküronyum Hofmann eliminasyonu ve nonspesifik esterazlarla metabolize edilir; plazma kolinesterazından bağımsızdır.",
+    trap:"Süksinilkolin, mivaküronyum, prokain ve kokain plazma kolinesterazı (psödokolinesteraz) tarafından metabolize edilir. Atraküronyum ise Hofmann eliminasyonu ile parçalanır ve plazma kolinesterazından etkilenmez.",
+    explain:"Plazma kolinesteraz (psödokolinesteraz) tarafından metabolize edilen ilaçlar: Süksinilkolin, mivaküronyum, prokain, kokain, aspirin, klorpromazin, prilokalin metaboliti. Atraküronyum Hofmann eliminasyonu (pH ve ısıya bağımlı spontan kimyasal parçalanma) ve nonspesifik esterazlarla metabolize edilir; bu nedenle plazma kolinesteraz aktivitesi azalmış hastalarda etkisi uzamaz."
+  },
+  // ===== LOKAL ANESTEZİKLER =====
+  {
+    section:"LOKAL ANESTEZİKLER",
+    year:"Sonbahar 87",
+    question:"Aşağıdakilerden hangisi lokal anestezi sırasında uygulanan adrenalinin amacı değildir?",
+    opts:["Kanamanın azaltılması","Lokal anestezik maddenin emilimini geciktirme","Anestezi süresini uzatma","Lokal anestezik maddenin yayılımını engellemek","Lokal anestezi süresince uyarılmayı azaltma"],
+    answer:4,
+    hint:"Lokal anesteziye eklenen adrenalin: vazokonstrüksiyon yaparak emilimi yavaşlatır, anestezi süresini uzatır, sistemik toksisiteyi azaltır ve kanamanı azaltır.",
+    trap:"Lokal anesteziye eklenen adrenalin 'uyarılmayı azaltma' amacıyla kullanılmaz. Adrenalin sempatik agonist olup aksine uyarılmayı artırabilir.",
+    explain:"Lokal anesteziye eklenen adrenalinin amaçları: Vazokonstrüksiyon yaparak lokal anestezik maddenin emilimini geciktirme, anestezi süresini uzatma, sistemik toksisiteyi azaltma, kanamanı azaltma ve lokal anestezik maddenin yayılımını sınırlama. 'Lokal anestezi süresince uyarılmayı azaltma' adrenalin kullanımının amacı değildir; adrenalin sempatik agonist olup aksine uyarılmayı artırabilir."
+  },
+  {
+    section:"LOKAL ANESTEZİKLER",
+    year:"Sonbahar 89",
+    question:"Aşağıdaki lokal anesteziklerden hangisi en kısa süre etkilidir?",
+    opts:["Tetrakain","Prokain","Mepivakain","Bupivakain","Lidokain"],
+    answer:1,
+    hint:"Lokal anestezik etki süresi: Prokain (kısa) < Lidokain/Mepivakain (orta) < Bupivakain/Tetrakain (uzun).",
+    trap:"Bupivakain ve tetrakain en uzun etkili lokal anesteziklerdir. Prokain en kısa etkilidir (30-60 dk). Lidokain ve mepivakain orta süreli etkilidir.",
+    explain:"Lokal anestezik etki süreleri: Kısa etkili (30-60 dk): Prokain, kloroprokain. Orta etkili (1-2 saat): Lidokain, mepivakain, prilokai. Uzun etkili (3-10 saat): Bupivakain, tetrakain, etidokain, ropivakain. Prokain en kısa etkili lokal anesteziktir."
+  },
+  {
+    section:"LOKAL ANESTEZİKLER",
+    year:"Sonbahar 90",
+    question:"Aşağıdaki lokal anesteziklerden hangisi salisilat türevi değildir?",
+    opts:["Benzokain","Lidokain","Prokain","Tetrakain","Bupivakain"],
+    answer:1,
+    hint:"Amid tipi lokal anestezikler: lidokain, mepivakain, bupivakain, etidokain, prilokai, ropivakain. Ester tipi: prokain, tetrakain, benzokain, kloroprokain, kokain.",
+    trap:"Benzokain, prokain ve tetrakain ester (PABA türevi) yapılı lokal anesteziklerdir. Lidokain ve bupivakain ise amid yapılıdır. Soru salisilat türevi değilini soruyor; lidokain amid grubu olduğu için ne ester ne de salisilat türevidir.",
+    explain:"Lokal anestezikler kimyasal yapılarına göre amidler ve esterler olarak sınıflandırılır. Ester tipi lokal anestezikler (PABA türevleri): Prokain, Tetrakain, Benzokain, Kloroprokain, Kokain. Amid tipi lokal anestezikler: Lidokain, Mepivakain, Bupivakain, Etidokain, Prilokai, Ropivakain. Lidokain amid grubu lokal anesteziktir, salisilat türevi değildir."
+  },
+  {
+    section:"LOKAL ANESTEZİKLER",
+    year:"İlkbahar 93",
+    question:"Aşağıdaki lokal anesteziklerden hangisi toksik dozda metHb oluşumuna yol açar?",
+    opts:["Bupivakain","Lidokain","Prokain","Tetrakain","Prilokai (Prilokaин)"],
+    answer:4,
+    hint:"Prilokainin metaboliti olan o-toluidin methemoglobinemiye neden olur.",
+    trap:"Bupivakain, lidokain, prokain ve tetrakain methemoglobinemi yapmaz. Yalnızca prilokai methemoglobinemi yapar ve bu nedenle bebeklerde dikkatle kullanılmalıdır.",
+    explain:"Prilokainin (prilokai) metaboliti olan o-toluidin methemoglobinemiye neden olur. Bu nedenle büyük dozlarda kullanıldığında methemoglobinemi riski taşır ve özellikle bebeklerde dikkatli kullanılmalıdır. Methemoglobineminin tedavisinde metilen mavisi kullanılır. Diğer lokal anestezikler methemoglobinemi yapmaz."
+  },
+  {
+    section:"LOKAL ANESTEZİKLER",
+    year:"Sonbahar 97",
+    question:"Lokal anesteziklerin toksisitesi hangi faktörden en çok etkilenir?",
+    opts:["İlacın uygulandığı bölgedeki doku pH'sı","Plazma düzeyi","İlacın enjeksiyon hızı","İlacın osmolaritesi","Hastanın yaşı"],
+    answer:1,
+    hint:"Lokal anesteziklerin toksisitesi en çok plazma düzeyi ile ilişkilidir.",
+    trap:"Doku pH'sı, enjeksiyon hızı, osmolarite ve yaş lokal anestezik toksisitesini etkileyen faktörler olsa da toksisiteyle en doğrudan ilişkili olan faktör plazma düzeyidir.",
+    explain:"Lokal anesteziklerin toksisitesi en çok plazma düzeyi ile ilişkilidir. Plazma düzeyi ne kadar yüksekse sistemik toksisite o kadar fazla olur. Plazma düzeyini etkileyen faktörler: uygulanan doz, uygulama bölgesi (interkostal > kaudal > epidural > brakial pleksus > siyatik > deri altı), adrenalin varlığı ve ilacın protein bağlanma özelliği."
+  },
+  {
+    section:"LOKAL ANESTEZİKLER",
+    year:"Sonbahar 99",
+    question:"Lokal anesteziklerle ilgili olarak aşağıdakilerin hangisi doğrudur?",
+    opts:["Asidik ortamda (abseli dokularda) daha iyi etki gösterirler","A delta ve C lifleri en son bloke olur","Sinir liflerinin etkilenme sırası: otonom > duysal > motor","Primer etki mekanizmaları potasyum kanallarını bloke etmektir","En yüksek allerjik potansiyelleri amidlerdendir"],
+    answer:2,
+    hint:"Lokal anestezikler ince ve miyelinsiz lifler sırayla bloke eder. Etkilenme sırası: sempatik lifler (B) → ağrı ve ısı (C, Aδ) → dokunma → bası → motor.",
+    trap:"Lokal anestezikler asidik ortamda (abseli dokularda) daha az etki gösterir. Sodyum kanallarını bloke ederler, potasyum değil. Ester grubu daha fazla alerji yapar. A delta ve C lifleri EN ÖNCE bloke olur.",
+    explain:"Lokal anestezikler ince lifler üzerinde daha hızlı etki eder. Etkilenme sırası: Otonom (sempatik, B lifleri) → Duysal (ağrı, ısı: C ve Aδ lifleri) → Duysal (dokunma, bası: Aβ lifleri) → Motor (Aα lifleri). Yani otonom > duysal > motor sırası doğrudur. Primer etki mekanizması voltaj kapılı sodyum kanallarının blokajıdır. Ester grubu allerjik potansiyeli daha yüksektir."
+  },
+  {
+    section:"LOKAL ANESTEZİKLER",
+    year:"İlkbahar 2001",
+    question:"Lokal anesteziklerin etki mekanizmasına en iyi uyan ifade hangisidir?",
+    opts:["Ach'nin presinaptik salınımını inhibe ederler","Akson membranında voltaj kapılı Na kanallarını inhibe ederler","GABA etkisini potansiyalize ederler","Postsinaptik nikotinik reseptörleri inhibe ederler","Potasyum kanallarını bloke ederler"],
+    answer:1,
+    hint:"Lokal anestezikler akson membranında voltaj kapılı sodyum kanallarını inhibe ederek etki gösterirler.",
+    trap:"Lokal anestezikler presinaptik Ach salınımını inhibe etmez; GABA reseptörü üzerinden çalışmaz; nikotinik reseptör bloke etmez; potasyum kanallarını değil sodyum kanallarını bloke eder.",
+    explain:"Lokal anesteziklerin birincil etki mekanizması: Voltaj kapılı sodyum kanallarının iç tarafına bağlanarak Na+ akışını inhibe eder. Bu sayede aksiyon potansiyelinin oluşumu ve iletimi engellenir. İyonize (yüklü) form sodyum kanalının iç tarafındaki reseptöre bağlanır. İyonize olmayan (lipofilik) form membran içinden difüze olarak etki gösterir."
+  },
+  {
+    section:"LOKAL ANESTEZİKLER",
+    year:"Sonbahar 2002",
+    question:"Aşağıdakilerden hangisi amide bağlı lokal anestezikler grubundadır?",
+    opts:["Prokain","Tetrakain","Benzokain","Lidokain","Kloroprokain"],
+    answer:3,
+    hint:"Amidler: Lidokain, Mepivakain, Bupivakain, Etidokain, Prilokai, Ropivakain. Esterler: Prokain, Tetrakain, Benzokain, Kloroprokain, Kokain.",
+    trap:"Prokain, tetrakain, benzokain ve kloroprokain ester gruptur. Lidokain amid gruptur. Hatırlatma: amidlerde 'i-i' vardır (lidoka-i-n, bupivaka-i-n gibi).",
+    explain:"Lokal anestezikler kimyasal yapılarına göre iki grupta incelenir: Ester tipi: Prokain, Tetrakain, Benzokain, Kloroprokain, Kokain. Amid tipi: Lidokain, Mepivakain, Bupivakain, Etidokain, Prilokai, Ropivakain. Lidokain amid grubu lokal anesteziktir. Ester tipi ilaçlar plazmada psödokolinesteraz tarafından hidrolize edilir; amidler ise karaciğerde metabolize edilir."
+  },
+  {
+    section:"LOKAL ANESTEZİKLER",
+    year:"Sonbahar 2007",
+    question:"Aşağıdakilerden hangisi en uzun süreli etki gösteren lokal anestezik maddedir?",
+    opts:["Prokain","Lidokain","Mepivakain","Bupivakain","Prilokai"],
+    answer:3,
+    hint:"Bupivakain en uzun etkili (8-10 saat) amid grubu lokal anesteziktir.",
+    trap:"Prokain kısa etkili (30-60 dk), lidokain ve mepivakain orta etkili (1-2 saat), prilokai orta etkilidir. Bupivakain en uzun etkilidir.",
+    explain:"Lokal anestezik etki süreleri kıyaslaması: Prokain < Kloroprokain < Lidokain = Mepivakain = Prilokai < Bupivakain = Tetrakain = Ropivakain. Bupivakain amid grubu uzun etkili lokal anestezik olup etki süresi 8-10 saate kadar uzayabilir. Kardiyotoksisitesi yüksektir."
+  },
+  {
+    section:"LOKAL ANESTEZİKLER",
+    year:"İlkbahar 2010",
+    question:"Aşağıdaki lokal anesteziklerden hangisinin kardiyotoksisitesi en fazladır?",
+    opts:["Prokain","Lidokain","Mepivakain","Bupivakain","Ropivakain"],
+    answer:3,
+    hint:"Bupivakain kardiyotoksisitesi en yüksek lokal anesteziktir. Kardiyak reseptörlere yüksek afiniteyle bağlanır ve bağlandıktan sonra çok yavaş ayrılır.",
+    trap:"Prokain, lidokain, mepivakain ve ropivakain daha düşük kardiyotoksisiteye sahiptir. Ropivakain, bupivakaine alternatif olarak daha az kardiyotoksisitesi nedeniyle geliştirilmiştir.",
+    explain:"Bupivakain kardiyotoksisitesi en yüksek lokal anesteziktir. Kardiyak sodyum kanallarına bağlandıktan sonra yavaş ayrılması nedeniyle ('fast in, slow out') kardiyak iletim sistemini ciddi şekilde etkiler. Ciddi kardiyak toksisite durumunda İntralipid (intravenöz lipid emülsiyonu) antidot olarak kullanılır. Ropivakain, bupivakaine alternatif olarak daha az kardiyotoksisitesi nedeniyle geliştirilmiştir."
+  },
+  {
+    section:"LOKAL ANESTEZİKLER",
+    year:"Sonbahar 2013 Orijinal",
+    question:"Aşağıdakilerden hangisi lokal anesteziklerin SSS toksisitesinin bulgularından biri değildir?",
+    opts:["Ağız çevresinde uyuşma","Kulak çınlaması","Konvülziyon","Hipertansiyon","Bilinç kaybı"],
+    answer:3,
+    hint:"Lokal anestezik SSS toksisitesi ağız çevresinde uyuşma, kulak çınlaması, sersemlik ile başlar; ardından nöbetler ve bilinç kaybı gelir.",
+    trap:"Lokal anestezik SSS toksisitesinde hipotansiyon değil, önce bazı uyarıcı belirtiler (konvülziyon) görülür. Hipertansiyon SSS toksisitesinin tipik bulgusu değildir; kardiyovasküler toksisite bulgularında hipotansiyon daha olasıdır.",
+    explain:"Lokal anestezik SSS toksisitesi hafiften ağıra: Ağız çevresinde uyuşma, his kaybı → Kulak çınlaması, sersemlik, baş dönmesi → Görme bulanıklığı, konuşma güçlüğü → Kas titremeleri, konvülziyon → Bilinç kaybı, koma → Solunum durması. Hipertansiyon SSS toksisitesinin klasik bulgularından değildir."
+  },
+  {
+    section:"LOKAL ANESTEZİKLER",
+    year:"İlkbahar 2015 Orijinal",
+    question:"Aşağıdakilerden hangisi spinal anestezide lokal anestezik solüsyonun yayılımını etkileyen faktörlerden biri değildir?",
+    opts:["Barisite (özgül ağırlık)","Hasta pozisyonu","İnjeksiyon hızı","İlacın rengi","İnjekte edilen volüm"],
+    answer:3,
+    hint:"Spinal anestezide ilaç yayılımını etkileyen faktörler: Barisite, hasta pozisyonu, enjeksiyon hızı ve volümü, iğne yönü, lomber lordoz.",
+    trap:"İlacın rengi spinal anestezi yayılımını etkilemez. Barisite (özgül ağırlık), hasta pozisyonu, enjeksiyon hızı ve volümü en önemli faktörlerdir.",
+    explain:"Spinal anestezide lokal anestezik solüsyonun yayılımını etkileyen faktörler: Barisite (hiperbarik > izobarik > hipobarik), Hasta pozisyonu (yayılım barisite ve yerçekimine bağlı), Enjeksiyon hızı (hızlı enjeksiyon daha geniş yayılım), Enjekte edilen volüm, İğne yönü, Lomber lordoz eğriliği. İlacın rengi yayılımı etkilemez."
+  },
+  // ===== SANTRAL BLOKLARLA BÖLGESEL ANESTEZİ =====
+  {
+    section:"SANTRAL BLOKLARLA BÖLGESEL ANESTEZİ",
+    year:"Sonbahar 92",
+    question:"Spinal anestezide başa ait komplikasyon aşağıdakilerden hangisidir?",
+    opts:["Baş ağrısı","Üşüme","Terleme","Korku","Tüm bunlar"],
+    answer:4,
+    hint:"Spinal anestezi komplikasyonları sistematik olarak öğrenilmelidir. Baş ağrısı, üşüme, terleme ve korku hepsi spinal anesteziye bağlı gelişebilir.",
+    trap:"Spinal anestezinin birden fazla komplikasyonu bulunmaktadır. Baş ağrısı (post-dural ponksiyon), üşüme, terleme ve anksiyete/korku hepsi spinal anestezi komplikasyonudur. Doğru cevap 'Tüm bunlar'dır.",
+    explain:"Spinal anestezinin komplikasyonları: Hipotansiyon (en sık), Post-dural ponksiyon baş ağrısı (PDPH), Bulantı-kusma, Üşüme-titreme, Terleme, Anksiyete/korku, Üriner retansiyon, Total spinal, Nörolojik komplikasyonlar. Baş ağrısı, üşüme, terleme ve korku hepsinin görülebileceği komplikasyonlar arasında yer alır."
+  },
+  {
+    section:"SANTRAL BLOKLARLA BÖLGESEL ANESTEZİ",
+    year:"Sonbahar 98",
+    question:"Epidural anestezi sırasında intravasküler enjeksiyonun erken tespitini sağlayan en önemli girişim aşağıdakilerden hangisidir?",
+    opts:["Hızlı dozaj verilmesi","Test dozu uygulanması","Yavaş enjeksiyon","Resüsitasyon için hazırlanmak","Yüksek dozda ilaç verilmesi"],
+    answer:1,
+    hint:"Epidural anestezide test dozu: 1/200.000 adrenalin içeren 3 mL lokal anestezik enjeksiyonu. İntravasküler enjeksiyonda kalp hızı >20 atım/dk artar.",
+    trap:"Hızlı dozaj intravasküler enjeksiyon riskini artırır. Test dozu uygulanması intravasküler enjeksiyonun en erken tespitini sağlar. Yavaş enjeksiyon önemli ama tek başına yeterli değildir.",
+    explain:"Epidural anestezide test dozu uygulanması: 1/200.000 adrenalin içeren 3 mL lokal anestezik enjekte edilir. İntravasküler enjeksiyonda epinefrin etkisiyle kalp hızı >20 atım/dk artar ve kan basıncı yükselir. İntratekal enjeksiyonda ise hızlı spinal blok gelişir. Test dozu intravasküler veya intratekal yanlış yerleşimi erken tespit etmenin en güvenilir yöntemidir."
+  },
+  {
+    section:"SANTRAL BLOKLARLA BÖLGESEL ANESTEZİ",
+    year:"Sonbahar 2004",
+    question:"Epidural aralığa yanlışlıkla intravenöz enjeksiyona ait belirti değildir?",
+    opts:["Dil uyuşması","Konvülziyon","Kulak çınlaması","Hipotansiyon","Kardiyak arrest"],
+    answer:3,
+    hint:"İntravenöz lokal anestezik toksisitesi SSS bulguları ile başlar: dil uyuşması, kulak çınlaması, konvülziyon. Ardından kardiyovasküler toksisite gelir.",
+    trap:"Hipotansiyon tek başına intravasküler lokal anestezik enjeksiyonun belirtisi değildir; hipotansiyon epidural/spinal bloğun kendisinin yan etkisidir. İntravasküler enjeksiyonda SSS toksisitesi (uyuşma, çınlama, konvülziyon) ve kardiyak toksisite (arrest) daha spesifik bulgulardır.",
+    explain:"İntravasküler lokal anestezik enjeksiyonunun belirtileri SSS toksisitesi olarak gelişir: Dil uyuşması, ağız çevresinde his kaybı → Kulak çınlaması → Konvülziyon → Bilinç kaybı → Kardiyak arrest. Hipotansiyon epidural bloğun kendi etkisine bağlı gelişir; intravasküler enjeksiyonun spesifik belirtisi değildir."
+  },
+  {
+    section:"SANTRAL BLOKLARLA BÖLGESEL ANESTEZİ",
+    year:"Sonbahar 2007",
+    question:"Aşağıdakilerden hangisi spinal anestezinin kontrendikasyonu değildir?",
+    opts:["Pıhtılaşma bozukluğu","Hipovolemi","Enfeksiyon (enjeksiyon bölgesinde)","Migren","İntrakraniyal basınç artışı"],
+    answer:3,
+    hint:"Migren spinal anestezi için kesin kontrendikasyon değildir.",
+    trap:"Pıhtılaşma bozukluğu, hipovolemi, enjeksiyon bölgesinde enfeksiyon ve intrakraniyal basınç artışı spinal anestezinin kontrendikasyonlarıdır. Migren ise kontrendikasyon değildir.",
+    explain:"Spinal anestezi kontrendikasyonları: Kesin: Hasta reddi, enjeksiyon bölgesinde enfeksiyon/sepsis, koagülopati (antikoagülan kullanımı dahil), artmış intrakraniyal basınç. Göreli: Hipovolemi/şok, şekil bozukluğu (ciddi skolyoz), nörolojik hastalık, psikiyatrik hastalık. Migren spinal anestezi için kontrendikasyon değildir."
+  },
+  {
+    section:"SANTRAL BLOKLARLA BÖLGESEL ANESTEZİ",
+    year:"İlkbahar 2010",
+    question:"Spinal anestezi uygulamasına bağlı baş ağrısını azaltmak amacıyla en sık kullanılan yöntem aşağıdakilerden hangisidir?",
+    opts:["İnce iğne kullanmak","Bol sıvı vermek","Uzun süre yatay pozisyonda yatırmak","Epidural kan yaması (blood patch) uygulamak","Analjeziğin kullanımı"],
+    answer:0,
+    hint:"Post-dural ponksiyon baş ağrısını önlemek için ince ve atraumatik iğne (kalem uçlu iğne, 25-27G) kullanmak en önemli önlemdir.",
+    trap:"Epidural kan yaması (blood patch) post-dural ponksiyon baş ağrısının TEDAVİSİNDE en etkili yöntemdir, ancak soru ÖNLEMEK (azaltmak) için soruyor. Önlemede ince iğne kullanmak birincil yöntemdir.",
+    explain:"Post-dural ponksiyon baş ağrısını (PDPH) azaltmak/önlemek için: İnce iğne kullanmak (25G, 27G) ve kalem uçlu (pencil-point) atraumatik iğne tercih etmek en önemli yöntemdir. Dura deliğini küçük tutmak BOS kaçışını azaltır. Tedavisinde ise: Konservatif (yatak istirahati, bol sıvı, kafein, analjezik) veya Epidural kan yaması (en etkili tedavi yöntemi, %85-98 başarı)."
+  },
+  // ===== BAZI ÖZEL DURUMLAR =====
+  {
+    section:"BAZI ÖZEL DURUMLAR",
+    year:"Sonbahar 89",
+    question:"Anestezi sonrası görülen bulantı ve kusma için en uygun ajan aşağıdakilerden hangisidir?",
+    opts:["Droperidol","Morfin","Lidokain","Ketamin","Tiyopental"],
+    answer:0,
+    hint:"Droperidol hem antiemetik hem de nöroleptanaljezikte kullanılır. Antiemetik olarak postoperatif bulantı kusmada etkilidir.",
+    trap:"Morfin ve ketamin bulantı-kusmayı artırır. Lidokain ve tiyopental antiemetik değildir. Droperidol D2 reseptör antagonisti olarak antiemetik etki gösterir.",
+    explain:"Droperidol butirofenon grubu D2 dopamin reseptör antagonistidir. Hem nöroleptanaljezide (fentanil ile birlikte) hem de postoperatif bulantı-kusmanın önlenmesinde ve tedavisinde kullanılır. Morfin opioid olarak bulantı-kusmayı artırır. Ketamin dissosiyatif anestezik olup antiemetik değildir."
+  },
+  {
+    section:"BAZI ÖZEL DURUMLAR",
+    year:"İlkbahar 96",
+    question:"Anestezi verilen bir hastada ani solunum durmasından şüpheleniliyorsa solunum için yapılacak ilk işlem aşağıdakilerden hangisidir?",
+    opts:["Laringoskopi","Trakeostomi","Ağızdan ağıza solunum","Maske ile ventilasyon","Endotrakeal entübasyon"],
+    answer:3,
+    hint:"Havayolu açıklığı ve ventilasyon hızla sağlanmalıdır. İlk basamak maske ile ventilasyondur.",
+    trap:"Laringoskopi ve endotrakeal entübasyon daha invaziv işlemlerdir ve maske ventilasyonuna göre daha uzun sürer. Trakeostomi acil cerrahi işlemdir. İlk adım maske ile ventilasyondur.",
+    explain:"Ani solunum durmasında temel yaşam desteği prensipleri uygulanır. İlk yapılacak işlem maske ile ventilasyondur (bag-mask ventilation). Bu hem hızlı hem de etkili bir yöntemdir. Eğer maske ile ventilasyon yetersiz kalırsa endotrakeal entübasyon planlanır. Trakeostomi son çare olarak düşünülür."
+  },
+  {
+    section:"BAZI ÖZEL DURUMLAR",
+    year:"Sonbahar 2004",
+    question:"Malign hipertermi için aşağıdakilerden hangisi doğrudur?",
+    opts:["Tüm genel anestezikler ile tetiklenebilir","Tiroid fırtınasıyla karışabilir","Dantrolene ile tedavi edilir","A ve B doğru","B ve C doğru"],
+    answer:4,
+    hint:"Malign hipertermi: Tetikleyiciler (süksinilkolin + volatil anestezikler), klinik (hipertermi, kas rijiditesi, CO2 artışı), tedavi (dantrolen).",
+    trap:"Tüm genel anestezikler malign hipertermiyi tetiklemez; yalnızca volatil anestezikler (halotan, sevofluran, desfluran, izofluran) ve süksinilkolin tetikler. Propofol, opioidler, benzodiazepinler güvenlidir.",
+    explain:"Malign hipertermi otozomal dominant kalıtılan bir farmakojenomik bozukluktur. Tetikleyiciler: Volatil anestezikler (halotan, sevofluran, desfluran, izofluran, enfluran) ve süksinilkolin. Tüm genel anestezikler tetiklemez! Klinik: Hiperkapni, kas rijiditesi (masseter spazm), hipertermi, taşikardi, metabolik asidoz. Tedavi: Dantrolen (2.5 mg/kg IV), tetikleyici ajandan vazgeçmek, soğutma, bikarbonat, diürez."
+  },
+  {
+    section:"BAZI ÖZEL DURUMLAR",
+    year:"İlkbahar 2012",
+    question:"Malign hiperterminin tedavisinde kullanılan ilaç aşağıdakilerden hangisidir?",
+    opts:["Verapamil","Dantrolen","Lidokain","Propranolol","Metoprolol"],
+    answer:1,
+    hint:"Dantrolen sarkoplazma retikulumundan Ca2+ salınımını inhibe eder; malign hiperterminin spesifik tedavisinde kullanılır.",
+    trap:"Verapamil kalsiyum kanal blokeridir, malign hipertermide kullanılmaz. Propranolol ve metoprolol beta blokerdir; taşikardiyi kontrol edebilir ama nedeni tedavi etmez. Lidokain antiaritmikdir. Yalnızca dantrolen spesifik tedavidir.",
+    explain:"Dantrolen sarkoplazma retikulumundaki riyanodin reseptörünü bloke ederek kalsiyum salınımını inhibe eder. Malign hiperterminin spesifik ve tek etkili tedavisidir. Doz: 2.5 mg/kg IV bolus, her 5 dakikada bir tekrar, maksimum 10 mg/kg. Semptomlar geçene kadar veya maksimum doza ulaşana kadar devam edilir."
+  },
+  {
+    section:"BAZI ÖZEL DURUMLAR",
+    year:"Sonbahar 2017 Orijinal",
+    question:"Malign hipertermi ile ilgili aşağıdaki ifadelerden hangisi yanlıştır?",
+    opts:["Riyanodin reseptör mutasyonu ile ilişkilidir.","İskelet kasında kalsiyum salınımında artış görülür.","Propofol malign hipertermiyi tetikler.","Dantrolen tedavide kullanılır.","Otozomal dominant geçişlidir."],
+    answer:2,
+    hint:"Propofol malign hipertermiyi TETİKLEMEZ; güvenle kullanılabilir. Malign hipertermiyi tetikleyen ajanlar: volatil anestezikler ve süksinilkolin.",
+    trap:"Propofol malign hipertermide güvenle kullanılabilir; tetikleyici değildir. Riyanodin reseptör mutasyonu, kalsiyum artışı, otozomal dominant geçiş ve dantrolen tedavisi hepsi doğru bilgilerdir.",
+    explain:"Malign hipertermi riyanodin reseptör (RYR1) gen mutasyonu ile ilişkili otozomal dominant geçişli bir bozukluktur. İskelet kasında kontrolsüz kalsiyum salınımı olur. Tetikleyiciler: Halotan, izofluran, sevofluran, desfluran, enfluran gibi volatil anestezikler ve süksinilkolin. Propofol, opioidler, benzodiazepinler, N2O güvenli ajanlardır. Tedavi: Dantrolen + tetikleyiciden kaçınmak + soğutma."
+  },
+  // ===== KARDİYOPULMONER RESÜSİTASYON =====
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"Sonbahar 88",
+    question:"Kalp dıştan masaj yapılırken el basıncı nereye uygulanmalıdır?",
+    opts:["Ksifoidin hemen üzerine","Sternum üst 1/3'ü","Sternum orta 1/3'ü","Manibrum","Sol 4. ve 5. kosta aralığı"],
+    answer:2,
+    hint:"KPR'de el basma noktası: Sternumun alt yarısı / orta 1/3'ü (ksifoid üstü 2 parmak).",
+    trap:"Ksifoid üzerine basmak karaciğer laserasyonuna yol açabilir. Sternum üst 1/3 ve manibrium yanlış bölgelerdir. Doğru bölge sternumun orta 1/3'ü (alt yarısıdır).",
+    explain:"Kardiyopulmoner resüsitasyonda dış kardiyak masaj uygulanırken el basıncı sternumun orta 1/3'üne (alt yarısına) uygulanmalıdır. Pratik olarak iki parmak ksifoidin üzerine koyup o noktanın hemen üstüne basmak gerekir. Ksifoid üzerine basılması karaciğer laserasyonuna yol açabilir. Sternum üst kısımları için yeterli kardiyak kompresyon sağlanamaz."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"İlkbahar 89",
+    question:"Kardiyopulmoner resüsitasyonun temelini oluşturan 'ABC' ye göre A neyi ifade eder?",
+    opts:["Aorta","Airway (Havayolu)","Adrenalin","Arteryel basınç","Atropinin verilmesi"],
+    answer:1,
+    hint:"Temel yaşam desteği ABC: A=Airway (havayolu), B=Breathing (solunum), C=Circulation (dolaşım).",
+    trap:"A harfi aorta, adrenalin veya arteryel basıncı değil; Airway (havayolu açıklığı) ifade eder.",
+    explain:"Temel yaşam desteğinde ABC prensibi: A = Airway (Havayolu açıklığının sağlanması: Baş-çene kaldırma manevrası veya çene itme manevrası), B = Breathing (Solunum: Kurtarıcı soluklar), C = Circulation (Dolaşım: Göğüs kompresyonları). Günümüz AHA kılavuzlarında öncelik sırası C-A-B olarak değiştirilmiştir ancak ABC terimi geleneksel olarak kullanılmaya devam etmektedir."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"Sonbahar 89",
+    question:"Kalp masajı yapılırken hangi hız uygulanmalıdır?",
+    opts:["20-30/dk","50-60/dk","60-80/dk","100-120/dk","120-140/dk"],
+    answer:3,
+    hint:"AHA 2020 kılavuzuna göre göğüs kompresyon hızı 100-120/dk olmalıdır.",
+    trap:"20-30/dk çok yavaş, 120-140/dk çok hızlıdır. Kardiyak outputu optimize eden hız 100-120/dk'dır.",
+    explain:"Kardiyopulmoner resüsitasyonda göğüs kompresyon hızı: 100-120 kompresyon/dakika. Derinlik: En az 5 cm (maksimum 6 cm). Her kompresyondan sonra göğsün tam olarak geri çıkmasına izin verilmeli. Kompresyon:ventilasyon oranı: Tek kurtarıcı veya çift kurtarıcı için 30:2 (entübe hastada asenkron). Kompresyonlara ara vermeden devam etmek kritiktir."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"Sonbahar 90",
+    question:"Kardiyopulmoner resüsitasyona başlanmadan önce kesinlikle yapılması gereken nedir?",
+    opts:["Tansiyon ölçümü","Nabız kontrolü","EKG çekilmesi","Havayolunun açılması","Damar yolu açılması"],
+    answer:1,
+    hint:"KPR endikasyonunu belirlemek için önce nabız kontrolü yapılmalıdır.",
+    trap:"EKG çekilmesi, tansiyon ölçümü ve damar yolu açılması KPR'den önce değil, sonra veya eş zamanlı yapılır. Havayolu açıklığı önemli ancak nabız kontrolü KPR'ye karar vermek için zorunludur.",
+    explain:"Kardiyopulmoner resüsitasyona başlanmadan önce kardiyak arrest varlığının doğrulanması gerekir; bunun için nabzın kontrol edilmesi şarttır. Karotis nabzı 10 saniyeden daha kısa süre kontrol edilir. Nabız yoksa veya emin olunamazsa KPR'ye başlanır. EKG, kan basıncı ölçümü ve damar yolu KPR sırasında eş zamanlı sağlanır."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"Sonbahar 92",
+    question:"Kardiyopulmoner resüsitasyonda (CPR) verilen ilk ilaç hangisidir?",
+    opts:["Atropin","Adrenalin","Sodyum bikarbonat","Lidokain","Kalsiyum glukonat"],
+    answer:1,
+    hint:"Kardiyak arrest'te ilk verilecek ilaç adrenalin (epinefrin) olup hem VF/VT hem de nabızsız ritimler için önerilir.",
+    trap:"Atropin artık bradikardik arrest ritimlerinde rutin olarak önerilmemektedir. Sodyum bikarbonat uzamış arrestte, lidokain şoka dirençli VF/VT'de kullanılır. İlk ilaç adrenalindir.",
+    explain:"Kardiyak arrest tedavisinde ilk ve temel ilaç adrenalin (epinefrin) dir. Doz: 1 mg IV/IO her 3-5 dakikada bir. Hem nabızsız VT/VF hem de PEA/asistol için kullanılır. Alfa-1 adrenerjik etki ile periferik vazokonstrüksiyon yaparak koroner ve serebral perfüzyon basıncını artırır. Atropin artık PEA/asistol için rutin önerilmemektedir."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"İlkbahar 93",
+    question:"KPR sırasında kardiyak çıktıyı artırmak için kullanılan ilaç hangisidir?",
+    opts:["Sodyum bikarbonat","Adrenalin","Lidokain","Atropin","Kalsiyum"],
+    answer:1,
+    hint:"Adrenalin alfa adrenerjik etkisiyle periferik direnci artırır, koroner perfüzyon basıncını yükseltir ve otomatisiteyi artırır.",
+    trap:"Sodyum bikarbonat asidozu düzeltir. Lidokain antiaritmik. Atropin vagal tonus artışına bağlı bradikardide kullanılır. Kalsiyum hiperkalsemi veya kalsiyum kanal blokörü aşımında kullanılır. KPR'de kardiyak output için temel ajan adrenalindir.",
+    explain:"Adrenalin (epinefrin) hem alfa hem de beta adrenerjik reseptörleri uyarır. Alfa-1 etkisi: periferik vazokonstrüksiyon → koroner ve serebral perfüzyon basıncı artışı. Beta-1 etkisi: kalp hızı ve kontraktilite artışı. Bu etkilerle kardiyak outputu artırır ve spontan sirkülasyonun geri kazanılmasını sağlar."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"İlkbahar 94",
+    question:"Kardiyopulmoner resüsitasyon uygulanması sırasında sodyum bikarbonat uygulamasının amacı nedir?",
+    opts:["Kardiyak outputu artırmak","Hiperkalemiyi düzeltmek","Metabolik asidozu düzeltmek","Solunum asidozunu düzeltmek","Hiponatremiyi düzeltmek"],
+    answer:2,
+    hint:"KPR sırasında sodyum bikarbonat metabolik asidozu düzeltmek için kullanılır.",
+    trap:"Sodyum bikarbonat kardiyak output artırmaz, solunum asidozunu düzeltmez (bunun için ventilasyon gerekir). Hiperkalemide kullanılabilir ancak KPR'deki birincil amacı metabolik asidozu düzeltmektir.",
+    explain:"KPR sırasında uzamış kardiyak arrestte laktik asidoz ve CO2 birikimi ile metabolik asidoz gelişir. Sodyum bikarbonat bu metabolik asidozu düzeltmek amacıyla kullanılır. Doz: 1 mEq/kg IV. Rutin kullanımı önerilmez; uzamış arrest, hiperkalemi, trisiklik antidepresan zehirlenmesi veya belgelenmiş metabolik asidoz durumlarında verilir. Solunum asidozunu düzeltmez; bunun için etkin ventilasyon gerekir."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"Sonbahar 96",
+    question:"Ani kardiyak ölümün en sık nedeni aşağıdakilerden hangisidir?",
+    opts:["Asistol","Atriyal fibrilasyon","Ventriküler fibrilasyon","Ventriküler taşikardi","AV tam blok"],
+    answer:2,
+    hint:"Ani kardiyak ölümün %80'inden fazlasında başlangıç ritmi ventriküler fibrilasyondur.",
+    trap:"Asistol ani kardiyak ölümde daha çok terminal ritimdir. Atriyal fibrilasyon nadiren ani ölüme yol açar. VF erken defibrilasyonla tedavi edilebilir.",
+    explain:"Ani kardiyak ölümün en sık nedeni ventriküler fibrilasyondur (VF). Vakaların yaklaşık %80'inde başlangıç ritim VF'dir. VF, erken tanı ve defibrilasyon ile tedavi edilebilirdir. Her geçen dakikada sağkalım şansı %7-10 azalır. Bu nedenle erken defibrilasyon ani kardiyak ölüm tedavisinde en kritik adımdır."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"İlkbahar 2000",
+    question:"Kardiyak arrest sırasında VF varsa uygulanan tedavi seçeneği hangisidir?",
+    opts:["Atropin","Adrenalin","DC kardiyoversiyon","Pil takılması","Lidokain"],
+    answer:2,
+    hint:"Ventriküler fibrilasyonun tedavisinde erken elektrik defibrilasyonu (DC şok) ilk ve en önemli tedavidir.",
+    trap:"Adrenalin VF'de de kullanılır ancak defibrilasyon şoku olmadan etkin değildir. Atropin VF'de endike değildir. Pacemaker asistol için düşünülür. Lidokain şoka dirençli VF için alternatif antiaritmik olarak kullanılabilir. İlk tercih defibrilasyondur.",
+    explain:"Ventriküler fibrilasyon (VF) tedavisinde öncelik erken elektrik defibrilasyonudur (DC şok). Defibrilasyon VF'de organize kardiyak ritmi geri kazandırmanın tek etkili yoludur. AHA kılavuzuna göre şoklanabilir ritim (VF/nabızsız VT) tespit edildiğinde mümkün olan en kısa sürede şok verilmelidir. Defibrilasyon sonrasında adrenalin ve antiaritmikler (amiodaron/lidokain) eklenebilir."
+  },
+// ===== KARDİYOPULMONER RESÜSİTASYON (devam) =====
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"Sonbahar 2002",
+    question:"Kardiyopulmoner resüsitasyonda (KPR) ventriküler fibrilasyonun tedavisi için aşağıdakilerden hangisi kullanılmalıdır?",
+    opts:["Atropin","Adrenalin","Defibrilasyon","Lidokain","Digoksin"],
+    answer:2,
+    hint:"Ventriküler fibrilasyonda erken elektrik defibrilasyonu hayat kurtarıcıdır ve ilk tercih edilmesi gereken tedavidir.",
+    trap:"Adrenalin VF tedavisinde kullanılır ancak defibrilasyon olmadan tek başına etkili değildir. Lidokain şoka dirençli VF için ikinci sıra antiaritmiktir. Atropin VF'de endike değildir. VF'de ilk tercih defibrilasyondur.",
+    explain:"Ventriküler fibrilasyon (VF) şoklanabilir bir ritimdir. Tedavide öncelik: 1) Yüksek kaliteli KPR, 2) Erken defibrilasyon (200 J bifazik veya 360 J monofazik), 3) Adrenalin 1 mg IV/IO her 3-5 dakikada, 4) Amiodaron veya lidokain (şoka dirençli VF'de). Defibrilasyon VF'nin tek kesin tedavisidir."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"İlkbahar 2006",
+    question:"Kardiyak arrest gelişen bir hastada ritim ventriküler fibrilasyon (VF) olarak saptanıyor. Bu hastada aşağıdaki tedavilerden hangisi öncelikle yapılmalıdır?",
+    opts:["1 mg adrenalin IV verilmesi","300 mg amiodaron IV verilmesi","Kalp masajına başlanması","Defibrilasyon yapılması","Endotrakeal entübasyon yapılması"],
+    answer:3,
+    hint:"VF saptandığında şok verilebilen durumda ilk yapılacak işlem defibrilasyondur.",
+    trap:"KPR ve adrenalin önemlidir ancak VF ritmi saptanır saptanmaz önce defibrilasyon yapılmalıdır. Defibrilasyon öncesinde uzun süre KPR yapmak sağkalımı azaltır.",
+    explain:"AHA kılavuzuna göre VF/nabızsız VT saptandığında mümkün olan en kısa sürede defibrilasyon yapılmalıdır. Şok sonrası 2 dakika KPR, ardından ritim kontrolü. Adrenalin: ilk şoktan sonra, her 3-5 dakikada bir 1 mg IV. Amiodaron/lidokain: 3. şoktan sonra dirençli VF/VT'de. Endotrakeal entübasyon: KPR sırasında yapılabilir ancak kompresyonları durdurmadan."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"İlkbahar 2009",
+    question:"İki kişilik ekipte kardiyopulmoner resüsitasyon yapılırken kompresyon:ventilasyon oranı kaç olmalıdır?",
+    opts:["5:1","10:2","15:1","30:2","15:2"],
+    answer:3,
+    hint:"Güncel AHA/ERC kılavuzlarına göre hem tek hem de çift kişilik ekipte kompresyon:ventilasyon oranı 30:2'dir.",
+    trap:"Eski kılavuzlarda çift kişilik ekipte 15:2 önerilirdi. Güncel kılavuzlarda hem tek hem çift kişilik ekip için 30:2 standardize edilmiştir. Entübe hastalarda asenkron sürekli kompresyon yapılır.",
+    explain:"Güncel AHA (2020) ve ERC kılavuzlarına göre: Kompresyon:Ventilasyon oranı = 30:2 (hem tek hem de çift kişilik ekip için). Kompresyon hızı: 100-120/dk. Kompresyon derinliği: 5-6 cm. Entübe hastalarda: Asenkron kompresyon (ventilasyon için kompresyona ara verilmez, 10 ventilasyon/dk). Eski kılavuzda (2000 öncesi) 2 kişilik ekip için 15:2 kullanılırdı."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"Sonbahar 2010",
+    question:"Kardiyopulmoner resüsitasyonda kullanılan amiodaron hangi amaçla verilir?",
+    opts:["Bradikardi tedavisi","Şoka dirençli VF/VT tedavisi","Metabolik asidoz düzeltme","Atriyal fibrilasyon tedavisi","Koroner perfüzyon artırma"],
+    answer:1,
+    hint:"Amiodaron KPR'de şoka dirençli VF/VT'de kullanılan sınıf III antiaritmiktir.",
+    trap:"Atropin bradikardi için kullanılır. Sodyum bikarbonat metabolik asidoz için. Adrenalin koroner perfüzyon için. Amiodaron şoka dirençli VF/VT'de spesifik olarak kullanılır.",
+    explain:"Amiodaron sınıf III antiaritmik ilaçtır. KPR'de kullanım endikasyonu: Şoka dirençli VF veya nabızsız VT (3 şoktan sonra hala VF/VT devam ediyorsa). Doz: İlk doz 300 mg IV/IO bolus, tekrar doz 150 mg. Bradikardi tedavisi için atropin, metabolik asidoz için bikarbonat kullanılır. Amiodaron bradikardi için değil taşiaritmiler için kullanılır."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"İlkbahar 2012",
+    question:"Spontan dolaşımın yeniden sağlanmasından (ROSC) sonra yapılan hedefli sıcaklık yönetiminde amaçlanan vücut ısısı aşağıdakilerden hangisidir?",
+    opts:["32–34°C","34–36°C","36–37.5°C","37.5–38°C","38–39°C"],
+    answer:0,
+    hint:"Post-kardiyak arrest bakımında terapötik hipotermi 32-34°C hedeflenerek 12-24 saat uygulanırdı; güncel kılavuzlarda 32-36°C aralığı önerilmektedir.",
+    trap:"Hedefli sıcaklık yönetiminde ateş (>37.5°C) kesinlikle önlenmelidir; nörolojik hasar artırır. Terapötik hipotermi için hedef 32-34°C olarak sorulur; güncel kılavuzlarda 32-36°C belirtilmektedir.",
+    explain:"Post-kardiyak arrest hedefli sıcaklık yönetimi (TTM): ROSC sonrası bilinç geri dönmeyen hastalarda nörolojik koruma amacıyla uygulanır. Hedef sıcaklık: 32-34°C (klasik öneri) veya 32-36°C (güncel ERC/AHA). Süre: 24 saat. Endikasyon: VF/VT arrest sonrası komatöz hasta. Avantaj: Beyin metabolizması ve oksijen tüketimi azalır, inflamatuar yanıt baskılanır."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"İlkbahar 2014 Orijinal",
+    question:"Aşağıdakilerden hangisi kardiyak arrestte şoklanamayan ritimlerden biridir?",
+    opts:["Ventriküler fibrilasyon","Nabızsız ventriküler taşikardi","Pulseless electrical activity (PEA)","Tüm bunlar","Hiçbirisi"],
+    answer:2,
+    hint:"Şoklanabilir ritimler: VF ve nabızsız VT. Şoklanamaz ritimler: PEA ve asistol.",
+    trap:"VF ve nabızsız VT şoklanabilir ritimlerdir. PEA (nabızsız elektriksel aktivite) elektriksel aktivite görülmesine rağmen mekanik output yoktur; defibrilasyon uygulanamaz.",
+    explain:"Kardiyak arrest ritimleri: Şoklanabilir: VF (Ventriküler Fibrilasyon), Nabızsız VT (Ventriküler Taşikardi). Şoklanamaz: PEA (Nabızsız Elektriksel Aktivite), Asistol. PEA'da EKG'de organize elektriksel aktivite görülmesine rağmen mekanik kardiyak output yoktur. Defibrilasyon PEA ve asistolde etkili değildir; KPR ve adrenalin tedavinin temelidir. Geri döndürülebilir nedenler (4H4T) araştırılmalıdır."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"Sonbahar 2015 Orijinal",
+    question:"Kardiyopulmoner resüsitasyonda geri döndürülebilir nedenleri gösteren '4H-4T' listesinde aşağıdakilerden hangisi yer almaz?",
+    opts:["Hipovolemi","Hipoksi","Hipertermi","Tansiyon pnömotoraks","Tromboz"],
+    answer:2,
+    hint:"4H: Hipoksi, Hipovolemi, Hipo/Hiperkalemi (metabolik bozukluklar), Hipotermi. 4T: Tansiyon pnömotoraks, Tamponad, Tromboz (koroner/pulmoner), Toksin.",
+    trap:"Hipertermi 4H-4T listesinde yer almaz; Hipotermi yer alır. Bu fark kritiktir. Hipertermi arrestin nedeni olabilir ancak 4H-4T mnemoniğinde HİPOTERMİ bulunur.",
+    explain:"KPR'de geri döndürülebilir nedenler — 4H-4T: 4H: Hipoksi, Hipovolemi, Hipo/Hiperkalemi (elektrolit bozuklukları), Hipotermi. 4T: Tansiyon pnömotoraks, Tamponad (kardiyak), Tromboz (koroner veya pulmoner), Toksin (ilaç zehirlenmesi). Hipertermi bu listede yer almaz; doğru olan Hipotermidir."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"İlkbahar 2017 Orijinal",
+    question:"Aşağıdakilerden hangisi kardiyopulmoner resüsitasyonda atropin kullanımı için endikasyon oluşturur?",
+    opts:["Ventriküler fibrilasyon","Nabızsız ventriküler taşikardi","Asistol","Bradikardik arrest","Pulseless electrical activity"],
+    answer:3,
+    hint:"Güncel kılavuzlarda atropin rutin olarak asistol ve PEA'da önerilmez. Bradikardik arrestte (semptomatik bradikardi) kullanılabilir.",
+    trap:"VF ve nabızsız VT'de atropin kullanılmaz; defibrilasyon gerekir. Asistol ve PEA'da güncel AHA kılavuzu atropini rutin önermez. Semptomatik/bradikardik arrest durumunda atropin uygulanabilir.",
+    explain:"Atropin antimuskarinik (antikolinerjik) bir ilaçtır, vagal tonus artışını bloke eder. Güncel AHA 2020 kılavuzuna göre: Asistol ve PEA'da rutin atropin kullanımı artık önerilmemektedir. Bradikardik arrestte (vagal tonus artışına bağlı) kullanılabilir. VF ve nabızsız VT'de kullanılmaz. Stabil olmayan bradikardide: Atropin 0.5 mg IV (maksimum 3 mg)."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"İlkbahar 2018 Orijinal",
+    question:"Bir hastada kardiyak arrest saptandıktan hemen sonra yapılacak ilk işlem aşağıdakilerden hangisidir?",
+    opts:["IV adrenalin enjeksiyonu","Endotrakeal entübasyon","Yardım çağırmak ve defibrilatör getirtmek","Göğüs kompresyonuna başlamak","Damar yolu açmak"],
+    answer:2,
+    hint:"Tek kişi ise önce yardım çağırılır ve defibrilatör istenir; sonra KPR'ye başlanır.",
+    trap:"Adrenalin ve entübasyon önemlidir ancak tek kişi kardiyak arrest saptadığında sıralama: yardım çağır + defibrilatör iste → KPR başla. Birden fazla kişi varsa eş zamanlı yapılır.",
+    explain:"Tek kurtarıcı senaryosunda kardiyak arrest saptanınca: 1. Yardım çağır ve defibrilatör/AED getirt (112'yi ara veya bağır). 2. KPR'ye başla (30 kompresyon : 2 ventilasyon). 3. Defibrilatör gelince ritim değerlendir ve gerekiyorsa şok ver. 4. IV adrenalin: İlk şok sonrası veya nabızsız ritimde. 5. Entübasyon: KPR sırasında kompresyonları durdurmadan. Yardım çağırmak ve defibrilatör sağlamak hayatta kalma zincirinin kritik halkasıdır."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"Sonbahar 2019 Orijinal",
+    question:"Kardiyopulmoner resüsitasyonda göğüs kompresyonlarının derinliği kaç cm olmalıdır?",
+    opts:["2-3 cm","3-4 cm","4-5 cm","5-6 cm","7-8 cm"],
+    answer:3,
+    hint:"AHA 2020 kılavuzuna göre göğüs kompresyon derinliği yetişkinde 5-6 cm olmalıdır.",
+    trap:"2-3 cm ve 3-4 cm yetersiz kompresyon derinliğidir. 7-8 cm ise fazla derine baskı yapar ve zarar verebilir. Optimal derinlik 5-6 cm'dir.",
+    explain:"AHA 2020 kılavuzuna göre yetişkinde göğüs kompresyonu parametreleri: Derinlik: 5-6 cm (en az 5 cm, en fazla 6 cm). Hız: 100-120 kompresyon/dk. Tam göğüs genişlemesi: Her kompresyon sonrası el kaldırılmadan göğsün geri çıkmasına izin verilir. Kesinti minimizasyonu: Kompresyonlara ara vermekten kaçınılır (hedef: kompresyon fraksiyonu >%60). Çocuklarda: Göğüs ön-arka çapının 1/3'ü (yaklaşık 4-5 cm)."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"Sonbahar 2020 Orijinal",
+    question:"Kardiyak arrestte nabızsız elektrik aktivitesi (PEA) saptanırsa aşağıdakilerden hangisi yapılmalıdır?",
+    opts:["Derhal defibrilasyon","Amiodaron 300 mg IV","Atropin 1 mg IV","Adrenalin 1 mg IV + KPR + geri döndürülebilir nedenlerin araştırılması","Kalsiyum glukonat IV"],
+    answer:3,
+    hint:"PEA şoklanamaz ritimdir. Tedavisi: KPR + Adrenalin + 4H-4T nedenlerinin araştırılması.",
+    trap:"PEA'da defibrilasyon yapılmaz (şoklanamaz ritim). Amiodaron taşiaritmiler için. Güncel kılavuzda atropin artık PEA'da rutin önerilmiyor. Adrenalin + KPR + geri döndürülebilir nedenler PEA tedavisinin özüdür.",
+    explain:"PEA (Nabızsız Elektriksel Aktivite) tedavisi: 1. Yüksek kaliteli KPR'ye devam. 2. Adrenalin 1 mg IV/IO her 3-5 dakikada. 3. Geri döndürülebilir nedenler (4H-4T) araştır ve tedavi et: Hipoksi → ventilasyon, Hipovolemi → sıvı, Hipotermi → ısınma, Elektrolit bozukluğu → düzelt; Tansiyon pnömotoraks → dekompresyon, Tamponad → perikardiyosentez, Tromboz → trombolitik/PCI, Toksin → antidot. Defibrilasyon PEA'da endike değildir."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"İlkbahar 2021 Orijinal",
+    question:"Kardiyak arrest sonrası sağ kalımı en fazla etkileyen faktör aşağıdakilerden hangisidir?",
+    opts:["Adrenalin dozu","Defibrilasyon zamanı","Entübasyon hızı","Sodyum bikarbonat kullanımı","Amiodaron dozu"],
+    answer:1,
+    hint:"VF arrestinde her geçen dakika hayatta kalma şansı %7-10 azalır. Erken defibrilasyon en kritik faktördür.",
+    trap:"Adrenalin dozu, entübasyon hızı, bikarbonat ve amiodaron sağkalımı etkiler ancak en baskın faktör defibrilasyon zamanıdır. VF'de 1 dakikada defibrilasyon yapılan hastaların %90'ı hayatta kalır; 10 dakika sonra bu oran %10'a düşer.",
+    explain:"Ani kardiyak ölümde sağkalımı en fazla etkileyen faktör erken defibrilasyondur. Ventriküler fibrilasyonda: İlk 1 dakikada defibrilasyon → %90 sağkalım. Her geçen dakika sağkalım %7-10 azalır. 10. dakikada → %10 sağkalım. Bu nedenle hayatta kalma zinciri (chain of survival) konsepti erken tanıma ve erken defibrilasyonu temel alır. AED (Otomatik Eksternal Defibrilatör) yaygınlaştırılması bu amaçla yapılmaktadır."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"Sonbahar 2021 Orijinal",
+    question:"Yetişkin bir hastada temel yaşam desteği sırasında kurtarma soluğu vermek mümkün değilse ne yapılmalıdır?",
+    opts:["KPR'ye son verilmeli","Sadece kompresyon yapılmaya devam edilmeli","Defibrilasyon yapılmalı","Adrenalin verilmeli","Damar yolu açılmalı"],
+    answer:1,
+    hint:"Kurtarma solukları verilemiyorsa (eğitimsiz kurtarıcı, aerosol bulaş riski vb.) sadece kompresyon KPR (hands-only CPR) yapılması önerilir.",
+    trap:"KPR'ye son vermek yanlıştır; kompresyon yoksa dolaşım tamamen durur. Defibrilasyon ve adrenalin temel yaşam desteğinde değil, ileri yaşam desteğinde yer alır. Eğer solunum verilemiyorsa hands-only CPR devam etmelidir.",
+    explain:"Kurtarma solukları verilemediği durumlarda (eğitimsiz kurtarıcı, aerosol riski, hasta ile fiziksel temas güçlüğü vb.) AHA kılavuzu sadece kompresyon KPR (Hands-Only CPR) yapılmasını önermektedir. Kompresyonlar dolaşımı sürdürür ve beyin ile kalbe oksijen taşınmasını sağlar. Arrest ilk dakikalarında akciğerlerde hala oksijen bulunduğundan sadece kompresyon bile etkili olabilir. KPR'ye son vermek kesinlikle yanlıştır."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"Sonbahar 2022 Orijinal",
+    question:"Aşağıdaki ilaçlardan hangisi kardiyopulmoner resüsitasyonda şoka dirençli ventriküler fibrilasyon (VF) tedavisinde öncelikli olarak kullanılır?",
+    opts:["Atropin","Adrenalin","Amiodaron","Sodyum bikarbonat","Adenozin"],
+    answer:2,
+    hint:"Şoka dirençli VF'de (3 defibrilasyon şokuna rağmen devam eden VF) amiodaron veya lidokain kullanılır; amiodaron birinci tercih.",
+    trap:"Adrenalin VF'de kullanılır ama şok direncine özgü tedavi değildir. Atropin VF'de endike değildir. Sodyum bikarbonat asidoz için. Adenozin supraventriküler taşikardi için. Şoka dirençli VF'nin spesifik ilacı amiodaron veya lidokaindir.",
+    explain:"Şoka dirençli VF (3 şoktan sonra devam eden VF) tedavisi: Amiodaron: İlk tercih. Doz: 300 mg IV bolus, ardından 150 mg. Lidokain: Amiodaron yoksa veya kontrendikeyse alternatif. Doz: 1-1.5 mg/kg IV. Her iki ilaç da sodyum kanal blokajı yaparak miyokardın refrakterlığını değiştirir. Amiodaron ayrıca sınıf I, II, IV etkileride gösterir."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"İlkbahar 2023",
+    question:"Aşağıdakilerden hangisi yetişkin kardiyak arrest hastasında KPR sırasında IV/IO olarak verilmesi gereken adrenalin dozudur?",
+    opts:["0.1 mg","0.5 mg","1 mg","5 mg","10 mg"],
+    answer:2,
+    hint:"Adrenalin kardiyak arrestte her 3-5 dakikada bir 1 mg IV/IO olarak verilir.",
+    trap:"0.1 mg ve 0.5 mg anlamlı etki için yetersiz dozlardır. 5 mg ve 10 mg doz aşımı riski taşır. Kardiyak arrestte standart adrenalin dozu 1 mg'dır.",
+    explain:"Kardiyak arrestte adrenalin (epinefrin) dozu: 1 mg IV/IO bolus. Uygulama sıklığı: Her 3-5 dakikada bir tekrar. Uygulama zamanı: VF/VT'de ilk şoktan sonra, PEA/asistolde en kısa sürede. Yüksek doz adrenalin (HD-E: 0.1-0.2 mg/kg) rutin olarak önerilmez; toksin intoksikasyonu gibi özel durumlar dışında kullanılmaz. 1 mg standart doz olarak tüm kılavuzlarda yer almaktadır."
+  },
+  {
+    section:"KARDİYOPULMONER RESÜSİTASYON",
+    year:"İlkbahar 2024",
+    question:"Kardiyak arrest sonrası spontan dolaşımı geri dönen (ROSC) bir hastada yapılması gerekenler arasında aşağıdakilerden hangisi yer almaz?",
+    opts:["Hedefli sıcaklık yönetimi","Koroner anjiyografi değerlendirmesi","12-derivasyon EKG","Oksijen satürasyonu %100 hedefleme","Kan şekeri takibi"],
+    answer:3,
+    hint:"ROSC sonrası hiperoksi zararlıdır; oksijen satürasyonu %94-98 arasında hedeflenir.",
+    trap:"Oksijen satürasyonunu %100 hedeflemek hiperoksiyi (yüksek oksijen basıncı) indükler ve reperfüzyon hasarını artırır. ROSC sonrası hedef SpO2: %94-98. Diğer seçenekler (TTM, koroner anjiyografi, EKG, kan şekeri) post-resüsitasyon bakımının temel bileşenleridir.",
+    explain:"ROSC (Spontan Dolaşımın Geri Dönmesi) sonrası post-resüsitasyon bakımı: Oksijen: SpO2 %94-98 hedefle (hiperoksi zararlı!). Ventilasyon: EtCO2 35-45 mmHg hedefle. EKG: 12-derivasyon (STEMI araştır). Koroner anjiyografi: STEMI varsa veya şüpheli koroner neden varsa. Hedefli sıcaklık yönetimi: 32-36°C, 24 saat (bilinç dönmemişse). Kan şekeri: 6-10 mmol/L (180 mg/dL altı). Kan basıncı: Ortalama >65 mmHg hedefle."
+  },
+  // ===== GİRİŞ ve GENEL (ek sorular) =====
+  {
+    section:"GİRİŞ",
+    year:"Sonbahar 2009",
+    question:"Aşağıdakilerden hangisi genel anestezi komplikasyonu değildir?",
+    opts:["Hipertansiyon","Anafilaksi","Malign hipertermi","Hipoglisemi","Postoperatif bulantı-kusma"],
+    answer:3,
+    hint:"Genel anestezi bileşenleri ve komplikasyonlarını iyi bilin. Hipoglisemi anestezi komplikasyonu değil, çok nadiren görülür.",
+    trap:"Hipertansiyon, anafilaksi, malign hipertermi ve postoperatif bulantı-kusma genel anestezinin tanınan komplikasyonlarıdır. Hipoglisemi anestezi komplikasyonu değil; cerrahi stres hiperglisemiye yol açar.",
+    explain:"Genel anestezi komplikasyonları: İntraoperatif: Hipertansiyon/hipotansiyon, taşikardi/bradikardi, anafilaksi, malign hipertermi, farkındalık (awareness), laringospazm, bronkospazm. Postoperatif: Bulantı-kusma (PONV), geç uyanma, hipotermi, ağrı. Hipoglisemi: Anestezi altında cerrahi stres metabolik yanıt nedeniyle hiperglisemi daha yaygındır; hipoglisemi anestezinin tipik komplikasyonu değildir."
+  },
+  {
+    section:"GİRİŞ",
+    year:"İlkbahar 2011",
+    question:"Havayolu yönetiminde Mallampati sınıflandırmasında aşağıdakilerden hangisi değerlendirilir?",
+    opts:["Boyun hareketleri","Ağız açıklığı ve farinks görünümü","Tiroid kartilaj-çene mesafesi","Diş yapısı","Baş-boyun anatomisi"],
+    answer:1,
+    hint:"Mallampati sınıflandırması hasta ağzını açıp dilini dışarı çıkarırken farinks posterior duvarının görünümüne göre yapılır.",
+    trap:"Tiroid-çene mesafesi, boyun hareketleri ve diş yapısı zor havayolunu öngören diğer kriterlerdir ama Mallampati skoru ağız açıklığı ve farinks görünümünü değerlendirir.",
+    explain:"Mallampati sınıflandırması: Hasta oturur pozisyonda, başı nötral, ağzı tam açık, dili dışarıda, fonikasyon yapmadan değerlendirilir. Sınıf I: Yumuşak damak, uvula, fauces ve tonsiller görünür. Sınıf II: Yumuşak damak, uvula ve fauces görünür. Sınıf III: Yumuşak damak ve uvula tabanı görünür. Sınıf IV: Yalnızca sert damak görünür. Sınıf III-IV zor entübasyon prediktörüdür."
+  },
+  {
+    section:"GİRİŞ",
+    year:"Sonbahar 2012",
+    question:"Hızlı dizi entübasyon (Rapid Sequence Intubation - RSI) endikasyonu aşağıdakilerden hangisidir?",
+    opts:["Elektif cerrahi","Dolu mide/aspirasyon riski yüksek hasta","Zor havayolu","Çocuk hasta","Kardiyak arrest"],
+    answer:1,
+    hint:"RSI aspirasyon riski yüksek (dolu mide, travma, gebe, obez, GÖR) hastalarda uygulanır.",
+    trap:"Elektif cerrahide standart entübasyon yeterlidir. Zor havayolunda RSI riskli olabilir. RSI'nın temel endikasyonu dolu mide veya aspirasyon riski yüksek olan hastalardır.",
+    explain:"Hızlı Dizi Entübasyon (RSI) endikasyonları: Dolu mide (acil cerrahi, son 6 saat içinde yemek yemiş), Travma hastası, Gebe, Obez, Gastroözofajiyal reflü (GÖR), İleus/intestinal obstrüksiyon, Peritonit. RSI protokolü: Predoksijenizasyon → İndüksiyon ajanı (ketamin/propofol/etomidat) + Süksinilkolin (1.5 mg/kg) veya roküronyum (1.2 mg/kg) → Krikoioid bası (sellick manevrası) → Entübasyon."
+  },
+  {
+    section:"PREMEDİKASYON",
+    year:"İlkbahar 2015 Orijinal",
+    question:"Preoperatif değerlendirmede rutin laboratuvar testlerine alternatif olarak, hastanın klinik durumuna göre seçilerek istenmesi (selektif tetkik yaklaşımı) önerilen uygulama aşağıdakilerden hangisidir?",
+    opts:["Her hastaya tam kan sayımı ve biyokimya","Yalnızca EKG","Yaş ve komorbiditiye göre selektif testler","Her hastaya PA akciğer grafisi","Her hastaya koagülasyon testleri"],
+    answer:2,
+    hint:"Preoperatif rutin tetkik yerine yaş, komorbitide ve cerrahi tipine göre seçici (selektif) test yaklaşımı önerilir.",
+    trap:"Her hastaya rutin tam kan sayımı, EKG, akciğer grafisi veya koagülasyon testleri gerekmez ve maliyet-etkin değildir. Kılavuzlar selektif tetkik yaklaşımını önermektedir.",
+    explain:"Preoperatif testler: Selektif yaklaşım önerilir. Yaşa göre: <40 yaş sağlıklı → minimal tetkik. 40-60 yaş → EKG eklenebilir. >60 yaş → EKG + akciğer grafisi. Komorbitideye göre: Kardiyak hastalık → EKG, ekokardiografi. Renal hastalık → BUN, kreatinin, elektrolit. Koagülopati şüphesi → PT/INR, aPTT. Operasyon büyüklüğüne göre: Majör cerrahi → daha kapsamlı tetkik."
+  },
+  {
+    section:"GENEL ANESTEZİKLER",
+    year:"İlkbahar 2019 Orijinal",
+    question:"Genel anesteziden çıkış sırasında görülen 'anestezi farkındalığı' (awareness) ile ilgili aşağıdakilerden hangisi doğrudur?",
+    opts:["Her zaman ağrı eşlik eder","Kas gevşeticiler kullanılmayan hastalarda daha sık görülür","BIS monitorizasyonu tamamen önleyebilir","Yüksek riskli gruplarda insidans %0.1-0.2 arasındadır","Herhangi bir kalıcı psikolojik etkisi yoktur"],
+    answer:3,
+    hint:"Anestezi farkındalığı genel popülasyonda %0.1-0.2 insidansla görülür; yüksek riskli grupta (kardiyak cerrahi, acil, obstetrik) bu oran daha yüksektir.",
+    trap:"Farkındalık her zaman ağrıyla birlikte olmayabilir. Kas gevşeticiler farkındalığı artırır (immobilize eder ama anestezi derinliğini değiştirmez). BIS monitorizasyonu riski azaltır ama tamamen önleyemez. PTSD gibi kalıcı psikolojik etkiler görülebilir.",
+    explain:"Anestezi farkındalığı (intraoperatif bilinç): İnsidans: Genel %0.1-0.2. Yüksek riskli: Kardiyak cerrahi, obstetrik, travma, uzun süreli cerrahi → %1-2'ye çıkabilir. Risk faktörleri: Kas gevşetici kullanımı, düşük anestezi derinliği, hemodinamik instabilite. Sonuçlar: Ağrı olmadan sadece farkındalık, ağrılı farkındalık, PTSD. BIS (Bispektral İndeks) monitorizasyonu riski azaltır ancak tamamen önleyemez."
+  },
+  {
+    section:"LOKAL ANESTEZİKLER",
+    year:"İlkbahar 2016 Orijinal",
+    question:"Aşağıdakilerden hangisi lokal anestezik sistemik toksisite (LAST) tedavisinde kullanılır?",
+    opts:["N-asetilsistein","İntravenöz lipid emülsiyonu","Flumazenil","Naloksan","Protamin"],
+    answer:1,
+    hint:"Lokal anestezik sistemik toksisitesinde (LAST) intravenöz lipid emülsiyonu (İntralipid) antidot olarak kullanılır.",
+    trap:"N-asetilsistein parasetamol zehirlenmesi için, flumazenil benzodiyazepinler için, naloksan opioidler için, protamin heparin için antidottur. LAST tedavisinde lipid emülsiyonu kullanılır.",
+    explain:"Lokal anestezik sistemik toksisitesi (LAST) tedavisi: Konvülziyon: Benzodiyazepin (midazolam). Kardiyovasküler toksisite (bupivakaine bağlı): İntravenöz Lipid Emülsiyonu (İntralipid 20%, 1.5 mL/kg bolus + 0.25 mL/kg/dk infüzyon). Mekanizma: Lipid emülsiyonu lipofilik lokal anesteziği plazmadan sekestrasyona alır ('lipid sink' teorisi). KPR gerekirse: Standart protokol + lipid emülsiyonu. Epinefrin: Küçük dozlarda kullanılır (1 mcg/kg)."
+  },
+  {
+    section:"LOKAL ANESTEZİKLER",
+    year:"Sonbahar 2018 Orijinal",
+    question:"Spinal anestezi uygulamasından sonra gelişen hipotansiyonun en sık nedeni aşağıdakilerden hangisidir?",
+    opts:["Miyokard depresyonu","Sempatik blokaj","Solunum depresyonu","Vazovagal refleks","Spinal şok"],
+    answer:1,
+    hint:"Spinal anestezide sempatik sinirler bloke olunca vazodilatasyon ve venöz göllenme meydana gelir; bu hipotansiyona yol açar.",
+    trap:"Miyokard depresyonu spinal anestezide primer mekanizma değildir. Solunum depresyonu total spinal durumunda görülür. Vazovagal refleks mümkündür ama en sık neden sempatik blokajdır.",
+    explain:"Spinal anestezi hipotansiyonu mekanizması: Sempatik blokaj → Arteriyel vazodilatasyon + Venöz kapasitans artışı → Venöz dönüş azalır → Kardiyak output azalır → Hipotansiyon. Yüksek spinal blok (T1-4) → Kardiyak sempatik sinirler bloke → Bradikardi + hipotansiyon. Tedavi: Sıvı yükleme, vazopresor (efedrin/fenilefrin), Trendelenburg pozisyonu. Risk faktörleri: Yüksek blok seviyesi, hipovolemi, kardiyak hastalık."
+  },
+  {
+    section:"SANTRAL BLOKLARLA BÖLGESEL ANESTEZİ",
+    year:"İlkbahar 2019 Orijinal",
+    question:"Epidural anestezide lokal anestezik dozu ile kıyaslandığında spinal anestezi için gereken lokal anestezik dozu nasıldır?",
+    opts:["Çok daha fazladır","Biraz daha fazladır","Aynıdır","Daha azdır","Çok daha azdır"],
+    answer:4,
+    hint:"Spinal anestezide ilaç doğrudan BOS'a verilir; epidurale kıyasla çok daha az doz (1/10'u kadar) yeterlidir.",
+    trap:"Epidural anestezide epidural aralığa büyük hacimde lokal anestezik verilirken spinal anestezide subaraknoid aralığa çok küçük dozlar yeterlidir. Spinal çok daha az doz gerektirir.",
+    explain:"Doz karşılaştırması: Spinal anestezi: Subaraknoid aralığa doğrudan BOS içine verilir. Tipik doz: 10-15 mg bupivakain (2-3 mL). Epidural anestezi: Epidural aralığa verilir, dura geçip sinir köklerine diffüze olması gerekir. Tipik doz: 100-150 mg bupivakain (20-30 mL). Spinal doz epidural dozun yaklaşık 1/10'u kadardır. Bu nedenle aksilental intravasküler veya intratekal enjeksiyon epiduralde daha tehlikelidir."
+  },
+  {
+    section:"SANTRAL BLOKLARLA BÖLGESEL ANESTEZİ",
+    year:"Sonbahar 2020 Orijinal",
+    question:"Aşağıdakilerden hangisi obstetrik anestezi/analjezi uygulamalarında epidural anestezinin tercih edilme nedenlerinden biri değildir?",
+    opts:["Kateter ile sürekli analjezi sağlanabilmesi","Titre edilebilir doz ayarlaması yapılabilmesi","Acil sezaryende anesteziye dönüştürülebilmesi","Fetal depresyon yapmaması","Anne solunum fonksiyonunu daha az etkilemesi"],
+    answer:3,
+    hint:"Epidural anestezi maternal opioid gereksinimini azaltır ve fetal depresyonu AZALTIR, tamamen önlemez. Ancak düşük doz epidural anestezi fetal depresyon açısından IV opioidlere göre daha güvenlidir.",
+    trap:"'Fetal depresyon yapmaz' ifadesi kesin doğru değildir; epidural analjezi fetal depresyonu azaltır ama tamamen ortadan kaldırmaz. Özellikle epidural yoluyla verilen opioidler kan dolaşımına geçerek fetüsü etkileyebilir.",
+    explain:"Epidural anestezinin obstetrikte avantajları: Sürekli kateter ile titre edilebilir analjezi, gerektiğinde anesteziye (sezaryen için) dönüştürülebilme, annenin solunum fonksiyonunu koruma, maternal kooperasyonu sürdürme. Dezavantajı: IV opioid gereksinimiyle karşılaştırıldığında fetal depresyonu azaltır ama tamamen önleyemez; özellikle epidural opioidler fetal depresyon yapabilir. 'Fetal depresyon yapmaz' ifadesi kesin olarak doğru değildir."
+  },
+  {
+    section:"BAZI ÖZEL DURUMLAR",
+    year:"Sonbahar 2021 Orijinal",
+    question:"Aşağıdaki ameliyatlarda hangisinde postoperatif bulantı kusma (PONV) insidansı en yüksek beklenir?",
+    opts:["Inguinal herni onarımı","Katarakt ameliyatı","Laparoskopik kolesistektomi","Periferik vasküler cerrahi","Anorektal cerrahi"],
+    answer:2,
+    hint:"PONV riski yüksek cerrahi türleri: Laparoskopik cerrahi, jinekolojik cerrahi, kolesistektomi, strabismus cerrahisi, mastektomi.",
+    trap:"İnguinal herni ve katarakt ameliyatları düşük PONV risklidir. Periferik vasküler ve anorektal cerrahi de PONV açısından orta-düşük risklidir. Laparoskopik kolesistektomi PONV insidansı en yüksek olanlardan biridir.",
+    explain:"PONV (Postoperatif Bulantı-Kusma) yüksek risk faktörleri: Hasta faktörleri: Kadın cinsiyet, sigara içmeme, PONV/hareket hastalığı öyküsü, genç yaş. Anestezi faktörleri: Volatil anestezikler, N2O, yüksek doz opioid. Cerrahi faktörler: Laparoskopik cerrahi, jinekolojik cerrahi, kulak-burun-boğaz, strabismus, kolesistektomi. Apfel skoru (4 risk faktörü) ile risk tahmin edilir. Laparoskopik kolesistektomi hem cerrahi hem de anestezik risk faktörlerini bir arada taşır."
+  },
+  {
+    section:"BAZI ÖZEL DURUMLAR",
+    year:"İlkbahar 2022 Orijinal",
+    question:"Anestezi altındaki bir hastada beklenmedik şekilde end-tidal CO₂ değerinin ani olarak sıfıra düşmesi aşağıdakilerden hangisini düşündürür?",
+    opts:["Malign hipertermi","Özofageal entübasyon veya devreye bağlantı sorunu","Bronkospazm","Hipotermi","Pulmoner ödem"],
+    answer:1,
+    hint:"EtCO2'nin ani olarak sıfıra düşmesi tüpün pozisyon kaybını (özofageal entübasyon, bağlantı ayrılması) düşündürür.",
+    trap:"Malign hipertermide EtCO2 ARTAR. Bronkospazmda EtCO2 yükselir. Hipotermide EtCO2 düşer ama ani sıfıra inmez. Ani EtCO2 = 0 durumu tüpün trakea dışına çıkması veya devre bağlantısının kesilmesini gösterir.",
+    explain:"End-tidal CO2 (EtCO2) izleminin klinik yorumu: EtCO2 ani olarak sıfıra düşmesi: Özofageal entübasyon, devre ayrılması (circuit disconnect), tüp tıkanması veya apne. EtCO2 yükselme: Malign hipertermi, yetersiz ventilasyon, CO2 üretiminde artış. EtCO2 azalma (sıfıra inmeden): Kardiyak output düşmesi (kardiyak arrest, pulmoner emboli), hipotermi, hiperventilasyon. EtCO2 ani sıfıra inmesi = mekanik sorun/özofageal entübasyon → acil değerlendirme gerektirir."
+  },
+  {
+    section:"BAZI ÖZEL DURUMLAR",
+    year:"Sonbahar 2023",
+    question:"Anestezi indüksiyonu sırasında larengospazm gelişen bir hastada ilk yapılacak girişim aşağıdakilerden hangisidir?",
+    opts:["Derhal süksinilkolin uygulamak","Yüz maskesi ile %100 O₂ ve pozitif basınç ventilasyon","Acil trakeotomi","Ketamin uygulamak","Krikotirotomi"],
+    answer:1,
+    hint:"Laringospazm yönetiminde ilk adım: Havayolunu açmak, %100 O2 ile pozitif basınçlı ventilasyon uygulamak.",
+    trap:"Süksinilkolin laringospazmda kullanılır ancak hemen ilk adım değildir; önce pozitif basınçlı ventilasyon denenmelidir. Trakeotomi ve krikotirotomi son çaredir.",
+    explain:"Laringospazm yönetimi: Hafif laringospazm: Uyarıcıyı kaldır, çene kaldır, %100 O2 uygula, pozitif basınçlı ventilasyon (CPAP). Orta laringospazm: Yukarıdaki + Laringospazm çentik baskısı (bilateral mastoid çıkıntı arkası baskı). Ağır/tam laringospazm: Süksinilkolin 0.1-0.5 mg/kg IV (subparalitik doz) veya 4 mg/kg İM. Atropin eklenebilir. Hipoksi gelişirse: Tam doz süksinilkolin + entübasyon. İlk adım her zaman pozitif basınçlı O2 ventilasyondur."
+  },
+  {
+    section:"BAZI ÖZEL DURUMLAR",
+    year:"İlkbahar 2024",
+    question:"'Zor havayolu' tanımı için aşağıdakilerden hangisi doğrudur?",
+    opts:["Mallampati skor 2 olan her hasta","Yalnızca entübasyon güçlüğü anlamına gelir","Maskeli ventilasyon güçlüğü, laringoskopi güçlüğü veya entübasyon güçlüğünü kapsar","Yalnızca Mallampati skor 4 olan hastalar","Boyun hareketi kısıtlı olan her hasta"],
+    answer:2,
+    hint:"Zor havayolu: Maskeli ventilasyon güçlüğü ve/veya entübasyon güçlüğünü içeren geniş bir kavramdır.",
+    trap:"Mallampati 2 her zaman zor havayolu değildir. Zor havayolu yalnızca entübasyon güçlüğüyle sınırlı değildir; maskeli ventilasyon güçlüğünü de kapsar. Mallampati 4 tek başına zor havayolu göstergesi değildir.",
+    explain:"Zor havayolu (ASA tanımı): Maskeli ventilasyon güçlüğü: İki elle maske ile yeterli ventilasyon yapılamaması. Laringoskopi güçlüğü: Direk laringoskopide vokal kordların görülememesi (Cormack-Lehane grade 3-4). Entübasyon güçlüğü: Üç veya daha fazla deneme sonunda tüpün trakea içine yerleştirilememesi. Supraglottik havayolu güçlüğü: LMA vb. araçların yetersizliği. Geniş bir tanımdır; tüm bu bileşenleri kapsar."
+  },
+  {
+    section:"GİRİŞ",
+    year:"Sonbahar 2024",
+    question:"Anestezi öncesinde aç kalma (NPO) süreleri ile ilgili aşağıdakilerden hangisi doğrudur?",
+    opts:["Tüm gıdalar için 8 saat","Berrak sıvılar için 2 saat, katı gıda için 6-8 saat","Hiçbir şekilde sıvı alımına izin verilmez","Anne sütü için 6 saat","Tüm gıdalar için 12 saat"],
+    answer:1,
+    hint:"ASA NPO kılavuzu: Berrak sıvılar 2 saat, anne sütü 4 saat, hafif yemek 6 saat, yağlı-katı gıda 8 saat.",
+    trap:"Tüm gıdalar için 8 veya 12 saat beklemek gerekmez; berrak sıvılar 2 saatte serbesttir. Anne sütü için 4 saat yeterlidir (6 saat fazladır). Sıvı alımının tamamen yasaklanması güncel kılavuzlarla çelişir.",
+    explain:"ASA preoperatif NPO kılavuzu (2017): Berrak sıvılar (su, meyve suyu-posasız, karbonatsız içecek, çay-şekersiz): 2 saat. Anne sütü: 4 saat. İnfant formülü, sütün: 6 saat. Hafif öğün (tost, berrak sıvı): 6 saat. Yağlı-ağır yemek, kızartma: 8 saat veya daha fazla. Bu kurallar elektif cerrahi için geçerlidir; acil cerrahide aspirasyon riski gözetilir."
+  },
+  {
+    section:"GİRİŞ",
+    year:"İlkbahar 2025",
+    question:"Aşağıdakilerden hangisi genel anestezinin üç temel bileşeninden biri değildir?",
+    opts:["Hipnoz (bilinç kaybı)","Analjezi","Kas gevşemesi","Antikoagülasyon","Refleks baskılanması"],
+    answer:3,
+    hint:"Genel anestezinin klasik triadı: Hipnoz, Analjezi, Kas gevşemesi. Refleks baskılanması da bu triadın içinde değerlendirilebilir.",
+    trap:"Antikoagülasyon genel anestezinin bileşeni değildir. Hipnoz, analjezi ve kas gevşemesi genel anestezi triadını oluşturur; bazı kaynaklarda refleks baskılanması da eklenir.",
+    explain:"Genel anestezi triadı (Balanced Anesthesia): Hipnoz/Amnezi: Bilinç kaybı ve anıların oluşmaması (volatil anestezikler, propofol, benzodiyazepinler). Analjezi: Ağrı kontrolü (opioidler, ketamin, N2O). Kas gevşemesi: Nöromusküler blokerler veya derin anestezi. Bazı kaynaklar refleks baskılanmayı dördüncü bileşen olarak ekler. Antikoagülasyon genel anestezi bileşeni değildir."
+  },
+  {
+    section:"PREMEDİKASYON",
+    year:"Sonbahar 2025",
+    question:"Anestezi öncesi hastanın psikolojik hazırlığında en önemli unsur aşağıdakilerden hangisidir?",
+    opts:["Benzodiyazepin premedikasyonu","Morfin premedikasyonu","Hastayı bilgilendirme ve anksiyeteyi azaltma","Atropin premedikasyonu","Antasit premedikasyonu"],
+    answer:2,
+    hint:"Preoperatif hasta bilgilendirme ve psikolojik destek anksiyeteyi en etkili biçimde azaltır.",
+    trap:"Benzodiyazepin, morfin ve atropin farmakolojik premedikasyon seçenekleridir. Ancak psikolojik hazırlıkta en önemli unsur farmakolojik tedavi değil; bilgilendirme ve psikolojik destektir.",
+    explain:"Preoperatif psikolojik hazırlık: Hasta bilgilendirme (ne olacağını, ne hissedeceğini açıklamak) ve anksiyete azaltma en önemli unsurdur. Anksiyete azaltmanın yararları: Anestezik gereksinim azalır, derlenme hızlanır, postoperatif ağrı azalır. Farmakolojik premedikasyon (benzodiyazepin, opioid) bilgilendirmenin tamamlayıcısıdır, ikamesi değildir."
   }
 ];
 
-let currentQ = 0;
-let answered = {};
+let masterList = ALL_QUESTIONS.map((q,i) => ({...q, _idx: i}));
+let questions = [...masterList];
+let current = 0;
+let answers = {};
 let starred = new Set();
-let activeList = QUESTIONS.map((_,i)=>i);
+let hintOpen = false;
+let wrongList = [];
+let starList = [];
 
-function render(){
-  const idx = activeList[currentQ];
-  const q = QUESTIONS[idx];
-  document.getElementById('q-num').textContent = `Soru ${currentQ+1} / ${activeList.length}`;
-  document.getElementById('q-counter').textContent = `${currentQ+1}/${activeList.length} ☰`;
-  document.getElementById('q-text').innerHTML = q.question;
-  document.getElementById('hint-box').innerHTML = q.hint;
-  document.getElementById('hint-box').classList.remove('open');
-  document.getElementById('trap-text').innerHTML = q.trap;
-  document.getElementById('explain-text').innerHTML = q.explain;
-  document.getElementById('feedback').classList.remove('open');
+function init(){
+  questions = [...masterList];
+  answers = {};
+  current = 0;
+  renderQ();
+  buildGrid();
+  updateProgress();
+}
 
+function renderQ(){
+  const q = questions[current];
+  document.getElementById('section-label').textContent = q.section;
+  document.getElementById('q-num').textContent = "Soru " + (current+1) + " / " + questions.length;
+  const key = q._idx;
+  document.getElementById('star-btn').textContent = starred.has(key) ? '★' : '☆';
+  document.getElementById('star-btn').className = starred.has(key) ? 'active' : '';
   const ytag = document.getElementById('year-tags');
-  ytag.innerHTML = q.year ? `<span class="year-tag">${q.year}</span>` : '';
-
-  const starBtn = document.getElementById('star-btn');
-  starBtn.textContent = starred.has(idx) ? '★' : '☆';
-  starBtn.classList.toggle('starred', starred.has(idx));
-
+  ytag.innerHTML = q.year ? '<span class="year-tag">' + q.year + '</span>' : '';
+  document.getElementById('q-text').innerHTML = q.question;
+  const hb = document.getElementById('hint-box');
+  hb.innerHTML = q.hint; hb.className = ''; hintOpen = false;
   const opts = document.getElementById('options');
   opts.innerHTML = '';
-  q.opts.forEach((o,i)=>{
+  q.opts.forEach(function(o,i){
     const btn = document.createElement('button');
     btn.className = 'opt-btn';
-    btn.innerHTML = `<span class="opt-letter">${String.fromCharCode(65+i)}</span><span class="opt-text">${o}</span>`;
-    if(answered[idx] !== undefined){
-      if(i === q.correct) btn.classList.add('correct');
-      else if(i === answered[idx]) btn.classList.add('wrong');
+    btn.innerHTML = '<span class="opt-letter">' + 'ABCDE'[i] + '</span> ' + o;
+    btn.onclick = function(){ answer(i); };
+    const ans = answers[current];
+    if(ans !== undefined){
       btn.disabled = true;
-    } else {
-      btn.onclick = ()=>answer(i);
+      if(i === q.answer) btn.classList.add('correct');
+      if(i === ans && ans !== q.answer) btn.classList.add('wrong');
     }
     opts.appendChild(btn);
   });
-
-  if(answered[idx] !== undefined){
-    document.getElementById('feedback').classList.add('open');
-    setTimeout(()=>document.getElementById('feedback').scrollIntoView({behavior:'smooth',block:'nearest'}),100);
+  const fb = document.getElementById('feedback');
+  if(answers[current] !== undefined){
+    document.getElementById('trap-text').innerHTML = q.trap;
+    document.getElementById('explain-text').innerHTML = q.explain;
+    fb.classList.add('open');
+  } else {
+    fb.classList.remove('open');
   }
-
+  document.getElementById('q-counter').textContent = (current+1) + "/" + questions.length + " ☰";
   updateProgress();
-  updateGrid();
 }
 
-function answer(i){
-  const idx = activeList[currentQ];
-  answered[idx] = i;
-  render();
+function answer(idx){
+  if(answers[current] !== undefined) return;
+  answers[current] = idx;
+  const q = questions[current];
+  document.querySelectorAll('.opt-btn').forEach(function(b,i){
+    b.disabled = true;
+    if(i === q.answer) b.classList.add('correct');
+    if(i === idx && idx !== q.answer) b.classList.add('wrong');
+  });
+  document.getElementById('trap-text').innerHTML = q.trap;
+  document.getElementById('explain-text').innerHTML = q.explain;
+  const fb = document.getElementById('feedback');
+  fb.classList.add('open');
+  setTimeout(function(){ fb.scrollIntoView({behavior:'smooth',block:'nearest'}); }, 150);
+  buildGrid();
+  updateProgress();
 }
 
 function toggleHint(){
-  document.getElementById('hint-box').classList.toggle('open');
+  hintOpen = !hintOpen;
+  document.getElementById('hint-box').className = hintOpen ? 'open' : '';
 }
 
 function toggleStar(){
-  const idx = activeList[currentQ];
-  if(starred.has(idx)) starred.delete(idx);
-  else starred.add(idx);
-  render();
+  const key = questions[current]._idx;
+  if(starred.has(key)) starred.delete(key);
+  else starred.add(key);
+  document.getElementById('star-btn').textContent = starred.has(key) ? '★' : '☆';
+  document.getElementById('star-btn').className = starred.has(key) ? 'active' : '';
+  buildGrid();
 }
 
-function prevQ(){if(currentQ>0){currentQ--;render();}}
-function nextQ(){
-  if(currentQ < activeList.length-1){currentQ++;render();}
-  else if(Object.keys(answered).length === activeList.length) showResult();
+function go(dir){
+  const next = current + dir;
+  if(next < 0 || next >= questions.length) return;
+  current = next;
+  renderQ();
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 function updateProgress(){
-  const pct = ((currentQ+1)/activeList.length)*100;
-  document.getElementById('progress-bar').style.width = pct+'%';
+  const pct = (Object.keys(answers).length / questions.length) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+  if(Object.keys(answers).length === questions.length){
+    setTimeout(showResult, 500);
+  }
 }
 
-function openModal(){document.getElementById('modal-overlay').classList.add('open');}
-function closeModal(e){if(e.target===document.getElementById('modal-overlay'))document.getElementById('modal-overlay').classList.remove('open');}
+function showResult(){
+  document.getElementById('quiz-area').style.display = 'none';
+  document.querySelector('.nav').style.display = 'none';
+  const rs = document.getElementById('result-screen');
+  rs.style.display = 'block';
+  let correct = 0;
+  wrongList = [];
+  questions.forEach(function(q,i){
+    if(answers[i] === q.answer) correct++;
+    else wrongList.push(i);
+  });
+  const pct = Math.round(correct / questions.length * 100);
+  document.getElementById('res-score').textContent = pct + '%';
+  document.getElementById('res-correct').textContent = correct;
+  document.getElementById('res-wrong').textContent = questions.length - correct;
+  document.getElementById('res-starred').textContent = starred.size;
+}
 
-function updateGrid(){
+function retryAll(){
+  questions = [...masterList];
+  answers = {};
+  current = 0;
+  wrongList = [];
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('quiz-area').style.display = 'block';
+  document.querySelector('.nav').style.display = 'flex';
+  renderQ();
+  buildGrid();
+}
+
+function retryWrong(){
+  if(!wrongList.length) return;
+  questions = wrongList.map(function(i){ return questions[i]; });
+  answers = {};
+  current = 0;
+  wrongList = [];
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('quiz-area').style.display = 'block';
+  document.querySelector('.nav').style.display = 'flex';
+  renderQ();
+  buildGrid();
+}
+
+function retryStar(){
+  const sl = [...starred];
+  if(!sl.length) return;
+  questions = masterList.filter(function(q){ return starred.has(q._idx); });
+  if(!questions.length) return;
+  answers = {};
+  current = 0;
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('quiz-area').style.display = 'block';
+  document.querySelector('.nav').style.display = 'flex';
+  renderQ();
+  buildGrid();
+}
+
+function buildGrid(){
   const grid = document.getElementById('q-grid');
-  grid.innerHTML='';
-  activeList.forEach((idx,i)=>{
-    const btn=document.createElement('button');
-    btn.className='q-grid-btn';
-    btn.textContent=i+1;
-    if(answered[idx]!==undefined){
-      btn.classList.add(answered[idx]===QUESTIONS[idx].correct?'answered-correct':'answered-wrong');
+  grid.innerHTML = '';
+  // Group by section
+  let lastSection = '';
+  questions.forEach(function(q, i){
+    if(q.section !== lastSection){
+      lastSection = q.section;
+      const div = document.createElement('div');
+      div.className = 'section-divider';
+      div.style.gridColumn = '1 / -1';
+      div.textContent = q.section;
+      grid.appendChild(div);
     }
-    if(starred.has(idx)) btn.classList.add('starred-q');
-    if(i===currentQ) btn.classList.add('current');
-    btn.onclick=()=>{currentQ=i;render();document.getElementById('modal-overlay').classList.remove('open');};
+    const btn = document.createElement('button');
+    btn.className = 'q-grid-btn';
+    btn.textContent = i + 1;
+    if(i === current) btn.classList.add('current');
+    if(answers[i] !== undefined){
+      btn.classList.add(answers[i] === q.answer ? 'answered-correct' : 'answered-wrong');
+    }
+    if(starred.has(q._idx)) btn.classList.add('starred');
+    btn.onclick = function(){
+      current = i;
+      renderQ();
+      closeModal({target: document.getElementById('modal')});
+      window.scrollTo({top:0,behavior:'smooth'});
+    };
     grid.appendChild(btn);
   });
 }
 
-function showResult(){
-  document.getElementById('quiz-area').style.display='none';
-  document.querySelector('.nav').style.display='none';
-  const rs = document.getElementById('result-screen');
-  rs.style.display='block';
-  let correct=0,wrong=0;
-  activeList.forEach(idx=>{
-    if(answered[idx]===QUESTIONS[idx].correct) correct++;
-    else if(answered[idx]!==undefined) wrong++;
-  });
-  const pct=Math.round(correct/activeList.length*100);
-  document.getElementById('res-score').textContent=correct+'/'+activeList.length;
-  document.getElementById('res-pct').textContent=pct+'% doğru';
-  document.getElementById('res-correct').textContent=correct;
-  document.getElementById('res-wrong').textContent=wrong;
-  document.getElementById('res-star').textContent=starred.size;
-  document.getElementById('progress-bar').style.width='100%';
+function openModal(){ document.getElementById('modal').classList.add('open'); }
+function closeModal(e){
+  if(e.target === document.getElementById('modal') || e.target.classList.contains('q-grid-btn')){
+    document.getElementById('modal').classList.remove('open');
+  }
 }
 
-function restartAll(){
-  answered={};starred=new Set();currentQ=0;activeList=QUESTIONS.map((_,i)=>i);
-  document.getElementById('result-screen').style.display='none';
-  document.getElementById('quiz-area').style.display='block';
-  document.querySelector('.nav').style.display='flex';
-  render();
-}
+document.addEventListener('keydown', function(e){
+  if(e.key === 'ArrowRight') go(1);
+  if(e.key === 'ArrowLeft') go(-1);
+  if(e.key === 'Escape') document.getElementById('modal').classList.remove('open');
+});
 
-function retryWrong(){
-  const wrong=activeList.filter(idx=>answered[idx]!==undefined&&answered[idx]!==QUESTIONS[idx].correct);
-  if(!wrong.length){alert('Yanlış cevap bulunmuyor!');return;}
-  wrong.forEach(idx=>{delete answered[idx];});
-  activeList=wrong;currentQ=0;
-  document.getElementById('result-screen').style.display='none';
-  document.getElementById('quiz-area').style.display='block';
-  document.querySelector('.nav').style.display='flex';
-  render();
-}
-
-function retryStar(){
-  if(!starred.size){alert('Yıldızlı soru bulunmuyor!');return;}
-  const sl=[...starred];
-  sl.forEach(idx=>{delete answered[idx];});
-  activeList=sl;currentQ=0;
-  document.getElementById('result-screen').style.display='none';
-  document.getElementById('quiz-area').style.display='block';
-  document.querySelector('.nav').style.display='flex';
-  render();
-}
-
-render();
+init();
 </script>
 </body>
 </html>

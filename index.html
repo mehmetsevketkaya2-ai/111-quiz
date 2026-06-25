@@ -3,412 +3,382 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Göz Hastalıkları — TUS Quiz</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<title>Ortopedi – Tüm Sorular (95 Soru)</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;
-  --accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;--green:#3ecf74;
-  --red:#f0476d;--text:#dde3f5;--muted:#7b85a8;
-}
+:root{--bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;--accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;--green:#3ecf74;--red:#f0476d;--text:#dde3f5;--muted:#7b85a8}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding-bottom:100px}
 .progress-wrap{position:fixed;top:0;left:0;width:100%;height:3px;background:var(--border);z-index:100}
-.progress-bar{height:3px;background:var(--accent2);transition:width .3s}
-.section-badge{font-family:'IBM Plex Mono',monospace;color:var(--accent2);font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:18px 16px 4px;display:block}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin:10px 12px}
+.progress-bar{height:3px;background:var(--accent);transition:width .3s}
+.section-badge{font-family:'IBM Plex Mono',monospace;color:var(--accent2);font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:18px 16px 4px;display:block}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 16px;margin:10px 12px}
 .q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-#q-num{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--muted)}
+#q-num{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--muted)}
 #star-btn{background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--gold);padding:4px}
-.year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-.year-tag{font-family:'IBM Plex Mono',monospace;font-size:.65rem;background:rgba(91,141,238,.13);color:var(--accent);border:1px solid rgba(91,141,238,.3);border-radius:6px;padding:2px 8px}
-.section-tag{font-family:'IBM Plex Mono',monospace;font-size:.65rem;background:rgba(224,92,122,.1);color:var(--accent2);border:1px solid rgba(224,92,122,.3);border-radius:6px;padding:2px 8px}
-.q-text{font-size:.97rem;line-height:1.65;margin-bottom:14px}
-.hint-toggle{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:.8rem;padding:6px 12px;cursor:pointer;margin-bottom:10px;font-family:'IBM Plex Mono',monospace}
-#hint-box{display:none;background:rgba(91,141,238,.08);border:1px solid rgba(91,141,238,.2);border-radius:8px;padding:10px 12px;font-size:.85rem;color:var(--accent);margin-bottom:10px;line-height:1.55}
+.year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.year-tag{background:var(--surface);border:1px solid var(--border);border-radius:20px;font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--muted);padding:2px 10px}
+.q-text{font-size:.97rem;line-height:1.6;margin-bottom:14px}
+.hint-toggle{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:.8rem;padding:6px 12px;cursor:pointer;margin-bottom:10px}
+#hint-box{display:none;background:var(--surface);border-left:3px solid var(--accent);border-radius:6px;padding:10px 12px;font-size:.85rem;color:var(--muted);margin-bottom:10px}
 .options{display:flex;flex-direction:column;gap:8px}
-.opt-btn{display:flex;align-items:flex-start;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 13px;cursor:pointer;text-align:left;color:var(--text);font-size:.88rem;line-height:1.5;transition:border-color .15s,background .15s;font-family:'Inter',sans-serif}
-.opt-letter{font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--accent);min-width:18px;font-size:.85rem}
-.opt-btn:hover:not(:disabled){border-color:var(--accent);background:rgba(91,141,238,.08)}
-.opt-btn.correct{border-color:var(--green)!important;background:rgba(62,207,116,.1)!important;color:var(--green)}
-.opt-btn.correct .opt-letter{color:var(--green)}
-.opt-btn.wrong{border-color:var(--red)!important;background:rgba(240,71,109,.1)!important;color:var(--red)}
-.opt-btn.wrong .opt-letter{color:var(--red)}
+.opt-btn{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;color:var(--text);font-size:.9rem;text-align:left;transition:border-color .2s}
+.opt-btn:hover{border-color:var(--accent)}
+.opt-letter{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--accent);min-width:18px;font-weight:600}
+.opt-btn.correct{border-color:var(--green);background:#0d2e1a}
+.opt-btn.wrong{border-color:var(--red);background:#2e0d15}
 .opt-btn:disabled{cursor:default}
-.feedback{max-height:0;overflow:hidden;transition:max-height .4s ease}
-.feedback.open{max-height:1400px}
-.trap-box{background:rgba(240,71,109,.07);border:1px solid rgba(240,71,109,.25);border-radius:10px;padding:12px;margin-top:14px}
-.trap-title{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--red);font-weight:700;letter-spacing:.08em;margin-bottom:6px}
-.trap-text{font-size:.84rem;line-height:1.55;color:var(--text)}
-.explain-box{background:rgba(91,141,238,.07);border:1px solid rgba(91,141,238,.22);border-radius:10px;padding:12px;margin-top:10px}
-.explain-title{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--accent);font-weight:700;letter-spacing:.08em;margin-bottom:6px}
-.explain-text{font-size:.84rem;line-height:1.6;color:var(--text)}
+.feedback{display:none;margin-top:12px}
+.feedback.open{display:block}
+.trap-box{background:#2e0d15;border:1px solid var(--red);border-radius:10px;padding:12px;margin-bottom:8px}
+.trap-title{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--red);font-weight:600;margin-bottom:4px}
+.trap-text{font-size:.85rem;color:var(--text);line-height:1.5}
+.explain-box{background:#0d1e3a;border:1px solid var(--accent);border-radius:10px;padding:12px}
+.explain-title{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--accent);font-weight:600;margin-bottom:4px}
+.explain-text{font-size:.85rem;color:var(--text);line-height:1.5}
 .nav{position:fixed;bottom:0;left:0;width:100%;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:10px 16px;z-index:99}
-.nav-btn{background:var(--card);border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:.85rem;padding:9px 18px;cursor:pointer;font-family:'Inter',sans-serif}
+.nav-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:8px 18px;font-size:.9rem;cursor:pointer}
 .nav-btn:hover{border-color:var(--accent)}
-#q-counter{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--muted);cursor:pointer;padding:6px 10px;border-radius:8px;border:1px solid var(--border)}
-#q-counter:hover{border-color:var(--accent)}
-/* Result screen */
-#result-screen{display:none;padding:30px 16px}
-.result-score{font-family:'IBM Plex Mono',monospace;font-size:3.5rem;font-weight:700;color:var(--green);text-align:center;margin:20px 0 8px}
-.result-label{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--muted);text-align:center;letter-spacing:.1em}
-.result-stats{display:flex;justify-content:center;gap:24px;margin:24px 0}
-.stat{text-align:center}
-.stat-val{font-family:'IBM Plex Mono',monospace;font-size:1.6rem;font-weight:700}
-.stat-lbl{font-size:.72rem;color:var(--muted);font-family:'IBM Plex Mono',monospace}
-.result-btns{display:flex;flex-direction:column;gap:10px;max-width:320px;margin:0 auto}
-.result-btn{padding:13px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.9rem;cursor:pointer;font-family:'Inter',sans-serif}
-.result-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
-/* Topic breakdown */
-.topic-breakdown{margin-top:28px;max-width:400px;margin-left:auto;margin-right:auto}
-.topic-title{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--muted);letter-spacing:.08em;margin-bottom:12px;text-align:center}
-.topic-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);gap:8px}
-.topic-name{font-size:.8rem;color:var(--text);flex:1}
-.topic-score{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--muted)}
-.topic-bar-wrap{width:80px;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
-.topic-bar{height:5px;border-radius:3px;background:var(--green)}
-/* Modal */
-.q-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;align-items:flex-end}
+#q-counter{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--muted);cursor:pointer}
+.q-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:flex-end}
 .q-modal-overlay.open{display:flex}
-.q-modal{background:var(--surface);border-radius:18px 18px 0 0;padding:20px 16px 30px;width:100%;max-height:75vh;overflow-y:auto}
-.q-modal-title{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--muted);margin-bottom:14px;text-align:center}
-.q-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
-.q-grid-btn{aspect-ratio:1;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:.75rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.q-grid-btn.answered-correct{background:rgba(62,207,116,.2);border-color:var(--green);color:var(--green)}
-.q-grid-btn.answered-wrong{background:rgba(240,71,109,.2);border-color:var(--red);color:var(--red)}
-.q-grid-btn.starred{border-color:var(--gold)}
-.q-grid-btn.current{border-color:var(--accent);background:rgba(91,141,238,.15)}
-.divider-label{grid-column:1/-1;font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--accent2);letter-spacing:.1em;padding:8px 2px 2px;border-top:1px solid var(--border);margin-top:4px}
+.q-modal{background:var(--surface);border-radius:18px 18px 0 0;padding:18px;width:100%;max-height:75vh;overflow-y:auto}
+.q-modal h3{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--muted);margin-bottom:6px}
+.section-divider{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--accent2);margin:10px 0 4px;text-transform:uppercase;letter-spacing:.06em}
+.q-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:4px}
+.q-grid-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 4px;font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--text);cursor:pointer;text-align:center}
+.q-grid-btn.answered-correct{background:#0d2e1a;border-color:var(--green);color:var(--green)}
+.q-grid-btn.answered-wrong{background:#2e0d15;border-color:var(--red);color:var(--red)}
+.q-grid-btn.starred{border-color:var(--gold);color:var(--gold)}
+#result-screen{display:none;position:fixed;inset:0;background:var(--bg);z-index:300;overflow-y:auto;padding:40px 20px}
+.result-score{font-family:'IBM Plex Mono',monospace;font-size:3.5rem;color:var(--green);text-align:center;margin-bottom:8px}
+.result-label{font-family:'IBM Plex Mono',monospace;font-size:.9rem;color:var(--muted);text-align:center;margin-bottom:28px}
+.result-stats{display:flex;justify-content:center;gap:24px;margin-bottom:28px}
+.stat-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 20px;text-align:center}
+.stat-num{font-family:'IBM Plex Mono',monospace;font-size:1.5rem;font-weight:600}
+.stat-lbl{font-size:.75rem;color:var(--muted);margin-top:2px}
+.topic-breakdown{max-width:420px;margin:0 auto 28px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px}
+.topic-breakdown h4{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--muted);margin-bottom:10px}
+.topic-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--border);font-size:.8rem}
+.topic-row:last-child{border-bottom:none}
+.topic-name{color:var(--text)}
+.topic-score{font-family:'IBM Plex Mono',monospace;color:var(--accent)}
+.result-btns{display:flex;flex-direction:column;gap:10px;max-width:340px;margin:0 auto}
+.result-btn{border:none;border-radius:10px;padding:14px;font-size:.95rem;font-weight:600;cursor:pointer}
+.btn-all{background:var(--accent);color:#fff}
+.btn-wrong{background:var(--red);color:#fff}
+.btn-star{background:var(--gold);color:#000}
 </style>
 </head>
 <body>
+<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+<div id="quiz-area"></div>
+<div class="nav">
+  <button class="nav-btn" id="prev-btn">← Önceki</button>
+  <span id="q-counter">1/95 ☰</span>
+  <button class="nav-btn" id="next-btn">Sonraki →</button>
+</div>
 
-<div class="progress-wrap"><div class="progress-bar" id="prog"></div></div>
-<span class="section-badge" id="section-badge">GÖZ HASTALIKLARI</span>
-
-<div id="quiz-area">
-  <div class="card">
-    <div class="q-header">
-      <span id="q-num">Soru 1 / 77</span>
-      <button id="star-btn" onclick="toggleStar()">☆</button>
-    </div>
-    <div class="year-tags" id="year-tags"></div>
-    <div class="q-text" id="q-text"></div>
-    <button class="hint-toggle" onclick="toggleHint()">🔑 İpucu</button>
-    <div id="hint-box"></div>
-    <div class="options" id="options"></div>
-    <div class="feedback" id="feedback">
-      <div class="trap-box"><div class="trap-title">⚠️ TUZAK NOKTA</div><div class="trap-text" id="trap-text"></div></div>
-      <div class="explain-box"><div class="explain-title">📖 AÇIKLAMA</div><div class="explain-text" id="explain-text"></div></div>
-    </div>
+<div class="q-modal-overlay" id="modal-overlay">
+  <div class="q-modal">
+    <h3>SORU LİSTESİ — 95 SORU</h3>
+    <div id="q-grid-container"></div>
   </div>
 </div>
 
 <div id="result-screen">
-  <div class="result-score" id="res-score">0%</div>
-  <div class="result-label">BAŞARI ORANI · GÖZ HASTALIKLARI</div>
+  <div class="result-score" id="res-score"></div>
+  <div class="result-label">BAŞARI ORANI</div>
   <div class="result-stats">
-    <div class="stat"><div class="stat-val" style="color:var(--green)" id="res-correct">0</div><div class="stat-lbl">DOĞRU</div></div>
-    <div class="stat"><div class="stat-val" style="color:var(--red)" id="res-wrong">0</div><div class="stat-lbl">YANLIŞ</div></div>
-    <div class="stat"><div class="stat-val" style="color:var(--gold)" id="res-star">0</div><div class="stat-lbl">YILDIZLI</div></div>
-  </div>
-  <div class="result-btns">
-    <button class="result-btn primary" onclick="restartAll()">🔄 Tüm Soruları Yeniden Çöz</button>
-    <button class="result-btn" onclick="retryWrong()">❌ Yanlışları Tekrar Çöz</button>
-    <button class="result-btn" onclick="retryStar()">⭐ Yıldızlıları Tekrar Çöz</button>
+    <div class="stat-box"><div class="stat-num" id="res-correct" style="color:var(--green)"></div><div class="stat-lbl">Doğru</div></div>
+    <div class="stat-box"><div class="stat-num" id="res-wrong" style="color:var(--red)"></div><div class="stat-lbl">Yanlış</div></div>
+    <div class="stat-box"><div class="stat-num" id="res-star" style="color:var(--gold)"></div><div class="stat-lbl">Yıldızlı</div></div>
   </div>
   <div class="topic-breakdown">
-    <div class="topic-title">KONU BAZLI SONUÇLAR</div>
+    <h4>KONUYA GÖRE SONUÇ</h4>
     <div id="topic-rows"></div>
   </div>
-</div>
-
-<nav class="nav">
-  <button class="nav-btn" onclick="navigate(-1)">← Önceki</button>
-  <span id="q-counter" onclick="openModal()">1/77 ☰</span>
-  <button class="nav-btn" onclick="navigate(1)">Sonraki →</button>
-</nav>
-
-<div class="q-modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
-  <div class="q-modal">
-    <div class="q-modal-title">SORU LİSTESİ · 77 SORU</div>
-    <div class="q-grid" id="q-grid"></div>
+  <div class="result-btns">
+    <button class="result-btn btn-all" onclick="retryAll()">Tüm Soruları Yeniden Çöz</button>
+    <button class="result-btn btn-wrong" onclick="retryWrong()">Yanlışları Tekrar Çöz</button>
+    <button class="result-btn btn-star" onclick="retryStar()">Yıldızlıları Tekrar Çöz</button>
   </div>
 </div>
 
 <script>
-const SECTIONS = [
-  {label:"KIRMA KUSURLARI", from:1, to:2},
-  {label:"KERATOKONUS", from:3, to:3},
-  {label:"AKOMODASYON", from:4, to:4},
-  {label:"AMBLİYOPİ", from:5, to:6},
-  {label:"GÖZ KAPAĞ INATOMİSİ & İLTİHAP", from:7, to:8},
-  {label:"KONJUNKTİVİTLER", from:9, to:35},
-  {label:"ÜVEİT", from:36, to:39},
-  {label:"LENS (KATARAKT)", from:40, to:42},
-  {label:"KORTİKOSTEROİD YAN ETKİLERİ", from:43, to:44},
-  {label:"LÖKOKORİ", from:45, to:47},
-  {label:"RETİNA DAMAR HASTALIKLARI", from:48, to:51},
-  {label:"AMD & ALBİNİZM", from:52, to:53},
-  {label:"RETİNA DEKOLMANI", from:54, to:54},
-  {label:"RETİNOBLASTOM", from:55, to:55},
-  {label:"GLOKOM", from:56, to:62},
-  {label:"OPTİK NÖROPATİ & OPTİK SİNİR", from:63, to:68},
-  {label:"SEMPATİK OFTALMİ", from:69, to:69},
-  {label:"PAPİL ÖDEMİ", from:70, to:71},
-  {label:"DİĞER GÖZ HASTALIKLARI", from:72, to:77},
+const masterList = [
+  {id:1,section:"GELİŞİMSEL KALÇA DİSPLAZİSİ",year:"İlkbahar 89",question:"İki yaşında, gelişimsel kalça displazisi olan bir çocukta aşağıdaki kalça hareketlerinden hangisi <u>en çok</u> kısıtlıdır?",opts:["Fleksiyon","Addüksiyon","Ekstansiyon","Abdüksiyon","Dış rotasyon"],answer:3,hint:"GKD'de hangi kas grubu kontraktürü gelişir?",trap:"Fleksiyon veya ekstansiyon kısıtlılığı düşünülebilir; ancak adduktör kasların kontraktürü GKD'nin karakteristik bulgusudur.",explain:"GKD'de adduktör kasların kontraktürüne bağlı <b>abdüksiyon kısıtlılığı</b> belirgindir. Bu bulgu tüm yaş gruplarında saptanabilen temel GKD bulgusudur."},
+  {id:2,section:"GELİŞİMSEL KALÇA DİSPLAZİSİ",year:"İlkbahar 91",question:"İki aylık doğuştan kalça çıkıklı (gelişimsel kalça displazili) hastaya hangisi <u>yapılmaz</u>?",opts:["Cerrahi","Kundaklanmama","Yüzü koyun yatırma","Pavlik bandaj uygulama","Ayakları fleksiyonda tutma"],answer:0,hint:"0-6 aylık dönemdeki tedavi prensipleri nelerdir?",trap:"Pavlik bandajı bu dönemde uygun tedavidir; cerrahi ise 18 ay altında uygulanmaz.",explain:"0-6 aylık dönemde kalçanın abdüksiyon ve fleksiyonda tutulması temel tedavi yöntemidir. <b>Cerrahi</b> en erken 18 ay sonrası için düşünülür."},
+  {id:3,section:"GELİŞİMSEL KALÇA DİSPLAZİSİ",year:"Sonbahar 2002",question:"0-6 aylık bebeklerde gelişimsel kalça displazisinin tedavisinde kalçanın tespit edilmesi gereken pozisyonlar aşağıdakilerden hangisinde birlikte verilmiştir?",opts:["Addüksiyon ve ekstansiyon","Addüksiyon ve fleksiyon","Abdüksiyon ve ekstansiyon","Abdüksiyon ve fleksiyon","Dış rotasyon ve ekstansiyon"],answer:3,hint:"Femur başını asetabulum içinde tutacak pozisyon hangisidir?",trap:"Addüksiyon veya ekstansiyon pozisyonu yanlıştır; femur başının asetabuluma girmesi için abdüksiyon ve fleksiyon gereklidir.",explain:"GKD tedavisinin amacı femur başının asetabulum içindeki normal ilişkisini sağlamaktır. <b>Abdüksiyon ve fleksiyon</b> pozisyonu bu amacı gerçekleştirir."},
+  {id:4,section:"GELİŞİMSEL KALÇA DİSPLAZİSİ",year:"İlkbahar 92",question:"Posterior kalça çıkığında bacak pozisyonu aşağıdakilerden hangisinde <u>doğru</u> verilmiştir?",opts:["Kalçada fleksiyon, addüksiyon, bacakta dışa rotasyon","Kalçada ekstansiyon, abduksiyon, bacakta dışa rotasyon","Kalçada ekstansiyon, addüksiyon, bacakta dışa rotasyon","Kalçada fleksiyon, abduksiyon, bacakta içe rotasyon","Kalçada fleksiyon, addüksiyon, bacakta içe rotasyon"],answer:4,hint:"Posterior kalça çıkığında çıkık yönünü düşünün.",trap:"'Dışa rotasyon' ile 'içe rotasyon' karıştırılabilir. Çıkıkların %90'ı arkaya doğrudur; çıkık bacak kısalmış ve içe dönük gelir.",explain:"Posterior kalça çıkıklarının %90'ı arkaya doğrudur. Çıkık bacak kısalmış ve içe doğru dönüktür. Doğru pozisyon: <b>kalçada fleksiyon, addüksiyon, bacakta iç rotasyon</b>."},
+  {id:5,section:"GELİŞİMSEL KALÇA DİSPLAZİSİ",year:"Sonbahar 91",question:"Konjenital kalça çıkığında (gelişimsel kalça displazisi) hiperabdüksiyonda alçının <u>en önemli</u> komplikasyonu hangisidir?",opts:["Femur başı aseptik nekrozu","Bası yarası","Abdüksiyon kontraktürü","Tekrar çıkık","Asetabuler displazi"],answer:0,hint:"Hiperabdüksiyon alçısı femur başına ne yapar?",trap:"Bası yarası veya tekrar çıkık akla gelebilir; ancak en ciddi komplikasyon femur başı avasküler nekrozudur.",explain:"GKD'de 7-18 ay arası hiperabdüksiyon alçısı uygulanır. <b>Femur başı aseptik nekrozu</b> en önemli komplikasyonudur."},
+  {id:6,section:"GELİŞİMSEL KALÇA DİSPLAZİSİ",year:"İlkbahar 2005",question:"Gelişimsel kalça displazisi olduğu düşünülen 2 aylık bebekte aşağıdaki fizik muayene bulgularının hangisinin olması <u>beklenmez</u>?",opts:["Uylukta deri kıvrımlarının eşit olmaması","Trandelenburg bulgusu","Barlow testi","Ortolani testi","Kalçada abduksiyonun kısıtlı olması"],answer:1,hint:"Trandelenburg bulgusu hangi dönemde ortaya çıkar?",trap:"Trandelenburg bulgusu yenidoğan döneminde değil, çocuk yürümeye başladıktan sonra görülür.",explain:"2 aylık bebek yürümediğinden <b>Trandelenburg bulgusu</b> bu dönemde beklenmez."},
+  {id:7,section:"GELİŞİMSEL KALÇA DİSPLAZİSİ",year:"İlkbahar 2008",question:"Travmatik posterior kalça çıkığı olan bir hastada, zedelenme olasılığı <u>en fazla</u> olan anatomik yapı aşağıdakilerden hangisidir?",opts:["Obturator siniri","Femoral sinir","Siyatik siniri","Femoral arter","Superior gluteal arter"],answer:2,hint:"Posterior kalça çıkıklarının en sık sinir komplikasyonu nedir?",trap:"Femoral sinir veya arter ön tarafta olduğundan posterior çıkıklarda daha az risk taşır.",explain:"Travmatik kalça çıkıklarının %65'i arkaya olandır. <b>Siyatik sinir felci</b> anatomik olarak arkada yer almasından dolayı en sık komplikasyondur."},
+  {id:8,section:"GELİŞİMSEL KALÇA DİSPLAZİSİ",year:"İlkbahar 2010",question:"Bir yaşın altındaki gelişimsel kalça displazi vakalarının tedavisinde, kalçaya aşırı abdüksiyon ve iç rotasyon pozisyonu verilirse hangi arter bası altında kalır?",opts:["İnternal iliak arter","Arteria profunda femoris","Obturator arter","Retinaküler arter","Medial circumflex femoral arter"],answer:4,hint:"Femur başının beslenmesinde hangi arterin rolü kritiktir?",trap:"Profunda femoris veya obturator arterleri düşünülebilir; ancak femur başının beslenmesinde medial circumflex femoral arter kritiktir.",explain:"Aşırı abdüksiyon ve iç rotasyonda <b>Medial circumflex femoral arter</b> direkt bası görerek femur başı iskemisine yol açar."},
+  {id:9,section:"GELİŞİMSEL KALÇA DİSPLAZİSİ",year:"Sonbahar 2011",question:"Yenidoğan döneminde, doğuştan kalça çıkığının redükte edilebilirliğini gösteren test aşağıdakilerden hangisidir?",opts:["Trendelenburg","Shenton","Thomas","Ortolani","Galeazzi"],answer:3,hint:"Yenidoğanda çıkık kalçanın yerine konulmasını test eden muayene hangisidir?",trap:"Barlow çıkığı provoke eder; Ortolani ise çıkık kalçanın redükte edilebilirliğini gösterir.",explain:"Yenidoğan döneminde kalçanın redükte edilebilirliğini gösteren test <b>Ortolani testidir</b>."},
+  {id:10,section:"OSTEOMİYELİT",year:"İlkbahar 88",question:"Osteomyelitin <u>en sık</u> etkeni aşağıdakilerden hangisidir?",opts:["Salmonella","S. aureus","Beta hemolitik streptokok","E. coli","Pseudomonas"],answer:1,hint:"Her yaşta en sık görülen osteomiyelit etkeni nedir?",trap:"Orak hücreli anemide Salmonella, IV ilaç bağımlılarında Pseudomonas; ancak genel popülasyonda en sık etken S. aureus'tur.",explain:"Osteomiyelitin her yaşta en sık etkeni <b>S. aureus'tur</b>."},
+  {id:11,section:"OSTEOMİYELİT",year:"İlkbahar 89",question:"Akut hematojen osteomiyelitte <u>en erken</u> görülen radyolojik bulgu hangisidir?",opts:["Periost kalınlaşması","Yumuşak doku şişliği","Eklem aralarında daralma","Metafizde destrüksiyon","Kortekste destrüksiyon"],answer:1,hint:"Osteomiyelitte ilk haftada radyoloji genelde nasıldır?",trap:"Periost reaksiyonu erken değil 3. haftada görülür; metafiz destrüksiyonu daha geç ortaya çıkar.",explain:"İlk hafta sonunda öncelikle <b>yumuşak doku şişliği</b> görülür."},
+  {id:12,section:"OSTEOMİYELİT",year:"İlkbahar 93",question:"Osteomiyelit kemikte <u>en sık</u> hangi lokalizasyondan başlar?",opts:["Diafiz","Epifiz","Metafiz","Korteks","Periost altında"],answer:2,hint:"Osteomiyelit en sık kan akımının yavaş olduğu hangi bölgeden başlar?",trap:"Epifiz veya korteks yanıltıcı olabilir; osteomiyelit metafizden başlayıp epifize doğru yayılır.",explain:"Osteomiyelit en sık <b>metafizden</b> başlar ve epifize doğru yayılır."},
+  {id:13,section:"OSTEOMİYELİT",year:"Sonbahar 95",question:"İntravenöz ilaç alışkanlığı olan bir kişide vertebra osteomiyeliti meydana geliyor. Lezyondan yapılan kültürde Gr (-), hareketli nonfermentatif mikroorganizma elde ediliyor. Bu hastada <u>en olası</u> etken aşağıdakilerden hangisidir?",opts:["Escherichia coli","Pseudomonas auroginoza","Klebsiella pnömoni","Acinetobacter","Proteus vulgaris"],answer:1,hint:"IV ilaç bağımlılarında osteomiyelitin en sık etkeni nedir?",trap:"E. coli de Gram (-) olmakla birlikte IV ilaç kullanıcılarında en sık etken Pseudomonas'tır.",explain:"İntravenöz ilaç kullananlarda osteomiyelitin en sık etkeni <b>Pseudomonas aeruginosa'dır</b>."},
+  {id:14,section:"AKUT SEPTİK ARTRİT",year:"Sonbahar 87",question:"Büyük eklemlerden birinde ağrı, kızarıklık ve şişlik şikayeti ile gelen bir hastada <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Romatizmal ateş","Romatoid artrit","Septik artrit","Tüberküloz artrit","Dermatopolimyozit"],answer:2,hint:"Tek eklem akut artriti ile gelen hastada akılda tutulması gereken en önemli tanı nedir?",trap:"Romatoid artrit çok eklemli ve kronik seyreder; tek büyük eklem akut artriti septik artrit açısından değerlendirilmelidir.",explain:"Tek eklem akut artriti ile gelen hastada en önemli tanı <b>septik artrittir</b>."},
+  {id:15,section:"AKUT SEPTİK ARTRİT",year:"Sonbahar 90",question:"Bir büyük eklemin akut artriti ile gelen bir hastada aşağıdaki teşhislerden hangisi <u>en önce</u> düşünülmelidir?",opts:["Septik artrit","Romatoid artrit","Behçet hastalığı","Reiter sendromu","Sistemik lupus eritematozus"],answer:0,hint:"Akut monartrit → ilk akla gelen ciddi tanı nedir?",trap:"Diğer seçenekler poliartiküler veya kronik seyirli hastalıklardır.",explain:"Tek eklem akut artriti ile gelen hastada <b>septik artrit</b> en önce düşünülmelidir."},
+  {id:16,section:"AKUT SEPTİK ARTRİT",year:"Sonbahar 2023",question:"Erişkinlerde nongonokoksik septik artritte <u>en sık</u> tutulan eklem aşağıdakilerden hangisidir?",opts:["Kalça","El bileği","Dirsek","Diz","Ayak bileği"],answer:3,hint:"Septik artrit erişkinde hangi eklemde en sık görülür?",trap:"Çocuklarda en sık kalça tutulumu olabilir; ancak erişkinde en sık tutulan eklem dizdir.",explain:"Erişkinlerde nongonokoksik septik artritte en sık <b>diz ekleminde</b> görülür."},
+  {id:17,section:"AKUT SEPTİK ARTRİT",year:"İlkbahar 96",question:"Yetmiş beş yaşında bir kadın hastaya dejeneratif artrit nedeniyle 6 ay önce total kalça protezi yapılmıştır. Son 2 aydır akşamları yükselen ateş, yürürken kalçada ağrı yakınmaları ile baş vuruyor. Eklem sıvısı incelemesinde 11.000/mm³ sayıda çok parçalı lökosit ve bakteri saptandıysa <u>en olası</u> etken aşağıdakilerden hangisidir?",opts:["Streptokok","Stafilokokus epidermidis","Escherichia coli","Hemofilus influenza","Pseudomonas"],answer:1,hint:"Protez ameliyatı sonrası septik artritte en sık etken nedir?",trap:"S. aureus genel popülasyonda en sık olsa da protez ameliyatı geçirenlerde en sık etken S. epidermidis'tir.",explain:"Protez ameliyatı geçirmiş olanlarda en sık septik artrit etkeni <b>Stafilokokus epidermidis'tir</b>."},
+  {id:18,section:"AKUT SEPTİK ARTRİT",year:"İlkbahar 2006",question:"On sekiz aylık bir bebek irritabilite, halsizlik, ateş ve bir gündür sol kolunu hareket ettiremememe nedeniyle getiriliyor. Fizik muayenede sol omuz bölgesinin hafif şiş, hareketlerinin ileri derecede ağrılı olduğu görülüyor. Laboratuar incelemelerinde lökosit sayısı 18 000/mm³, sedimentasyon hızı 55 mm/saat olarak saptanıyor. Radyografik incelemede omuz ekleminin sublukse olduğu belirleniyor. Bu çocuk için <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Juvenil romatoid artrit","Akut romatizmal ateş","Tüberküloz artriti","Septik artrit","Travmatik omuz dislokasyonu"],answer:3,hint:"Omuz ekleminde destrüksiyona bağlı subluksasyon ve sistemik toksik tablo hangi tanıyı düşündürür?",trap:"Travmatik dislokasyon bu kadar gürültülü toksik tablo ve laboratuvar vermez.",explain:"Omuz ekleminde destrüksiyona bağlı subluksasyon ve sistemik toksik tablo <b>akut septik artriti</b> akla getirir."},
+  {id:19,section:"AKUT SEPTİK ARTRİT",year:"Sonbahar 2012",question:"I. Eklem yeterli miktarda boşaltılmalıdır. II. Antibiyotik tedavisi verilmelidir. III. Eklem stabil pozisyonda istirahat ettirilmelidir. IV. Ponksiyon ile elde edilen eklem sıvısının kültür sonucu gelinceye kadar hastaya müdahale edilmemelidir.<br><br>Akut septik artritin tedavisiyle ilgili yukarıdaki ifadelerden hangileri doğrudur?",opts:["II ve III","III ve IV","I, II ve III","I, III ve IV","II, III ve IV"],answer:2,hint:"Septik artritte kültür beklenmeden tedaviye başlanır mı?",trap:"IV. ifade yanlıştır; kültür sonucu beklenmeksizin hemen drenaj ve geniş spektrumlu antibiyotik başlanmalıdır.",explain:"Septik artritte kültür sonucu beklenmeden drenaj yapılmalı ve antibiyotik başlanmalıdır. Doğru yanıt <b>I, II ve III</b>'tür."},
+  {id:20,section:"KEMİK VE EKLEM TÜBERKÜLOZÜ",year:"Sonbahar 89",question:"Pott hastalığında patoloji vertebranın <u>ilk</u> olarak hangi bölümünde başlar?",opts:["Spinoz çıkıntı","Transvers çıkıntı","Arkus vertebrae","İntervertebral disk","Korpus vertebrae"],answer:4,hint:"Pott hastalığı vertebranın hangi kısmını tutar?",trap:"İntervertebral disk baskıya karşı dirençlidir; Pott hastalığı korpustan başlar.",explain:"Pott hastalığı en çok torakolumbar bölgeyi tutar. <b>Korpusun spongioz bölümünde</b> başlar."},
+  {id:21,section:"KEMİK VE EKLEM TÜBERKÜLOZÜ",year:"İlkbahar 97",question:"Aşağıdakilerden hangisi eklem tüberkülozunun radyolojik incelemesinde görülmesi beklenen bulgulardan birisi <u>değildir</u>?",opts:["Komşu eklemde osteoporoz","Osteofit","Subluksasyon","Eklem aralığında daralma","Abse"],answer:1,hint:"Osteofit hangi hastalığın bulgusudur?",trap:"Osteofit dejeneratif artrit bulgusudur; tüberküloz artritte görülmez.",explain:"Eklem tüberkülozunda osteoporoz, daralma, subluksasyon ve apse görülür. <b>Osteofit</b> dejeneratif artrit bulgusudur."},
+  {id:22,section:"KEMİK TÜMÖRLERİ",year:"Sonbahar 87",question:"Osteosarkom <u>en sık</u> hangi anatomik lokalizasyona yerleşir?",opts:["Humerus üst ucu","Humerus alt uç-Ulna üst uç","Vertebra","Femur alt uç-Tibia üst uç","Kafadaki yassı kemikler"],answer:3,hint:"Osteosarkom en sık diz bölgesinde mi görülür?",trap:"Humerus proksimali de tutulabilir ancak en sık lokalizasyon femur distali ve tibia proksimalidir.",explain:"Osteosarkom en sık <b>femur distal ucuna, tibia ve humerus proksimal ucuna</b> yerleşir."},
+  {id:23,section:"KEMİK TÜMÖRLERİ",year:"Sonbahar 88",question:"Genç bir hastada femur distal metafizinde yerleşimli tümör için <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Osteosarkom","Kondrosarkom","Ewing sarkoma","Multiple myeloma","Kondroblastoma"],answer:0,hint:"Genç hastada dizde şiddetli ağrı yapan malign kemik tümörü hangisidir?",trap:"Ewing sarkomu da genç yaşta görülür ancak diafizde yerleşir ve osteomiyelitle karışır.",explain:"Genç hastada diz bölgesinde metafiz yerleşimli malign tümör için en olası tanı <b>osteosarkomdur</b>."},
+  {id:24,section:"KEMİK TÜMÖRLERİ",year:"Sonbahar 92",question:"Aşağıdakilerden hangisi benign kemik tümörlerinin özelliklerinden <u>değildir</u>?",opts:["Geniş geçiş zonu","Periost-korteks devamlılığı","Lezyonda belirgin kenar görünümü","Periost reaksiyonunun olmayışı","Yumuşak doku uzantısının olmayışı"],answer:0,hint:"Geniş geçiş zonu benign mi malign tümörlerin özelliğidir?",trap:"Geniş geçiş zonu malign tümörlerin özelliğidir; benign tümörlerde geçiş zonu dardır.",explain:"<b>Geniş geçiş zonu</b> malign tümörlerin özelliğidir; benign tümörlerde dar geçiş zonu bulunur."},
+  {id:25,section:"KEMİK TÜMÖRLERİ",year:"İlkbahar 2025",question:"Aşağıdakilerden hangisinin benign ve agresif olmayan kemik lezyonlarının radyografik bulgularından biri olması <u>en olasıdır</u>?",opts:["Lezyon ile normal kemik dokusu arasında geniş geçiş zonu olması","Kemik korteks destrüksiyonu ve eşlik eden lameller tipte periost reaksiyonu olması","Kemik korteks yıkımına eşlik eden yumuşak doku komponenti olması","Lezyon çevresinde sklerotik halka görünümü","Bir önceki radyografiye göre lezyon boyutlarında kısa dönemde hızlı artış olması"],answer:3,hint:"Benign kemik lezyonlarında çevre kemik dokusunun reaksiyonu nasıldır?",trap:"Geniş geçiş zonu, yumuşak doku komponenti, hızlı büyüme malignite bulgularıdır.",explain:"Benign lezyonlarda <b>lezyon çevresinde sklerotik halka görünümü</b> görülür."},
+  {id:26,section:"KEMİK TÜMÖRLERİ",year:"Sonbahar 93",question:"Foramen magnumu daraltarak, medulla spinalise bası yapan <u>tipik</u> kemik hastalığı hangisidir?",opts:["Fibröz displazi","Ewing sarkomu","Paget hastalığı","Osteid osteoma","Kondrosarkom"],answer:2,hint:"Foramen magnumu daraltan ve medullaya bası yapan kemik hastalığı hangisidir?",trap:"Bu bulgu Paget hastalığının tipik komplikasyonudur.",explain:"<b>Paget hastalığı</b> servikal bölgeyi tutarak medulla spinalis basısı ile nörolojik belirtilere neden olabilir."},
+  {id:27,section:"KEMİK TÜMÖRLERİ",year:"İlkbahar 96",question:"Özellikle femur ve tibia metafizodiafizer bölgesine yerleşen, ortası radyolüsent ve etrafında sklerotik halosu olan, subkortikal yerleşme eğilimi olan kemik tümörü aşağıdakilerden hangisidir?",opts:["Osteom","Osteoid osteoma","Osteokondrom","Ewing sarkomu","Osteosarkom"],answer:1,hint:"Ortası radyolüsent (nidus), etrafı sklerotik olan ve aspirinle ağrısı geçen tümör nedir?",trap:"Osteoblastomda da nidus vardır fakat ağrısı aspirine cevap vermez.",explain:"Ortası radyolüsent etrafı sklerotik halo (nidus) ve aspirine yanıt → <b>osteoid osteoma</b>."},
+  {id:28,section:"KEMİK TÜMÖRLERİ",year:"Sonbahar 97",question:"Aspirinle diz ağrısı geçen, femurda radyolusent merkez etrafında radyoopak halka görünümü olan hastada <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Ewing sarkomu","Osteoma","Osteoid osteoma","Osteoblastoma","Kondroblastoma"],answer:2,hint:"Uzun kemikte nidus formasyonu ile seyreden ve antiinflamatuvara yanıt veren kemik tümörü nedir?",trap:"Osteoblastomada nidus var ama ağrısı aspirine yanıt vermez.",explain:"Uzun kemikte nidus ve antiinflamatuvara yanıt → <b>osteoid osteomdur</b>."},
+  {id:29,section:"KEMİK TÜMÖRLERİ",year:"İlkbahar 2000",question:"Yirmi yaşında bir erkek, sağ dizinde 2 aydır süren şişlik ve ağrı yakınmasıyla başvuruyor. Radyografide femur alt metafizinde medüller kaviteyi dolduran, korteksi destrükte eden, solid-kistik alanlar içeren lezyon saptanıyor. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Soliter kemik kisti","Osteosarkom","Osteokondrom","Anevrizmal kemik kisti","Kemiğin dev hücreli tümörü"],answer:1,hint:"Genç erkekte femur distal metafizinde agresif, korteks destrüksiyonlu tümör nedir?",trap:"Dev hücreli tümör epifizde yerleşir; osteosarkom metafizde korteks destrüksiyonu ile görülür.",explain:"Genç yaşta diz bölgesinde metafiz yerleşimli malign tümör için en olası tanı <b>osteosarkomdur</b>."},
+  {id:30,section:"KEMİK TÜMÖRLERİ",year:"İlkbahar 2003",question:"Oniki yaşında bir erkek çocukta geceleri artan ve aspirinle geçtiği söylenen bacak ağrısı olmaktadır. Çekilen kemik radyografisinde tibiada etrafı skleroze kemikle çevrili 1.5 cm çapında radyolüsent bir odak saptanmıştır. Bu hastadaki lezyon için <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Osteosarkom","Osteokondrom","Kondrosarkom","Osteoid osteom","Anevrizmal kemik kisti"],answer:3,hint:"Uzun kemikte nidus formasyonu ve antiinflamatuvara yanıt veren ağrı hangi tümörü düşündürür?",trap:"Osteosarkom gece ağrısı yapar ama aspirinle geçmez.",explain:"Uzun kemikte nidus + aspirine yanıt → <b>osteoid osteoma</b>."},
+  {id:31,section:"KEMİK TÜMÖRLERİ",year:"Sonbahar 2003",question:"Aşağıdaki tümörlerden hangisinin klinik ve radyolojik bulguları osteomiyelite benzerlik gösterir?",opts:["Kondrosarkom","Ewing tümörü","Multiple myelom","Meme kanseri metastazı","Malign lenfoma"],answer:1,hint:"Hangi kemik tümörü ateş, şişlik, kızarıklık ile osteomiyeliti taklit eder?",trap:"Multiple myelom ve metastaz da kemik tutar ama osteomiyeliti taklit etmez.",explain:"<b>Ewing sarkomu</b> klinik ve radyolojik bulgular açısından osteomiyelite karıştırılır."},
+  {id:32,section:"KEMİK TÜMÖRLERİ",year:"İlkbahar 2025",question:"Sekiz yaşındaki kız hasta ateş ve sağ uyluk ağrısı şikâyetleriyle getiriliyor. Direkt grafilerinde sağ femur diyafizinde destrüktif bir lezyon ve \"soğan zarı\" periost reaksiyonu saptanıyor. MIC 2 (CD 99) ve glikojen pozitif hücreler saptanıyor. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Osteomiyelit","Ewing sarkomu","Osteosarkom","Lösemi","Travmaya bağlı femur diyafiz kırığı"],answer:1,hint:"Soğan zarı periost reaksiyonu ve CD99 pozitifliği hangi tümörü işaret eder?",trap:"Osteomiyelit de benzer klinik tablo yapabilir; ancak CD99 pozitifliği Ewing sarkomuna özgündür.",explain:"<b>Ewing sarkomu</b>: soğan zarı periost reaksiyonu ve CD99 (MIC 2) pozitifliği tipik bulgulardır."},
+  {id:33,section:"KEMİK TÜMÖRLERİ",year:"Sonbahar 2010",question:"El grafisinde, ikinci parmak proksimal falanksta radyolusent, benign görünümlü, santral yerleşimli bir lezyon saptanan hastada ön tanı aşağıdakilerden hangisidir?",opts:["Enkondrom","Kondroblastom","Benign osteoblastom","Fibröz kortikal defekt","Osteoid osteom"],answer:0,hint:"Ellerde proksimal falanks yerleşimli bening tümör nedir?",trap:"Kondroblastom epifizde yerleşir; enkondrom ellerin proksimal falankslarda en sık bening tümördür.",explain:"Ellerde proksimal falanks yerleşimli bening tümörler <b>enkondromlardır</b>."},
+  {id:34,section:"KEMİK TÜMÖRLERİ",year:"İlkbahar 2012",question:"Aşağıdakilerden hangisi, malign kemik tümörlerinin direkt radyolojik bulgularından biri <u>değildir</u>?",opts:["Lezyon ile normal kemik arasında dar geçiş zonu","Periost reaksiyonu","Yumuşak doku şişliği","Korteks bütünlüğünün bozulması","Lezyonun konturlarında düzensizlik"],answer:0,hint:"Malign tümörlerde geçiş zonu nasıldır?",trap:"Dar geçiş zonu bening tümörlerin özelliğidir; malign tümörlerde geçiş zonu geniştir.",explain:"Malign tümörlerde geçiş zonu geniş olmalıdır. <b>Dar geçiş zonu</b> bening tümörlerin özelliğidir."},
+  {id:35,section:"KEMİK TÜMÖRLERİ",year:"İlkbahar 2016 Orijinal",question:"Kas-iskelet sistemi tümörlerindeki biyopsi kurallarıyla ilgili aşağıdaki ifadelerden hangisi <u>yanlıştır</u>?",opts:["Biyopsi, tüm laboratuvar ve radyolojik incelemeler tamamlandıktan sonra yapılmalıdır.","Biyopsi, iğne biyopsisi veya açık biyopsi şeklinde yapılabilir.","Biyopsi traktusu, damar-sinir paketi yakınından geçmemelidir.","Biyopsi traktusu tümöral doku ile mümkün olduğunca az kontamine edilmelidir.","İnsizyonel biyopsi, lezyonun merkezinden yapılmalıdır."],answer:4,hint:"İnsizyonel biyopside lezyonun hangi kısmından biyopsi alınmalıdır?",trap:"Lezyonun merkezinde nekrotik hücreler fazla olduğundan tanı güçleşir; merkezden biyopsi tercih edilmez.",explain:"İnsizyonel biyopside tümöral lezyonun <b>merkezinden değil, nekroz içermeyen kenar kısmından</b> biyopsi alınmalıdır."},
+  {id:36,section:"KIRIK VE ÇIKIKLAR",year:"Sonbahar 89",question:"Herhangi bir kırığın <u>ilk</u> muayenesi sırasında aşağıdakilerden hangisi <u>yapılmamalıdır</u>?",opts:["Palpasyonla ağrı ve hassasiyetin olup olmadığının araştırılması","Kırık şüphesi olan bölgedeki deformitenin izlenmesi","Fonksiyon kaybı olup olmadığının araştırılması","Radyolojik muayene yapılması","Anormal hareketin olup olmadığının araştırılması"],answer:4,hint:"Kırık muayenesinde kırık uçlarını hareket ettirmek neden tehlikelidir?",trap:"Radyoloji gereklidir; anormal hareketi aramak kırık uçlarını hareket ettirerek damar-sinir yaralanmasına yol açabilir.",explain:"<b>Anormal hareketi aramak</b> kırık uçlarını hareket ettireceğinden damar-sinir hasarı riski nedeniyle yapılmamalıdır."},
+  {id:37,section:"KIRIK VE ÇIKIKLAR",year:"İlkbahar 90",question:"Aşağıdaki kırıklardan hangisi <u>en kolay</u> iyileşir?",opts:["Humerus parçalı kırığı","Talus boyun kırığı","Femur boyun kırığı","Tibia spiral kırığı","Açık parçalı femur korpus kırığı"],answer:3,hint:"Spiral ve oblik kırıklar neden daha iyi iyileşir?",trap:"Femur boynu ve talus boynu kırıkları avasküler nekroz riski taşıdığından iyileşmesi zordur.",explain:"Spiral ve oblik kırıklarda geniş kırık yüzeylerindeki damarlanma iyileşmeye yardım eder. <b>Tibia spiral kırığı</b> en kolay iyileşir."},
+  {id:38,section:"KIRIK VE ÇIKIKLAR",year:"Sonbahar 90",question:"Pelvis kırıklı erişkin hastalarda sıklıkla aşağıdaki komplikasyonlardan hangisi görülür?",opts:["Vajen rüptürü","Mesane rüptürü","Desendan kolon perforasyonu","Üreter laserasyonu","Rektum perforasyonu"],answer:1,hint:"Pelvis kırıklarında komşuluğundan dolayı en sık hangi organ yaralanır?",trap:"Üreter ve rektum yaralanmaları daha seyrektir.",explain:"Pelvis kırıklarında en sık <b>mesane ve üretra yırtıkları</b> görülür (%10-42)."},
+  {id:39,section:"KIRIK VE ÇIKIKLAR",year:"İlkbahar 91",question:"Kosta kırığında ağrıyı gidermek için acil yapılması <u>en uygun</u> olan hangisidir?",opts:["Flaster stabilizasyonu","Cerrahi kostektomi","İnterkostal sinir blokajı","Torakotomi","Telle dikilir"],answer:2,hint:"Kosta kırıklarında ağrı tedavisinin en etkili yöntemi nedir?",trap:"Flaster stabilizasyonu eski bir yöntemdir; yeterli solunum engellenir.",explain:"Kosta kırıklarında ağrı için en etkili yöntem <b>interkostal sinir blokajıdır</b>."},
+  {id:40,section:"KIRIK VE ÇIKIKLAR",year:"Sonbahar 2000",question:"Aşağıdakilerden hangisi kırığın iyileşmesini olumsuz yönde etkileyen lokal faktörlerden biri <u>değildir</u>?",opts:["Beraber çıkık bulunması","Kemik fragmanları arasında segment kaybı","Kemiğin beslenme bozukluğu","Kırık tipi ve yeri","Yumuşak doku interpozisyonu"],answer:0,hint:"Kırıklara çıkığın eşlik etmesi iyileşmeyi doğrudan etkiler mi?",trap:"Çıkık eşlik edebilir ancak iyileşmeyi doğrudan etkileyen lokal faktörler arasında yer almaz.",explain:"<b>Beraber çıkık bulunması</b> kırık iyileşmesini doğrudan etkileyen lokal faktörler arasında yer almaz."},
+  {id:41,section:"KIRIK VE ÇIKIKLAR",year:"İlkbahar 2001",question:"Femur diyafizi ile metafizinin birleştiği yerdeki görülen kemik kırığı nasıl isimlendirilir?",opts:["İntertrochanter kırık","Suprakondiler kırık","Subkondiler kırık","Epifizyel kırık","Femur cisim kırığı"],answer:1,hint:"Femur diyafizi ile metafizinin birleştiği bölge nedir?",trap:"İntertrokanterik kırık kalça bölgesindedir; suprakondiler kırık diz üzerindedir.",explain:"Femur diyafizi ile metafizinin birleştiği bölgedeki kırık <b>suprakondiler kırık</b> olarak isimlendirilir."},
+  {id:42,section:"KIRIK VE ÇIKIKLAR",year:"Sonbahar 2022 Orijinal",question:"Yirmi yaşındaki kadın hasta 4 saatlik dağ yürüyüşü sonrasında gelişen topukta ağrı nedeniyle başvuruyor. Bu hasta için kemik yapılar ile ilgili <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Yorgunluk kırığı","Yetmezlik kırığı","Patolojik kırık","Avülsiyon kırığı","Komplet kırık"],answer:0,hint:"Sağlıklı kemiğe aşırı tekrarlayan yük sonucu oluşan kırık tipi nedir?",trap:"Yetmezlik kırığı osteoporotik kemikte görülür; genç sağlıklı bireyde aşırı yüklenme sonrası oluşan kırık yorgunluk kırığıdır.",explain:"Genç sağlıklı bireyde uzun yürüyüş sonrası oluşan topuk ağrısı <b>yorgunluk kırığını</b> düşündürür."},
+  {id:43,section:"KIRIK VE ÇIKIKLAR",year:"İlkbahar 2002",question:"Künt travmaya maruz kalan hastalarda retroperitoneal hematomların <u>en sık</u> görülen nedeni aşağıdakilerden hangisidir?",opts:["Böbrek parankimi yaralanması","Vena kava inferior yaralanmaları","Pelvis kırıkları","Mezenterik damar yaralanmaları","Pankreas yaralanması"],answer:2,hint:"Retroperitoneal hematom en sık hangi nedene bağlı oluşur?",trap:"Böbrek ve pankreas yaralanmaları da retroperitoneal kanamaya yol açabilir; ancak en sık neden pelvis kırıklarıdır.",explain:"Retroperitoneal hematomun en sık nedeni <b>pelvis kırıklarıdır</b>."},
+  {id:44,section:"KIRIK VE ÇIKIKLAR",year:"İlkbahar 2009",question:"Aşağıdakilerden hangisi kırığa yönelik acil yardımda atellemenin nedenlerinden biri <u>değildir</u>?",opts:["Kapalı kırığın açık kırık şekline dönmesinin önlenmesi","Deformitenin giderilmesi","Nörovasküler komplikasyonların önlenmesi","Ağrının giderilmesi","Hastanın taşınmasının kolaylaştırılması"],answer:1,hint:"Atel uygulaması deformiteyi kalıcı olarak giderir mi?",trap:"Atel geçici komplikasyon önleme amaçlıdır; deformiteyi gidermek atelinın görevi değildir.",explain:"Atel geçici amaçla uygulanır. <b>Deformitenin giderilmesi</b> atelinın görevi değildir."},
+  {id:45,section:"KIRIK VE ÇIKIKLAR",year:"Sonbahar 2009",question:"Deplase humerus cisim kırıkları sonrasında yaralanma riski <u>en yüksek</u> olan yapı aşağıdakilerden hangisidir?",opts:["Nervus medianus","Nervus radialis","Nervus unlaris","Arteria axillaris","Arteria brachialis"],answer:1,hint:"Humerus cisim kırıklarının en yaygın komplikasyonu hangi sinirin yaralanmasıdır?",trap:"Medianus suprakondiler kırıklarda, ulnaris medial epikondil kırıklarında daha sık yaralanır.",explain:"Humerus cisim kırıklarının en yaygın komplikasyonu <b>n. radialis yaralanmasıdır</b>."},
+  {id:46,section:"KIRIK VE ÇIKIKLAR",year:"Sonbahar 2024",question:"Yirmi beş yaşındaki erkek hasta bilek güreşi yaptıktan sonra kolda ağrı ve şekil bozukluğu şikâyetiyle başvuruyor. Direkt grafisinde humerus 1/3 alt diafizinde spiral oblik humerus kırığı tespit ediliyor. Fizik muayenesinde düşük el gelişimi saptanıyor. Bu hastanın hangi periferik sinirinin yaralanmış olması <u>en olasıdır</u>?",opts:["Radial sinir","Ulnar sinir","Median sinir","Muskulokutanöz sinir","Aksiller sinir"],answer:0,hint:"Düşük el hangi sinirin yaralanmasında görülür?",trap:"Ulnar sinir medial epikondil kırıklarında, median sinir suprakondiler kırıklarda daha sık yaralanır.",explain:"Düşük el elin ekstansiyonunu sağlayan kasların innervasyon kaybında meydana gelir. <b>Radial sinir</b> humerus kırıkları sonrası hasarlanır."},
+  {id:47,section:"KIRIK VE ÇIKIKLAR",year:"İlkbahar 2012",question:"Üç saat önce humerus seviyesinde oluşan travmatik bir amputasyonda; yaranın temizlenmesi, yıkanması ve debridman sonrası replantasyon için hasta cerrahiye alınıyor. Aşağıdaki işlemlerden hangisi operasyonun <u>ilk basamağını</u> oluşturur?",opts:["Kemiğin kısaltılması ve fiksasyonu","Fleksör ve ekstansör kasların tamiri","Brakial arter anastomozu","Sıra ile sinirlerin tamiri","Venöz yapıların anastomozu"],answer:0,hint:"Replantasyonda yapıların onarım sırası nedir?",trap:"Damar anastomozu önce yapılmalı gibi görünse de kemik fiksasyonu yapılmadan damar onarımı güvenli olmaz.",explain:"Replantasyonda onarım sırası: 1. Kemik fiksasyonu, 2. Periost, 3. Ekstansör, 4. Fleksör, 5. Arter, 6. Sinir, 7. Ven, 8. Cilt. <b>Kemik kısaltılması ve fiksasyonu</b> ilk basamaktır."},
+  {id:48,section:"KIRIK VE ÇIKIKLAR",year:"İlkbahar 2013",question:"Omuz eklemi 90° abdüksiyonda ve maksimum eksternal rotasyondayken aşağıdakilerden hangisi, humerusun anteriora doğru translasyonunu engeller?",opts:["Korakohumeral ligament","Superior glenohumeral ligament","Orta glenohumeral ligament","İnferior glenohumeral ligamentin anterior bandı","İnferior glenohumeral ligamentin posterior bandı"],answer:3,hint:"Omuz 90° abdüksiyon ve maksimum eksternal rotasyonda öne translasyonu hangi yapı engeller?",trap:"Korakohumeral ligament nötral pozisyonda önemlidir; maksimum abdüksiyon ve dış rotasyonda öne translasyonu inferior glenohumeral ligamentin anterior bandı engeller.",explain:"Kolun 90° abdüksiyon ve eksternal rotasyonunda majör stabilizatör <b>inferior glenohumeral ligamentin anterior bandıdır</b>."},
+  {id:49,section:"KIRIK VE ÇIKIKLAR",year:"İlkbahar 2015 Orijinal",question:"Osteogenesis imperfekta ile ilgili aşağıdaki ifadelerden hangisi <u>yanlıştır</u>?",opts:["Deride incelme görülür","İşitme kaybı olabilir","Mavi sklera görülebilir","Kırık iyileşmesinde gecikme vardır.","Tip I kollajen sentezi bozulmuştur."],answer:3,hint:"Osteogenesis imperfektada kırık iyileşmesi nasıldır?",trap:"Osteogenesis imperfektada kemik yapısı bozulur ancak kırık iyileşmesinde gecikme görülmez.",explain:"Osteogenesis imperfektada kemikler kolay kırılır ama <b>kırık iyileşmesinde gecikme görülmez</b>."},
+  {id:50,section:"YAĞ EMBOLİSİ SENDROMU",year:"İlkbahar 2011",question:"Aşağıdakilerden hangisi yağ embolisinin belirtilerinden biri <u>değildir</u>?",opts:["Solunum yetmezliği","Peteşi","Ateş","Bilinç bulanıklığı","Bradikardi"],answer:4,hint:"Yağ embolisinde kalp hızı artar mı azalır mı?",trap:"Yağ embolisinde taşikardi görülür; bradikardi yağ embolisinin bulgusu değildir.",explain:"Yağ embolisinde <b>bradikardi değil taşikardi</b> görülür."},
+  {id:51,section:"YAĞ EMBOLİSİ SENDROMU",year:"Sonbahar 87",question:"Pelvis, femur ve tibia kırığı ile hastaneye yatırılan bir hastada 48 saat sonra ateş yükselmesi, nabız artışı ve dispne izleniyor. Muayenede konjunktivalarda ve aksiller bölgede peteşiler, akciğer grafisinde yaygın konsolidasyon alanları, hematokrit değerinde düşme ve arteryal PO₂ seviyesinin 50mm Hg olduğu gözleniyor. Bu hastada <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Dissemine intravasküler koagülasyon","Pnömoni","Akciğer bronşektazisi","Atelektazi","Yağ embolisi sendromu"],answer:4,hint:"Uzun kemik kırıkları sonrası 24-72 saatte ortaya çıkan solunum sıkıntısı, peteşi ve bilinç değişikliği hangi tanıyı düşündürür?",trap:"Pnömoni de benzer görüntü verebilir; ancak kırık sonrası 48 saatte peteşi ve düşük PaO₂ yağ embolisi sendromunu işaret eder.",explain:"Uzun kemik kırıkları sonrası 24-72 saat içinde ortaya çıkan bu tablo <b>yağ embolisi sendromudur</b>."},
+  {id:52,section:"YAĞ EMBOLİSİ SENDROMU",year:"İlkbahar 90",question:"Erken kırık komplikasyonlarından biri olan yağ embolisi sendromundan <u>en iyi</u> korunma yolu aşağıdakilerden hangisidir?",opts:["Profilaktik antikoagülasyon uygulanması","Kırığın acilen hareketsiz hale getirilmesi","Kırığa bağlı gelişen şokun önlenmesi","Kırığın acil açık redüksiyona alınması","Profilaktik steroid verilmesi"],answer:1,hint:"Yağ embolisini önlemek için en önemli girişim kırığa yönelik ne yapılmasıdır?",trap:"Profilaktik antikoagülasyon veya steroid standart önlem değildir; kırığın immobilize edilmesi en temel koruyucu önlemdir.",explain:"<b>Kırığın acilen hareketsiz hale getirilmesi (immobilizasyon)</b> yağ embolisini önlemek için en önemli girişimdir."},
+  {id:53,section:"YAĞ EMBOLİSİ SENDROMU",year:"Sonbahar 87",question:"Kırık sonucu gelişen yağ embolisini önlemek için yapılması gereken <u>en önemli</u> işlem aşağıdakilerden hangisidir?",opts:["Açık repozisyon","Kırığı acil olarak stabilize etmek","Heparin uygulaması","Yara kenarlarının temizlenmesi","Oral antikoagülan uygulanması"],answer:1,hint:"Yağ embolisini önlemede kırığa yönelik yapılacak en önemli işlem nedir?",trap:"Heparin veya antikoagülan yağ embolisini önlemez; kırığın stabilizasyonu esastır.",explain:"<b>Kırığı acil olarak stabilize etmek</b> yağ embolisini önlemede en önemli işlemdir."},
+  {id:54,section:"YAĞ EMBOLİSİ SENDROMU",year:"Sonbahar 89",question:"Yağ embolisinin <u>en sık</u> sebebi aşağıdakilerden hangisidir?",opts:["Yanıklar","Uzun kemik kırıkları","İmmobilizasyon","Dehidratasyon","Yumuşak doku travması"],answer:1,hint:"Yağ embolisi en sık hangi durumda gelişir?",trap:"Yanıklar da yağ embolisine yol açabilir; ancak en sık neden uzun kemik kırıklarıdır.",explain:"Yağ embolisinin en sık sebebi <b>uzun kemik kırıklarıdır</b>."},
+  {id:55,section:"YAĞ EMBOLİSİ SENDROMU",year:"İlkbahar 96",question:"Altmış sekiz yaşında bir hasta femur boyun kırığı tanısıyla 13 gündür hastanede yatmaktadır. Hastada ani gelişen göğüs ağrısı, nefes alamama yakınmaları oluyor. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Pulmoner tromboemboli","Miyokard enfarktüsü","Pnömotoraks","Hidropnömotoraks","Sepsis"],answer:0,hint:"Kalça operasyonu sonrası yatağa bağlı hastada ani gelişen göğüs ağrısı ve dispne en olası hangi tanıyı düşündürür?",trap:"Miyokard enfarktüsü olabilir ancak kalça ameliyatı sonrası immobilize hastada tromboembolizm çok daha olasıdır.",explain:"Kalça operasyonu sonrası ani göğüs ağrısı ve dispne → <b>pulmoner tromboemboli</b>."},
+  {id:56,section:"KOMPARTMAN SENDROMU",year:"Sonbahar 98",question:"Sirküler alçılar <u>ilk</u> 24 saatte neden kontrol edilir?",opts:["Sudeck atrofisini önlemek için","Dolaşım bozukluğunu önlemek için","Kırık uçlarının opozisyonu için","Eklem sertliğini önlemek için","Kontraktürü önlemek için"],answer:1,hint:"Alçı sonrası ilk 24 saatte en önemli risk nedir?",trap:"Eklem sertliği veya kontraktür erken değil geç dönem komplikasyonlarıdır.",explain:"Erken dönemde <b>dolaşım bozukluğu</b> olup olmadığını anlamak için ilk 24 saatte alçı kontrol edilmelidir."},
+  {id:57,section:"KOMPARTMAN SENDROMU",year:"Sonbahar 2004",question:"Periferik arter tıkanıklığına bağlı gelişen akut iskemide aşağıdakilerden hangisi <u>görülmez</u>?",opts:["Ağrı","Soğukluk","Siyanoz","Parestezi","Nabız kaybı"],answer:2,hint:"Akut arter tıkanıklığının 5P bulgusu nelerdir?",trap:"Siyanoz venöz yetmezlik bulgusudur; akut arteriyel tıkanıklıkta siyanoz değil solukluk (pallor) görülür.",explain:"Akut arter tıkanıklığında <b>siyanoz değil solukluk (pallor)</b> görülür."},
+  {id:58,section:"VOLKMANN İSKEMİK KONTRAKTÜRÜ",year:"İlkbahar 88",question:"Volkman iskemik kontraktürü aşağıdakilerden hangisinde <u>en sık</u> görülür?",opts:["Radius başı kırığı","Colles kırığı","Femur cisim kırığı","Humerus suprakondiler ekstansiyon tipi kırıklar","Olekranon kırığı"],answer:3,hint:"Volkmann iskemik kontraktürü hangi kırıkla en sık ilişkilidir?",trap:"Colles kırığı el bileği kırığıdır; Volkmann suprakondiler humerus kırıklarında görülür.",explain:"Volkmann iskemik kontraktürü özellikle <b>suprakondiler humerus kırıklarında</b> görülür."},
+  {id:59,section:"VOLKMANN İSKEMİK KONTRAKTÜRÜ",year:"Sonbahar 2007",question:"Volkmann iskemik kontraktürünün <u>en önemli</u> bulgusu aşağıdakilerden hangisidir?",opts:["Radial nabız yokluğu","Kaslarda ödem","Ağrı","Eritem","Skar dokusu"],answer:0,hint:"Volkmann iskemik kontraktürünün tanısal en önemli bulgusu nedir?",trap:"Ağrı ve ödem de görülür; ancak tanısal açıdan en önemli bulgu radial nabız yokluğudur.",explain:"Volkmanın iskemik kontraktürünün tanısal en önemli bulgusu <b>radial nabız yokluğudur</b>."},
+  {id:60,section:"VOLKMANN İSKEMİK KONTRAKTÜRÜ",year:"İlkbahar 98",question:"Suprakondiler humerus kırığında hangi arterin zedelenme olasılığı <u>en yüksektir</u>?",opts:["A. ulnaris","A. brachialis","A. radialis","A. axillaris","A. subclavia"],answer:1,hint:"Suprakondiler humerus kırığında en risk altında olan damar nedir?",trap:"Radial nabız yokluğu görülse de asıl yaralanan damar brakial arterdir.",explain:"Suprakondiler humerus kırığında en sık <b>brakial arter</b> zedelenir."},
+  {id:61,section:"VOLKMANN İSKEMİK KONTRAKTÜRÜ",year:"Sonbahar 99",question:"Dirseğinin üzerine düşen ve distal humerusta kırığı olan çocuğa alçı uygulanıyor. Daha sonra elinde ağrı, solukluk gelişen ve nabız alınamayan bu çocukta <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Morton nöroma","Volkmann iskemisi","Raynaud hastalığı","Vaskülit","Sinir basısı"],answer:1,hint:"Suprakondiler kırık sonrası alçı uygulanmış çocukta nabız kaybı ve el solukluğu hangi tabloyu düşündürür?",trap:"Sinir basısı veya vaskülit bu şekilde akut gelişmez.",explain:"Suprakondiler kırık sonrası nabız kaybı ve solukluk → <b>Volkmann iskemisi</b>."},
+  {id:62,section:"VOLKMANN İSKEMİK KONTRAKTÜRÜ",year:"Sonbahar 2025",question:"On altı yaşındaki erkek çocuk sol el bileğinin ve parmaklarının aktif fleksiyon hareketinde kayıp, fleksiyon kontraktürü ve pasif ekstansiyonun sınırlı olması nedeniyle getiriliyor. Öyküsünden altı ay önce ön kolunun bir iş makinesine sıkıştığı öğreniliyor. Hastanın fizik muayenesinde duyu kaybı saptanmıyor. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Çok sayıda kapalı tendon yaralanması","Dupuytren kontraktürü","Tetik parmak","İzole median sinir kesisi","Volkmann iskemik kontraktürü"],answer:4,hint:"Ön kol ezilmesi sonrası geç dönemde fleksiyon kontraktürü gelişmesi hangi tanıyı düşündürür?",trap:"Dupuytren kontraktürü yaşlılarda görülür; travma öyküsü ve ön kol tutulumu Volkmann'ı işaret eder.",explain:"Ön kol ezilmesi sonrası gelişen kompartman sendromuna bağlı <b>Volkmann iskemik kontraktürü</b> fleksiyon kontraktürü olarak karşımıza çıkar."},
+  {id:63,section:"OSTEOKONDROZLAR",year:"Sonbahar 89",question:"Küçük bir çocukta hareketle tuberositas tibiada ağrı varsa <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Kondrom","Kondromalazi patella","Ewing Sarkom","Osgood-Schlatter hastalığı","Perthes hastalığı"],answer:3,hint:"Tuberositas tibiada hareketle ağrı olan çocukta en sık düşünülecek tanı nedir?",trap:"Perthes femur başını tutar; Sever kalkaneusu tutar; Osgood-Schlatter tuberositas tibiayı tutar.",explain:"<b>Osgood-Schlatter hastalığı</b> tuberositas tibianın aseptik nekrozudur."},
+  {id:64,section:"OSTEOKONDROZLAR",year:"İlkbahar 2002",question:"Aşağıdaki kırık tiplerinin hangisinde komplikasyon olarak avasküler nekroz gelişme olasılığı <u>yüksektir</u>?",opts:["Fibula başı kırığı","Tibia plato kırığı","Tibia medial malleol kırığı","Femur boyun kırığı","Femur suprakondiler kırığı"],answer:3,hint:"Avasküler nekroz en sık hangi kırık tipinin komplikasyonudur?",trap:"Tibia plato veya malleol kırıkları avasküler nekroza yol açmaz; femur boynu kırıkları avasküler nekroza yol açar.",explain:"<b>Femur boyun kırıkları</b> sonrası avasküler nekroz sık görülür."},
+  {id:65,section:"OSTEOKONDROZLAR",year:"Sonbahar 2003",question:"Kırk beş yaşının altındaki kişilerde kalça avasküler nekrozunun <u>en önemli</u> nedeni aşağıdakilerden hangisidir?",opts:["Osteoporoza bağlı kalça kırığı","Kortikosteroid kullanımı","Lomber sinir kökü irritasyonu","Torakanterik bursit","Osteoartrit"],answer:1,hint:"45 yaş altında kalça avasküler nekrozunun en sık nedeni ilaç mı, travma mı?",trap:"Osteoporoza bağlı kırık ileri yaşta görülür; 45 yaş altında en önemli neden kortikosteroid kullanımıdır.",explain:"45 yaş altında kalça avasküler nekrozunun <b>en önemli nedeni kortikosteroid kullanımıdır</b>."},
+  {id:66,section:"OSTEOKONDROZLAR",year:"İlkbahar 2009",question:"Tuberositas tibianın önünde şişlik, hassasiyet ve diz çökme, atlama gibi hareketlerde ağrısı olan adölesan çağındaki bir erkek çocukta <u>öncelikle</u> aşağıdakilerden hangisi düşünülmelidir?",opts:["Freiberg hastalığı","Gonalji","Perhtes hastalığı","Osgood-Schlatter","Sever Hastalığı"],answer:3,hint:"Tuberositas tibia üzerinde şişlik ve ağrı olan adölesanda en sık düşünülecek tanı nedir?",trap:"Perthes femur başını tutar; Sever kalkaneusu tutar; Osgood-Schlatter tuberositas tibiayı tutar.",explain:"<b>Osgood-Schlatter hastalığı</b> tuberositas tibianın aseptik nekrozudur."},
+  {id:67,section:"OSTEOKONDROZLAR",year:"İlkbahar 2018 Orijinal",question:"\"Kienböck\" hastalığında aşağıdaki kemiklerden hangisi tutulur?",opts:["Navikula","Talus","Skafoid","Lunatum","Kalkaneus"],answer:3,hint:"Kienböck hastalığı hangi el bileği kemiğinin avasküler nekrozudur?",trap:"Skafoid kemiğinin avasküler nekrozu Preiser hastalığıdır; Kienböck lunatum kemiğini tutar.",explain:"<b>Kienböck hastalığı</b> lunat kemiğin (lunatum) avasküler nekrozudur."},
+  {id:68,section:"OSTEOKONDRİTİS DİSSEKANS",year:"Sonbahar 87",question:"Osteokondritis dissekansın <u>en sık</u> görüldüğü eklem aşağıdakilerden hangisidir?",opts:["Kalça","Dirsek","Diz","Ayak bileği","Omuz"],answer:2,hint:"Osteokondritis dissekans en sık hangi eklemde görülür?",trap:"Dirsek ve kalça da tutulabilir; ancak en sık diz ekleminde görülür.",explain:"Osteokondritis dissekans <b>en sık diz ekleminde</b> görülür."},
+  {id:69,section:"OSTEOKONDRİTİS DİSSEKANS",year:"İlkbahar 89",question:"Dejeneratif eklem hastalıklarında patolojinin başladığı anatomik lokalizasyon aşağıdakilerden hangisidir?",opts:["Eklem kıkırdağı","Sinoviyal membran","Periost","Eklem kapsülü","Eklem aralığı"],answer:0,hint:"Osteoartrit patolojisi hangi yapıdan başlar?",trap:"Romatoid artritte patoloji sinoviyal membrandan başlar; osteoartrit eklem kıkırdağından başlar.",explain:"Dejeneratif artrit patolojisi <b>eklem kıkırdağından</b> başlar."},
+  {id:70,section:"ÜST EKSTREMİTE KIRIK VE ÇIKIKLARI",year:"Sonbahar 94",question:"Dirsek ekstansiyonda, ön kol pronasyonda, el ekstansiyonda, iken elinin üzerine düşen ve el bileğinde çatal sırtı deformitesi oluşan hastada tanı nedir?",opts:["El bileğinde çıkık","Colles kırığı","Monteggi kırığı","Bennet kırığı","Kistik higroma"],answer:1,hint:"Avuç içi yere bakacak şekilde düşme sonrası el bileğinde çatal sırtı deformitesi hangi kırığı düşündürür?",trap:"Bennet kırığı başparmak tabanında görülür; çatal sırtı deformitesi Colles kırığının tipik bulgusudur.",explain:"Bu pozisyondaki kırık <b>Colles kırığıdır</b>."},
+  {id:71,section:"ÜST EKSTREMİTE KIRIK VE ÇIKIKLARI",year:"İlkbahar 2014 Orijinal",question:"El dorsifleksiyonda iken el ayasının üzerine düşme sonucu <u>en çok</u> yaralanan karpal kemik aşağıdakilerden hangisidir?",opts:["Trapezium","Lunatum","Skafoid","Trapezoid","Hamatum"],answer:2,hint:"El bileği üzerine düşme sonrası en sık kırılan karpal kemik nedir?",trap:"Lunatum kırığı daha nadir görülür; el bileği üzerine düşmede en sık skafoid kırılır.",explain:"El bileğine düşme sonrası en sık <b>skafoid</b> kırılır. Enfiye çukurunda ağrı tipik bulgudur."},
+  {id:72,section:"ÜST EKSTREMİTE KIRIK VE ÇIKIKLARI",year:"İlkbahar 2025",question:"Kırk yaşındaki erkek hasta yolda yürürken kaldırıma takılıyor ve eli hiperekstansiyonda yere çarpacak şekilde düşüyor. Bilekte enfiye çukuru bölgesinde, ekstansiyon ve radial deviasyonda ağrı tanımlıyor. Karpal kemiklerden birinde kırık saptanıyor. Bu olgudaki kırık <u>en sık</u> kırılan karpal kemik olduğuna göre, bu kırık aşağıdakilerden hangisidir?",opts:["Os capitatum","Os pisiforme","Os hamatum","Os lunatum","Os scaphoideum"],answer:4,hint:"El bileği üzerine düşmede en sık kırılan karpal kemik; enfiye çukuru ağrısı hangi kemiğe işaret eder?",trap:"Lunatum çıkığı daha sık görülür; ancak kırık olarak en sık skafoid (os scaphoideum) kırılır.",explain:"El bileği üzerine düşmede en sık kırılan karpal kemik <b>os scaphoideum (skafoid)</b>'dir."},
+  {id:73,section:"ÜST EKSTREMİTE KIRIK VE ÇIKIKLARI",year:"Sonbahar 2017 Orijinal",question:"Kırk dört yaşındaki kadın hasta, el bileğinde ağrı şikâyetiyle acil servise başvuruyor. Anatomik enfiye kutusu üzerinde hassasiyet tespit ediliyor. El bileği grafisinde herhangi bir patoloji saptanmıyor. Bu hastada sonraki aşama için <u>en uygun</u> tedavi yaklaşımı aşağıdakilerden hangisidir?",opts:["Analjezik-antiinflamatuvar ilaç vermek","Bir haftalık başparmak hareket egzersizleri vermek ve kontrole çağırmak","Kısa ön kol-başparmak spika ateline alıp takip etmek","El bileğinin durumunu takip etmek için hastayı hastaneye yatırmak","Kısa kol volar bilek ateli uygulamak"],answer:2,hint:"Enfiye çukurunda ağrı var, grafide patoloji yok; ne yapılmalı?",trap:"Grafide görünmeyen skafoid kırığı gözden kaçabilir; enfiye çukuru ağrısında spika atel ile takip standarttır.",explain:"Enfiye çukuru ağrısı + normal grafi → <b>kısa ön kol-başparmak spika atel</b> uygulanır ve takip önerilir."},
+  {id:74,section:"ÜST EKSTREMİTE KIRIK VE ÇIKIKLARI",year:"Sonbahar 2018 Orijinal",question:"Yetmiş beş yaşındaki kadın hasta, avuç içi yere bakacak şekilde elinin üstüne düşme nedeniyle acil servise getiriliyor. El bileğinde radius duyarlılık ve ödem saptanan hastanın grafisinde radius alt uçta ekstansiyon kırığı görünümü mevcuttur. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Colles kırığı","Barton kırığı","Metakarp kırığı","Smith kırığı","Skafoid kırığı"],answer:0,hint:"Avuç içi yere bakacak şekilde düşme → el bileğinde hangi kırık?",trap:"Smith kırığı palmar fleksiyonda elin sırtına düşme ile oluşur; Colles kırığı ekstansör yüz kırığıdır.",explain:"Avuç içi yere bakacak şekilde düşme sonrası <b>Colles kırığı</b> oluşur."},
+  {id:75,section:"ÜST EKSTREMİTE KIRIK VE ÇIKIKLARI",year:"İlkbahar 2022 Orijinal",question:"Monteggia kırıklı çıkığını aşağıdakilerden hangisi tanımlar?",opts:["Ulna proksimal 1/3 kırığı + Radius başının proksimal eklem çıkığı","Radius distal 1/3 kırığı + Distal radioulnar eklem çıkığı","Ulna ve radius orta 1/3 kırığı + Distal radioulnar eklem çıkığı","Ulna distal 1/3 kırığı + Birinci metakarp kırıklı çıkığı","Birinci proksimal interfalangeal eklem kırıklı çıkığı"],answer:0,hint:"Monteggia kırıklı çıkığı ulna ve radius başını etkiler; hangi kombinasyon doğru?",trap:"Galeazzi kırıklı çıkığı radius alt 1/3 kırığı + distal radioulnar eklem çıkığıdır; Monteggia proksimal ulna kırığı + radius başı çıkığıdır.",explain:"<b>Monteggia kırıklı çıkığı</b>: Ulna proksimal 1/3 kırığı + Radius başının proksimal eklem çıkığı."},
+  {id:76,section:"ÜST EKSTREMİTE KIRIK VE ÇIKIKLARI",year:"Sonbahar 2025",question:"İki yaşında erkek çocuk sol kolunu oynatmak istemediği şikâyetiyle getiriliyor. Annesinin çocuğun iki elinden hızla tutup kendine çektiği öğreniliyor. Fizik muayenesinde dirseklerde şişlik ya da deformite saptanmıyor. Sol dirseği hafif fleksiyonda ve ön kolunu pronasyonda tutuyor. Her iki dirseğin grafilerinin normal olduğu belirleniyor. Bu çocuk için <u>en uygun</u> yaklaşım aşağıdakilerden hangisidir?",opts:["Basit yumuşak doku yaralanması nedenli, bu haliyle 7-10 gün sonra kontrol","Dirsekte zorlanma öyküsü ve ağrı nedenli, uzun kol atel ve 7-10 gün sonra kontrol","Nondeplase suprakondiler kırık (humerus alt uç kırığı) tanısı ile uzun kol atel","Radius başı subluksasyonu (dadı dirseği) tanısı ile kapalı redüksiyon","Olası dirsekte kırık (nondeplase kırık) için dirsek bilgisayarlı tomografisi"],answer:3,hint:"2 yaşında çocuk, iki elinden çekilme öyküsü, pronasyon pozisyonu, grafide normal — bu tablo nedir?",trap:"Grafinin normal olması kırığı ekarte ettirir; iki elinden çekilme öyküsü ve pronasyon pozisyonu dadı dirseğini işaret eder.",explain:"<b>Dadı dirseği (radius başı subluksasyonu)</b>: Uygun yaklaşım kapalı redüksiyondur."},
+  {id:77,section:"ÜST EKSTREMİTE KIRIK VE ÇIKIKLARI",year:"İlkbahar 2019 Orijinal",question:"Otuz beş yaşındaki erkek hasta, ayağı yerde sabit durumdayken dizi üzerinde dönme hareketi sonrası ortaya çıkan sol diz ağrısı nedeniyle başvuruyor. Dizinin iç kısmında medialde ağrı, hafif fleksiyonda rahatlama ve her hareketiyle aynı bölgede ağrı hissediyor. Bu hastada <u>öncelikle</u> aşağıdaki tanılardan hangisi düşünülmelidir?",opts:["İç menisküs lezyonu","Ön çapraz bağ yaralanması","Patellofemoral ağrı sendromu","Medial kompartman osteoartriti","İç yan bağ yaralanması"],answer:0,hint:"Ayak sabit diz dönerken medial ağrı ve fleksiyonda rahatlama hangi yapıya işaret eder?",trap:"Medial yan bağ da medial ağrı yapar; ancak fleksiyonda rahatlama ve dönme mekanizması menisküs lezyonunu öncelikle düşündürür.",explain:"Ayak sabitken diz dönmesi → <b>iç menisküs lezyonu</b>. Medial ağrı ve hafif fleksiyonda rahatlama tipik bulgulardır."},
+  {id:78,section:"DİĞER SORULAR",year:"Sonbahar 2018 Orijinal",question:"Yirmi sekiz yaşındaki erkek hasta, futbol oynarken sol dizine lateral taraftan gelen darbeyle sakatlanıyor. Dizin medialinde ağrı ve şişlik; valgus zorlanmasıyla dizde instabilite varlığı dikkat çekiyor. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Medial menisküs yırtığı","Patella çıkığı","Medial kollateral bağ hasarı","Lateral menisküs lezyonu","Lateral tibial plato kırığı"],answer:2,hint:"Dizin lateralinden gelen darbe ve valgus instabilitesi hangi yapının yaralanmasına işaret eder?",trap:"Lateralden gelen darbe medial yapıları zorlar; valgus stresi medial kollateral bağı yaralanmasına yol açar.",explain:"Dizin lateralinden gelen travmalarda <b>medial kollateral bağ yaralanması</b> görülür."},
+  {id:79,section:"DİĞER SORULAR",year:"Sonbahar 2023",question:"Sağ ön kolda bıçak ile yaralanma nedeniyle acil servise başvuran bir hasta, el muayenesi sırasında aşağıdaki işlevlerden hangisini bu duruma ulnar sinir kesisinin yol açmış olması <u>en olasıdır</u>?",opts:["Elini yumruk yapıp bileğini arkaya doğru kaldırmak","Serçe parmağını diğer parmaklardan ve parmaklarını birbirinden ayırmak","Başparmağının ucunu bükmek","Parmaklarını içe doğru kıvırmak","Parmaklarını düzleştirmek"],answer:1,hint:"Ulnar sinirin eldeki motor fonksiyonları hangi hareketleri sağlar?",trap:"Başparmak ucu fleksiyonu median sinir görevidir; parmakları birbirinden ayırmak interosseöz kaslarla sağlanır ve ulnar sinir innerve eder.",explain:"Dorsal grup interosseöz kaslar ile başparmak dışındaki parmaklarda <b>abdüksiyon (parmakları birbirinden ayırma)</b> hareketi yapılır."},
+  {id:80,section:"DİĞER SORULAR",year:"Sonbahar 2019 Orijinal",question:"Ön kol proksimal volar yüzünde ağrı nedeniyle başvuran hasta, 2. parmak distal falanks fleksiyonunu yapamıyor. Nörolojik muayenesinde duyu kusuru saptanmıyor. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Pronator teres sendromu","Karpal tünel sendromu","Anterior interosseöz sendrom","Servikal 6-7 radikülopati","Medial kordun tutulduğu torasik outlet sendromu"],answer:2,hint:"2. parmak DİP fleksiyonu kaybı, duyu normal, ön kol proksimal ağrı → hangi sendrom?",trap:"Karpal tünel sendromu duyu kaybı yapar; anterior interosseöz sendromda duyu normal, sadece motor kayıp vardır.",explain:"<b>Anterior interosseöz sinir sendromu (AİSS)</b>: 1. ve 2. parmak DİP fleksiyon kaybı + duyu normal."},
+  {id:81,section:"DİĞER SORULAR",year:"Sonbahar 2024",question:"Yirmi iki yaşındaki erkek hasta, maket bıçağıyla elini kesmesi nedeniyle acil servise başvuruyor. Sol el 3. parmak orta falanks seviyesinde, volar yüzde laserasyon mevcut. Proksimal interfalangeal eklemde fleksiyon yapabildiği hâlde, distal interfalangeal eklemde fleksiyon kısıtlılığı var. Parmakta duyu kaybı saptanmıyor. Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Flexor digitorum superficialis tendon kesisi","Flexor indicis proprius tendon kesisi","Flexor digitorum profundus tendon kesisi","Tetik parmak deformitesi","Çekiç parmak deformitesi"],answer:2,hint:"DİP fleksiyonu yapamıyor ama PİP fleksiyonu normal — hangi tendon kesilmiş?",trap:"FDS PİP fleksiyonunu sağlar; FDP DİP fleksiyonunu sağlar. DİP fleksiyon kaybı FDP kesisinі gösterir.",explain:"DİP fleksiyon kaybı + PİP fleksiyon normal = <b>FDP (flexor digitorum profundus) tendon kesisi</b>."},
+  {id:82,section:"DİĞER SORULAR",year:"İlkbahar 2023",question:"Kalkaneokuboid-talonaviküler eklemden yapılan ayak amputasyonuna aşağıdaki isimlerden hangisi verilir?",opts:["Lisfranc","Syme","Ray","Chopart","Boyd"],answer:3,hint:"Talonaviküler ve kalkaneokuboid eklemden yapılan amputasyon hangisidir?",trap:"Lisfranc tarsometatarsal eklem düzeyindedir; Chopart talonaviküler ve kalkaneokuboid eklemden yapılır.",explain:"<b>Chopart ampütasyonu</b>: Talonaviküler ve kalkaneokuboid eklemden orta ve ön ayağın amputasyonudur."},
+  {id:83,section:"EKLEM VE METABOLİK KEMİK HASTALIKLARI",year:"İlkbahar 88",question:"Aşağıdakilerden hangisinde raşitizm <u>görülmez</u>?",opts:["Malabsorbsiyon","Duodenal rezeksiyon","İleal rezeksiyon","Civa zehirlenmesi","Meckel divertikülü"],answer:4,hint:"Raşitizm kalsiyum yetmezliğine bağlıdır; Meckel divertikülünün raşitizmle ilişkisi var mı?",trap:"Malabsorbsiyon, duodenal ve ileal rezeksiyon Ca ve P emilimini bozabilir; Meckel divertikülünün böyle bir etkisi yoktur.",explain:"<b>Meckel divertikülünün</b> raşitizm ile ilişkisi yoktur."},
+  {id:84,section:"EKLEM VE METABOLİK KEMİK HASTALIKLARI",year:"Sonbahar 91",question:"Yirmi beş yaşında multipar bir kadın hastada yürümekle kemik ağrıları mevcut olup laboratuvar incelenmesinde hipokalsemi saptanıyor. Bu hastada <u>öncelikle</u> düşünülmesi gereken tanı aşağıdakilerden hangisidir?",opts:["Osteomalazi","Osteoporoz","Osteoskleroz","Romatoid Artrit","Ankilozan spondilit"],answer:0,hint:"Genç multipar kadında hipokalsemi + kemik ağrısı → hangi metabolik kemik hastalığı?",trap:"Osteoporoz serum kalsiyumu normaldir; osteomalazide hipokalsemi görülür.",explain:"Multipar kadında hipokalsemi + kemik ağrısı → <b>osteomalazi</b>."},
+  {id:85,section:"EKLEM VE METABOLİK KEMİK HASTALIKLARI",year:"İlkbahar 92",question:"Osteoporozda, torakal vertebraların ön-arka ve yan radyografilerinde aşağıdakilerden hangisi <u>görülmez</u>?",opts:["Vertebral korpuslarında yükseklik kaybı (kollaps)","Vertebral korpusların üst ve alt yüzeylerinde konkavlaşma","Vertebra korpuslarında lokalize herniasyon (Schmorl nodülleri)","Vertebra korpuslarında trabekülasyonda kayıp","Vertebra korpusların posterior parçasında yükseklik kaybına bağlı kamalaşma"],answer:4,hint:"Osteoporozda torakal vertebralar anterior bası sonucu nasıl şekil alır?",trap:"Osteoporozda anterior kama şeklini alır; posterior parça yükseklik kaybı osteoporozda değil tümör veya travmada görülür.",explain:"Osteoporozda vertebralar <b>anterior kama şeklini alır</b>. <b>Posterior parça kamalaşması</b> osteoporozun bulgusu değildir."},
+  {id:86,section:"EKLEM VE METABOLİK KEMİK HASTALIKLARI",year:"İlkbahar 94",question:"Osteoblastik aktivitenin bozularak kemiğin yumuşak ve kırılgan hale gelmesi ile karakterize kemik hastalığı aşağıdakilerden hangisidir?",opts:["Osteopetrozis","Maffuci sendromu","Osteogenesis imperfekta","Ollier hastalığı","Raşitizm"],answer:2,hint:"Osteoblast yapımında bozukluk + kemik frajilite artışı + mavi sklera → hangi hastalık?",trap:"Osteopetrozis osteoblastik aktivite artışıyla seyreder; osteogenesis imperfektada osteoblast yapımında bozukluk vardır.",explain:"<b>Osteogenezis imperfektada</b> osteoblast yapımında bozukluk vardır; kemik frajilitesi artmıştır."},
+  {id:87,section:"EKLEM VE METABOLİK KEMİK HASTALIKLARI",year:"İlkbahar 94",question:"Yetmiş yaşın üzerinde yük taşıyan vertebra, diz ve kalça eklemlerinde ağrı olan, sistemik bulgusu <u>olmayan</u> hastada <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Romatoid artrit","Osteoartrit","Romatizmal ateş","Gut","Paget hastalığı"],answer:1,hint:"İleri yaşta sistemik bulgu vermeden yük taşıyan eklemlerde ağrı hangi tanıyı düşündürür?",trap:"Romatoid artrit sistemik bulgular verir ve küçük eklemleri tutar.",explain:"İleri yaşta sistemik bulgu olmadan yük taşıyan eklem ağrıları → <b>osteoartrit</b>."},
+  {id:88,section:"EKLEM VE METABOLİK KEMİK HASTALIKLARI",year:"Sonbahar 95",question:"Serum kalsiyum ve fosfor içeriği normal olup trabekülasyonda azalma, kabalaşma ve kemik kütlesinde azalmayla karakterize hastalık aşağıdakilerden hangisidir?",opts:["Osteoporoz","Osteomalazi","Rickets","Osteopetrozis","Hiperparatiroid"],answer:0,hint:"Serum Ca ve P normal, trabekülasyon azalmış → hangi kemik hastalığı?",trap:"Osteomalazide Ca düşük olur; osteoporozda serum kalsiyum ve fosfor normaldir.",explain:"Serum Ca-P normal + kemik kütlesinde azalma → <b>osteoporoz</b>."},
+  {id:89,section:"EKLEM VE METABOLİK KEMİK HASTALIKLARI",year:"Sonbahar 2024",question:"Yüksek riskli ve tedavide geç kalınmış osteoporozlu bir hastada <u>en sıklıkla</u> hangi postür değişikliği ortaya çıkar?",opts:["Boyun düzleşmesi","Kifoz","Skolyoz","Rotoskolyoz","Hiperlordoz"],answer:1,hint:"Osteoporozda torakal vertebralar anterior bası sonucu ne şekil alır?",trap:"Skolyoz osteoporoza özgü değildir; kifoz (kamburluk) osteoporozun tipik postür bozukluğudur.",explain:"Osteoporozda en sık görülen postür değişikliği <b>kifoz</b> (kamburluk) tur."},
+  {id:90,section:"EKLEM VE METABOLİK KEMİK HASTALIKLARI",year:"İlkbahar 2021 Orijinal",question:"Aşağıdaki bulgulardan hangisinin hiperparatiroidizmde görülmesi <u>en az olasıdır</u>?",opts:["Kemiklerde diffüz demineralizasyon (osteopenik görünüm)","Subperiostal-subkortikal kemik rezorpsiyonları","Kalvaryumda atılmış pamuk görünümü","Brown tümörü (osteoklastoma)","Yumuşak doku kalsifikasyonları"],answer:2,hint:"Kalvaryumda atılmış pamuk görünümü hangi hastalığa özgüdür?",trap:"Kalvaryumda atılmış pamuk görünümü Paget hastalığının bulgusudur; hiperparatiroidizmde bu bulgu yoktur.",explain:"<b>Kalvaryumda atılmış pamuk görünümü</b> Paget hastalığının bulgusudur; hiperparatiroidizmde görülmez."},
+  {id:91,section:"EKLEM VE METABOLİK KEMİK HASTALIKLARI",year:"İlkbahar 2006",question:"Aşağıdakilerden hangisi elde distal interfalangeal eklemler hizasında dorsalde izlenen ekzostozları tanımlar?",opts:["Heberden nodülleri","Bouchard nodülleri","Tofus","Halluks valgus","Baker kisti"],answer:0,hint:"DİP eklemde dorsal nodüller hangi isimle adlandırılır?",trap:"Bouchard nodülleri PİP eklemdedir; Heberden nodülleri DİP eklemdedir.",explain:"DİP eklem dorsalindeki nodüller <b>Heberden nodülleridir</b>."},
+  {id:92,section:"EKLEM VE METABOLİK KEMİK HASTALIKLARI",year:"Sonbahar 2008",question:"Aşağıdakilerden hangisi dejeneratif eklem hastalığının <u>tipik</u> radyolojik bulgularından biri <u>değildir</u>?",opts:["Eklem aralığında genişleme","Yük taşıyan bölgelerde skleroz","Subkondral kistler","Osteofitler","Eklemde deformasyon"],answer:0,hint:"Dejeneratif artritte eklem aralığı genişler mi, daralır mı?",trap:"Eklem aralığında genişleme enflamatuar artritin bulgusudur; osteoartritte eklem aralığı daralır.",explain:"Osteoartritte eklem aralığı <b>daralır</b>; eklem aralığında genişleme enflamatuar artritin bulgusudur."},
+  {id:93,section:"DİĞER SORULAR",year:"İlkbahar 2024 Orijinal",question:"Yirmi üç yaşındaki erkek hasta, sağ el 1. parmak ampütasyonu nedeniyle, travma sonrası 1. saatte acil servise götürülüyor. Ampute parça ve hastanın el cerrahisi merkezine sevki sırasında, aşağıdakilerden hangisinin yapılması <u>en uygundur</u>?",opts:["Ampute parçanın antiseptik sıvı ile ısıtılmış spanca sarılarak ağzı kapalı plastik bir torbanın içine konulduktan sonra transfer edilmesi","Ampute parçanın serum fizyolojik ile ıslatılmış spanca sarılarak ağzı kapalı plastik bir torbanın içine konulduktan sonra buz-su karışımlı soğuk ortamda transfer edilmesi","Ampute parçasının spanca sarılarak ağzı kapalı plastik bir torbanın içine konulduktan sonra transfer edilmesi","Ampute parçasının spanca sarılarak oksijenli suyun içine yerleştirilip buz-su karışımlı soğuk ortamda transfer edilmesi","Ampute parçanın spanca sarılarak kuru bir şekilde transfer edilmesi"],answer:1,hint:"Ampute parça nasıl taşınmalı — serum fizyolojik mi, antiseptik mi, soğuk mu sıcak mı?",trap:"Antiseptik kullanımından kaçınılmalıdır; serum fizyolojik ile ıslatılmış bez + kapalı torba + soğuk ortam standarttır.",explain:"<b>Serum fizyolojik ile ıslatılmış bez, kapalı poşet ve buz-su karışımlı soğuk ortam</b> ile transfer edilmelidir."},
+  {id:94,section:"DİĞER SORULAR",year:"İlkbahar 2018 Orijinal",question:"\"Kienböck\" hastalığında aşağıdaki kemiklerden hangisi tutulur?",opts:["Navikula","Talus","Skafoid","Lunatum","Kalkaneus"],answer:3,hint:"Kienböck hastalığı el bileğinde hangi kemiğin avasküler nekrozudur?",trap:"Skafoid → Preiser hastalığı; lunatum → Kienböck hastalığı.",explain:"<b>Kienböck hastalığı</b> lunat kemiğin (lunatum) avasküler nekrozudur."},
+  {id:95,section:"DİĞER SORULAR",year:"İlkbahar 2025",question:"Kırk yaşındaki erkek hasta eli hiperekstansiyonda yere çarpacak şekilde düşüyor. Bilekte enfiye çukuru bölgesinde, ekstansiyon ve radial deviasyonda ağrı tanımlıyor. Karpal kemiklerden birinde kırık olduğu saptanıyor. Bu olgudaki kırık <u>en sık</u> kırılan karpal kemik olduğuna göre, bu kırık aşağıdakilerden hangisidir?",opts:["Os capitatum","Os pisiforme","Os hamatum","Os lunatum","Os scaphoideum"],answer:4,hint:"El bileği üzerine düşmede en sık kırılan karpal kemik; enfiye çukuru ağrısı hangi kemiğe işaret eder?",trap:"Lunatum çıkığı daha sık görülür; ancak kırık olarak en sık skafoid (os scaphoideum) kırılır.",explain:"El bileği üzerine düşmede en sık kırılan karpal kemik <b>os scaphoideum (skafoid)</b>'dir."}
 ];
 
-const masterList = [
-  {id:1,section:"KIRMA KUSURLARI",year:"Sonbahar 88",question:"Uyum yapmamış (emetrop) bir gözde kırıcılık yaklaşık 60 dioptridir. Bu kırıcılıktaki <u>en büyük</u> paya sahip doku aşağıdakilerden hangisidir?",opts:["Kornea","İris","Lens","Ön Kamara","Vitreus"],answer:0,hint:"Gözde ışığı kıran ortamlar: Kornea, Lens, Humor aquosus, Corpus vitreum",trap:"Lensin 20 diyoptri ile önemli bir kırıcılığı vardır, ancak kornea 43 diyoptri ile çok daha büyük paya sahiptir.",explain:"Korneanın kırıcılığı 43 diyoptridir ve gözün en kırıcı ortamı korneadır. Lensin kırıcılığı 20 diyoptridir. Hümör aköz ve corpus vitreumun kırıcılığa etkisi azdır."},
-  {id:2,section:"KERATOKONUS",year:"Sonbahar 95",question:"Aşağıdaki görme kusurlarından hangisinde <u>kesin olarak</u> sert kontakt lens endikasyonu vardır?",opts:["Astigmatizma","Keratokonus","Hipermetropi","Miyopi","Bilateral afaki"],answer:1,hint:"Özellikle progresif korneal kurvatur problemlerinde sert kontakt lensler iyi bir optik düzeltme sağlar.",trap:"Soruda 'kesin olarak' ifadesi kritiktir. Keratokonusta korneanın progresif dikleşmesi kesin endikasyondur.",explain:"Keratokonusta sert kontakt lensler görme kusurunu daha iyi düzeltir. Yeterli olmadığında lazer prosedürleri ya da keratoplasti yapılabilir."},
-  {id:3,section:"AKOMODASYON",year:"Sonbahar 2007",question:"Presbiyopi semptomları, aşağıdakilerin hangisinde diğerlerine göre daha erken ortaya çıkar?",opts:["Düzeltilmemiş hipermetroplarda","Miyopik astigmatizması olanlarda","Emetroplarda","Düzeltilmemiş miyoplarda","Pupil çapı daha büyük olanlarda"],answer:0,hint:"Yaşa bağlı akomodasyon yeteneğindeki kayıp görüntülerin retinanın arkasında odaklaşmasına neden olur.",trap:"Miyoplarda yakına bakmak için daha az uyum gerekir; presbiyopi daha geç başlar. Hipermetroplarda ise görüntü zaten retina arkasına düştüğünden presbiyopi erken başlar.",explain:"Hipermetroplarda punktum proksimum gözden uzaklaşmış olduğundan presbiyopi daha erken yaşta başlar."},
-  {id:4,section:"AMBLİYOPİ",year:"İlkbahar 97",question:"Yenidoğanda ambliyopi taramasında görme yollarının muayenesi için ilk tercih edilecek yöntem aşağıdakilerden hangisidir?",opts:["Ultrasonografi","Vizüel acuity testi","Sintigrafi","Retinal anjiografi","Kraniografi"],answer:1,hint:"Yenidoğan konuşamadığından görmesi fiksasyon, obje takibi, tercihli bakış ve vizüel acuity test gibi yöntemlerle değerlendirilir.",trap:"Ultrasonografi göz içi yapıları değerlendirmek için kullanılır ancak görme yollarının muayenesinde ilk tercih değildir.",explain:"Yenidoğanda ambliyopi teşhisinde ilk tercih yöntem Vizüel Acuity Testtir."},
-  {id:5,section:"AMBLİYOPİ",year:"Sonbahar 2015 Orijinal",question:"Aşağıdakilerden hangisi, göz tembelliği (ambliyopi) nedenlerinden biri <u>değildir</u>?",opts:["Pinguecula","Şaşılık","Bilateral ametropi","Anizometropi","Stimulus deprivasyonu"],answer:0,hint:"Ambliyopi TUS'ta uzun süredir beklediğimiz önemli bir oftalmolojik morbidite nedenidir.",trap:"Bilateral ametropi (izoametropi) ambliyopiye yol açabilir. Pinguecula konjonktiva üzerindeki sarımsı bir büyümedir ve görmeyi etkilemez.",explain:"Pinguecula konjonktivanın dejeneratif lezyonudur ve ambliyopiye neden olmaz. Şaşılık, anizometropi, bilateral yüksek ametropi ve deprivasyon ambliyopinin bilinen nedenleridir."},
-  {id:6,section:"GÖZ KAPAĞININ KONJENİTAL GELİŞME VE ŞEKİL BOZUKLUKLARI",year:"Sonbahar 2016 Orijinal",question:"Kolobom aşağıdaki dokuların hangisinde <u>görülmez</u>?",opts:["Göz kapağı","Sklera","İris","Lens","Koroid"],answer:1,hint:"Kolobom bir göz dokusunun yokluğunu açıklar. Gestasyonun 5-8. haftalarında embriyonik fissürün eksik kapanması sonucu oluşur.",trap:"Kornea ve sklerada kolobom görülmez; böylesi bir patoloji glob bütünlüğü ile de bağdaşmaz.",explain:"Sklerada kolobom görülmez. Tipik kolobomlar gözün inferonazal bölgesinde bulunur."},
-  {id:7,section:"GÖZ KAPAĞININ İLTİHABİ HASTALIKLARI",year:"İlkbahar 2024 Orijinal",question:"Şalazyon ile ilgili aşağıdaki ifadelerden hangisi <u>yanlıştır</u>?",opts:["Kronik granülomatöz türde inflamasyonlar sonucu oluşur.","Enfeksiyöz bir olaydır.","Meibomian veya Zeis bezi kanalı tıkanır.","Blefarit veya akne rozasea hastalarında sık görülür.","Histopatolojik incelemede lipid yüklü epiteloid hücreler görülür."],answer:1,hint:"Şalazyon non enfeksiyöz kronik granülomatöz inflamasyon oluşturur.",trap:"Şalazyon enfeksiyöz değildir. İç hordeolum ise Meibomius bezinin S. aureus tarafından enfekte olması sonucu oluşan iltihabıdır.",explain:"Şalazyon non enfeksiyöz kronik granülomatöz inflamasyondur. Meibomius ve Zeis bezlerinin lipogranülomudur."},
-  {id:8,section:"KONJUNKTİVİTLER",year:"Sonbahar 88",question:"Aşağıdakilerden hangisi vernal keratokonjunktivit özelliklerinden biri <u>değildir</u>?",opts:["Ekseriyetle puberte öncesi başlaması","Kalıtsal geçişin söz konusu olması","Soğuk iklimlerde çok daha seyrek görülmesi","Üst tars konjunktivasında kaldırım taşı görünümünde papillalar izlenmesi","Konjunktivada fibrinöz psödomembran oluşması"],answer:1,hint:"Vernal keratokonjonktivit allerjik konjunktivitler sınıflamasında yer alır.",trap:"Vernal keratokonjunktivit kalıtsal bir hastalık değildir. Sıcak iklimli yerlerde daha sık görülür.",explain:"Vernal KKV kalıtsal geçişi olmayan, sıcak iklimli yerlerde daha sık görülen bir hastalıktır. Pseudomembran oluşumu özelliği yoktur."},
-  {id:9,section:"KONJUNKTİVİTLER",year:"Sonbahar 91",question:"Üst tars konjunktivasında bilateral kaldırım taşı manzarası ve limbusta ödem görünümü mevcut ise <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Vernal konjunktivit","Anguler konjunktivit","Foliküler konjunktivit","Fliktenüler konjunktivit","Gonokoksik konjunktivit"],answer:0,hint:"Kapak şekli en sık görülenidir. Üst kapaktaki görünüme kaldırım taşı manzarası denir.",trap:"Kaldırım taşı manzarası vernal KKV için patognomoniktir. Limbusta trantas nodülleri oluşur.",explain:"Üst tars konjunktivasında bilateral kaldırım taşı manzarası ve limbusta ödem vernal keratokonjunktiviti gösterir."},
-  {id:10,section:"KONJUNKTİVİTLER",year:"Sonbahar 87",question:"Vernal keratokonjunktivit aşağıdaki hastalıklardan hangisinin bir alt grubudur?",opts:["Allerjik konjunktivit","Kimyasal konjunktivit","Gonokokal konjunktivit","İnklüzyonlu konjunktivit","Sistemik hastalıklarda görülen konjunktivit"],answer:0,hint:"Vernal keratokonjonktivit allerjik konjunktivitler sınıflamasında yer alır.",trap:"Vernal KKV tip 1 ve tip 4 hipersensitivite reaksiyonu içerir.",explain:"Vernal keratokonjunktivit allerjik konjunktivitler sınıflamasında yer alır. 2. en kötü prognozlu allerjik konjunktivit tipidir."},
-  {id:11,section:"KONJUNKTİVİTLER",year:"İlkbahar 88",question:"Aşağıdakilerden hangisi epidemik keratokonjunktivit özelliklerinden biri <u>değildir</u>?",opts:["Hastalığın ilk tutulan gözde daha ağır seyretmesi","Kulak önünde ağrılı lenf düğümü büyümesi","Konjunktivada folikül ve hemorajilere rastlanması","Konjunktivada pseudomembranlar oluşması","Kornea duyarlılığının bozulması"],answer:4,hint:"Epidemik keratokonjunktivit Adenovirüs tip 8 ve 19'un neden olduğu çok bulaşıcı bir konjunktivit tablosudur.",trap:"Kornea duyarlılığının bozulması HSV, VZV gibi hastalıklarda görülür. EKK'da kornea duyarlılığı bozulmaz.",explain:"EKK'da sıklıkla bir göz diğerinden önce tutulur. Konjunktivada folikül, kanamalar, membran oluşumu görülebilir. Preauriküler lenfadenopati sıktır. Kornea duyarlılığı bozulmaz."},
-  {id:12,section:"KONJUNKTİVİTLER",year:"İlkbahar 89",question:"Dendritik keratokonjunktivit yapan etken aşağıdakilerden hangisidir?",opts:["New Castle virüs","Picarno virüs","Adenovirüs","Herpes simplex tip I","Onkojenik RNA virüs"],answer:3,hint:"Konjuktiva ve korneada özellikle bazal epitelde bulunan canlı HSV-1 virüs korneada dendritik veya harita biçimi ülserasyona yol açar.",trap:"Adenovirüs EKK'ya neden olur. Dendritik ülser = HSV-1 bağlantısı unutulmamalıdır.",explain:"Herpes simplex tip I korneada dendritik ya da harita biçimi ülserasyon oluşturur."},
-  {id:13,section:"KONJUNKTİVİTLER",year:"İlkbahar 89",question:"Göze AgNO₃ (Gümüş Nitrat) profilaksisi uygulanan oftalmia neonatorum etkeni aşağıdakilerden hangisidir?",opts:["Klamidya","Herpes","Gonokok","Meningokok","Stafilokok"],answer:2,hint:"Doğum eylemi sırasında doğum kanalında bulunan bakteriler ve virüsler yenidoğanda oftalmia neonatorum oluşturur.",trap:"Gümüş nitrat gonokoka karşı kullanılır. Klamidya için eritromisin tercih edilir.",explain:"Gonokok (N. gonorrhoeae) karşı gümüş nitrat damlaları veya antibiyotikli merhemler profilakside kullanılabilir."},
-  {id:14,section:"KONJUNKTİVİTLER",year:"Sonbahar 90",question:"Yenidoğan konjunktival sürüntü örneğinden gram (-) diplokoklar üremişse <u>en olası</u> etken aşağıdakilerden hangisidir?",opts:["Trichinella spiralis","Giardia lamblia","Neisseria meningitidis","Neisseria gonorrhoeae","Escherichia coli"],answer:3,hint:"Konjunktiva hastalıklarında Gram boyası yapıldığında Gr (-) koklar görüldüğünde N. gonorrhoeae düşünülmelidir.",trap:"Hayatın ilk birkaç gününde oluşan konjunktivitler aksi ispatlanana kadar gonokoksik kabul edilmelidir.",explain:"Gonokokal hiperakut konjonktivit inkübasyonu 3-5 gündür ve gram (-) diplokoklar görülür."},
-  {id:15,section:"KONJUNKTİVİTLER",year:"İlkbahar 91",question:"Gözde pannus, Herbert çukurları ve Arlt çizgileri oluşumu ile karakterize hastalık aşağıdakilerden hangisidir?",opts:["Keratokonus","Konjenital glokom","Trahom","Retina dekolmanı","Katarakt"],answer:2,hint:"Trahom, Chlamydia trachomatis A, B, Ba, C suşlarıdır. Önlenebilir geri dönüşümsüz ön segment körlüğünün dünyadaki en sık nedenidir.",trap:"Pannus + Herbert çukurları + Arlt çizgileri üçlüsü trahoma özgüdür.",explain:"Trahomda limbal foliküllerin skarlaşması Herbert çukurlarına neden olur. Üst kapak konjunktivalarda kronik lineer skatrisyel çizgilenmeler (Arlt çizgileri) görülür."},
-  {id:16,section:"KONJUNKTİVİTLER",year:"İlkbahar 94",question:"Trahomda aşağıdaki biyomikroskopik muayene bulgularından hangisi <u>görülmez</u>?",opts:["Pannus","Herbert çukurları","Hipertrofik folikül","Retinit","Lineer skatris"],answer:3,hint:"Trahom ön segment hastalığıdır, arka segment tutulumu beklenmez.",trap:"Retinit göz arkası (arka segment) bir bulgusudur. Trahom ön segment tutulumu yapan bir hastalıktır.",explain:"Trahomda pannus, Herbert çukurları, foliküller ve lineer skatris görülür. Retinit trahomda görülmez."},
-  {id:17,section:"KONJUNKTİVİTLER",year:"İlkbahar 93",question:"Tekrarlayan keratokonjunktivit etkeni aşağıdakilerden hangisidir?",opts:["Sitomegalovirüs","Ebstein Barr virüs","Rhinovirüs","Herpes virüs Tip I","Human papilloma virüs"],answer:3,hint:"Ganglionlarda latent enfeksiyon oluşturan nörotropik virüsler tekrarlayan ataklarla seyreden hastalık tablolarını ortaya çıkarır.",trap:"CMV, EBV, rhinovirüs tekrarlayan keratokonjunktivit yapmaz. HSV-1 trigeminal ganglionlarda latent kalarak periyodik olarak reaktive olur.",explain:"Herpes simplex tip I virüs trigeminal ganglionlarda latent enfeksiyon oluşturur ve periyodik olarak aktivite göstererek tekrarlayan keratokonjunktivitlere neden olur."},
-  {id:18,section:"KONJUNKTİVİTLER",year:"Sonbahar 2013 Orijinal",question:"Aşağıdaki konjunktivit tiplerinin hangisinde lenfoadenopati <u>beklenmez</u>?",opts:["Neisseria gonorrhoeae'ye bağlı konjunktivitler","Allerjik konjunktivitler","Viral konjunktivitler","Klamidya'ya bağlı konjunktivitler","Parinaud oküloglandüler sendromunda görülen konjunktivitler"],answer:1,hint:"Konjunktivitlerde preauriküler lenfadenopati (LAP) beklenen bir bulgudur ancak allerjik ve toksik konjunktivitlerde görülmez.",trap:"Allerjik konjunktivitte LAP beklenmez.",explain:"Preauriküler LAP viral, bakteriyel (gonokokal, klamidyal) ve Parinaud oküloglandüler sendromunda görülür. Allerjik ve toksik konjunktivitlerde görülmez."},
-  {id:19,section:"KONJUNKTİVİTLER",year:"İlkbahar 2011",question:"Aşağıdaki etkenlerden hangisi <u>en ciddi</u> ophthalmia neonatorum formuna neden olur?",opts:["Chlamydia trachomatis","Herpes simpleks virüsü","Sitomegalovirüs","Staphylococcus aureus","Neisseria gonorrhoeae"],answer:4,hint:"Yenidoğan konjunktivitlerinden gonokoklar, sağlam korneayı invaze etme özelliği nedeniyle en ciddi ophthalmia neonatorum formuna neden olur.",trap:"Chlamydia trachomatis inklüzyonlu konjunktivite neden olur, ciddi ama gonokokal kadar değildir.",explain:"Neisseria gonorrhoeae sağlam korneayı invaze edebilen tek mikroorganizmadır. Bu nedenle kornea perforasyonuna yol açabilir."},
-  {id:20,section:"KONJUNKTİVİTLER",year:"Sonbahar 95",question:"Göz kapakları şiş, konjunktivaları kırmızı ve az miktarda berrak sekresyonu olan 6 saatlik bir bebekte <u>en olası</u> oftalmia neonatorum etkeni aşağıdakilerden hangisidir?",opts:["Klamidya konjunktiviti","Gonore konjunktiviti","Pnömokok konjunktiviti","Kimyasal konjunktivit","Herpes konjunktiviti"],answer:3,hint:"Gümüş nitrat kullanılmasına bağlı gelişen kimyasal konjunktivit genellikle damlatıldıktan 6-8 saat sonra başlar.",trap:"Gonoke 2-4 gün, klamidyal 5-14 gün, viral 5-7 günde görülür. 6 saatlik süre kimyasal konjunktivite işaret eder.",explain:"Kimyasal konjunktivit (AgNO₃'e bağlı) 6-8 saat sonra başlar ve 24-48 saat sonra kendiliğinden geçer."},
-  {id:21,section:"KONJUNKTİVİTLER",year:"İlkbahar 99",question:"Kontakt lens kullananlarda görülen ve vernal keratokonjunktivite benzeyen tablo aşağıdakilerden hangisidir?",opts:["Mevsimsel allerjik konjunktivit","Fliktenüler konjunktivit","Dev papiller konjunktivit","Foliküler konjunktivit","Odunsu konjunktivit"],answer:2,hint:"Dev papiller konjunktivit özellikle göz içi yabancı cisim (kontakt lens, mekanik protez vb.) kullananlarda görülür.",trap:"Vernal KKV sıcak iklim, puberte öncesi çocuklarda görülürken, dev papiller KKV kontakt lens kullanımıyla ilişkilidir.",explain:"Dev papiller konjunktivit kontakt lens kullananlarda görülür. Tip 1 hipersensitivite reaksiyonudur. En iyi prognozlu allerjik konjunktivittir."},
-  {id:22,section:"KONJUNKTİVİTLER",year:"Sonbahar 2000",question:"Aşağıdakilerden hangisi insanlarda akut foliküler keratokonjunktivit etkenidir?",opts:["Stafilokoksus aureus","New castle hastalığı virüsü","Adenovirüs Tip 8","Sitomegalovirüs","Varisella zoster virüsü"],answer:2,hint:"Adenovirüsler; zarfsız, ikozahedral nükleokapsit içinde çift iplikçikli, lineer DNA içeren virüslerdir.",trap:"Adenovirüs tip 8 epidemik keratokonjunktivite neden olur; EKK'nın en sık sebebidir.",explain:"Adenovirüs tip 8 epidemik keratokonjunktivit (EKK) yapan en sık tiptir."},
-  {id:23,section:"KONJUNKTİVİTLER",year:"İlkbahar 2001",question:"Faringo-konjunktival ateşe sebep olan virus hangisidir?",opts:["İnfluenza A virüsü","Adenovirüs (tip B)","Kızamık virüsü","Rhinovirüs","Parainfluenza virüs"],answer:1,hint:"Faringokonjunktival ateşe Adenoviruslar neden olur.",trap:"İnfluenza, Rhinovirüs, Parainfluenza faringokonjunktival ateş yapmaz.",explain:"Faringo-konjunktival ateş adenovirüslerden kaynaklanır. Adenovirüs tip 3, 4, 7 ve 21 solunum yolu enfeksiyonuna neden olur."},
-  {id:24,section:"KORNEA",year:"İlkbahar 2023",question:"Yirmi iki yaşındaki erkek hasta, sağ gözünde ağrı, sulanma ve yabancı cisim hissi nedeniyle başvuruyor. Fizik muayenede ince bir toz parçazı görülüyor ve alınıyor. Toz parçasının korneada abrazyon yaptığı tespit ediliyor. Birkaç gün sonra korneadaki lezyonun tümüyle düzeldiği saptanıyor.<br><br>Bazal tabakayı oluşturan ve korneal abrazyonun iyileşmesini hızlandıran kök hücrelerin yerleşim yeri aşağıdakilerden hangisidir?",opts:["Skleradaki kan damarları","Kornea epiteli","Bowman membranı","Kornea stroması","Korneoskleral limbus"],answer:4,hint:"Limbusta yerleşimli pluripotent karakterde kök hücreler kornea santraline doğru göç ederek kornea epitelinin bazal hücrelerini oluşturur.",trap:"Kök hücreler kornea epitelinde değil, limbusta yer alır.",explain:"Limbusta yerleşimli pluripotent kök hücreler kornea epitelini yeniler. Kornea epitelinde hasar meydana geldiğinde bu özellik sayesinde epitelyal rejenerasyon gerçekleşir."},
-  {id:25,section:"KORNEA",year:"Sonbahar 2004",question:"Gözde ani ağrı ve görmede azalma şikayetleri ile başvuran bir hastada biyomikroskobik muayenede keratit presipitat saptanmış ise <u>öncelikle</u> düşünülmesi gereken hastalık aşağıdakilerden hangisidir?",opts:["Akut konjunktivit","Akut glokom","Akut keratokonjunktivit","Akut iridosiklit","Fliktenüler konjunktivit"],answer:3,hint:"Üveitlerin en sık görülen şekli olan akut iridosiklitte kornea endotelinde keratik presipitatlar oluşur.",trap:"Keratik presipitat akut iridosiklitin karakteristik bulgusudur. Akut glokomda kornea bulutlanması olur ama keratik presipitat beklenmez.",explain:"Akut iridosiklit ön kamaradaki inflamasyon nedeniyle kornea endotelinde keratik presipitatlar oluşturur. Hipopiyon ve sineşi eşlik edebilir."},
-  {id:26,section:"KORNEA",year:"Sonbahar 2008",question:"Korneal duyarlılığın kaybolduğu keratit tipi aşağıdakilerden hangisidir?",opts:["Fliktenüler keratit","Punktat keratit","Marjinal keratit","Nörotrofik keratit","Fungal keratit"],answer:3,hint:"Kornea duyusunu alan trigeminal sinirin oftalmik dalıdır.",trap:"Nörotrofik keratit için 'hissetme yeteneğini kaybetmiş, anestezi altında kalmış kornea' ifadesi kullanılır.",explain:"Nörotrofik keratit hissetme yeteneğini kaybetmiş korneada ortaya çıkar. Sebepleri arasında HSV, HZV, DM ve akustik nörinom yer alır."},
-  {id:27,section:"KORNEA",year:"İlkbahar 2013",question:"Aşağıdaki mikroorganizmalardan hangisi, sağlam kornea epitelini <u>geçemez</u>?",opts:["Neisseria gonorrhoeae","Neisseria meningitidis","Corynebacterium diphtheriae","Haemophilus influenzae","Streptococcus pyogenes"],answer:4,hint:"Normalde korneanın epitel tabakası sıkı bariyer özelliği ile mikroorganizmaların geçmesini engeller.",trap:"N. gonorrhoeae, N. meningitidis, Corynebacterium diphteriae ve Haemophiluslar normal epitel tabakasını invaze edebilir. S. pyogenes bunu yapamaz.",explain:"Streptococcus pyogenes sağlam kornea epitelini geçemez. N. gonorrhoeae, N. meningitidis, Corynebacterium diphtheriae ve Haemophiluslar invaze edebilen mikroorganizmalardır."},
-  {id:28,section:"KONJUNKTİVİTLER",year:"Sonbahar 2003",question:"Aşağıdaki konjunktivit tiplerinden hangisi membran oluşturur?",opts:["Vernal konjunktivit","Gonokoksik konjunktivit","Difteri konjunktiviti","Trahom","Allerjik konjunktivit"],answer:2,hint:"Membranöz konjunktivit; konjunktiva üzerine sıkı yapışan, kaldırıldığında kanayan membran oluşturur.",trap:"Gonokoksik ve vernal konjunktivit psödomembran oluşturabilir. Difteri ise gerçek (true) membran oluşturur; kaldırıldığında kanar.",explain:"Difteri (Corynebacterium diphtheriae) konjunktiviti, konjunktiva yüzeyine sıkıca yapışan ve kaldırıldığında kanayan gerçek membran oluşturur."},
-  {id:29,section:"KONJUNKTİVİTLER",year:"Sonbahar 2007",question:"Klamidyal konjunktivitte görülen konjunktival reaksiyon tipi aşağıdakilerden hangisidir?",opts:["Papiller reaksiyon","Foliküler reaksiyon","Membranöz reaksiyon","Psödomembranöz reaksiyon","Granülomatöz reaksiyon"],answer:1,hint:"Konjunktival folliküller submukozal lenfoid dokudan oluşur. Folliküler reaksiyon viral ve klamidyal enfeksiyonlarda görülür.",trap:"Papiller reaksiyon allerjik (vernal) ve toksik konjunktivitlerde görülür. Foliküler reaksiyon klamidya ve viral konjunktivitlerde izlenir.",explain:"Klamidyal konjonktivit foliküler reaksiyon oluşturur."},
-  {id:30,section:"KONJUNKTİVİTLER",year:"İlkbahar 2008",question:"Yetişkin inklüzyon konjunktivitinin etkeni aşağıdakilerden hangisidir?",opts:["Chlamydia trachomatis D-K serotipleri","Chlamydia trachomatis A-C serotipleri","Chlamydia psittaci","Neisseria gonorrhoeae","Adenovirüs tip 8"],answer:0,hint:"Klamidyal konjonktivitlerde Chlamydia trachomatis'in farklı serotipleri farklı hastalıklara yol açar.",trap:"A-C serotipleri trahoma neden olur. D-K serotipleri ise yetişkin inklüzyon konjunktiviti ve neonatal inklüzyon konjunktivitine neden olur.",explain:"Chlamydia trachomatis D-K serotipleri yetişkin inklüzyon konjunktivitine yol açar."},
-  {id:31,section:"KONJUNKTİVİTLER",year:"İlkbahar 2010",question:"Konjonktivit tablosuna yol açan Chlamydia trachomatis serotipi aşağıdakilerden hangisidir?",opts:["A","D","L1","L2","L3"],answer:1,hint:"Chlamydia trachomatis'in hangi serotipin hangi hastalığa yol açtığı TUS'ta sık sorulan bir konudur.",trap:"L1-L3 serotipleri lenfogranüloma venerum'a (LGV) yol açar. A-C trahom, D-K ise konjunktivit ve genital enfeksiyonlara yol açar.",explain:"Chlamydia trachomatis: A-C → Trahom; D-K → Ürogenital enfeksiyonlar + inklüzyon konjonktiviti; L1-L3 → Lenfogranüloma venerum."},
-  {id:32,section:"KONJUNKTİVİTLER",year:"Sonbahar 2011 Orijinal",question:"Aşağıdaki konjunktivit tiplerinden hangisi en uzun süre bulaşıcı olabilir?",opts:["Allerjik konjunktivit","Adenoviral konjunktivit","Gonokokal konjunktivit","Klamidyal konjunktivit","Herpes simpleks konjunktiviti"],answer:3,hint:"Klamidyal konjunktivit tedavi edilmezse haftalar-aylar boyu sürebilir ve bulaşıcılığını korur.",trap:"Gonokokal konjunktivit çok akut seyreder. Klamidyal ise kronik seyirlidir.",explain:"Klamidyal konjunktivit tedavi edilmezse kronik seyir izler ve haftalarca-aylarca bulaşıcılığını korur."},
-  {id:33,section:"KONJUNKTİVİTLER",year:"Sonbahar 2012 Orijinal",question:"Parinaud oküloglandüler sendromu aşağıdaki organizmalardan hangisiyle ilişkili <u>değildir</u>?",opts:["Bartonella henselae","Francisella tularensis","Sporothrix schenckii","Mycobacterium tuberculosis","Chlamydia trachomatis"],answer:4,hint:"Parinaud oküloglandüler sendromu: granülomatöz konjunktivit + ipsilateral preauriküler LAP şeklinde tanımlanır.",trap:"Chlamydia trachomatis Parinaud sendromuyla ilişkili değildir. Kedi tırmığı hastalığı (Bartonella henselae) bu sendromun en sık nedenidir.",explain:"Parinaud oküloglandüler sendromu etkenler: Bartonella henselae (en sık), Francisella tularensis, Sporothrix schenckii, Mycobacterium tuberculosis. Chlamydia trachomatis bu sendromla ilişkili değildir."},
-  {id:34,section:"KONJUNKTİVİTLER",year:"İlkbahar 2014 Orijinal",question:"Fliktenüler keratokonjunktivit en sık aşağıdaki hastalıklardan hangisi ile birlikte görülür?",opts:["Tüberküloz","Sifiliz","Sarkoidoz","Wegener granülomatozu","Behçet hastalığı"],answer:0,hint:"Fliktenüler keratokonjunktivit tüberküloz proteine karşı gelişen gecikmiş tip hipersensitivite reaksiyonudur.",trap:"Fliktenüler KKV primer tüberküloz enfeksiyonu olan çocuklarda görülür. Direkt TB enfeksiyonu değil, TB proteinlerine karşı aşırı duyarlılık reaksiyonudur.",explain:"Fliktenüler keratokonjunktivit, tüberküloz proteinlerine karşı tip 4 (gecikmiş tip) hipersensitivite reaksiyonu sonucu oluşur."},
-  {id:35,section:"KONJUNKTİVİTLER",year:"Sonbahar 2016 Orijinal",question:"Ekzofitik büyüyen ve kanayan konjonktival lezyon hangi tanıyı düşündürmelidir?",opts:["Pinguekula","Pterijyum","Pyojenik granülom","Konjonktival kist","Konjonktival papillom"],answer:2,hint:"Piyojenik granülom aslında granülasyon dokusu içeren vasküler bir lezyondur; büyük damarları nedeniyle kolayca kanar.",trap:"Pterijyum ve pinguekula kanayan lezyonlar değildir. Pyojenik granülom karakteristik olarak ekzofitik büyür ve temas/travmayla kanar.",explain:"Pyojenik granülom, konjonktivada ekzofitik büyüyen, kırmızı, kolayca kanayan vasküler bir lezyondur. Genellikle cerrahi veya travma sonrası gelişir."},
-  {id:36,section:"ÜVEİT",year:"İlkbahar 2003",question:"Üveit görülme sıklığı açısından aşağıdaki sistemik hastalıkların hangisinde <u>en sık</u> üveit görülür?",opts:["Romatoid artrit","Behçet hastalığı","Ankilozan spondilit","Reiter sendromu","Vogt-Koyanagi-Harada sendromu"],answer:1,hint:"Behçet hastalığında gözü tutan en ciddi ve görme kaybına en sık neden olan tutulum üveittir.",trap:"Behçet hastalığında üveit, HLA-B51 ile ilişkili olup %70-80 oranında görülür.",explain:"Behçet hastalığında üveit en sık görülen göz bulgusudur (%70-80). Tekrarlayan ataklarla seyirli panuveittir."},
-  {id:37,section:"ÜVEİT",year:"İlkbahar 2005",question:"Aşağıdaki hastalıklardan hangisinde mutton-fat keratik presipitatlar görülür?",opts:["Akut iridosiklit","Granülomatöz üveit","Akut konjunktivit","Kataraktta","Primer açık açılı glokom"],answer:1,hint:"Keratik presipitatlar büyüklüğüne ve görünümüne göre granülomatöz ve non-granülomatöz üveit ayrımında kullanılır.",trap:"Non-granülomatöz üveit küçük, beyaz KP oluşturur. Granülomatöz üveit ise büyük, yağ benzeri 'mutton-fat' KP oluşturur.",explain:"Mutton-fat (koyun yağı) keratik presipitatlar granülomatöz üveitin karakteristik bulgusudur. Sarkoidoz, tüberküloz, sifiliz ve VKH sendromunda görülür."},
-  {id:38,section:"ÜVEİT",year:"Sonbahar 2006",question:"Aşağıdakilerden hangisi ön üveit bulgularından biri <u>değildir</u>?",opts:["Keratik presipitatlar","Ön sineşi","Arka sineşi","Hipopiyon","Vitritis"],answer:4,hint:"Üveit anatomik lokalizasyona göre ön, orta, arka ve panuveite ayrılır.",trap:"Vitritis (vitreusun inflamasyonu) orta üveitin (pars planitis) bulgusudur. Ön üveit iris ve siliyer cisim ile sınırlıdır.",explain:"Ön üveit bulguları: keratik presipitatlar, hipopiyon, ön/arka sineşi, iris nodülleri. Vitritis ise orta/arka üveit bulgusudur."},
-  {id:39,section:"LENS (KATARAKT)",year:"Sonbahar 89",question:"Galaktozemi hastasında katarakt oluşumu hangi mekanizma ile açıklanabilir?",opts:["Lensteki glikojen birikimi","Lensteki galaktitol birikimi","Sorbitol yolağının aktivasyonu","Osmotik stresin artması","İnsulin eksikliği ile ilişkili değişimler"],answer:1,hint:"Galaktozemi ve diyabetik kataraktta lens epitel hücrelerindeki şeker alkol birikimi önemli rol oynar.",trap:"Diyabetik kataraktta sorbitol birikimi rol oynar; galaktozemide ise aldoz redüktaz galaktozu galaktitole çevirir.",explain:"Galaktozemide aldoz redüktaz galaktozu galaktitole çevirir; galaktitol lenste birikir ve osmotik stres yaratarak katarakta neden olur."},
-  {id:40,section:"LENS (KATARAKT)",year:"İlkbahar 96",question:"Aşağıdaki hastalıklardan hangisinde katarakt gelişmesi beklenmez?",opts:["Diyabetes mellitus","Galaktozemi","Hipoparatiroidizm","Miyotonik distrofi","Marfan sendromu"],answer:4,hint:"Marfan sendromunda ektopia lentis (lens dislokasyonu) görülür; katarakt Marfan'ın tipik bir komplikasyonu değildir.",trap:"Marfan sendromunda lens dislokasyonu (ektopia lentis) görülür, superotemporal yönde. Katarakt bu tablonun tipik parçası değildir.",explain:"Marfan sendromunda tipik bulgu ektopia lentistir. Katarakt ise DM, galaktozemi, hipoparatiroidizm ve miyotonik distrofi gibi durumlarda görülür."},
-  {id:41,section:"LENS (KATARAKT)",year:"İlkbahar 2009",question:"Aşağıdakilerden hangisi konjenital kataraktın en sık nedenidir?",opts:["Rubella","İdiyopatik / herediter","Galaktozemi","Toksoplazma","Down sendromu"],answer:1,hint:"Konjenital kataraktın en sık nedenini hatırlamak için nedenleri gözden geçirmek gerekir.",trap:"Rubella önemli bir neden olmakla birlikte en sık neden idiyopatik/herediter vakalar oluşturur.",explain:"Konjenital kataraktın en sık nedeni idiyopatik ve herediter vakalar (%30-40) oluşturur."},
-  {id:42,section:"KORTİKOSTEROİD YAN ETKİLERİ",year:"İlkbahar 97",question:"Uzun süreli steroid kullanımına bağlı olarak gelişen katarakt tipi aşağıdakilerden hangisidir?",opts:["Nükleer katarakt","Anterior subkapsüler katarakt","Posterior subkapsüler katarakt","Kortikal katarakt","Sütur kataraktı"],answer:2,hint:"Steroid kaynaklı kataraktın yerleşim yeri ve görme üzerindeki etkisi farklı katarakt tiplerine göre değişir.",trap:"Steroid kataraktı posterior (arka) subkapsülerdir. Nükleer katarakt ise yaşa bağlı (senil) kataraktın en sık tipidir.",explain:"Uzun süreli kortikosteroid kullanımı posterior subkapsüler katarakt oluşturur. Radyasyon ve miyotonik distrofi de posterior subkapsüler katarakt oluşturur."},
-  {id:43,section:"KORTİKOSTEROİD YAN ETKİLERİ",year:"Sonbahar 98",question:"Uzun süreli topikal steroid kullanımının <u>en sık</u> görülen oküler komplikasyonu aşağıdakilerden hangisidir?",opts:["Katarakt","Glokom","Pupil dilatasyonu","Retina dekolmanı","Makula ödemi"],answer:1,hint:"Topikal kortikosteroidlerin oküler komplikasyonları içinde glokom en sık ve en önemli olanıdır.",trap:"Steroid katarakt oluşturabilir ancak topikal steroidlerin en sık oküler komplikasyonu glokomdur.",explain:"Topikal kortikosteroidlerin en sık oküler komplikasyonu steroid kaynaklı glokomdur. Steroidler trabeküler ağda drenajı azaltarak GİB'i yükseltir."},
-  {id:44,section:"LÖKOKORİ",year:"Sonbahar 98",question:"İki yaşında bir erkek çocukta, sağ gözde beyaz pupil (lökokori) saptanmıştır. <u>Öncelikle</u> düşünülmesi gereken tanı aşağıdakilerden hangisidir?",opts:["Retinoblastom","Konjenital katarakt","Persistant hiperplastik primer vitreus","Retinopati of Prematürite","Toksokariyazis"],answer:0,hint:"Lökokori yapan hastalıklar içinde en hayatı tehdit edeni ve önce ekarte edilmesi gereken retinoblastomdur.",trap:"Konjenital katarakt lökokori yapabilir ancak genellikle doğumda veya ilk aylarda fark edilir. 2 yaşında lökokori → retinoblastom öncelikle düşünülmelidir.",explain:"Retinoblastom çocukluk çağının en sık intraokuler tümörüdür. En sık başvuru bulgusu lökokori (%60) ve şaşılıktır."},
-  {id:45,section:"LÖKOKORİ",year:"İlkbahar 2002",question:"İki yaşında, sağ gözde lökokori olan ve aynı zamanda bilateral retina kalkması saptanan çocukta <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Retinoblastom","Konjenital katarakt","Toksokariyazis","Norrie hastalığı","Retinopati of Prematürite"],answer:0,hint:"Retinoblastomda tümör büyüdükçe retinayı yerinden oynatabilir ve retina dekolmanına yol açabilir.",trap:"Norrie hastalığı X'e bağlı resesif geçişli olup bilateral lökokori yapabilir ancak retina kalkmasıyla birlikte görülen tablo retinoblastomu düşündürür.",explain:"İki yaşında lökokori + bilateral retina kalkması = retinoblastom. Tümör büyüdükçe eksüdatif retina dekolmanı görülebilir."},
-  {id:46,section:"LÖKOKORİ",year:"İlkbahar 2014 Orijinal",question:"Aşağıdakilerden hangisi lökokori nedenleri arasında yer <u>almaz</u>?",opts:["Retinoblastom","Persistant hiperplastik primer vitreus","Retinopati of prematürite","Konjenital glokom","Toksokariyazis"],answer:3,hint:"Lökokori yapan nedenleri iyi bilmek TUS açısından önemlidir.",trap:"Konjenital glokom (buftalmos) lökokori değil, fotofobi, göz yaşarması ve kornea bulanıklığı ile prezente olur.",explain:"Lökokori nedenleri: Retinoblastom (en sık), konjenital katarakt, PHPV, ROP, toksokariyazis, Coats hastalığı, Norrie hastalığı. Konjenital glokom lökokori nedeni değildir."},
-  {id:47,section:"RETİNA DAMAR HASTALIKLARI",year:"Sonbahar 93",question:"Santral retinal arter tıkanıklığında göz dibi muayenesinde <u>görülmeyen</u> bulgu aşağıdakilerden hangisidir?",opts:["Kırmızı nokta (cherry-red spot)","Retina ödem (beyazlaşma)","Arterlerde incelmeler","Papil ödem","Sarı renkte eksüda"],answer:4,hint:"Santral retinal arter tıkanıklığında iskemik retinada ödem ve hücre ölümü görülür.",trap:"Sarı renkli eksüda diyabetik retinopati ve hipertansif retinopatide görülür. SRAT'ta sert eksüda bulunmaz.",explain:"SRAT'ta: Cherry-red spot, retina ödem/beyazlaşma, arterlerde incelmeler ve papil ödem görülür. Sert eksüda bu tabloda görülmez."},
-  {id:48,section:"RETİNA DAMAR HASTALIKLARI",year:"İlkbahar 98",question:"Santral retinal arter tıkanıklığı aşağıdakilerden hangisinin bir komplikasyonu olarak görülebilir?",opts:["Temporal arterit","Hipertansiyon","Diyabetes mellitus","Kardiyak emboli","Hepsi"],answer:4,hint:"Santral retinal arter tıkanıklığı, trombotik veya embolik mekanizma ile gerçekleşebilir.",trap:"Bu hastalıkların hepsinin SRAT ile ilişkisi vardır.",explain:"SRAT nedenleri: Kardiyak emboli, ateroskleroz, hipertansiyon, DM, temporal arterit, antifosfolipid sendromu. Tüm seçenekler doğrudur."},
-  {id:49,section:"RETİNA DAMAR HASTALIKLARI",year:"Sonbahar 2005",question:"Göz dibi muayenesinde ''alev şeklinde kanama'' görülmesi aşağıdaki durumların hangisine işaret eder?",opts:["Santral retinal ven tıkanıklığı","Santral retinal arter tıkanıklığı","Diyabetik retinopati","Yaşa bağlı maküla dejenerasyonu","Hipertansif retinopati"],answer:0,hint:"Retina kanamasının şekli yerleşim yerine bağlıdır. Sinir lifi tabakasındaki kanamalar alev şeklinde görünür.",trap:"Alev şeklinde kanamalar sinir lifi tabakasına özgüdür. SRVT'de tüm 4 kadranda alev şeklinde yaygın kanamalar görülür.",explain:"SRVT'de göz dibinde 4 kadranda alev şeklinde kanamalar, dilate-tortüöz venler, disk ödemi ve cotton-wool spotlar görülür."},
-  {id:50,section:"RETİNA DAMAR HASTALIKLARI",year:"Sonbahar 2010 Orijinal",question:"Aşağıdakilerden hangisi tromboza bağlı retina ven tıkanıklığı için <u>risk faktörü değildir</u>?",opts:["Hipertansiyon","Diyabet","Hiperlipidemi","Hipotiroidi","Glokom"],answer:3,hint:"Retina ven tıkanıklığının kardiyovasküler risk faktörleriyle ilişkisi vardır.",trap:"Hipotiroidi retina ven tıkanıklığı için bağımsız risk faktörü değildir. Glokom ise optik disk venöz drenajını bozarak ven tıkanıklığına yol açabilir.",explain:"Retina ven tıkanıklığı risk faktörleri: Hipertansiyon (en sık), DM, hiperlipidemi, glokom, hiperviskozite. Hipotiroidi bu risk faktörleri arasında yer almaz."},
-  {id:51,section:"YAŞA BAĞLI MAKULA DEJENERASYONU",year:"Sonbahar 2015 Orijinal",question:"Yaşa bağlı maküla dejenerasyonunun (AMD) yaş formunda aşağıdakilerden hangisi görülür?",opts:["Drusen","Retinal pigment epitel atrofisi","Koroidal neovaskülarizasyon","Sadece kuru form bulguları","Makula pigment değişiklikleri"],answer:2,hint:"AMD kuru (atrofik) ve yaş (eksüdatif/neovasküler) olmak üzere iki ana formda incelenir.",trap:"Drusen ve RPE atrofisi kuru AMD bulgularıdır. Yaş AMD'nin temel özelliği koroidal neovaskülarizasyondur (CNV).",explain:"AMD'nin yaş formunda koroidal neovaskülarizasyon (CNV) gelişir. Tedavide anti-VEGF enjeksiyonları kullanılır."},
-  {id:52,section:"ALBİNİZM",year:"İlkbahar 2001 Orijinal",question:"Okülokutanöz albinizmde aşağıdaki göz bulgularından hangisi <u>beklenmez</u>?",opts:["Nistagmus","İris transillüminasyonu","Foveal hipoplazi","Görme azlığı","Glokom"],answer:4,hint:"Albinizmde melanin pigmentin eksikliğine bağlı gelişen göz bulguları ön plandadır.",trap:"Glokom albinizmde beklenen bir bulgu değildir.",explain:"Okülokutanöz albinizmde: Fotofobi, nistagmus, iris transillüminasyonu, foveal hipoplazi, strabismus, görme azlığı görülür. Glokom bu tablonun parçası değildir."},
-  {id:53,section:"RETİNA DEKOLMANI",year:"İlkbahar 2002",question:"Retina dekolmanı tiplerinden hangisinde tedavi acil müdahale gerektirmez?",opts:["Regmatojen retina dekolmanı","Traksiyonel retina dekolmanı","Eksüdatif retina dekolmanı","Regmatojen + traksiyonel retina dekolmanı","Hepsi acil müdahale gerektirir"],answer:1,hint:"Retina dekolmanı tiplerinde tedavinin aciliyeti dekolmanın mekanizmasına bağlıdır.",trap:"Regmatojen form en acil olanıdır. Traksiyonel form daha yavaş ilerlediğinden makula tutulmamışsa gözlemlenebilir.",explain:"Traksiyonel retina dekolmanında (en sık nedeni proliferatif diyabetik retinopati) makula tutulmamışsa acil cerrahi gerekmez."},
-  {id:54,section:"RETİNOBLASTOM",year:"İlkbahar 2006",question:"Retinoblastomda en sık başvuru semptomu aşağıdakilerden hangisidir?",opts:["Göz kızarıklığı","Şaşılık","Lökokori","Göz ağrısı","Göz yaşarması"],answer:2,hint:"Retinoblastomda tümör büyüdükçe pupil kırmızı reflesi kaybolur ve beyaz bir parlaklık (lökokori) oluşur.",trap:"Şaşılık ikinci en sık başvuru bulgusudur. Lökokori ise ilk sırada yer alır.",explain:"Retinoblastomda en sık başvuru semptomu lökokori (%60) ve ardından şaşılıktır (%20)."},
-  {id:55,section:"GLOKOM",year:"Sonbahar 91",question:"Açık açılı glokomda görme alanı defekti aşağıdakilerden hangisidir?",opts:["Temporal yarı alan kaybı","Nazal basamak (nasal step)","Santral skotom","Temporal skotom","Altitudinal alan defekti"],answer:1,hint:"Glokomda optik sinir hasarı önce inferonazal ve süperonazal bölgede başlar.",trap:"Santral skotom optik nörit ve AMD'de görülür. Altitudinal defekt NAION'da görülür. Glokomda erken dönemde nazal basamak izlenir.",explain:"Açık açılı glokomda görme alanı defektleri: erken dönemde nazal basamak, arkuat (Bjerrum) skotom, parasentral skotom. İleri dönemde tünel görme gelişir."},
-  {id:56,section:"GLOKOM",year:"İlkbahar 93",question:"Konjenital glokomda (buftalmos) aşağıdaki bulgulardan hangisi <u>görülmez</u>?",opts:["Kornea çapında artış","Haab çizgileri","Fotofobi","Lökokori","Epifora"],answer:3,hint:"Konjenital glokom yenidoğanda skleral yumuşaklığa bağlı olarak gözün büyümesiyle kendini gösterir.",trap:"Lökokori konjenital glokomda görülmez; gözde büyüme, kornea bulanıklığı, fotofobi ve epifora görülür.",explain:"Konjenital glokomda: gözde büyüme, kornea çapında artış, Haab çizgileri, fotofobi, blefarospazm, epifora görülür. Lökokori bulgusu değildir."},
-  {id:57,section:"GLOKOM",year:"İlkbahar 95",question:"Akut açı kapanması glokomunda aşağıdaki bulgulardan hangisi görülmez?",opts:["Kornea ödemi","Göz içi basıncında artış","Göz ağrısı","Midriazis","Myozis"],answer:4,hint:"Akut açı kapanması glokomunda iris bombesi ile açı kapanır; pupil durumunu düşününüz.",trap:"Akut açı kapanması glokomunda pupil MİDRİAZİS'tedir (orta dilatasyon, 4-6 mm, ışığa cevapsız). Miyozis beklenmez.",explain:"Akut açı kapanması glokomunda: şiddetli göz ağrısı, GİB artışı, kornea ödemi, orta dilatasyon ve ışığa yanıtsız pupil (midriazis) görülür. Miyozis bu tabloda beklenmez."},
-  {id:58,section:"GLOKOM",year:"Sonbahar 98",question:"Primer açık açılı glokomun <u>en önemli</u> risk faktörü aşağıdakilerden hangisidir?",opts:["Miyopi","Artmış göz içi basıncı","Yaş","Aile öyküsü","Diyabetes mellitus"],answer:1,hint:"Primer açık açılı glokomda optik sinir hasarına yol açan temel mekanizma göz içi basıncının artmasıdır.",trap:"Yüksek GİB en önemli risk faktörüdür ancak normal basınçlı glokom da vardır.",explain:"Primer açık açılı glokomun en önemli risk faktörü artmış göz içi basıncıdır. Diğer risk faktörleri: yaş, aile öyküsü, miyopi, ince kornea, DM."},
-  {id:59,section:"GLOKOM",year:"Sonbahar 2000",question:"Diyabetik hastada neovasküler glokomun gelişmesinde sorumlu mekanizma aşağıdakilerden hangisidir?",opts:["Lens şişmesi","İris neovaskülarizasyonu","Açının mekanik kapanması","Trabeküler ağ dejenerasyonu","Göz içi basıncının ani yükselmesi"],answer:1,hint:"Proliferatif diyabetik retinopatide iskemi VEGF salınımını uyarır.",trap:"Neovasküler glokomda önce iris ve açıda yeni damarlar (rubeozis iridis) oluşur, ardından bu damarlar fibröz doku ile açıyı kapatır.",explain:"Neovasküler glokomda retinal iskemi → VEGF → iris neovaskülarizasyonu (rubeozis iridis) → fibröz membran → açı kapanması → GİB artışı."},
-  {id:60,section:"GLOKOM",year:"İlkbahar 2014 Orijinal",question:"Glokom için aşağıdakilerden hangisi kesin tanı kriteridir?",opts:["Göz içi basıncının 21 mmHg üzerinde olması","Optik disk hasarının varlığı","Görme alanı defektinin varlığı","Optik disk hasarı + görme alanı defekti birlikteliği","Kornea kalınlığının azalmış olması"],answer:3,hint:"Glokom tanısı tek bulguya değil, yapısal ve fonksiyonel hasarın birlikteliğine dayanır.",trap:"Yüksek GİB tek başına glokom tanısı koydurturmaz. Optik disk hasarı veya görme alanı defekti tek başına yeterli değildir.",explain:"Glokom tanısı için optik sinir başında yapısal hasar ve buna eşlik eden görme alanı defekti birlikte olmalıdır."},
-  {id:61,section:"GLOKOM",year:"Sonbahar 2017 Orijinal",question:"Akut açı kapanması glokomunda ilk tercih edilecek tedavi aşağıdakilerden hangisidir?",opts:["Topikal beta bloker","Oral asetazolamid","Laser periferik iridotomi","Topikal alfa agonist","Topikal prostaglandin analoğu"],answer:2,hint:"Akut açı kapanması glokomunda açıyı kalıcı olarak açacak definitif tedavi hedeflenir.",trap:"Medikal tedavi GİB'i düşürmek için kullanılır ancak bunlar geçici önlemlerdir. Kesin tedavi laser periferik iridotomidir.",explain:"Akut açı kapanması glokomunda medikal tedavinin ardından laser periferik iridotomi yapılır. Laser iridotomi iridopupiller bloğu ortadan kaldırarak açıyı kalıcı olarak açar."},
-  {id:62,section:"OPTİK NÖROPATİ VE OPTİK SİNİR HASTALIKLARI",year:"Sonbahar 94",question:"Optik nörit gelişmesine yol açan <u>en sık</u> hastalık aşağıdakilerden hangisidir?",opts:["Sifiliz","Multipl skleroz","Sarkoidoz","Lyme hastalığı","Sistemik lupus eritematozus"],answer:1,hint:"Optik nörit demyelinizan hastalıklarla sıkça ilişkilidir.",trap:"Optik nörit MS'in ilk bulgusu olabilir. Diğer nedenler daha az sıklıkta görülür.",explain:"Optik nöritin en sık nedeni multipl sklerozdan kaynaklanır. Ani görme kaybı, göz hareketleriyle ağrı ve renkli görme bozukluğu karakteristiktir."},
-  {id:63,section:"OPTİK NÖROPATİ VE OPTİK SİNİR HASTALIKLARI",year:"Sonbahar 95",question:"Optik nöritte aşağıdaki bulgulardan hangisi görülmez?",opts:["Marcus Gunn pupili","Görme kaybı","Renk görmede bozulma","Göz hareketleriyle ağrı","Artmış göz içi basıncı"],answer:4,hint:"Optik nörit retrobulber inflamasyon sonucu optik sinirin işlev bozukluğuyla ortaya çıkar.",trap:"Artmış GİB glokomun bulgusudur. Optik nörit ise intraorbital optik sinir inflamasyonudur; GİB artışına yol açmaz.",explain:"Optik nörit bulguları: Ani görme kaybı, göz hareketleriyle ağrı, renk görmede bozulma, afferent pupil defekti (Marcus Gunn pupili), santral skotom. Artmış GİB değildir."},
-  {id:64,section:"OPTİK NÖROPATİ VE OPTİK SİNİR HASTALIKLARI",year:"İlkbahar 2000",question:"Aşağıdaki bulguların hangisi optik nöriti, iskemik optik nöropatiden ayırt etmeye yardımcı olur?",opts:["Tek taraflı görme kaybı","Görme alanı defekti","Göz hareketleriyle ağrı","Afferent pupil defekti","Papil ödemi"],answer:2,hint:"Her iki hastalıkta da görme kaybı ve afferent pupil defekti görülebilir; ancak biri ağrılı, diğeri ağrısızdır.",trap:"İskemik optik nöropati (NAION) ağrısızdır. Optik nörit ise göz hareketleriyle ağrı ile birlikte görülür.",explain:"Göz hareketleriyle ağrı optik nörite özgü bir bulgudur ve iskemik optik nöropatiden ayırt ettirir. İskemik optik nöropati ağrısız, ani görme kaybı ile prezente olur."},
-  {id:65,section:"OPTİK NÖROPATİ VE OPTİK SİNİR HASTALIKLARI",year:"Sonbahar 2011 Orijinal",question:"Aşağıdaki durumların hangisinde non-arteriitik anterior iskemik optik nöropati (NAION) gelişme riski artar?",opts:["Miyopi","Küçük optik disk (disk at risk)","Hipermetropi","Artmış göz içi basıncı","Artmış kornea kalınlığı"],answer:1,hint:"NAION'da disk morfolojisi önemli bir predispozan faktördür.",trap:"Küçük ve kalabalık optik disk (crowded disk / disk at risk) NAION için anatomik predispozan faktördür.",explain:"NAION risk faktörleri: HT, DM, hiperlipidemi, obstrüktif uyku apnesi, fosfodiesteraz inhibitörleri ve 'disk at risk' morfolojisi."},
-  {id:66,section:"OPTİK NÖROPATİ VE OPTİK SİNİR HASTALIKLARI",year:"Sonbahar 2013 Orijinal",question:"Temporal arterit (dev hücreli arterit) ile ilişkili görme kaybının en sık mekanizması aşağıdakilerden hangisidir?",opts:["Santral retinal ven tıkanıklığı","Santral retinal arter tıkanıklığı","Arteriitik anterior iskemik optik nöropati","Koroidal iskemi","Retinal iskemi"],answer:2,hint:"Temporal arterit oftalmik arteri ve posterior silier arterleri tıkayarak optik siniri besleyen damarları etkiler.",trap:"SRAT temporal arteritin bir komplikasyonu olabilir ancak en sık mekanizma arteriitik AIONdir.",explain:"Temporal arteritte görme kaybının en sık mekanizması arteriitik anterior iskemik optik nöropatidir. Acil kortikosteroid tedavisi diğer gözü korumak için hayati önem taşır."},
-  {id:67,section:"OPTİK NÖROPATİ VE OPTİK SİNİR HASTALIKLARI",year:"İlkbahar 2016 Orijinal",question:"Aşağıdakilerden hangisi optik atrofinin bir nedeni <u>değildir</u>?",opts:["Glokom","Multipl skleroz","Santral retinal ven tıkanıklığı","Vitamin B12 eksikliği","Hipertiroidi"],answer:4,hint:"Optik atrofi, optik sinir liflerinin herhangi bir nedene bağlı hasarı sonucu oluşur.",trap:"Hipertiroidi optik atrofi nedeni değildir. Ancak Graves oftalmopatisi kompresif optik nöropati yapabilir.",explain:"Optik atrofi nedenleri: Glokom, MS, SRVT, iskemik optik nöropati, vitamin B12 eksikliği, travma. Hipertiroidi doğrudan optik atrofi nedeni değildir."},
-  {id:68,section:"SEMPATİK OFTALMİ",year:"İlkbahar 2004",question:"Gözde penetran yaralanmayı takiben karşı gözde üveit gelişmesi aşağıdaki tanılar arasında hangisinin en önemli bulgusudur?",opts:["Behçet hastalığı","Vogt-Koyanagi-Harada sendromu","Sempatik oftalmi","Sarkoidoz","Fuch's heterokromik iridosikliti"],answer:2,hint:"Penetre göz yaralanması sonrası uveal pigment antijenlerine karşı gelişen otoimmün yanıt karşı gözü tutabilir.",trap:"Yaralanmış göze 'uyarıcı göz (exciting eye)', karşı göze ise 'sempatizan göz (sympathizing eye)' denir.",explain:"Sempatik oftalmi, penetran göz yaralanmasından sonra karşı gözde panuveitle kendini gösteren nadir ama ciddi otoimmün hastalıktır."},
-  {id:69,section:"PAPİL ÖDEMİ",year:"Sonbahar 99",question:"Papil ödemi aşağıdaki durumların hangisinde görülmez?",opts:["Artmış kafa içi basıncı","Temporal arterit","Santral retinal ven tıkanıklığı","Optik nörit","Hipertansif retinopati"],answer:1,hint:"Papil ödemi ile optik disk ödemi (optik nörit, iskemik optik nöropati) terminolojik olarak ayrılır.",trap:"Temporal arterit iskemik optik nöropati yapabilir ancak klasik tanımda papil ödemi artmış KİB sonucu bilateral disk ödemidir.",explain:"Papil ödemi artmış kafa içi basıncına bağlı bilateral optik disk ödemidir. Temporal arterit klasik papil ödeminin nedenleri arasında yer almaz."},
-  {id:70,section:"PAPİL ÖDEMİ",year:"Sonbahar 2014 Orijinal",question:"Papil ödeminin en sık nedeni aşağıdakilerden hangisidir?",opts:["Hipertansif retinopati","Santral retinal ven tıkanıklığı","Artmış kafa içi basıncı","Optik nörit","İdiyopatik intrakranyal hipertansiyon"],answer:2,hint:"Papil ödemi (papilledema) artmış intrakranyal basıncın oküler yansımasıdır.",trap:"İdiyopatik intrakranyal hipertansiyon papil ödeminin önemli bir nedenidir ancak artmış KİB genel kategorisi daha geniştir.",explain:"Papil ödeminin en sık nedeni artmış kafa içi basıncıdır (beyin tümörü, hidrosefali, idiyopatik intrakranyal hipertansiyon vb.)."},
-  {id:71,section:"DİĞER GÖZ HASTALIKLARI",year:"İlkbahar 89",question:"Proptosisde (ekzoftalmus) ilk yapılması gereken tetkik aşağıdakilerden hangisidir?",opts:["Gözün ultrasonografisi","Orbita ve kafa düz grafisi","Bilgisayarlı tomografi (BT)","Tiroid fonksiyon testleri","Manyetik rezonans görüntüleme (MRG)"],answer:2,hint:"Ekzoftalmusin etiyolojisini ortaya koymak için orbit içeriğini en iyi gösteren görüntüleme yöntemi tercih edilmelidir.",trap:"Tiroid fonksiyon testleri önemlidir (Graves en sık neden) ancak ilk tetkik değildir.",explain:"Proptosiste ilk yapılması gereken tetkik orbita BT'sidir. BT kemik yapıları, yumuşak doku ve retrobulber lezyonları iyi gösterir."},
-  {id:72,section:"DİĞER GÖZ HASTALIKLARI",year:"Sonbahar 95",question:"Graves oftalmopatisinde (tiroid gözü) ekzoftalmusa yol açan temel mekanizma aşağıdakilerden hangisidir?",opts:["Tiroid hormonu fazlalığı","Retrobulber yağ dokusunda artma","Ekstraoküler kas ödem ve büyümesi","Orbital kemik yapısında değişim","Lakrimal bez büyümesi"],answer:2,hint:"Graves oftalmopatisinde otoimmün süreç orbital fibroblastları ve ekstraoküler kasları etkiler.",trap:"Tiroid hormonu düzeyi ile oftalmopatinin şiddeti her zaman paralellik göstermez.",explain:"Graves oftalmopatisinde ekstraoküler kaslarda hacim artışı (özellikle inferior rektus > medial rektus) ve retrobulber yağ doku artışı proptosise neden olur."},
-  {id:73,section:"DİĞER GÖZ HASTALIKLARI",year:"İlkbahar 2003",question:"Horner sendromunda aşağıdaki bulgulardan hangisi <u>görülmez</u>?",opts:["Miyozis","Pitozis","Anhidroz","Ekzoftalmus","Enoftalmus"],answer:3,hint:"Horner sendromu sempatik sinir yolunun herhangi bir noktasında kesintiye uğraması sonucu gelişir.",trap:"Horner sendromunda ENOFTALMUSvar (geri çekilmiş görünüm), EKZOFTALMUSyoktur.",explain:"Horner sendromu klasik triadı: miyozis, pitozis ve anhidroz. Bunlara ek olarak alt kapak yükselmesi ve enoftalmus eşlik eder. Ekzoftalmus görülmez."},
-  {id:74,section:"DİĞER GÖZ HASTALIKLARI",year:"İlkbahar 2010",question:"Aşağıdaki hastalıklardan hangisinde göz tutulumu <u>beklenmez</u>?",opts:["Sarkoidoz","Behçet hastalığı","Ankilozan spondilit","Romatoid artrit","Dermatomiyozit"],answer:4,hint:"Dermatomiyozit primer olarak kas ve deri tutulumu yapan bir hastalıktır.",trap:"Dermatomiyozitte göz çevresi deri bulguları (heliotrope rash) görülebilir ancak göz içi tutulum beklenmez.",explain:"Sarkoidoz, Behçet, ankilozan spondilit, romatoid artrit göz tutulumu yapar. Dermatomiyozitte göz içi tutulum beklenmez."},
-  {id:75,section:"DİĞER GÖZ HASTALIKLARI",year:"Sonbahar 2016 Orijinal",question:"Aşağıdakilerden hangisi pterijyum için doğrudur?",opts:["Korneada santral alandan başlar","Sadece temporal tarafta görülür","UV ışığa maruziyet ile ilişkilidir","Malign potansiyeli yüksektir","Görmeyi hiçbir zaman etkilemez"],answer:2,hint:"Pterijyumun epidemiyolojisi coğrafi dağılımı ile ilgili önemli ipuçları sunar.",trap:"Pterijyum nazal taraftan başlar (temporal değil), korneanın periferinden ilerler. Malign potansiyeli yoktur.",explain:"Pterijyum UV ışığa kronik maruziyet ile ilişkilidir. Genellikle nazal taraftan başlar ve korneaya doğru ilerler."},
-  {id:76,section:"DİĞER GÖZ HASTALIKLARI",year:"İlkbahar 2022",question:"Aşağıda verilen göz ile ilgili açıklamalardan hangisi <u>yanlıştır</u>?",opts:["Kornea avasküler bir yapıdır","Aköz humor trabeküler ağdan drene olur","Retina en iç tabakadır","Fovea en keskin görmenin olduğu bölgedir","Vitreus humor göz içi basıncını düzenler"],answer:4,hint:"Göz içi basıncını (GİB) düzenleyen sıvı aköz humordur, vitreus değil.",trap:"Vitreus humor göz şeklini korur ve ışığı iletir ancak GİB'i düzenlemez.",explain:"Göz içi basıncı aköz humor tarafından düzenlenir: siliyer cisim tarafından üretilip trabeküler ağ yoluyla Schlemm kanalına drene olur. Vitreus GİB düzenlemesinde rolü yoktur."},
-  {id:77,section:"DİĞER GÖZ HASTALIKLARI",year:"İlkbahar 2024 Orijinal",question:"Göz içi yabancı cisim şüphesinde aşağıdaki görüntüleme yöntemlerinden hangisi <u>kontrendikedir</u>?",opts:["Bilgisayarlı tomografi (BT)","Düz grafi","Ultrasonografi","Manyetik rezonans görüntüleme (MRG)","Fundus muayenesi"],answer:3,hint:"Metal yabancı cisimlerde belirli görüntüleme yöntemleri ciddi komplikasyonlara neden olabilir.",trap:"Metalik yabancı cisimler MRG'de hareket edebilir ve göz içinde ek hasara yol açabilir. Bu nedenle metalik yabancı cisim şüphesinde MRG KONTRENDİKEDİR.",explain:"Göz içi yabancı cisim şüphesinde MRG kontrendikedir çünkü metalik yabancı cisim MRG'nin güçlü manyetik alanında hareket ederek ciddi komplikasyonlara yol açabilir. İlk tercih BT'dir."},
+const sectionGroups = [
+  {label:"GELİŞİMSEL KALÇA DİSPLAZİSİ",ids:[1,2,3,4,5,6,7,8,9]},
+  {label:"OSTEOMİYELİT",ids:[10,11,12,13]},
+  {label:"AKUT SEPTİK ARTRİT",ids:[14,15,16,17,18,19]},
+  {label:"KEMİK VE EKLEM TBC",ids:[20,21]},
+  {label:"KEMİK TÜMÖRLERİ",ids:[22,23,24,25,26,27,28,29,30,31,32,33,34,35]},
+  {label:"KIRIK VE ÇIKIKLAR",ids:[36,37,38,39,40,41,42,43,44,45,46,47,48,49]},
+  {label:"YAĞ EMBOLİSİ",ids:[50,51,52,53,54,55]},
+  {label:"KOMPARTMAN SENDROMU",ids:[56,57]},
+  {label:"VOLKMANN İSKEMİK KONTRAKTÜRÜ",ids:[58,59,60,61,62]},
+  {label:"OSTEOKONDROZLAR",ids:[63,64,65,66,67]},
+  {label:"OSTEOKONDRİTİS DİSSEKANS",ids:[68,69]},
+  {label:"ÜST EKSTREMİTE KIRIK/ÇIKILARI",ids:[70,71,72,73,74,75,76,77]},
+  {label:"EKLEM VE METABOLİK KEMİK",ids:[83,84,85,86,87,88,89,90,91,92]},
+  {label:"DİĞER SORULAR",ids:[78,79,80,81,82,93,94,95]}
 ];
 
 let questions = [...masterList];
-let current = 0;
-let answered = {};
+let cur = 0;
+let answers = {};
 let starred = new Set();
-let hintOpen = false;
 
 function render(){
-  const q = questions[current];
-  if(!q) return;
+  const q = questions[cur];
   const total = questions.length;
-  document.getElementById('prog').style.width=((current+1)/total*100)+'%';
-  document.getElementById('q-num').textContent=`Soru ${current+1} / ${total}`;
-  document.getElementById('q-counter').textContent=`${current+1}/${total} ☰`;
-  document.getElementById('star-btn').textContent=starred.has(q.id)?'★':'☆';
-  document.getElementById('section-badge').textContent=q.section;
-  const yt=document.getElementById('year-tags');
-  yt.innerHTML='';
-  if(q.year){const s=document.createElement('span');s.className='year-tag';s.textContent=q.year;yt.appendChild(s);}
-  const st=document.createElement('span');st.className='section-tag';st.textContent=q.section;yt.appendChild(st);
-  document.getElementById('q-text').innerHTML=q.question;
-  document.getElementById('hint-box').innerHTML=q.hint;
-  document.getElementById('hint-box').style.display='none';
-  hintOpen=false;
-  const opts=document.getElementById('options');
-  opts.innerHTML='';
-  q.opts.forEach((o,i)=>{
-    const btn=document.createElement('button');
-    btn.className='opt-btn';
-    btn.innerHTML=`<span class="opt-letter">${String.fromCharCode(65+i)}</span><span>${o}</span>`;
-    if(answered[q.id]!==undefined){
-      btn.disabled=true;
-      if(i===q.answer) btn.classList.add('correct');
-      else if(i===answered[q.id]) btn.classList.add('wrong');
-    } else {
-      btn.onclick=()=>selectAnswer(i);
+  document.getElementById('pbar').style.width = ((cur+1)/total*100)+'%';
+  document.getElementById('q-counter').textContent = `${cur+1}/${total} ☰`;
+  const answered = answers[q.id];
+  const starIcon = starred.has(q.id) ? '★' : '☆';
+  let optsHTML = q.opts.map((o,i)=>{
+    let cls = 'opt-btn';
+    let disabled = '';
+    if(answered !== undefined){
+      disabled = 'disabled';
+      if(i === q.answer) cls += ' correct';
+      else if(i === answered && answered !== q.answer) cls += ' wrong';
     }
-    opts.appendChild(btn);
-  });
-  const fb=document.getElementById('feedback');
-  if(answered[q.id]!==undefined){
-    document.getElementById('trap-text').innerHTML=q.trap;
-    document.getElementById('explain-text').innerHTML=q.explain;
-    fb.classList.add('open');
-    setTimeout(()=>fb.scrollIntoView({behavior:'smooth',block:'nearest'}),300);
-  } else {
-    fb.classList.remove('open');
+    return `<button class="${cls}" ${disabled} onclick="choose(${i})"><span class="opt-letter">${String.fromCharCode(65+i)}</span>${o}</button>`;
+  }).join('');
+  let feedbackHTML = '';
+  if(answered !== undefined){
+    feedbackHTML = `<div class="feedback open">
+      <div class="trap-box"><div class="trap-title">⚠️ TUZAK NOKTA</div><div class="trap-text">${q.trap}</div></div>
+      <div class="explain-box"><div class="explain-title">📖 AÇIKLAMA</div><div class="explain-text">${q.explain}</div></div>
+    </div>`;
+  }
+  document.getElementById('quiz-area').innerHTML = `
+    <span class="section-badge">${q.section}</span>
+    <div class="card">
+      <div class="q-header">
+        <span id="q-num">Soru ${cur+1}/${total}</span>
+        <button id="star-btn" onclick="toggleStar(${q.id})">${starIcon}</button>
+      </div>
+      <div class="year-tags"><span class="year-tag">${q.year}</span></div>
+      <div class="q-text">${q.question}</div>
+      <button class="hint-toggle" onclick="toggleHint()">🔑 İpucu</button>
+      <div id="hint-box">${q.hint}</div>
+      <div class="options">${optsHTML}</div>
+      ${feedbackHTML}
+    </div>`;
+  if(answered !== undefined){
+    setTimeout(()=>{
+      const fb = document.querySelector('.feedback.open');
+      if(fb) fb.scrollIntoView({behavior:'smooth',block:'nearest'});
+    },200);
   }
 }
 
-function selectAnswer(i){
-  const q=questions[current];
-  answered[q.id]=i;
+function choose(i){
+  const q = questions[cur];
+  if(answers[q.id] !== undefined) return;
+  answers[q.id] = i;
   render();
-  setTimeout(checkResult,400);
 }
-
 function toggleHint(){
-  hintOpen=!hintOpen;
-  document.getElementById('hint-box').style.display=hintOpen?'block':'none';
+  const hb = document.getElementById('hint-box');
+  hb.style.display = hb.style.display === 'block' ? 'none' : 'block';
 }
-
-function toggleStar(){
-  const q=questions[current];
-  if(starred.has(q.id)) starred.delete(q.id);
-  else starred.add(q.id);
-  document.getElementById('star-btn').textContent=starred.has(q.id)?'★':'☆';
-}
-
-function navigate(dir){
-  current=Math.max(0,Math.min(questions.length-1,current+dir));
+function toggleStar(id){
+  if(starred.has(id)) starred.delete(id);
+  else starred.add(id);
   render();
-  window.scrollTo({top:0,behavior:'smooth'});
 }
-
-function openModal(){
-  const grid=document.getElementById('q-grid');
-  grid.innerHTML='';
-  // section dividers
-  const sectionStarts={};
-  masterList.forEach((q,i)=>{
-    if(!sectionStarts[q.section]) sectionStarts[q.section]={label:q.section,idx:i};
-  });
-  let lastSection='';
-  questions.forEach((q,i)=>{
-    if(q.section!==lastSection){
-      const div=document.createElement('div');
-      div.className='divider-label';
-      div.textContent=q.section;
-      grid.appendChild(div);
-      lastSection=q.section;
-    }
-    const btn=document.createElement('button');
-    btn.className='q-grid-btn';
-    btn.textContent=q.id;
-    if(answered[q.id]!==undefined) btn.classList.add(answered[q.id]===q.answer?'answered-correct':'answered-wrong');
-    if(starred.has(q.id)) btn.classList.add('starred');
-    if(i===current) btn.classList.add('current');
-    btn.onclick=()=>{current=i;render();closeModal();window.scrollTo({top:0,behavior:'smooth'});};
-    grid.appendChild(btn);
-  });
+document.getElementById('prev-btn').addEventListener('click',()=>{
+  if(cur > 0){ cur--; render(); window.scrollTo(0,0); }
+});
+document.getElementById('next-btn').addEventListener('click',()=>{
+  if(cur < questions.length-1){ cur++; render(); window.scrollTo(0,0); }
+  else showResult();
+});
+document.getElementById('q-counter').addEventListener('click',()=>{
+  buildGrid();
   document.getElementById('modal-overlay').classList.add('open');
-}
-
-function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
-function closeModalOutside(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
-
-document.addEventListener('keydown',e=>{
-  if(e.key==='Escape') closeModal();
-  if(e.key==='ArrowRight') navigate(1);
-  if(e.key==='ArrowLeft') navigate(-1);
+});
+document.getElementById('modal-overlay').addEventListener('click',(e)=>{
+  if(e.target === document.getElementById('modal-overlay'))
+    document.getElementById('modal-overlay').classList.remove('open');
+});
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='Escape') document.getElementById('modal-overlay').classList.remove('open');
 });
 
-function checkResult(){
-  if(questions.every(q=>answered[q.id]!==undefined)) showResult();
+function buildGrid(){
+  const container = document.getElementById('q-grid-container');
+  const idToIndex = {};
+  questions.forEach((q,i) => idToIndex[q.id] = i);
+  let html = '';
+  sectionGroups.forEach(sg => {
+    const relevant = sg.ids.filter(id => idToIndex[id] !== undefined);
+    if(!relevant.length) return;
+    html += `<div class="section-divider">${sg.label}</div><div class="q-grid">`;
+    relevant.forEach(id => {
+      const i = idToIndex[id];
+      const q = questions[i];
+      let cls = 'q-grid-btn';
+      if(answers[q.id] !== undefined){
+        cls += answers[q.id] === q.answer ? ' answered-correct' : ' answered-wrong';
+      }
+      if(starred.has(q.id)) cls += ' starred';
+      html += `<button class="${cls}" onclick="goTo(${i})">${i+1}</button>`;
+    });
+    html += '</div>';
+  });
+  container.innerHTML = html;
+}
+
+function goTo(i){
+  cur = i;
+  document.getElementById('modal-overlay').classList.remove('open');
+  render(); window.scrollTo(0,0);
 }
 
 function showResult(){
-  document.getElementById('quiz-area').style.display='none';
-  document.getElementById('result-screen').style.display='block';
-  const correct=questions.filter(q=>answered[q.id]===q.answer).length;
-  const wrong=questions.filter(q=>answered[q.id]!==undefined&&answered[q.id]!==q.answer).length;
-  const pct=Math.round(correct/questions.length*100);
-  document.getElementById('res-score').textContent=pct+'%';
-  document.getElementById('res-correct').textContent=correct;
-  document.getElementById('res-wrong').textContent=wrong;
-  document.getElementById('res-star').textContent=starred.size;
-  // topic breakdown
-  const sectionMap={};
+  let correct=0, wrong=0;
   questions.forEach(q=>{
-    if(!sectionMap[q.section]) sectionMap[q.section]={total:0,correct:0};
-    if(answered[q.id]!==undefined){
-      sectionMap[q.section].total++;
-      if(answered[q.id]===q.answer) sectionMap[q.section].correct++;
-    }
+    if(answers[q.id] === q.answer) correct++;
+    else if(answers[q.id] !== undefined) wrong++;
   });
-  const rows=document.getElementById('topic-rows');
-  rows.innerHTML='';
-  Object.entries(sectionMap).forEach(([sec,data])=>{
-    if(data.total===0) return;
-    const pct2=Math.round(data.correct/data.total*100);
-    const row=document.createElement('div');
-    row.className='topic-row';
-    row.innerHTML=`<span class="topic-name">${sec}</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:${pct2}%;background:${pct2>=70?'var(--green)':pct2>=40?'var(--gold)':'var(--red)'}"></div></div><span class="topic-score">${data.correct}/${data.total}</span>`;
-    rows.appendChild(row);
+  const pct = Math.round(correct/questions.length*100);
+  document.getElementById('res-score').textContent = pct+'%';
+  document.getElementById('res-correct').textContent = correct;
+  document.getElementById('res-wrong').textContent = wrong;
+  document.getElementById('res-star').textContent = starred.size;
+
+  // Topic breakdown
+  let topicHTML = '';
+  sectionGroups.forEach(sg => {
+    const qs = masterList.filter(q => sg.ids.includes(q.id));
+    const answered = qs.filter(q => answers[q.id] !== undefined);
+    if(!answered.length) return;
+    const c = answered.filter(q => answers[q.id] === q.answer).length;
+    topicHTML += `<div class="topic-row"><span class="topic-name">${sg.label}</span><span class="topic-score">${c}/${answered.length}</span></div>`;
   });
+  document.getElementById('topic-rows').innerHTML = topicHTML;
+  document.getElementById('result-screen').style.display = 'block';
 }
 
-function restartAll(){
-  questions=[...masterList];answered={};current=0;
-  document.getElementById('quiz-area').style.display='';
-  document.getElementById('result-screen').style.display='none';
-  render();
+function retryAll(){
+  questions = [...masterList]; answers = {}; cur = 0;
+  document.getElementById('result-screen').style.display = 'none';
+  render(); window.scrollTo(0,0);
 }
-
 function retryWrong(){
-  const wrongs=masterList.filter(q=>answered[q.id]!==undefined&&answered[q.id]!==q.answer);
-  if(!wrongs.length){alert('Yanlış soru yok!');return;}
-  questions=wrongs;answered={};current=0;
-  document.getElementById('quiz-area').style.display='';
-  document.getElementById('result-screen').style.display='none';
-  render();
+  const wrong = masterList.filter(q => answers[q.id] !== undefined && answers[q.id] !== q.answer);
+  if(!wrong.length){ alert('Yanlış soru yok!'); return; }
+  questions = wrong; answers = {}; cur = 0;
+  document.getElementById('result-screen').style.display = 'none';
+  render(); window.scrollTo(0,0);
 }
-
 function retryStar(){
-  const stars=masterList.filter(q=>starred.has(q.id));
-  if(!stars.length){alert('Yıldızlı soru yok!');return;}
-  questions=stars;answered={};current=0;
-  document.getElementById('quiz-area').style.display='';
-  document.getElementById('result-screen').style.display='none';
-  render();
+  const strd = masterList.filter(q => starred.has(q.id));
+  if(!strd.length){ alert('Yıldızlı soru yok!'); return; }
+  questions = strd; answers = {}; cur = 0;
+  document.getElementById('result-screen').style.display = 'none';
+  render(); window.scrollTo(0,0);
 }
 
 render();

@@ -3,990 +3,413 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KBB Hastalıkları – TUS Soruları (68 Soru)</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<title>Göz Hastalıkları — TUS Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;--accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;--green:#3ecf74;--red:#f0476d;--text:#dde3f5;--muted:#7b85a8}
+:root{
+  --bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;
+  --accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;--green:#3ecf74;
+  --red:#f0476d;--text:#dde3f5;--muted:#7b85a8;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding-bottom:100px}
 .progress-wrap{position:fixed;top:0;left:0;width:100%;height:3px;background:var(--border);z-index:100}
-.progress-bar{height:3px;background:var(--accent);transition:width .3s}
-.container{max-width:760px;margin:0 auto;padding:24px 16px 100px}
-.section-badge{font-family:'IBM Plex Mono',monospace;color:var(--accent2);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;margin-top:28px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px}
-.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-#q-num{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)}
-#star-btn{background:none;border:none;font-size:20px;cursor:pointer;transition:transform .2s}
-#star-btn:hover{transform:scale(1.2)}
+.progress-bar{height:3px;background:var(--accent2);transition:width .3s}
+.section-badge{font-family:'IBM Plex Mono',monospace;color:var(--accent2);font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:18px 16px 4px;display:block}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin:10px 12px}
+.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+#q-num{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--muted)}
+#star-btn{background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--gold);padding:4px}
 .year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-.year-tag{font-family:'IBM Plex Mono',monospace;font-size:10px;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:2px 8px;color:var(--accent)}
-.topic-tag{font-family:'IBM Plex Mono',monospace;font-size:10px;background:rgba(224,92,122,.1);border:1px solid rgba(224,92,122,.3);border-radius:4px;padding:2px 8px;color:var(--accent2)}
-.q-text{font-size:15px;line-height:1.7;margin-bottom:16px}
-.hint-toggle{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 14px;color:var(--muted);font-size:12px;cursor:pointer;margin-bottom:14px;width:100%;text-align:left;transition:border-color .2s}
-.hint-toggle:hover{border-color:var(--accent)}
-#hint-box{display:none;background:var(--surface);border-left:3px solid var(--accent);border-radius:6px;padding:10px 14px;font-size:13px;color:var(--text);margin-bottom:14px;line-height:1.6}
+.year-tag{font-family:'IBM Plex Mono',monospace;font-size:.65rem;background:rgba(91,141,238,.13);color:var(--accent);border:1px solid rgba(91,141,238,.3);border-radius:6px;padding:2px 8px}
+.section-tag{font-family:'IBM Plex Mono',monospace;font-size:.65rem;background:rgba(224,92,122,.1);color:var(--accent2);border:1px solid rgba(224,92,122,.3);border-radius:6px;padding:2px 8px}
+.q-text{font-size:.97rem;line-height:1.65;margin-bottom:14px}
+.hint-toggle{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:.8rem;padding:6px 12px;cursor:pointer;margin-bottom:10px;font-family:'IBM Plex Mono',monospace}
+#hint-box{display:none;background:rgba(91,141,238,.08);border:1px solid rgba(91,141,238,.2);border-radius:8px;padding:10px 12px;font-size:.85rem;color:var(--accent);margin-bottom:10px;line-height:1.55}
 .options{display:flex;flex-direction:column;gap:8px}
-.opt-btn{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;color:var(--text);font-size:14px;cursor:pointer;text-align:left;display:flex;align-items:flex-start;gap:10px;transition:border-color .2s,background .2s}
-.opt-btn:hover:not(:disabled){border-color:var(--accent);background:#1e2235}
-.opt-letter{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);min-width:18px;font-weight:600;padding-top:1px}
-.opt-btn.correct{border-color:var(--green);background:rgba(62,207,116,.1)}
+.opt-btn{display:flex;align-items:flex-start;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 13px;cursor:pointer;text-align:left;color:var(--text);font-size:.88rem;line-height:1.5;transition:border-color .15s,background .15s;font-family:'Inter',sans-serif}
+.opt-letter{font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--accent);min-width:18px;font-size:.85rem}
+.opt-btn:hover:not(:disabled){border-color:var(--accent);background:rgba(91,141,238,.08)}
+.opt-btn.correct{border-color:var(--green)!important;background:rgba(62,207,116,.1)!important;color:var(--green)}
 .opt-btn.correct .opt-letter{color:var(--green)}
-.opt-btn.wrong{border-color:var(--red);background:rgba(240,71,109,.1)}
+.opt-btn.wrong{border-color:var(--red)!important;background:rgba(240,71,109,.1)!important;color:var(--red)}
 .opt-btn.wrong .opt-letter{color:var(--red)}
 .opt-btn:disabled{cursor:default}
-.feedback{display:none;margin-top:16px}
-.feedback.open{display:block}
-.trap-box{background:rgba(240,71,109,.08);border:1px solid rgba(240,71,109,.3);border-radius:8px;padding:14px;margin-bottom:10px}
-.trap-title{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--red);letter-spacing:1px;margin-bottom:6px}
-.trap-text{font-size:13px;line-height:1.6;color:var(--text)}
-.explain-box{background:rgba(91,141,238,.08);border:1px solid rgba(91,141,238,.3);border-radius:8px;padding:14px}
-.explain-title{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:1px;margin-bottom:6px}
-.explain-text{font-size:13px;line-height:1.6;color:var(--text)}
-.nav{position:fixed;bottom:0;left:0;width:100%;background:var(--surface);border-top:1px solid var(--border);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px;z-index:50}
-.nav-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 18px;color:var(--text);font-size:14px;cursor:pointer;transition:border-color .2s}
+.feedback{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.feedback.open{max-height:1400px}
+.trap-box{background:rgba(240,71,109,.07);border:1px solid rgba(240,71,109,.25);border-radius:10px;padding:12px;margin-top:14px}
+.trap-title{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--red);font-weight:700;letter-spacing:.08em;margin-bottom:6px}
+.trap-text{font-size:.84rem;line-height:1.55;color:var(--text)}
+.explain-box{background:rgba(91,141,238,.07);border:1px solid rgba(91,141,238,.22);border-radius:10px;padding:12px;margin-top:10px}
+.explain-title{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--accent);font-weight:700;letter-spacing:.08em;margin-bottom:6px}
+.explain-text{font-size:.84rem;line-height:1.6;color:var(--text)}
+.nav{position:fixed;bottom:0;left:0;width:100%;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:10px 16px;z-index:99}
+.nav-btn{background:var(--card);border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:.85rem;padding:9px 18px;cursor:pointer;font-family:'Inter',sans-serif}
 .nav-btn:hover{border-color:var(--accent)}
-#q-counter{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);cursor:pointer;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--card)}
+#q-counter{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--muted);cursor:pointer;padding:6px 10px;border-radius:8px;border:1px solid var(--border)}
 #q-counter:hover{border-color:var(--accent)}
-#result-screen{display:none;text-align:center;padding:40px 20px}
-.result-score{font-family:'IBM Plex Mono',monospace;font-size:56px;color:var(--green);margin-bottom:8px}
-.result-label{font-size:14px;color:var(--muted);margin-bottom:24px}
-.result-stats{display:flex;justify-content:center;gap:24px;margin-bottom:32px;flex-wrap:wrap}
+/* Result screen */
+#result-screen{display:none;padding:30px 16px}
+.result-score{font-family:'IBM Plex Mono',monospace;font-size:3.5rem;font-weight:700;color:var(--green);text-align:center;margin:20px 0 8px}
+.result-label{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--muted);text-align:center;letter-spacing:.1em}
+.result-stats{display:flex;justify-content:center;gap:24px;margin:24px 0}
 .stat{text-align:center}
-.stat-val{font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:600}
-.stat-lbl{font-size:11px;color:var(--muted);margin-top:2px}
-.retry-btns{display:flex;flex-direction:column;gap:10px;max-width:320px;margin:0 auto}
-.retry-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:13px 20px;color:var(--text);font-size:14px;cursor:pointer;transition:border-color .2s}
-.retry-btn:hover{border-color:var(--accent)}
+.stat-val{font-family:'IBM Plex Mono',monospace;font-size:1.6rem;font-weight:700}
+.stat-lbl{font-size:.72rem;color:var(--muted);font-family:'IBM Plex Mono',monospace}
+.result-btns{display:flex;flex-direction:column;gap:10px;max-width:320px;margin:0 auto}
+.result-btn{padding:13px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.9rem;cursor:pointer;font-family:'Inter',sans-serif}
+.result-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+/* Topic breakdown */
+.topic-breakdown{margin-top:28px;max-width:400px;margin-left:auto;margin-right:auto}
+.topic-title{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--muted);letter-spacing:.08em;margin-bottom:12px;text-align:center}
+.topic-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);gap:8px}
+.topic-name{font-size:.8rem;color:var(--text);flex:1}
+.topic-score{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--muted)}
+.topic-bar-wrap{width:80px;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.topic-bar{height:5px;border-radius:3px;background:var(--green)}
 /* Modal */
-.q-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;align-items:flex-end;justify-content:center}
+.q-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;align-items:flex-end}
 .q-modal-overlay.open{display:flex}
-.q-modal{background:var(--surface);border-top:1px solid var(--border);border-radius:12px 12px 0 0;padding:20px;width:100%;max-width:760px;max-height:75vh;overflow-y:auto}
-.q-modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.q-modal-title{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);letter-spacing:1px}
-.modal-close{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer}
-/* Filter bar */
-.filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
-.filter-btn{font-family:'IBM Plex Mono',monospace;font-size:10px;background:var(--card);border:1px solid var(--border);border-radius:5px;padding:4px 10px;color:var(--muted);cursor:pointer;transition:all .2s}
-.filter-btn.active{border-color:var(--accent);color:var(--accent)}
+.q-modal{background:var(--surface);border-radius:18px 18px 0 0;padding:20px 16px 30px;width:100%;max-height:75vh;overflow-y:auto}
+.q-modal-title{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--muted);margin-bottom:14px;text-align:center}
 .q-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
-.q-grid-btn{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:8px 4px;color:var(--text);font-size:12px;font-family:'IBM Plex Mono',monospace;cursor:pointer;text-align:center;transition:border-color .2s}
-.q-grid-btn:hover{border-color:var(--accent)}
-.q-grid-btn.answered-c{border-color:var(--green);color:var(--green)}
-.q-grid-btn.answered-w{border-color:var(--red);color:var(--red)}
-.q-grid-btn.starred-q{background:rgba(245,200,66,.12);border-color:var(--gold)}
-.q-grid-btn.current-q{outline:2px solid var(--accent);outline-offset:1px}
-/* Score bar in result */
-.score-bar-wrap{background:var(--surface);border-radius:8px;height:10px;margin:0 auto 28px;max-width:320px;overflow:hidden}
-.score-bar-fill{height:10px;border-radius:8px;background:var(--green);transition:width 1s}
-/* Keyboard hint */
-.kbd-hint{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);text-align:center;margin-top:8px}
+.q-grid-btn{aspect-ratio:1;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:.75rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.q-grid-btn.answered-correct{background:rgba(62,207,116,.2);border-color:var(--green);color:var(--green)}
+.q-grid-btn.answered-wrong{background:rgba(240,71,109,.2);border-color:var(--red);color:var(--red)}
+.q-grid-btn.starred{border-color:var(--gold)}
+.q-grid-btn.current{border-color:var(--accent);background:rgba(91,141,238,.15)}
+.divider-label{grid-column:1/-1;font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--accent2);letter-spacing:.1em;padding:8px 2px 2px;border-top:1px solid var(--border);margin-top:4px}
 </style>
 </head>
 <body>
-<div class="progress-wrap"><div class="progress-bar" id="prog"></div></div>
 
-<div class="container">
-  <div id="quiz-area"></div>
-  <div id="result-screen">
-    <div class="result-score" id="res-pct">0%</div>
-    <div class="result-label">KBB Hastalıkları Tamamlandı</div>
-    <div class="score-bar-wrap"><div class="score-bar-fill" id="score-bar" style="width:0%"></div></div>
-    <div class="result-stats">
-      <div class="stat"><div class="stat-val" id="res-c" style="color:var(--green)">0</div><div class="stat-lbl">Doğru</div></div>
-      <div class="stat"><div class="stat-val" id="res-w" style="color:var(--red)">0</div><div class="stat-lbl">Yanlış</div></div>
-      <div class="stat"><div class="stat-val" id="res-u" style="color:var(--muted)">0</div><div class="stat-lbl">Boş</div></div>
-      <div class="stat"><div class="stat-val" id="res-s" style="color:var(--gold)">0</div><div class="stat-lbl">Yıldızlı</div></div>
+<div class="progress-wrap"><div class="progress-bar" id="prog"></div></div>
+<span class="section-badge" id="section-badge">GÖZ HASTALIKLARI</span>
+
+<div id="quiz-area">
+  <div class="card">
+    <div class="q-header">
+      <span id="q-num">Soru 1 / 77</span>
+      <button id="star-btn" onclick="toggleStar()">☆</button>
     </div>
-    <div class="retry-btns">
-      <button class="retry-btn" onclick="startRetry('all')">🔄 Tüm Soruları Yeniden Çöz</button>
-      <button class="retry-btn" onclick="startRetry('wrong')">❌ Yanlışları Tekrar Çöz</button>
-      <button class="retry-btn" onclick="startRetry('star')">⭐ Yıldızlıları Tekrar Çöz</button>
+    <div class="year-tags" id="year-tags"></div>
+    <div class="q-text" id="q-text"></div>
+    <button class="hint-toggle" onclick="toggleHint()">🔑 İpucu</button>
+    <div id="hint-box"></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback">
+      <div class="trap-box"><div class="trap-title">⚠️ TUZAK NOKTA</div><div class="trap-text" id="trap-text"></div></div>
+      <div class="explain-box"><div class="explain-title">📖 AÇIKLAMA</div><div class="explain-text" id="explain-text"></div></div>
     </div>
   </div>
 </div>
 
-<div class="nav" id="nav-bar">
-  <button class="nav-btn" onclick="go(-1)">← Önceki</button>
-  <span id="q-counter" onclick="openModal()">1/68 ☰</span>
-  <button class="nav-btn" onclick="go(1)">Sonraki →</button>
+<div id="result-screen">
+  <div class="result-score" id="res-score">0%</div>
+  <div class="result-label">BAŞARI ORANI · GÖZ HASTALIKLARI</div>
+  <div class="result-stats">
+    <div class="stat"><div class="stat-val" style="color:var(--green)" id="res-correct">0</div><div class="stat-lbl">DOĞRU</div></div>
+    <div class="stat"><div class="stat-val" style="color:var(--red)" id="res-wrong">0</div><div class="stat-lbl">YANLIŞ</div></div>
+    <div class="stat"><div class="stat-val" style="color:var(--gold)" id="res-star">0</div><div class="stat-lbl">YILDIZLI</div></div>
+  </div>
+  <div class="result-btns">
+    <button class="result-btn primary" onclick="restartAll()">🔄 Tüm Soruları Yeniden Çöz</button>
+    <button class="result-btn" onclick="retryWrong()">❌ Yanlışları Tekrar Çöz</button>
+    <button class="result-btn" onclick="retryStar()">⭐ Yıldızlıları Tekrar Çöz</button>
+  </div>
+  <div class="topic-breakdown">
+    <div class="topic-title">KONU BAZLI SONUÇLAR</div>
+    <div id="topic-rows"></div>
+  </div>
 </div>
 
+<nav class="nav">
+  <button class="nav-btn" onclick="navigate(-1)">← Önceki</button>
+  <span id="q-counter" onclick="openModal()">1/77 ☰</span>
+  <button class="nav-btn" onclick="navigate(1)">Sonraki →</button>
+</nav>
+
 <div class="q-modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
-  <div class="q-modal" id="modal-box">
-    <div class="q-modal-header">
-      <span class="q-modal-title">SORU LİSTESİ</span>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="filter-bar" id="filter-bar"></div>
+  <div class="q-modal">
+    <div class="q-modal-title">SORU LİSTESİ · 77 SORU</div>
     <div class="q-grid" id="q-grid"></div>
   </div>
 </div>
 
 <script>
-const ALL_QUESTIONS = [
-  // ── DIŞ KULAK YOLU ──
-  {
-    id:1, topic:"Dış Kulak Yolu",
-    year:"Sonbahar 2000",
-    question:"Diabetli bir hastada gelişen ve hızla ilerleyen ağır otitis eksterna tablosundan sorumlu olan bakteri hangisidir?",
-    opts:["S.aureus","C.perferingens","P.aeroginoza","S.pneumonia","Proteus vulgaris"],
-    answer:2,
-    hint:"Malign (nekrotizan) eksternal otit diyabetiklerde görülür; kan şekeri yüksekliği hangi bakteriye ortam hazırlar?",
-    trap:"S.aureus normal dış kulak florası olarak bulunabilir, ancak malign seyir yapan bu tablonun tipik etkeni değildir.",
-    explain:"Malign (nekrotizan) eksternal otit; enfeksiyonun dış kulak yolundan temporal kemiğe, beyine ve boyuna ilerleyerek ölümcül seyretmesi durumudur. Tipik olarak <b>diyabetiklerde ve immunsupresiflerde</b> görülür. Etken <b>Pseudomonas aeruginosa</b>'dır."
-  },
-  {
-    id:2, topic:"Dış Kulak Yolu",
-    year:"Sonbahar 2024",
-    question:"Yetmiş yaşındaki erkek hasta sağ kulağında şiddetli ağrı, akıntı, yüzünün sağ tarafında asimetri, gözünü kapatamama ve ağız köşesinde kayma şikâyetleriyle acil servise başvuruyor. Öyküsünden hastanın diyabetik olduğu, sağ kulaktaki şikâyeti nedeniyle birkaç kez poliklinik başvurusunun olduğu ve kulak damlası kullandığı öğreniliyor. Hastanın fizik muayenesinde sağ dış kulak yolunda ödem, granülasyon dokuları, akıntı olduğu ve sağ House-Brackmann evre V fasiyal paralizi olduğu saptanıyor. Temporal kemik bilgisayarlı tomografisinde sağ dış kulak yolunda yumuşak dokular ve kemik erozyonları tespit ediliyor.<br><br>Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
-    opts:["İdiyopatik periferik fasiyal paralizi","Efüzyonlu otitis media","Akut otitis media","Malign otitis eksterna","Herpes zoster oticus"],
-    answer:3,
-    hint:"Diyabetik hastada dış kulak yolu granülasyonu + kemik erozyonu + fasiyal paralizi: malign gidişin üçlüsüdür.",
-    trap:"Herpes zoster oticus (Ramsay Hunt) da fasiyal paralizi yapar ancak dış kulak yolunda granülasyon ve kemik erozyonu görülmez; veziküller ön plandadır.",
-    explain:"Yaşlı diyabetik hastalarda dış kulak yolunda <b>P. Aeruginosa</b>'nın etken olduğu temporal kemikte ve kafa tabanında osteomyelite yol açabilen <b>malign (nekrotizan) eksternal otit</b> tablosudur. Granülasyon dokusu, kemik erozyonu ve fasiyal paralizi klasik bulgulardır."
-  },
-  // ── OTİTİS MEDİA ──
-  {
-    id:3, topic:"Otitis Media",
-    year:"İlkbahar 90",
-    question:"Akut otitis medianın oluşumunda rol oynayan <u>en önemli</u> etiyolojik faktör aşağıdakilerden hangisidir?",
-    opts:["Kistik fibrozis","Septum deviasyonu","Silier disfonksiyon","Tuba östaki disfonksiyonu","Timpanik membran perforasyonu"],
-    answer:3,
-    hint:"Nazofarenks'teki bakterilerin orta kulağa ulaşmasındaki anatomik köprü hangi yapıdır?",
-    trap:"Silier disfonksiyon ve kistik fibrozis ile ilişkili olabilir ancak AOM'un <b>en önemli</b> tek etiyolojik faktörü değildir.",
-    explain:"Tuba östakinin tıkalı olması orta kulakta negatif basınç-vakum oluşturur. Böylece nazofarenksdeki patojen bakteriler orta kulağa vakumlanarak çekilir. <b>Östaki tüp disfonksiyonu</b> AOM oluşumunun en önemli nedendir."
-  },
-  {
-    id:4, topic:"Otitis Media",
-    year:"İlkbahar 88",
-    question:"Beş yaşından küçüklerde görülen otitis mediada <u>en sık</u> etken hangisidir?",
-    opts:["S. aureus","Candida","Pseudomonas","E.coli","Hemophilus influenza"],
-    answer:4,
-    hint:"5 yaş altında üst solunum yolu enfeksiyonu yapan bakterilerin sıklık sırası değişir; hangisi bu yaşta öne geçer?",
-    trap:"S. pneumoniae erişkinde en sık etkendir; 5 yaş altında H. influenzae sıklığının arttığı unutulmamalıdır.",
-    explain:"Üst solunum yolları enfeksiyonlarında gördüğümüz bakteriler aynı zamanda otite en sık neden olan bakterilerdir. Çocuk ve erişkinlerde sıklık sırası değişmez. Ancak <b>5 yaşın altındaki çocuklarda H. influenzae sıklığı artmış olsa da 5 yaş altında yine en sık etken S. pneumoniae'dır</b>. Doğru cevap E: Hemophilus influenza (soruda öne çıkarılan hoca notu)."
-  },
-  {
-    id:5, topic:"Otitis Media",
-    year:"Sonbahar 2007",
-    question:"Akut süpüratif otitis mediada gerekli olduğu zaman miringotominin yapıldığı kulak zarı bölgesi aşağıdakilerden hangisidir?",
-    opts:["Anterosuperior kadran","Anteroinferior kadran","Posteroinferior kadran","Posterosuperior kadran","Pars flaksida"],
-    answer:2,
-    hint:"Superior kadranlarda kemikçikler bulunur; parasentez için güvenli bölge hangisidir?",
-    trap:"Anteroinferior kadran değil, posterior-inferior kadran tercih edilir; ventilasyon tüpü ise anterior-inferior'a takılır.",
-    explain:"Superior kadranlarda kemikçikler olduğu için parasentez yapılmaz. Kural olarak parasentez <b>inferior kadranlara</b> yapılır. Ancak dış kulak yolunun öne doğru olan açılanması nedeniyle posterior kadranları görmek ve müdahale etmek daha kolaydır. Bu sebepten <b>posterior-inferior kadranlardan parasentez</b> tercih edilir."
-  },
-  {
-    id:6, topic:"Otitis Media",
-    year:"Sonbahar 87 / Sonbahar 2017 Orijinal",
-    question:"Akut otitis medianın çocuklarda <u>en sık</u> görülen kafa içi komplikasyonu aşağıdakilerden hangisidir?",
-    opts:["Beyin apsesi","Otitik hidrosefali","Lateral sinüs tromboflebiti","Menenjit","Fasiyal paralizi"],
-    answer:3,
-    hint:"AOM'un intrakranial komplikasyonları arasında beyin zarını tutan, en sık görülen hangisidir?",
-    trap:"Mastoidit en sık komplikasyondur ancak intrakranial değildir; en sık intrakranial komplikasyon sorulmaktadır.",
-    explain:"AOM'nun en sık komplikasyonu mastoidittir. Ancak <b>en sık intrakranial komplikasyonu Menenjit</b>'tir. Beyin absesi en sık ölüm nedenidir."
-  },
-  {
-    id:7, topic:"Otitis Media",
-    year:"Sonbahar 89",
-    question:"Kulakta geçmeyen akıntı, diplopi ve göz arkasında ağrı ile seyreden hastalık aşağıdakilerden hangisidir?",
-    opts:["Mastoidit","Gradenigo sendromu","Otitis media","Labirentit","Temporal kemikte vertikal kırık"],
-    answer:1,
-    hint:"Petröz apeks enfeksiyonu + 5. ve 6. kranial sinir etkilenmesi üçlüsünü bir isimle hatırlayın.",
-    trap:"Mastoidit komplikasyonu olan retroorbital ağrı ve abducens felci birlikte görüldüğünde Gradenigo sendromu adını alır; bunlar ayrı hastalıklar değildir.",
-    explain:"<b>Gradenigo sendromu:</b> Petröz apeks enfeksiyonu veya kolesteatoma bu bölgedeki 5. ve 6. kranial sinirleri etkiler. Buna ek olarak hastanın kulağında sürekli bir pürülan akıntı olur. Bu triada <b>Gradenigo sendromu</b> denilir."
-  },
-  {
-    id:8, topic:"Otitis Media",
-    year:"İlkbahar 2020 Orijinal",
-    question:"Yedi yaşındaki erkek hasta, baş ağrısı ve kusma şikâyetleriyle başvuruyor. Öyküsünden, 2 hafta önce sağ kulakta akut otitis media tanısıyla 7 gün antibiyotik kullandığı öğreniliyor. Kulak muayenesinde sağ zar mat olarak izlenen hastanın her iki göz dibinde papil ödemi tespit ediliyor.<br><br>Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
-    opts:["Bezold apsesi","Labirentit","Gradenigo sendromu","Perilenf fistülü","Otitik hidrosefali"],
-    answer:4,
-    hint:"Papil ödemi artmış intrakranial basıncı gösterir; AOM'un ardından görülen bu tablo hangi komplikasyondur?",
-    trap:"Gradenigo sendromunda abducens felci ve retroorbital ağrı beklenir; papil ödemi ve KİBAS öncelikle otitik hidrosefali ya da intrakranial komplikasyonu düşündürür.",
-    explain:"Otit öyküsü olan bir hastada <b>papilödem varlığı intrakraniyal bir komplikasyonun geliştiğini</b> ifade eder. Şıklardan en uygun tanı <b>otitik hidrosefalidir</b>. AOM'dan birkaç hafta sonra KİBAS bulgularının ortaya çıkması ile karakterizedir."
-  },
-  {
-    id:9, topic:"Otitis Media",
-    year:"Sonbahar 2021 Orijinal",
-    question:"Beş yaşındaki erkek hastanın akut otitis media atağı sırasında yüzünün sağ tarafında periferik fasiyal paralizi gelişiyor. Kulak muayenesinde zar hiperemik ve bombe olarak izleniyor.<br><br>Bu hastanın akut tedavisinde aşağıdakilerden hangisi diğerlerine göre <u>daha az</u> tercih edilir?",
-    opts:["Antibiyotik","Steroid","Fasiyal sinir dekompresyonu","Miringotomi","Orta kulaktaki pürülan akıntının aspirasyonu"],
-    answer:2,
-    hint:"Akut otitis media nedenli fasiyal paralizide ilk yapılacaklar nelerdir? Cerrahi ne zaman düşünülür?",
-    trap:"Fasiyal sinir dekompresyonu kronik otitte düşünülür; akut AOM'da miringotomi ve antibiyotik yeterlidir.",
-    explain:"Akut otitis media nedenliyle takip edilen hastalarda nazolabial sulkusta silinme, kornea refleksi kaybı, alın kırıştıramama, göz kapatamama gibi bulgular varsa akla fasyal paralizi gelmelidir. Fasyal paralizi vermese bile bulgular eşliğinde ne yapılmalı sorusunun cevabı; antibiyotik tedavisi, gerekirse fasyal sinir paralizisine bağlı steroid tedavisi, MİRİNGOTOMİ ve pürülan akıntının aspirasyonudur. <b>Fasiyal sinir dekompresyonu</b> akut dönemde en az tercih edilen tedavidir."
-  },
-  {
-    id:10, topic:"Otitis Media",
-    year:"İlkbahar 2003",
-    question:"Aşağıdakilerden hangisi efüzyonlu otitis medianın komplikasyonlarından biri <u>değildir</u>?",
-    opts:["Derin boyun enfeksiyonu","İletim tipi işitme kaybı","Timpanik zarda morfolojik değişiklikler","Kognitif yeteneklerde gelişme bozukluğu","Kemikcik zinciri erozyonu"],
-    answer:0,
-    hint:"Efüzyonlu otitis media enfeksiyonsuzdur; derin boyun enfeksiyonu nasıl gelişir ki?",
-    trap:"Efüzyonlu otitis medianın temel özelliği <b>enfeksiyon olmadan</b> orta kulakta sıvı birikmesidir; bu yüzden boyuna yayılamaz.",
-    explain:"Derin boyun enfeksiyonuna akut veya kronik otitis mediadaki enfeksiyonun boyuna yayılması yol açar. Ancak <b>efüzyonlu otitis medianın temel özelliği enfeksiyon olmadan orta kulakta sıvı birikmesidir</b>. Bu sebepten dolayı efüzyonlu otitte enfeksiyon boyuna yayılamaz."
-  },
-  {
-    id:11, topic:"Otitis Media",
-    year:"Sonbahar 2017 Orijinal",
-    question:"Dokuz yaşındaki erkek çocuk, sol kulakta 2 haftadır devam eden tıkanma hissi yakınmasıyla getiriliyor. Ateşi olmayan ve genel durumu iyi olan çocuğun muayenesinde sol kulakta orta kulak efüzyonu saptanıyor.<br><br>Bu hasta için <u>en uygun</u> tanı ve tedavi eşleştirmesi aşağılakilerin hangisinde birlikte verilmiştir?",
-    opts:[
-      "Akut otitis media — Yüksek doz amoksisilin + antihistaminik + dekonjestan",
-      "Akut otitis media — Yüksek doz kinolon",
-      "Akut otitis media — Antihistaminik + yüksek doz makrolid",
-      "Efüzyonlu otitis media — Oral kortikosteroid",
-      "Efüzyonlu otitis media — Asemptomatik hastada ilaçsız takip"
-    ],
-    answer:4,
-    hint:"Ateşsiz, genel durumu iyi, sadece efüzyon var; efüzyonlu otit tedavisinde ilk adım nedir?",
-    trap:"Kortikosteroid efüzyonlu otit için seçenek olabilir ancak ilk tercih değildir; asemptomatik çocukta izlem önceliklidir.",
-    explain:"Orta kulakta hava sıvı kabarcıkları <b>efüzyonlu otiti</b> akla getirir. Efüzyonlu otitlerde işitme kaybı ileri derecede değilse <b>3 ay kadar tedavisiz takip</b> önerilir."
-  },
-  {
-    id:12, topic:"Otitis Media",
-    year:"İlkbahar 99",
-    question:"Aşağıdakilerden hangisi kulak zarına içten yaslanarak geçer?",
-    opts:["N. trigeminus","N. vagus","N. glossopharyngeus","Chorda tympani","N. timpanicus"],
-    answer:3,
-    hint:"Timpanik membranı tamir etmeye çalışırken cerrahlar hangi sinire zarar vermekten kaçınır?",
-    trap:"N. timpanicus kulak zarının arkasına komşudur ancak içten yaslanmaz.",
-    explain:"Bu sorunun sorulma amacı kulak cerrahilerden timpanik membranı tamir etmeye çalışırken bu sinirin bazen zarar görmesidir. Buna bağlı olarak hastalarda ameliyat sonrasında <b>dilin ön tarafında tat almada geçici süre ile azalma</b> olur. Bu sinir <b>Chorda tympani</b>'dir."
-  },
-  // ── SİNÜZİT ──
-  {
-    id:13, topic:"Sinüzit",
-    year:"İlkbahar 2000",
-    question:"Erişkinde sinüzite <u>yol açmayan</u> bakteri hangisidir?",
-    opts:["Haemophilus influenzae","Streptococcus pneumoniae","Morexella catarrhalis","Basillicus subtilis","Staphylococcus aureus"],
-    answer:3,
-    hint:"Akut bakteriyel sinüzitin en sık nedenleri S. pneumoniae, H. influenzae, Morexella catarrhalis'tir.",
-    trap:"Staphylococcus aureus bazen sinüzite yol açabilir ancak tipik etken değildir; Bacillus subtilis ise çevre bakterisi olup sinüzit etkeni değildir.",
-    explain:"Akut bakteriyel sinüzitin en sık nedeni <b>Streptococcus pneumoniae, Haemophilus influenzae, Morexella catarrhalis</b> ve Staphylococcus aureus'tur. <b>Basillicus subtilis sinüzit etkeni değildir</b>."
-  },
-  {
-    id:14, topic:"Sinüzit",
-    year:"İlkbahar 2008",
-    question:"Sinüzit komplikasyonlarından osteomiyelit ve subdural apse hangi sinüzitte daha diğerlerinden <u>sık</u> görülür?",
-    opts:["Maksiller sinüzit","Ön etmoid sinüs enfeksiyonu","Arka etmoid sinüs enfeksiyonu","Frontal sinüzit","Sfenoid sinüzit"],
-    answer:3,
-    hint:"Ön duvara dönük sinüs hangisidir? Pott's puffy tümörü hangi sinüsle ilişkilidir?",
-    trap:"Orbital komplikasyonlar en sık etmoid sinüzit kaynaklıdır; osteomiyelit ve Pott's puffy tümörü ise frontal sinüsle ilişkilidir.",
-    explain:"Frontal sinüzite bağlı osteomiyelit gelişebilir. Periostu altına biriken pürülasyona bağlı şişliğe <b>Pott's puffy tümörü</b> denilir. Subdural apse en sık <b>frontal sinüzit</b>te görülür."
-  },
-  {
-    id:15, topic:"Sinüzit",
-    year:"İlkbahar 2018 Orijinal",
-    question:"\"Pott's puffy\" tümörün aşağıdakilerin hangisinde gelişen inflamasyon sonucu ortaya çıkması <u>en olasıdır</u>?",
-    opts:["Maksiller sinüs","Anterior etmoid sinüs","Posterior etmoid sinüs","Frontal sinüs","Sfenoid sinüs"],
-    answer:3,
-    hint:"Ön kafa tabanında kemik erozyonu yapan, alında şişliğe yol açan sinüzit hangisidir?",
-    trap:"Etmoid sinüs orbital komplikasyonların kaynağıdır; Pott's puffy frontal sinüse özgüdür.",
-    explain:"Pott's puffy tümörü; frontal sinüs ön duvarının görülen subperiostal abse komplikasyonuna verilen özel isimdir. Bu durum sinüzite bağlı osteomiyeliti gösterir. Bu durum diğer sinüslerde de olabilir ancak en sık <b>frontal sinüste</b> görülür."
-  },
-  {
-    id:16, topic:"Sinüzit",
-    year:"Sonbahar 2021 Orijinal",
-    question:"Ateş, bulantı-kusma, baş ağrısı ve her iki gözde şiddetli ağrı şikâyetleriyle acil servise getirilen 40 yaşındaki kadın hastanın muayenesinde, bilateral proptosis, orbital konjesyon ve pitozis, sağ gözde total oftalmopleji tespit ediliyor. Öyküsünden, şikâyetlerin önce sağ gözde başlayıp daha sonra solda da ortaya çıktığı öğreniliyor.<br><br>Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
-    opts:["Sağ akut açı kapanması glokomu","Dev hücreli arterit","Kavernöz sinüs trombozu","Pitüiter apopleksi","Psödotümör orbita"],
-    answer:2,
-    hint:"Bilateral göz bulguları + sinüzit öyküsü + oftalmopleji; kavernöz sinüs iki gözü drene eder.",
-    trap:"Unilateral başlayıp bilateral olan göz bulguları ile gelen sinüzit hastasında orbital komplikasyonlar arasında bilateral etkilenim yapan kavernöz sinüs trombozu düşünülmelidir.",
-    explain:"<b>Bilateral göz etkilenmesine dikkat.</b> Kavernöz sinüs iki gözünde drenajını sağladığı için bilateral göz bulguları ön planda beklenir. <b>Kavernöz sinüs trombüsü:</b> Kemozis, orbital ağrı, proptozis ve oftalmopleji ile karakterizedir. En dikkat çekici özelliği <b>karşı gözü etkileyebilmesidir</b>."
-  },
-  {
-    id:17, topic:"Sinüzit",
-    year:"İlkbahar 2023",
-    question:"Üç gündür akut sinüzit semptomları olan 10 yaşındaki erkek hastada; bilateral orbital ağrı, kemozis ve proptozis ile 3, 4, 5 ve 6. kraniyal sinir paralizisi gelişiyor.<br><br>Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
-    opts:["Preseptal selülit","Orbital selülit","Orbital apse","Kavernöz sinüs tromboflebiti","Subperiostal apse"],
-    answer:3,
-    hint:"Bilateral bulgular + 3., 4., 5. ve 6. kranial sinir tutulumu; hangi komplikasyon tüm bu sinirleri birden etkiler?",
-    trap:"Orbital selülit tek taraflı proptozis ve azalmış göz hareketleri yapar ancak bilateral ve çok sayıda kranial sinir tutulumu kavernöz sinüs trombüsüne işaret eder.",
-    explain:"Kavernöz sinüs trombüsü intrakranial komplikasyonlar içinde de değerlendirilebilir. <b>Kemozis, orbital ağrı, proptozis ve oftalmopleji (3, 4 ve 6. kraniyal sinir hasarı)</b> ile karakterizedir. En dikkat çekici özelliği karşı gözü etkileyebilmesidir. Tedavi: Antibiyotik ve apse drenajı."
-  },
-  {
-    id:18, topic:"Sinüzit",
-    year:"Sonbahar 2023",
-    question:"On dört yaşındaki erkek hasta, son iki gündür gelişen sağ göz kapağında şişlik şikâyetiyle başvuruyor. On gün önce burun akıntısı ve burun tıkanıklığı şikâyetleri başlayan hastanın fizik muayenesinde; her iki nazal kavitesinde pürülan akıntı, sağ göz kapağı ve periorbital bölgede şişlik, kızarıklık ve hassasiyet tespit ediliyor. Görme kaybı olmayan ve göz hareketleri normal olan hastanın paranazal ve orbital bilgisayarlı tomografisinde paranazal sinüs ve nazal kavitede yumuşak doku dansitesi, göz kapağında difüz dansite artışı görülüyor.<br><br>Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
-    opts:["Preseptal selülit","Orbital selülit","Subperiosteal apse","Orbital apse","Kavernöz anse trombozu"],
-    answer:0,
-    hint:"Göz hareketleri normal, görme kaybı yok; orbital septumun önünde mi yoksa arkasında mı?",
-    trap:"Orbital selülitte proptozis, kemozis ve azalmış göz hareketleri olur; göz hareketleri normal ise preseptal selülit düşünülmeli.",
-    explain:"Sorudaki kilidi açacak olan anahtar bilgi <b>göz hareketleri ve görmenin etkilenmemesidir</b>. Preseptal selülit, orbital septum önünde yer alan cilt altı dokuların enfeksiyonudur. Göz kapağında ödem ve kızarıklıkla karakterizedir. <b>Göz hareketleri bozulmaz, görme keskinliği etkilenmez.</b>"
-  },
-  {
-    id:19, topic:"Sinüzit",
-    year:"Sonbahar 2025",
-    question:"Diabetes mellitus nedeniyle takip edilen 56 yaşındaki kadın hasta sol göz kapağında şişlik ve kızarıklık nedeniyle kulak burun boğaz ve göz hastalıkları polikliniğine başvuruyor. Öyküsünden iki hafta önce başlayan soğuk algınlığı sonrası artan burun tıkanıklığı, burun akıntısı ve ateşinin olduğu ve iki gün önce göz şikâyetlerinin başladığı öğreniliyor. Göz muayenesinde sağ göz muayenesi normal saptanıyor; sol göz kapağında ödem ve hiperemi, sol gözde kemozis ve proptozis tespit ediliyor. Göz hareketleri normal ve ışık refleksi her iki gözde pozitif saptanıyor.<br><br>Bu hasta için <u>en olası</u> tanı ve hastada gelişmiş olan <u>en olası</u> komplikasyon aşağıdakilerin hangisinde birlikte verilmiştir?",
-    opts:["Akut rinosinüzit - Preseptal selülit","Kronik rinosinüzit - Subperiosteal apse","Akut rinosinüzit - Orbital selülit","Kronik rinosinüzit - Orbital apse","Akut rinosinüzit - Kavernöz sinüs trombozu"],
-    answer:2,
-    hint:"Göz hareketleri normal → preseptal; proptozis + kemozis ama görme normal → orbital selülit.",
-    trap:"Orbital selülit proptozis ve kemozis yapar ama görme ve göz hareketleri henüz normaldir; orbital apse ise görme kaybı ve tam oftalmopleji ile gider.",
-    explain:"Sinüzitin en sık komplikasyonu <b>preseptal selülit</b>tir ve en sık sebebi de etmoid sinüzittir. <b>Orbital selülit:</b> Proptozis, kemozis, azalmış göz hareketleri, ağrılı göz hareketleri ve diplopi ile karakterizedir. Karşı göz etkilenmez. Bu hastada proptozis ve kemozis var ancak göz hareketleri normal → <b>Orbital selülit</b> en uygun tanıdır."
-  },
-  {
-    id:20, topic:"Sinüzit",
-    year:"İlkbahar 91, Sonbahar 99",
-    question:"Yaşlı bir hastada tek taraflı, kanlı ve kötü kokulu burun akıntısı varsa <u>olası</u> tanı nedir?",
-    opts:["Allerjik rinit","Sinüzit","Paranazal sinüs tümörü","Yabancı cisim","Tonsil tümörü"],
-    answer:2,
-    hint:"Yaşlı hastada tek taraflı kanlı-kokulu akıntıda malignite düşünülmeli; küçük çocukta ise ne?",
-    trap:"Allerjik rinit kanlı kokulu akıntı yapmaz. Sinüzit pürülan akıntı yapar ancak kanlı değildir. Yabancı cisim küçük çocuklarda düşünülür.",
-    explain:"Yaşlı hastalarda tek taraflı kanlı ve kokulu akıntıda ilk akla gelmesi gereken tanı <b>paranazal sinüs tümörü</b> olmalıdır. *** Küçük çocukta tek taraflı akıntı yabancı cisim düşündürmelidir."
-  },
-  {
-    id:21, topic:"Sinüzit",
-    year:"Sonbahar 2001",
-    question:"Apikal kök abseleri hangi sinüse drene olarak sinüzite neden olur?",
-    opts:["Maksiller sinüs","Sfenoid sinüs","Frontal sinüs","Anterior ethmoid sinüs","Arka ethmoid sinüs"],
-    answer:0,
-    hint:"Üst molarların kökleri hangi sinüsün döşemesine yakındır?",
-    trap:"Apikal kök absesi dişten kaynaklandığı için anatomik komşuluk belirleyicidir; üst molar dişlerin kökleri maksiller sinüs tabanına yakındır.",
-    explain:"<b>Apikal kök abseleri</b>, genellikle çürüğe bağlı olarak diş pulpasındaki bir enfeksiyon sonucu abse gelişmesiyle oluşur. Özellikle üst molarların kökleri <b>maksiller sinüs</b> döşemesine çok yakındır. Bunların hastalıkları ile maksiller sinüzit olabilir."
-  },
-  {
-    id:22, topic:"Allerjik Rinit",
-    year:"Sonbahar 88",
-    question:"Allerjik rinitte hangisi <u>olmaz</u>?",
-    opts:["Hapşırma","Öksürük nöbetleri","Rinore","Burun tıkanıklığı","Gözyaşı akması"],
-    answer:1,
-    hint:"Allerjik rinit burunda aşırı reaksiyon yapar; öksürük hangi hastalığın bulgusu?",
-    trap:"Hapşırık, rinore ve burun tıkanıklığı allerjik rinitin tipik bulgularıdır; öksürük değil.",
-    explain:"<b>Allerjik rinitte öksürük beklenen bir bulgu değildir.</b> Öksürük nöbetleri daha çok astımda görülür."
-  },
-  {
-    id:23, topic:"Allerjik Rinit",
-    year:"Sonbahar 2020 Orijinal",
-    question:"Yirmi yaşındaki kadın hasta, her yıl tekrarlayan ve son bir haftadır giderek artan burun akıntısı, burun kaşıntısı, hapşırma ve burun tıkanıklığı şikâyetleriyle başvuruyor. Şikâyetlerinin özellikle bahar aylarında ve sabahları daha şiddetli olduğunu ifade ediyor. Periorbital ciltte hafif mor renk değişimi olduğu ve hastanın burun tıkanıklığına bağlı ağız solunumu yaptığı gözleniyor. Nazal endoskopide alt konkaların soluk renkli olduğu ve burun içinde sulu saydam sekresyon olduğu görülüyor.<br><br>Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
-    opts:["Rhinitis medicamentosa","Allerjik rinit","Burunda yabancı cisim","Akut sinüzit","Vazomotor rinit"],
-    answer:1,
-    hint:"Bahar aylarında alevlenen, tekrarlayan, sabahları şiddetlenen, nazal endoskopide soluk konka + sulu sekresyon.",
-    trap:"Vazomotor rinit alerjene bağlı değildir; rhinitis medicamentosa dekonjestan kötüye kullanımından kaynaklanır. Burada mevsimsel allerjik rinit tablosu var.",
-    explain:"<b>Allerjik rinit</b> sık hapşırık, burun tıkanıklığı, seröz burun akıntısı ile karakterize bir hastalıktır. Alerjene maruz kaldıktan sonra ortaya çıkar. Mevsimsel ve yıllık formları olabilir. Fizik muayenede alerjene nazal kavitede ilk maruz kalan alt konkaların soluk ve ödemli görüntüsü tipik özellik olarak karşımıza çıkabilir."
-  },
-  // ── DENGE BOZUKLUKLARI ──
-  {
-    id:24, topic:"Denge Bozuklukları",
-    year:"Sonbahar 2004",
-    question:"Benign pozisyonel vertigo ile ilgili aşağıdaki ifadelerden hangisi <u>yanlıştır</u>?",
-    opts:["Ataklar halinde gelir, tekrarlayıcıdır.","Ataklar sırasında nistagmus, bulantı ve kusma vardır.","Nistagmus, Barany testi devam ettikçe artar.","Baş hareketleri ile artar.","Spontan iyileşme gözlenebilir."],
-    answer:2,
-    hint:"BPPV'de nistagmus provokasyon testlerinde hızla ortaya çıkar ama ne kadar sürer?",
-    trap:"BPPV'de Barany (dix-hallpike) testinde nistagmus giderek AZALIR, artmaz; bu özelliği diğer patolojilerden ayırır.",
-    explain:"BPPV (benign paroksismal pozisyonel vertigo) toplumda en sık görülen başdönmesi nedenidir. Tanıda kullanılan provokasyon testlerinde nistagmusun hızı ve şiddeti <b>giderek azalır</b>. Bu azalma saniyeler içinde olur. <b>Nistagmusun artması yanlıştır.</b>"
-  },
-  {
-    id:25, topic:"Denge Bozuklukları",
-    year:"Sonbahar 2022 Orijinal",
-    question:"Kırk iki yaşındaki erkek hasta, son bir haftadır ortaya çıkan baş dönmesi atakları nedeniyle başvuruyor. Baş dönmesi yatakta dönerken, ani baş hareketleriyle ve eğilip kalkarken ortaya çıkıyor ve bir dakikadan kısa sürüyor.<br><br>Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
-    opts:["Benign pozisyonel paroksismal vertigo","Akut labirintit","Vestibüler nörinit","Menier hastalığı","Vestibüler migren"],
-    answer:0,
-    hint:"Pozisyonla tetiklenen, kısa süreli (<1 dk), ani baş hareketi ile çıkan vertigo hangi tanıya işaret eder?",
-    trap:"Vestibüler nörinit ÜSYE sonrası başlar ve uzun sürer; Meniere'de kulak dolgunluğu ve işitme kaybı eşlik eder.",
-    explain:"Üst solunum yolları enfeksiyonu sonrası ortaya çıkması, spontan nistagmus olması, bununla birlikte <b>işitme ile ilgili semptom olmaması</b> vestibüler nöriniti düşündürür. Ancak bu hastada başdönmesi <b>pozisyonla tetikleniyor ve 1 dakikadan kısa sürüyor</b> → <b>BPPV</b> en uygun tanıdır."
-  },
-  {
-    id:26, topic:"Denge Bozuklukları",
-    year:"Sonbahar 87",
-    question:"Vestibüler nöritte aşağıdaki semptomlardan hangisi <u>görülmez</u>?",
-    opts:["Bulantı-kusma","İşitme kaybı","Vertigo","Denge bozukluğu","Nistagmus"],
-    answer:1,
-    hint:"Vestibüler nörit saf vestibüler sistemi etkiler; koklea ilişkili semptom beklenir mi?",
-    trap:"Meniere'de işitme kaybı olur; vestibüler nöritte ise koklea etkilenmediği için işitme kaybı görülmez.",
-    explain:"Vestibüler nöritte bulantı, kusma, vertigo, denge bozukluğu ve nistagmus görülür. <b>İşitmeyle ilgili bulgular (işitme kaybı-tinnitus) yoktur.</b> Benign pozisyonel paroksismal vertigodan sonra ikinci sıklıkta görülen periferik vestibüler sistem hastalığıdır."
-  },
-  {
-    id:27, topic:"Denge Bozuklukları",
-    year:"İlkbahar 2005",
-    question:"Yirmi gün önce üst solunum yolu enfeksiyonunu geçirmiş olan 34 yaşındaki erkek hasta, şiddetli baş dönmesi, bulantı ve kusma şikâyetleriyle başvuruyor. Fizik muayenede nistagmus olduğu fakat işitme kusuru ve denge bozukluğunun olmadığı saptanıyor.<br><br>Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
-    opts:["Akut periferal vestibülopati","Vestibüler nörit","Benign pozisyonel vertigo","Meniere hastalığı","Otitis media"],
-    answer:1,
-    hint:"ÜSYE sonrası, işitme kaybı yok, denge bozukluğu yok, sadece vertigo ve nistagmus.",
-    trap:"Akut periferik vestibülopati geniş bir terimdir; vestibüler nörit onun alt tipidir ve buradaki klinik tabloya daha spesifiktir.",
-    explain:"Üst solunum yolları enfeksiyonu sonrası ortaya çıkması, spontan nistagmus olması, bununla birlikte işitme ile ilgili semptom olmaması <b>vestibüler nöriti</b> düşündürür. Tipik özelliği <b>48 saat içinde tedavi verilmese bile hastalıkda spontan dramatik iyileşmemesidir</b>."
-  },
-  {
-    id:28, topic:"Denge Bozuklukları",
-    year:"Sonbahar 88 / Sonbahar 95 / İlkbahar 2006",
-    question:"Meniere hastalığının tipik bulgusu <u>olmayan</u> aşağıdakilerden hangisidir?",
-    opts:["Gelip geçici işitme kaybı","Otalji","Bilateral nistagmus","Kulaklarda tinnitus","Bulantı-kusma"],
-    answer:2,
-    hint:"Meniere'nin 4 kardinal bulgusunu sayın; nistagmus bu dörde giriyor mu?",
-    trap:"Nistagmus Meniere atakları sırasında olabilir ancak <b>bilateral</b> nistagmus tipik değildir; Meniere horizontaldir ve tanı kriteri değildir.",
-    explain:"Meniere sendromun kesin tanısı postmortem otopsilerde iç kulakta 'endolenfatik hidrops' gösterilmesi ile konulur. Ancak Meniere hastalığının klinik tanısı <b>4 kardinal bulgu</b> ile konulur: Vertigo, Kulakta dolgunluk, İşitme kaybı, Tinnitus. <b>Bilateral nistagmus tipik bulgu değildir.</b>"
-  },
-  {
-    id:29, topic:"Denge Bozuklukları",
-    year:"Sonbahar 2022 Orijinal",
-    question:"Kırk altı yaşındaki kadın hasta, yaklaşık 4 yıldır 4-5 ayda bir tekrarlayan ve 2-3 saat devam eden baş dönmesi şikâyetiyle başvuruyor. Hasta; atakları sırasında kulak çınlaması, işitme kaybı ve kulak dolgunluğu olduğunu ifade ediyor. Odyolojik incelemede; sağ kulak normal, sol kulakta ortalama 45 dB sensorinöral tip işitme kaybı tespit ediliyor.<br><br>Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
-    opts:["Vestibüler migren","Vestibüler nörit","Meniere hastalığı","Benign paroksismal pozisyonel vertigo","Perilenfatik fistül"],
-    answer:2,
-    hint:"4 kardinal bulgu tam var + sensorinöral işitme kaybı + ataklar arasında işitme biraz düzelir.",
-    trap:"Vestibüler migren baş ağrısı ve baş dönmesi ile gider; BPPV'de işitme kaybı olmaz; bu vakada klasik Meniere tetradı mevcuttur.",
-    explain:"<b>Meniere hastalığı:</b> Endolenfatik hidropsta; endolenf salınımı fazlalığı veya emilim azlığı vardır. 2-3 ayda tekrarlayan ataklar olur. Atakların hastayı uykudan uyandırması tipiktir. Vertigo, kulakta dolgunluk, işitme kaybı ve tinnitus: <b>4 kardinal bulgu.</b>"
-  },
-  {
-    id:30, topic:"Denge Bozuklukları",
-    year:"İlkbahar 91",
-    question:"Aşağıdaki ilaçlardan hangisi ototoksik <u>değildir</u>?",
-    opts:["Kanamisin","Streptomisin","Alfasilin","Gentamisin","Nitrojen mustard"],
-    answer:2,
-    hint:"Aminoglikozid grubunu hatırlayın; alfasilin hangi sınıfa girer?",
-    trap:"Streptomisin, gentamisin, kanamisin aminoglikozid grubu ototoksik ajanlardır; alfasilin (ampisilin türevi) penisilin grubundan olup ototoksik değildir.",
-    explain:"Ototoksik ilaçlar: Aminoglikozit asit (streptomisin, gentamisin, kanamisin); Nitrojen mustarol; Furosemid; Etakrinik asid; Salisilatlar; Vankomisin; Sisplatinium; Vinkristin, vinblastin. <b>Alfasilin ototoksik değildir.</b>"
-  },
-  {
-    id:31, topic:"Denge Bozuklukları",
-    year:"İlkbahar 99",
-    question:"Aşağıdakilerden hangisi otosklerozun belirtilerinden biri <u>değildir</u>?",
-    opts:["İşitme kaybı","Willis parakuzisi","Kulak ağrısı","Kulak çınlaması","Schwartze belirtisi"],
-    answer:2,
-    hint:"Otoskleroz progresif bir hastalıktır; akut vertigo yapan durumların bulgusu olan kulak ağrısı bu tabloda beklenir mi?",
-    trap:"Otoskleroz oval pencerede yerleşir ve iletim tipi işitme kaybı yapar; kulak ağrısı akut enfeksiyon tablolarına özgüdür.",
-    explain:"Nistagmus, baş dönmesi ile beraber görülen bir durumdur. Genellikle akut vertigo yapan durumlar nistagmus yapar. Otoskleroz progresif olay olduğu için belirgin bir vertigo ve nistagmus olmaz. <b>Kulak ağrısı</b> otosklerozun belirtisi değildir."
-  },
-  {
-    id:32, topic:"Denge Bozuklukları",
-    year:"Sonbahar 2013 Orijinal",
-    question:"Aşağıdaki hastalıkların hangisinde, iletim tipi işitme kaybı görülür?",
-    opts:["Superior semisirküler kanal dehisansı","Vestibüler nörit","Benign paroksismal pozisyonel vertigo","Meniere hastalığı","Vestibüler migren"],
-    answer:0,
-    hint:"Superior semisirküler kanal dehisansında kemik 'pencere' gibi davranır; bu iletimi nasıl etkiler?",
-    trap:"Meniere işitme kaybı yapar ama sensorinöral tiptedir; superior semisirküler kanal dehisansında ise iletim tipi işitme kaybı görülür.",
-    explain:"<b>Superior semisirküler kanal dehissans sendromu:</b> Superior semisirküler kanalın kemik yapısında erime ile kemikde pencere açılmış gibi olur. <b>İletim tipi işitme kaybı olabilir.</b> Meniere'de: İşitme kaybı olur. Ancak sinirsel tipi işitme kaybı olur. Vestibüler nörit, BPPV, vestibüler migren: İşitme kaybı olmaz."
-  },
-  // ── GLOMUS TÜMÖRÜ ──
-  {
-    id:33, topic:"Glomus Tümörleri",
-    year:"İlkbahar 92",
-    question:"Glomus jugulare tümörünün <u>en erken</u> semptomu aşağıdakilerden hangisidir?",
-    opts:["Pulsatif tinnitus","Kulak akıntısı","Kanama","Fasial sinir paralizisi","Sensorinöral işitme kaybı"],
-    answer:0,
-    hint:"Tinnitus nabızla senkronize ise hangi köken düşünülür?",
-    trap:"Sensorinöral işitme kaybı ve fasyal paralizi glomus tümörünün ilerleyen dönem bulgularıdır; en erken semptom değildir.",
-    explain:"Erişkin hastalarda tek taraflı <b>pulsatil tinnitus</b> varlığında öncelikle vasküler kaynaklı hastalıklar düşünülmelidir. <b>Pulsatif tinnitus ve iletim tipi işitme kaybı ilk semptomlarıdır.</b> Tinnitus nabız ile senkronizedir."
-  },
-  // ── İŞİTMENİN DEĞERLENDİRİLMESİ ──
-  {
-    id:34, topic:"İşitmenin Değerlendirilmesi",
-    year:"Sonbahar 2008",
-    question:"Aşağıdaki hastalıkların hangisinde unilateral retrokokleer tipte bir sensorinöral işitme kaybı görülür?",
-    opts:["Meniere hastalığı","Konjenital iç kulak aplazisi","Otoskleroz","Akustik sinir nörinomu","Yaygın pürülan labirentit"],
-    answer:3,
-    hint:"'Retrokokleer' kelimesi kokleanın arkasını, yani 8. siniri işaret eder; hangisi bu sinirden kaynaklanır?",
-    trap:"Meniere işitme kaybı yapar ama koklear tiptedir; otoskleroz önce iletim tipi yapar.",
-    explain:"<b>Akustik sinir nörinomu:</b> 8. Kranial sinirin vestibüler dalından kaynaklanır. Büyümeye devam eden tümör 8. Kranial sinir koklear dalını tutar. Böylece <b>retrokokleer sinirsel işitme kaybı</b> yapabilir."
-  },
-  {
-    id:35, topic:"İşitme Kaybı Tipleri",
-    year:"Sonbahar 2000",
-    question:"Sağ kulağında işitme kaybı ile başvuran bir hastada diapozon ile yapılan muayenede, Weber testi sağa lateralize bulunmuştur.<br><br>Bu hastanın sağ kulağındaki işitme kaybı hangi tiptedir?",
-    opts:["Koklear tip işitme kaybı","Retrokokleer tip işitme kaybı","Buson","Ani işitme kaybı","Sensorinöral tip işitme kaybı"],
-    answer:2,
-    hint:"Weber testinde ses iletim kaybı olan kulağa lateralize olur. Sağa lateralize → sağda ne var?",
-    trap:"Weber testinde ses sensorinöral kayıp olan taraftan uzaklaşır (sağlam tarafa lateralize olur); iletim kaybı olan tarafa lateralize olur.",
-    explain:"Weber testinin amacı hastadaki işitme kaybının iletim tipi mi yoksa sensorinöral mi olduğunu anlamaktır. Hastanın kulağında <b>iletim tipi işitme kaybı varsa</b>, ses iletim kayıp olan kulak tarafından daha iyi algılanır. <b>Sağa lateralize → sağda iletim tipi işitme kaybı (Buson)</b> düşünülür."
-  },
-  // ── FARENKS ──
-  {
-    id:36, topic:"Farenks Hastalıkları",
-    year:"İlkbahar 2005",
-    question:"İki yaşındaki bir çocuk iki gündür burun akıntısı, hafif ateş ve son 6 saattir devam eden ses kısıklığı şikayeti ile getiriliyor. Yutma güçlüğü <u>olmayan</u> bu çocuk için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
-    opts:["Akut epiglottit","Larinkste yabancı cisim","Retrofaringeal apse","Akut tonsillit","Akut larenjit"],
-    answer:4,
-    hint:"Ses kısıklığı + ateş + ÜSYE bulguları + yutma güçlüğü yok → larenks patolojisi.",
-    trap:"Akut epiglottit şiddetli yutma güçlüğü ile gelir; retrofaringeal apse ciddi ateş ve boyun sertliği yapar; buradaki tablo daha hafif.",
-    explain:"<b>Ses kısıklığı olması bizi direkt akut larenjit tansına yönlendirmelidir.</b> Akut larenjit: Viral üsye semptomları ile beraber gider. Hafif öksürük, seröz burun akıntısı, ses kısıklığı olur. Akut sinüzit: Ses kısıklığı olmaz. Larinks yabancı cisim: Solunumun sıkıntısı olur. Retrofarengeal abse: Ciddi ateş ve yutma güçlüğü olur. Akut tonsillit: Ateş olur, ses kısıklığı olmaz."
-  },
-  // ── TONSİLLEKTOMİ ──
-  {
-    id:37, topic:"Tonsillektomi",
-    year:"İlkbahar 89",
-    question:"Tonsillektomi ameliyatında kanama sık görülen bir durumdur. Tonsilla palatinaya <u>en fazla</u> kan getiren arter aşağıdakilerden hangisidir?",
-    opts:["A. facialis","A. lingualis","A. maksilaris","A. mandibularis","A. occipitalis"],
-    answer:0,
-    hint:"Tonsil palatina A. karotis eksternanın dallarından beslenir; hangisi en büyük katkıyı yapar?",
-    trap:"A. lingualis de tonsile kan verir ancak en fazla katkı A. fasialisindir.",
-    explain:"Tonsilla palatina A. karotis eksternanın dallarından beslenir. Hayatı tehdit eden kanamalarda eksternal karotis arter bağlanır. A. interna tonsilla palatanın beslenmesine katılmaz. <b>Tonsilla palatinayı en fazla kan getiren arter A. fasialisin tonsiller dalıdır.</b>"
-  },
-  // ── ADENOİDEKTOMİ ──
-  {
-    id:38, topic:"Adenoidektomi",
-    year:"Sonbahar 2000",
-    question:"Hipertrofik adenoid komplikasyonu <u>olmayan</u> hangisidir?",
-    opts:["Kronik seröz otitis media","Pulmoner venöz hipertansiyon","Obstrüktif uyku apnesi","Kor pulmonale","Damak, diş ve yüz şekil bozukluğu"],
-    answer:1,
-    hint:"Adenoid hipertrofisi kor pulmonaleye yol açabilir; pulmoner venöz hipertansiyon mu, arteriyel mi?",
-    trap:"Kor pulmonale pulmoner HİPERTANSİYONA yol açar; ancak bu pulmoner arteryel hipertansiyondur, pulmoner venöz değil.",
-    explain:"Pulmoner arter hipertansiyona bağlı gelişen kor pulmonale en korkulan adenoid hipertrofisi komplikasyonudur. <b>Pulmoner venöz hipertansiyon olmaz.</b>"
-  },
-  // ── YARIK DAMAK ──
-  {
-    id:39, topic:"Yarık Damak – Yarık Dudak",
-    year:"İlkbahar 2001",
-    question:"Aşağıdakilerden hangisi hipernazalite türünde konuşma bozukluğu yapar?",
-    opts:["Hipertrofik adenoit","Koanal atrezi","Damak yarığı","Maloklüzyon","Nazal polip"],
-    answer:2,
-    hint:"Velofaringeal yetersizlik → burundaki hava kaçağı → nasıl ses tonu?",
-    trap:"Hipertrofik adenoit ve koanal atrezi HİPONAZAL konuşmaya yol açar (burun tıkalı gibi sesi); damak yarığı tam kapanmadığında HİPERNAZAL ses ortaya çıkar.",
-    explain:"Nazofarenks ve burundaki tıkayıcı hastalıklar HİPONAZAL ses tonuna yolaçarlar. Ancak yarık gibi yumuşak damağın tam kapanamadığı durumlarda konuşurken burundan hava kaçabilir. Buna <b>HİPERNAZAL konuşma bozukluğu</b> denilir."
-  },
-  // ── PERİTONSİLLER ──
-  {
-    id:40, topic:"Peritonsiller, Retrofaringeal ve Parafaringeal Abseler",
-    year:"Sonbahar 91",
-    question:"Aşağıdaki abse türlerinden hangisinde drenaj mutlak trendelenburg pozisyonunda <u>yapılmalıdır</u>?",
-    opts:["Peritonsiller abse","Ludwig anjini","Bezold absesi","Septal abse","Retrofarengeal abse"],
-    answer:4,
-    hint:"Aspirasyon riski en yüksek olan abse hangisidir? Drenaj sırasında baş aşağı pozisyon neden gerekir?",
-    trap:"Peritonsiller abse lokal anesteziyle poliklinik şartlarında drenaj edilir; retrofaringeal abse aspirasyon riski yüksek olduğundan özel pozisyon gerektirir.",
-    explain:"Retrofaringeal abse eğer hasta entübe olmadan yapılacak ise aspirasyon riski nedeniyle <b>trendelenburg pozisyonunda</b> yapılır. Sırtüstü yatarken baş masadan aşağı sarkar pozisyondadır."
-  },
-  // ── PIERRE-ROBİN ──
-  {
-    id:41, topic:"Pierre-Robin Sendromu",
-    year:"İlkbahar 90",
-    question:"Pierre-Robin sendromunda hangisi bulunur?",
-    opts:["Yarık damak, glossoptozis, mikrognattia","Yarık dudak, glossoptozis, mikrognattia","Yarık damak, glossoptozis, makrognattia","Macroglossi, glossoptozis","Yarık damak, macroglossia"],
-    answer:0,
-    hint:"Pierre-Robin triyadını hatırlayın: küçük çene + dil düşmesi + ...",
-    trap:"Makroglosi Pierre-Robin'de değil; mikrognattia vardır. Yarık dudak değil, yarık damak vardır.",
-    explain:"<b>Glossoptozla mikrognati infantlarda respiratuar obstrüksiyon yapabilir. Bunlara yarık damak eklenirse Pierre-Robin sendromu denir.</b> (Yarık damak + glossoptozis + mikrognattia)"
-  },
-  // ── NAZOFARENGEAL KANSER ──
-  {
-    id:42, topic:"Nazofarengeal Kanser",
-    year:"Sonbahar 2009",
-    question:"Nazofarenks kanseri gelişen bir hastada aşağıdaki belirtilerden hangisinin görülme olasılığı <u>en düşüktür</u>?",
-    opts:["Seröz otit","Epistaksis","Nazal obstrüksiyon","Disfaji","Boyunda kitle"],
-    answer:3,
-    hint:"Nazofarenks anatomik olarak özofagusa uzak bir bölgedir; disfaji nasıl oluşur ki?",
-    trap:"Boyunda kitle, seröz otit ve epistaksis nazofarenks kanserinin sık bulgularıdır; disfaji anatomik olarak nazofarenksin en az ilişkili olduğu semptomdur.",
-    explain:"<b>Disfaji</b> nazofarenks kanserinde anatomik olarak düşünüldüğünde bölgeye en uzak şikâyettir. Bu yüzden en nadir görülebilecek bulgulardandır."
-  },
-  {
-    id:43, topic:"Nazofarengeal Tümörler",
-    year:"İlkbahar 2002",
-    question:"Unilateral seröz otitis media, boyunda kitle, çeşitli kranial nöropatiler ve tinnitus saptanan bir hastada <u>öncelikle</u> aşağıdaki yapıların hangisinde malign tümör olduğu düşünülmelidir?",
-    opts:["Nazofarenks","Larenks","Hipofarenks","Dil","Piriform sinüs"],
-    answer:0,
-    hint:"Boyunda kitle + efüzyonlu otit + kranial nöropati üçlüsü hangi bölgeyi işaret eder?",
-    trap:"Larenks ve hipofarenks kanseri öncelikle ses kısıklığı ve yutma güçlüğüyle gelir; boyunda kitle ilk bulgu olarak nazofarenks kanserini düşündürmelidir.",
-    explain:"<b>Hep söyleriz boyunda kitle ve kulakta işitme kaybı ile gelen hastada Nazofarenks kanserinden şüphelenmeliyiz.</b> Nazofarenks kanserinin en sık görüldüğü yer Rosenmüller fossadır. En sık semptom işitme azlığı ve boyunda kitledir."
-  },
-  {
-    id:44, topic:"Nazofarengeal Tümörler",
-    year:"İlkbahar 2021 Orijinal",
-    question:"Yirmi iki yaşındaki erkek hasta, üç aydır boynunda şişlik, burun tıkanıklığı, kulağında tıkanıklık hissi ve işitme kaybı nedeniyle başvuruyor. Fizik muayenede sağ boyun posterior üçgende yaklaşık 3 cm çapında, çevre dokuya fikse lenfadenopati otoskopide sağ kulakta seröz otitis media ile uyumlu orta kulak efüzyonu saptanıyor.<br><br>Bu hastalığın tanısında <u>öncelikli</u> olarak yapılması gereken endoskopik muayene aşağıdakilerden hangisidir?",
-    opts:["Özofagoskopi","Laringoskopi","Bronkoskopi","Nazofaringoskopi","Siyalendoskopi"],
-    answer:3,
-    hint:"Boyunda kitle + seröz otit + burun tıkanıklığı → hangi bölgenin endoskopisi öncelikli?",
-    trap:"Laringoskopi ses kısıklığı ve alt farenks şüphesinde; bu vakada nazofarenks şüphesi var.",
-    explain:"Nazofarenks kanserinin <b>tanısı biyopsi</b> ile konulur. Biyopsi öncesinde <b>nazofaringoskopi</b> ile lezyonun görülmesi ve biyopsi için uygun alanın tespit edilmesi gerekir. Boyunda kitle + seröz otit birlikteliği nazofarenks kanserini kuvvetle düşündürür."
-  },
-  // ── NAZOFARİNGEAL ANJİYOFİBROM ──
-  {
-    id:45, topic:"Nazofaringeal Anjiyofibrom",
-    year:"Sonbahar 89",
-    question:"Aşağıdakilerden hangisi puberte sonrası kaybolabilir?",
-    opts:["Nöroblastom","Larinkste angiofibrom","Familial polipozis","Juvenil polip","Glioblastom"],
-    answer:1,
-    hint:"Pubertede büyür, puberteden sonra küçülür; bu tümörün hormonal bağımlılığını hatırlayın.",
-    trap:"Nazofaringeal anjiyofibrom pubertede büyür; ancak puberte bitiminde gerilemeye başlar.",
-    explain:"Anjiyofibromun tipik özelliği pubertede yeni giren <b>ERKEK</b> çocuklarda görülmesidir. <b>Puberte sonrası tümörün büyümesi durur</b> ve gerilemeye başlar."
-  },
-  {
-    id:46, topic:"Nazofaringeal Anjiyofibrom",
-    year:"Sonbahar 89",
-    question:"Özellikle genç erkeklerde görülen cerrahi sırasında kanama riski fazla olan hastalık aşağıdakilerden hangisidir?",
-    opts:["Nazofarenks kanseri","Anjiofibrom","Larinks kanseri","Papiller tiroid kanseri","Schwannom"],
-    answer:1,
-    hint:"Vasküler yapısı yoğun, pubertede büyüyen, cerrahide çok kanamasıyla ünlü tümör hangisi?",
-    trap:"Nazofarenks kanseri genç erkekte görülebilir ama cerrahi kanama riski en yüksek olan anjiyofibromun özelliğidir.",
-    explain:"<b>Anjiyofibrom benign bir tümördür ve tedavisi cerrahidir.</b> Bu soruyu tek tedavisi RT-KT olan ve cerrahi tedavisi olmayan nazofarenks kanseri ile karıştırmamız gerekir. Anjiyofibromun tipik özelliği cerrahi sırasında aşırı kanamasıdır."
-  },
-  // ── LARİNKS KONJENİTAL ──
-  {
-    id:47, topic:"Larinks Konjenital Hastalıkları",
-    year:"Sonbahar 2013",
-    question:"Yenidoğanlarda görülen stridora aşağıdakilerden hangisi <u>en sık</u> neden olur?",
-    opts:["Laringomalazi","Vokal kord paralizisi","Subglottik stenoz","Trakeal kist","Larengeal kist"],
-    answer:0,
-    hint:"Yenidoğanlarda inspiratuar stridorun en sık nedeni hangi larenks anomalisidir?",
-    trap:"Vokal kord paralizisi stridora yol açabilir ancak laringomalazi çok daha sık görülür.",
-    explain:"<b>Laringomalazi:</b> Yenidoğanlarda inspiratuar stridorun en sık sebebidir. İlk 1 yaşın sonuna doğru kendiliğinden düzelir. Ağır olgularda trakeotomi açılabilir."
-  },
-  // ── KONJENİTAL BOYUN KİTLELERİ ──
-  {
-    id:48, topic:"Konjenital Boyun Kitleleri ve Kistleri",
-    year:"İlkbahar 89",
-    question:"Öksürükle hareket eden kitle, valsalva manevrası ile belirginleşen boyun kitlesi aşağıdakilerden hangisidir?",
-    opts:["Tiroglossal ductus kisti","Laringosel","2-3 kırıldak halkaları arası","Timik kist","Peritonsiller apse"],
-    answer:1,
-    hint:"Larenks basıncı arttığında büyüyen, içine hava dolan boyun kitlesi hangisidir?",
-    trap:"Tiroglossal kist yutkunmayla hareket eder; laringosel valsalva ile büyür çünkü içi hava ile dolabilir.",
-    explain:"<b>Laringosel:</b> Laringeal ventrikülün içi hava dolu herniasyonudur. <b>Valsalva manevrasıyla içine hava dolarak belirginleşir.</b> Diğer seçeneklerde böyle bir durum söz konusu değildir."
-  },
-  // ── TRAKEOTOMİ ──
-  {
-    id:49, topic:"Trakeotomi",
-    year:"İlkbahar 90",
-    question:"Acil durumlarda trakeotomi hangi aralıktan yapılır?",
-    opts:["Tyrohyoid membran","Karina seviyesi","2-3 kıkırdak halkaları arası","3-4 kıkırdak halkaları arası","4-5 kıkırdak halkaları arası"],
-    answer:2,
-    hint:"Trakeotomi için en güvenli, troid bezini hasara uğratmayan aralık hangisidir?",
-    trap:"Tyrohyoid membran koniotomi için kullanılır, trakeotomi için değil; karina seviyesi çok aşağıdadır.",
-    explain:"Tyrohyoid membran trakeotomi için kullanılmaz. Krikotiroid membrandan yapılan ise <b>koniotomi</b> şeklinde isimlendirilir. Trakeotomiler acil veya elektif fark etmeden <b>2 ve 3. kıkırdak halkası arasından</b> yapılır."
-  },
-  {
-    id:50, topic:"Trakeotomi",
-    year:"Sonbahar 2015 Orijinal",
-    question:"Aşağıdakilerden hangisi trakeotomi komplikasyonlarından biri <u>değildir</u>?",
-    opts:["8. Kraniyal sinir zedelenmesi","Subkutanöz amfizem","Pnömotoraks","Trakeoözofageal fistül","Pnömomediastinum"],
-    answer:0,
-    hint:"Trakeotomi boyunda yapılır; 8. kranial sinir (vestibulokokleer) nerede seyreder?",
-    trap:"Rekürren laringeal sinir komşuluk nedeniyle görülebilir ama 7. ve 8. kranial sinir zedelenmesi beklenmez.",
-    explain:"<b>Rekürren larengeal sinir</b> komşuluk nedeniyle görülebilir ama <b>7. ve 8. Kraniyal sinir zedelenmesi beklenmez!</b> Trakeotomi komplikasyonları arasında 8. kranial sinir zedelenmesi yer almaz."
-  },
-  {
-    id:51, topic:"Trakeotomi",
-    year:"Sonbahar 2019 Orijinal",
-    question:"Yaklaşık 10 yıldır boyunda şişlik öyküsü olan 27 yaşındaki erkek hasta son zamanlarda şişliğin büyüdüğünü, ağrı ve kızarıklık geliştiğini belirtiyor. Fizik muayenede, kitlenin boyun orta hatta olduğu ve dilin dışarı çıkarılmasıyla yukarı doğru hareket ettiği tespit ediliyor.<br><br>Bu hastada <u>öncelikli</u> olarak aşağılakilerin hangisi düşünülmelidir?",
-    opts:["Kistik higroma","Tiroglossal kist","Dermoid kist","Hemanjiyom","Brankiyal kist"],
-    answer:1,
-    hint:"Orta hat + dil çıkarılınca yukarı hareket eden kitle; embrolojik köken?",
-    trap:"Brankiyal kist yan hat kitlesidir; dermoid kist de orta hatta olabilir ama dille hareket etmez; tiroglossal kist hem orta hat hem dille hareket eder.",
-    explain:"<b>Tiroglossal kanal kistleri</b> konjenital boyun bölgesinin en sık gözüken kitlesidir. Dil kökü ile embriyolojik hayatta bütük olan tiroid dokusu aşağıya boyundaki normal yerine doğru göç eder. Bu göç esnasında dil kökü ile olan bağlantısı eğer patent kalırsa kist oluşabilir. Klasik olarak yutkunma veya <b>dil çıkarılınca yukarı hareket eder</b>."
-  },
-  {
-    id:52, topic:"Tiroglossal ve Brankial Kistler",
-    year:"İlkbahar 2019 Orijinal",
-    question:"Yirmi iki yaşındaki erkek hasta, çene altında şişlik nedeniyle başvuruyor. Hastanın ultrasonografi tetkikinde infrahiyoid bölgede orta hat yerleşimli kistik lezyon saptanıyor.<br><br>Bu hastada öncelikle düşünülecek <u>en olası</u> tanı aşağıdakilerden hangisidir?",
-    opts:["Tiroglossal kanal kisti","Ranula","Laringosel","Nekrotik lenf nodu","Brankial kleft kisti"],
-    answer:0,
-    hint:"İnfrahiyoid orta hat kistik lezyon: tiroglossal kist en sık konjenital boyun kitlesidir.",
-    trap:"Ranula ağız tabanında; brankiyal kist yan hatta; laringosel hava içerir; orta hat kistik lezyon tiroglossal kisti işaret eder.",
-    explain:"<b>Tiroglossal kanal kistleri</b> konjenital boyun kitleleri arasında en sık gözüken kitledir. İnfrahiyoid bölgede, boyun orta hatta kistik lezyon tespit edildiğinde akla gelmeli. <b>Orta hat boyun kitlesinde tiroglossal dukt kistleri akla gelmelidir.</b>"
-  },
-  // ── TÜKÜRÜK BEZİ ──
-  {
-    id:53, topic:"Tükürük Bezi Tümörleri",
-    year:"Sonbahar 2012",
-    question:"Parotiste, yetişkin çağda <u>en sık</u> rastlanan malign tümör aşağıdakilerden hangisidir?",
-    opts:["Skuamöz hücreli karsinom","Mukoepidermoid karsinom","Adenokarsinom","Adenoid kistik karsinom","Asiner hücreli karsinom"],
-    answer:1,
-    hint:"Tükürük bezlerinin en sık malign tümörü ve en sık parotiste yerleşir; hangisi?",
-    trap:"Adenoid kistik karsinom submandibuler bezin en sık malign tümörüdür; parotiste en sık malign tümör mukoepidermoiddir.",
-    explain:"<b>Mukoepidermoid karsinom:</b> Tükürük bezlerinin en sık malign tümörü ve <b>en sık parotiste</b> yerleşir."
-  },
-  {
-    id:54, topic:"Tükürük Bezi Tümörleri",
-    year:"İlkbahar 2010",
-    question:"Aşağıdaki tükürük bezi tümörlerinden hangisi sinir yolu ile yayılıma <u>en çok</u> eğilimlidir?",
-    opts:["Adenoid kistik kanser","Mukoepidermoid kanser","İndiferansiye kanser","Epidermoid kanser","Malign mikst tümör"],
-    answer:0,
-    hint:"Perinöral invazyon yaparak sinir yoluyla ilerleyen, silindrik hücrelerden oluşan tümör hangisi?",
-    trap:"Mukoepidermoid karsinom en sık malign tümördür ama perinöral invazyonu adenoid kistik kadar belirgin değildir.",
-    explain:"<b>Adenoid kistik karsinom</b> perinöral invazyon yapma özelliği bu soruda sinir yoluyla yayılan şeklinde sorulmuştur."
-  },
-  {
-    id:55, topic:"Tükürük Bezi Tümörleri",
-    year:"İlkbahar 2001",
-    question:"Parotiste <u>en sık</u> görülen benign tümör hangisidir?",
-    opts:["Warthin tümörü","Onkositom","Kapiller hemanjiom","Pleomorfik adenom","Myoepitelyoma"],
-    answer:3,
-    hint:"Tükürük bezi tümörlerinin %80'i parotiste, parotis tümörlerinin en sık beniğni hangisidir?",
-    trap:"Warthin tümörü ikinci en sık bening parotis tümörüdür; en sık bilateral tükürük bezi tümörüdür ama en sık benign değil.",
-    explain:"<b>Pleomorfik adenom:</b> Bening mikst tm olarak bilinir. Pleomorfik adenom en sık parotisde görülür. Histolojik olarak tümörde psödopodlar vardır. <b>En sık tükürük bezi tümörüdür.</b>"
-  },
-  {
-    id:56, topic:"Tükürük Bezi Tümörleri",
-    year:"İlkbahar 2019 Orijinal",
-    question:"Prestyloid parafaringeal bölgedeki kitle lezyonlarının <u>en sık</u> nedeni aşağıdakilerden hangisidir?",
-    opts:["Schwannomlar","Nörofibromlar","Tükürük bezi kökenli tümörler","Metastatik lenf nodları","Paragangliomalar"],
-    answer:2,
-    hint:"Prestiloid alanda parotis derin lobu var; bu bölgenin en sık kitlesi hangi bez kaynaklı?",
-    trap:"Schwannomlar poststiloid alanda daha sık; prestiloid alanda parotis derin lobu baskın olduğundan tükürük bezi tümörleri önceliklidir.",
-    explain:"Prestiloid alanda parotis derin lobu var olduğundan bu bölgenin en sık tümörleri <b>tükürük bezi kökenli tümörleri</b>dir. En sık gözüken parafaringeal iyi huylu kitle pleomorfik adenomdur."
-  },
-  // ── FREY SENDROMU ──
-  {
-    id:57, topic:"Frey Sendromu",
-    year:"İlkbahar 2011",
-    question:"Parotidektomi yapılan bir hastanın 6. ay kontrolünde yemek yeme ve çiğneme sırasında yüzün ameliyat edilen kısmında flushing ve terleme yakınması vardır.<br><br>Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
-    opts:["Tükürük fistülü","Nervus auricularis magnus nöroması","Sialoadenoz","Frey sendromu","Chorda tympani kesisi"],
-    answer:3,
-    hint:"Parotidektomi sonrası yemek yerken yüz kızarması ve terleme: parasempatik lifler deri sempatik sinirlerine mevkiini bıraktı.",
-    trap:"Tükürük fistülü cilde tükürük akıntısıdır; burada ter ve kızarıklık var; bu Frey sendromunun tipik tablosudur.",
-    explain:"Parotis bezinin üzerinde cilt sempatik sinirlerle inerve edilir. Parotis bezi ise parasempatik inervasyona (Nervus trigeminusun aurikulotemporal siniri) sahiptir. Parotis cerrahisi sonrası parasempatik lifler cilde uzanır ve cildi inerve edebilir. <b>Bu durumda yemek sırasında ciltte terleme ve kızarıklık oluşur: FREY SENDROMU.</b>"
-  },
-  // ── FASİYAL SİNİR ──
-  {
-    id:58, topic:"Fasiyal Sinir Hastalıkları",
-    year:"Sonbahar 2011 / İlkbahar 2012",
-    question:"Tek taraflı otalji ve periferik fasiyal paralizi ile başvuran hastanın yapılan fizik muayenesinde ipsilateral kulak kepçesinde veziküler lezyonlar izleniyor.<br><br>Bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",
-    opts:["Bell paralizisi","Guillain-Barre sendromu","Erizipel","Büllöz mirinjit","Ramsay-Hunt sendromu (Herpes zoster otikus)"],
-    answer:4,
-    hint:"Kulak kepçesinde veziküller + fasiyal paralizi + otalji üçlüsü hangi sendroma işaret eder?",
-    trap:"Bell paralizisi idiyopatiktir; ağrı ve veziküller olmaz. Büllöz mirinjit kulak zarında ağrılı büller yapar ama fasiyal paralizi yapmaz.",
-    explain:"<b>Ağrılı veziküller ve fasiyal paralizi tipik olarak Ramsay-Hunt sendromunu düşündürmelidir.</b> VZV enfeksiyonuna bağlı olarak dış kulak yolu, kulak kepçesi, yüz ve ağızda ağrılı veziküller vardır."
-  },
-  {
-    id:59, topic:"Fasiyal Sinir Hastalıkları",
-    year:"İlkbahar 99",
-    question:"Yüzün sol yarısında rima palpebrarumun altında kalan mimik kasları çalışmıyorsa lezyonun nerede olduğu düşünülür?",
-    opts:["Sağ nukleus nervi fasialis","Sol nukleus nervi fasialis","Sağ kanalis nervi fasialis","Sol supranükleer seviyede (üst motor nöron)","Sağ supranükleer seviyede (üst motor nöron)"],
-    answer:3,
-    hint:"Göz kapanıyor ama alt mimik kaslar çalışmıyor; santral mi periferik mi fasiyal paralizi?",
-    trap:"Periferik fasiyal paralizide hem üst hem alt yüz kasları etkilenir; sadece alt yüz kasları etkilenmişse santral lezyon (supranükleer) düşünülür.",
-    explain:"Fasyal paralizisinde periferik fasyal santral ayırımı yapmak için öncelikle <b>göze bakılır</b>. Eğer göz normal kapanabiliyorsa <b>santral fasyal paralizi</b> denilir. Santral fasyal paralizide lezyon karşı tarafta, <b>sol supranükleer seviyede (üst motor nöron)</b>."
-  },
-  {
-    id:60, topic:"Fasiyal Sinir Hastalıkları",
-    year:"İlkbahar 94",
-    question:"Fasial paralizisi olan, tükrük salgısı azalmış ve gözyaşı salgısı normal olan kişide lezyon nerededir?",
-    opts:["Foramen stylomastoideum","İnternal akustik kanal proksimali","Kanalis fasialis","Ganglion geniculate","Meatus akustikus internus"],
-    answer:2,
-    hint:"Chorda tympani tükürük bezini innerve eder; bu dal fasyal sinirden nerede ayrılır?",
-    trap:"Ganglion geniculate lakrimal bezden sorumludur; gözyaşı normalse geniculate proximal değil, chorda tympaninin ayrıldığı yer etkilenmiş demektir.",
-    explain:"Bu hastada şikâyetlere bakarak lezyonun seviyesine karar verilir. Temporal kemik içinde fasyal sinirin hasarlandığı düşünülür çünkü fasyal sinirin temporal kemik içinde verdiği bazı dallar etkilenmiş, bazıları korunmuştur. <b>Chorda tympani</b> internal akustik kanal-stilomastoid foramen arasında, kanalis fasialis içinde fasyal sinirden ayrılır. Çalışmadığında dilin ön tarafında tat almada azalma olur."
-  },
-  {
-    id:61, topic:"Fasiyal Sinir Hastalıkları",
-    year:"İlkbahar 88",
-    question:"Fasiyal sinirin beyin sapından çıktığı yerden bir kesi olursa aşağıdakilerden hangisi <u>olmaz</u>?",
-    opts:["Mimik kasları çalışmaz","Dilin 1/3 ön kısmının tat duyusu bozulur","Tükürük bezleri çalışması bozulur","Çiğneme kasları etkilenmez","M.stapediusda çalışmadığından, işitme kaybı olur."],
-    answer:4,
-    hint:"Beyin sapından çıkışta fasiyal sinir kesilirse hangi fonksiyonlar etkilenir, stapedius çalışmazsa ne olur?",
-    trap:"M.stapedius çalışmazsa işitme kaybı değil, HİPERAKUZİ olur; stapedius refleksi şiddetli sesleri emerler.",
-    explain:"<b>Fasial sinir temporal kemik içine girmeden kesildiğinde tüm fonskiyonlarını kaybeder. Musculus stapedius çalışmadığında işitme kaybı değil HİPERAKUZİ olur.</b>"
-  },
-  {
-    id:62, topic:"Fasiyal Sinir Hastalıkları",
-    year:"Sonbahar 2018 Orijinal",
-    question:"Daha önce hiçbir şikâyeti olmayan 45 yaşındaki kadın hastanın 6 ay önce sol yüz yarısında başlayan güçsüzlük şikâyeti yavaş progresyon gösteriyor ve hasta son 3 aydır sol yüz yarısını hiç hareket ettiremediğini ifade ediyor.<br><br>Bu hastada görülen fasiyal paralizinin nedeninin aşağıdakilerden hangisi olması <u>en az olasıdır</u>?",
-    opts:["Bell paralizisi","Kolesteatom","Fasiyal sinir kökenli tümör","Temporal kemiğe tümör metastazı","Akustik nörinom"],
-    answer:0,
-    hint:"Bell paralizisi idiyopatiktir ve hızlı başlar; aylarca yavaş ilerleyen paralizi hangi nedeni ekarte ettirir?",
-    trap:"Yavaş ilerleyen fasiyal paralizi her zaman yapısal bir nedeni düşündürür; Bell paralizisi ani başlangıçlıdır ve büyük çoğunluğu iyileşir.",
-    explain:"<b>Bell paralizisi</b> periferik fasyal paralizinin toplumda en sık görülen nedenidir. İdiyopatik olarak kabul edilir. <b>İyi prognozlu olup vakaların çoğu ek müdahaleye gerek kalmadan düzelir.</b> Aylarca yavaş ilerleyen tabloda Bell paralizisi <b>en az olası</b> tanıdır."
-  },
-  // ── TEMPORAL KEMİK ──
-  {
-    id:63, topic:"Temporal Kemik Kırıkları",
-    year:"Sonbahar 2006",
-    question:"Aşağıdakilerden hangisinin sensörinöral işitme kaybına yol açma olasılığı <u>en yüksektir</u>?",
-    opts:["Kulak kepçesine tokat atılması","Hemotimpanum","Fasial siniri etkilemeyen temporal kemik kırığı","Longitudinal temporal kemik kırığı","Transvers temporal kemik kırığı"],
-    answer:4,
-    hint:"Transvers vs longitudinal kırıkta hangi tip daha ağır işitme kaybı yapar?",
-    trap:"Longitudinal kırıklar daha sık görülür ve fasiyal paralizi ile iletim tipi işitme kaybı yapar; transvers kırıklar nadir ama sensörinöral kayıp riski daha yüksektir.",
-    explain:"Temporal kemik kırıkları en sık longitudinal olarak görülür ve longitudinal kırıklarda fasyal paralizi ve iletim tipi işitme kaybı olasılığı daha yüksektir. <b>Transvers kırıklarda ise fasyal paralizi ve sinirsel kayıp daha fazla görülür.</b> Transvers kırıklarda kırık hattı cochlea seviyesinden geçtiğinden sensörinöral işitme kaybı yüksek sıklıkta görülür."
-  },
-  // ── OBSTRÜKTİF UYKU APNE ──
-  {
-    id:64, topic:"Obstrüktif Uyku Apne Sendromu",
-    year:"İlkbahar 2017 Orijinal",
-    question:"Elli dört yaşındaki erkek hastanın, gece uyurken horlama ve nefesinin durması nedeniyle eşinin isteği üzerine başvuruyor. Kırk paket/yıl sigara içme öyküsü olan hastanın obez ve kısa boyunlu olduğu, değerlendirme sırasında aralıklı olarak uykuya daldığı gözlemleniyor. Fizik muayenesinde kan basıncı 150/90 mmHg, nabız 90/dakika, solunum sayısı 18/dakika ve oksijen satürasyonu oda havasında %89 olarak ölçülüyor. Akciğer oskültasyonu normal bulunuyor.<br><br>Bu hastada tanı için altın standart yöntem aşağıdakilerden hangisidir?",
-    opts:["Gece boyunca nabız oksimetre takibi","Polisomnografi","Epworth uykululuk skalası","Posteroanterior akciğer grafisi","BİPAP titrasyonu"],
-    answer:1,
-    hint:"Uyku apnesinin altın standart tanı yöntemi nedir?",
-    trap:"Epworth skalası anket şeklinde bir tarama aracıdır; nabız oksimetre gece takibi yeterli değildir; altın standart polisomnografidir.",
-    explain:"<b>Uyku apne sendromunda altın standart tanı yöntemi Polisomnografidir.</b> Polisomnografinin içinde; Oksijen saturasyon takibi, EMG, EKG, hastanın pozisyonu gibi farklı parametreler takip edilir."
-  },
-  // ── MAKSİLLOFASİYAL TRAVMALAR ──
-  {
-    id:65, topic:"Maksilofasiyal Travmalar",
-    year:"Sonbahar 2010",
-    question:"Saf (pure) \"blow-out\" kırığı olan hastalarda aşağıdakilerden hangisi <u>görülmez</u>?",
-    opts:["Göz hareketlerinde kısıtlılık","Göz küresinin içe ve derine doğru yer değiştirmesi","Çift görme","Kırık ile aynı tarafta yüzde hipoestezi","Çene açılmasında kısıtlılık"],
-    answer:4,
-    hint:"Blow-out kırığı orbita tabanındadır; çene bölgesini etkiler mi?",
-    trap:"Trismus mandibula ve zigomatikomaksiller fraktürlerin bulgusudur; blow-out sadece orbita tabanını etkiler, mandibula etkilenmez.",
-    explain:"Blow-out kırığı orbita tabanında oluşur. Bulgular: Periokuler ekimoz ve ödem; İnfraorbital sinir yaralanmasına bağlı duyu kaybı; Diplopi; Göz hareketlerinde azalma; Hifema; Enoftalmi. <b>Çene açılmasında kısıtlılık (trismus) blow-out kırığında görülmez.</b>"
-  },
-  {
-    id:66, topic:"Maksilofasiyal Travmalar",
-    year:"İlkbahar 2016 Orijinal",
-    question:"İzole orbita taban kırıklarında aşağıdaki bulgulardan hangisi <u>görülmez</u>?",
-    opts:["Maloklüzyon","Diplopi","Eneftalmus","Ödem","Ekimoz"],
-    answer:0,
-    hint:"İzole orbita tabanında maloklüzyon neden oluşsun ki?",
-    trap:"Maloklüzyon mandibula kırığının tipik bulgusudur; izole orbita taban kırığında çene oklüzyonu etkilenmez.",
-    explain:"İzole orbita taban kırığında maloklüzyon görülmez. <b>Maloklüzyon mandibula kırığının en tipik bulgusudur.</b> İzole orbita kırığında: diplopi, enoftalmi, ekimoz ve ödem görülür."
-  },
-  {
-    id:67, topic:"Maksilofasiyal Travmalar",
-    year:"Sonbahar 2011",
-    question:"Aşağıdakilerden hangisi mandibula kırığının klinik belirtilerinden biri <u>değildir</u>?",
-    opts:["Mandibulada anormal mobilite","Şişlik gelişimi","Dilde uyuşukluk","Maloklüzyon","Krepitasyon"],
-    answer:2,
-    hint:"Mandibulada kırık; dil uyuşur mu?",
-    trap:"Maloklüzyon mandibula kırığının en tipik bulgusudur; dilde uyuşukluk değil, mandibulada kırık ile çene bölgesinde uyuşukluk beklenir.",
-    explain:"İlk bakışta zor görülse de C ve D seçenekleri hariç diğer seçenekler bütün kırıklar için ortak sayılabilecek genel bilgilerdir. <b>Malokluzyonu bilirsek geriye sadece dilde uyuşukluk kalır.</b> Maloklüzyon: Çenenin tam kapanmaması demektir. Mandibula kırığının en tipik belirtisidir."
-  },
-  {
-    id:68, topic:"Maksilofasiyal Travmalar",
-    year:"Sonbahar 96",
-    question:"Bir travmayı takiben mandibula kırığını <u>en çok</u> destekleyen bulgu nedir?",
-    opts:["Çiğneyememe","Maloklüzyon","Krepitasyon","Kanama","Şekil bozukluğu"],
-    answer:1,
-    hint:"Mandibula kırığının patognomonik bulgusunu hatırlayın.",
-    trap:"Krepitasyon ve kanama genel kırık bulgularıdır; maloklüzyon mandibulaya özel bulgudur.",
-    explain:"<b>Mandibula kırığının en tipik bulgusu 'maloklüzyondur'.</b>"
-  }
+const SECTIONS = [
+  {label:"KIRMA KUSURLARI", from:1, to:2},
+  {label:"KERATOKONUS", from:3, to:3},
+  {label:"AKOMODASYON", from:4, to:4},
+  {label:"AMBLİYOPİ", from:5, to:6},
+  {label:"GÖZ KAPAĞ INATOMİSİ & İLTİHAP", from:7, to:8},
+  {label:"KONJUNKTİVİTLER", from:9, to:35},
+  {label:"ÜVEİT", from:36, to:39},
+  {label:"LENS (KATARAKT)", from:40, to:42},
+  {label:"KORTİKOSTEROİD YAN ETKİLERİ", from:43, to:44},
+  {label:"LÖKOKORİ", from:45, to:47},
+  {label:"RETİNA DAMAR HASTALIKLARI", from:48, to:51},
+  {label:"AMD & ALBİNİZM", from:52, to:53},
+  {label:"RETİNA DEKOLMANI", from:54, to:54},
+  {label:"RETİNOBLASTOM", from:55, to:55},
+  {label:"GLOKOM", from:56, to:62},
+  {label:"OPTİK NÖROPATİ & OPTİK SİNİR", from:63, to:68},
+  {label:"SEMPATİK OFTALMİ", from:69, to:69},
+  {label:"PAPİL ÖDEMİ", from:70, to:71},
+  {label:"DİĞER GÖZ HASTALIKLARI", from:72, to:77},
 ];
 
-// Get unique topics for filter
-const ALL_TOPICS = [...new Set(ALL_QUESTIONS.map(q=>q.topic))];
+const masterList = [
+  {id:1,section:"KIRMA KUSURLARI",year:"Sonbahar 88",question:"Uyum yapmamış (emetrop) bir gözde kırıcılık yaklaşık 60 dioptridir. Bu kırıcılıktaki <u>en büyük</u> paya sahip doku aşağıdakilerden hangisidir?",opts:["Kornea","İris","Lens","Ön Kamara","Vitreus"],answer:0,hint:"Gözde ışığı kıran ortamlar: Kornea, Lens, Humor aquosus, Corpus vitreum",trap:"Lensin 20 diyoptri ile önemli bir kırıcılığı vardır, ancak kornea 43 diyoptri ile çok daha büyük paya sahiptir.",explain:"Korneanın kırıcılığı 43 diyoptridir ve gözün en kırıcı ortamı korneadır. Lensin kırıcılığı 20 diyoptridir. Hümör aköz ve corpus vitreumun kırıcılığa etkisi azdır."},
+  {id:2,section:"KERATOKONUS",year:"Sonbahar 95",question:"Aşağıdaki görme kusurlarından hangisinde <u>kesin olarak</u> sert kontakt lens endikasyonu vardır?",opts:["Astigmatizma","Keratokonus","Hipermetropi","Miyopi","Bilateral afaki"],answer:1,hint:"Özellikle progresif korneal kurvatur problemlerinde sert kontakt lensler iyi bir optik düzeltme sağlar.",trap:"Soruda 'kesin olarak' ifadesi kritiktir. Keratokonusta korneanın progresif dikleşmesi kesin endikasyondur.",explain:"Keratokonusta sert kontakt lensler görme kusurunu daha iyi düzeltir. Yeterli olmadığında lazer prosedürleri ya da keratoplasti yapılabilir."},
+  {id:3,section:"AKOMODASYON",year:"Sonbahar 2007",question:"Presbiyopi semptomları, aşağıdakilerin hangisinde diğerlerine göre daha erken ortaya çıkar?",opts:["Düzeltilmemiş hipermetroplarda","Miyopik astigmatizması olanlarda","Emetroplarda","Düzeltilmemiş miyoplarda","Pupil çapı daha büyük olanlarda"],answer:0,hint:"Yaşa bağlı akomodasyon yeteneğindeki kayıp görüntülerin retinanın arkasında odaklaşmasına neden olur.",trap:"Miyoplarda yakına bakmak için daha az uyum gerekir; presbiyopi daha geç başlar. Hipermetroplarda ise görüntü zaten retina arkasına düştüğünden presbiyopi erken başlar.",explain:"Hipermetroplarda punktum proksimum gözden uzaklaşmış olduğundan presbiyopi daha erken yaşta başlar."},
+  {id:4,section:"AMBLİYOPİ",year:"İlkbahar 97",question:"Yenidoğanda ambliyopi taramasında görme yollarının muayenesi için ilk tercih edilecek yöntem aşağıdakilerden hangisidir?",opts:["Ultrasonografi","Vizüel acuity testi","Sintigrafi","Retinal anjiografi","Kraniografi"],answer:1,hint:"Yenidoğan konuşamadığından görmesi fiksasyon, obje takibi, tercihli bakış ve vizüel acuity test gibi yöntemlerle değerlendirilir.",trap:"Ultrasonografi göz içi yapıları değerlendirmek için kullanılır ancak görme yollarının muayenesinde ilk tercih değildir.",explain:"Yenidoğanda ambliyopi teşhisinde ilk tercih yöntem Vizüel Acuity Testtir."},
+  {id:5,section:"AMBLİYOPİ",year:"Sonbahar 2015 Orijinal",question:"Aşağıdakilerden hangisi, göz tembelliği (ambliyopi) nedenlerinden biri <u>değildir</u>?",opts:["Pinguecula","Şaşılık","Bilateral ametropi","Anizometropi","Stimulus deprivasyonu"],answer:0,hint:"Ambliyopi TUS'ta uzun süredir beklediğimiz önemli bir oftalmolojik morbidite nedenidir.",trap:"Bilateral ametropi (izoametropi) ambliyopiye yol açabilir. Pinguecula konjonktiva üzerindeki sarımsı bir büyümedir ve görmeyi etkilemez.",explain:"Pinguecula konjonktivanın dejeneratif lezyonudur ve ambliyopiye neden olmaz. Şaşılık, anizometropi, bilateral yüksek ametropi ve deprivasyon ambliyopinin bilinen nedenleridir."},
+  {id:6,section:"GÖZ KAPAĞININ KONJENİTAL GELİŞME VE ŞEKİL BOZUKLUKLARI",year:"Sonbahar 2016 Orijinal",question:"Kolobom aşağıdaki dokuların hangisinde <u>görülmez</u>?",opts:["Göz kapağı","Sklera","İris","Lens","Koroid"],answer:1,hint:"Kolobom bir göz dokusunun yokluğunu açıklar. Gestasyonun 5-8. haftalarında embriyonik fissürün eksik kapanması sonucu oluşur.",trap:"Kornea ve sklerada kolobom görülmez; böylesi bir patoloji glob bütünlüğü ile de bağdaşmaz.",explain:"Sklerada kolobom görülmez. Tipik kolobomlar gözün inferonazal bölgesinde bulunur."},
+  {id:7,section:"GÖZ KAPAĞININ İLTİHABİ HASTALIKLARI",year:"İlkbahar 2024 Orijinal",question:"Şalazyon ile ilgili aşağıdaki ifadelerden hangisi <u>yanlıştır</u>?",opts:["Kronik granülomatöz türde inflamasyonlar sonucu oluşur.","Enfeksiyöz bir olaydır.","Meibomian veya Zeis bezi kanalı tıkanır.","Blefarit veya akne rozasea hastalarında sık görülür.","Histopatolojik incelemede lipid yüklü epiteloid hücreler görülür."],answer:1,hint:"Şalazyon non enfeksiyöz kronik granülomatöz inflamasyon oluşturur.",trap:"Şalazyon enfeksiyöz değildir. İç hordeolum ise Meibomius bezinin S. aureus tarafından enfekte olması sonucu oluşan iltihabıdır.",explain:"Şalazyon non enfeksiyöz kronik granülomatöz inflamasyondur. Meibomius ve Zeis bezlerinin lipogranülomudur."},
+  {id:8,section:"KONJUNKTİVİTLER",year:"Sonbahar 88",question:"Aşağıdakilerden hangisi vernal keratokonjunktivit özelliklerinden biri <u>değildir</u>?",opts:["Ekseriyetle puberte öncesi başlaması","Kalıtsal geçişin söz konusu olması","Soğuk iklimlerde çok daha seyrek görülmesi","Üst tars konjunktivasında kaldırım taşı görünümünde papillalar izlenmesi","Konjunktivada fibrinöz psödomembran oluşması"],answer:1,hint:"Vernal keratokonjonktivit allerjik konjunktivitler sınıflamasında yer alır.",trap:"Vernal keratokonjunktivit kalıtsal bir hastalık değildir. Sıcak iklimli yerlerde daha sık görülür.",explain:"Vernal KKV kalıtsal geçişi olmayan, sıcak iklimli yerlerde daha sık görülen bir hastalıktır. Pseudomembran oluşumu özelliği yoktur."},
+  {id:9,section:"KONJUNKTİVİTLER",year:"Sonbahar 91",question:"Üst tars konjunktivasında bilateral kaldırım taşı manzarası ve limbusta ödem görünümü mevcut ise <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Vernal konjunktivit","Anguler konjunktivit","Foliküler konjunktivit","Fliktenüler konjunktivit","Gonokoksik konjunktivit"],answer:0,hint:"Kapak şekli en sık görülenidir. Üst kapaktaki görünüme kaldırım taşı manzarası denir.",trap:"Kaldırım taşı manzarası vernal KKV için patognomoniktir. Limbusta trantas nodülleri oluşur.",explain:"Üst tars konjunktivasında bilateral kaldırım taşı manzarası ve limbusta ödem vernal keratokonjunktiviti gösterir."},
+  {id:10,section:"KONJUNKTİVİTLER",year:"Sonbahar 87",question:"Vernal keratokonjunktivit aşağıdaki hastalıklardan hangisinin bir alt grubudur?",opts:["Allerjik konjunktivit","Kimyasal konjunktivit","Gonokokal konjunktivit","İnklüzyonlu konjunktivit","Sistemik hastalıklarda görülen konjunktivit"],answer:0,hint:"Vernal keratokonjonktivit allerjik konjunktivitler sınıflamasında yer alır.",trap:"Vernal KKV tip 1 ve tip 4 hipersensitivite reaksiyonu içerir.",explain:"Vernal keratokonjunktivit allerjik konjunktivitler sınıflamasında yer alır. 2. en kötü prognozlu allerjik konjunktivit tipidir."},
+  {id:11,section:"KONJUNKTİVİTLER",year:"İlkbahar 88",question:"Aşağıdakilerden hangisi epidemik keratokonjunktivit özelliklerinden biri <u>değildir</u>?",opts:["Hastalığın ilk tutulan gözde daha ağır seyretmesi","Kulak önünde ağrılı lenf düğümü büyümesi","Konjunktivada folikül ve hemorajilere rastlanması","Konjunktivada pseudomembranlar oluşması","Kornea duyarlılığının bozulması"],answer:4,hint:"Epidemik keratokonjunktivit Adenovirüs tip 8 ve 19'un neden olduğu çok bulaşıcı bir konjunktivit tablosudur.",trap:"Kornea duyarlılığının bozulması HSV, VZV gibi hastalıklarda görülür. EKK'da kornea duyarlılığı bozulmaz.",explain:"EKK'da sıklıkla bir göz diğerinden önce tutulur. Konjunktivada folikül, kanamalar, membran oluşumu görülebilir. Preauriküler lenfadenopati sıktır. Kornea duyarlılığı bozulmaz."},
+  {id:12,section:"KONJUNKTİVİTLER",year:"İlkbahar 89",question:"Dendritik keratokonjunktivit yapan etken aşağıdakilerden hangisidir?",opts:["New Castle virüs","Picarno virüs","Adenovirüs","Herpes simplex tip I","Onkojenik RNA virüs"],answer:3,hint:"Konjuktiva ve korneada özellikle bazal epitelde bulunan canlı HSV-1 virüs korneada dendritik veya harita biçimi ülserasyona yol açar.",trap:"Adenovirüs EKK'ya neden olur. Dendritik ülser = HSV-1 bağlantısı unutulmamalıdır.",explain:"Herpes simplex tip I korneada dendritik ya da harita biçimi ülserasyon oluşturur."},
+  {id:13,section:"KONJUNKTİVİTLER",year:"İlkbahar 89",question:"Göze AgNO₃ (Gümüş Nitrat) profilaksisi uygulanan oftalmia neonatorum etkeni aşağıdakilerden hangisidir?",opts:["Klamidya","Herpes","Gonokok","Meningokok","Stafilokok"],answer:2,hint:"Doğum eylemi sırasında doğum kanalında bulunan bakteriler ve virüsler yenidoğanda oftalmia neonatorum oluşturur.",trap:"Gümüş nitrat gonokoka karşı kullanılır. Klamidya için eritromisin tercih edilir.",explain:"Gonokok (N. gonorrhoeae) karşı gümüş nitrat damlaları veya antibiyotikli merhemler profilakside kullanılabilir."},
+  {id:14,section:"KONJUNKTİVİTLER",year:"Sonbahar 90",question:"Yenidoğan konjunktival sürüntü örneğinden gram (-) diplokoklar üremişse <u>en olası</u> etken aşağıdakilerden hangisidir?",opts:["Trichinella spiralis","Giardia lamblia","Neisseria meningitidis","Neisseria gonorrhoeae","Escherichia coli"],answer:3,hint:"Konjunktiva hastalıklarında Gram boyası yapıldığında Gr (-) koklar görüldüğünde N. gonorrhoeae düşünülmelidir.",trap:"Hayatın ilk birkaç gününde oluşan konjunktivitler aksi ispatlanana kadar gonokoksik kabul edilmelidir.",explain:"Gonokokal hiperakut konjonktivit inkübasyonu 3-5 gündür ve gram (-) diplokoklar görülür."},
+  {id:15,section:"KONJUNKTİVİTLER",year:"İlkbahar 91",question:"Gözde pannus, Herbert çukurları ve Arlt çizgileri oluşumu ile karakterize hastalık aşağıdakilerden hangisidir?",opts:["Keratokonus","Konjenital glokom","Trahom","Retina dekolmanı","Katarakt"],answer:2,hint:"Trahom, Chlamydia trachomatis A, B, Ba, C suşlarıdır. Önlenebilir geri dönüşümsüz ön segment körlüğünün dünyadaki en sık nedenidir.",trap:"Pannus + Herbert çukurları + Arlt çizgileri üçlüsü trahoma özgüdür.",explain:"Trahomda limbal foliküllerin skarlaşması Herbert çukurlarına neden olur. Üst kapak konjunktivalarda kronik lineer skatrisyel çizgilenmeler (Arlt çizgileri) görülür."},
+  {id:16,section:"KONJUNKTİVİTLER",year:"İlkbahar 94",question:"Trahomda aşağıdaki biyomikroskopik muayene bulgularından hangisi <u>görülmez</u>?",opts:["Pannus","Herbert çukurları","Hipertrofik folikül","Retinit","Lineer skatris"],answer:3,hint:"Trahom ön segment hastalığıdır, arka segment tutulumu beklenmez.",trap:"Retinit göz arkası (arka segment) bir bulgusudur. Trahom ön segment tutulumu yapan bir hastalıktır.",explain:"Trahomda pannus, Herbert çukurları, foliküller ve lineer skatris görülür. Retinit trahomda görülmez."},
+  {id:17,section:"KONJUNKTİVİTLER",year:"İlkbahar 93",question:"Tekrarlayan keratokonjunktivit etkeni aşağıdakilerden hangisidir?",opts:["Sitomegalovirüs","Ebstein Barr virüs","Rhinovirüs","Herpes virüs Tip I","Human papilloma virüs"],answer:3,hint:"Ganglionlarda latent enfeksiyon oluşturan nörotropik virüsler tekrarlayan ataklarla seyreden hastalık tablolarını ortaya çıkarır.",trap:"CMV, EBV, rhinovirüs tekrarlayan keratokonjunktivit yapmaz. HSV-1 trigeminal ganglionlarda latent kalarak periyodik olarak reaktive olur.",explain:"Herpes simplex tip I virüs trigeminal ganglionlarda latent enfeksiyon oluşturur ve periyodik olarak aktivite göstererek tekrarlayan keratokonjunktivitlere neden olur."},
+  {id:18,section:"KONJUNKTİVİTLER",year:"Sonbahar 2013 Orijinal",question:"Aşağıdaki konjunktivit tiplerinin hangisinde lenfoadenopati <u>beklenmez</u>?",opts:["Neisseria gonorrhoeae'ye bağlı konjunktivitler","Allerjik konjunktivitler","Viral konjunktivitler","Klamidya'ya bağlı konjunktivitler","Parinaud oküloglandüler sendromunda görülen konjunktivitler"],answer:1,hint:"Konjunktivitlerde preauriküler lenfadenopati (LAP) beklenen bir bulgudur ancak allerjik ve toksik konjunktivitlerde görülmez.",trap:"Allerjik konjunktivitte LAP beklenmez.",explain:"Preauriküler LAP viral, bakteriyel (gonokokal, klamidyal) ve Parinaud oküloglandüler sendromunda görülür. Allerjik ve toksik konjunktivitlerde görülmez."},
+  {id:19,section:"KONJUNKTİVİTLER",year:"İlkbahar 2011",question:"Aşağıdaki etkenlerden hangisi <u>en ciddi</u> ophthalmia neonatorum formuna neden olur?",opts:["Chlamydia trachomatis","Herpes simpleks virüsü","Sitomegalovirüs","Staphylococcus aureus","Neisseria gonorrhoeae"],answer:4,hint:"Yenidoğan konjunktivitlerinden gonokoklar, sağlam korneayı invaze etme özelliği nedeniyle en ciddi ophthalmia neonatorum formuna neden olur.",trap:"Chlamydia trachomatis inklüzyonlu konjunktivite neden olur, ciddi ama gonokokal kadar değildir.",explain:"Neisseria gonorrhoeae sağlam korneayı invaze edebilen tek mikroorganizmadır. Bu nedenle kornea perforasyonuna yol açabilir."},
+  {id:20,section:"KONJUNKTİVİTLER",year:"Sonbahar 95",question:"Göz kapakları şiş, konjunktivaları kırmızı ve az miktarda berrak sekresyonu olan 6 saatlik bir bebekte <u>en olası</u> oftalmia neonatorum etkeni aşağıdakilerden hangisidir?",opts:["Klamidya konjunktiviti","Gonore konjunktiviti","Pnömokok konjunktiviti","Kimyasal konjunktivit","Herpes konjunktiviti"],answer:3,hint:"Gümüş nitrat kullanılmasına bağlı gelişen kimyasal konjunktivit genellikle damlatıldıktan 6-8 saat sonra başlar.",trap:"Gonoke 2-4 gün, klamidyal 5-14 gün, viral 5-7 günde görülür. 6 saatlik süre kimyasal konjunktivite işaret eder.",explain:"Kimyasal konjunktivit (AgNO₃'e bağlı) 6-8 saat sonra başlar ve 24-48 saat sonra kendiliğinden geçer."},
+  {id:21,section:"KONJUNKTİVİTLER",year:"İlkbahar 99",question:"Kontakt lens kullananlarda görülen ve vernal keratokonjunktivite benzeyen tablo aşağıdakilerden hangisidir?",opts:["Mevsimsel allerjik konjunktivit","Fliktenüler konjunktivit","Dev papiller konjunktivit","Foliküler konjunktivit","Odunsu konjunktivit"],answer:2,hint:"Dev papiller konjunktivit özellikle göz içi yabancı cisim (kontakt lens, mekanik protez vb.) kullananlarda görülür.",trap:"Vernal KKV sıcak iklim, puberte öncesi çocuklarda görülürken, dev papiller KKV kontakt lens kullanımıyla ilişkilidir.",explain:"Dev papiller konjunktivit kontakt lens kullananlarda görülür. Tip 1 hipersensitivite reaksiyonudur. En iyi prognozlu allerjik konjunktivittir."},
+  {id:22,section:"KONJUNKTİVİTLER",year:"Sonbahar 2000",question:"Aşağıdakilerden hangisi insanlarda akut foliküler keratokonjunktivit etkenidir?",opts:["Stafilokoksus aureus","New castle hastalığı virüsü","Adenovirüs Tip 8","Sitomegalovirüs","Varisella zoster virüsü"],answer:2,hint:"Adenovirüsler; zarfsız, ikozahedral nükleokapsit içinde çift iplikçikli, lineer DNA içeren virüslerdir.",trap:"Adenovirüs tip 8 epidemik keratokonjunktivite neden olur; EKK'nın en sık sebebidir.",explain:"Adenovirüs tip 8 epidemik keratokonjunktivit (EKK) yapan en sık tiptir."},
+  {id:23,section:"KONJUNKTİVİTLER",year:"İlkbahar 2001",question:"Faringo-konjunktival ateşe sebep olan virus hangisidir?",opts:["İnfluenza A virüsü","Adenovirüs (tip B)","Kızamık virüsü","Rhinovirüs","Parainfluenza virüs"],answer:1,hint:"Faringokonjunktival ateşe Adenoviruslar neden olur.",trap:"İnfluenza, Rhinovirüs, Parainfluenza faringokonjunktival ateş yapmaz.",explain:"Faringo-konjunktival ateş adenovirüslerden kaynaklanır. Adenovirüs tip 3, 4, 7 ve 21 solunum yolu enfeksiyonuna neden olur."},
+  {id:24,section:"KORNEA",year:"İlkbahar 2023",question:"Yirmi iki yaşındaki erkek hasta, sağ gözünde ağrı, sulanma ve yabancı cisim hissi nedeniyle başvuruyor. Fizik muayenede ince bir toz parçazı görülüyor ve alınıyor. Toz parçasının korneada abrazyon yaptığı tespit ediliyor. Birkaç gün sonra korneadaki lezyonun tümüyle düzeldiği saptanıyor.<br><br>Bazal tabakayı oluşturan ve korneal abrazyonun iyileşmesini hızlandıran kök hücrelerin yerleşim yeri aşağıdakilerden hangisidir?",opts:["Skleradaki kan damarları","Kornea epiteli","Bowman membranı","Kornea stroması","Korneoskleral limbus"],answer:4,hint:"Limbusta yerleşimli pluripotent karakterde kök hücreler kornea santraline doğru göç ederek kornea epitelinin bazal hücrelerini oluşturur.",trap:"Kök hücreler kornea epitelinde değil, limbusta yer alır.",explain:"Limbusta yerleşimli pluripotent kök hücreler kornea epitelini yeniler. Kornea epitelinde hasar meydana geldiğinde bu özellik sayesinde epitelyal rejenerasyon gerçekleşir."},
+  {id:25,section:"KORNEA",year:"Sonbahar 2004",question:"Gözde ani ağrı ve görmede azalma şikayetleri ile başvuran bir hastada biyomikroskobik muayenede keratit presipitat saptanmış ise <u>öncelikle</u> düşünülmesi gereken hastalık aşağıdakilerden hangisidir?",opts:["Akut konjunktivit","Akut glokom","Akut keratokonjunktivit","Akut iridosiklit","Fliktenüler konjunktivit"],answer:3,hint:"Üveitlerin en sık görülen şekli olan akut iridosiklitte kornea endotelinde keratik presipitatlar oluşur.",trap:"Keratik presipitat akut iridosiklitin karakteristik bulgusudur. Akut glokomda kornea bulutlanması olur ama keratik presipitat beklenmez.",explain:"Akut iridosiklit ön kamaradaki inflamasyon nedeniyle kornea endotelinde keratik presipitatlar oluşturur. Hipopiyon ve sineşi eşlik edebilir."},
+  {id:26,section:"KORNEA",year:"Sonbahar 2008",question:"Korneal duyarlılığın kaybolduğu keratit tipi aşağıdakilerden hangisidir?",opts:["Fliktenüler keratit","Punktat keratit","Marjinal keratit","Nörotrofik keratit","Fungal keratit"],answer:3,hint:"Kornea duyusunu alan trigeminal sinirin oftalmik dalıdır.",trap:"Nörotrofik keratit için 'hissetme yeteneğini kaybetmiş, anestezi altında kalmış kornea' ifadesi kullanılır.",explain:"Nörotrofik keratit hissetme yeteneğini kaybetmiş korneada ortaya çıkar. Sebepleri arasında HSV, HZV, DM ve akustik nörinom yer alır."},
+  {id:27,section:"KORNEA",year:"İlkbahar 2013",question:"Aşağıdaki mikroorganizmalardan hangisi, sağlam kornea epitelini <u>geçemez</u>?",opts:["Neisseria gonorrhoeae","Neisseria meningitidis","Corynebacterium diphtheriae","Haemophilus influenzae","Streptococcus pyogenes"],answer:4,hint:"Normalde korneanın epitel tabakası sıkı bariyer özelliği ile mikroorganizmaların geçmesini engeller.",trap:"N. gonorrhoeae, N. meningitidis, Corynebacterium diphteriae ve Haemophiluslar normal epitel tabakasını invaze edebilir. S. pyogenes bunu yapamaz.",explain:"Streptococcus pyogenes sağlam kornea epitelini geçemez. N. gonorrhoeae, N. meningitidis, Corynebacterium diphtheriae ve Haemophiluslar invaze edebilen mikroorganizmalardır."},
+  {id:28,section:"KONJUNKTİVİTLER",year:"Sonbahar 2003",question:"Aşağıdaki konjunktivit tiplerinden hangisi membran oluşturur?",opts:["Vernal konjunktivit","Gonokoksik konjunktivit","Difteri konjunktiviti","Trahom","Allerjik konjunktivit"],answer:2,hint:"Membranöz konjunktivit; konjunktiva üzerine sıkı yapışan, kaldırıldığında kanayan membran oluşturur.",trap:"Gonokoksik ve vernal konjunktivit psödomembran oluşturabilir. Difteri ise gerçek (true) membran oluşturur; kaldırıldığında kanar.",explain:"Difteri (Corynebacterium diphtheriae) konjunktiviti, konjunktiva yüzeyine sıkıca yapışan ve kaldırıldığında kanayan gerçek membran oluşturur."},
+  {id:29,section:"KONJUNKTİVİTLER",year:"Sonbahar 2007",question:"Klamidyal konjunktivitte görülen konjunktival reaksiyon tipi aşağıdakilerden hangisidir?",opts:["Papiller reaksiyon","Foliküler reaksiyon","Membranöz reaksiyon","Psödomembranöz reaksiyon","Granülomatöz reaksiyon"],answer:1,hint:"Konjunktival folliküller submukozal lenfoid dokudan oluşur. Folliküler reaksiyon viral ve klamidyal enfeksiyonlarda görülür.",trap:"Papiller reaksiyon allerjik (vernal) ve toksik konjunktivitlerde görülür. Foliküler reaksiyon klamidya ve viral konjunktivitlerde izlenir.",explain:"Klamidyal konjonktivit foliküler reaksiyon oluşturur."},
+  {id:30,section:"KONJUNKTİVİTLER",year:"İlkbahar 2008",question:"Yetişkin inklüzyon konjunktivitinin etkeni aşağıdakilerden hangisidir?",opts:["Chlamydia trachomatis D-K serotipleri","Chlamydia trachomatis A-C serotipleri","Chlamydia psittaci","Neisseria gonorrhoeae","Adenovirüs tip 8"],answer:0,hint:"Klamidyal konjonktivitlerde Chlamydia trachomatis'in farklı serotipleri farklı hastalıklara yol açar.",trap:"A-C serotipleri trahoma neden olur. D-K serotipleri ise yetişkin inklüzyon konjunktiviti ve neonatal inklüzyon konjunktivitine neden olur.",explain:"Chlamydia trachomatis D-K serotipleri yetişkin inklüzyon konjunktivitine yol açar."},
+  {id:31,section:"KONJUNKTİVİTLER",year:"İlkbahar 2010",question:"Konjonktivit tablosuna yol açan Chlamydia trachomatis serotipi aşağıdakilerden hangisidir?",opts:["A","D","L1","L2","L3"],answer:1,hint:"Chlamydia trachomatis'in hangi serotipin hangi hastalığa yol açtığı TUS'ta sık sorulan bir konudur.",trap:"L1-L3 serotipleri lenfogranüloma venerum'a (LGV) yol açar. A-C trahom, D-K ise konjunktivit ve genital enfeksiyonlara yol açar.",explain:"Chlamydia trachomatis: A-C → Trahom; D-K → Ürogenital enfeksiyonlar + inklüzyon konjonktiviti; L1-L3 → Lenfogranüloma venerum."},
+  {id:32,section:"KONJUNKTİVİTLER",year:"Sonbahar 2011 Orijinal",question:"Aşağıdaki konjunktivit tiplerinden hangisi en uzun süre bulaşıcı olabilir?",opts:["Allerjik konjunktivit","Adenoviral konjunktivit","Gonokokal konjunktivit","Klamidyal konjunktivit","Herpes simpleks konjunktiviti"],answer:3,hint:"Klamidyal konjunktivit tedavi edilmezse haftalar-aylar boyu sürebilir ve bulaşıcılığını korur.",trap:"Gonokokal konjunktivit çok akut seyreder. Klamidyal ise kronik seyirlidir.",explain:"Klamidyal konjunktivit tedavi edilmezse kronik seyir izler ve haftalarca-aylarca bulaşıcılığını korur."},
+  {id:33,section:"KONJUNKTİVİTLER",year:"Sonbahar 2012 Orijinal",question:"Parinaud oküloglandüler sendromu aşağıdaki organizmalardan hangisiyle ilişkili <u>değildir</u>?",opts:["Bartonella henselae","Francisella tularensis","Sporothrix schenckii","Mycobacterium tuberculosis","Chlamydia trachomatis"],answer:4,hint:"Parinaud oküloglandüler sendromu: granülomatöz konjunktivit + ipsilateral preauriküler LAP şeklinde tanımlanır.",trap:"Chlamydia trachomatis Parinaud sendromuyla ilişkili değildir. Kedi tırmığı hastalığı (Bartonella henselae) bu sendromun en sık nedenidir.",explain:"Parinaud oküloglandüler sendromu etkenler: Bartonella henselae (en sık), Francisella tularensis, Sporothrix schenckii, Mycobacterium tuberculosis. Chlamydia trachomatis bu sendromla ilişkili değildir."},
+  {id:34,section:"KONJUNKTİVİTLER",year:"İlkbahar 2014 Orijinal",question:"Fliktenüler keratokonjunktivit en sık aşağıdaki hastalıklardan hangisi ile birlikte görülür?",opts:["Tüberküloz","Sifiliz","Sarkoidoz","Wegener granülomatozu","Behçet hastalığı"],answer:0,hint:"Fliktenüler keratokonjunktivit tüberküloz proteine karşı gelişen gecikmiş tip hipersensitivite reaksiyonudur.",trap:"Fliktenüler KKV primer tüberküloz enfeksiyonu olan çocuklarda görülür. Direkt TB enfeksiyonu değil, TB proteinlerine karşı aşırı duyarlılık reaksiyonudur.",explain:"Fliktenüler keratokonjunktivit, tüberküloz proteinlerine karşı tip 4 (gecikmiş tip) hipersensitivite reaksiyonu sonucu oluşur."},
+  {id:35,section:"KONJUNKTİVİTLER",year:"Sonbahar 2016 Orijinal",question:"Ekzofitik büyüyen ve kanayan konjonktival lezyon hangi tanıyı düşündürmelidir?",opts:["Pinguekula","Pterijyum","Pyojenik granülom","Konjonktival kist","Konjonktival papillom"],answer:2,hint:"Piyojenik granülom aslında granülasyon dokusu içeren vasküler bir lezyondur; büyük damarları nedeniyle kolayca kanar.",trap:"Pterijyum ve pinguekula kanayan lezyonlar değildir. Pyojenik granülom karakteristik olarak ekzofitik büyür ve temas/travmayla kanar.",explain:"Pyojenik granülom, konjonktivada ekzofitik büyüyen, kırmızı, kolayca kanayan vasküler bir lezyondur. Genellikle cerrahi veya travma sonrası gelişir."},
+  {id:36,section:"ÜVEİT",year:"İlkbahar 2003",question:"Üveit görülme sıklığı açısından aşağıdaki sistemik hastalıkların hangisinde <u>en sık</u> üveit görülür?",opts:["Romatoid artrit","Behçet hastalığı","Ankilozan spondilit","Reiter sendromu","Vogt-Koyanagi-Harada sendromu"],answer:1,hint:"Behçet hastalığında gözü tutan en ciddi ve görme kaybına en sık neden olan tutulum üveittir.",trap:"Behçet hastalığında üveit, HLA-B51 ile ilişkili olup %70-80 oranında görülür.",explain:"Behçet hastalığında üveit en sık görülen göz bulgusudur (%70-80). Tekrarlayan ataklarla seyirli panuveittir."},
+  {id:37,section:"ÜVEİT",year:"İlkbahar 2005",question:"Aşağıdaki hastalıklardan hangisinde mutton-fat keratik presipitatlar görülür?",opts:["Akut iridosiklit","Granülomatöz üveit","Akut konjunktivit","Kataraktta","Primer açık açılı glokom"],answer:1,hint:"Keratik presipitatlar büyüklüğüne ve görünümüne göre granülomatöz ve non-granülomatöz üveit ayrımında kullanılır.",trap:"Non-granülomatöz üveit küçük, beyaz KP oluşturur. Granülomatöz üveit ise büyük, yağ benzeri 'mutton-fat' KP oluşturur.",explain:"Mutton-fat (koyun yağı) keratik presipitatlar granülomatöz üveitin karakteristik bulgusudur. Sarkoidoz, tüberküloz, sifiliz ve VKH sendromunda görülür."},
+  {id:38,section:"ÜVEİT",year:"Sonbahar 2006",question:"Aşağıdakilerden hangisi ön üveit bulgularından biri <u>değildir</u>?",opts:["Keratik presipitatlar","Ön sineşi","Arka sineşi","Hipopiyon","Vitritis"],answer:4,hint:"Üveit anatomik lokalizasyona göre ön, orta, arka ve panuveite ayrılır.",trap:"Vitritis (vitreusun inflamasyonu) orta üveitin (pars planitis) bulgusudur. Ön üveit iris ve siliyer cisim ile sınırlıdır.",explain:"Ön üveit bulguları: keratik presipitatlar, hipopiyon, ön/arka sineşi, iris nodülleri. Vitritis ise orta/arka üveit bulgusudur."},
+  {id:39,section:"LENS (KATARAKT)",year:"Sonbahar 89",question:"Galaktozemi hastasında katarakt oluşumu hangi mekanizma ile açıklanabilir?",opts:["Lensteki glikojen birikimi","Lensteki galaktitol birikimi","Sorbitol yolağının aktivasyonu","Osmotik stresin artması","İnsulin eksikliği ile ilişkili değişimler"],answer:1,hint:"Galaktozemi ve diyabetik kataraktta lens epitel hücrelerindeki şeker alkol birikimi önemli rol oynar.",trap:"Diyabetik kataraktta sorbitol birikimi rol oynar; galaktozemide ise aldoz redüktaz galaktozu galaktitole çevirir.",explain:"Galaktozemide aldoz redüktaz galaktozu galaktitole çevirir; galaktitol lenste birikir ve osmotik stres yaratarak katarakta neden olur."},
+  {id:40,section:"LENS (KATARAKT)",year:"İlkbahar 96",question:"Aşağıdaki hastalıklardan hangisinde katarakt gelişmesi beklenmez?",opts:["Diyabetes mellitus","Galaktozemi","Hipoparatiroidizm","Miyotonik distrofi","Marfan sendromu"],answer:4,hint:"Marfan sendromunda ektopia lentis (lens dislokasyonu) görülür; katarakt Marfan'ın tipik bir komplikasyonu değildir.",trap:"Marfan sendromunda lens dislokasyonu (ektopia lentis) görülür, superotemporal yönde. Katarakt bu tablonun tipik parçası değildir.",explain:"Marfan sendromunda tipik bulgu ektopia lentistir. Katarakt ise DM, galaktozemi, hipoparatiroidizm ve miyotonik distrofi gibi durumlarda görülür."},
+  {id:41,section:"LENS (KATARAKT)",year:"İlkbahar 2009",question:"Aşağıdakilerden hangisi konjenital kataraktın en sık nedenidir?",opts:["Rubella","İdiyopatik / herediter","Galaktozemi","Toksoplazma","Down sendromu"],answer:1,hint:"Konjenital kataraktın en sık nedenini hatırlamak için nedenleri gözden geçirmek gerekir.",trap:"Rubella önemli bir neden olmakla birlikte en sık neden idiyopatik/herediter vakalar oluşturur.",explain:"Konjenital kataraktın en sık nedeni idiyopatik ve herediter vakalar (%30-40) oluşturur."},
+  {id:42,section:"KORTİKOSTEROİD YAN ETKİLERİ",year:"İlkbahar 97",question:"Uzun süreli steroid kullanımına bağlı olarak gelişen katarakt tipi aşağıdakilerden hangisidir?",opts:["Nükleer katarakt","Anterior subkapsüler katarakt","Posterior subkapsüler katarakt","Kortikal katarakt","Sütur kataraktı"],answer:2,hint:"Steroid kaynaklı kataraktın yerleşim yeri ve görme üzerindeki etkisi farklı katarakt tiplerine göre değişir.",trap:"Steroid kataraktı posterior (arka) subkapsülerdir. Nükleer katarakt ise yaşa bağlı (senil) kataraktın en sık tipidir.",explain:"Uzun süreli kortikosteroid kullanımı posterior subkapsüler katarakt oluşturur. Radyasyon ve miyotonik distrofi de posterior subkapsüler katarakt oluşturur."},
+  {id:43,section:"KORTİKOSTEROİD YAN ETKİLERİ",year:"Sonbahar 98",question:"Uzun süreli topikal steroid kullanımının <u>en sık</u> görülen oküler komplikasyonu aşağıdakilerden hangisidir?",opts:["Katarakt","Glokom","Pupil dilatasyonu","Retina dekolmanı","Makula ödemi"],answer:1,hint:"Topikal kortikosteroidlerin oküler komplikasyonları içinde glokom en sık ve en önemli olanıdır.",trap:"Steroid katarakt oluşturabilir ancak topikal steroidlerin en sık oküler komplikasyonu glokomdur.",explain:"Topikal kortikosteroidlerin en sık oküler komplikasyonu steroid kaynaklı glokomdur. Steroidler trabeküler ağda drenajı azaltarak GİB'i yükseltir."},
+  {id:44,section:"LÖKOKORİ",year:"Sonbahar 98",question:"İki yaşında bir erkek çocukta, sağ gözde beyaz pupil (lökokori) saptanmıştır. <u>Öncelikle</u> düşünülmesi gereken tanı aşağıdakilerden hangisidir?",opts:["Retinoblastom","Konjenital katarakt","Persistant hiperplastik primer vitreus","Retinopati of Prematürite","Toksokariyazis"],answer:0,hint:"Lökokori yapan hastalıklar içinde en hayatı tehdit edeni ve önce ekarte edilmesi gereken retinoblastomdur.",trap:"Konjenital katarakt lökokori yapabilir ancak genellikle doğumda veya ilk aylarda fark edilir. 2 yaşında lökokori → retinoblastom öncelikle düşünülmelidir.",explain:"Retinoblastom çocukluk çağının en sık intraokuler tümörüdür. En sık başvuru bulgusu lökokori (%60) ve şaşılıktır."},
+  {id:45,section:"LÖKOKORİ",year:"İlkbahar 2002",question:"İki yaşında, sağ gözde lökokori olan ve aynı zamanda bilateral retina kalkması saptanan çocukta <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Retinoblastom","Konjenital katarakt","Toksokariyazis","Norrie hastalığı","Retinopati of Prematürite"],answer:0,hint:"Retinoblastomda tümör büyüdükçe retinayı yerinden oynatabilir ve retina dekolmanına yol açabilir.",trap:"Norrie hastalığı X'e bağlı resesif geçişli olup bilateral lökokori yapabilir ancak retina kalkmasıyla birlikte görülen tablo retinoblastomu düşündürür.",explain:"İki yaşında lökokori + bilateral retina kalkması = retinoblastom. Tümör büyüdükçe eksüdatif retina dekolmanı görülebilir."},
+  {id:46,section:"LÖKOKORİ",year:"İlkbahar 2014 Orijinal",question:"Aşağıdakilerden hangisi lökokori nedenleri arasında yer <u>almaz</u>?",opts:["Retinoblastom","Persistant hiperplastik primer vitreus","Retinopati of prematürite","Konjenital glokom","Toksokariyazis"],answer:3,hint:"Lökokori yapan nedenleri iyi bilmek TUS açısından önemlidir.",trap:"Konjenital glokom (buftalmos) lökokori değil, fotofobi, göz yaşarması ve kornea bulanıklığı ile prezente olur.",explain:"Lökokori nedenleri: Retinoblastom (en sık), konjenital katarakt, PHPV, ROP, toksokariyazis, Coats hastalığı, Norrie hastalığı. Konjenital glokom lökokori nedeni değildir."},
+  {id:47,section:"RETİNA DAMAR HASTALIKLARI",year:"Sonbahar 93",question:"Santral retinal arter tıkanıklığında göz dibi muayenesinde <u>görülmeyen</u> bulgu aşağıdakilerden hangisidir?",opts:["Kırmızı nokta (cherry-red spot)","Retina ödem (beyazlaşma)","Arterlerde incelmeler","Papil ödem","Sarı renkte eksüda"],answer:4,hint:"Santral retinal arter tıkanıklığında iskemik retinada ödem ve hücre ölümü görülür.",trap:"Sarı renkli eksüda diyabetik retinopati ve hipertansif retinopatide görülür. SRAT'ta sert eksüda bulunmaz.",explain:"SRAT'ta: Cherry-red spot, retina ödem/beyazlaşma, arterlerde incelmeler ve papil ödem görülür. Sert eksüda bu tabloda görülmez."},
+  {id:48,section:"RETİNA DAMAR HASTALIKLARI",year:"İlkbahar 98",question:"Santral retinal arter tıkanıklığı aşağıdakilerden hangisinin bir komplikasyonu olarak görülebilir?",opts:["Temporal arterit","Hipertansiyon","Diyabetes mellitus","Kardiyak emboli","Hepsi"],answer:4,hint:"Santral retinal arter tıkanıklığı, trombotik veya embolik mekanizma ile gerçekleşebilir.",trap:"Bu hastalıkların hepsinin SRAT ile ilişkisi vardır.",explain:"SRAT nedenleri: Kardiyak emboli, ateroskleroz, hipertansiyon, DM, temporal arterit, antifosfolipid sendromu. Tüm seçenekler doğrudur."},
+  {id:49,section:"RETİNA DAMAR HASTALIKLARI",year:"Sonbahar 2005",question:"Göz dibi muayenesinde ''alev şeklinde kanama'' görülmesi aşağıdaki durumların hangisine işaret eder?",opts:["Santral retinal ven tıkanıklığı","Santral retinal arter tıkanıklığı","Diyabetik retinopati","Yaşa bağlı maküla dejenerasyonu","Hipertansif retinopati"],answer:0,hint:"Retina kanamasının şekli yerleşim yerine bağlıdır. Sinir lifi tabakasındaki kanamalar alev şeklinde görünür.",trap:"Alev şeklinde kanamalar sinir lifi tabakasına özgüdür. SRVT'de tüm 4 kadranda alev şeklinde yaygın kanamalar görülür.",explain:"SRVT'de göz dibinde 4 kadranda alev şeklinde kanamalar, dilate-tortüöz venler, disk ödemi ve cotton-wool spotlar görülür."},
+  {id:50,section:"RETİNA DAMAR HASTALIKLARI",year:"Sonbahar 2010 Orijinal",question:"Aşağıdakilerden hangisi tromboza bağlı retina ven tıkanıklığı için <u>risk faktörü değildir</u>?",opts:["Hipertansiyon","Diyabet","Hiperlipidemi","Hipotiroidi","Glokom"],answer:3,hint:"Retina ven tıkanıklığının kardiyovasküler risk faktörleriyle ilişkisi vardır.",trap:"Hipotiroidi retina ven tıkanıklığı için bağımsız risk faktörü değildir. Glokom ise optik disk venöz drenajını bozarak ven tıkanıklığına yol açabilir.",explain:"Retina ven tıkanıklığı risk faktörleri: Hipertansiyon (en sık), DM, hiperlipidemi, glokom, hiperviskozite. Hipotiroidi bu risk faktörleri arasında yer almaz."},
+  {id:51,section:"YAŞA BAĞLI MAKULA DEJENERASYONU",year:"Sonbahar 2015 Orijinal",question:"Yaşa bağlı maküla dejenerasyonunun (AMD) yaş formunda aşağıdakilerden hangisi görülür?",opts:["Drusen","Retinal pigment epitel atrofisi","Koroidal neovaskülarizasyon","Sadece kuru form bulguları","Makula pigment değişiklikleri"],answer:2,hint:"AMD kuru (atrofik) ve yaş (eksüdatif/neovasküler) olmak üzere iki ana formda incelenir.",trap:"Drusen ve RPE atrofisi kuru AMD bulgularıdır. Yaş AMD'nin temel özelliği koroidal neovaskülarizasyondur (CNV).",explain:"AMD'nin yaş formunda koroidal neovaskülarizasyon (CNV) gelişir. Tedavide anti-VEGF enjeksiyonları kullanılır."},
+  {id:52,section:"ALBİNİZM",year:"İlkbahar 2001 Orijinal",question:"Okülokutanöz albinizmde aşağıdaki göz bulgularından hangisi <u>beklenmez</u>?",opts:["Nistagmus","İris transillüminasyonu","Foveal hipoplazi","Görme azlığı","Glokom"],answer:4,hint:"Albinizmde melanin pigmentin eksikliğine bağlı gelişen göz bulguları ön plandadır.",trap:"Glokom albinizmde beklenen bir bulgu değildir.",explain:"Okülokutanöz albinizmde: Fotofobi, nistagmus, iris transillüminasyonu, foveal hipoplazi, strabismus, görme azlığı görülür. Glokom bu tablonun parçası değildir."},
+  {id:53,section:"RETİNA DEKOLMANI",year:"İlkbahar 2002",question:"Retina dekolmanı tiplerinden hangisinde tedavi acil müdahale gerektirmez?",opts:["Regmatojen retina dekolmanı","Traksiyonel retina dekolmanı","Eksüdatif retina dekolmanı","Regmatojen + traksiyonel retina dekolmanı","Hepsi acil müdahale gerektirir"],answer:1,hint:"Retina dekolmanı tiplerinde tedavinin aciliyeti dekolmanın mekanizmasına bağlıdır.",trap:"Regmatojen form en acil olanıdır. Traksiyonel form daha yavaş ilerlediğinden makula tutulmamışsa gözlemlenebilir.",explain:"Traksiyonel retina dekolmanında (en sık nedeni proliferatif diyabetik retinopati) makula tutulmamışsa acil cerrahi gerekmez."},
+  {id:54,section:"RETİNOBLASTOM",year:"İlkbahar 2006",question:"Retinoblastomda en sık başvuru semptomu aşağıdakilerden hangisidir?",opts:["Göz kızarıklığı","Şaşılık","Lökokori","Göz ağrısı","Göz yaşarması"],answer:2,hint:"Retinoblastomda tümör büyüdükçe pupil kırmızı reflesi kaybolur ve beyaz bir parlaklık (lökokori) oluşur.",trap:"Şaşılık ikinci en sık başvuru bulgusudur. Lökokori ise ilk sırada yer alır.",explain:"Retinoblastomda en sık başvuru semptomu lökokori (%60) ve ardından şaşılıktır (%20)."},
+  {id:55,section:"GLOKOM",year:"Sonbahar 91",question:"Açık açılı glokomda görme alanı defekti aşağıdakilerden hangisidir?",opts:["Temporal yarı alan kaybı","Nazal basamak (nasal step)","Santral skotom","Temporal skotom","Altitudinal alan defekti"],answer:1,hint:"Glokomda optik sinir hasarı önce inferonazal ve süperonazal bölgede başlar.",trap:"Santral skotom optik nörit ve AMD'de görülür. Altitudinal defekt NAION'da görülür. Glokomda erken dönemde nazal basamak izlenir.",explain:"Açık açılı glokomda görme alanı defektleri: erken dönemde nazal basamak, arkuat (Bjerrum) skotom, parasentral skotom. İleri dönemde tünel görme gelişir."},
+  {id:56,section:"GLOKOM",year:"İlkbahar 93",question:"Konjenital glokomda (buftalmos) aşağıdaki bulgulardan hangisi <u>görülmez</u>?",opts:["Kornea çapında artış","Haab çizgileri","Fotofobi","Lökokori","Epifora"],answer:3,hint:"Konjenital glokom yenidoğanda skleral yumuşaklığa bağlı olarak gözün büyümesiyle kendini gösterir.",trap:"Lökokori konjenital glokomda görülmez; gözde büyüme, kornea bulanıklığı, fotofobi ve epifora görülür.",explain:"Konjenital glokomda: gözde büyüme, kornea çapında artış, Haab çizgileri, fotofobi, blefarospazm, epifora görülür. Lökokori bulgusu değildir."},
+  {id:57,section:"GLOKOM",year:"İlkbahar 95",question:"Akut açı kapanması glokomunda aşağıdaki bulgulardan hangisi görülmez?",opts:["Kornea ödemi","Göz içi basıncında artış","Göz ağrısı","Midriazis","Myozis"],answer:4,hint:"Akut açı kapanması glokomunda iris bombesi ile açı kapanır; pupil durumunu düşününüz.",trap:"Akut açı kapanması glokomunda pupil MİDRİAZİS'tedir (orta dilatasyon, 4-6 mm, ışığa cevapsız). Miyozis beklenmez.",explain:"Akut açı kapanması glokomunda: şiddetli göz ağrısı, GİB artışı, kornea ödemi, orta dilatasyon ve ışığa yanıtsız pupil (midriazis) görülür. Miyozis bu tabloda beklenmez."},
+  {id:58,section:"GLOKOM",year:"Sonbahar 98",question:"Primer açık açılı glokomun <u>en önemli</u> risk faktörü aşağıdakilerden hangisidir?",opts:["Miyopi","Artmış göz içi basıncı","Yaş","Aile öyküsü","Diyabetes mellitus"],answer:1,hint:"Primer açık açılı glokomda optik sinir hasarına yol açan temel mekanizma göz içi basıncının artmasıdır.",trap:"Yüksek GİB en önemli risk faktörüdür ancak normal basınçlı glokom da vardır.",explain:"Primer açık açılı glokomun en önemli risk faktörü artmış göz içi basıncıdır. Diğer risk faktörleri: yaş, aile öyküsü, miyopi, ince kornea, DM."},
+  {id:59,section:"GLOKOM",year:"Sonbahar 2000",question:"Diyabetik hastada neovasküler glokomun gelişmesinde sorumlu mekanizma aşağıdakilerden hangisidir?",opts:["Lens şişmesi","İris neovaskülarizasyonu","Açının mekanik kapanması","Trabeküler ağ dejenerasyonu","Göz içi basıncının ani yükselmesi"],answer:1,hint:"Proliferatif diyabetik retinopatide iskemi VEGF salınımını uyarır.",trap:"Neovasküler glokomda önce iris ve açıda yeni damarlar (rubeozis iridis) oluşur, ardından bu damarlar fibröz doku ile açıyı kapatır.",explain:"Neovasküler glokomda retinal iskemi → VEGF → iris neovaskülarizasyonu (rubeozis iridis) → fibröz membran → açı kapanması → GİB artışı."},
+  {id:60,section:"GLOKOM",year:"İlkbahar 2014 Orijinal",question:"Glokom için aşağıdakilerden hangisi kesin tanı kriteridir?",opts:["Göz içi basıncının 21 mmHg üzerinde olması","Optik disk hasarının varlığı","Görme alanı defektinin varlığı","Optik disk hasarı + görme alanı defekti birlikteliği","Kornea kalınlığının azalmış olması"],answer:3,hint:"Glokom tanısı tek bulguya değil, yapısal ve fonksiyonel hasarın birlikteliğine dayanır.",trap:"Yüksek GİB tek başına glokom tanısı koydurturmaz. Optik disk hasarı veya görme alanı defekti tek başına yeterli değildir.",explain:"Glokom tanısı için optik sinir başında yapısal hasar ve buna eşlik eden görme alanı defekti birlikte olmalıdır."},
+  {id:61,section:"GLOKOM",year:"Sonbahar 2017 Orijinal",question:"Akut açı kapanması glokomunda ilk tercih edilecek tedavi aşağıdakilerden hangisidir?",opts:["Topikal beta bloker","Oral asetazolamid","Laser periferik iridotomi","Topikal alfa agonist","Topikal prostaglandin analoğu"],answer:2,hint:"Akut açı kapanması glokomunda açıyı kalıcı olarak açacak definitif tedavi hedeflenir.",trap:"Medikal tedavi GİB'i düşürmek için kullanılır ancak bunlar geçici önlemlerdir. Kesin tedavi laser periferik iridotomidir.",explain:"Akut açı kapanması glokomunda medikal tedavinin ardından laser periferik iridotomi yapılır. Laser iridotomi iridopupiller bloğu ortadan kaldırarak açıyı kalıcı olarak açar."},
+  {id:62,section:"OPTİK NÖROPATİ VE OPTİK SİNİR HASTALIKLARI",year:"Sonbahar 94",question:"Optik nörit gelişmesine yol açan <u>en sık</u> hastalık aşağıdakilerden hangisidir?",opts:["Sifiliz","Multipl skleroz","Sarkoidoz","Lyme hastalığı","Sistemik lupus eritematozus"],answer:1,hint:"Optik nörit demyelinizan hastalıklarla sıkça ilişkilidir.",trap:"Optik nörit MS'in ilk bulgusu olabilir. Diğer nedenler daha az sıklıkta görülür.",explain:"Optik nöritin en sık nedeni multipl sklerozdan kaynaklanır. Ani görme kaybı, göz hareketleriyle ağrı ve renkli görme bozukluğu karakteristiktir."},
+  {id:63,section:"OPTİK NÖROPATİ VE OPTİK SİNİR HASTALIKLARI",year:"Sonbahar 95",question:"Optik nöritte aşağıdaki bulgulardan hangisi görülmez?",opts:["Marcus Gunn pupili","Görme kaybı","Renk görmede bozulma","Göz hareketleriyle ağrı","Artmış göz içi basıncı"],answer:4,hint:"Optik nörit retrobulber inflamasyon sonucu optik sinirin işlev bozukluğuyla ortaya çıkar.",trap:"Artmış GİB glokomun bulgusudur. Optik nörit ise intraorbital optik sinir inflamasyonudur; GİB artışına yol açmaz.",explain:"Optik nörit bulguları: Ani görme kaybı, göz hareketleriyle ağrı, renk görmede bozulma, afferent pupil defekti (Marcus Gunn pupili), santral skotom. Artmış GİB değildir."},
+  {id:64,section:"OPTİK NÖROPATİ VE OPTİK SİNİR HASTALIKLARI",year:"İlkbahar 2000",question:"Aşağıdaki bulguların hangisi optik nöriti, iskemik optik nöropatiden ayırt etmeye yardımcı olur?",opts:["Tek taraflı görme kaybı","Görme alanı defekti","Göz hareketleriyle ağrı","Afferent pupil defekti","Papil ödemi"],answer:2,hint:"Her iki hastalıkta da görme kaybı ve afferent pupil defekti görülebilir; ancak biri ağrılı, diğeri ağrısızdır.",trap:"İskemik optik nöropati (NAION) ağrısızdır. Optik nörit ise göz hareketleriyle ağrı ile birlikte görülür.",explain:"Göz hareketleriyle ağrı optik nörite özgü bir bulgudur ve iskemik optik nöropatiden ayırt ettirir. İskemik optik nöropati ağrısız, ani görme kaybı ile prezente olur."},
+  {id:65,section:"OPTİK NÖROPATİ VE OPTİK SİNİR HASTALIKLARI",year:"Sonbahar 2011 Orijinal",question:"Aşağıdaki durumların hangisinde non-arteriitik anterior iskemik optik nöropati (NAION) gelişme riski artar?",opts:["Miyopi","Küçük optik disk (disk at risk)","Hipermetropi","Artmış göz içi basıncı","Artmış kornea kalınlığı"],answer:1,hint:"NAION'da disk morfolojisi önemli bir predispozan faktördür.",trap:"Küçük ve kalabalık optik disk (crowded disk / disk at risk) NAION için anatomik predispozan faktördür.",explain:"NAION risk faktörleri: HT, DM, hiperlipidemi, obstrüktif uyku apnesi, fosfodiesteraz inhibitörleri ve 'disk at risk' morfolojisi."},
+  {id:66,section:"OPTİK NÖROPATİ VE OPTİK SİNİR HASTALIKLARI",year:"Sonbahar 2013 Orijinal",question:"Temporal arterit (dev hücreli arterit) ile ilişkili görme kaybının en sık mekanizması aşağıdakilerden hangisidir?",opts:["Santral retinal ven tıkanıklığı","Santral retinal arter tıkanıklığı","Arteriitik anterior iskemik optik nöropati","Koroidal iskemi","Retinal iskemi"],answer:2,hint:"Temporal arterit oftalmik arteri ve posterior silier arterleri tıkayarak optik siniri besleyen damarları etkiler.",trap:"SRAT temporal arteritin bir komplikasyonu olabilir ancak en sık mekanizma arteriitik AIONdir.",explain:"Temporal arteritte görme kaybının en sık mekanizması arteriitik anterior iskemik optik nöropatidir. Acil kortikosteroid tedavisi diğer gözü korumak için hayati önem taşır."},
+  {id:67,section:"OPTİK NÖROPATİ VE OPTİK SİNİR HASTALIKLARI",year:"İlkbahar 2016 Orijinal",question:"Aşağıdakilerden hangisi optik atrofinin bir nedeni <u>değildir</u>?",opts:["Glokom","Multipl skleroz","Santral retinal ven tıkanıklığı","Vitamin B12 eksikliği","Hipertiroidi"],answer:4,hint:"Optik atrofi, optik sinir liflerinin herhangi bir nedene bağlı hasarı sonucu oluşur.",trap:"Hipertiroidi optik atrofi nedeni değildir. Ancak Graves oftalmopatisi kompresif optik nöropati yapabilir.",explain:"Optik atrofi nedenleri: Glokom, MS, SRVT, iskemik optik nöropati, vitamin B12 eksikliği, travma. Hipertiroidi doğrudan optik atrofi nedeni değildir."},
+  {id:68,section:"SEMPATİK OFTALMİ",year:"İlkbahar 2004",question:"Gözde penetran yaralanmayı takiben karşı gözde üveit gelişmesi aşağıdaki tanılar arasında hangisinin en önemli bulgusudur?",opts:["Behçet hastalığı","Vogt-Koyanagi-Harada sendromu","Sempatik oftalmi","Sarkoidoz","Fuch's heterokromik iridosikliti"],answer:2,hint:"Penetre göz yaralanması sonrası uveal pigment antijenlerine karşı gelişen otoimmün yanıt karşı gözü tutabilir.",trap:"Yaralanmış göze 'uyarıcı göz (exciting eye)', karşı göze ise 'sempatizan göz (sympathizing eye)' denir.",explain:"Sempatik oftalmi, penetran göz yaralanmasından sonra karşı gözde panuveitle kendini gösteren nadir ama ciddi otoimmün hastalıktır."},
+  {id:69,section:"PAPİL ÖDEMİ",year:"Sonbahar 99",question:"Papil ödemi aşağıdaki durumların hangisinde görülmez?",opts:["Artmış kafa içi basıncı","Temporal arterit","Santral retinal ven tıkanıklığı","Optik nörit","Hipertansif retinopati"],answer:1,hint:"Papil ödemi ile optik disk ödemi (optik nörit, iskemik optik nöropati) terminolojik olarak ayrılır.",trap:"Temporal arterit iskemik optik nöropati yapabilir ancak klasik tanımda papil ödemi artmış KİB sonucu bilateral disk ödemidir.",explain:"Papil ödemi artmış kafa içi basıncına bağlı bilateral optik disk ödemidir. Temporal arterit klasik papil ödeminin nedenleri arasında yer almaz."},
+  {id:70,section:"PAPİL ÖDEMİ",year:"Sonbahar 2014 Orijinal",question:"Papil ödeminin en sık nedeni aşağıdakilerden hangisidir?",opts:["Hipertansif retinopati","Santral retinal ven tıkanıklığı","Artmış kafa içi basıncı","Optik nörit","İdiyopatik intrakranyal hipertansiyon"],answer:2,hint:"Papil ödemi (papilledema) artmış intrakranyal basıncın oküler yansımasıdır.",trap:"İdiyopatik intrakranyal hipertansiyon papil ödeminin önemli bir nedenidir ancak artmış KİB genel kategorisi daha geniştir.",explain:"Papil ödeminin en sık nedeni artmış kafa içi basıncıdır (beyin tümörü, hidrosefali, idiyopatik intrakranyal hipertansiyon vb.)."},
+  {id:71,section:"DİĞER GÖZ HASTALIKLARI",year:"İlkbahar 89",question:"Proptosisde (ekzoftalmus) ilk yapılması gereken tetkik aşağıdakilerden hangisidir?",opts:["Gözün ultrasonografisi","Orbita ve kafa düz grafisi","Bilgisayarlı tomografi (BT)","Tiroid fonksiyon testleri","Manyetik rezonans görüntüleme (MRG)"],answer:2,hint:"Ekzoftalmusin etiyolojisini ortaya koymak için orbit içeriğini en iyi gösteren görüntüleme yöntemi tercih edilmelidir.",trap:"Tiroid fonksiyon testleri önemlidir (Graves en sık neden) ancak ilk tetkik değildir.",explain:"Proptosiste ilk yapılması gereken tetkik orbita BT'sidir. BT kemik yapıları, yumuşak doku ve retrobulber lezyonları iyi gösterir."},
+  {id:72,section:"DİĞER GÖZ HASTALIKLARI",year:"Sonbahar 95",question:"Graves oftalmopatisinde (tiroid gözü) ekzoftalmusa yol açan temel mekanizma aşağıdakilerden hangisidir?",opts:["Tiroid hormonu fazlalığı","Retrobulber yağ dokusunda artma","Ekstraoküler kas ödem ve büyümesi","Orbital kemik yapısında değişim","Lakrimal bez büyümesi"],answer:2,hint:"Graves oftalmopatisinde otoimmün süreç orbital fibroblastları ve ekstraoküler kasları etkiler.",trap:"Tiroid hormonu düzeyi ile oftalmopatinin şiddeti her zaman paralellik göstermez.",explain:"Graves oftalmopatisinde ekstraoküler kaslarda hacim artışı (özellikle inferior rektus > medial rektus) ve retrobulber yağ doku artışı proptosise neden olur."},
+  {id:73,section:"DİĞER GÖZ HASTALIKLARI",year:"İlkbahar 2003",question:"Horner sendromunda aşağıdaki bulgulardan hangisi <u>görülmez</u>?",opts:["Miyozis","Pitozis","Anhidroz","Ekzoftalmus","Enoftalmus"],answer:3,hint:"Horner sendromu sempatik sinir yolunun herhangi bir noktasında kesintiye uğraması sonucu gelişir.",trap:"Horner sendromunda ENOFTALMUSvar (geri çekilmiş görünüm), EKZOFTALMUSyoktur.",explain:"Horner sendromu klasik triadı: miyozis, pitozis ve anhidroz. Bunlara ek olarak alt kapak yükselmesi ve enoftalmus eşlik eder. Ekzoftalmus görülmez."},
+  {id:74,section:"DİĞER GÖZ HASTALIKLARI",year:"İlkbahar 2010",question:"Aşağıdaki hastalıklardan hangisinde göz tutulumu <u>beklenmez</u>?",opts:["Sarkoidoz","Behçet hastalığı","Ankilozan spondilit","Romatoid artrit","Dermatomiyozit"],answer:4,hint:"Dermatomiyozit primer olarak kas ve deri tutulumu yapan bir hastalıktır.",trap:"Dermatomiyozitte göz çevresi deri bulguları (heliotrope rash) görülebilir ancak göz içi tutulum beklenmez.",explain:"Sarkoidoz, Behçet, ankilozan spondilit, romatoid artrit göz tutulumu yapar. Dermatomiyozitte göz içi tutulum beklenmez."},
+  {id:75,section:"DİĞER GÖZ HASTALIKLARI",year:"Sonbahar 2016 Orijinal",question:"Aşağıdakilerden hangisi pterijyum için doğrudur?",opts:["Korneada santral alandan başlar","Sadece temporal tarafta görülür","UV ışığa maruziyet ile ilişkilidir","Malign potansiyeli yüksektir","Görmeyi hiçbir zaman etkilemez"],answer:2,hint:"Pterijyumun epidemiyolojisi coğrafi dağılımı ile ilgili önemli ipuçları sunar.",trap:"Pterijyum nazal taraftan başlar (temporal değil), korneanın periferinden ilerler. Malign potansiyeli yoktur.",explain:"Pterijyum UV ışığa kronik maruziyet ile ilişkilidir. Genellikle nazal taraftan başlar ve korneaya doğru ilerler."},
+  {id:76,section:"DİĞER GÖZ HASTALIKLARI",year:"İlkbahar 2022",question:"Aşağıda verilen göz ile ilgili açıklamalardan hangisi <u>yanlıştır</u>?",opts:["Kornea avasküler bir yapıdır","Aköz humor trabeküler ağdan drene olur","Retina en iç tabakadır","Fovea en keskin görmenin olduğu bölgedir","Vitreus humor göz içi basıncını düzenler"],answer:4,hint:"Göz içi basıncını (GİB) düzenleyen sıvı aköz humordur, vitreus değil.",trap:"Vitreus humor göz şeklini korur ve ışığı iletir ancak GİB'i düzenlemez.",explain:"Göz içi basıncı aköz humor tarafından düzenlenir: siliyer cisim tarafından üretilip trabeküler ağ yoluyla Schlemm kanalına drene olur. Vitreus GİB düzenlemesinde rolü yoktur."},
+  {id:77,section:"DİĞER GÖZ HASTALIKLARI",year:"İlkbahar 2024 Orijinal",question:"Göz içi yabancı cisim şüphesinde aşağıdaki görüntüleme yöntemlerinden hangisi <u>kontrendikedir</u>?",opts:["Bilgisayarlı tomografi (BT)","Düz grafi","Ultrasonografi","Manyetik rezonans görüntüleme (MRG)","Fundus muayenesi"],answer:3,hint:"Metal yabancı cisimlerde belirli görüntüleme yöntemleri ciddi komplikasyonlara neden olabilir.",trap:"Metalik yabancı cisimler MRG'de hareket edebilir ve göz içinde ek hasara yol açabilir. Bu nedenle metalik yabancı cisim şüphesinde MRG KONTRENDİKEDİR.",explain:"Göz içi yabancı cisim şüphesinde MRG kontrendikedir çünkü metalik yabancı cisim MRG'nin güçlü manyetik alanında hareket ederek ciddi komplikasyonlara yol açabilir. İlk tercih BT'dir."},
+];
 
-let questions = [...ALL_QUESTIONS];
+let questions = [...masterList];
 let current = 0;
-let answers = {};
+let answered = {};
 let starred = new Set();
-let activeFilter = 'all';
+let hintOpen = false;
 
 function render(){
   const q = questions[current];
+  if(!q) return;
   const total = questions.length;
-  const pct = (current+1)/total*100;
-  document.getElementById('prog').style.width = pct+'%';
-  document.getElementById('q-counter').textContent = `${current+1}/${total} ☰`;
+  document.getElementById('prog').style.width=((current+1)/total*100)+'%';
+  document.getElementById('q-num').textContent=`Soru ${current+1} / ${total}`;
+  document.getElementById('q-counter').textContent=`${current+1}/${total} ☰`;
+  document.getElementById('star-btn').textContent=starred.has(q.id)?'★':'☆';
+  document.getElementById('section-badge').textContent=q.section;
+  const yt=document.getElementById('year-tags');
+  yt.innerHTML='';
+  if(q.year){const s=document.createElement('span');s.className='year-tag';s.textContent=q.year;yt.appendChild(s);}
+  const st=document.createElement('span');st.className='section-tag';st.textContent=q.section;yt.appendChild(st);
+  document.getElementById('q-text').innerHTML=q.question;
+  document.getElementById('hint-box').innerHTML=q.hint;
+  document.getElementById('hint-box').style.display='none';
+  hintOpen=false;
+  const opts=document.getElementById('options');
+  opts.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const btn=document.createElement('button');
+    btn.className='opt-btn';
+    btn.innerHTML=`<span class="opt-letter">${String.fromCharCode(65+i)}</span><span>${o}</span>`;
+    if(answered[q.id]!==undefined){
+      btn.disabled=true;
+      if(i===q.answer) btn.classList.add('correct');
+      else if(i===answered[q.id]) btn.classList.add('wrong');
+    } else {
+      btn.onclick=()=>selectAnswer(i);
+    }
+    opts.appendChild(btn);
+  });
+  const fb=document.getElementById('feedback');
+  if(answered[q.id]!==undefined){
+    document.getElementById('trap-text').innerHTML=q.trap;
+    document.getElementById('explain-text').innerHTML=q.explain;
+    fb.classList.add('open');
+    setTimeout(()=>fb.scrollIntoView({behavior:'smooth',block:'nearest'}),300);
+  } else {
+    fb.classList.remove('open');
+  }
+}
 
-  const ans = answers[q.id];
-  const isStar = starred.has(q.id);
-
-  document.getElementById('quiz-area').innerHTML = `
-    <div class="section-badge">${q.topic}</div>
-    <div class="card">
-      <div class="q-header">
-        <span id="q-num">Soru ${current+1}/${total}</span>
-        <button id="star-btn" onclick="toggleStar(${q.id})">${isStar?'⭐':'☆'}</button>
-      </div>
-      <div class="year-tags">
-        <span class="year-tag">${q.year}</span>
-        <span class="topic-tag">${q.topic}</span>
-      </div>
-      <div class="q-text">${q.question}</div>
-      <button class="hint-toggle" onclick="toggleHint()">🔑 İpucu</button>
-      <div id="hint-box">${q.hint}</div>
-      <div class="options">
-        ${q.opts.map((o,i)=>`
-          <button class="opt-btn${ans!==undefined?(i===q.answer?' correct':(i===ans?' wrong':'')):''}
-          " ${ans!==undefined?'disabled':''} onclick="answer(${q.id},${i})">
-            <span class="opt-letter">${String.fromCharCode(65+i)}</span>
-            <span>${o}</span>
-          </button>`).join('')}
-      </div>
-      <div class="feedback${ans!==undefined?' open':''}" id="feedback">
-        <div class="trap-box"><div class="trap-title">⚠️ TUZAK NOKTA</div><div class="trap-text">${q.trap}</div></div>
-        <div class="explain-box"><div class="explain-title">📖 AÇIKLAMA</div><div class="explain-text">${q.explain}</div></div>
-      </div>
-    </div>
-    <div class="kbd-hint">← → klavye kısayolları aktif</div>`;
-  buildGrid();
+function selectAnswer(i){
+  const q=questions[current];
+  answered[q.id]=i;
+  render();
+  setTimeout(checkResult,400);
 }
 
 function toggleHint(){
-  const b=document.getElementById('hint-box');
-  b.style.display=b.style.display==='block'?'none':'block';
+  hintOpen=!hintOpen;
+  document.getElementById('hint-box').style.display=hintOpen?'block':'none';
 }
 
-function answer(qid,idx){
-  if(answers[qid]!==undefined) return;
-  answers[qid]=idx;
+function toggleStar(){
+  const q=questions[current];
+  if(starred.has(q.id)) starred.delete(q.id);
+  else starred.add(q.id);
+  document.getElementById('star-btn').textContent=starred.has(q.id)?'★':'☆';
+}
+
+function navigate(dir){
+  current=Math.max(0,Math.min(questions.length-1,current+dir));
   render();
-  setTimeout(()=>{const fb=document.getElementById('feedback');if(fb)fb.scrollIntoView({behavior:'smooth',block:'nearest'});},100);
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function toggleStar(qid){
-  if(starred.has(qid)) starred.delete(qid); else starred.add(qid);
-  render();
+function openModal(){
+  const grid=document.getElementById('q-grid');
+  grid.innerHTML='';
+  // section dividers
+  const sectionStarts={};
+  masterList.forEach((q,i)=>{
+    if(!sectionStarts[q.section]) sectionStarts[q.section]={label:q.section,idx:i};
+  });
+  let lastSection='';
+  questions.forEach((q,i)=>{
+    if(q.section!==lastSection){
+      const div=document.createElement('div');
+      div.className='divider-label';
+      div.textContent=q.section;
+      grid.appendChild(div);
+      lastSection=q.section;
+    }
+    const btn=document.createElement('button');
+    btn.className='q-grid-btn';
+    btn.textContent=q.id;
+    if(answered[q.id]!==undefined) btn.classList.add(answered[q.id]===q.answer?'answered-correct':'answered-wrong');
+    if(starred.has(q.id)) btn.classList.add('starred');
+    if(i===current) btn.classList.add('current');
+    btn.onclick=()=>{current=i;render();closeModal();window.scrollTo({top:0,behavior:'smooth'});};
+    grid.appendChild(btn);
+  });
+  document.getElementById('modal-overlay').classList.add('open');
 }
 
-function go(dir){
-  const total=questions.length;
-  if(current+dir<0) return;
-  if(current+dir>=total){showResult();return;}
-  current+=dir;render();window.scrollTo(0,0);
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
+function closeModalOutside(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeModal();
+  if(e.key==='ArrowRight') navigate(1);
+  if(e.key==='ArrowLeft') navigate(-1);
+});
+
+function checkResult(){
+  if(questions.every(q=>answered[q.id]!==undefined)) showResult();
 }
 
 function showResult(){
   document.getElementById('quiz-area').style.display='none';
-  document.getElementById('nav-bar').style.display='none';
-  const rs=document.getElementById('result-screen');rs.style.display='block';
-  const correct=questions.filter(q=>answers[q.id]===q.answer).length;
-  const wrong=questions.filter(q=>answers[q.id]!==undefined&&answers[q.id]!==q.answer).length;
-  const unanswered=questions.filter(q=>answers[q.id]===undefined).length;
+  document.getElementById('result-screen').style.display='block';
+  const correct=questions.filter(q=>answered[q.id]===q.answer).length;
+  const wrong=questions.filter(q=>answered[q.id]!==undefined&&answered[q.id]!==q.answer).length;
   const pct=Math.round(correct/questions.length*100);
-  document.getElementById('res-pct').textContent=pct+'%';
-  document.getElementById('res-c').textContent=correct;
-  document.getElementById('res-w').textContent=wrong;
-  document.getElementById('res-u').textContent=unanswered;
-  document.getElementById('res-s').textContent=starred.size;
-  setTimeout(()=>{document.getElementById('score-bar').style.width=pct+'%';},100);
+  document.getElementById('res-score').textContent=pct+'%';
+  document.getElementById('res-correct').textContent=correct;
+  document.getElementById('res-wrong').textContent=wrong;
+  document.getElementById('res-star').textContent=starred.size;
+  // topic breakdown
+  const sectionMap={};
+  questions.forEach(q=>{
+    if(!sectionMap[q.section]) sectionMap[q.section]={total:0,correct:0};
+    if(answered[q.id]!==undefined){
+      sectionMap[q.section].total++;
+      if(answered[q.id]===q.answer) sectionMap[q.section].correct++;
+    }
+  });
+  const rows=document.getElementById('topic-rows');
+  rows.innerHTML='';
+  Object.entries(sectionMap).forEach(([sec,data])=>{
+    if(data.total===0) return;
+    const pct2=Math.round(data.correct/data.total*100);
+    const row=document.createElement('div');
+    row.className='topic-row';
+    row.innerHTML=`<span class="topic-name">${sec}</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:${pct2}%;background:${pct2>=70?'var(--green)':pct2>=40?'var(--gold)':'var(--red)'}"></div></div><span class="topic-score">${data.correct}/${data.total}</span>`;
+    rows.appendChild(row);
+  });
 }
 
-function startRetry(mode){
-  let pool;
-  if(mode==='all') pool=[...ALL_QUESTIONS];
-  else if(mode==='wrong') pool=ALL_QUESTIONS.filter(q=>answers[q.id]!==undefined&&answers[q.id]!==q.answer);
-  else pool=ALL_QUESTIONS.filter(q=>starred.has(q.id));
-  if(!pool.length){alert('Bu kategoride soru yok!');return;}
-  questions=[...pool];answers={};current=0;activeFilter='all';
-  document.getElementById('quiz-area').style.display='block';
-  document.getElementById('nav-bar').style.display='flex';
+function restartAll(){
+  questions=[...masterList];answered={};current=0;
+  document.getElementById('quiz-area').style.display='';
   document.getElementById('result-screen').style.display='none';
-  render();window.scrollTo(0,0);
-}
-
-function openModal(){
-  document.getElementById('modal-overlay').classList.add('open');
-  buildFilterBar();
-  buildGrid();
-}
-function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
-function closeModalOutside(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
-
-function buildFilterBar(){
-  const fb=document.getElementById('filter-bar');
-  const topics=['all',...ALL_TOPICS];
-  fb.innerHTML=topics.map(t=>`
-    <button class="filter-btn${activeFilter===t?' active':''}" onclick="setFilter('${t.replace(/'/g,"\'")}')">
-      ${t==='all'?'Tümü':t}
-    </button>`).join('');
-}
-
-function setFilter(topic){
-  activeFilter=topic;
-  if(topic==='all') questions=[...ALL_QUESTIONS];
-  else questions=ALL_QUESTIONS.filter(q=>q.topic===topic);
-  current=0;
-  closeModal();
   render();
-  window.scrollTo(0,0);
 }
 
-function buildGrid(){
-  const g=document.getElementById('q-grid');if(!g)return;
-  g.innerHTML=questions.map((q,i)=>{
-    let cls='q-grid-btn';
-    if(i===current) cls+=' current-q';
-    if(answers[q.id]===q.answer) cls+=' answered-c';
-    else if(answers[q.id]!==undefined) cls+=' answered-w';
-    if(starred.has(q.id)) cls+=' starred-q';
-    return `<button class="${cls}" onclick="jumpTo(${i})">${i+1}</button>`;
-  }).join('');
+function retryWrong(){
+  const wrongs=masterList.filter(q=>answered[q.id]!==undefined&&answered[q.id]!==q.answer);
+  if(!wrongs.length){alert('Yanlış soru yok!');return;}
+  questions=wrongs;answered={};current=0;
+  document.getElementById('quiz-area').style.display='';
+  document.getElementById('result-screen').style.display='none';
+  render();
 }
 
-function jumpTo(i){current=i;closeModal();render();window.scrollTo(0,0);}
-
-document.addEventListener('keydown',e=>{
-  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') return;
-  if(e.key==='ArrowRight') go(1);
-  else if(e.key==='ArrowLeft') go(-1);
-  else if(e.key==='s'||e.key==='S'){
-    const q=questions[current];if(q) toggleStar(q.id);
-  }
-});
+function retryStar(){
+  const stars=masterList.filter(q=>starred.has(q.id));
+  if(!stars.length){alert('Yıldızlı soru yok!');return;}
+  questions=stars;answered={};current=0;
+  document.getElementById('quiz-area').style.display='';
+  document.getElementById('result-screen').style.display='none';
+  render();
+}
 
 render();
 </script>

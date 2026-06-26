@@ -3,82 +3,171 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ÜROLOJİ – Tüm Sorular (101)</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<title>Çocuk Cerrahisi 🦉</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=IBM+Plex+Mono:wght@600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0f1117;--surface:#1a1d27;--card:#20243a;--border:#2e3354;--accent:#5b8dee;--accent2:#e05c7a;--gold:#f5c842;--green:#3ecf74;--red:#f0476d;--text:#dde3f5;--muted:#7b85a8;}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding-bottom:80px;}
-.progress-wrap{position:fixed;top:0;left:0;width:100%;height:3px;background:var(--border);z-index:100;}
-.progress-bar{height:3px;background:var(--accent);transition:width .3s;}
-.header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 16px 10px;position:sticky;top:3px;z-index:90;}
-.section-badge{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
-.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 16px;margin:14px 12px;}
-.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
-#q-num{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);}
-#star-btn{background:none;border:none;font-size:20px;cursor:pointer;color:var(--gold);padding:2px 6px;}
-.year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
-.year-tag{font-family:'IBM Plex Mono',monospace;font-size:10px;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:2px 7px;color:var(--muted);}
-.q-text{font-size:15px;line-height:1.6;margin-bottom:14px;}
-.hint-toggle{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:13px;padding:6px 12px;cursor:pointer;margin-bottom:10px;display:block;}
-#hint-box{display:none;background:var(--surface);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:10px 12px;font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.5;}
-#hint-box.open{display:block;}
-.options{display:flex;flex-direction:column;gap:8px;}
-.opt-btn{background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;padding:11px 14px;cursor:pointer;text-align:left;display:flex;align-items:flex-start;gap:10px;transition:border-color .15s,background .15s;}
-.opt-btn:active{transform:scale(.98);}
-.opt-letter{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:13px;color:var(--accent);min-width:18px;padding-top:1px;}
-.opt-btn.correct{background:#0d2e1a;border-color:var(--green);color:var(--green);}
-.opt-btn.correct .opt-letter{color:var(--green);}
-.opt-btn.wrong{background:#2e0d17;border-color:var(--red);color:var(--red);}
-.opt-btn.wrong .opt-letter{color:var(--red);}
-.opt-btn:disabled{cursor:default;}
-.feedback{display:none;margin-top:14px;}
-.feedback.open{display:block;}
-.trap-box{background:#1f0d14;border:1px solid #5a1a2a;border-radius:10px;padding:12px 14px;margin-bottom:10px;}
-.trap-title{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent2);margin-bottom:5px;letter-spacing:.06em;}
-.trap-text{font-size:13px;color:#d4829a;line-height:1.5;}
-.explain-box{background:#0d1a2e;border:1px solid #1a3a5a;border-radius:10px;padding:12px 14px;}
-.explain-title{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);margin-bottom:5px;letter-spacing:.06em;}
-.explain-text{font-size:13px;color:#82a8d4;line-height:1.5;}
-.nav{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:10px 16px;z-index:90;}
-.nav-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;padding:8px 18px;cursor:pointer;}
-.nav-btn:disabled{opacity:.35;cursor:default;}
-#q-counter{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);cursor:pointer;}
-.q-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:flex-end;}
-.q-modal-overlay.open{display:flex;}
-.q-modal{background:var(--surface);border-radius:16px 16px 0 0;padding:20px 14px 30px;width:100%;max-height:75vh;overflow-y:auto;}
-.q-modal h3{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);margin-bottom:6px;text-align:center;}
-.section-divider{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent2);margin:12px 0 6px;padding:4px 6px;background:var(--card);border-radius:4px;letter-spacing:.06em;}
-.q-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin-bottom:4px;}
-.q-grid-btn{background:var(--card);border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;padding:8px 4px;cursor:pointer;text-align:center;}
-.q-grid-btn.answered-correct{background:#0d2e1a;border-color:var(--green);color:var(--green);}
-.q-grid-btn.answered-wrong{background:#2e0d17;border-color:var(--red);color:var(--red);}
-.q-grid-btn.starred{border-color:var(--gold);}
-.q-grid-btn.current{border-color:var(--accent);color:var(--accent);}
-#result-screen{display:none;padding:30px 20px;text-align:center;}
-.result-score{font-family:'IBM Plex Mono',monospace;font-size:56px;font-weight:700;color:var(--accent);margin-bottom:6px;}
-.result-label{font-size:14px;color:var(--muted);margin-bottom:24px;}
-.result-stats{display:flex;justify-content:center;gap:20px;margin-bottom:24px;flex-wrap:wrap;}
-.stat-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;text-align:center;}
-.stat-num{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:700;}
-.stat-lbl{font-size:11px;color:var(--muted);margin-top:3px;}
-.topic-breakdown{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:20px;text-align:left;}
-.topic-breakdown h4{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);margin-bottom:10px;letter-spacing:.06em;}
-.topic-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px;}
-.topic-row:last-child{border-bottom:none;}
-.topic-name{color:var(--muted);}
-.topic-score{font-family:'IBM Plex Mono',monospace;font-weight:600;}
-.retry-btn{display:block;width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;padding:13px;cursor:pointer;margin-bottom:10px;}
-.retry-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600;}
+:root{
+  --bg:#f0f4ff;
+  --card:#ffffff;
+  --surface:#e8eeff;
+  --border:#c5d0f5;
+  --accent:#5b6ef5;
+  --accent2:#f5326e;
+  --green:#22c55e;
+  --red:#ef4444;
+  --gold:#f59e0b;
+  --text:#1e2040;
+  --muted:#6b7280;
+  --purple:#8b5cf6;
+  --teal:#06b6d4;
+  --orange:#fb923c;
+  --pink:#ec4899;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding-bottom:110px;
+  background-image:radial-gradient(circle at 15% 20%,rgba(91,110,245,.08) 0%,transparent 50%),
+  radial-gradient(circle at 85% 80%,rgba(236,72,153,.08) 0%,transparent 50%);
+}
+
+/* PROGRESS */
+.progress-wrap{position:fixed;top:0;left:0;width:100%;height:5px;background:var(--border);z-index:999}
+.progress-bar{height:5px;background:linear-gradient(90deg,var(--accent),var(--pink));width:0%;transition:width .4s cubic-bezier(.4,0,.2,1);border-radius:0 3px 3px 0}
+
+/* HEADER */
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:18px 16px 6px;gap:10px}
+.app-title{font-size:.95rem;font-weight:900;color:var(--accent);letter-spacing:-.02em;display:flex;align-items:center;gap:6px}
+.streak-badge{font-family:'IBM Plex Mono',monospace;font-size:.7rem;background:linear-gradient(135deg,var(--gold),var(--orange));color:#fff;padding:4px 10px;border-radius:20px;font-weight:700}
+
+/* MASCOT */
+#mascot-wrap{display:flex;flex-direction:column;align-items:center;padding:4px 0 0;position:relative}
+#mascot{font-size:3.2rem;transition:transform .3s;display:inline-block;filter:drop-shadow(0 4px 8px rgba(0,0,0,.12))}
+#mascot.bounce{animation:mascotBounce .6s ease}
+#mascot.shake{animation:mascotShake .5s ease}
+@keyframes mascotBounce{0%{transform:scale(1)}25%{transform:scale(1.3) rotate(-5deg)}50%{transform:scale(1.15) rotate(5deg)}75%{transform:scale(1.2) rotate(-3deg)}100%{transform:scale(1)}}
+@keyframes mascotShake{0%{transform:translateX(0)}15%{transform:translateX(-8px) rotate(-5deg)}30%{transform:translateX(8px) rotate(5deg)}45%{transform:translateX(-6px)}60%{transform:translateX(6px)}75%{transform:translateX(-3px)}100%{transform:translateX(0)}}
+#mascot-msg{font-size:.82rem;font-weight:800;color:var(--accent);background:var(--card);border:2px solid var(--border);border-radius:16px;padding:6px 14px;margin-top:4px;min-height:28px;text-align:center;box-shadow:0 2px 8px rgba(91,110,245,.1);transition:all .3s;opacity:0;transform:translateY(4px)}
+#mascot-msg.show{opacity:1;transform:translateY(0)}
+
+/* SECTION BADGE */
+.section-badge{font-family:'IBM Plex Mono',monospace;color:var(--accent2);font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:10px 16px 2px;display:block}
+
+/* CARD */
+.card{background:var(--card);border:2px solid var(--border);border-radius:20px;padding:18px;margin:8px 12px;box-shadow:0 4px 20px rgba(91,110,245,.08)}
+.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+#q-num{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--muted);font-weight:700;background:var(--surface);padding:4px 10px;border-radius:10px}
+#star-btn{background:none;border:none;font-size:1.4rem;cursor:pointer;transition:transform .2s;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1))}
+#star-btn:active{transform:scale(1.4)}
+
+/* YEAR TAGS */
+.year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.year-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;background:linear-gradient(135deg,var(--accent),var(--purple));color:#fff;border-radius:20px;padding:3px 9px;font-weight:700}
+
+/* QUESTION TEXT */
+.q-text{font-size:.95rem;line-height:1.65;margin-bottom:14px;font-weight:700;color:var(--text)}
+
+/* HINT */
+.hint-toggle{background:linear-gradient(135deg,var(--surface),#e0e7ff);border:2px solid var(--border);border-radius:12px;color:var(--accent);font-size:.78rem;padding:7px 14px;cursor:pointer;margin-bottom:10px;font-weight:800;transition:all .2s}
+.hint-toggle:hover{background:linear-gradient(135deg,var(--accent),var(--purple));color:#fff;border-color:var(--accent)}
+#hint-box{display:none;background:linear-gradient(135deg,#eef2ff,#f5f3ff);border:2px solid #c7d2fe;border-radius:12px;padding:10px 14px;font-size:.82rem;color:#4338ca;margin-bottom:12px;line-height:1.55;font-weight:600}
+#hint-box.open{display:block}
+
+/* OPTIONS */
+.options{display:flex;flex-direction:column;gap:9px;margin-bottom:14px}
+.opt-btn{background:var(--surface);border:2.5px solid var(--border);border-radius:14px;color:var(--text);font-size:.88rem;padding:12px 14px;cursor:pointer;text-align:left;display:flex;align-items:flex-start;gap:10px;transition:all .2s;line-height:1.5;font-family:'Nunito',sans-serif;font-weight:700}
+.opt-btn:hover:not(:disabled){border-color:var(--accent);background:#eef0ff;transform:translateX(3px)}
+.opt-letter{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.78rem;color:var(--accent);background:var(--card);border:2px solid var(--border);border-radius:8px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.opt-btn.correct{border-color:var(--green);background:linear-gradient(135deg,#dcfce7,#f0fdf4);animation:correctPop .4s ease}
+.opt-btn.correct .opt-letter{color:#fff;background:var(--green);border-color:var(--green)}
+.opt-btn.wrong{border-color:var(--red);background:linear-gradient(135deg,#fee2e2,#fff1f2);animation:wrongShake .4s ease}
+.opt-btn.wrong .opt-letter{color:#fff;background:var(--red);border-color:var(--red)}
+.opt-btn:disabled{cursor:default}
+@keyframes correctPop{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
+@keyframes wrongShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* FEEDBACK */
+.feedback{display:none;flex-direction:column;gap:10px;margin-top:4px}
+.feedback.open{display:flex}
+.trap-box{background:linear-gradient(135deg,#fff1f2,#ffe4e6);border:2px solid #fca5a5;border-radius:14px;padding:12px}
+.trap-title{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--red);font-weight:700;margin-bottom:5px;letter-spacing:.05em}
+.trap-text{font-size:.82rem;line-height:1.55;color:#7f1d1d;font-weight:600}
+.explain-box{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:2px solid #93c5fd;border-radius:14px;padding:12px}
+.explain-title{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:#1d4ed8;font-weight:700;margin-bottom:5px;letter-spacing:.05em}
+.explain-text{font-size:.82rem;line-height:1.55;color:#1e3a5f;font-weight:600}
+
+/* NAV */
+.nav{position:fixed;bottom:0;left:0;width:100%;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-top:2px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:10px 16px;z-index:100}
+.nav-btn{background:linear-gradient(135deg,var(--accent),var(--purple));border:none;border-radius:12px;color:#fff;font-size:.85rem;padding:9px 18px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;transition:all .2s;box-shadow:0 3px 10px rgba(91,110,245,.3)}
+.nav-btn:hover{transform:translateY(-2px);box-shadow:0 5px 14px rgba(91,110,245,.4)}
+.nav-btn:active{transform:translateY(0)}
+#q-counter{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--accent);cursor:pointer;padding:7px 12px;border-radius:10px;border:2px solid var(--border);background:var(--surface);font-weight:700}
+#q-counter:hover{border-color:var(--accent);background:#eef0ff}
+
+/* MODAL */
+.q-modal-overlay{display:none;position:fixed;inset:0;background:rgba(30,32,64,.5);backdrop-filter:blur(4px);z-index:200;align-items:flex-end}
+.q-modal-overlay.open{display:flex}
+.q-modal{background:#fff;border-top:3px solid var(--accent);border-radius:24px 24px 0 0;width:100%;max-height:75vh;overflow-y:auto;padding:16px}
+.q-modal h3{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted);margin-bottom:8px;text-align:center}
+.modal-filters{display:flex;gap:7px;margin-bottom:12px;flex-wrap:wrap}
+.mf-btn{font-family:'Nunito',sans-serif;font-size:.72rem;padding:5px 11px;border-radius:10px;border:2px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;font-weight:700}
+.mf-btn.active{border-color:var(--accent);color:#fff;background:var(--accent)}
+.section-divider{font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--accent2);padding:8px 4px 4px;letter-spacing:.06em;grid-column:1/-1;font-weight:700}
+.q-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.q-grid-btn{aspect-ratio:1;border-radius:10px;border:2px solid var(--border);background:var(--surface);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:.72rem;cursor:pointer;transition:all .15s;font-weight:700}
+.q-grid-btn.answered-correct{background:linear-gradient(135deg,#dcfce7,#bbf7d0);border-color:var(--green);color:#166534}
+.q-grid-btn.answered-wrong{background:linear-gradient(135deg,#fee2e2,#fecaca);border-color:var(--red);color:#991b1b}
+.q-grid-btn.starred{border-color:var(--gold)}
+.q-grid-btn.active{border-color:var(--accent);color:var(--accent);background:#eef0ff}
+.q-grid-btn.hidden{display:none}
+
+/* CONFETTI canvas */
+#confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:500}
+
+/* RESULT */
+#result-screen{display:none;min-height:100vh;background:linear-gradient(160deg,#eef2ff 0%,#fdf2f8 100%);padding:40px 20px;text-align:center;flex-direction:column;align-items:center;justify-content:center}
+#result-screen.open{display:flex}
+.result-mascot{font-size:4rem;margin-bottom:8px;animation:mascotBounce 1s ease infinite}
+.result-score{font-family:'IBM Plex Mono',monospace;font-size:3.8rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:10px 0 4px}
+.result-label{font-size:.9rem;color:var(--muted);margin-bottom:24px;font-weight:700}
+.result-stats{display:flex;gap:14px;justify-content:center;margin-bottom:24px;flex-wrap:wrap}
+.stat-box{background:#fff;border:2px solid var(--border);border-radius:16px;padding:14px 20px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.stat-num{font-family:'IBM Plex Mono',monospace;font-size:1.6rem;font-weight:700}
+.stat-lbl{font-size:.68rem;color:var(--muted);margin-top:3px;font-family:'IBM Plex Mono',monospace;font-weight:700}
+.topic-breakdown{background:#fff;border:2px solid var(--border);border-radius:16px;padding:14px;margin-bottom:24px;width:100%;max-width:400px;text-align:left;box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.tb-title{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--accent2);margin-bottom:10px;letter-spacing:.06em;font-weight:700}
+.tb-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);font-size:.78rem}
+.tb-row:last-child{border-bottom:none}
+.tb-topic{color:var(--muted);flex:1;font-weight:600}
+.tb-score{font-family:'IBM Plex Mono',monospace;font-weight:700}
+.result-btns{display:flex;flex-direction:column;gap:10px;width:100%;max-width:300px}
+.res-btn{border:none;border-radius:14px;padding:14px;font-size:.9rem;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;transition:all .2s;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.res-btn:hover{transform:translateY(-2px)}
+.res-btn.all{background:linear-gradient(135deg,var(--accent),var(--purple));color:#fff}
+.res-btn.wrong{background:linear-gradient(135deg,var(--red),#f97316);color:#fff}
+.res-btn.star{background:linear-gradient(135deg,var(--gold),var(--orange));color:#fff}
 </style>
 </head>
 <body>
-<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
-<div class="header"><div class="section-badge">ÜROLOJİ — 101 SORU</div></div>
 
-<div id="quiz-area">
+<canvas id="confetti-canvas"></canvas>
+<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+
+<div id="quiz-screen">
+  <div class="top-bar">
+    <div class="app-title">🩺 Çocuk Cerrahisi</div>
+    <div class="streak-badge" id="streak-badge">🔥 0 seri</div>
+  </div>
+
+  <div id="mascot-wrap">
+    <span id="mascot">🦉</span>
+    <div id="mascot-msg">Haydi başlayalım! 💪</div>
+  </div>
+
+  <span class="section-badge" id="sec-badge">▸ BÖLÜM</span>
   <div class="card">
-    <div class="q-header"><span id="q-num">Soru 1/101</span><button id="star-btn" onclick="toggleStar()">☆</button></div>
+    <div class="q-header">
+      <span id="q-num">Soru 1/85</span>
+      <button id="star-btn" onclick="toggleStar()">☆</button>
+    </div>
     <div class="year-tags" id="year-tags"></div>
     <div class="q-text" id="q-text"></div>
     <button class="hint-toggle" onclick="toggleHint()">🔑 İpucu</button>
@@ -91,332 +180,394 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
   </div>
 </div>
 
-<div id="result-screen">
-  <div class="result-score" id="res-score"></div>
-  <div class="result-label">Başarı Oranı</div>
-  <div class="result-stats">
-    <div class="stat-box"><div class="stat-num" style="color:var(--green)" id="res-correct"></div><div class="stat-lbl">Doğru</div></div>
-    <div class="stat-box"><div class="stat-num" style="color:var(--red)" id="res-wrong"></div><div class="stat-lbl">Yanlış</div></div>
-    <div class="stat-box"><div class="stat-num" style="color:var(--gold)" id="res-starred"></div><div class="stat-lbl">Yıldızlı</div></div>
-  </div>
-  <div class="topic-breakdown"><h4>📊 KONU BAZLI SONUÇ</h4><div id="topic-rows"></div></div>
-  <button class="retry-btn primary" onclick="retryAll()">Tüm Soruları Yeniden Çöz</button>
-  <button class="retry-btn" onclick="retryWrong()">Yanlışları Tekrar Çöz</button>
-  <button class="retry-btn" onclick="retryStar()">Yıldızlıları Tekrar Çöz</button>
-</div>
-
 <div class="nav">
-  <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">← Önceki</button>
-  <span id="q-counter" onclick="openModal()">1/101 ☰</span>
-  <button class="nav-btn" id="next-btn" onclick="navigate(1)">Sonraki →</button>
+  <button class="nav-btn" onclick="navigate(-1)">← Önceki</button>
+  <button id="q-counter" onclick="openModal()">1/85 ☰</button>
+  <button class="nav-btn" onclick="navigate(1)">Sonraki →</button>
 </div>
 
-<div class="q-modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+<div class="q-modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
   <div class="q-modal">
-    <h3>SORU LİSTESİ</h3>
-    <div id="modal-content"></div>
+    <h3>SORU LİSTESİ – ÇOCUK CERRAHİSİ 🩺</h3>
+    <div class="modal-filters">
+      <button class="mf-btn active" onclick="setFilter('all',this)">Tümü</button>
+      <button class="mf-btn" onclick="setFilter('unanswered',this)">Cevaplanmadı</button>
+      <button class="mf-btn" onclick="setFilter('wrong',this)">Yanlış</button>
+      <button class="mf-btn" onclick="setFilter('starred',this)">⭐ Yıldızlı</button>
+    </div>
+    <div class="q-grid" id="q-grid"></div>
+  </div>
+</div>
+
+<div id="result-screen">
+  <div class="result-mascot">🎉</div>
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--accent2);letter-spacing:.1em;font-weight:700">SONUÇ</div>
+  <div class="result-score" id="res-score">0%</div>
+  <div class="result-label">Çocuk Cerrahisi – 85 Soru</div>
+  <div class="result-stats">
+    <div class="stat-box"><div class="stat-num" id="res-correct" style="color:var(--green)">0</div><div class="stat-lbl">DOĞRU</div></div>
+    <div class="stat-box"><div class="stat-num" id="res-wrong" style="color:var(--red)">0</div><div class="stat-lbl">YANLIŞ</div></div>
+    <div class="stat-box"><div class="stat-num" id="res-unanswered" style="color:var(--muted)">0</div><div class="stat-lbl">ATLANDI</div></div>
+    <div class="stat-box"><div class="stat-num" id="res-star" style="color:var(--gold)">0</div><div class="stat-lbl">YILDIZLI</div></div>
+  </div>
+  <div class="topic-breakdown" id="topic-breakdown">
+    <div class="tb-title">▸ BÖLÜM BAZINDA SONUÇ</div>
+    <div id="tb-rows"></div>
+  </div>
+  <div class="result-btns">
+    <button class="res-btn all" onclick="retryAll()">🔄 Tüm Soruları Yeniden Çöz</button>
+    <button class="res-btn wrong" onclick="retryWrong()">❌ Yanlışları Tekrar Çöz</button>
+    <button class="res-btn star" onclick="retryStar()">⭐ Yıldızlıları Tekrar Çöz</button>
   </div>
 </div>
 
 <script>
 const masterList = [
-  // ===== TAŞ HASTALĞI =====
-  {id:1,section:"Taş Hastalığı",question:"Magnezyum-amonyum-fosfat taşı oluşumuna neden olan mikroorganizma aşağıdakilerden hangisidir?",opts:["Klebsiella","Proteus","E. coli","Salmonella","Shigella"],answer:1,year:"İlkbahar 89",hint:"Strüvit taşları üreyi parçalayan bakterilerle oluşur.",trap:"E. coli en sık idrar yolu enfeksiyonu etkeni olsa da strüvit taşı yapmaz. Klebsiella üreaz taşısa da asıl cevap Proteus'tur.",explain:"Strüvit (magnezyum-amonyum-fosfat) taşları üreaz aktivitesi olan bakterilerle oluşur. Üreaz aktivitesi olan bakteriler: <b>Proteus mirabilis, Pseudomonas, Klebsiella, Serratia, Stafilokok saprofitikus</b>. Ancak en sık etken <b>Proteus</b>'tur. Üreaz idrarı alkalize eder; alkali ortamda amonyum ve fosfat çökerek strüvit taşını oluşturur."},
-  {id:2,section:"Taş Hastalığı",question:"Ürolitiazis ile böbrek tümörü ayrıcı tanısında ilk başvurulacak yöntem aşağıdakilerden hangisidir?",opts:["Ultrasonografi","İntravenöz pyelografi","Direkt üriner sistem grafisi","Sintigrafi","Retrograd pyelografi"],answer:0,year:"İlkbahar 90",hint:"Böbrek tümörleri tanısında güvenilir, ucuz ve noninvaziv yöntem tercih edilir.",trap:"İVP taş ve tümör tanısında kullanılsa da taş-tümör ayrımında ilk seçenek değildir. Sintigrafi de ilk seçenek değildir.",explain:"Görüntüleme yöntemleri içinde <b>ürolitiazis ve böbrek tümörü ayrıcı tanısında ilk olarak yapılması gereken ultrasonografidir</b>. Böbrek tümörlerinin tanısında güvenilir, ucuz ve noninvaziv bir yöntemdir. İVP iyotlu kontrast gerektirir; direkt üriner sistem grafisi ise taş tanısında ilk istenendir ancak taş-tümör ayrımında tercih edilmez."},
-  {id:3,section:"Taş Hastalığı",question:"Taşa bağlı olduğu düşünülen renal kolik nedeniyle başvuran bir hastada etkin tanı ve takip için aşağıdakilerden hangisinin kullanılması en uygundur?",opts:["Üriner sistem ultrasonografisi","Direkt üriner sistem grafisi","İntravenöz piyelografi","Kontrastsız spiral tomografi","Manyetik rezonans görüntüleme"],answer:3,year:"İlkbahar 2023",hint:"Taş tanısında altın standart görüntüleme yöntemi hangisidir?",trap:"Ultrasonografi ucuz ve radyasyonsuz olsa da duyarlılığı düşüktür. İVP kontrast gerektirir. Doğru cevap kontrastsız spiraldir.",explain:"Taş tanısında kullanılan radyolojik incelemeler içinde <b>kontrastsız spiral BT</b>, taşları en iyi gören yöntemdir. İntravenöz kontrast kullanımını gerektirmez, ürik asit taşları bile kalsiyum oksalat taşları gibi görüntülenebilir. Direkt DÜSG filmi önce çekilse de altın standart BT'dir. Retrograd piyelografi küçük radyoopak olmayan taşlarda kullanılabilir. MRG taş tanısında yetersizdir."},
-  {id:4,section:"Taş Hastalığı",question:"Şiddetli yan ağrısı şikâyetiyle acil servise başvuran 24 yaşındaki erkek hastanın üriner sistem taş hastalığı öyküsü olduğu öğreniliyor. Fizik muayenesinde sağ kostovertebral açı hassasiyetinin yanı sıra, McBurney noktasında hassasiyet olduğu tespit ediliyor. Tam idrar analizinde bol eritrosit bulunan hastadan direkt üriner sistem grafisi isteniyor. Bu hastada üriner sistem trasesine uyan ve taş olduğundan şüphelenilen opasitenin bulunması en olası bölge aşağıdakilerden hangisidir?",opts:["Renal pelvis","Üst üreteral bölge","Orta üreteral bölge","Alt üreteral bileşke","Mesane"],answer:2,year:"Sonbahar 2024",hint:"McBurney noktasındaki ağrı hangi üreteral bölgeye işaret eder?",trap:"Renal pelvis taşları kostavertebral açı ağrısı verir. McBurney noktası orta üreter düzeyine karşılık gelir, alt üreter değil.",explain:"Anatomi bilgisinin sorgulandığı bu soruda üreter uzun ve seyirli yapısı nedeniyle birden fazla duyusal sinire yansıyan ağrı söz konusudur. Mc Burney noktası umbilikus ile spina iliaca anterior superioru birleştiren çizginin alt 1/3-üst 2/3 kesişim noktasıdır. <b>Orta üreter</b> kesiminin yansıyan ağrısı iliohipogastrik sinir dermatomuna yayılım göstermektedir. Bu nedenle orta üreter düzeyinde taşa bağlı ağrı inguinal ligaman üzerinde Mc Burney noktasında hissedilir."},
-  {id:5,section:"Taş Hastalığı",question:"Aşağıdaki durumların hangisinde hematüri beklenen bir bulgu değildir?",opts:["Renal arterde darlık","Polikistik böbrek","Travma","Taş","Akut glomerülonefrit"],answer:0,year:"Sonbahar 90",hint:"Hematürinin mekanizması: üriner sistem kanamalarında parankimal veya mukozal hasar gerekir.",trap:"Polikistik böbrek, travma, taş, akut GN hematüri nedenleridir. Renal arter darlığı renovasküler hipertansiyona yol açar, hematüri beklenmez.",explain:"<b>Renal arter darlığı renovasküler hipertansiyona neden olur</b> ve hematüri beklenen bir bulgu değildir. Hematüri etyolojisi: Enfeksiyon, otoimmün hastalıklar, travma, taş, konjenital anomaliler, intoksikasyonlar ve neoplaziler sayılabilir."},
-  {id:6,section:"Taş Hastalığı",question:"Emilim tipi hiperokzalüride en uygun tedavi yaklaşımı aşağıdakilerden hangisidir?",opts:["Magnezyum oksit","Allopürinol","Klorotiyazid diüretik","Kalsiyumdan zengin, okzalattan fakir diyet","Sodyum selüloz fosfat"],answer:3,year:"Sonbahar 92",hint:"Emilim tipi hiperokzalüride intestinal okzalat bağlanması hedeflenir.",trap:"Allopürinol ürik asit taşlarında kullanılır. Sodyum selüloz fosfat kalsiyum bağlayıcıdır. Emilim tipinde okzalat bağlayıcı olarak kalsiyum verilir.",explain:"<b>Emilim tipi hiperokzalüride: fazla mayi, okzalattan zengin ve yağdan fakir diyet ile yüksek doz kalsiyum-alüminyum ihtiva eden antiasitler verilmesi uygun olur</b>. Kalsiyum intestinal okzalatı bağlayarak emilimini azaltır."},
-  {id:7,section:"Taş Hastalığı",question:"Aşağıdaki üriner sistem taşlarından hangisi radyoopak değildir?",opts:["Ürat","Okzalat","Sistin","Sitrüvit","Mikst"],answer:0,year:"İlkbahar 96",hint:"Non-opak taşlar ürik asit, ksantin ve saf matriks taşlarıdır.",trap:"Sistin taşı ESWL'ye dirençli olmakla birlikte radyoopaktır. Sitrüvit (strüvit) semiopak sayılır. Ürat non-opaktır.",explain:"<b>Ürik asit taşları non-opak taşlardır</b>. Non-opak taşlar: Ürik asit, ksantin, saf matriks taşları. Opak taşlar: Kalsiyum oksalat, kalsiyum fosfat. Semiopak taşlar: Sistin, sitrüvit."},
-  {id:8,section:"Taş Hastalığı",question:"Aşağıdaki böbrek taşlarından hangisi radyografik olarak değerlendirildiğinde radyolusent (opak olmayan) taş grubunda yer alır?",opts:["Kalsiyum okzalat","Kalsiyum fosfat","Magnezyum amonyum fosfat","Ürik asit","Sistin"],answer:3,year:"Sonbahar 2025",hint:"Non-opak taşlar direct DÜSG filminde görülemez.",trap:"Sistin taşı radyoopaktır. Magnezyum amonyum fosfat (strüvit) semiopaktır. Ürik asit klasik non-opak taştır.",explain:"<b>Ürik asit taşları direkt üriner sistem grafisinde görülemez (non-opak)</b>. Kalsiyum oksalat ve kalsiyum fosfat en opak taşlardır. Non-opak taşlar: Ürik asit, ksantin, saf matriks taşları."},
-  {id:9,section:"Taş Hastalığı",question:"İdrar yolu enfeksiyonu sonucu görülen böbrek taşı aşağıdakilerden hangisidir?",opts:["Kalsiyum oksalat taşları","Ürat taşları","Magnezyum amonyum fosfat taşları","Sistin taşları","Ksantin taşları"],answer:2,year:"İlkbahar 98",hint:"Enfeksiyon taşları üreaz aktivitesi olan bakterilerle oluşur ve alkali idrarda çökelir.",trap:"Kalsiyum oksalat en sık taş türüdür ancak enfeksiyonla doğrudan ilişkili değildir. Sistin genetik bir bozukluktur.",explain:"<b>Enfeksiyon (Strüvit) taşları Proteus, Pseudomonas, Providencia, Klebsiella benzeri üreyi parçalayan bakterilerle birlikte oluşur</b>. Proteus mirabilis gibi üreyi parçalayan ajanlar magnezyum amonyum fosfat tuzlarının çökmesini sağlayarak enfeksiyon taşları oluşmasına yol açar."},
-  {id:10,section:"Taş Hastalığı",question:"Aşağıdaki üriner sistem taşlarından hangisinin tedavisi için idrar alkali yapılır?",opts:["Enfeksiyon taşı","Kalsiyum fosfat taşı","Sitrüvit taşı","Ürik asit taşı","Magnezyum-amonyum-fosfat taşı"],answer:3,year:"Sonbahar 99",hint:"Asidik ortamda oluşan taşları alkali yaparak eritmek mantıklıdır.",trap:"Strüvit/sitrüvit taşları alkali idrarda oluştuğundan tedavisi asidik idrar ile yapılır. Ürik asit taşı asidik idrarda oluşur; tedavisi alkalinizasyondur.",explain:"<b>Asit ortamda oluşan taşlar idrar alkali yapılarak, alkali ortamda oluşan taşlar ise idrar asidik yapılarak atılımı artırılır</b>. Ürik asit ve sistin taşları asidik idrar ortamında oluşur; tedavileri idrarin alkalinizasyonudur."},
-  {id:11,section:"Taş Hastalığı",question:"Aşağıdaki çocukluk çağı idrar yolu enfeksiyon etkenlerinden hangisi taş oluşumuna sıklıkla sebep olur?",opts:["Proteus mirabilis","Escherichia coli","Stafilokokus saprofitikus","Streptekok agalaktia","Neisseria gonorrea"],answer:0,year:"Sonbahar 2000",hint:"Üreaz aktivitesi olan bakteri strüvit (enfeksiyon) taşı yapar.",trap:"E. coli en sık idrar yolu enfeksiyonu etkeni olmasına rağmen üreaz aktivitesi yoktur ve strüvit taşı yapmaz.",explain:"<b>Alkali idrarda amonyumun, magnezyum ve fosfat ile birleşmesi enfeksiyon (strüvit) taşlarını oluşturur</b>. Strüvit taşları için üreaz aktivitesi olan bakteri şart; en sık etken <b>Proteus mirabilis</b>'tir."},
-  {id:12,section:"Taş Hastalığı",question:"Tekrarlayan taş öyküsü olan 35 yaşındaki hastada yapılan taş analizinin sonucu kalsiyum oksalat monohidrat olarak bulunmuştur. Bu duruma aşağıdakilerden hangisinin neden olmuş olması beklenmez?",opts:["Hipositratüri","Hiperkalsiüri","Hiperkalsemi","Hiperoksalüri","Hiperglisemi"],answer:4,year:"İlkbahar 2005",hint:"Kalsiyum oksalat taşı için risk faktörlerini hatırla; hiperglisemi bu listede yoktur.",trap:"Hipositratüri, hiperkalsiüri, hiperkalsemi ve hiperoksalüri kalsiyum oksalat taşı için bilinen risk faktörleridir. Hiperglisemi taş etyolojisinde yer almaz.",explain:"Kalsiyum oksalat/fosfat taşları için risk faktörleri: <b>Hiperkalsiüri (%40-56), Hipositratüri (%20-40), Hiperürikozüri (%15-25), Hiperoksalüri (&lt;%5)</b>. <b>Taş etyolojisinde hipergliseminin yeri yoktur.</b>"},
-  {id:13,section:"Taş Hastalığı",question:"Renal pelviste 3,5 cm çapında sistin taşı olan hastanın böbreği hidronefrotiktir ve toplam fonksiyonun %30'nu karşılamaktadır. Aşağıdaki tedavi yöntemlerinden hangisi en az morbidite ile en yüksek oranda taştan arındırma sağlar?",opts:["Medikal tedavi","Piyelolitotomi","Parsiyel nefrektomi","Ekstrakorperal şok dalga litotripsi","Perkütan nefrolitotomi"],answer:4,year:"Sonbahar 2006",hint:"Büyük sistin taşı + hidronefroz + fonksiyon kaybı: ESWL yetersiz, en uygun minimal invaziv cerrahi yöntem?",trap:"Sistin taşları ESWL'ye dirençlidir. Piyelolitotomi açık cerrahidir. Perkütan nefrolitotomi sistin taşlarında günümüzde ilk seçenektir.",explain:"<b>Sistin taşları sert olduklarından dolayı ESWL'ye dirençlidir</b>. Bu vakada taşın proksimalde olması, 2 cm'den büyük olması ve hastada hidronefroz olması dolayısıyla seçilmesi gereken <b>perkütan nefrolitotomi</b> olmalıdır."},
-  {id:14,section:"Taş Hastalığı",question:"Yirmi beş yaşında erkek hastada sağ pelvis renaliste 1x1 cm boyutunda opasite saptanıyor. İntravenöz piyelografide böbrek toplayıcı sisteminde dilatasyonu olmayan bu hastada taş için en uygun tedavi aşağıdakilerden hangisidir?",opts:["Ekstrakorporeal şok dalga litotripsi","Sağ piyelolitotomi","Sağ nefrektomi","Bol sıvı ve radyolojik takip","Üriner alkalinizasyon"],answer:0,year:"Sonbahar 2011",hint:"1 cm boyutunda renal pelvis taşı, obstrüksiyon yok → ESWL endikasyonu.",trap:"0,6 cm altında taş için bol sıvı ve takip uygundur. Ancak 1 cm boyutunda taşta ESWL tercih edilmelidir.",explain:"<b>1 cm olan taşta temel tedavi ESWL'dir</b>. Perkutan nefrolitotomi: büyük taşlar, sistin taşları, obstrüksiyon gösteren taşlar için seçilir."},
-  // ===== ÜROGENİTAL YOL YARALANMALARI =====
-  {id:15,section:"Ürogenital Yol Yaralanmaları",question:"Duvardan düşen bir çocuk idrar yapamama şikâyeti ile getiriliyör. Hastanın yapılan muayenesinde suprapubik düzgün konturlu kitle ve üretra çıkışında hematom ve pıhtı tesbit ediliyor. Bu hastada tanı için en uygun yaklaşım aşağıdakilerden hangisidir?",opts:["Pelvik Ultrasonografi","İntravenöz pyelografi","Retrograd ürogram","Voiding sistografi","Diüretikli renogram"],answer:2,year:"Sonbahar 99",hint:"Üretra meatasında kan → retrograd üretrogram yapılmalıdır.",trap:"Voiding sistografi ve İVP üretral yaralanma tanısında öncelikli seçenek değildir. Künt travma sonrası meada kan saptanırsa retrograd üretrogram şarttır.",explain:"<b>Künt travma sonrası üretral meada kan saptandığında retrograd üretrogram yapılır</b>. Üretra yaralanmalarının tanısı retrograd ürogramla konulur."},
-  {id:16,section:"Ürogenital Yol Yaralanmaları",question:"Araç dışı trafik kazası sonrası acil servise gelen erkek hastada, penis meatus ekstemusunda taze kan görülüyor. Bu durumun etiyolojisini açıklamak için aşağıdaki görüntüleme yöntemlerinden hangisinin öncelikli olarak tercih edilmesi en uygundur?",opts:["İntravenöz piyelografi","Abdominal bilgisayarlı tomografi","Abdominal manyetik rezonans görüntüleme","Abdominal anjiyografi","Retrograd üretrografi"],answer:4,year:"Sonbahar 2023",hint:"Meada taze kan → üretral yaralanma → retrograd üretrografi.",trap:"BT veya İVP böbrek/mesane için kullanılır. Penis meatusunda kan görülmesi üretral yaralanmanın önemli belirtisidir; retrograd üretrogram önce yapılmalıdır.",explain:"<b>Dış üretra meatusunda kanın saptanması acil üretrografinin gerekliliğini gösterir</b>. Retrograd üretrografi, üretral yaralanma düzeyini ve ciddiyetini belirler. Foley sonda takılmamalı, önce retrograd üretrografi yapılmalıdır."},
-  // ===== MESANE KARSİNOMLARI =====
-  {id:17,section:"Mesane Karsinomları",question:"Mesanede hipertrofi ve hematüri yapan hangisidir?",opts:["Trichomoniasis","Schistosomiasis","Filariasis","Dicrocoelium dendriticum","Diphyllobotrium latum"],answer:1,year:"Sonbahar 90",hint:"Mesane venlerine yerleşmeyi seven trematod.",trap:"Trichomonas ve filariasis mesanede hipertrofi ve hematüri yapmaz. Schistosoma hematobium mesane venlerine yerleşir.",explain:"<b>Schistosoma hematobium, mesane venlerine yerleşmeyi seven bir trematoddur</b>. Mesane hipertrofisi olur, hematüri görülür. Schistosoma enfeksiyonlarında squamöz hücreli karsinom insidansı artar."},
-  {id:18,section:"Mesane Karsinomları",question:"Ağrısız gross ve pıhtılı hematürisi olan bir hastada en olası tanı aşağıdakilerden hangisidir?",opts:["Renal tüberküloz","Böbrek tümörü","Akut pyelonefrit","Mesane tümörü","Üriner taş hastalığı"],answer:3,year:"İlkbahar 91",hint:"Ağrısız, gross, pıhtılı hematüri → mesane tümörü.",trap:"Böbrek tümörü de ağrısız hematüri yapabilir ancak pıhtılı ve gross hematüri özellikle mesane tümörüne özgüdür.",explain:"<b>Ağrısız gross ve pıhtılı hematüride en olası tanı mesane tümörüdür</b>. Mesane tümöründen şüphelenildiğinde ilk yapılacak USG, kesin tanı ise sistoskopi ile konur."},
-  {id:19,section:"Mesane Karsinomları",question:"Mesane kanseri için risk faktörü olmayan aşağıdakilerden hangisidir?",opts:["Ultraviyole ışınları","Sigara","Endüstriyel aril amine maruz kalma","Fenasetin","Şistozoma hematobium enfestasyonu"],answer:0,year:"İlkbahar 2000",hint:"Mesane kanseri risk faktörleri arasında UV ışınları yoktur.",trap:"Sigara, aril aminler, fenasetin ve schistosomiasis mesane kanseri için bilinen risk faktörüdür. UV ışınları cilt kanseri ile ilişkilidir.",explain:"<b>UV ışınları mesane kanseri için risk faktörü değildir</b>. Etyolojide anilin boyaları, sigara, alkol, B-naftilamin, uzun süre fenasetin, siklofosfamid kullanımı, Schistosoma hematobium bulunur."},
-  {id:20,section:"Mesane Karsinomları",question:"Kronik mesane enfeksiyonları, uzun süreli üretral kateterizasyon ve mesane taşı öyküsü olan bir hastada aşağıdaki mesane kanseri hücre tiplerinden hangisinin görülmesi en olasıdır?",opts:["Değişici epitel hücreli karsinom","Skuamöz hücreli karsinom","Adenokarsinom","Nöroendokrin karsinom","Mezenkimal hücreli karsinom"],answer:1,year:"İlkbahar 2025",hint:"Kronik irritasyon + mesane taşı + kateter → squamöz metaplazi → squamöz hücreli karsinom.",trap:"Değişici epitel hücreli karsinom en sık mesane kanseridir ancak kronik irritasyon durumlarında squamöz hücreli karsinom ön plana çıkar.",explain:"<b>Skuamöz hücreli karsinom kronik irritasyon durumlarında en sık ortaya çıkan hücre tipidir</b>. Kronik mesane enfeksiyonları, uzun süreli üretral kateter kullanımı ve mesane taşı skuamöz metaplaziye zemin hazırlar."},
-  {id:21,section:"Mesane Karsinomları",question:"Mesane karsinoma in situ tedavisinde en etkili intravezikal uygulanan ajan aşağıdakilerden hangisidir?",opts:["BCG","Mitomisin-C","Doksorubisin","İnterferon","Thio-tepa"],answer:0,year:"Sonbahar 2007",hint:"İntravezikal immünoterapi için en sık tercih edilen immünostimülan ajan.",trap:"Mitomisin-C, Thio-tepa kemoterapötik ajanlardır; BCG ise immünoterapötiktir ve karsinoma in situ'da en etkili olandır.",explain:"<b>BCG (Calmette-Guerin Basili) karsinoma in situ tedavisinde en etkili intravezikal ajandır</b>."},
-  {id:22,section:"Mesane Karsinomları",question:"Kas invazyonu olmayan mesane kanserlerinde başlangıç tedavisi aşağıdakilerden hangisidir?",opts:["Yalnızca sistektomi","Transüretral rezeksiyon","Yalnızca radyoterapi","Sistemik kemoterapi","Sistektomi + radyoterapi"],answer:1,year:"Sonbahar 2011",hint:"Yüzeyel mesane tümörlerinde (Ta, Tis, T1) ilk tedavi TUR'dur.",trap:"T2 ve üzeri için radikal sistoprostatektomi düşünülür. T1 (kas invazyonu yok) için TUR ilk seçenektir.",explain:"<b>Kas invazyonu olmayan mesane kanserlerinde başlangıç tedavisi Transüretral Rezeksiyon (TUR)'dur</b>. Sonrasında BCG intravezikal uygulanır."},
-  // ===== MALİGN BÖBREK TÜMÖRLERİ =====
-  {id:23,section:"Malign Böbrek Tümörleri",question:"Renal pelvis skuamoz hücreli kanserinde en sık rastlanan predispozan faktör aşağıdakilerden hangisidir?",opts:["Anilin boyaları","Bilharziasis (Schistosomiasis)","Taşlar","Polikistik böbrek","Kronik analjezik kullanımı"],answer:2,year:"Sonbahar 97",hint:"Renal pelvis skuamöz hücreli karsinomu kronik enflamasyon ve taş oluşumu ile birlikte görülür.",trap:"Schistosomiasis mesane SCC için risk faktörüdür. Renal pelvis SCC için en sık predispozan faktör taşlardır.",explain:"<b>Skuamöz hücreli karsinomlar çoğunlukla kronik enflamasyon ve taş oluşumu ile birlikte gelişir</b>."},
-  {id:24,section:"Malign Böbrek Tümörleri",question:"Elli iki yaşındaki erkek hasta, üç ay içinde ikinci kez tekrarlayan hematüri şikâyetiyle başvuruyor. Hastaya yapılan ultrasonografide mesanede 3 cm büyüklüğünde kitle saptanıyor. Hastaya bu aşamada aşağıdaki işlemlerden hangisinin yapılması diğerlerine göre daha uygundur?",opts:["Sistemik kemoterapi","İntravezikal kemoterapi","Evreleyici lenfadenektomi","Sistostomi","Transüretral rezeksiyon"],answer:4,year:"İlkbahar 2019 Orijinal",hint:"Mesanede 3 cm kitle → önce tanı ve evreleme → TUR-M.",trap:"Lenfadenektomi veya sistostominin bu hastada yeri yoktur. Önce TUR ile tanı ve evreleme yapılmalıdır.",explain:"<b>Mesane kitlesinde önce TUR-M ile tanı ve evreleme yapılır</b>. Kas invazyonu olup olmadığına göre tedavi planlanır."},
-  // ===== SELİM PROSTAT HİPERPLAZİSİ =====
-  {id:25,section:"Selim Prostat Hiperplazisi",question:"Benign prostat hiperplazisi tanısında ilk yapılması gereken işlem aşağıdakilerden hangisidir?",opts:["Sistoskopi","Rektoskopi","Ultrason","İntravenöz pyelografi (IVP)","Rektal tuşe"],answer:4,year:"Sonbahar 89",hint:"BPH tanısında rektal tuşe ile prostatın büyüklüğü ve sınırları değerlendirilir.",trap:"Sistoskopi ve IVP daha ileri tetkiklerdir. BPH tanısında ilk ve en önemli fizik muayene yöntemi rektal tuşedir.",explain:"<b>Benign prostat hiperplazisinde en önemli fizik muayene yöntemi prostat bezinin rektal tuşeyle değerlendirilmesidir</b>."},
-  {id:26,section:"Selim Prostat Hiperplazisi",question:"Benign prostat hiperplazisinde ilk bulgu aşağıdakilerden hangisidir?",opts:["İnkontinans","Mesane hipertrofisi","Hematüri","Hidroüreteronefroz","Mesane divertikülü"],answer:1,year:"Sonbahar 90",hint:"BPH'da kompansasyon evresi erken dönemde hangi bulgu ile kendini gösterir?",trap:"İnkontinans ve hidroüreteronefroz geç bulgulardır. BPH'da üretral direnç arttıkça mesane kasları önce hipertrofiye uğrar.",explain:"<b>BPH'da erken evrelerde (kompansatuvar faz) mesanenin müsküler duvarı hipertrofiye olur ve kalınlaşır</b>."},
-  {id:27,section:"Selim Prostat Hiperplazisi",question:"Bening prostat hiperplazisi (BPH) tedavisinde tercih edilecek yöntem aşağıdakilerden hangisidir?",opts:["Üretra dilatasyonu","Antibiyotik tedavisi","Operasyon","Androjen tedavisi","Orşiektomi ve antiandrojen tedavi"],answer:2,year:"İlkbahar 91",hint:"Alfa blokörler ve 5-alfa redüktaz inhibitörlerine yanıtsız olgularda cerrahi gerekir.",trap:"Androjen tedavisi ve orşiektomi BPH'da kullanılmaz. Medikal tedaviye yanıtsızlıkta operasyon gerekir.",explain:"<b>Medikal tedaviye yanıtsız BPH'da TUR-P temel tedavi yaklaşımıdır</b>."},
-  {id:28,section:"Selim Prostat Hiperplazisi",question:"Benign prostat hiperplazi, prostat bezinin en sık hangi bölgesinden gelişir?",opts:["Anterior fibromusküler stroma","Periferal zon","Santral zon","Transizyonel zon","Lateral zon"],answer:3,year:"Sonbahar 2010",hint:"BPH en sık transizyonel zondan gelişir; prostat kanseri ise periferal zondan.",trap:"Prostat kanseri en sık periferal lobdan gelişir. BPH için transizyonel zon doğru cevaptır.",explain:"<b>BPH en sık transizyonel zondan gelişir</b>. Prostat kanseri en sık periferal zondan gelişir."},
-  // ===== PROSTAT KANSERİ =====
-  {id:29,section:"Prostat Kanseri",question:"Prostat kanserinde kanda artmış olarak bulunan enzim aşağıdakilerden hangisidir?",opts:["Alkalen fosfataz","5' Nükleotidaz","Aspartat aminotransferaz (SGOT)","Alanin aminotransferaz (SGPT)","Asit fosfataz"],answer:4,year:"Sonbahar 87",hint:"Prostat kanserinde prostat spesifik antijen (PSA) ve serum asit fosfataz düzeylerinde artış olur.",trap:"Alkalen fosfataz karaciğer ve kemik hastalıklarında yükselir. Prostat kanserine özgü olan asit fosfataz (PAP) ve PSA'dır.",explain:"<b>Prostat kanserinde, kanda prostat spesifik antijen (PSA) ve serum asit fosfataz düzeylerinde artış olur</b>. Kemik metastazı olan hastalarda serum asit fosfataz %75 oranında yükselmiş bulunur."},
-  {id:30,section:"Prostat Kanseri",question:"Altmış dokuz yaşındaki bir erkek hastada bel ağrısı nedeniyle kemik sintigrafisi çekiliyor ve osteoblastik aktivite artışı saptanıyor. Bu hastada, bu aşamada ilk yapılması gereken aşağıdakilerden hangisidir?",opts:["Rektal tuşe","İntravenöz pyelografi (IVP)","Lomber vertebra grafisi","Tam İdrar tetkiki","Serum Alkalen fosfataz (ALP)"],answer:0,year:"Sonbahar 92",hint:"Yaşlı hastada osteoblastik aktivite artışı → prostat kanseri kemik metastazı düşündürür → rektal tuşe.",trap:"ALP kemik metastazında yükselebilir ama önce prostat değerlendirmesi gerekir.",explain:"<b>Yaşlı hastada osteoblastik aktivite artışı prostat kanserinin kemik metastazını düşündürmelidir → rektal tuşe yapılmalıdır</b>. Kemik ya da tahta sertliğinde rektal tuşe bulgusu prostat kanseri için patognomoniktir."},
-  {id:31,section:"Prostat Kanseri",question:"Prostat karsinomu en sık hangi prostat lobundan gelişir?",opts:["Periferik lob","Anterior lob","Lateral lob","Orta lob","Periüretral lob"],answer:0,year:"Sonbahar 96",hint:"Prostat kanseri en sık periferik lobdan gelişir; BPH ise transizyonel zondan.",trap:"BPH transizyonel zondan gelişirken prostat kanseri periferik/periferal lobdan gelişir.",explain:"<b>Prostat kanseri en sık periferal lobdan gelişir</b>. BPH ise en sık transizyonel zondan gelişir."},
-  {id:32,section:"Prostat Kanseri",question:"Prostat tümörü şüphesinde ilk başvurulması gereken radyolojik yöntem aşağıdakilerden hangisidir?",opts:["Transrektal ultrasonografi","Magnetik rezonans görüntüleme","Bilgisayarlı tomografi","Pozitron emisyon tomografisi","Sistografi"],answer:0,year:"İlkbahar 2005",hint:"Prostat tümörü şüphesinde ilk yapılacak şey rektal tuşe + PSA + transrektal ultrasonografidir.",trap:"MRG lokalizasyon ve evrelemede kullanılır ama ilk başvurulacak yöntem değildir. Transrektal USG ilk radyolojik adımdır.",explain:"<b>Prostat tümörü şüphesinde ilk başvurulması gereken transrektal ultrasonografidir</b>. Tanı: rektal tuşe + PSA + transrektal ultrasonografi."},
-  // ===== TESTİS TÜMÖRLERİ =====
-  {id:33,section:"Testis Tümörleri",question:"Radyoterapiye en duyarlı testis tümörü aşağıdakilerden hangisidir?",opts:["Embriyonel karsinom","Koryokarsinom","Teratokarsinom","Fibrosarkom","Seminom"],answer:4,year:"Sonbahar 93",hint:"Erkeklerde seminomlar ve kadınlarda disgerminomlar radyoterapiye duyarlı tümörlerdir.",trap:"Koryokarsinom kemoterapiye iyi yanıt verir. Radyoterapiye en duyarlı olan seminomdur.",explain:"<b>Radyoterapiye en duyarlı testis tümörü seminomdur</b>."},
-  {id:34,section:"Testis Tümörleri",question:"Testisin germ hücreli tümör belirteçleri aşağıdaki şıklardan hangisinde doğru verilmiştir?",opts:["Karsino embriyojenik antijen+keratin","Alfa-fetoprotein+beta hCG","Karsino embriyojenik antijen+alfa-fetoprotein","Beta hCG+asit fosfataz","Alfa-fetoprotein+keratin"],answer:1,year:"İlkbahar 95",hint:"Germ hücreli testis tümörlerinde tümör belirteçleri AFP ve beta-hCG'dir.",trap:"CEA testis tümör belirteci değildir. Asit fosfataz prostat kanseri belirtecidir.",explain:"<b>Germ hücreli testis tümörlerinde tümör belirteçleri Alfa fetoprotein ve beta hCG'dir</b>."},
-  {id:35,section:"Testis Tümörleri",question:"Aşağıdaki testis tümörlerinden hangisi en sık retroperitoneal lenf bezi metastazı yapar?",opts:["Seminom","Teratokarsinom","Embriyonel karsinom","Koryokarsinom","Yolk sak tümörü"],answer:2,year:"İlkbahar 96",hint:"Retroperitoneal lenf nodu metastazı yapma sıklığı açısından germ hücreli tümörler karşılaştırılmaktadır.",trap:"Seminom retroperitoneal yayılım yapar ama en sık değildir. Koryokarsinom hematojen yayılımı tercih eder.",explain:"<b>Embriyonel karsinom en sık retroperitoneal lenf bezi metastazı yapan testis tümörüdür</b>."},
-  {id:36,section:"Testis Tümörleri",question:"Testisin en sık görülen tümörü aşağıdakilerden hangisidir?",opts:["Teratom","Embriyonel karsinom","Seminom","Koryokarsinom","Yolk sak tümörü"],answer:2,year:"Sonbahar 97",hint:"Testisin en sık germ hücreli tümörü ve en sık testis tümörü birdir.",trap:"Embriyonel karsinom ikinci sıklıktadır. Koryokarsinom en nadir ve en kötü prognozludur.",explain:"<b>Seminom, testisin en sık görülen tümörüdür (%40-50)</b>."},
-  {id:37,section:"Testis Tümörleri",question:"Testis tümörleri içinde en kötü prognozlu olanı aşağıdakilerden hangisidir?",opts:["Seminom","Embriyonel karsinom","Teratom","Koryokarsinom","Yolk sak tümörü"],answer:3,year:"Sonbahar 98",hint:"En erken hematojen metastaz yapan, en agresif germ hücreli tümör.",trap:"Seminom en iyi prognozludur. Koryokarsinom en kötü prognozludur.",explain:"<b>Koryokarsinom en kötü prognozlu testis tümörüdür</b>. Beta-hCG %100 pozitiftir. Erken hematojen yayılım yapar."},
-  {id:38,section:"Testis Tümörleri",question:"Çocukluk döneminde en sık görülen testis tümörü aşağıdakilerden hangisidir?",opts:["Seminom","Embriyonel karsinom","Yolk sac tümörü","Teratom","Koryokarsinom"],answer:2,year:"İlkbahar 99",hint:"Yolk sac tümörü (endodermal sinüs tümörü) çocuklarda en sık görülen testis tümörüdür.",trap:"Seminom erişkinlerde en sık iken çocuklarda değildir.",explain:"<b>Yolk sac tümörü (endodermal sinüs tümörü) çocukluk döneminde en sık görülen testis tümörüdür</b>. AFP belirteciyle tanınır."},
-  {id:39,section:"Testis Tümörleri",question:"Testis tümörlerinde kullanılan tümör belirteçleri için aşağıdakilerden hangisi doğrudur?",opts:["AFP; sadece seminomda artar","B-HCG; sadece seminomda artar","AFP; koryokarsinomda artar","AFP ve B-HCG; yalnızca seminomda saptanır","B-HCG; her tip testis tümöründe artar"],answer:4,year:"Sonbahar 2000",hint:"Beta-hCG sinsityotrofoblastik hücreler tarafından salgılanır ve birden fazla tümör tipinde yükselebilir.",trap:"AFP koryokarsinomda artmaz (%0). Seminom AFP yapmaz.",explain:"<b>Beta-HCG her tip testis tümöründe artabilir</b>. AFP ise koryokarsinomda artmaz."},
-  {id:40,section:"Testis Tümörleri",question:"Kriptorşidizmde en sık görülen testis tümörü aşağıdakilerden hangisidir?",opts:["Teratom","Embriyonel karsinom","Yolk sac tümörü","Seminom","Koryokarsinom"],answer:3,year:"İlkbahar 2001",hint:"Kriptorşidizmde en sık görülen malignite seminomdur.",trap:"Kriptorşidizm tüm germ hücreli tümörler için risk faktörüdür ancak seminom en sık gelişendir.",explain:"<b>Kriptorşidizmde en sık görülen testis tümörü seminomdur</b>."},
-  {id:41,section:"Testis Tümörleri",question:"Aşağıdaki testis tümörlerinden hangisinde serum alfa-fetoprotein (AFP) düzeyi yükselmez?",opts:["Embriyonel karsinom","Yolk sac tümörü","Teratokarsinom","Koryokarsinom","Miks germ hücreli tümör"],answer:3,year:"Sonbahar 2002",hint:"Koryokarsinom AFP salgılamaz; yalnızca beta-hCG salgılar.",trap:"Miks germ hücreli tümörde AFP içeren komponent varsa AFP yükselir. Saf koryokarsinomda AFP artmaz.",explain:"<b>Koryokarsinomda serum AFP düzeyi yükselmez; yalnızca beta-hCG %100 oranında yükselir</b>."},
-  {id:42,section:"Testis Tümörleri",question:"Erişkin yaşta görülen testis tümörlerinde hangi tümör belirteci yükselmez?",opts:["LDH","Beta hCG","AFP","PSA","Plasental alkalen fosfataz"],answer:3,year:"İlkbahar 2004",hint:"PSA prostat bezine özgü bir belirteçtir; testis tümörlerinde kullanılmaz.",trap:"LDH, beta-hCG, AFP ve plasental alkalen fosfataz testis tümörü belirteçleri arasında yer alır. PSA testis tümörü belirteci değildir.",explain:"<b>PSA (Prostat Spesifik Antijen) testis tümörlerinde yükselmez</b>. Testis tümörü belirteçleri: AFP, beta-hCG, LDH, PLAP."},
-  {id:43,section:"Testis Tümörleri",question:"Aşağıdaki testis tümörlerinden hangisi en iyi prognoza sahiptir?",opts:["Teratokarsinom","Embriyonel karsinom","Koryokarsinom","Seminom","Teratom"],answer:3,year:"Sonbahar 2005",hint:"Radyoterapiye en duyarlı, en yavaş büyüyen germ hücreli tümör.",trap:"Koryokarsinom en kötü prognozludur. Seminom en iyi prognozludur.",explain:"<b>Seminom testis tümörleri içinde en iyi prognoza sahiptir</b>."},
-  {id:44,section:"Testis Tümörleri",question:"Pür seminom tedavisinde kemoterapi endikasyonu aşağıdakilerden hangisidir?",opts:["Evre I seminom","Evre II seminom","Evre III seminom","Retroperitoneal lenf nodu tutulumu","Supraklaviküler lenf nodu tutulumu"],answer:2,year:"Sonbahar 2007",hint:"Seminom evre III'te (uzak metastaz) kemoterapi gerekir.",trap:"Evre I ve II seminomda radyoterapi yeterlidir. Evre III'te BEP kemoterapisi uygulanır.",explain:"<b>Pür seminomda kemoterapi endikasyonu Evre III'tür</b>. Evre I/II: RT. Evre III: BEP kemoterapisi."},
-  {id:45,section:"Testis Tümörleri",question:"Seminomda en sık metastaz hangi organa olur?",opts:["Akciğer","Beyin","Retroperitoneal lenf nodları","Karaciğer","Kemik"],answer:2,year:"Sonbahar 2009",hint:"Testis lenf drenajı paraaortik lenf nodlarına olur.",trap:"Koryokarsinom akciğere hematojen metastaz yapar. Seminom lenfatik yayılımla retroperitoneal LN'lara metastaz yapar.",explain:"<b>Seminomda en sık metastaz retroperitoneal lenf nodlarınadır</b>."},
-  {id:46,section:"Testis Tümörleri",question:"Kırk dört yaşındaki bir erkek hasta, sağ testiste ağrısız büyüme şikâyetiyle başvuruyor. Serum AFP: 800 ng/mL (N: 0-20 ng/mL), β-hCG: 0 mIU/mL (N: 0-5 mIU/mL). Bu hastanın tümörünün histolojisi büyük olasılıkla aşağıdakilerden hangisidir?",opts:["Seminom","Koryokarsinom","Embriyonel karsinom","Yolk sac tümörü","Teratom"],answer:3,year:"İlkbahar 2018 Orijinal",hint:"AFP yüksek + beta-hCG normal → hangi tümör tipi?",trap:"Koryokarsinomda beta-hCG %100 yüksek, AFP normal. Sadece AFP yüksekliği yolk sac tümörüne işaret eder.",explain:"<b>AFP'nin seçici olarak yükseldiği, beta-hCG'nin normal olduğu tabloda Yolk Sac Tümörü en olası tanıdır</b>."},
-  {id:47,section:"Testis Tümörleri",question:"Testis tümörlerinde orşiektomi hangi insizyonla yapılır?",opts:["Skrotal insizyon","İnguinal insizyon","Suprapubik insizyon","Transperitoneal insizyon","Lombotomi"],answer:1,year:"Sonbahar 2011",hint:"Skrotal lenf drenajı inguinal LN'lara, testisin lenf drenajı paraaortik LN'lara olur.",trap:"Skrotal insizyon yapılırsa lenf drenajı değişir. İnguinal insizyon şarttır.",explain:"<b>Testis tümörlerinde orşiektomi inguinal (kasık) insizyon ile yapılır</b>."},
-  {id:48,section:"Testis Tümörleri",question:"Kriptorşidizmi olan 2 yaşındaki bir çocukta testisi skrotuma indirmek için en uygun tedavi aşağıdakilerden hangisidir?",opts:["Orşiektomi","Orşiopeksi","hCG tedavisi","GnRH tedavisi","Bekleme"],answer:1,year:"İlkbahar 2013",hint:"2 yaşında kriptorşidizm → cerrahi tedavi (orşiopeksi) endikasyonu.",trap:"Hormonal tedavi 1 yaş altında denenebilir ama 2 yaşında cerrahi tercih edilir.",explain:"<b>2 yaşındaki çocukta kriptorşidizm için en uygun tedavi orşiopeksidir</b>."},
-  {id:49,section:"Testis Tümörleri",question:"Skrotumda ağrısız kitle ile başvuran 28 yaşındaki hastada transillüminasyon testi negatif saptanıyor. Serum AFP ve beta-hCG normal. Bu hastada en uygun bir sonraki adım aşağıdakilerden hangisidir?",opts:["Skrotal ultrasonografi","Pelvik BT","Testis biyopsisi","İnguinal orşiektomi","Abdominopelvik MRG"],answer:0,year:"İlkbahar 2015",hint:"Transillüminasyon negatif = solid kitle olabilir → ilk görüntüleme USG.",trap:"Hemen biyopsi veya orşiektomi yapmak erken. İlk adım USG.",explain:"<b>Transillüminasyon negatif skrotal kitlede ilk yapılacak görüntüleme skrotal ultrasonografidir</b>."},
-  {id:50,section:"Testis Tümörleri",question:"Otuz yaşında erkek hasta sağ skrotumda 3 aydır mevcut olan ağrısız kitle şikayeti ile başvuruyor. Skrotal USG'de sağ testiste homojen hipoekoik solid lezyon saptanıyor. Serum AFP ve β-hCG değerleri normal sınırlar içinde. Bu hastada en uygun tedavi yaklaşımı aşağıdakilerden hangisidir?",opts:["Skrotal biyopsi","İnguinal eksplorasyon ve orşiektomi","Kemik sintigrafisi","Retroperitoneal lenf nodu diseksiyonu","Gözlem"],answer:1,year:"Sonbahar 2021 Orijinal",hint:"Solid testis kitlesi → malignite ekarte edilmeli → inguinal orşiektomi.",trap:"Skrotal biyopsi kontrendikedir (lenf drenajını bozar).",explain:"<b>Solid testis kitlesinde en uygun yaklaşım inguinal eksplorasyon ve orşiektomidir</b>."},
-  // ===== BÖBREĞİN DOĞUMSAL ANOMALİLERİ =====
-  {id:51,section:"Böbreğin Doğumsal Anomalileri",question:"Atnalı böbrek aşağıdaki damar anomalilerinden hangisiyle birlikte görülmez?",opts:["Aberan renal arter","Aberan renal ven","Aort koarktasyonu","İnferior vena kava anomalisi","Portal ven anomalisi"],answer:4,year:"İlkbahar 97",hint:"Atnalı böbrek retroperitoneal damar anomalileriyle birlikte olabilir; portal ven intraabdominal hepatik bir yapıdır.",trap:"Aberan renal arter/ven, aort koarktasyonu ve IVC anomalisi atnalı böbrekle birliktelik gösterir. Portal ven anomalisi değil.",explain:"<b>Atnalı böbrek portal ven anomalisi ile birlikte görülmez</b>."},
-  {id:52,section:"Böbreğin Doğumsal Anomalileri",question:"Hidronefroz ve üreterohidronefroz en sık aşağıdaki anomalinin komplikasyonu olarak ortaya çıkar?",opts:["Atnalı böbrek","Ektopik böbrek","Üreteropelvik bileşke darlığı","Primer megaüreter","Vezikoüreteral reflü"],answer:2,year:"Sonbahar 2000",hint:"ÜPB darlığı idrar çıkışını engeller ve böbreği hidronefroza götürür.",trap:"VUR ve megaüreter de hidronefroz yapabilir ama en sık neden üreteropelvik bileşke darlığıdır.",explain:"<b>Hidronefroz ve üreterohidronefrozun en sık nedeni üreteropelvik bileşke (ÜPB) darlığıdır</b>."},
-  {id:53,section:"Böbreğin Doğumsal Anomalileri",question:"Atnalı böbrekte aşağıdaki durumların hangisi görülmez?",opts:["Üreteropelvik bileşke darlığı","Taş","Enfeksiyon","Wilms tümörü","Renal hücreli karsinom"],answer:4,year:"İlkbahar 2001",hint:"Atnalı böbrekte en sık görülen tümör renal hücreli karsinom değildir.",trap:"Wilms tümörü atnalı böbrekle daha spesifik ilişkilidir. Renal hücreli karsinom tipik komplikasyon değildir.",explain:"Atnalı böbrekte: ÜPB darlığı, taş, enfeksiyon, Wilms tümörü görülür. <b>Renal hücreli karsinom atnalı böbreğin tipik komplikasyonu değildir</b>."},
-  {id:54,section:"Böbreğin Doğumsal Anomalileri",question:"Aşağıdaki doğumsal anomalilerden hangisinde böbrekler anterior yüz yüze bakarlar?",opts:["Pelvik böbrek","Ektopik böbrek","Atnalı böbrek","Disk böbrek","L-şekilli böbrek"],answer:3,year:"Sonbahar 2003",hint:"Disk (kek/kalkanlı) böbrekte iki böbrek medial yüzlerinden birleşmiştir.",trap:"Atnalı böbrekte alt pollerden birleşme olur. Disk böbrekte her iki böbreğin tüm medial yüzleri birleşir.",explain:"<b>Disk (kek/kalkanlı) böbrekte iki böbreğin medial yüzleri geniş bir alan boyunca birleşmiştir; anterior yüzler yüz yüze bakar</b>."},
-  {id:55,section:"Böbreğin Doğumsal Anomalileri",question:"Üreteropelvik bileşke obstrüksiyonu olan bebeklerde en uygun cerrahi yaklaşım aşağıdakilerden hangisidir?",opts:["Nefrektomi","Nefrostomi","Pyeloplasti","Üreter reimplantasyonu","Konservatif izlem"],answer:2,year:"İlkbahar 2006",hint:"ÜPB obstrüksiyonunda darlığı gidermek için rekonstrüktif cerrahi yapılır.",trap:"Nefrektomi fonksiyonlu böbrekte yapılmaz. Nefrostomi geçici çözümdür. Kalıcı tedavi pyeloplastidir.",explain:"<b>Üreteropelvik bileşke obstrüksiyonunda standart tedavi pyeloplastidir (Anderson-Hynes)</b>."},
-  {id:56,section:"Böbreğin Doğumsal Anomalileri",question:"Multikistik displastik böbreğin klinik önemi nedir?",opts:["Malign dönüşüm riski yüksektir","Karşı taraf böbrekte anomali riski artmıştır","Her zaman bilateral görülür","Otozomal dominant geçer","Polisitemi yapabilir"],answer:1,year:"Sonbahar 2008",hint:"Multikistik displastik böbrek tanısı konulduğunda karşı taraf mutlaka değerlendirilmelidir.",trap:"Malign dönüşüm riski çok düşüktür. Karşı taraf anomali riski önemli klinik bulgudur.",explain:"<b>Multikistik displastik böbreğin en önemli klinik önemi karşı taraf böbrekte anomali riskinin artmış olmasıdır</b>."},
-  // ===== MESANENİN ANOMALİLERİ =====
-  {id:57,section:"Mesanenin Anomalileri",question:"Mesane ekstrofisinde aşağıdaki komplikasyonlardan hangisi beklenmez?",opts:["Pubik diyastaz","İdrar kaçıncılığı (inkontinans)","Epispadi","Hidronefroz","Hidrosel"],answer:4,year:"Sonbahar 2004",hint:"Mesane ekstrofisi alt üriner sistem ve pelvik yapıları etkiler; hidrosel ile direkt ilişkisi yoktur.",trap:"Pubik diyastaz, inkontinans, epispadi ve hidronefroz mesane ekstrofisinin bilinen komplikasyonlarıdır.",explain:"<b>Mesane ekstrofisinde hidrosel beklenmez</b>."},
-  // ===== İNTRASKROTAL KİTLELER =====
-  {id:58,section:"İntraskrotal Kitleler",question:"Aşağıdakilerden hangisi skrotum içi kistik kitledir?",opts:["Testis tümörü","Hidrosel","Varikosel","Spermatosel","Hematosel"],answer:1,year:"İlkbahar 91",hint:"Transillüminasyon pozitif olan intraskrotal kitleler kistik yapılardır.",trap:"Varikosel kistik değil venöz genişlemedir. Testis tümörü soliddir.",explain:"<b>Hidrosel, tunika vajinalisin iki yaprağı arasında sıvı birikmesidir; transillüminasyon pozitiftir</b>."},
-  {id:59,section:"İntraskrotal Kitleler",question:"Varikosel en sık hangi tarafta görülür?",opts:["Sağ tarafta","Sol tarafta","Her iki tarafta eşit sıklıkta","Bilateral","Orta hat"],answer:1,year:"İlkbahar 95",hint:"Sol testiküler ven dik açıyla sol renal vene drene olur.",trap:"Sağ tarafta varikosel görülürse retroperitoneal patoloji düşünülmelidir. Sol taraf anatomik nedenlerle daha sıktır.",explain:"<b>Varikosel en sık sol tarafta görülür (%85-90)</b>. Sol testiküler ven sol renal vene dik açıyla drene olur."},
-  {id:60,section:"İntraskrotal Kitleler",question:"İnfertil erkekte inguinal varikoselektominin ana yararı nedir?",opts:["Testosteron düzeyini artırır","Spermatozoa sayısını ve motilitesini artırır","Ereksiyon güçlüğünü ortadan kaldırır","LH düzeyini normalize eder","Libidoyu artırır"],answer:1,year:"Sonbahar 97",hint:"Varikosel spermatogenezi bozar; tedavisi spermatozoa parametrelerini düzeltir.",trap:"Varikoselektominin temel amacı fertilite; ana yarar sperm parametrelerindedir.",explain:"<b>Varikoselektominin ana yararı spermatozoa sayısını ve motilitesini artırarak fertiliteyi iyileştirmektir</b>."},
-  {id:61,section:"İntraskrotal Kitleler",question:"Altı yaşında bir çocukta ani başlayan sol skrotum ağrısı mevcut. Cremasteric refleks alınamıyor. Bu çocukta en olası tanı aşağıdakilerden hangisidir?",opts:["Epididimit","Orşit","Testis torsiyonu","Hidrosel","İnkarsere inguinal herni"],answer:2,year:"İlkbahar 2009",hint:"Ani ağrı + kremasterik refleks kaybı = testis torsiyonu.",trap:"Epididimit erişkinlerde sık; çocukta ani ağrı + kremasterik refleks kaybı torsiyonu düşündürür.",explain:"<b>Ani başlayan skrotal ağrı, ödem ve kremasterik refleks kaybı testis torsiyonunun klasik triadıdır</b>. Ürolojik acildir."},
-  {id:62,section:"İntraskrotal Kitleler",question:"Testisin torsiyonunda en güvenilir tanı yöntemi aşağıdakilerden hangisidir?",opts:["Skrotal ultrasonografi","Renkli Doppler ultrasonografi","Radyonüklid sintigrafi","Fizik muayene","BT"],answer:3,year:"İlkbahar 2011",hint:"Testis torsiyonu cerrahi acildir; en güvenilir yöntem klinik değerlendirmedir.",trap:"Doppler USG tanıda yardımcı olabilir ama klinik şüphede görüntülemeyi beklemek organ kaybına yol açabilir.",explain:"<b>Testis torsiyonunda en güvenilir tanı yöntemi fizik muayenedir</b>. Klinik şüphede acil cerrahi eksplorasyona gidilmelidir."},
-  {id:63,section:"İntraskrotal Kitleler",question:"İnfertil erkekte semen analizinde azoospermi saptanıyor. Serum FSH düzeyi normalin 3 katı, LH ve testosteron normal sınırlarda. Bu bulgular aşağıdaki durumların hangisinde görülebilir?",opts:["Hipogonadotropik hipogonadizm","Sertoli cell-only sendromu","Obstrüktif azoospermi","Varikosel","Retrograd ejakülasyon"],answer:1,year:"Sonbahar 2013",hint:"Yüksek FSH + normal testosteron + azoospermi → testiküler yetmezlik (non-obstrüktif).",trap:"Obstrüktif azoospermide FSH normaldir. Yüksek FSH non-obstrüktif azoospermiyi gösterir.",explain:"<b>FSH'ın yüksekliği testiküler yetmezliği gösterir; Sertoli cell-only sendromunda spermatogenez yoktur ve FSH yükselir</b>."},
-  // ===== ÜRİNER OBSTRÜKSİYON =====
-  {id:64,section:"Üriner Obstrüksiyon",question:"Üriner obstrüksiyona bağlı hidronefroz için en duyarlı görüntüleme yöntemi aşağıdakilerden hangisidir?",opts:["Direkt üriner sistem grafisi","İntravenöz piyelografi","Ultrasonografi","Bilgisayarlı tomografi","Sintigrafi"],answer:2,year:"Sonbahar 93",hint:"Hidronefroz tanısında ucuz, hızlı ve noninvaziv yöntem.",trap:"İVP fonksiyonel bilgi verir ama radyasyon ve kontrast gerektirir. USG ilk seçenektir.",explain:"<b>Hidronefroz tanısında en duyarlı ve ilk tercih edilecek yöntem ultrasonografidir</b>."},
-  {id:65,section:"Üriner Obstrüksiyon",question:"Bilateral üreteral obstrüksiyonun en sık nedeni aşağıdakilerden hangisidir?",opts:["Retroperitoneal fibrozis","Bilateral üreteral taş","Mesane kanseri","Prostat kanseri","Serviks kanseri"],answer:3,year:"İlkbahar 98",hint:"Erkeklerde bilateral üreter obstrüksiyonunun en sık nedeni prostat bölgesindeki patolojilerdir.",trap:"Serviks kanseri bilateral obstrüksiyon yapabilir ama bu kadınlar için. Erkeklerde prostat kanseri birincil nedendir.",explain:"<b>Bilateral üreteral obstrüksiyonun en sık nedeni prostat kanseridir</b>."},
-  {id:66,section:"Üriner Obstrüksiyon",question:"Unilateral üreteral obstrüksiyon tedavisiz bırakıldığında böbrekte ne olur?",opts:["Böbrek fonksiyonu tamamen normale döner","Böbrek küçülür ve fibrozis gelişir","Böbrek normal kalır","Kontralateral böbrek yetmezliğe girer","Üreter otomatik açılır"],answer:1,year:"Sonbahar 2001",hint:"Kronik obstrüksiyonda böbrek parankimi irreversibl hasar görür.",trap:"Akut obstrüksiyon giderilirse fonksiyon düzelir ama kronik/kalıcı obstrüksiyonda fibrozis ve atrofi kaçınılmazdır.",explain:"<b>Tedavisiz bırakılan unilateral üreteral obstrüksiyonda zamanla böbrekte atrofi ve fibrozis gelişir</b>."},
-  {id:67,section:"Üriner Obstrüksiyon",question:"Üreteropelvik bileşke darlığına bağlı hidronefrozun standart cerrahi tedavisi aşağıdakilerden hangisidir?",opts:["Nefrektomi","Üreteroskopi","Dismembered pyeloplasty","Endopyelotomi","Nefrostomi"],answer:2,year:"İlkbahar 2004",hint:"Anderson-Hynes pyeloplasty ÜPB darlığında altın standart tedavidir.",trap:"Endopyelotomi minimal invaziv seçenektir ama altın standart değildir.",explain:"<b>ÜPB darlığında standart cerrahi tedavi dismembered pyeloplasty'dir (Anderson-Hynes)</b>."},
-  // ===== VEZİKOÜRETERAL REFLÜ =====
-  {id:68,section:"Vezikoüreteral Reflü",question:"Vezikoüreteral reflünün (VUR) en sık komplikasyonu aşağıdakilerden hangisidir?",opts:["Mesane divertikülü","Pyelonefrit","Böbrek taşı","Mesane inkontinansı","Üreter taşı"],answer:1,year:"Sonbahar 91",hint:"VUR idrarın mesaneden böbreğe geri kaçmasına yol açar; bu enfeksiyonu kolaylaştırır.",trap:"VUR renal skar ve hipertansiyona yol açabilir ama en sık komplikasyon tekrarlayan pyelonefrittir.",explain:"<b>VUR'un en sık komplikasyonu tekrarlayan üriner sistem enfeksiyonu ve pyelonefrittir</b>."},
-  {id:69,section:"Vezikoüreteral Reflü",question:"Vezikoüreteral reflü tanısında altın standart yöntem aşağıdakilerden hangisidir?",opts:["Renal ultrasonografi","İntravenöz piyelografi","Voiding sistourethrografi (VCUG)","Radyonüklid sistografi","Sistoskopi"],answer:2,year:"İlkbahar 93",hint:"İdrarın mesaneden üretere/böbreğe geri kaçışını dinamik olarak gösteren yöntem.",trap:"Radyonüklid sistografi daha az radyasyon içerir ama anatomik detay vermez. VCUG altın standarttır.",explain:"<b>VUR tanısında altın standart voiding sistoüretrografi (VCUG)'dir</b>."},
-  {id:70,section:"Vezikoüreteral Reflü",question:"Primer vezikoüreteral reflüde aşağıdakilerden hangisi temel patolojidir?",opts:["Üreteral darlık","Üreteropelvik bileşke obstrüksiyonu","Üreterovezikobileşkedeki tünel uzunluğunun kısa olması","Nörojenik mesane","Mesane divertikülü"],answer:2,year:"Sonbahar 96",hint:"VUR'da üreterovezikal bileşkenin antireflü mekanizması bozulmuştur.",trap:"Üreteral darlık obstrüksiyona yol açar, reflüye değil. Primer VUR'da anatomik sorun submukozal tünel kısalığıdır.",explain:"<b>Primer VUR'da temel patoloji üreterovezikobileşkedeki submukozal tünel uzunluğunun kısa olmasıdır</b>."},
-  {id:71,section:"Vezikoüreteral Reflü",question:"Evre III-IV vezikoüreteral reflüde cerrahi tedavi endikasyonu aşağıdaki durumların hangisinde söz konusu değildir?",opts:["Medikal tedaviye rağmen tekrarlayan üriner enfeksiyonlar","Renal skar gelişimi","Böbrek büyümesinin durması","Bilateral Evre IV VUR","İlk tanı anında Evre III unilateral VUR"],answer:4,year:"Sonbahar 2002",hint:"VUR'da cerrahi endikasyonlar belirlidir; ilk tanı anındaki evre III tek başına cerrahi endikasyon değildir.",trap:"Bilateral yüksek evre VUR veya medikal tedaviye rağmen komplikasyon cerrahi gerektirir. Evre III unilateral'de önce medikal.",explain:"<b>İlk tanı anında Evre III unilateral VUR tek başına cerrahi endikasyon değildir</b>; önce medikal tedavi denenir."},
-  {id:72,section:"Vezikoüreteral Reflü",question:"Vezikoüreteral reflünün cerrahi tedavisinde hangi prosedür uygulanır?",opts:["Pyeloplasty","Cohen üreter reimplantasyonu","Üreteral stent","Nefrostomi","Sistostomi"],answer:1,year:"İlkbahar 2006",hint:"VUR cerrahisinde üreterovezikobileşke yeniden yapılandırılır.",trap:"Pyeloplasty ÜPB darlığındadır. VUR cerrahisinde üreter yeni tünel oluşturularak mesaneye reimplante edilir.",explain:"<b>VUR'un cerrahi tedavisinde Cohen üreter reimplantasyonu uygulanır</b>. Başarı oranı %95-97."},
-  // ===== GENİTOÜRİNER ENFEKSİYONLAR =====
-  {id:73,section:"Genitouriner Enfeksiyonlar",question:"İdrar yolu enfeksiyonu etkenlerinin en sık hangisidir?",opts:["Klebsiella pneumoniae","Proteus mirabilis","Escherichia coli","Stafilokokus saprofitikus","Pseudomonas aeruginosa"],answer:2,year:"Sonbahar 88",hint:"Toplumdan kazanılmış ÜYE'lerin %80-85'inden sorumlu bakteri.",trap:"Stafilokok saprofitikus genç kadınlarda 2. sıktır. E. coli açık ara en sıktır.",explain:"<b>İdrar yolu enfeksiyonlarının en sık etkeni E. coli'dir (%80-85)</b>."},
-  {id:74,section:"Genitouriner Enfeksiyonlar",question:"Kadınlarda erkeklere oranla idrar yolu enfeksiyonu daha sık görülmesinin en önemli nedeni aşağıdakilerden hangisidir?",opts:["Hormonel faktörler","Vajinal floranın farklılığı","Üretranın kısa olması","İmmün sistem farklılıkları","Mesane kapasitesinin küçük olması"],answer:2,year:"İlkbahar 89",hint:"Anatomik farklılık → bakterilerin mesaneye ulaşması kolaylaşır.",trap:"Hormonel faktörler menopozda rol oynar ama genel nedenin başında anatomik faktör (kısa üretra) gelir.",explain:"<b>Kadınlarda ÜYE'nin en önemli nedeni üretranın kısa olmasıdır</b>. Kadın üretrası 3-4 cm, erkekte 15-20 cm'dir."},
-  {id:75,section:"Genitouriner Enfeksiyonlar",question:"Tekrarlayan idrar yolu enfeksiyonu olan kadında öncelikle araştırılması gereken durum aşağıdakilerden hangisidir?",opts:["Böbrek taşı","Vezikoüreteral reflü","Mesane divertikülü","Üriner sistem anomalisi","İdrar retansiyonu"],answer:3,year:"Sonbahar 91",hint:"Tekrarlayan ÜYE'de altta yatan anatomik veya fonksiyonel bozukluk araştırılır.",trap:"Tek bir ÜYE'de görüntüleme gerekmeyebilir. Tekrarlayan ÜYE'de yapısal anomali aranmalıdır.",explain:"<b>Tekrarlayan ÜYE'de öncelikle üriner sistem anomalisi araştırılmalıdır</b>."},
-  {id:76,section:"Genitouriner Enfeksiyonlar",question:"Üriner sistem tüberkülozu için aşağıdakilerden hangisi yanlıştır?",opts:["Steril piyüri görülür","Hematojen yayılım ile gelişir","İdrar asidik karakterdedir","Kalsifikasyon oluşabilir","Tanıda idrar kültürü tek yeterli yöntemdir"],answer:4,year:"İlkbahar 95",hint:"Üriner TBC tanısı için birden fazla yöntem gerekebilir.",trap:"Steril piyüri, hematojen yayılım, asidik idrar ve kalsifikasyon üriner TBC'nin bilinen özellikleridir. İdrar kültürü tek başına yeterli değildir.",explain:"<b>Üriner TBC tanısında idrar kültürü tek başına yeterli değildir</b>. Birden fazla sabah idrar örneği gerekir."},
-  {id:77,section:"Genitouriner Enfeksiyonlar",question:"Renal tüberküloz için aşağıdakilerden hangisi yanlıştır?",opts:["Hematojen yayılım ile gelişir","Steril piyüri görülür","İdrar kültürü negatiftir","Skarlaşma ve kalsifikasyon görülebilir","İdrar alkali karakterdedir"],answer:4,year:"Sonbahar 98",hint:"Tüberküloz bakterisi asidik ortamı tercih eder; üriner TBC'de idrar asidiktir.",trap:"Alkali idrar enfeksiyon (strüvit) taşlarında görülür. TBC'de idrar asidiktir.",explain:"<b>Renal tüberkülozda idrar asidik karakterdedir, alkali değil</b>."},
-  {id:78,section:"Genitouriner Enfeksiyonlar",question:"Sistit tedavisinde tercih edilmemesi gereken antibiyotik aşağıdakilerden hangisidir?",opts:["Trimetoprim-Sülfametoksazol","Nitrofurantoin","Ampisilin","Florokinolonlar","Fosfomisin"],answer:2,year:"İlkbahar 2000",hint:"E. coli'ye karşı yüksek direnç oranı nedeniyle tercih edilmeyen antibiyotik.",trap:"TMP-SMX, nitrofurantoin, florokinolonlar ve fosfomisin sistit tedavisinde etkin seçeneklerdir. Ampisiline yüksek direnç nedeniyle önerilmez.",explain:"<b>Ampisilin, E. coli'ye karşı yüksek direnç oranları nedeniyle sistit tedavisinde tercih edilmez</b>."},
-  {id:79,section:"Genitouriner Enfeksiyonlar",question:"Bir erkek hastada piyelonefrite eşlik eden prostat absesi düşünüldüğünde, en uygun tedavi aşağıdakilerden hangisidir?",opts:["Uzun süreli oral antibiyotik","Transrektal ultrasonografi eşliğinde drenaj","Radikal prostatektomi","TUR-P","İntravenöz antibiyotik monoterapisi"],answer:1,year:"Sonbahar 2005",hint:"Prostat absesinde drenaj şarttır; antibiyotik tek başına yeterli değildir.",trap:"Antibiyotik tek başına prostat absesini çözmez. Drenaj gereklidir.",explain:"<b>Prostat absesinde en uygun tedavi transrektal USG eşliğinde drenaj + antibiyotik kombinasyonudur</b>."},
-  {id:80,section:"Genitouriner Enfeksiyonlar",question:"Epididimoorşit için aşağıdakilerden hangisi doğrudur?",opts:["En sık etken viral ajanlardır","35 yaş altında en sık etken Chlamydia trachomatis'tir","Her zaman bilateral görülür","Cremasteric refleks kaybı beklenir","Tedavide cerrahi drenaj şarttır"],answer:1,year:"İlkbahar 2007",hint:"Yaşa göre epididimoorşit etkeni değişir; genç erkekte STI etkenleri ön plandadır.",trap:"Kremasterik refleks kaybı testis torsiyonundaki bulgudur. 35 yaş altında STI etkenleri önde gelir.",explain:"<b>35 yaş altı erkeklerde epididimoorşitin en sık etkeni Chlamydia trachomatis'tir</b>."},
-  {id:81,section:"Genitouriner Enfeksiyonlar",question:"Fournier gangreni için aşağıdakilerden hangisi yanlıştır?",opts:["Perine ve skrotumu tutan nekrotizan fasiittir","Diyabet önemli predispozan faktördür","Polimikrobiyal enfeksiyondur","Tedavide geniş debridman ve antibiyotik kullanılır","Testisler sıklıkla tutulur"],answer:4,year:"Sonbahar 2009",hint:"Fournier gangreni skrotal deriyi ve periferik fasiyayı tutar; testisler korunur.",trap:"Fournier gangreni testisin kendisini tutmaz çünkü testislerin kan akımı farklı kaynaklıdır.",explain:"<b>Fournier gangreninde testisler sıklıkla tutulmaz</b>. Testislerin ayrı kan kaynağı (spermatik damarlar) olduğundan fasiyitis testislere ulaşmaz."},
-  {id:82,section:"Genitouriner Enfeksiyonlar",question:"Komplike olmamış alt üriner yol enfeksiyonunda antibiyotik tedavi süresi kaç gündür?",opts:["1 gün","3 gün","7 gün","10 gün","14 gün"],answer:1,year:"İlkbahar 2010",hint:"Komplike olmamış sistitte kısa süreli tedavi yeterlidir.",trap:"Pyelonefrit 10-14 gün antibiyotik gerektirir. Komplike olmamış sistitte 3 günlük tedavi yeterlidir.",explain:"<b>Komplike olmamış alt üriner yol enfeksiyonunda antibiyotik tedavi süresi 3 gündür</b>."},
-  {id:83,section:"Genitouriner Enfeksiyonlar",question:"Akut pyelonefrit için aşağıdakilerden hangisi doğrudur?",opts:["Yalnızca kadınlarda görülür","Lökositoz ve piüri beklenmez","Tanıda idrar kültürü önemsizdir","Yüksek ateş, titreme ve kostovertebral açı hassasiyeti triadı görülür","Her zaman hastaneye yatırılarak tedavi edilmelidir"],answer:3,year:"Sonbahar 2011",hint:"Akut pyelonefritte klinik triad: ateş + titreme + kostovertebral açı hassasiyeti.",trap:"Hafif-orta şiddette pyelonefrit ayaktan tedavi edilebilir.",explain:"<b>Akut pyelonefritin klasik triadı yüksek ateş, titreme ve kostovertebral açı hassasiyetidir</b>."},
-  {id:84,section:"Genitouriner Enfeksiyonlar",question:"Gebelikte üriner sistem enfeksiyonunun en sık komplikasyonu aşağıdakilerden hangisidir?",opts:["Preeklampsi","Gestasyonel diyabet","Prematür doğum","Plasenta previa","Eklamptik nöbet"],answer:2,year:"İlkbahar 2013",hint:"Gebede tedavi edilmeyen ÜYE prematüriteye yol açar.",trap:"Preeklampsi ve gestasyonel diyabetin ÜYE ile direkt nedensellik ilişkisi yoktur.",explain:"<b>Gebelikte tedavi edilmeyen üriner sistem enfeksiyonunun en sık komplikasyonu prematür doğumdur</b>."},
-  // ===== İNFERTİLİTE =====
-  {id:85,section:"İnfertilite",question:"Erkek infertilitesinin en sık nedeni aşağıdakilerden hangisidir?",opts:["Kriptorşidizm","Varikosel","Hormonal bozukluklar","Genetik faktörler","Obstrüktif azoospermi"],answer:1,year:"Sonbahar 93",hint:"İnfertil erkeklerin %40'ında saptanan en sık düzeltilebilir neden.",trap:"Kriptorşidizm önemli ama en sık değil. Varikosel en sık tanımlanan erkek infertilite nedenidir.",explain:"<b>Erkek infertilitesinin en sık nedeni varikoseltir (%40)</b>."},
-  {id:86,section:"İnfertilite",question:"Erkek infertilitesi tanısında ilk yapılması gereken test aşağıdakilerden hangisidir?",opts:["Serum FSH","Serum testosteron","Semen analizi","Testis biyopsisi","Skrotal ultrasonografi"],answer:2,year:"İlkbahar 96",hint:"İnfertilite değerlendirmesinin ilk ve en temel adımı.",trap:"FSH ve testosteron önemli ama ilk test değil. Semen analizi non-invazif ilk adımdır.",explain:"<b>Erkek infertilitesi tanısında ilk yapılması gereken test semen analizidir</b>."},
-  {id:87,section:"İnfertilite",question:"Azoospermik bir hastada serum FSH normalin 3 katı yüksek bulunuyor. Bu hastada aşağıdakilerden hangisi beklenmez?",opts:["Sertoli cell-only sendromu","Matürasyon arresti","Hipospermatogenez","Klinefelter sendromu","Obstrüktif azoospermi"],answer:4,year:"Sonbahar 2001",hint:"Yüksek FSH non-obstrüktif azoospermiyi gösterir; obstrüktif azoospermide FSH normaldir.",trap:"Obstrüktif azoospermide testis normal sperm üretir; FSH normal kalır.",explain:"<b>Obstrüktif azoospermide FSH normal olur</b>. Yüksek FSH testiküler yetmezliği gösterir."},
-  {id:88,section:"İnfertilite",question:"Retrograd ejakülasyon tanısında kullanılan yöntem aşağıdakilerden hangisidir?",opts:["Semen analizi","Ejakülasyon sonrası idrar analizi","Transrektal ultrasonografi","Serum FSH","Testis biyopsisi"],answer:1,year:"İlkbahar 2004",hint:"Retrograd ejakülasyonda sperm geriye (mesaneye) gider; ejakülasyon sonrası idrarda spermatozoa bulunur.",trap:"Semen analizinde az sperm görülür ama tanıyı kesinleştiren ejakülasyon sonrası idrardaki spermatozoadır.",explain:"<b>Retrograd ejakülasyon tanısı ejakülasyon sonrası idrar analizinde spermatozoa saptanmasıyla konur</b>."},
-  {id:89,section:"İnfertilite",question:"Klinefelter sendromu olan bir hastada aşağıdaki laboratuvar bulgularından hangisi beklenmez?",opts:["Yüksek FSH","Yüksek LH","Düşük testosteron","Azoospermi","Yüksek inhibin B"],answer:4,year:"Sonbahar 2006",hint:"Klinefelter'da Sertoli hücre fonksiyonu bozulmuştur; inhibin B Sertoli hücrelerinden salgılanır.",trap:"Klinefelter'da FSH, LH yükselir; testosteron düşer; azoospermi olur. İnhibin B düşük olur.",explain:"<b>Klinefelter sendromunda inhibin B düzeyi düşüktür, yüksek değil</b>."},
-  // ===== DİĞER SORULAR =====
-  {id:90,section:"Diğer Sorular",question:"Nörogenik mesanenin en sık nedeni aşağıdakilerden hangisidir?",opts:["Diabetes mellitus","Multipl skleroz","Spinal kord yaralanması","Parkinson hastalığı","Pelvik cerrahi"],answer:2,year:"İlkbahar 93",hint:"Spinal kord yaralanmaları mesane innervasyonunu doğrudan keser.",trap:"DM ve MS nörojenik mesaneye yol açabilir ama en sık neden spinal kord yaralanmasıdır.",explain:"<b>Nörogenik mesanenin en sık nedeni spinal kord yaralanmasıdır</b>."},
-  {id:91,section:"Diğer Sorular",question:"Üriner inkontinans değerlendirmesinde ilk başvurulacak yöntem aşağıdakilerden hangisidir?",opts:["Sistoskopi","Ürodinami","Öykü ve fizik muayene","İVP","MRG"],answer:2,year:"Sonbahar 95",hint:"Her klinik değerlendirmede ilk adım öykü ve fizik muayenedir.",trap:"Ürodinami ve sistoskopi ikincil değerlendirme araçlarıdır.",explain:"<b>Üriner inkontinans değerlendirmesinde ilk başvurulacak yöntem öykü ve fizik muayenedir</b>."},
-  {id:92,section:"Diğer Sorular",question:"Stres üriner inkontinansın en sık nedeni aşağıdakilerden hangisidir?",opts:["Mesane overaktivitesi","Üretral sfinkter yetmezliği","Pelvik taban zayıflığı","Nörojenik mesane","Mesane obstrüksiyonu"],answer:2,year:"İlkbahar 99",hint:"Özellikle multipar kadınlarda doğum sonrası pelvik taban desteği zayıflar.",trap:"Mesane overaktivitesi urge inkontinansa neden olur.",explain:"<b>Stres üriner inkontinansın en sık nedeni pelvik taban zayıflığıdır</b>."},
-  {id:93,section:"Diğer Sorular",question:"Ereksiyon bozukluğunun en sık organik nedeni aşağıdakilerden hangisidir?",opts:["Hormonal bozukluklar","Nörolojik hastalıklar","Vasküler hastalıklar","İlaç yan etkileri","Pelvik travma"],answer:2,year:"Sonbahar 2001",hint:"Ereksiyon kan akımına bağlıdır; vasküler yetmezlik en sık organik nedendir.",trap:"Hormonal ve nörolojik nedenler önemli ama vasküler hastalıklar en sık organik nedendir.",explain:"<b>Ereksiyon bozukluğunun en sık organik nedeni vasküler hastalıklardır</b>."},
-  {id:94,section:"Diğer Sorular",question:"Priyapizm tedavisinde ilk uygulanması gereken yaklaşım aşağıdakilerden hangisidir?",opts:["Cerrahi şant","İntrakavernöz adrenalin enjeksiyonu","Aspirasyon ve irrigasyon","Oral pseudoefedrin","Buz uygulaması"],answer:2,year:"İlkbahar 2004",hint:"Priyapizmde ilk adım kavernozal basıncı düşürmektir.",trap:"Cerrahi şant dirençli vakalarda kullanılır. İlk adım aspirasyon+irrigasyondur.",explain:"<b>İskemik priyapizmde ilk tedavi aspirasyon ve irrigasyondur</b>. Sonra intrakavernal fenilefrin, dirençlide cerrahi şant."},
-  {id:95,section:"Diğer Sorular",question:"Peyronie hastalığının karakteristik özelliği aşağıdakilerden hangisidir?",opts:["Kavernöz arterde tıkanma","Kavernözal düz kas fibrozisi","Tunika albuginea fibrozisi","Üretral darlık","Venooklüzif disfonksiyon"],answer:2,year:"Sonbahar 2005",hint:"Peyronie hastalığında ereksiyonda peniste eğrilik olur.",trap:"Peyronie'de tunika albuginea içinde fibrotik plak gelişir.",explain:"<b>Peyronie hastalığı, tunika albuginea içinde fibrotik plak gelişimiyle karakterizedir</b>. Ereksiyonda eğrilik ve ağrıya neden olur."},
-  {id:96,section:"Diğer Sorular",question:"Böbrek yetmezliğinde en sık görülen ürolojik komplikasyon aşağıdakilerden hangisidir?",opts:["Renal karsinom","Üriner taş","Nörogenik mesane","Hematüri","Üriner sistem enfeksiyonu"],answer:4,year:"İlkbahar 2006",hint:"İmmünosüpresyon ve üremi ÜYE riskini artırır.",trap:"Taş ve tümör görülebilir ama en sık ürolojik komplikasyon ÜYE'dir.",explain:"<b>Böbrek yetmezliğinde en sık ürolojik komplikasyon üriner sistem enfeksiyonudur</b>."},
-  {id:97,section:"Diğer Sorular",question:"Aşağıdakilerden hangisi böbrek transplantasyonu için mutlak kontrendikasyon oluşturur?",opts:["İleri yaş","Kontrol altındaki hipertansiyon","Aktif malignite","Önceki kardiyovasküler hastalık","Kontrol altındaki diyabet"],answer:2,year:"Sonbahar 2008",hint:"Aktif kanser varlığında immünosüpresyon tümör proliferasyonunu hızlandırır.",trap:"İleri yaş, kontrollü HT ve DM göreceli kontrendikasyonlardır. Aktif malignite mutlak kontrendikasyondur.",explain:"<b>Böbrek transplantasyonu için aktif malignite mutlak kontrendikasyondur</b>."},
-  {id:98,section:"Diğer Sorular",question:"Üriner sistem görüntülemesinde kontrastlı BT sonrası kontrast nefropatisi gelişimi için en önemli risk faktörü aşağıdakilerden hangisidir?",opts:["İleri yaş","Diyabet mellitus","Mevcut böbrek yetmezliği","Dehidratasyon","Hipertansiyon"],answer:2,year:"İlkbahar 2011",hint:"Kontrast nefropatisi için en kritik predispozan faktör böbrek fonksiyonu.",trap:"Dehidratasyon, DM ve ileri yaş risk faktörleridir ama en güçlü bağımsız risk faktörü mevcut böbrek yetmezliğidir.",explain:"<b>Kontrast nefropatisi için en önemli risk faktörü mevcut böbrek yetmezliğidir</b>."},
-  {id:99,section:"Diğer Sorular",question:"Böbrek kistlerinin değerlendirilmesinde kullanılan Bosniak sınıflamasında hangi kategori maligniteden şüphelendirir?",opts:["Kategori I","Kategori II","Kategori IIF","Kategori III","Kategori II ve üzeri"],answer:3,year:"Sonbahar 2013",hint:"Bosniak III kistler cerrahi gerektiren, malignite şüpheli kistlerdir.",trap:"Kategori I ve II benign kistlerdir. IIF takip gerektirir. Kategori III maligniteden şüphelendirir.",explain:"<b>Bosniak kategori III kistler maligniteden şüphelendirir ve cerrahi veya ablasyon gerektirir</b>. Malignite oranı ~%50."},
-  {id:100,section:"Diğer Sorular",question:"Çocuklarda Wilms tümörü için aşağıdakilerden hangisi yanlıştır?",opts:["En sık 3-4 yaşta görülür","Karın kitlesi en sık başvuru şikayetidir","Aniridiya ile birliktelik gösterebilir","Hematüri sık bir bulgudur","Nefroblastom olarak da bilinir"],answer:3,year:"İlkbahar 2015",hint:"Wilms tümöründe hematüri sık bir başvuru şikayeti değildir.",trap:"Karın kitlesi en sık bulgudur. Hematüri Wilms tümöründe görülebilir ama sık başvuru semptomu değildir.",explain:"<b>Wilms tümöründe hematüri sık bir bulgu değildir</b>. En sık başvuru semptomu asemptomatik karın kitlesidir."},
-  {id:101,section:"Diğer Sorular",question:"Renal hücreli karsinomun paraneoplastik sendromu olarak aşağıdakilerden hangisi görülmez?",opts:["Polisitemi","Hiperkalsemi","Hipertansiyon","Stauffer sendromu","Hipoglisemi"],answer:4,year:"Sonbahar 2017",hint:"Renal hücreli karsinomun bilinen paraneoplastik sendromları arasında hipoglisemi yer almaz.",trap:"Polisitemi (EPO), hiperkalsemi (PTHrP), hipertansiyon (renin), Stauffer sendromu RHK'nın bilinen paraneoplastik bulgularıdır. Hipoglisemi pankreas tümörlerinde görülür.",explain:"<b>Hipoglisemi renal hücreli karsinomun paraneoplastik sendromu değildir</b>. RHK paraneoplastik sendromları: Polisitemi, hiperkalsemi, hipertansiyon, ateş, Stauffer sendromu."}
+{id:1,section:"CERRAHİ GİRİŞİMLERDE ZAMANLAMA",year:"Sonbahar 87",question:"İnguinal herni tanısı konulan 3 aylık bir bebek ne zaman ameliyat edilmelidir?",opts:["Tanı konulur konulmaz","Prosesus vaginalis spontan olarak kapanabileceğinden 2-3 yıl bekledikten sonra","İlkokula başlamadan önce","Uygun ameliyat koşulları sağlamak şartıyla en kısa zamanda","Fıtık bağı tatbiki ile sonuç alınamazsa"],correct:3,hint:"İnguinal herni tanısı olan çocuklarda inkarserasyon ve strangülasyon riski yüksektir.",trap:"Prosesus vaginalis kapanmasını beklemek yanlıştır; bu fıtık tipi spontan kapanmaz ve acil risk taşır.",explain:"İnguinal hernisi olan çocuklarda inkarserasyon ve strangülasyon riski yüksek olduğu için, yenidoğan bile olsa uygun ameliyat şartları sağlandığında en kısa sürede ameliyat edilmelidir. Umbilikal herniden farklı olarak spontan kapanmaz."},
+{id:2,section:"CERRAHİ GİRİŞİMLERDE ZAMANLAMA",year:"Sonbahar 90",question:"Çocukta splenektomi açısından cerrah aşağıdakilerden hangisine dikkat etmek zorunda <u>değildir</u>?",opts:["Makrofaj fonksiyonu","Ig'ler","Eski eritrosit sekestrasyonu","Opsonin","Trombosit sekestrasyonu"],correct:2,hint:"Splenektomi sonrası dalağın kaybedilen fonksiyonları önemlidir; ancak eski eritrosit yıkımı başka organlarda da olur.",trap:"'Dikkat etmek zorunda değildir' ifadesine dikkat. Eski eritrosit sekestrasyonu dalağa özel değildir; diğer fonksiyonlar splenektomi ile doğrudan kaybedilir.",explain:"Splenektomi sonrası makrofaj fonksiyonu, immünoglobulinler (Ig), opsonin üretimi ve trombosit sekestrasyonu etkilenir. Eski/anormal eritrositlerin sekestrasyonu ise karaciğerde de gerçekleşebildiğinden cerrahın öncelikli endişesi değildir."},
+{id:3,section:"CERRAHİ GİRİŞİMLERDE ZAMANLAMA",year:"İlkbahar 92",question:"İnmemiş testis için <u>en iyi</u> ameliyat yaşı aşağıdakilerden hangisidir?",opts:["1-2 yaş arası","5","7","10","13"],correct:0,hint:"İnmemiş testiste 2 yaşından önce cerrahi yapılmalıdır; çünkü gecikme infertiliteye yol açar.",trap:"'En iyi' ameliyat yaşını karıştırmayın; 1-2 yaş arası optimal penceredir; HCG tedavisi denenebilir ama cerrahi 2 yaşından önce yapılmalıdır.",explain:"Kriptorşidizm (inmemiş testis), testisin skrotum içinde olmamasıdır. Tedavide önce hCG uygulanır. Vakaların az bir kısmı bu tedavi ile düzelir. Düzelmeyenlerde cerrahi 2 yaşından önce yapılmalıdır. 2 yaşından sonra kalan vakaların çoğunda infertilite gelişeceğinden cerrahi faydası azalmış olur."},
+{id:4,section:"CERRAHİ GİRİŞİMLERDE ZAMANLAMA",year:"Sonbahar 2003",question:"Hidrosel saptanan yenidoğan bir bebekte <u>en uygun</u> yaklaşım aşağıdakilerden hangisidir?",opts:["Erken cerrahi tedavi","1 yaşına kadar tedavisiz izlem","Kasık bağı kullanma","İğne ile aspirasyon","Skrotal elavasyon"],correct:1,hint:"Yenidoğanda hidrosel fizyolojiktir; 3 haftada kendiliğinden kaybolur.",trap:"Yenidoğanda hemen cerrahi düşünülmemeli; 1 yaşına kadar kendiliğinden rezorbe olabilir. İğne ile aspirasyon kontrendike.",explain:"Tunika vaginalis yaprakları arasında sıvı birikmesine hidrosel denir. 1 yaşına kadar rezorbe olmayan hidrosellerde kese içindeki sıvının boşaltılması ve yüksek ligasyon ile periton ilişkisinin kesilmesi işlemi uygulanır. Yenidoğanda ilk yaklaşım tedavisiz izlemdir."},
+{id:5,section:"CERRAHİ GİRİŞİMLERDE ZAMANLAMA",year:"İlkbahar 2005",question:"Yenidoğan bebekte aşağıdakilerden hangisi erken cerrahi tedavi gerektirir?",opts:["Hidrosel","İnmemiş testis","Kordon kisti","İnguinal herni","Umbilikal herni"],correct:3,hint:"İnguinal herniler obstrüksiyon ve strangülasyon riski nedeniyle elektif şartlarda en kısa sürede ameliyat edilmelidir.",trap:"Hidrosel 3 haftada kaybolur; umbilikal herni spontan kapanır; inmemiş testis 1-2 yaş arasına beklenir. İnguinal herni erken cerrahi gerektirir.",explain:"İnguinal herniler yenidoğan döneminde obstrüksiyon ve strangülasyon riski nedeniyle elektif şartlarda en kısa sürede ameliyat edilmelidir. Diğer seçenekler bekleme veya ileri yaşta tedavi gerektiren durumlardır."},
+{id:6,section:"YARIK DUDAK VE YARIK DAMAK",year:"Sonbahar 2006",question:"Konjenital dudak yarığı ile doğan bir bebekte cerrahi tedavinin yapılması için aşağıdakilerden hangisinin beklenmesi <u>gerekmez</u>?",opts:["Doğum sonrası genel anestezi almaya uyumlu duruma gelmesinin","Vücut ağırlığının 5 kg'a ulaşmasının","Ek mamalara başlanmasının","Hemoglobin düzeyinin 10 mg/dl'nin üzerine çıkmasının","10 haftalık olmasının"],correct:2,hint:"Dudak yarığı ameliyatının zamanlaması için 'rule of 10' hatırlanmalı: 10 hafta, 10 pound, Hb 10 g/dl.",trap:"'Gerekmez' sorusu: Ek mamalara başlamak dudak yarığı ameliyatı için bir kriter değildir. Bu durum damak yarığında beslenme için önemlidir, dudak için değil.",explain:"Dudak yarığında ameliyat için 'Rule of 10' kuralı: 10 haftalık, 10 pound (≈4.5 kg) vücut ağırlığı, Hb ≥10 g/dl ve genel anestezi için uygun durum. Ek mamalara başlama bir kriter değildir."},
+{id:7,section:"YARIK DUDAK VE YARIK DAMAK",year:"İlkbahar 2012",question:"Dudak yarığı deformitesi ile doğan bebeklerde <u>ilk</u> cerrahi girişim <u>en erken</u> ne zaman yapılmalıdır?",opts:["0-1 ay arasında","3-6 ay arasında","9-12 ay arasında","13-16 ay arasında","18 aydan sonra"],correct:1,hint:"Emme fonksiyonunu bozan yarık dudak, beslenme problemlerinin önüne geçilebilmesi için 3-6 ay arasında tedavi edilmelidir.",trap:"Damak yarığı değil dudak yarığı sorulmaktadır. Dudak 3-6 ayda, damak ise 15-18 ayda opere edilir.",explain:"Emme fonksiyonunu bozan yarık dudak, beslenme problemlerinin önüne geçilebilmesi için 3-6 ay arasında tedavi edilmelidir. Teknik olarak Millard ameliyatı kullanılır. Damak yarığı ise 15-18 aylıkken yapılır."},
+{id:8,section:"YARIK DAMAK – YARIK DUDAK",year:"İlkbahar 98",question:"<u>En sık</u> görülen yarık damak formu aşağıdakilerden hangisidir?",opts:["Bifid uvula","Unilateral inkomplet yarık dudak ve damak","Unilateral komplet yarık dudak ve damak","Bilateral yarık damak","Bilateral yarık damak ve dudak"],correct:2,hint:"Yarık damak en sık bifid uvula şeklinde ortaya çıkar, ancak genel manada yarık damağın en sık ortaya çıkış şekli solda unilateral komplet yarık dudak ve damaktır.",trap:"Bifid uvula en sık izole yarık damak formudur, ancak 'yarık damak' daha geniş anlamda sorulmuşsa unilateral komplet formu hatırlayın.",explain:"İzole yarık damak en sık bifid uvula şeklinde ortaya çıkarken, genel manada yarık damağın en sık ortaya çıkış şekli unilateral (daha çok solda) komplet yarık dudak ve damak şeklindedir."},
+{id:9,section:"PİERRE-ROBİN SENDROMU",year:"İlkbahar 90",question:"Pierre-Robin sendromunda aşağıdakilerden hangisi bulunur?",opts:["Yarık damak, glossoptozis, mikrognottia","Yarık dudak, glossoptozis, mikrognottia","Yarım damak, glossoptozis, makrognottia","Makroglossi, glossoptozis, makrognottia","Yarık damak, makroglossi"],correct:0,hint:"Pierre-Robin sendromu: yüksek ark veya yarık damak + glossoptosis + mikrognati üçlüsüdür.",trap:"Yarık dudak değil yarık damak; makroglossi değil mikroglossi; makrognati değil mikrognati. Üç komponenti doğru eşleştirin.",explain:"Pierre-Robin sendromu, yüksek arklı ya da yarık damak, glossoptozis (dilin aşağı sarkması) ve mikrognati (küçük çene) ile karakterizedir. Yarık dudak bu sendromun parçası değildir."},
+{id:10,section:"TİROGLOSSAL VE BRANKİAL KİSTLER",year:"Sonbahar 96",question:"Bir çocukta sternokleidomastoid kasının hemen medialinde ele gelen ve zaman zaman dışarı fistülize olan kitle için <u>en muhtemel</u> tanı nedir?",opts:["Dermoid kist","Brankial kist","Kistik higroma","Tiroglossal kist","Hemanjiom"],correct:1,hint:"Sternokleidomastoid kasının ön sınırı boyunca yerleşen ve akıntısı olan kitle brankial kisti düşündürür.",trap:"Tiroglossal kist orta hattadır. Brankial kist lateral yerleşimlidir, SCM kasının ön sınırına yakın ve fistül yapabilir.",explain:"Brankial kist, renksiz koyu-mukoid salgının kendiliğinden drene olamaması sonucu enfekte kitle veya fistülizasyon gösterir. Lateral yerleşimli, sternokleidomastoid kasın ön sınırı boyunca yerleşir. Tiroglossal kist ise orta hatta, yutkunmakla hareket eder."},
+{id:11,section:"TİROGLOSSAL VE BRANKİAL KİSTLER",year:"İlkbahar 2020 Orijinal",question:"Çocuklarda brankial kleft anomalilerinde <u>en çok</u> görülen klinik bulgu aşağıdakilerden hangisidir?",opts:["Cilde açılan fistül/sinüs açıklığından drenaj olması","Hava yolu obstrüksiyonu","Hemoraji","Malign dejenerasyon","Ağrı"],correct:0,hint:"Brankial yarık anomalilerinin en sık görülen klinik bulgusu boyuna fistülizasyon ve akıntıdır.",trap:"Hava yolu obstrüksiyonu, hemoraji ve malign dejenerasyon nadirdir. En sık bulgu fistül/sinüs açıklığından akıntıdır.",explain:"Brankial yarık anomalilerinde en sık görülen klinik bulgu boyuna fistülizasyon ve akıntıdır. Sinüs traktının ucundan tükürük, irin, balgam akıntısı görülür."},
+{id:12,section:"TİROGLOSSAL VE BRANKİAL KİSTLER",year:"İlkbahar 2013",question:"Çocuklarda <u>en sık</u> görülen konjenital boyun kitlesi aşağıdakilerden hangisidir?",opts:["Brakiyal yarık kisti","Kistik higroma","Tiroglossal kanal kisti","Timik kist","Hemanjiom"],correct:2,hint:"Orta hatta yutkunmakla hareket eden kitle olarak görülen tiroglossal kanal kistleri baş-boyun bölgesinin en sık konjenital boyun kitleleridir.",trap:"Hemanjiom en sık baş-boyun tümörü olabilir ama en sık KONJENİTAL boyun kistleri arasında tiroglossal kist önde gelir.",explain:"Tiroglossal kanal kistleri tüm konjenital kitlelerin 1/3'ünü oluşturur ve baş-boyun bölgesinin en sık konjenital boyun kitleleridir. Orta hatta yutkunmakla hareket eder."},
+{id:13,section:"TİROGLOSSAL VE BRANKİAL KİSTLER",year:"Sonbahar 2021 Orijinal",question:"Tiroglossal kanal kisti tanısı konulan bir hastanın tedavisinde <u>en etkili</u> cerrahi yöntem aşağıdakilerden hangisidir?",opts:["Tiroid lobektomi + En blok kistektomi","Total tiroidektomi","Total tiroidektomi + En blok kistektomi","Traktusu da içeren en blok kistektomi + Santral hiyoid kemik eksizyonu","En blok kistektomi"],correct:3,hint:"Tiroglossal kist tedavisinde kist çıkarılırken hiyoid kemiği çıkarılmalıdır (Sistrunk operasyonu).",trap:"Tiroid lobektomi veya tiroidektomi gerektirmez. Sadece kist eksizyonu nüks riski taşır. Hiyoid kemik eksizyonu şarttır.",explain:"Tiroglossal kanal kistinin en etkili cerrahi tedavisi Sistrunk operasyonudur: Traktusu da içeren en blok kistektomi + Santral hiyoid kemik eksizyonu. Sadece kist eksizyonu yüksek nüks oranına yol açar."},
+{id:14,section:"TİROGLOSSAL VE BRANKİAL KİSTLER",year:"İlkbahar 2020 Orijinal",question:"İki yaşındaki erkek çocuk, sol kaş medialinde lokalize şişlik nedeniyle getiriliyor. Öyküsünden, bu şişliğin doğumundan bu yana olduğu, çok az büyüdüğü ve ağrılı olmadığı öğreniliyor. Fizik muayenesinde cilt altında lokalize, görme alanını etkilemeyen, yumuşak kıvamlı, çevre dokulara yapışık olmayan, düzgün sınırlı, yaklaşık 1 cm çaplı nodüler kitle palpe ediliyor.\n\nBu çocukta izlenen kitlenin <u>en olası</u> tanısı ve bu aşamadan sonraki <u>en uygun</u> yaklaşım aşağıdakilerin hangisinde <u>birlikte</u> verilmiştir?",opts:["Dermoid kist – Cerrahi öncesi elektif beyin manyetik rezonans görüntülemesiyle intrakraniyal uzanımın değerlendirilmesi","Konjenital lipom – Ultrasonografiyle kitlenin değerlendirilmesi","Brankial kist – İğne aspirasyonuyla tedavi","Epidermal kist – Topikal kortikosteroid tedavisi","Pilomatriksom – Geciktirilmeden cerrahi eksizyon"],correct:0,hint:"Erken çocukluk döneminde baş bölgesinde, orta hat yerleşimli, yavaş büyüyen, yumuşak kıvamlı, ağrısız konjenital kitle varlığında dermoid kist akla gelir.",trap:"Pilomatriksom hızlı büyür, sert kıvamlıdır. Dermoid kist intrakraniyal uzanım gösterebileceğinden MR ile değerlendirme gerekir, hemen opere edilmez.",explain:"Erken çocukluk döneminde baş bölgesinde orta hat yerleşimli, yavaş büyüyen, yumuşak kıvamlı, ağrısız konjenital kitle dermoid kisti akla getirir. Cerrahi öncesi intrakraniyal uzanımı değerlendirebilmek için manyetik rezonans ile değerlendirme önem arz eder."},
+{id:15,section:"GÖĞÜS DUVARI DEFORMİTELERİ",year:"İlkbahar 2023",question:"Aşağıdaki göğüs duvarı deformitelerinden hangisi diğerlerine göre <u>daha sık</u> görülür?",opts:["Pektus ekskavatum","Pektus karinatum","Poland sendromu","Ektopia kordis","Cleft sternum"],correct:0,hint:"En sık görülen göğüs duvarı deformitesi göğüs duvarının çöküklüğü olarak bilinen pektus ekskavatumdur.",trap:"Pektus karinatum ikinci sıradadır ama en sık değildir. Pektus ekskavatum açık ara en yaygın göğüs duvarı deformitesidir.",explain:"En sık görülen göğüs duvarı deformitesi göğüs duvarının çöküklüğü olarak bilinen pektus ekskavatumdur. Bunu dışında diğer sık görülen deformite ise pektus karinatumdur. Sternal yarık, ektopia kordis, Poland sendromu gibi göğüs duvarının gelişim kusurları daha nadir görülmektedir."},
+{id:16,section:"KONJENİTAL DİYAFRAGMA HERNİLERİ",year:"Sonbahar 2021 Orijinal",question:"Doğumsal diyafragma hernileriyle ilgili aşağıdaki ifadelerden hangisi <u>yanlıştır</u>?",opts:["Bochdalek hernisi posterolateral yerleşimli defektlere verilen addır","Doğumsal diyafragma hernileri sıklıkla sağ tarafta görülür","Doğumsal diyafragma hernilerine kardiyovasküler sistem anomalileri eşlik edebilir","Morgagni hernisi anteromedial yerleşimlidir","Doğumsal diyafragma hernisi olan hastalarda intestinal fiksasyon anomalileri ve buna bağlı intestinal obstrüksiyonlar görülebilir"],correct:1,hint:"Konjenital diyafragma hernileri en sık Bochdalek tipidir ve yaklaşık %90'ı sol posterolateral yerleşimlidir.",trap:"'Sıklıkla sağ tarafta' ifadesi yanlıştır; aksine sol tarafta çok daha sık görülür (%85-90 sol).",explain:"Doğumsal diyafragma hernileri en sık Bochdalek tipidir ve sıklıkla SOL tarafta görülür (%85-90). Morgagni hernisi ise anteromedial (retrosternal) yerleşimlidir. Bu nedenle 'sıklıkla sağ tarafta görülür' ifadesi yanlıştır."},
+{id:17,section:"KONJENİTAL DİYAFRAGMA HERNİLERİ",year:"İlkbahar 89",question:"Konjenital diafragma hernisinde mortaliteyi artıran <u>en önemli</u> etken aşağıdakilerden hangisidir?",opts:["Patent duktus arteriozus","Hipoplazik akciğer","Ventriküler septal defekt","Mediastinal kayma","Karın içi basınç artımı"],correct:1,hint:"Konjenital diyafragma hernisinde solunum desteği gerektiren akciğer problemleri (en önemlisi hipoplazik akciğer) sebebiyle mortalite oldukça yüksektir.",trap:"Mediastinal kayma ve PDA önemlidir ancak asıl mortalite belirleyicisi ipsilateral akciğer hipoplazisidir.",explain:"Konjenital diyafragma hernisinde mortalite %30-60 gibi yüksek oranlardadır. Mortaliteyi belirleyen en önemli faktör akciğer hipoplazisidir. Cerrahi öncesi pulmoner hipertansiyon ve akciğer hipoplazisi mutlaka azaltılmalıdır."},
+{id:18,section:"KONJENİTAL DİYAFRAGMA HERNİLERİ",year:"Sonbahar 93",question:"Solunum stresi, mediastinal şift, skafoid karın ve göğüs ön-arka çapında artma olan çocukta <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Bochdalek hernisi","Amfizem","Kronik bronşit","Kistik fibrozis","Pnömoni"],correct:0,hint:"Bochdalek hernisi, plöroperitoneal kapanmama sonucu gelişen diyafragmatik herniye verilen addır.",trap:"Skafoid karın (karın içine giren bağırsaklar nedeniyle) konjenital diyafragma hernisinin karakteristik bulgusudur.",explain:"Bochdalek hernisinde bağırsakların bir kısmının toraksa çıkmasına bağlı karında çökme, toraksı sıkıştırmasından dolayı solunum stresi, mediastinal şift ve göğüs ön-arka çapında artma olur. Skafoid karın en tipik bulgudur."},
+{id:19,section:"ÖZOFAGUS ATREZİ VE TÖF",year:"Sonbahar 87",question:"Trakeo-özefageal fistülle <u>en sık</u> birliktelik gösteren anomali aşağıdakilerden hangisidir?",opts:["Özofagus atrezisi","Trakeal atrezisi","Bronko-özefageal fistül","Gastroşizis","Özofagus divertikülü"],correct:0,hint:"Özofagus atrezisi ile trakeo-özefageal fistül sıklıkla beraberdir.",trap:"Soru TÖF'ün beraberindeki anomaliyi soruyor. Özofagus atrezisi TÖF ile en sık birlikte görülen anomalidir.",explain:"Özofagus atrezisi ile trakeo-özefageal fistül sıklıkla beraberdir. En sık görülen form proksimal özofagus atrezisi ve distal TÖF'dür (%85). Bu kombinasyon en sık görülen formdur."},
+{id:20,section:"ÖZOFAGUS ATREZİ VE TÖF",year:"İlkbahar 2021 Orijinal",question:"Konjenital özofagus atrezisi ve trakeoözofageal fistül (TÖF) anomalisinin <u>en sık</u> görülen tipi hangisidir?",opts:["İzole özofageal atrezi","Proksimal TÖF'lü ve distal TÖF'lü özofageal atrezi","Distal TÖF'lü özofageal atrezi","Proksimal TÖF'lü özofageal atrezi","H tipi TÖF"],correct:2,hint:"Özofagus atrezisi beş grupta incelenir; en sık görülen form proksimal özofagus atrezisi ve distal TÖF'dür (%85).",trap:"'Proksimal TÖF'lü ve distal TÖF'lü' (her iki ucunda fistül olan) form çok nadirdir. En sık: proksimal atrezi + SADECE distal TÖF.",explain:"Özofagus atrezisi ve TÖF beş grupta incelenir. En sık görülen form (%85): Özofagus atrezisi + distal TÖF'dür. Proksimal özofagus körtür (kapalı uç), distal özofagus trakeaya fistül halinde açılır. Bu 'Tip C' veya 'Tip 3b' olarak da bilinir."},
+{id:21,section:"ÖZOFAGUS ATREZİ VE TÖF",year:"Sonbahar 88",question:"Yenidoğan döneminde <u>ilk</u> 24 saatte kusması, ağızda köpüklü sekresyonu, boğulur gibi öksürme ve siyanozu olan, annesinde polihidramnioz öyküsü bulunan bebeğe <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Aganglionik megakolon","İnvajinasyon","Özofagus atrezisi","Meckel divertikülü","Konjenital pilor stenozu"],correct:2,hint:"İlk 24 saatte olan kusma ve siyanoz, trakea-özefageal fistül ile beraber olan özofagus atrezisini akla getirir.",trap:"Pilor stenozu 3. haftada başlar, safrasız kusma yapar. İlk günde ağızdan köpük + siyanoz + polihidramnioz → özofagus atrezisi.",explain:"Özofagus atrezisi: İlk beliriti ilk günde aşırı tükürük birikimi, beslendiğinde kusma, boğulur gibi öksürme ve siyanozdur. Bebek amniyotik sıvıyı yutamadığı için annede polihidramnioz vardır."},
+{id:22,section:"ÖZOFAGUS ATREZİ VE TÖF",year:"İlkbahar 91",question:"Bebekte doğar doğmaz kusma ve siyanoz varsa <u>ilk olarak</u> düşünülmesi gereken tanı aşağıdakilerden hangisidir?",opts:["Özofagus atrezisi","Mekonyum ileusu","Duodenonum atrezisi","Pilor stenozu","Aganglionik megakolon"],correct:0,hint:"Özofagus atrezisi genellikle trakeo-özefageal fistül ile beraberdir. İlk belirti ilk günde aşırı tükürük birikimi, beslendiğinde kusma, boğulur gibi öksürme ve siyanozdur.",trap:"Doğar doğmaz (ilk gün) kusma ve siyanoz → özofagus atrezisi. Pilor stenozu 3. haftada, mekonyum ileusu mekonyum çıkaramama ile prezente olur.",explain:"Özofagus atrezisi genellikle trakeo-özefageal fistül ile beraberdir. İlk belirti ilk günde aşırı tükürük birikimi, beslendiğinde kusma, boğulur gibi öksürme ve siyanozdur. Bebek amniotik sıvıyı yutamadığı için annede gebeyken polihidramnios vardır."},
+{id:23,section:"ÖZOFAGUS ATREZİ VE TÖF",year:"Sonbahar 96",question:"Annesinin gebeliğinde polihidramnios olan; beslenirken morarması, dispnesi ve siyanozu olan yenidoğanda <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Konjenital pilor stenozu","Aganglionik megakolon","Trakeo-özefageal fistül","İnvajinasyon","Meckel divertikülü"],correct:2,hint:"Polihidramnioz + beslenirken siyanoz ve morarma → TÖF veya özofagus atrezisini düşündürür.",trap:"Siyanozun beslenirken olması TÖF'ü düşündürür. Polihidramnioz özofagus atrezisinde de görülür ama burada beslenirken aspirasyon kliniği ön planda → TÖF.",explain:"Trakeo-özefageal fistülde bebek beslendikçe sıvı trakeaya kaçar, aspirasyon pnömonisi riski vardır. Annede polihidramnios, bebekte beslenirken morarma ve siyanoz TÖF'ün tipik klinik tablosudur."},
+{id:24,section:"ÖZOFAGUS ATREZİ VE TÖF",year:"İlkbahar 2014 Orijinal",question:"Özofagus atrezili bir yenidoğanın karın grafisinde hiç gaz gölgesi görülmemesi durumunda, <u>ilk aşamada</u> aşağıdaki cerrahi girişimlerden hangisi uygulanmalıdır?",opts:["Gastrostomi","Torakotomi ve primer anastomoz","Torakotomi ve özofagus replasmanı","Torakoskopik anastomoz","Torakotomi ve elmas biçimi anastomoz"],correct:0,hint:"Karın grafisinde hiç gaz yoksa distal TÖF yoktur ve özofagus boşluğu çok büyük olabilir, önce gastrostomi ile beslenme sağlanır.",trap:"Karında gaz olmaması distal TÖF'ün olmadığını gösterir. Bu durumda torakotomi ile primer anastomoz yapılamayabilir; önce gastrostomi açılır.",explain:"Özofagus atrezili bir yenidoğanın karın grafisinde gaz yoksa, izole özofagus atrezisi (distal TÖF yok) düşünülür. Bu hastalarda öncelikle erken beslenme imkanı sağlamak için gastrostomi tüpü yerleştirilir. 8-12 hafta uzama olması beklenir; yeterli uzama varsa torakotomi yapılır."},
+{id:25,section:"ÖZOFAGUS ATREZİ VE TÖF",year:"İlkbahar 2018 Orijinal",question:"Otuz iki yaşındaki annenin 2. gebeliğinden sorunsuz bir prenatal izlem sonrası 39. haftada normal spontan vajinal yolla doğan 1 günlük bebeğin ağzında tükürük biriktiği ve beslenme sonrası solunum sıkıntısının ve siyanozu nun geliştiği görülüyor.\n\nBu hastada <u>en olası</u> ön tanı ve bu tanıya yönelik yapılması gereken <u>en uygun</u> işlem veya tetkik aşağıdakilerin hangisinde verilmiştir?",opts:["Konjenital diyafragma hernisi – Ön arka ve yan akciğer grafisi","Konjenital lober amfizem – Toraks bilgisayarlı tomografisi","Özofagus atrezisi – Orogastrik sondanın ilerletilip, ön arka akciğer ve karın grafisi çekilmesi","Konjenital pulmoner hava yolu malformasyonları- Toraks bilgisayarlı tomografisi","Duodenal atrezi – Orogastrik sondadan 30 mL hava verilip karın grafisi çekilmesi"],correct:2,hint:"Doğum sonrası emme sırasında öksürük, aspirasyon ve siyanoz özofagus atrezisini akla getirir.",trap:"Ağızda tükürük birikimi + beslenirken siyanoz → özofagus atrezisi. Tanı için orogastrik sonda ilerletilir ve grafide takılıp takılmadığı görülür.",explain:"Doğum sonrası emme sırasında öksürük, aspirasyon ve siyanoz özofagus atrezisini akla getirir. Bu hastada önce orogastrik sonda özofagusa ilerletilmeli, ön arka akciğer ve karın grafisi çekilmelidir. Sondanın takılması ve karında gaz olup olmadığı tanıyı yönlendirir."},
+{id:26,section:"ÖZOFAGUS ATREZİ VE TÖF",year:"İlkbahar 2019 Orijinal",question:"Doğumsal anomalilerden olan trakeaözofageal fistül ile ilgili aşağıdaki ifadelerden hangisi <u>yanlıştır</u>?",opts:["VACTERL sendromunun bir parçasını oluşturur","Üst özofagusun kör bir kese olarak sonlandığı, alt özofagusun ise bağlı olduğu tip en sık görülen formudur","Aspirasyon pnömonileri sık görülür","Pnömoni gelişen entübasyon gerektiren hastalarda entübasyon tüpünün ucu fistülün proksimalinde kalmalıdır","VATER sendromunun bir parçasını oluşturur"],correct:3,hint:"Trakeo-özefageal fistülü olan hastalarda tüpün ucu lezyonun distaline yerleştirilir aksi takdirde hava intratorasik özofagusa geçerek dilatasyon oluşturur.",trap:"'Fistülün proksimalinde kalmalıdır' yanlıştır; entübasyon tüpünün ucu fistülün DİSTALİNE yerleştirilmelidir.",explain:"Trakeo-özefageal fistülü olan hastalarda tüpün ucu lezyonun distaline yerleştirilir; aksi takdirde hava intratorasik özofagusa geçerek dilatasyon oluşturur. VACTERL sendromunun bir parçasıdır. Aspirasyon pnömonileri sık görülür."},
+{id:27,section:"HİPERTROFİK PİLOR STENOZU",year:"İlkbahar 89",question:"Dört aylık, safrasız projektil kusması ve alkalozu olan bebekte <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Mekonyum ileusu","Mekonyum peritoniti","Konjenital hipertrofik pilor stenozu","İleal atrezi","İnvajinasyon"],correct:2,hint:"Konjenital hipertrofik pilor stenozu, pilor adalesinin konjenital hipertrofisi sonucu sfinkterin daraltıp pasajı engellemesi ve kusma ile kendini göstermesidir. En önemli bulgusu safrasız fışkırır tarzda kusmadır.",trap:"Safralı kusma duodenum altı obstrüksiyonu düşündürür. Safrasız + fışkırır tarzda + alkaloz → pilor stenozu. Dört aylık bebek tipik yaştadır.",explain:"Konjenital hipertrofik pilor stenozu genellikle doğumdan sonra 3. haftada başlar. Safrasız fışkırır tarzda kusma tipiktir. Kusma esnasında en çok klor kaybı olur; bu da metabolik alkaloza neden olur."},
+{id:28,section:"HİPERTROFİK PİLOR STENOZU",year:"İlkbahar 93",question:"Üç haftalık bir bebekte bulantı, kusma ve hipokloremik alkaloz gelişiyor ise <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["İmperfore anüs","Trakea-özefageal fistül","Özofagus atrezisi","Morgagni hernisi","Konjenital pilor stenozu"],correct:4,hint:"Konjenital pilor stenozunda en önemli bulgu safrasız, fışkırır tarzdada kusmadır. Genellikle doğumdan sonra 3. haftada başlar.",trap:"3. haftada başlayan hipokloremik alkaloz ile seyreden kusma → pilor stenozu. Özofagus atrezisi/TÖF ilk günde prezente olur.",explain:"Konjenital pilor stenozunda en önemli bulgu safrasız, fışkırır tarzda kusmadır. Genellikle doğumdan sonra 3. haftada başlar. Kusma esnasında en çok klor kaybı olur. Bu da metabolik alkaloza neden olur."},
+{id:29,section:"HİPERTROFİK PİLOR STENOZU",year:"Sonbahar 96",question:"Pilor stenozu tesbit edilen, sık sık kusmaları olan bir hastanın metabolik tablosu nasıldır?",opts:["Hiperkalemik hipokloremik alkaloz","Hipokalemik hipokloremik alkaloz","Hipokalemik hiperkloremik asidoz","Hiperkalemik hiperkloremik asidoz","Hiperkalemik normokloremik alkaloz"],correct:1,hint:"Pilor stenozu olan hastada kusmalara bağlı olarak klor ve potasyum kaybı olur, bunlara bağlı olarak da metabolik alkaloz ortaya çıkar.",trap:"Klor ve potasyum kaybı olur → HİPO-kalemik HİPO-kloremik ALKALoz. Asidoz değil, alkaloz.",explain:"Pilor stenozu olan hastada tekrarlayan kusmalara bağlı olarak hipokalemik hipokloremik metabolik alkaloz gelişir. Kusma esnasında en çok klor kaybı olur."},
+{id:30,section:"HİPERTROFİK PİLOR STENOZU",year:"Sonbahar 97",question:"Konjenital hipertrofik pilor stenozu tanısı konulan bir çocukta <u>ilk yapılması</u> gereken tedavi nedir?",opts:["Piloroplasti","Boşaltıcı lavman","Balon dilatasyon","Sıvı-elektrolit dengesizliği düzeltilir","CO narkozu"],correct:3,hint:"Konjenital hipertrofik pilor stenozunda tekrarlayan kusmalar nedeniyle hipokalemik hipokloremik alkaloz, dehidrasyon ve açlık vardır.",trap:"Önce cerrahiye değil, sıvı-elektrolit düzeltmeye gidilir. Ameliyata hazırlık için önce metabolik bozukluk düzeltilmelidir.",explain:"Konjenital hipertrofik pilor stenozunda tekrarlayan kusmalar nedeniyle hipokalemik hipokloremik alkaloz, dehidratasyon ve açlık vardır. Öncelikle hastanın sıvı elektrolit dengesizliği düzeltilir. Cerrahi tedavi Fredet-Ramstedt piloromyotomidir."},
+{id:31,section:"HİPERTROFİK PİLOR STENOZU",year:"Sonbahar 2002",question:"Bir haftadır yediklerini içeren ve şiddeti giderek artan kusması olan 3 haftalık bir erkek bebekte <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Trakeo-özefageal fistül","Mekonyum peritoniti","Mekonyum ileusu","İnfantil hipertrofik pilor stenozu","Aganglionik megakolon"],correct:3,hint:"Konjenital hipertrofik pilor stenozu, pilor adalesinin konjenital hipertrofisi sonucu sfinkteri daraltıp pasajı engellemesi ve kusma ile kendini göstermesidir. En önemli bulgusu safrasız fışkırır tarzda kusmadır.",trap:"3. haftada başlayan şiddetlenen kusma → pilor stenozu. TÖF ilk gün, mekonyum ileusu ve peritoniti daha erken prezente olur.",explain:"Konjenital hipertrofik pilor stenozu, pilor adalesinin konjenital hipertrofisi sonucu sfinkteri daraltıp pasajı engellemesi ve kusma ile kendini göstermesidir. En önemli bulgusu safrasız fışkırır tarzda kusmadır."},
+{id:32,section:"HİPERTROFİK PİLOR STENOZU",year:"Sonbahar 2020 Orijinal",question:"Aşağıdakilerden hangisi infantil hipertrofik pilor stenozu bulgularından biri <u>değildir</u>?",opts:["İkinci-üçüncü haftada başlayan safrasız fışkırır tarzda kusma","Karında görülebilir peristaltik dalgalar","Hipokalemik, hipokloremik metabolik alkaloz","Palpabl pilorik kitle","Ultrasonografide pilor duvarının kalınlaşıp pilor kanalının kısalması"],correct:4,hint:"İnfantil hipertrofik pilor stenozunda pilor duvarı kalınlaşır ve pilor kanalı UZAR (kısalmaz).",trap:"Ultrasonografide pilor duvarı kalınlaşır ve UZUNLUĞU ARTAR (kanalı uzar, kısalmaz). Bu yanıltıcı seçenektir.",explain:"İnfantil hipertrofik pilor stenozunda ultrasonografide pilor duvarı kalınlaşmış ve uzunluğu artmıştır (kanalı uzar). Pilor kanalının kısalması beklenen bir bulgu değildir."},
+{id:33,section:"HİPERTROFİK PİLOR STENOZU",year:"İlkbahar 2023",question:"Hipertrofik pilor stenozu olan bir çocukta aşağıdakilerin hangisinin görülmesi diğerlerinden <u>daha olasıdır</u>?",opts:["Safralı kusma","Fışkırır tarzda kusma","Bulantı","Çilek renginde kusma","Disfaji"],correct:1,hint:"Yaşamın 3-6. haftalarında ortaya çıkan safrasız fışkırır tarzda kusma öyküsü öncelikle hipertrofik pilor stenozunu düşündürmelidir.",trap:"Safralı kusma duodenum altı obstrüksiyonunu düşündürür. Çilek rengi invajinasyonu, disfaji özofagus patolojisini gösterir. Pilor stenozunda safrasız fışkırır kusma tipiktir.",explain:"Yaşamın 3-6. haftalarında ortaya çıkan safrasız fışkırır tarzda kusma öyküsü öncelikle hipertrofik pilor stenozunu düşündürmelidir. Pilor kas tabakasının hipertrofiye giderek kalınlaşması ve pilorun uzaması sonrası mide boşalması güçleşmektedir."},
+{id:34,section:"KONJENİTAL DUODENAL TIKANIKLIKLAR",year:"Sonbahar 94",question:"Ayakta direkt batında çift hava-sıvı seviyesi görülen bir yenidoğanda <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Mekonyum ileusu","Hirscprung hastalığı","Konjenital duodenal atrezi","İleal atrezi","Jejunal atrezi"],correct:2,hint:"Yenidoğanda duodenal tıkanıklık dört sebeple olur: Duodenal atrezi, duodenal stenoz, annuler pankreas ve malrotasyon.",trap:"Çift hava-sıvı seviyesi (double-bubble sign) konjenital duodenal atrezi için tipiktir.",explain:"Konjenital duodenal atrezide ve diğerlerinde belli başlı semptom safralı kusmadır. Duodenal atrezi tanısı ayakta direk karın grafisi ile konur. Mide ve duodenumda ayrı ayrı iki hava-sıvı seviyesine (double-bubble sign) rastlanır."},
+{id:35,section:"KONJENİTAL DUODENAL TIKANIKLIKLAR",year:"Sonbahar 95",question:"Down sendromlu bir bebeğin doğumdan 6 saat sonra safralı kusması mevcuttur. Ayakta direkt batın grafisinde double bubble sign görünümü izlenmektedir.\n\nBu hastada <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Konjenital pilor stenozu","Duodenal atrezi","Hirschprung hastalığı","Mekonyum ileusu","İntestinal duplikasyon"],correct:1,hint:"Yenidoğanda duodenal tıkanıklık dört sebeple olur; duodenal atrezide double-bubble sign tipiktir. Down sendromu ile birliktelik sıktır.",trap:"Down sendromu + double bubble sign = Duodenal atrezi. Pilor stenozu 3. haftada, Hirschprung'da rektal gaz olmaması beklenir.",explain:"Yenidoğanda duodenal tıkanıklık dört sebeple olur; duodenal atrezi, duodenal stenoz, annuler pankreas ve malrotasyon. Duodenal atrezide kusma genellikle hayatın ilk günü başlar. Down sendromu ile sıkça birlikte görülür."},
+{id:36,section:"KONJENİTAL DUODENAL TIKANIKLIKLAR",year:"İlkbahar 2025",question:"Otuz yedi haftalık doğan, Down sendromlu erkek bebeğin epigastrik bölgede distansiyonu ve safralı kusması saptanıyor. Hastanın ayakta direkt karın grafisinde, epigastrik bölgeden orta hatta uzanan çift hava kabarcığı olduğu ve distalde başka gaz gölgesi bulunmadığı görülüyor.\n\nBu hastada gastrointestinal sistemin hangi bölümünde atrezi görülmesi <u>en olasıdır</u>?",opts:["Özofagus","Pilor","Duodenum","Jejunum","İleum"],correct:2,hint:"Epigastrik bölgede çift gaz (double-bubble sign) ve distalde gaz olmaması duodenal atrezi için tipiktir.",trap:"Down sendromu + double bubble sign → duodenal atrezi. İleum ve jejunum atrezisinde çok sayıda hava-sıvı seviyesi olur.",explain:"Yenidoğanda duodenal tıkanıklık dört sebeple olur; duodenal atrezi, duodenal stenoz, annuler pankreas ve malrotasyon. Duodenal atrezide double-bubble sign tipiktir; distalde gaz olmaz."},
+{id:37,section:"KONJENİTAL DUODENAL TIKANIKLIKLAR",year:"Sonbahar 2016 Orijinal",question:"Doğumdan dört saat sonra, beslenmeyi takiben safralı kusma görülen term bir bebek için <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Özofagus atrezisi","İnfantil hipertrofik pilor stenozu","Hirschprung hastalığı","Duodenal atrezi","İmperfore anüs"],correct:3,hint:"Grafide çift gaz (double bouble) görünümü ve doğumdan hemen sonra kusmaya başlayan bebekte tanı duodenal atrezidir.",trap:"Doğumdan hemen sonra (4 saat) safralı kusma → duodenal atrezi. Özofagus atrezisi 1. günde tükürük birikimi yapar. Pilor stenozu 3. haftada safrasız kusma yapar.",explain:"Grafide çift gaz (double bubble) görünümü ve doğumdan sonra hemen kusmaya başlayan bebekte tanı duodenal atrezidir. Doğumdan hemen sonra beslenmeyi takiben safralı kusma duodenal atrezi için tipiktir."},
+{id:38,section:"KONJENİTAL DUODENAL TIKANIKLIKLAR",year:"Sonbahar 2018 Orijinal",question:"Doğumdan hemen sonra kusması başlayan ve devam eden iki günlük yenidoğanın fizik muayenesinde karın şişliği saptanmıyor. Mekonyum çıkışı da olmayan bu bebeğin ayakta direkt karın grafisinde double bubble görünümü saptanmıştır.\n\nBu bebek için <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Hipertrofik pilor stenozu","Duodenal atrezi","Anal atrezi","Mekonyum tıkacı sendromu","Hirschsprung hastalığı"],correct:1,hint:"Grafide çift gaz (double bouble) görünümü ve doğumdan sonra hemen kusmaya başlayan bebekte tanı duodenal atrezidir.",trap:"Double bubble sign = duodenal atrezi. Karın şişliği OLMAMASI duodenum proksimalinde tıkanıklık olduğunu gösterir.",explain:"Grafide çift gaz (double bubble) görünümü ve doğumdan sonra hemen kusmaya başlayan bebekte tanı duodenal atrezidir. Abdomenin geri kalan bölümünde hiç gaz yoktur."},
+{id:39,section:"MEKONYUM HASTALIKLARI",year:"Sonbahar 89",question:"Mekonyum ileusu olan bir bebekte radyolojik incelemede beklenen bulgu aşağıdakilerden hangisidir?",opts:["Kalp konturlarında genişleme","Kostalarda yeniklik","Diyafram altında hava gölgesi","Psoas gölgesinin belirginleşmesi","Sağ alt kadranda köpük görünümü"],correct:4,hint:"Mekonyum ileusu yenidoğanda intestinal obstrüksiyonun bir sebebidir ve kistik fibrozisin erken bir belirtisi olabilir.",trap:"Serbest hava (diyafram altında hava) perforasyonu düşündürür. Köpük görünümü (sabun köpüğü/buzlu cam) mekonyum ileusunun karakteristik radyolojik bulgusudur.",explain:"Mekonyum ileusu yenidoğanda intestinal obstrüksiyonun bir sebebidir. Karın grafisinde az sayıda hava sıvı seviyesi, granüler, ekmek içi gibi (köpük) görüntü vardır. Baryum lavmanında mikrokolon görüntüsü vardır."},
+{id:40,section:"MEKONYUM HASTALIKLARI",year:"İlkbahar 2000",question:"Karında distansiyon, safralı kusma, mekonyum çıkaramama şikayeti olan 48 saatlik bebekte çekilen ayakta direkt batın grafisinde kalsifikasyonlar saptanıyor.\n\nBu hastada <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Annüler pankreas","Malrotasyon","Duodenal Atrezi","Mekonyum peritoniti","Agangliyonik megakolon"],correct:3,hint:"Yenidoğanda 48 saat içinde mekonyum çıkaramama ve direk batın grafisinde kalsifikasyonlar mekonyum peritonitini düşündürür.",trap:"Kalsifikasyon görülmesi mekonyum peritonitine özgüdür; intrauterin intestinal perforasyon sonrası mekonyum periton boşluğuna geçer ve kalsifiye olur.",explain:"Mekonyum peritoniti barsağın intrauterin veya doğumda perforasyonu sonucu periton boşluğuna mekonyum geçmesidir. Semptomatik olanlarda karın içinde kalsifiye odaklar görülmesi ile farkedilir."},
+{id:41,section:"MEKONYUM HASTALIKLARI",year:"İlkbahar 2008",question:"Karın şişliği ve safralı kusma şikayetleriyle getirilen 3 günlük bir bebeğin çekilen karın radyografisinde bağırsak segmentlerinde dilatasyon, sağ altta sabun köpüğü veya buzlu cam görünümü saptanmıştır.\n\nBu bebek için <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Hirschsprung hastalığı","İleal atrezi","Mekonyum ileusu","Midgut volvulusu","Nekrotizan enterokolit"],correct:2,hint:"Karın grafisinde sabun köpüğü/buzlu cam görünümü mekonyum ileusu için tipiktir.",trap:"Hirschprung'da distal obstrüksiyon + rektumda gaz olmaması beklenir. Sabun köpüğü görünümü mekonyum ileusuna özeldir.",explain:"Yenidoğanda intestinal anomaliler ve radyolojik bulguları önemlidir. Kontrastlı kolon grafisinde sabun köpüğü ya da buzlu cam görünümü mekonyum ileusu için tipiktir."},
+{id:42,section:"MEKONYUM HASTALIKLARI",year:"Sonbahar 2012",question:"İnvajinasyon, rektal prolapsus, kolon striktürü, safra yolları tıkanıklığı ve apandisit gibi birçok cerrahi sorunun görülebildiği hastalık aşağıdakilerden hangisidir?",opts:["Hirschsprung hastalığı","Küçük sol kolon sendromu","İntestinal psödoobstrüksiyon","Nekrotizan enterokolit","Kistik fibrozis"],correct:4,hint:"Kistik fibrozis, akciğer, gastrointestinal traktüs, pankreas, karaciğer, ter bezleri ve genitoüriner sistemi etkileyen kompleks bir hastalıktır.",trap:"Hirschsprung sadece kolonik aganglionozisi kapsar. Kistik fibrozis çok sayıda organ sistemini etkileyerek bu cerrahi sorunlara yol açabilir.",explain:"Kistik fibrozis, akciğer, gastrointestinal traktüs, pankreas, karaciğer, ter bezleri ve genitoüriner sistemi etkileyen kompleks bir hastalıktır. Klinikte tekrarlayan akciğer enfeksiyonları, ekzokrin pankreas yetmezliği, malabsorbsiyon, mekonyum ileusu, rektal prolapsus, safra yolları tıkanıklığı gelişebilir."},
+{id:43,section:"ROTASYON ANOMALİLERİ",year:"Sonbahar 2007",question:"İntestinal obstrüksiyona neden olan aşağıdaki durumların hanginde hiç zaman kaybetmeden acil cerrahi girişim gerekir?",opts:["İleal atrezi","Midgut volvulusu","İnfantil hipertrofik pilor stenozu","Jejunal atrezi","Duodenal stenoz"],correct:1,hint:"Bağırsakta iskemiye, nekroza ve kısa bağırsak sendromuna neden olabilen midgut volvulusuna acil olarak cerrahi tedavi girişim gerekir.",trap:"Pilor stenozu önce sıvı-elektrolit düzeltmesi gerektirir, acil değildir. Midgut volvulusunda dakikalar önem taşır.",explain:"Bağırsakta iskemiye, nekroza ve kısa bağırsak sendromuna neden olabilen midgut volvulusuna acil olarak cerrahi tedavi girişim gerekir. Tedavisi volvulusa uğramış barsağın acilen detorsiyonudur."},
+{id:44,section:"ROTASYON ANOMALİLERİ",year:"Sonbahar 2019 Orijinal",question:"Aşağıdaki radyolojik incelemelerden hangisi çocuklarda malrotasyon için <u>altın standarttır</u>?",opts:["Ayakta direkt karın grafisi","Lateral yan grafi","Bilgisayarlı tomografi","Ultrasonografi","Üst gastrointestinal sistem kontrastlı grafisi"],correct:4,hint:"İntestinal malrotasyon tanısında ultrason, bilgisayarlı tomografi ve manyetik rezonans görüntüleme kullanılabilir. Ama günümüzde en hassas metod üst gastrointestinal sistem kontrastlı grafileridir.",trap:"Ultrasonografi ve BT kullanılır ancak altın standart değildir. Üst GIS kontrastlı grafide tirbüşon (corkscrew) görüntüsü tanıda yardımcıdır.",explain:"İntestinal malrotasyon; intrauterin dönemde orta barsağın rotasyonunu tamamlayamaması ve anormal yerleşimidir. Günümüzde en hassas metod üst gastrointestinal sistem kontrastlı grafileridir. Burada tirbüşon (corkscrew) görüntüsü tanıda kullanılır."},
+{id:45,section:"ROTASYON ANOMALİLERİ",year:"Sonbahar 2024",question:"İki aylık kız bebek ani başlayan fışkırır tarzda safralı kusma nedeniyle acil servise getiriliyor. Öyküsünde belirgin özelliği olmayan hastanın fizik muayenesinde batın hafif distansdü bulunuyor ve ele gelen kitle tespit edilmiyor. Ayakta direkt batın grafisinde hava-sıvı seviyeleri mevcut olan hastanın abdominal renkli Doppler ultrasonografisinde orta hatta girdap (whirlpool) bulgusu olduğu görülüyor.\n\nBu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Pilor stenozu","İnvajinasyon","Midgut volvulusu","Superior mezenterik arter sendromu","Preduodenal portal ven"],correct:2,hint:"Abdominal Doppler'da girdap (whirlpool) bulgusu mezenterik volvulusuna bağlı olarak süperior mezenterik arter ve vende değişken derecede dönüş izlenmektedir.",trap:"Whirlpool (girdap) bulgusu midgut volvulusu için karakteristiktir. İnvajinasyonda target/sosis şeklinde kitle beklenir. Pilor stenozu safrasız kusma yapar.",explain:"Abdominal ultrasonografide mezenterik volvulusuna bağlı olarak süperior mezenterik arter ve vende değişken derecede dönüş izlenmektedir. Bu bulgu girdap (whirlpool) bulgusu olarak tanımlanmaktadır. İki aylık bebekte ani safralı kusma ve whirlpool bulgusu midgut volvulusunu düşündürür."},
+{id:46,section:"HİRSCHSPRUNG HASTALIĞI",year:"Sonbahar 92",question:"Hirschsprung hastalığının patofizyolojisi aşağıdakilerden hangisidir?",opts:["Motilite bozukluğu","Ganglion yokluğu","Mekonyum ileusu","cAMP uyarı azalımı","Hormonal"],correct:1,hint:"Hirschsprung hastalığı (Aganglionik megakolon), konjenital olarak distal kolon ve rektumda parasempatik ganglion hücrelerinin yokluğu veya agenezisidir.",trap:"Motilite bozukluğu sonuçtur; asıl neden ganglion hücrelerinin konjenital yokluğudur.",explain:"Hirschsprung hastalığı (Aganglionik megakolon), konjenital olarak distal kolon ve rektumda parasempatik ganglion hücrelerinin yokluğu veya agenezisidir. Bu yokluk nedeniyle etkilenen segment sürekli kasılı kalır ve proksimalde dilatasyon gelişir."},
+{id:47,section:"HİRSCHSPRUNG HASTALIĞI",year:"İlkbahar 94",question:"Hirschsprung hastalığını fonksiyonel konstipasyondan ayıran <u>en karakteristik</u> belirt aşağıdakilerden hangisidir?",opts:["Defekasyon sayısının haftada bir veya daha az olması","Dışkı kaçırma olması","Kabızlığın hayatın ilk haftasından beri olması","Rektal prolapsus","Fekal tıkaç"],correct:2,hint:"Rektal tuşeyi takiben fışkırır gibi gaz-gaita çıkarılması Hirschsprung hastalığının lehinedir.",trap:"Fekal inkontinans ve dışkı kaçırma Hirschsprung'da nadir görülür; fonksiyonel konstipasyonda daha sıktır. Doğumdan beri olan konstipasyon Hirschsprung'u düşündürür.",explain:"Rektal tuşeyi takiben fışkırır gibi gaz-gaita çıkarılması Hirschsprung hastalığının lehinedir. Kabızlığın hayatın ilk haftasından beri olması Hirschsprung'un en karakteristik özelliğidir. Kesin tanı biyopsi ile konur."},
+{id:48,section:"YENİDOĞAN GASTROİNTESTİNAL KANAMA",year:"Sonbahar 2009",question:"Aşağıdakilerden hangisi yenidoğan bebeklerde sık görülen üst gastrointestinal sistem kanama nedenlerinden biri <u>değildir</u>?",opts:["Stres gastriti","Koagülopati","Septisemi","Vasküler malformasyon","Mallory-Weiss yırtığı"],correct:4,hint:"Yenidoğan döneminde alt gastrointestinal kanamalara, üst gastrointestinal kanamalara göre daha sık görülür.",trap:"Mallory-Weiss yırtığı şiddetli bulantı ve kusma sonrası gastroözofagial bileşkede oluşur; yenidoğanlarda sık görülmez. Alkol kullanımı öyküsü olan yetişkinlerde tipiktir.",explain:"Yenidoğan döneminde alt gastrointestinal kanamalara üst gastrointestinal kanamalara göre daha sık görülür. Üst GIS kanama nedenleri arasında stress gastriti, koagülopati, septisemi ve vasküler malformasyon yer alırken, Mallory-Weiss yırtığı yenidoğanlarda sık görülen bir neden değildir."},
+{id:49,section:"NEKROTİZAN ENTEROKOLİT",year:"İlkbahar 95",question:"Yenidoğan bir çocukta 10 gün sonra huzursuzluk, bulantı, kusma, kanlı ishal ve karında distansiyon ortaya çıkıyor. Çekilen direk grafide pnömotasis intestinalis hali saptanıyor.\n\nBu hastada <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Ülseratif kolit","Hirschsprung hastalığı","Anal atrezi","Nekrotizan enterokolit","İnvajinasyon"],correct:3,hint:"Nekrotizan enterokolit genellikle hayatın ilk birkaç günü içinde bazen de iki aya kadarki sürede görülebilen bulantı, kusma, kanlı ishal ve karında distansiyon ile seyreden bir hastalıktır.",trap:"Pnömotazis intestinalis (bağırsak duvarında hava) NEK için patognomoniktir. Ülseratif kolit ve Hirschsprung yenidoğanda bu şekilde prezente olmaz.",explain:"Nekrotizan enterokolit etyolojisinde hiperosmolar beslenme, ilaçlar, mezenterik kan akımının azalması ve bakteriyel invazyon önemlidir. Pnömatazis intestinalis (bağırsak duvarında gaz) radyolojik tanı koydurucudur."},
+{id:50,section:"NEKROTİZAN ENTEROKOLİT",year:"Sonbahar 2010",question:"Pnömatozis intestinalis (bağırsak duvarında hava) ve portal ven trasesinde gaz görünümü aşağıdaki hastalıklardan hangisinin radyolojik bulgularıdır?",opts:["Jejunal atrezi","İnfantil hipertrofik pilor stenozu","Safra yolları kistleri","Mekonyum ileusu","Nekrotizan enterokolit"],correct:4,hint:"Yenidoğanda erken radyolojik incelemelerde bağırsakta distansiyon ve intramural tabakada gaz varlığı (pneumatosis intestinalis) nekrotizan enterokoliti akla getirir.",trap:"Portal ven trasesinde gaz NEK'in ileri evresini gösterir (pyopnömo flebitis) ve kötü prognozu gösterir.",explain:"Yenidoğanda erken radyolojik incelemelerde bağırsakta distansiyon ve intramural tabakada gaz varlığı (pneumatosis intestinalis) nekrotizan enterokoliti akla getirir. NEK'in en tipik radyolojik bulgusudur."},
+{id:51,section:"NEKROTİZAN ENTEROKOLİT",year:"Sonbahar 2008",question:"Yenidoğanda direkt karın grafisinde gözlenen 'pneumatosis intestinalis' aşağıdaki hastalıklardan hangisine ait bir bulgudur?",opts:["Volvulus","Duplikasyon","Mekonyum ileusu","Mekonyum peritoniti","Nekrotizan enterokolit"],correct:4,hint:"Yenidoğanda erken radyolojik incelemelerde bağırsakta distansiyon ve intramural tabakada gaz varlığı (pneumatosis intestinalis) nekrotizan enterokoliti akla getirir.",trap:"Mekonyum ileusu sabun köpüğü, duplikasyon nadiren görülür, volvulus gazsız karın verebilir. Pnömotazis intestinalis NEK'e özgüdür.",explain:"Yenidoğanda erken radyolojik incelemelerde bağırsakta distansiyon ve intramural tabakada gaz varlığı (pneumatosis intestinalis) nekrotizan enterokoliti akla getirir. İntramural gaz varlığı en tipik radyolojik bulgudur."},
+{id:52,section:"MECKEL DİVERTİKÜLÜ",year:"Sonbahar 87",question:"Meckel divertikülü gastrointestinal sistemde <u>en sık</u> hangi lokalizasyonda görülür?",opts:["İleum","Jejunum","Duodenum","Transvers kolon","Rektum"],correct:0,hint:"Meckel divertikülü, midgutun en sık malformasyonudur. Yolk sac (allantois) kalıntısıdır. Çoğu kişide ileoçekal valv'den 40-50 cm proksimaldedir.",trap:"Meckel divertikülü her zaman İLEUMDA bulunur; jejunum veya kolonda değil. İleoçekal valvden 40-50 cm proksimalde.",explain:"Meckel divertikülü, midgutun en sık malformasyonudur. Yolk sac (allantois) kalıntısıdır. Çoğu kişide ileoçekal valv'den 40-50 cm proksimaldedir. Çocuklarda en sık alt gastrointestinal sistem kanaması sebebidir."},
+{id:53,section:"MECKEL DİVERTİKÜLÜ",year:"İlkbahar 2013",question:"Zaman zaman hematokezya şikâyeti olan 10 yaşındaki hastanın fizik muayenesinde patoloji tespit edilmemiştir.\n\nYapılan teknesyum sintigrafisinde göbeğin sağ tarafında aktivasyonu olan bu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Kolon divertikülü","İleokolik invajinasyon","Meckel divertikülü","İnflamatuvar bağırsak hastalığı","Vasküler malformasyon"],correct:2,hint:"Çocuk hastada tekrarlayan gastrointestinal sistem kanaması varlığında Meckel divertikülünü düşünmek gerekir. Tc99m sintigrafisi ile %90 tanı konulur.",trap:"Tc-99m sintigrafisi ektopik gastrik mukozayı gösterir ve Meckel divertikülü tanısı için %90 duyarlıdır. Sağ alt kadranda aktivasyon Meckel'i işaret eder.",explain:"Çocuk hastada tekrarlayan gastrointestinal sistem kanaması varlığında Meckel divertikülünü düşünmek gerekir. Tc99m sintigrafisi ile %90 tanı konulur. Sintigrafide ektopik mukozanın gösterilmesi, sağ alt kadran tutulumu ve hastanın yaşı tanıyı desteklemektedir."},
+{id:54,section:"İNVAJİNASYON",year:"İlkbahar 88",question:"İnvajinasyon gastrointestinal sistemde <u>en sık</u> hangi lokalizasyonda görülür?",opts:["Kolokolik","İleoçekal","İleoileal","Jejunoileal","Duodenojejunal"],correct:1,hint:"İnvajinasyon bir bağırsak segmentinin, hemen distaldeki bağırsak içine teleskopik olarak geçmesi veya girmesidir. En sık ileoçekal bölgede (terminal ileumda) görülür.",trap:"Kolokolik invajinasyon ileri yaşta görülür. Pediatrik invajinasyonun %90'ı ileoçekal bölgededir.",explain:"İnvajinasyon bir bağırsak segmentinin, hemen distaldeki bağırsak içine teleskopik olarak geçmesi veya girmesidir. En sık ileoçekal bölgede (terminal ileumda) görülür. İki yaşın altındaki çocuklarda en sık akut karın sebebidir."},
+{id:55,section:"İNVAJİNASYON",year:"Sonbahar 88",question:"Karın ağrısı, bulantı-kusma, rektal tuşede çilek jölesi şeklinde dışkı görülen çocukta <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Stress ülseri","Meckel divertikülü","İnvajinasyon","Konjenital pilor stenozu","Aganglionik megakolon"],correct:2,hint:"İnvajinasyonun tipik kliniği: ağrı atakları (karın ağrısı), kusma ve çilek jölesi şeklinde kanlı mukuslu dışkılamadır.",trap:"Meckel divertikülü ağrısız rektal kanama yapar. Çilek jölesi + ağrı atakları + kusma trifektası → invajinasyon.",explain:"İnvajinasyonun tipik kliniği: ağrı atakları, kusma ve çilek jölesi şeklinde kanlı mukuslu dışkılamadır. İnvajinasyon bir bağırsak segmentinin, hemen distaldeki bağırsak içine teleskopik olarak geçmesi sonucu meydana gelir."},
+{id:56,section:"İNVAJİNASYON",year:"Sonbahar 2006",question:"Çocuklarda invajinasyon, gastrointestinal kanalın genellikle hangi bölümünde başlar?",opts:["Duedenum","Jejunum","İleum","Çıkan kolon","Transvers kolon"],correct:2,hint:"İnvajinasyon bir bağırsak segmentinin, hemen distaldeki bağırsak lümenine teleskopik olarak girmesi olarak tanımlanır. Sıklıkla terminal ileumdan başlayarak kolona ilerler.",trap:"Başlangıç noktası ileumdur; çıkan kolon veya transvers kolonda başlamaz. Sıklıkla terminal ileumdan başlayarak kolona ilerler.",explain:"İnvajinasyon sıklıkla terminal ileumdan başlayarak kolona ilerler. İleokolik invajinasyon, bir bağırsak segmentinin, distaldeki bağırsak lümeni içine, eldiven parmağı gibi girmesi olarak tanımlanır."},
+{id:57,section:"İNVAJİNASYON",year:"İlkbahar 2007",question:"Kolik tarzında karın ağrısı, safralı kusma ve kanlı mukuslu dışkılama şikâyetleriyle getirilen 8 aylık bebek için <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Meckel divertikülü","Apandisit","Hirschsprung hastalığı","İnvajinasyon","Orta bağırsak (mid-gut) volvulusu"],correct:3,hint:"2 yaş altında akut batın tablosu gelişimi akla invajinasyonu getirmelidir.",trap:"8 aylık bebekte kolik ağrı + safralı kusma + kanlı mukuslu dışkı → invajinasyon. Apandisit 2 yaş üstünde sık.",explain:"2 yaşından küçük çocuklarda en sık acil cerrahi tedavi gerektiren olaydır. 8 aylık bebekte kolik tarzında karın ağrısı, kusma ve kanlı mukuslu dışkı invajinasyonun klasik triyadıdır."},
+{id:58,section:"DUPLİKASYONLAR",year:"Sonbahar 2001",question:"Gastrointestinal duplikasyonlarla birlikte <u>en sık</u> görülen ek anomali hangisidir?",opts:["Renal agenezi","Radial agenezi","Sindaktili","Hemivertebra","Patent - Urachus"],correct:3,hint:"Spinal kord ve vertebral malformasyonlara eşlik eden duplikasyonlar, embriyo gelişimi esnasında notokordun bölünmesinden kaynaklandığı düşünülür ve en sık anomaliler hemivertebra ve anterior spina bifida'dır.",trap:"Gastrointestinal duplikasyonların en sık eşlik eden anomalisi vertebral anomalilerdir (hemivertebra).",explain:"Gastrointestinal sistem duplikasyonları nadir görülen tübüler veya sferik yapılardır, epitelieri normal GIS epiteline benzer. En sık eşlik eden anomali spinal kord ve vertebral malformasyonlarıdır (hemivertebra ve anterior spina bifida)."},
+{id:59,section:"DUPLİKASYONLAR",year:"İlkbahar 2009",question:"Gastrointestinal kanal duplikasyonlarının <u>en sık</u> görüldüğü yer aşağıdakilerden hangisidir?",opts:["Özofagus","Mide","Duodenum","İleoçekal bölge","Sigmoid kolon"],correct:3,hint:"Gastrointestinal sistem duplikasyonları nadir görülen tübüler veya sferik yapılardır, epitelleri normal GIS epiteline benzer. En sık ileoçekal bölgede ortaya çıkar.",trap:"Özofagus duplikasyonları mediastinal kist olarak görülür. GIS duplikasyonları içinde en sık ileoçekal bölge.",explain:"Gastrointestinal sistem duplikasyonları nadir görülen tübüler veya sferik yapılardır. En sık ileoçekal bölgede ortaya çıkar."},
+{id:60,section:"SAFRA YOLLARI ATREZİSİ",year:"İlkbahar 2010",question:"Akolik gaita yapma ve sarılık yakınmaları olan 4 haftalık bir bebekte <u>öncelikle</u> düşünülmesi gereken tanı aşağıdakilerden hangisidir?",opts:["Koledok kisti","Viral hepatit","Ampulla vater tümörü","Biliyer atrezi","Kolelithiazis"],correct:3,hint:"Akolik gayta varlığı biliyer sistemdeki total obstrüksiyonu işaret etmektedir.",trap:"Viral hepatit sarılık yapar ama akolik gaita (renksiz dışkı) biliyer total obstrüksiyonu gösterir. 4 haftalık bebekte bu tablo → biliyer atrezi.",explain:"Akolik gayta varlığı biliyer sistemdeki total obstrüksiyonu işaret etmektedir. Biliyer atrezi IU dönemde başlayıp postpartum dönemde de devam eden dinamik, progresif bir skleroz ve fibrozis sonucu oluşur. Tedavi ilk iki ay içinde yapılmazsa biliyer siroz ve ölüm gerçekleşir."},
+{id:61,section:"AKUT APANDİSİT",year:"İlkbahar 89",question:"Akut apandisitin <u>en sık</u> karışan hastalık aşağıdakilerden hangisidir?",opts:["Volvulus","Over torsiyonu","İnflamatuvar barsak hastalığı","Pelvik inflamatuvar hastalık","Akut mezenter lenfadenit"],correct:4,hint:"Akut apandisitle en sık karışan durum perfore değilse yersinia enterokoliticaya bağlı akut mezenterik lenfadenit; perfore ise peritonittir.",trap:"Over torsiyonu ve pelvik inflamatuvar hastalık kadınlarda karışabilir. Ama en sık karışan tablo (her iki cinste) mezenterik lenfadenitdir.",explain:"Akut apandisitle en sık karışan durum perfore değilse yersinia enterokoliticaya bağlı akut mezenterik lenfadenit; perfore ise peritonittir. Akut apandisit, 2 yaşın üstündeki çocuklarda en sık akut karın sebebidir."},
+{id:62,section:"AKUT APANDİSİT",year:"İlkbahar 90",question:"Bir yaşından büyük çocuklarda <u>en sık</u> akut karın nedeni aşağıdakilerden hangisidir?",opts:["İnvajinasyon","Akut apandisit","Meckel divertikülü","Volvulus","Mekonyum ileusu"],correct:1,hint:"İki yaşın üstündeki çocuklarda en sık akut karın sebebi akut apandisittir.",trap:"İnvajinasyon 2 yaş ALTINDA en sık akut karın nedenidir. 2 yaş ÜZERİNDE ise apandisit birinci sıraya geçer.",explain:"İnvajinasyon, iki yaşın altındaki çocuklarda en sık görülen akut karın sebebidir. İki yaşın üstündeki çocuklarda ise en sık akut karın sebebi akut apandisittir."},
+{id:63,section:"AKUT APANDİSİT",year:"Sonbahar 95",question:"İki yaşından büyük çocukta <u>en sık</u> akut karın nedeni aşağıdakilerden hangisidir?",opts:["İnvajinasyon","Akut apandisit","Meckel divertikülü","Volvulus","Mekonyum ileusu"],correct:1,hint:"İki yaşın üstündeki çocuklarda en sık akut karın sebebi akut apandisittir.",trap:"İnvajinasyon 2 yaş altında, apandisit 2 yaş üstünde en sık akut karın sebebidir.",explain:"Yenidoğanlarda apendiks tabanı geniş olduğu için tıkanma olasılığı daha azdır. İki yaşın üstündeki çocuklarda ise en sık akut karın sebebi akut apandisittir."},
+{id:64,section:"AKUT APANDİSİT",year:"Sonbahar 2000",question:"Çocuklarda cerrahi gerektirecek obstrüksiyona <u>en sık</u> neden olan paraziter ajan aşağıdakilerden hangisidir?",opts:["Amebiazis","Askariazis","Taeniazis","Oksiyür","Giardiazis"],correct:1,hint:"Bağırsaklarda yumak oluşturucu etkisi nedeniyle obstrüksiyona neden olan parazit Askaristir.",trap:"Oksiyür anal kaşıntı yapar, tıkanma yapmaz. Giardia malabsorpsiyon yapar. Askaris yumak oluşturarak mekanik tıkanmaya yol açar.",explain:"Bağırsaklarda yumak oluşturucu etkisi nedeniyle obstrüksiyona neden olan parazit Askaristir. Ağır enfeksiyonlarda askariazis larvalar eosinofilik pnömoni oluşturabilir (Löffler)."},
+{id:65,section:"GÖBEK VE KARIN ÖN DUVARI",year:"Sonbahar 90",question:"18 aylık erkek çocukta palpe edilemeyen testis olması durumunda, retraktil testis ve ektopik testis ayırıcı tanısı sonrasında yapılması <u>en uygun</u> işlem aşağıdakilerden hangisidir?",opts:["Laparotomi","Laparoskopi","Human koryonik gonadotropin (hCG)","Eksizyonel biopsi","Orşiektomi"],correct:1,hint:"Tek taraflı palpe edilemeyen testis olması durumunda inmemiş testis ve anorşidi ayırıcı tanısı için laparoskopi yapılmalıdır.",trap:"Laparotomi yerine laparoskopi tercih edilir; daha az invazif ve hem tanısal hem terapötiktir. hCG tedavisi tanısal değil terapötiktir.",explain:"Tek taraflı palpe edilemeyen testis olması durumunda inmemiş testis ve anorşidi ayırıcı tanısı için laparoskopi yapılmalıdır. Anorşidiyi, palpe edilemeyen inmemiş testisten ayırmanın tek yolu cerrahi olarak a. spermatica'nın kör olarak sonlandığının gösterilmesidir."},
+{id:66,section:"GÖBEK VE KARIN ÖN DUVARI",year:"İlkbahar 2020 Orijinal",question:"Palpe edilemeyen inmemiş testis tanısında, testisin varlığı açısından aşağıdaki yöntemlerden hangisinin tanısal değeri diğerlerine göre <u>daha yüksektir</u>?",opts:["Ultrasonografi","Bilgisayarlı tomografi","Pozitron emisyon tomografisi","Manyetik rezonans görüntüleme","Laparoskopik abdominal eksplorasyon"],correct:4,hint:"Kriptorşidizm testislerden biri ya da her ikisinin birden skrotumda bulunmamasıdır. Hiçbir görüntü yöntemine dayanarak anorşidiye karar verilemez.",trap:"MR en iyi görüntüleme yöntemi olabilir ama anorşidiyi kesin ayırt etmek için yetersizdir. Laparoskopi hem tanısal hem terapötiktir ve altın standarttır.",explain:"Hiçbir görüntü yöntemine dayanarak anorşidiye karar verilemez. Anorşidiyi, palpe edilemeyen inmemiş testisten ayırmanın tek yolu cerrahi olarak a. spermatica'nın kör olarak sonlandığının gösterilmesidir. Bu nedenle laparoskopik abdominal eksplorasyon tanısal değeri en yüksek yöntemdir."},
+{id:67,section:"GÖBEK VE KARIN ÖN DUVARI",year:"İlkbahar 96",question:"Aşağıdakilerden hangisi gastroşizisin özelliği <u>değildir</u>?",opts:["Genelde sağda yerleşir","İnce bağırsaklar ödemli ve yapışıktır","Göbek yerindedir","Membranla kaplı değildir","Başka konjenital anomaliler de sıktır"],correct:4,hint:"Gastroşiziste birlikte görülen konjenital anomaliler ENDEREKTİR; omfaloselde ise %40-80 oranında eşlik eden anomali görülür.",trap:"'Başka konjenital anomaliler de sıktır' → bu omfalosel için doğrudur, gastroşizis için değil. Gastroşiziste ek anomaliler enderdir.",explain:"Gastroşiziste eşlik eden konjenital anomaliler ENDEREKTİR. Bu gastroşizisi omfaloselden ayıran önemli özelliklerden biridir. Omfaloselde %40-80 oranında eşlik eden anomali görülürken, gastroşiziste bu oran çok daha düşüktür."},
+{id:68,section:"GÖBEK VE KARIN ÖN DUVARI",year:"İlkbahar 2003",question:"Aşağıdakilerden hangisi omfalosel özelliklerinden biri <u>değildir</u>?",opts:["Defektin kese ile kaplı olması","Solid organların kese içinde yer alabilmesi","Göbek kordonunun normal yerinde olması","Rotasyon anomalisinin sık olması","Sindirim sistemi dışında anomalilerin sık olması"],correct:2,hint:"Omfaloselde göbek kordonu kesenin tepesindedir, normal yerinde değildir.",trap:"Omfaloselde göbek kordonu KESENİN TEPESİNDEDİR; normal yerinde değil. 'Normal yerinde olması' yanlış bir özelliktir.",explain:"Karın ön duvarı defektlerinde omfalosel, üzerinde göbek kordonu bulunan (normal yerinde değil) ve içi ince bağırsak ve/veya karaciğerle dolu saydam kese şeklindedir. Göbek kordonu kesenin tepesindedir."},
+{id:69,section:"GÖBEK VE KARIN ÖN DUVARI",year:"İlkbahar 2024 Orijinal",question:"Aşağıdakilerden hangisi Cantrell pentalojisinin bileşenlerinden biri <u>değildir</u>?",opts:["İntestinal atrezi","Omfalosel","Sternal displazi","Ektopia kordis","Anterior diyafragmatik defekt"],correct:0,hint:"Cantrell Pentalojisi: Üst orta hat omfalosel, anterior diyafragmatik herni, sternal yarık, ektopi kordis, kardiyak anomali.",trap:"İntestinal atrezi Cantrell pentalojisinin bir komponenti değildir.",explain:"Cantrell Pentalojisi beş bileşenden oluşur: Üst orta hat omfalosel, anterior diyafragmatik herni, sternal yarık (displazi), ektopi kordis ve kardiyak anomali. İntestinal atrezi bu pentalojinin bir parçası değildir."},
+{id:70,section:"GÖBEK VE KARIN ÖN DUVARI",year:"Sonbahar 2010",question:"Aşağıdaki ekstrofik anomalilerden hangisi ek anomalilerle <u>en fazla</u> birliktelik gösterir?",opts:["Ekstrofia vezikalis","İzole epispadias","Superior vezikal fissür","Dupleks ekstrofi","Ekstrofia kloaka"],correct:4,hint:"Ekstrofi kloaka daha büyük ve embriyoda daha erken gelişen bir embriyolojik hastalık iken, diğer seçeneklerdeki ekstrofi vezikanın alt tipleri embriyoda daha geç gelişen hastalıklardır.",trap:"Ekstrofia kloaka en geniş kapsamlı anomalidir ve en fazla ek anomali eşlik eder.",explain:"Ekstrofi kloaka daha büyük ve embriyoda daha erken gelişen bir embriyolojik hastalık iken, diğer seçeneklerdeki ekstrofi vezikanın alt tipleri embriyoda daha geç gelişen hastalıklardır. Bu sebeple ekstrofi kloakaya daha çok ek anomali eşlik eder."},
+{id:71,section:"GÖBEK VE KARIN ÖN DUVARI",year:"İlkbahar 2012",question:"Fetüste tanınabilen aşağıdaki hastalıklardan hangisinde, intrauterin cerrahinin <u>yeri yoktur</u>?",opts:["Kistik adenomatoid malformasyon","Posterior üretral valv","Konjenital hidrotoraks","Omfalosel","Sakrokoksigeal teratoma"],correct:3,hint:"Omfaloselde, eşlik eden konjenital anomaliler nedeniyle cerrahi tercihen doğum sonrasında yapılır.",trap:"Omfalosel intrauterin dönemde opere edilmez; doğum sonrasına bırakılır. Diğer seçenekler fetal cerrahi veya fetoskopik müdahale gerektiren durumlar olabilir.",explain:"Omfaloselde, eşlik eden konjenital anomaliler nedeniyle cerrahi tercihen doğum sonrasında yapılır. Diğer seçeneklerde ise intrauterin cerrahi veya fetoskopik girişim endikasyonu olabilir."},
+{id:72,section:"GÖBEK VE KARIN ÖN DUVARI",year:"İlkbahar 2019 Orijinal",question:"Altı aylık erkek çocukta, son iki aydır ağladığında veya öksürdüğünde sağ kasıkta bir şişlik oluştuğu ve şişliğin sonradan kendiliğinden kaybolduğu annesi tarafından ifade ediliyor.\n\nBu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Hidrosel","İnguinal herni","Varikosel","Omfalosel","İnmemiş testis"],correct:1,hint:"Çocuklarda ağlamak veya ıkınmakla kasık bölgesinde belirginleşip kaybolan şişlikte aklımıza gelmesi gereken tanı inguinal herni olmalıdır.",trap:"Hidrosel ağlamakla değişmez ve kendiliğinden kaybolur. Varikosel daha büyük erkeklerde. İnguinal herni ıkınmakla belirginleşir ve kendiliğinden kaybolabilir (redükte olur).",explain:"Çocuklarda ağlamak veya ıkınmakla kasık bölgesinde belirginleşip kaybolan şişlikte aklımıza gelmesi gereken tanı inguinal herni olmalıdır ve inkarserasyon riski nedeniyle uygun şartlar sağlandığında hemen opere edilmelidir."},
+{id:73,section:"WİLMS TÜMÖRÜ VE NÖROBLASTOM",year:"Sonbahar 89",question:"Ateşi, öksürüğü ve halsizliği olan bir çocukta karaciğer büyüklüğü ve akciğer sesleri normal, yan grafide arka mediastende kitle tesbit edilmiştir.\n\nBu hastada <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Nöroblastom","Akciğer fibrozisi","Kistik fibrozis","Bronkojenik kist","Anjiofibrom"],correct:0,hint:"Ateş, öksürük ve halsizliği olan bir çocukta arka mediastende kitle nöroblastomu düşündürür.",trap:"Akciğer fibrozisi ve kistik fibrozis akciğer sesleri bozukluğu yapar. Arka mediastende kitle → nöroblastom veya nörojenik tümör.",explain:"Nöroblastom, embriyonik nöral krestten kaynaklanır. Esas olarak sempatik sinir sistemi ve adrenal medullada bulunur. Çocukluk çağının en sık solid tümörüdür. %25'de arka mediastende görülür."},
+{id:74,section:"WİLMS TÜMÖRÜ VE NÖROBLASTOM",year:"Sonbahar 95",question:"Aşağıdakilerden hangisi Wilms tümörünün karakteristik bulgularından biri <u>değildir</u>?",opts:["Aniridi","Hemihipertrofi","Egzoftalmus","Hipertansiyon","Genitöüriner sistem anomalisi"],correct:2,hint:"Wilms tümörü, çocukluk çağının en sık primer renal tümörüdür. Orbital metastaz daha çok nöroblastom lehinedir.",trap:"Egzoftalmus Wilms tümöründe görülmez; nöroblastomda raccoon eyes (periorbital ekimoz) görülür. Wilms'te aniridi, hemihipertrofi, hipertansiyon ve genitoüriner anomaliler karakteristiktir.",explain:"Wilms tümörü, embriyonel renal neoplazmdır. Aniridi, hemihipertrofi, diğer genitoüriner sistem anomalileri ve hipertansiyon ile seyreder. Orbital metastaz veya egzoftalmus nöroblastomun özelliğidir."},
+{id:75,section:"WİLMS TÜMÖRÜ VE NÖROBLASTOM",year:"Sonbahar 2022 Orijinal",question:"Aşağıdakilerden hangisinin Wilms tümöründe görülme olasılığı diğerlerinden <u>daha düşüktür</u>?",opts:["Hematüri","Hipertansiyon","Varikosel","İleus","Karında kitle"],correct:2,hint:"Wilms tümörü renal ven veya vena cava uzanımı sonucu varikosel, hepatomegali, asit ve konjestif kalp yetmezliği görülebilir.",trap:"Varikosel Wilms tümöründe görülebilir (sol renal ven baskısı nedeniyle) ama diğer semptomlar daha karakteristiktir. İleus ise Wilms'te gerçekten nadir beklenen bir bulgudur.",explain:"Wilms tümöründe tipik belirtileri arasında; anormal distansiyon, karın ağrısı, ateş, bulantı ve kusma, hematüri ve bazı vakalarada hipertansiyon yer alır. İleus beklenen bir bulgu değildir."},
+{id:76,section:"WİLMS TÜMÖRÜ VE NÖROBLASTOM",year:"İlkbahar 96",question:"Dört yaşında bir çocukta hızla büyüyen abdominal kitle, yaygın kemik metastazı ve idrarda katekolamin metabolitlerinin artışı saptanmıştır.\n\nBu hasta için <u>en olası</u> tanı aşağıdakilerden hangisidir?",opts:["Wilms tümörü","Ewing sarkomu","Nöroblastom","Hodgkin hastalığı","Lenfositik lenfoma"],correct:2,hint:"Nöroblastom, embriyonik nöral krestten kaynaklanır. Bu tümörler adrenalin ve noradrenalin salgıladığı için idrarda VMA, metanefrin ve normetanefrin artmış olarak bulunur.",trap:"Wilms tümöründe katekolamin artışı olmaz. İdrarda VMA ve katekolamin artışı nöroblastom için spesifiktir. Kemik metastazı nöroblastomda sık.",explain:"Nöroblastom, embriyonik nöral krestten kaynaklanır. Esas olarak sempatik sinir sistemi ve adrenal medullada bulunur. Çocukluk çağının en sık solid tümörüdür. Bu tümörler adrenalin ve noradrenalin salgıladığı için idrarda VMA, metanefrin ve normetanefrin artmış olarak bulunur."},
+{id:77,section:"WİLMS TÜMÖRÜ VE NÖROBLASTOM",year:"İlkbahar 2000",question:"Çocukluk çağı nöroblastomunun kötü prognoz kriteri <u>olmayan</u> aşağıdakilerden hangisidir?",opts:["N myc kopya sayısı artışı","1 yaşından büyük olması","Evre IV (D)","Diploide yakın ya da tetraploid karyotip","Evre IV S (Ds)"],correct:4,hint:"Nöroblastomda iyi prognostik faktörler: Mediastinal, pelvik ve servikal yerleşim, 18 ay altında başlaması, Evre I, II, IVs, matür olması, VMA artışı.",trap:"Evre IV S (4S veya Ds) özel bir evredir ve paradoks olarak iyi prognostik faktördür; kendiliğinden regrese olabilir. Kötü prognoz kriteri değildir.",explain:"Nöroblastomda kötü prognostik faktörler: Retroperitoneal/adrenal/paraspinal yerleşim, 18 ayın üstünde başlaması, Evre III, IV, immatür olması, HVA artışı, N-myc amplifikasyonu. Evre IVS iyi prognozludur; kendiliğinden regrese olabilir."},
+{id:78,section:"WİLMS TÜMÖRÜ VE NÖROBLASTOM",year:"İlkbahar 2001",question:"Aşağıdakilerden hangisi nöroblastomda iyi prognoz kriteridir?",opts:["Nöron spesifik enolaz (NSE) aktivitesi","1 yaşından küçük olması","Retroperitoneal adrenal yerleşim","Hücrelerin differansiiye olması","Yüksek ferritin"],correct:1,hint:"Nöroblastomda iyi prognostik faktörler: Mediastinal, pelvik ve servikal yerleşim, 18 ay altında başlaması, Evre I, II, IVs, matür olması.",trap:"NSE yüksekliği kötü prognoz, yüksek ferritin kötü prognoz, retroperitoneal adrenal yerleşim kötü prognoz göstergesidir. 1 yaşından küçük olması iyi prognoz kriteridir.",explain:"Nöroblastomda iyi prognostik faktörler: Mediastinal, pelvik ve servikal yerleşim, 18 ay altında başlaması (1 yaşından küçük), Evre I, II, IVs, matür (differansiye) olması, VMA artışı. 1 yaşından küçük olması en belirgin iyi prognoz kriteridir."},
+{id:79,section:"TERATOMLAR",year:"İlkbahar 2001",question:"Bebeklerde teratomların <u>en sık</u> görüldüğü bölge neresidir?",opts:["Mediastinal","Servikal","Retroperitoneal","İntraabdominal","Sakrokoksigeal"],correct:4,hint:"Teratomlar, en sık yenidoğan döneminde ve sakrokoksigeal bölgede gözlenir. Daha sonra gonadlar ve mediastende gözlenir.",trap:"Mediastinal teratom erişkinde sık; bebekte sakrokoksigeal bölge birinci sıradadır.",explain:"Teratomlar, en sık yenidoğan döneminde ve sakrokoksigeal bölgede gözlenir. Kızlarda daha sık görülür. Tanı rektal tuşe ile konur. Tedavide koksiks kemiği teratom ile birlikte çıkarılır."},
+{id:80,section:"PORTAL HİPERTANSİYON",year:"İlkbahar 2000",question:"Yenidoğan döneminde omfalit geçiren 4 yaşındaki kız çocukta hematemez varsa <u>öncelikle</u> düşünülmesi gereken aşağıdakilerden hangisidir?",opts:["Caroli hastalığı","Ekstrahepatik portal hipertansiyon","Peptik ülser","Budd chiari sendromu","Postnektrotik siroz"],correct:1,hint:"Ekstrahepatik portal ven obstrüksiyonu, sıklıkla çocukluk ve büyüme çağındaki portal hipertansiyonun önemli bir nedenidir.",trap:"Omfalit geçmişi → göbek veni trombüsü → portal ven trombozu → ekstrahepatik portal hipertansiyon. Bu yaşta hematemez bu anamnezle birlikte ekstrahepatik PH'yi düşündürür.",explain:"Ekstrahepatik portal ven obstrüksiyonu, sıklıkla çocukluk ve büyüme çağındaki portal hipertansiyonun önemli bir nedenidir. Yenidoğan döneminde geçirilen omfalit → göbek veni trombozu → portal ven trombozu → portal hipertansiyon zinciri kurulabilir."},
+{id:81,section:"HEMANJİOM",year:"Sonbahar 2021 Orijinal",question:"İki aylık erkek bebek, doğumunda sağ yanağında önce telanjiektazi olarak izlenen, ancak ilerleyen haftalarda büyüyerek koyu kırmızı renkli bir kitle haline gelen deri lezyonu nedeniyle getirilliyor. Fizik muayenesinde sağ yanakta lokalize, yüzeyinde kanama odağı izlenmeyen, 3x4 cm boyutlarında, düzensiz kenarlı, düzgün yüzeyli vasküler lezyon saptanıyor.\n\nBaşka bir sağlık sorunu bulunmayan bu bebek için <u>en uygun</u> yaklaşım aşağıdakilerden hangisidir?",opts:["Embolizasyonu takiben cerrahi eksizyon","Yakın takip ile konservatif yaklaşım","Skleroterapi","Nd: YAG lazer ile tedavi","Doğrudan cerrahi eksizyon"],correct:1,hint:"İnfantil hemanjiyom çocukluk çağının en sık benign vasküler doku tümörüdür. Doğumda olmayan ya da çok küçük lekeler halinde bulunan, bir yaşına kadar büyüyen hemanjiyomların büyümeleri 12-18. aylarda durur.",trap:"Kanama odağı olmayan, 2 aylık bebekte infantil hemanjiyom için hemen cerrahi veya lazer gerekmez. İlk yaklaşım konservatif takiptir; kendiliğinden regrese olabilir.",explain:"İnfantil hemanjiyom çocukluk çağının en sık benign vasküler doku tümörüdür. Büyümeleri 12-18. aylarda durur; gerileme 18. ayda başlar. Semptom vermiyorsa yakın takip ile konservatif yaklaşım ilk seçenektir. Son yıllarda propranolol etkinliği gösterilmiştir."},
+{id:82,section:"HEMANJİOM",year:"Sonbahar 2023",question:"Üç aylık kız bebek, doğumunun sağ yanağında pembe bir leke görünümünde olup ilerleyen haftalarda hızla büyüyen ve sağ alt göz kapağını da içine alan vasküler görünümlü bir kitle nedeniyle getiriliyor. Aktif kanama izlenmeyen lezyonun özellikle arka bakışta bebeğin görme alanını etkilediği saptanıyor.\n\nBu hastanın tedavisinde <u>ilk</u> basamakta uygulanacak <u>en uygun</u> ilaç aşağıdakilerden hangisidir?",opts:["İnterferon alfa","Vinkristin","Propranolol","Karboplatin","Atenolol"],correct:2,hint:"Tedavide non selektif beta blokör ilaç olan oral propranolol ilk seçenektir.",trap:"Görme alanını etkileyen periorbital hemanjiyom aktif tedavi gerektirir. Propranolol (oral, non-selektif beta blokör) tedavide ilk seçenektir; atenolol ikinci sırada.",explain:"Tedavide non selektif beta blokör ilaç olan oral propranolol ilk seçenektir. Atenolol da propranololden sonra kullanılan diğer beta blokör ajandır. Periorbital hemanjiyomların yayılımına bağlı kısa sürede kalıcı görme kaybı gelişebileceğinden aktif tedavi gerektirir."},
+{id:83,section:"HEMANJİOM",year:"Sonbahar 2021 BENZERİ (ek soru)",question:"Üç aylık kız bebek kolunda ortaya çıkan deri döküntüsü nedeniyle hastaneye getiriliyor. Yapılan incelemeler sonucunda hemanjiyom olduğu tespit ediliyor. Boyutlarının 3×3 cm olduğu ancak çocukta herhangi bir semptom oluşturmadığı tespit ediliyor.\n\nBu hastada medikal tedavi için <u>en uygun</u> ilaç aşağıdakilerden hangisidir?",opts:["Propranolol","Amlodipin","Tiazid diüretik","Hidroksiklorokin","Prozosin"],correct:0,hint:"Tedavide non selektif beta blokör ilaç olan oral propranolol ilk seçenektir.",trap:"Bu soru PDF'te BENZERİ olarak işaretlenmiştir; ancak orijinal sorulardan bağımsız klinik senaryosu olduğundan dahil edilmiştir. Cevap propranololdür.",explain:"Hemanjiyom tedavisinde oral propranolol (non-selektif beta blokör) ilk seçenektir. Semptom olmasa da tedavi planlanabilir; atenolol ikinci seçenektir."},
+{id:84,section:"WİLMS TÜMÖRÜ VE NÖROBLASTOM",year:"İlkbahar 96 – Ek bilgi sorusu",question:"Dört yaşında bir çocukta hızla büyüyen abdominal kitle, yaygın kemik metastazı ve idrarda katekolamin metabolitlerinin artışı saptanmıştır.\n\nAşağıdakilerden hangisi bu tablonun en olası tanısı için doğru bir ifadedir?",opts:["Wilms tümörü, embriyonel renal neoplazmdır","Nöroblastom, embriyonik nöral krestten kaynaklanır","Hodgkin hastalığı, primer olarak lenf nodlarının hastalığıdır","Ewing sarkomu, kemik tümörüdür","Lenfositik lenfoma, tüm yaş gruplarında görülür"],correct:1,hint:"Nöroblastom, embriyonik nöral krestten kaynaklanır; sempatik sinir sistemi ve adrenal medullada bulunur.",trap:"Bu soru aynı klinik senaryodan türetilmiş bilgi sorusudur. Nöroblastom nöral krest kökenlidir; renal neoplazmlar Wilms'e aittir.",explain:"Nöroblastom, embriyonik nöral krestten kaynaklanır. Esas olarak sempatik sinir sistemi ve adrenal medullada bulunur. Çocukluk çağının en sık solid tümörüdür. İdrarda VMA, metanefrin ve normetanefrin artmış olarak bulunur."},
+{id:85,section:"GENEL – ÇOCUK CERRAHİSİ",year:"—",question:"Aşağıdakilerden hangisi çocuklarda akut batın tablosunda doğru bir ifadedir?",opts:["2 yaşın altında en sık neden apandisittir","İnvajinasyonda çilek jölesi şeklinde kanlı mukuslu dışkı görülür","Hirschsprung hastalığında rektumda gaz fazladır","Mekonyum peritonitinde kalsifikasyon beklenmez","Nöroblastom idrarda katekolamin azalmasıyla seyreder"],correct:1,hint:"İnvajinasyonun tipik kliniği: ağrı atakları, kusma ve çilek jölesi şeklinde kanlı mukuslu dışkılamadır.",trap:"2 yaş altında en sık neden invajinasyondur, apandisit değil. Hirschsprung'da rektumda gaz olmaz. Mekonyum peritonitinde kalsifikasyon görülür. Nöroblastomda katekolaminler ARTAR.",explain:"İnvajinasyonun tipik kliniği: ağrı atakları, kusma ve çilek jölesi şeklinde kanlı mukuslu dışkılamadır. 2 yaşın altında en sık akut karın nedeni invajinasyondur. 2 yaş üstünde ise apandisit birinci sıraya geçer. Hirschsprung'da rektumda gaz olmaz, Mekonyum peritonitinde intraperitoneal kalsifikasyon görülür ve nöroblastomda katekolaminler artar."}
 ];
 
-// Section boundaries for navigator dividers
-const sections = [
-  {name:"TAŞ HASTALĞI",start:0,end:13},
-  {name:"ÜROGENİTAL YOL YARALANMALARI",start:14,end:15},
-  {name:"MESANE KARSİNOMLARI",start:16,end:22},
-  {name:"MALİGN BÖBREK TÜMÖRLERİ",start:22,end:23},
-  {name:"SELİM PROSTAT HİPERPLAZİSİ",start:24,end:27},
-  {name:"PROSTAT KANSERİ",start:28,end:31},
-  {name:"TESTİS TÜMÖRLERİ",start:32,end:49},
-  {name:"BÖBREK DOĞUMSAL ANOMALİLERİ",start:50,end:55},
-  {name:"MESANE ANOMALİLERİ",start:56,end:56},
-  {name:"İNTRASKROTAL KİTLELER",start:57,end:62},
-  {name:"ÜRİNER OBSTRÜKSİYON",start:63,end:66},
-  {name:"VEZİKOÜRETERAL REFLÜ",start:67,end:71},
-  {name:"GENİTOÜRİNER ENFEKSİYONLAR",start:72,end:83},
-  {name:"İNFERTİLİTE",start:84,end:88},
-  {name:"DİĞER SORULAR",start:89,end:100}
+const SECTIONS=[...new Set(masterList.map(q=>q.section))];
+let questions=[...masterList];
+let current=0;let answered={};let starred=new Set();
+let modalFilter='all';
+let streak=0;
+
+// Mascot messages
+const CORRECT_MSGS=[
+  "Harika! 🎉","Süpersin! ⭐","Mükemmel! 🏆","Aynen öyle! 💯","Bravo! 🎊","Vay be! 🔥","Kesinlikle! ✅","Tam isabet! 🎯","Muhteşem! 🌟","Evet! Doğru! 💪"
+];
+const WRONG_MSGS=[
+  "Üzgünüm... 😢","Olmadı, tekrar bak! 😟","Hata yaptık... 💔","Bu sefer olmadı 😔","Canın sağ olsun! 😿","Dikkat et! 😓","Açıklamayı oku! 📖","Bir dahaki sefere! 🤞","Kafaya tak! 🤔","Merak etme, öğreniyoruz! 😊"
+];
+const IDLE_MSGS=[
+  "Bir cevap seç! 🎯","Hangi şık doğru? 🤔","Düşün... 🧠","Biliyorsun bunu! 💪","Konsantre ol! 🎯","Haydi! ⚡"
 ];
 
-let questions = [...masterList];
-let cur = 0;
-let answered = new Array(questions.length).fill(null);
-let starred = new Set();
+let mascotTimeout=null;
+function showMascot(type){
+  const m=document.getElementById('mascot');
+  const msg=document.getElementById('mascot-msg');
+  if(type==='correct'){
+    m.textContent='🦉';
+    m.classList.remove('shake');
+    void m.offsetWidth;
+    m.classList.add('bounce');
+    const txt=CORRECT_MSGS[Math.floor(Math.random()*CORRECT_MSGS.length)];
+    msg.textContent=txt;
+    msg.style.color='var(--green)';
+    msg.style.borderColor='#86efac';
+    msg.style.background='#f0fdf4';
+    msg.classList.add('show');
+    launchConfetti();
+  } else if(type==='wrong'){
+    m.textContent='🦉';
+    m.classList.remove('bounce');
+    void m.offsetWidth;
+    m.classList.add('shake');
+    const txt=WRONG_MSGS[Math.floor(Math.random()*WRONG_MSGS.length)];
+    msg.textContent=txt;
+    msg.style.color='var(--red)';
+    msg.style.borderColor='#fca5a5';
+    msg.style.background='#fff1f2';
+    msg.classList.add('show');
+  } else {
+    m.textContent='🦉';
+    m.classList.remove('bounce','shake');
+    const txt=IDLE_MSGS[Math.floor(Math.random()*IDLE_MSGS.length)];
+    msg.textContent=txt;
+    msg.style.color='var(--accent)';
+    msg.style.borderColor='var(--border)';
+    msg.style.background='var(--card)';
+    msg.classList.add('show');
+  }
+  clearTimeout(mascotTimeout);
+  mascotTimeout=setTimeout(()=>{msg.classList.remove('show');},3500);
+}
 
-function render(){
-  const q = questions[cur];
-  document.getElementById('q-num').textContent = `Soru ${cur+1}/${questions.length}`;
-  document.getElementById('star-btn').textContent = starred.has(q.id) ? '★' : '☆';
-  document.getElementById('q-counter').textContent = `${cur+1}/${questions.length} ☰`;
-  const yt = document.getElementById('year-tags');
-  yt.innerHTML = q.year ? `<span class="year-tag">${q.year}</span><span class="year-tag">${q.section}</span>` : `<span class="year-tag">${q.section}</span>`;
-  document.getElementById('q-text').innerHTML = q.question;
-  document.getElementById('hint-box').innerHTML = q.hint;
-  document.getElementById('hint-box').classList.remove('open');
-  document.getElementById('trap-text').innerHTML = q.trap;
-  document.getElementById('explain-text').innerHTML = q.explain;
-  document.getElementById('feedback').classList.remove('open');
-  const opts = document.getElementById('options');
-  opts.innerHTML = '';
-  const letters = ['A','B','C','D','E'];
-  q.opts.forEach((o,i)=>{
-    const btn = document.createElement('button');
-    btn.className = 'opt-btn';
-    btn.innerHTML = `<span class="opt-letter">${letters[i]}</span><span>${o}</span>`;
-    btn.onclick = () => selectAnswer(i);
-    if(answered[cur] !== null){
-      btn.disabled = true;
-      if(i === q.answer) btn.classList.add('correct');
-      else if(i === answered[cur]) btn.classList.add('wrong');
-    }
-    opts.appendChild(btn);
+// ---- CONFETTI ----
+const cvs=document.getElementById('confetti-canvas');
+const cctx=cvs.getContext('2d');
+let confettiPieces=[];
+const COLORS=['#5b6ef5','#f5326e','#22c55e','#f59e0b','#8b5cf6','#06b6d4','#ec4899','#fb923c'];
+
+function resizeCanvas(){cvs.width=window.innerWidth;cvs.height=window.innerHeight;}
+resizeCanvas();window.addEventListener('resize',resizeCanvas);
+
+function launchConfetti(){
+  for(let i=0;i<90;i++){
+    confettiPieces.push({
+      x:Math.random()*cvs.width,y:-10,
+      w:6+Math.random()*8,h:4+Math.random()*6,
+      color:COLORS[Math.floor(Math.random()*COLORS.length)],
+      vx:(Math.random()-0.5)*5,vy:2+Math.random()*4,
+      vr:(Math.random()-0.5)*0.3,r:Math.random()*Math.PI*2,
+      life:1
+    });
+  }
+  if(!animRunning)animateConfetti();
+}
+
+let animRunning=false;
+function animateConfetti(){
+  if(!confettiPieces.length){animRunning=false;cctx.clearRect(0,0,cvs.width,cvs.height);return;}
+  animRunning=true;
+  cctx.clearRect(0,0,cvs.width,cvs.height);
+  confettiPieces=confettiPieces.filter(function(p){
+    p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;p.vy+=0.12;p.life-=0.012;
+    if(p.life<=0||p.y>cvs.height+20)return false;
+    cctx.save();cctx.translate(p.x,p.y);cctx.rotate(p.r);cctx.globalAlpha=p.life;
+    cctx.fillStyle=p.color;
+    cctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+    cctx.restore();
+    return true;
   });
-  if(answered[cur] !== null) document.getElementById('feedback').classList.add('open');
-  updateProgress();
-  document.getElementById('prev-btn').disabled = cur === 0;
-  document.getElementById('next-btn').disabled = cur === questions.length-1;
+  requestAnimationFrame(animateConfetti);
+}
+
+// ---- RENDER ----
+function render(){
+  const q=questions[current];if(!q){showResult();return;}
+  document.getElementById('sec-badge').textContent='▸ '+q.section;
+  document.getElementById('q-num').textContent=`Soru ${current+1}/${questions.length}`;
+  document.getElementById('star-btn').textContent=starred.has(q.id)?'⭐':'☆';
+  const yt=document.getElementById('year-tags');yt.innerHTML='';
+  if(q.year&&q.year!=='—'){const t=document.createElement('span');t.className='year-tag';t.textContent=q.year;yt.appendChild(t);}
+  document.getElementById('q-text').innerHTML=q.question;
+  document.getElementById('hint-box').innerHTML=q.hint;
+  document.getElementById('hint-box').classList.remove('open');
+  document.getElementById('trap-text').innerHTML=q.trap;
+  document.getElementById('explain-text').innerHTML=q.explain;
+  const opts=document.getElementById('options');opts.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const b=document.createElement('button');b.className='opt-btn';
+    b.innerHTML='<span class="opt-letter">'+String.fromCharCode(65+i)+'</span><span>'+o+'</span>';
+    const ans=answered[q.id];
+    if(ans!==undefined){
+      b.disabled=true;
+      if(i===q.correct)b.classList.add('correct');
+      else if(i===ans)b.classList.add('wrong');
+    } else {
+      b.onclick=()=>selectAnswer(i);
+    }
+    opts.appendChild(b);
+  });
+  const fb=document.getElementById('feedback');fb.classList.toggle('open',answered[q.id]!==undefined);
+  document.getElementById('pbar').style.width=((current+1)/questions.length*100)+'%';
+  document.getElementById('q-counter').textContent=(current+1)+'/'+questions.length+' ☰';
+  document.getElementById('streak-badge').textContent='🔥 '+streak+' seri';
+  buildGrid();
+  if(answered[q.id]===undefined)showMascot('idle');
 }
 
 function selectAnswer(i){
-  if(answered[cur] !== null) return;
-  answered[cur] = i;
+  const q=questions[current];
+  answered[q.id]=i;
+  if(i===q.correct){
+    streak++;
+    showMascot('correct');
+  } else {
+    streak=0;
+    showMascot('wrong');
+  }
   render();
-  setTimeout(()=>{document.getElementById('feedback').scrollIntoView({behavior:'smooth',block:'nearest'});},150);
+  setTimeout(()=>{document.getElementById('feedback').scrollIntoView({behavior:'smooth',block:'nearest'});},250);
 }
+
 function toggleHint(){document.getElementById('hint-box').classList.toggle('open');}
 function toggleStar(){
-  const id = questions[cur].id;
-  starred.has(id) ? starred.delete(id) : starred.add(id);
-  document.getElementById('star-btn').textContent = starred.has(id) ? '★' : '☆';
-  updateGrid();
+  const q=questions[current];
+  if(starred.has(q.id))starred.delete(q.id);else starred.add(q.id);
+  render();
 }
-function navigate(d){
-  cur = Math.max(0,Math.min(questions.length-1,cur+d));
+function navigate(dir){
+  current=Math.max(0,Math.min(questions.length-1,current+dir));
   render();
   window.scrollTo({top:0,behavior:'smooth'});
 }
-function updateProgress(){
-  document.getElementById('pbar').style.width=((cur+1)/questions.length)*100+'%';
+
+function setFilter(f,btn){
+  modalFilter=f;
+  document.querySelectorAll('.mf-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  buildGrid();
 }
-function openModal(){updateGrid();document.getElementById('modal-overlay').classList.add('open');}
-function closeModal(e){if(e.target===document.getElementById('modal-overlay'))document.getElementById('modal-overlay').classList.remove('open');}
+
+function buildGrid(){
+  const g=document.getElementById('q-grid');g.innerHTML='';
+  let lastSec='';
+  masterList.forEach((q,i)=>{
+    if(q.section!==lastSec){
+      const d=document.createElement('div');d.className='section-divider';
+      d.textContent='▸ '+q.section;g.appendChild(d);lastSec=q.section;
+    }
+    const b=document.createElement('button');b.className='q-grid-btn';
+    const posInCurrent=questions.findIndex(cq=>cq.id===q.id);
+    b.textContent=i+1;
+    if(posInCurrent===current&&posInCurrent!==-1)b.classList.add('active');
+    if(answered[q.id]!==undefined)b.classList.add(answered[q.id]===q.correct?'answered-correct':'answered-wrong');
+    if(starred.has(q.id))b.classList.add('starred');
+    if(modalFilter==='unanswered'&&answered[q.id]!==undefined)b.classList.add('hidden');
+    if(modalFilter==='wrong'&&(answered[q.id]===undefined||answered[q.id]===q.correct))b.classList.add('hidden');
+    if(modalFilter==='starred'&&!starred.has(q.id))b.classList.add('hidden');
+    b.onclick=()=>{
+      const idx=questions.findIndex(cq=>cq.id===q.id);
+      if(idx!==-1){current=idx;render();closeModal();window.scrollTo({top:0,behavior:'smooth'});}
+    };
+    g.appendChild(b);
+  });
+}
+
+function openModal(){document.getElementById('modal-overlay').classList.add('open');buildGrid();}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
+function closeModalOutside(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
+
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape')document.getElementById('modal-overlay').classList.remove('open');
   if(e.key==='ArrowRight')navigate(1);
-  if(e.key==='ArrowLeft')navigate(-1);
+  else if(e.key==='ArrowLeft')navigate(-1);
+  else if(e.key==='Escape')closeModal();
 });
 
-function updateGrid(){
-  const mc = document.getElementById('modal-content');
-  mc.innerHTML = '';
-  // Only show section dividers when using masterList (all questions)
-  if(questions.length === masterList.length){
-    sections.forEach(sec=>{
-      const div = document.createElement('div');
-      div.className='section-divider';
-      div.textContent=sec.name;
-      mc.appendChild(div);
-      const grid = document.createElement('div');
-      grid.className='q-grid';
-      for(let i=sec.start;i<=sec.end;i++){
-        grid.appendChild(makeGridBtn(i));
-      }
-      mc.appendChild(grid);
-    });
-  } else {
-    const grid = document.createElement('div');
-    grid.className='q-grid';
-    questions.forEach((_,i)=>grid.appendChild(makeGridBtn(i)));
-    mc.appendChild(grid);
-  }
-}
-
-function makeGridBtn(i){
-  const q = questions[i];
-  const btn = document.createElement('button');
-  btn.className='q-grid-btn';
-  btn.textContent=i+1;
-  if(i===cur)btn.classList.add('current');
-  if(answered[i]!==null)btn.classList.add(answered[i]===q.answer?'answered-correct':'answered-wrong');
-  if(starred.has(q.id))btn.classList.add('starred');
-  btn.onclick=()=>{cur=i;render();document.getElementById('modal-overlay').classList.remove('open');window.scrollTo({top:0,behavior:'smooth'});};
-  return btn;
-}
-
 function showResult(){
-  document.getElementById('quiz-area').style.display='none';
-  document.getElementById('result-screen').style.display='block';
+  document.getElementById('quiz-screen').style.display='none';
   document.querySelector('.nav').style.display='none';
-  const correct=answered.filter((a,i)=>a===questions[i].answer).length;
-  const wrong=answered.filter((a,i)=>a!==null&&a!==questions[i].answer).length;
-  const pct=Math.round((correct/questions.length)*100);
+  const rs=document.getElementById('result-screen');rs.classList.add('open');
+  let correct=0,wrong=0,unanswered=0;
+  questions.forEach(q=>{
+    if(answered[q.id]===undefined){unanswered++;return;}
+    if(answered[q.id]===q.correct)correct++;else wrong++;
+  });
+  const answered_count=correct+wrong;
+  const pct=answered_count>0?Math.round(correct/answered_count*100):0;
   document.getElementById('res-score').textContent=pct+'%';
   document.getElementById('res-correct').textContent=correct;
   document.getElementById('res-wrong').textContent=wrong;
-  document.getElementById('res-starred').textContent=starred.size;
-  // Topic breakdown
-  const rows = document.getElementById('topic-rows');
-  rows.innerHTML='';
-  const topicMap={};
-  questions.forEach((q,i)=>{
-    if(!topicMap[q.section])topicMap[q.section]={total:0,correct:0};
-    topicMap[q.section].total++;
-    if(answered[i]===q.answer)topicMap[q.section].correct++;
+  document.getElementById('res-unanswered').textContent=unanswered;
+  document.getElementById('res-star').textContent=starred.size;
+  const tbRows=document.getElementById('tb-rows');tbRows.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    const sqs=questions.filter(q=>q.section===sec);
+    const sc=sqs.filter(q=>answered[q.id]===q.correct).length;
+    const st=sqs.filter(q=>answered[q.id]!==undefined).length;
+    if(st===0)return;
+    const p2=Math.round(sc/st*100);
+    const color=p2>=70?'var(--green)':p2>=40?'var(--gold)':'var(--red)';
+    const row=document.createElement('div');row.className='tb-row';
+    row.innerHTML='<span class="tb-topic">'+(sec.length>28?sec.substring(0,28)+'…':sec)+'</span><span class="tb-score" style="color:'+color+'">'+sc+'/'+st+'</span>';
+    tbRows.appendChild(row);
   });
-  Object.entries(topicMap).forEach(([topic,data])=>{
-    const pctT=Math.round((data.correct/data.total)*100);
-    const color=pctT>=70?'var(--green)':pctT>=40?'var(--gold)':'var(--red)';
-    rows.innerHTML+=`<div class="topic-row"><span class="topic-name">${topic}</span><span class="topic-score" style="color:${color}">${data.correct}/${data.total} (${pctT}%)</span></div>`;
-  });
+  setTimeout(()=>launchConfetti(),300);
 }
-
-document.getElementById('next-btn').addEventListener('click',()=>{
-  if(cur===questions.length-1&&answered[cur]!==null){
-    if(answered.every(a=>a!==null))showResult();
-  }
-});
 
 function retryAll(){
-  questions=[...masterList];answered=new Array(questions.length).fill(null);cur=0;
-  document.getElementById('quiz-area').style.display='block';
-  document.getElementById('result-screen').style.display='none';
-  document.querySelector('.nav').style.display='flex';render();
+  questions=[...masterList];current=0;answered={};streak=0;
+  document.getElementById('quiz-screen').style.display='block';
+  document.querySelector('.nav').style.display='flex';
+  document.getElementById('result-screen').classList.remove('open');
+  render();
 }
 function retryWrong(){
-  const wrong=masterList.filter((_,i)=>answered[i]!==null&&answered[i]!==masterList[i].answer);
-  if(!wrong.length){alert('Yanlış soru yok!');return;}
-  questions=wrong;answered=new Array(questions.length).fill(null);cur=0;
-  document.getElementById('quiz-area').style.display='block';
-  document.getElementById('result-screen').style.display='none';
-  document.querySelector('.nav').style.display='flex';render();
+  const wq=masterList.filter(q=>answered[q.id]!==undefined&&answered[q.id]!==q.correct);
+  if(!wq.length){alert('Yanlış cevaplanan soru yok! 🎉');return;}
+  questions=wq;current=0;streak=0;
+  document.getElementById('quiz-screen').style.display='block';
+  document.querySelector('.nav').style.display='flex';
+  document.getElementById('result-screen').classList.remove('open');
+  render();
 }
 function retryStar(){
-  const s=masterList.filter(q=>starred.has(q.id));
-  if(!s.length){alert('Yıldızlı soru yok!');return;}
-  questions=s;answered=new Array(questions.length).fill(null);cur=0;
-  document.getElementById('quiz-area').style.display='block';
-  document.getElementById('result-screen').style.display='none';
-  document.querySelector('.nav').style.display='flex';render();
+  const sq=masterList.filter(q=>starred.has(q.id));
+  if(!sq.length){alert('Yıldızlı soru yok! ⭐');return;}
+  questions=sq;current=0;streak=0;
+  document.getElementById('quiz-screen').style.display='block';
+  document.querySelector('.nav').style.display='flex';
+  document.getElementById('result-screen').classList.remove('open');
+  render();
 }
+
 render();
 </script>
 </body>

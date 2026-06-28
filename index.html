@@ -42,11 +42,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 #speech{position:fixed;bottom:175px;right:16px;background:var(--surface);border:2px solid var(--accent);
   border-radius:16px 16px 4px 16px;padding:10px 14px;font-size:13px;font-weight:600;
   color:var(--text);z-index:401;max-width:200px;text-align:center;
-  opacity:0;transform:scale(.8) translateY(10px);
-  transition:opacity .3s,transform .3s;pointer-events:none;line-height:1.4}
-#speech.show{opacity:1;transform:scale(1) translateY(0)}
-#speech::after{content:'';position:absolute;bottom:-10px;right:20px;
-  border:5px solid transparent;border-top:5px solid var(--accent)}
+  opacity:0;visibility:hidden;transform:scale(.8) translateY(10px);
+  transition:opacity .3s,transform .3s,visibility 0s .3s;pointer-events:none;line-height:1.4;
+  overflow:hidden}
+#speech.show{opacity:1;visibility:visible;transform:scale(1) translateY(0)}
+#speech::after{content:none}
 
 /* ── HEADER ── */
 header{padding:54px 16px 10px;max-width:700px;margin:0 auto}
@@ -83,7 +83,7 @@ header p{font-size:12px;color:var(--muted);margin-top:3px}
 .q-text u{text-decoration-color:var(--yellow)}
 
 /* ── OPTIONS ── */
-.options{display:flex;flex-direction:column;gap:9px}
+.options{display:flex;flex-direction:column;gap:9px;position:relative}
 .opt{display:flex;align-items:flex-start;gap:11px;background:var(--surface2);
   border:2px solid var(--border);border-radius:12px;padding:12px 16px;
   cursor:pointer;transition:all .2s;font-size:14px;line-height:1.5;
@@ -210,35 +210,22 @@ header p{font-size:12px;color:var(--muted);margin-top:3px}
 
 /* ── MONKEY HUG ── */
 #monkey-hug{
-  position:absolute;right:-38px;top:50%;transform:translateY(-50%);
-  width:72px;height:72px;z-index:10;pointer-events:none;
-  animation:monkeyPop .5s cubic-bezier(.34,1.56,.64,1) forwards;
+  position:absolute;
+  right:-58px;
+  top:50%;
+  transform:translateY(-50%);
+  width:56px;height:56px;
+  z-index:20;pointer-events:none;
+  animation:monkeyPop .45s cubic-bezier(.34,1.56,.64,1) forwards;
+  opacity:0;
 }
 @keyframes monkeyPop{
-  0%{opacity:0;transform:translateY(-50%) scale(.4) rotate(-20deg)}
-  70%{transform:translateY(-50%) scale(1.15) rotate(5deg)}
-  100%{opacity:1;transform:translateY(-50%) scale(1) rotate(0deg)}
+  0%{opacity:0;transform:translateY(-50%) scale(.3) rotate(-20deg)}
+  65%{transform:translateY(-50%) scale(1.1) rotate(5deg);opacity:1}
+  85%{transform:translateY(-50%) scale(.97) rotate(-2deg)}
+  100%{opacity:1;transform:translateY(-50%) scale(1) rotate(0)}
 }
-/* Arm extending left toward the box */
-#monkey-hug::before{
-  content:'';
-  position:absolute;
-  left:-28px;top:44%;
-  width:30px;height:10px;
-  background:#c2773a;
-  border-radius:5px;
-  transform:rotate(-10deg);
-}
-#monkey-hug::after{
-  content:'';
-  position:absolute;
-  left:-28px;top:54%;
-  width:28px;height:10px;
-  background:#c2773a;
-  border-radius:5px;
-  transform:rotate(10deg);
-}
-.opt{position:relative;overflow:visible}
+.opt.correct{overflow:visible !important;position:relative}
 </style>
 </head>
 <body>
@@ -1613,52 +1600,37 @@ function render() {
 // ═══════════════════════════════════════
 
 function injectMonkey(optId) {
-  // Remove any existing monkey
   var existing = document.getElementById('monkey-hug');
   if (existing) existing.remove();
 
   var optEl = document.getElementById(optId);
   if (!optEl) return;
 
-  // Make opt position:relative (already done via CSS)
   var monkey = document.createElement('div');
   monkey.id = 'monkey-hug';
-  monkey.innerHTML = '<svg width="72" height="72" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">' +
-    // Left arm reaching toward box (will overlap via ::before/::after pseudo)
-    '<ellipse cx="14" cy="34" rx="10" ry="7" fill="#c2773a"/>' +
-    '<ellipse cx="6" cy="36" rx="6" ry="5" fill="#a0522d"/>' +
-    // Body
-    '<ellipse cx="36" cy="46" rx="18" ry="16" fill="#c2773a"/>' +
-    // Head
-    '<ellipse cx="36" cy="26" rx="18" ry="16" fill="#c2773a"/>' +
-    // Face plate
-    '<ellipse cx="36" cy="30" rx="11" ry="9" fill="#e8a87c"/>' +
-    // Ears
-    '<ellipse cx="18" cy="24" rx="6" ry="7" fill="#c2773a"/>' +
-    '<ellipse cx="18" cy="24" rx="3.5" ry="4.5" fill="#e8a87c"/>' +
-    '<ellipse cx="54" cy="24" rx="6" ry="7" fill="#c2773a"/>' +
-    '<ellipse cx="54" cy="24" rx="3.5" ry="4.5" fill="#e8a87c"/>' +
-    // Eyes
-    '<ellipse cx="29" cy="22" rx="4" ry="4.5" fill="#1a1a2e"/>' +
-    '<ellipse cx="43" cy="22" rx="4" ry="4.5" fill="#1a1a2e"/>' +
-    '<ellipse cx="27.5" cy="20.5" rx="1.5" ry="1.5" fill="white"/>' +
-    '<ellipse cx="41.5" cy="20.5" rx="1.5" ry="1.5" fill="white"/>' +
-    // Smile
-    '<path d="M28 33 Q36 40 44 33" stroke="#7b3f00" stroke-width="2.2" fill="none" stroke-linecap="round"/>' +
-    // Nose
-    '<ellipse cx="36" cy="30" rx="3" ry="2" fill="#a0522d"/>' +
-    // Right arm reaching left (toward box)
-    '<ellipse cx="20" cy="44" rx="9" ry="6" fill="#c2773a" transform="rotate(-30 20 44)"/>' +
-    '<ellipse cx="12" cy="48" rx="6" ry="4.5" fill="#a0522d" transform="rotate(-30 12 48)"/>' +
-    // Left arm
-    '<ellipse cx="52" cy="44" rx="9" ry="6" fill="#c2773a" transform="rotate(30 52 44)"/>' +
-    // Tail
-    '<path d="M52 58 Q66 52 62 68 Q58 74 54 66" stroke="#c2773a" stroke-width="5" fill="none" stroke-linecap="round"/>' +
-    // Heart
-    '<text x="30" y="16" font-size="10" text-anchor="middle">❤️</text>' +
+  monkey.innerHTML = '<svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">' +
+    '<ellipse cx="28" cy="38" rx="15" ry="12" fill="#c2773a"/>' +
+    '<ellipse cx="8" cy="34" rx="9" ry="5" fill="#c2773a" transform="rotate(-20 8 34)"/>' +
+    '<ellipse cx="1" cy="37" rx="5" ry="4" fill="#a0522d" transform="rotate(-20 1 37)"/>' +
+    '<ellipse cx="48" cy="36" rx="8" ry="5" fill="#c2773a" transform="rotate(20 48 36)"/>' +
+    '<ellipse cx="55" cy="39" rx="5" ry="4" fill="#a0522d" transform="rotate(20 55 39)"/>' +
+    '<ellipse cx="28" cy="22" rx="15" ry="13" fill="#c2773a"/>' +
+    '<ellipse cx="28" cy="26" rx="9" ry="7" fill="#e8a87c"/>' +
+    '<ellipse cx="13" cy="20" rx="5" ry="5.5" fill="#c2773a"/>' +
+    '<ellipse cx="13" cy="20" rx="3" ry="3.5" fill="#e8a87c"/>' +
+    '<ellipse cx="43" cy="20" rx="5" ry="5.5" fill="#c2773a"/>' +
+    '<ellipse cx="43" cy="20" rx="3" ry="3.5" fill="#e8a87c"/>' +
+    '<ellipse cx="22" cy="18" rx="3" ry="3.5" fill="#1a1a2e"/>' +
+    '<ellipse cx="34" cy="18" rx="3" ry="3.5" fill="#1a1a2e"/>' +
+    '<ellipse cx="21" cy="17" rx="1.1" ry="1.1" fill="white"/>' +
+    '<ellipse cx="33" cy="17" rx="1.1" ry="1.1" fill="white"/>' +
+    '<ellipse cx="28" cy="25" rx="2.5" ry="1.8" fill="#a0522d"/>' +
+    '<path d="M22 29 Q28 34 34 29" stroke="#7b3f00" stroke-width="1.8" fill="none" stroke-linecap="round"/>' +
+    '<text x="21" y="11" font-size="11">❤️</text>' +
   '</svg>';
   optEl.appendChild(monkey);
 }
+
 function choose(id, i) {
   var q = ALL_QUESTIONS.find(function(x) { return x.id === id; });
   var correct = (i === q.answer);

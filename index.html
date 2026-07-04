@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TUS Quiz — Temel + Klinik Bilimler</title>
+<style>
+  :root{
+    --bg:#0d1117; --card:#161b22; --card2:#1c2330; --border:#30363d;
+    --text:#e6edf3; --muted:#8b949e; --accent:#58a6ff; --accent2:#1f6feb;
+    --correct:#238636; --correct-bg:#0f2e18; --wrong:#da3633; --wrong-bg:#2d1214;
+    --hint:#d29922; --hint-bg:#2a220d; --trap:#db6d28; --trap-bg:#2a1a0d;
+    --exp:#a371f7; --exp-bg:#1d1830;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;padding:0 0 40px;}
+  header{position:sticky;top:0;z-index:10;background:rgba(13,17,23,.92);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:14px 16px;}
+  .htop{display:flex;justify-content:space-between;align-items:center;gap:12px;
+    max-width:760px;margin:0 auto;}
+  .htitle{font-size:15px;font-weight:700;}
+  .counter{font-size:13px;color:var(--muted);white-space:nowrap;}
+  .counter b{color:var(--correct);}
+  .progress-wrap{max-width:760px;margin:10px auto 0;height:6px;background:var(--card2);
+    border-radius:99px;overflow:hidden;}
+  .progress{height:100%;width:0;background:linear-gradient(90deg,var(--accent2),var(--accent));
+    transition:width .3s ease;}
+  main{max-width:760px;margin:0 auto;padding:20px 16px;}
+  .qmeta{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .qnum{font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.5px;}
+  .star{background:none;border:none;font-size:22px;cursor:pointer;filter:grayscale(1) opacity(.5);
+    transition:.2s;padding:4px;}
+  .star.active{filter:none;transform:scale(1.15);}
+  .qtext{font-size:17px;font-weight:600;margin:0 0 18px;}
+  .opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--text);
+    border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin:9px 0;
+    font-size:15.5px;cursor:pointer;transition:.15s;font-family:inherit;line-height:1.45;}
+  .opt:hover:not(:disabled){border-color:var(--accent);background:var(--card2);}
+  .opt:disabled{cursor:default;}
+  .opt .lbl{font-weight:700;margin-right:8px;color:var(--accent);}
+  .opt.correct{background:var(--correct-bg);border-color:var(--correct);}
+  .opt.correct .lbl{color:#3fb950;}
+  .opt.wrong{background:var(--wrong-bg);border-color:var(--wrong);}
+  .opt.wrong .lbl{color:#f85149;}
+  .box{border-radius:12px;margin:12px 0;overflow:hidden;border:1px solid var(--border);}
+  .box-head{display:flex;align-items:center;gap:8px;padding:12px 14px;cursor:pointer;
+    font-weight:700;font-size:14.5px;user-select:none;}
+  .box-body{padding:0 14px;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;
+    font-size:15px;}
+  .box.open .box-body{max-height:1200px;padding:0 14px 14px;}
+  .box .chev{margin-left:auto;transition:transform .3s;color:var(--muted);}
+  .box.open .chev{transform:rotate(180deg);}
+  .hint{background:var(--hint-bg);border-color:var(--hint);} .hint .box-head{color:var(--hint);}
+  .trap{background:var(--trap-bg);border-color:var(--trap);} .trap .box-head{color:var(--trap);}
+  .exp{background:var(--exp-bg);border-color:var(--exp);} .exp .box-head{color:#bc8cff;}
+  .box-body b{color:#fff;}
+  .nav{display:flex;gap:10px;margin-top:24px;}
+  .nav button{flex:1;padding:14px;border-radius:12px;border:1px solid var(--border);
+    background:var(--card2);color:var(--text);font-size:15px;font-weight:600;cursor:pointer;
+    font-family:inherit;transition:.15s;}
+  .nav button:hover:not(:disabled){border-color:var(--accent);}
+  .nav button:disabled{opacity:.35;cursor:default;}
+  .nav .next{background:var(--accent2);border-color:var(--accent2);}
+  .nav .next:hover{background:var(--accent);}
+  /* Results */
+  #results{display:none;text-align:center;padding:10px 0;}
+  .score-ring{font-size:52px;font-weight:800;margin:10px 0 4px;}
+  .score-sub{color:var(--muted);margin-bottom:24px;}
+  .rev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:8px;
+    margin:20px 0;}
+  .rev-cell{aspect-ratio:1;border-radius:10px;border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer;
+    font-size:15px;position:relative;}
+  .rev-cell.ok{background:var(--correct-bg);border-color:var(--correct);color:#3fb950;}
+  .rev-cell.no{background:var(--wrong-bg);border-color:var(--wrong);color:#f85149;}
+  .rev-cell .fav{position:absolute;top:-6px;right:-4px;font-size:12px;}
+  .restart{margin-top:14px;padding:14px 28px;border-radius:12px;background:var(--accent2);
+    color:#fff;border:none;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;}
+  .restart:hover{background:var(--accent);}
+</style>
+</head>
+<body>
+<header>
+  <div class="htop">
+    <div class="htitle">TUS Quiz — Temel + Klinik</div>
+    <div class="counter">Soru <span id="cur">1</span>/<span id="tot">10</span> · Doğru <b id="score">0</b></div>
+  </div>
+  <div class="progress-wrap"><div class="progress" id="prog"></div></div>
+</header>
+
+<main>
+  <div id="quiz"></div>
+  <div id="results">
+    <div class="score-ring" id="finalScore">0/10</div>
+    <div class="score-sub" id="finalPct">%0 başarı</div>
+    <div class="rev-grid" id="revGrid"></div>
+    <button class="restart" onclick="restart()">🔄 Yeniden Başla</button>
+  </div>
+</main>
+
+<script>
+const QUESTIONS = [
+  {
+    q:"Kronik hepatit B enfeksiyonu olan bir hastanın serolojik takibinde; serumda HBsAg ve anti-HBc IgG testlerinin pozitif, HBeAg testinin ise negatif olduğu saptanmıştır. Bu hastada aktif viral replikasyonun durduğunu, bulaşıcılığın belirgin şekilde azaldığını ve klinik olarak serokonversiyonun (remisyonun) gerçekleştiğini gösteren en spesifik serolojik gösterge aşağıdakilerden hangisidir?",
+    opts:["Anti-HBs","Anti-HBe","Anti-HBc IgM","HDV Antijeni","Anti-HCV"],
+    ans:1,
+    hint:"HBeAg negatifleşti — peki onun yerine hangi antikor pozitifleşti? \"Serokonversiyon\" tam olarak bu geçişi tanımlar.",
+    trap:"Cevap olarak <b>Anti-HBs</b> seçme. HBsAg hâlâ POZİTİF; enfeksiyon kronik olarak devam ediyor, yani henüz anti-HBs oluşmamıştır. Anti-HBs iyileşme/bağışıklık göstergesidir, replikasyon durması değil.",
+    exp:"Aktif replikasyon ve bulaşıcılığın azaldığını gösteren spesifik olay <b>HBeAg → anti-HBe serokonversiyonudur</b>. HBeAg negatifleşip anti-HBe pozitifleştiğinde viral replikasyon büyük ölçüde durmuş, bulaşıcılık düşmüştür (dikkat: prekor mutant hariç). <b>Anti-HBc IgM</b> akut/alevlenme göstergesidir. <b>Anti-HBs</b> ise ancak HBsAg kaybolduğunda ortaya çıkar ve tam iyileşmeyi gösterir — burada HBsAg hâlâ (+)."
+  },
+  {
+    q:"Gastrointestinal sistem histofizyolojisinde, intestinal mukozadaki enterositlerin apikal membranında yer alan fırçamsı kenar (brush border) enzimleri, oligopeptidleri ve disakkaritleri emilebilir son moleküllere parçalar. Bu fırçamsı kenarda yer alan, protein sindiriminin son basamaklarında kritik öneme sahip olan ve pankreastan salgılanan inaktif tripsinojeni aktif tripsine dönüştürerek tüm luminal proteolitik kaskadı başlatan aktivatör enzim aşağıdakilerden hangisidir?",
+    opts:["Aminopeptidaz","Enteropeptidaz (Enterokinaz)","Karboksipeptidaz","Kimotripsinojen","Dipeptidil peptidaz-4 (DPP-4)"],
+    ans:1,
+    hint:"Kaskadı başlatan tetikleyiciyi arıyoruz. Tripsinojen → tripsin dönüşümünü kim başlatır?",
+    trap:"<b>Aminopeptidaz</b> ve <b>karboksipeptidaz</b> da fırçamsı kenar/luminal peptidazlardır ama peptidleri parçalarlar, tripsinojeni AKTİVE etmezler. Soru \"aktivatör enzim\" diyor.",
+    exp:"<b>Enteropeptidaz (enterokinaz)</b> duodenum fırçamsı kenarında bulunur ve pankreastan gelen inaktif <b>tripsinojeni tripsine</b> çevirir. Oluşan tripsin de diğer zimojenleri (kimotripsinojen, proelastaz, prokarboksipeptidaz) aktive ederek tüm proteolitik kaskadı başlatır. Yani zincirin ilk tetiği enteropeptidazdır."
+  },
+  {
+    q:"Hücre içi sinyal yolaklarını etkileyerek immün sistemi baskılayan parazit varyantları klinik çalışmalarda incelenmektedir. Leishmania promastigotlarının makrofajlar tarafından fagositozunu takiben, fagozom-lizozom füzyonunu geciktiren, makrofaj içi serbest radikal üretimini (oksidatif patlamayı) baskılayan ve parazitin hücre içi sağkalımında rol oynayan en önemli yüzey glikoproteini (metalloproteaz) aşağıdakilerden hangisidir?",
+    opts:["GP63 (Leishmanyolizin)","Lipofosfoglikan (LPG)","K39 Antijeni","SAGA (Soluble Antigen)","VSG (Variant Surface Glycoprotein)"],
+    ans:0,
+    hint:"Anahtar kelime \"metalloproteaz\". Seçeneklerden hangisi bir çinko-metalloproteaz enzimidir?",
+    trap:"En büyük tuzak <b>LPG (Lipofosfoglikan)</b>. LPG de fagozom-lizozom füzyonunu ve oksidatif patlamayı baskılar — ama LPG bir <b>glikolipiddir, enzim/metalloproteaz değildir</b>. Soru özellikle \"metalloproteaz\" dediği için cevap GP63'tür. <b>VSG</b> ise Trypanosoma'nın antijenik varyasyon proteinidir, Leishmania'nın değil.",
+    exp:"<b>GP63 (leishmanyolizin)</b> bir çinko bağımlı metalloproteazdır ve Leishmania'nın başlıca yüzey glikoproteinidir. Kompleman C3b'yi inaktif C3bi'ye çevirerek opsonizasyonu yönlendirir, fagozom-lizozom füzyonunu engeller, oksidatif patlamayı ve makrofaj sinyal proteinlerini bozar. Böylece parazitin hücre içi sağkalımını sağlar. LPG yardımcı ama enzim değil; ayırt edici kelime <b>metalloproteaz</b>."
+  },
+  {
+    q:"Klinik mikrobiyoloji laboratuvarında anaerop kültür çalışmalarında, Gram negatif, pleomorfik ve anaerop bir basil izole edilmiştir. Bu suşun tanımlanmasında; %20 safra içeren besi yerinde (BBE agar) siyah renkli koloniler oluşturarak üreyebilmesi ve katalaz testinin pozitif olması en önemli kriterler olarak saptanmıştır. Bu anaerop bakterinin hücre duvarında endotoksik aktivite gösteren klasik Lipid A yapısının bulunmadığı ve bu nedenle sepsiste dissemine intravasküler koagülasyona (DİK) nadiren yol açtığı bilinmektedir. Bahsedilen bu anaerop patojen aşağıdakilerden hangisidir?",
+    opts:["Bacteroides fragilis","Fusobacterium nucleatum","Clostridium perfringens","Prevotella melaninogenica","Porphyromonas gingivalis"],
+    ans:0,
+    hint:"BBE (Bacteroides Bile Esculin) agarda %20 safrada ÜREYEBİLEN ve katalaz pozitif anaerop hangisi? İsim zaten agarın içinde saklı.",
+    trap:"<b>Clostridium perfringens</b> Gram POZİTİF bir basildir; soru Gram negatif dediği için hemen elenir. <b>Prevotella/Porphyromonas</b> BBE'de safra ile inhibe olur, %20 safrada üreyemez.",
+    exp:"<b>Bacteroides fragilis</b>: %20 safraya dirençlidir ve BBE agarda üreyip eskülini hidrolize ederek koyu/siyah koloniler yapar, ayrıca çoğu anaerobun aksine <b>katalaz pozitiftir</b>. LPS'sindeki Lipid A yapısı atipiktir (fosfat ve açil zinciri farklı), bu yüzden endotoksik aktivitesi düşüktür ve klasik DİK'e nadiren yol açar. Ayırt edici üçlü: safra direnci + siyah koloni + katalaz (+)."
+  },
+  {
+    q:"Solunum fizyolojisinde alveol yüzey gerilimini azaltarak ekspiryum sırasında alveollerin kollabe olmasını (atelektazi) önleyen sürfaktan maddesi, histolojik olarak akciğer alveol duvarında yer alan aşağıdaki hücrelerden hangisi tarafından sentezlenir ve lameler cisimcikler (lamellar bodies) içinde depolanarak ekzositozla salgılanır?",
+    opts:["Tip 1 pnömosit","Tip 2 pnömosit","Alveoler makrofaj (Toz hücresi)","Kulçitski (K) hücresi","Clara (Kulüp) hücresi"],
+    ans:1,
+    hint:"\"Lameller cisimcik\" bu hücrenin patognomonik depolama organelidir. Ayrıca gaz değişiminden değil, sürfaktan üretiminden sorumludur.",
+    trap:"<b>Clara (kulüp) hücresi</b> de sürfaktan proteini (özellikle SP-A, SP-D benzeri) ve bileşen salgılar ve ayırt edici bir çeldiricidir — ama Clara hücresi <b>bronşiyol epitelinde</b> bulunur, alveol duvarında değil ve lameller cisimciği yoktur. Soru \"alveol duvarı + lameller cisimcik\" dediği için cevap Tip 2.",
+    exp:"<b>Tip 2 pnömositler</b> alveol yüzeyinin ~%5'ini kaplasa da sayıca fazladır; içlerinde <b>lameller cisimcikler</b> bulunur ve burada depoladıkları sürfaktanı (dipalmitoilfosfatidilkolin ağırlıklı) ekzositozla salgılarlar. Sürfaktan yüzey gerilimini azaltıp ekspiryumda alveol kollapsını önler. <b>Tip 1</b> ince ve yassıdır, gaz değişimi yapar; sürfaktan üretmez."
+  },
+  {
+    q:"Özellikle immün sistem hücrelerinin (makrofajlar, lenfositler) endotel duvarına tutunarak dokuya göç etmesi (diapedez) sürecinde hücreler arası bağlantı kompleksleri kritik rol oynar. Lökositlerin endotel hücreleri arasından geçişi (transendotelyal göç) sırasında lökosit yüzeyindeki moleküllere bağlanarak homofilik etkileşim kuran ve histolojik olarak zonula occludens (tight junction) ile zonula adherens yapılarının hemen altında, lateral membranın bazal kısımlarında yoğunlaşan immunoglobulin süper ailesi üresi bağlantı proteini aşağıdakilerden hangisidir?",
+    opts:["E-Kadherin","İntegrin (VLA-4)","PECAM-1 (CD31)","Selektin (L-selektin)","Okludin"],
+    ans:2,
+    hint:"İki anahtar: (1) immunoglobulin süper ailesi üyesi, (2) HOMOFILİK etkileşim (kendisi kendisine bağlanır) ile transendotelyal göç. Lökosit ve endotel arasındaki bileşkelerde yoğunlaşan hangisi?",
+    trap:"<b>İntegrin (VLA-4)</b> göçte rol oynar ama <b>heterofiliktir</b> — VCAM-1'e bağlanır, Ig süper ailesi değil integrin ailesidir. <b>Selektin</b> yuvarlanma (rolling) basamağındandır, karbonhidrat bağlar. <b>E-kadherin/okludin</b> ise Ig ailesi değildir ve homofilik/transmigrasyon tanımına uymaz.",
+    exp:"<b>PECAM-1 (CD31)</b> immunoglobulin süper ailesi üyesidir, hem lökosit hem endotel yüzeyinde bulunur ve <b>homofilik</b> (CD31–CD31) etkileşimle transendotelyal göçün son basamağını (diapedez) yürütür. Endotel hücrelerinin lateral bileşkelerinde, sıkı ve adherens bağlantıların altında yoğunlaşır. Adım sırası: selektin (yuvarlanma) → integrin/ICAM (sıkı yapışma) → PECAM-1 (geçiş)."
+  },
+  {
+    q:"Klinik mikrobiyoloji laboratuvarında solunum yolu örneklerinden izole edilen Gram negatif bir basilin identifikasyonunda; oksidaz testinin pozitif olması, 42°C sıcaklıkta üreyebilmesi, kültür plaklarında yeşil-mavi renkli pigment (piyosiyanin) üretmesi ve tipik olarak tatlı meyve/taze üzüm kokusu salgılaması aşağıdaki patojenlerden hangisini doğrudan düşündürür?",
+    opts:["Klebsiella pneumoniae","Pseudomonas aeruginosa","Haemophilus influenzae","Acinetobacter baumannii","Escherichia coli"],
+    ans:1,
+    hint:"Mavi-yeşil pigment (piyosiyanin) + üzüm/tatlı meyve kokusu neredeyse tek bir bakteriye özgüdür.",
+    trap:"<b>Acinetobacter</b> da hastane kaynaklı ve dirençli bir Gram negatiftir ama <b>oksidaz NEGATİFtir</b> ve pigment/koku yapmaz. Klebsiella ve E. coli de oksidaz negatiftir. Oksidaz (+) + pigment ikilisi doğrudan Pseudomonas'a işaret eder.",
+    exp:"<b>Pseudomonas aeruginosa</b>: oksidaz (+), non-fermentatif, 42°C'de üreyebilir (ayırt edici), <b>piyosiyanin</b> (mavi-yeşil) ve piyoverdin pigmentleri yapar ve <b>2-aminoasetofenon</b> nedeniyle tatlı üzüm/meyve kokusu verir. Sıklıkla nozokomiyal pnömoni, kistik fibrozis ve yanık enfeksiyonlarında görülür."
+  },
+  {
+    q:"Böbrek proksimal tübül epiteli, glomerülden filtre edilen proteinlerin ve peptidlerin geri emilmesinden sorumludur. Ultrafiltrattaki proteinler, proksimal tübül hücrelerinin apikal membranında yer alan ve klatrin bağımlı reseptör aracılı endositoz sistemini oluşturan iki dev endositer reseptör kompleksi tarafından yakalanır. Bu iki reseptörün genetik mutasyonu veya eksikliğinde ağır proteinüri (Lowe sendromu veya Donnai-Barrow sendromu gibi) gelişir. Bahsedilen bu iki histofizyolojik endositoz reseptörü aşağıdakilerden hangisidir?",
+    opts:["Megalin - Kübilin","SGLT-1 - SGLT-2","Podokin - Nefrin","Okludin - Klaudin","Aquaporin-1 - Aquaporin-2"],
+    ans:0,
+    hint:"Proksimal tübül apikalinde protein REENDOSİTOZU yapan ikili. Donnai-Barrow sendromu LRP2 (bir isim) mutasyonuyla ilişkilidir.",
+    trap:"<b>Podosin - Nefrin</b> güçlü çeldiricidir ama bunlar <b>glomerül podositlerinin slit diyaframında</b> yer alır (filtrasyon bariyeri), proksimal tübülde endositoz yapmazlar. Soru \"proksimal tübül apikal reendositoz\" diyor.",
+    exp:"<b>Megalin (LRP2)</b> ve <b>kübilin</b>, proksimal tübül apikal membranında birlikte çalışan dev multiligand endositik reseptörlerdir; filtre olmuş düşük molekül ağırlıklı proteinleri, vitamin taşıyıcı komplekslerini (D vit, B12–IF) klatrin aracılı endositozla geri alırlar. <b>Donnai-Barrow</b> megalin, <b>Lowe/Dent</b> ilişkili tübüler bozukluklar bu sistemi etkiler ve düşük molekül ağırlıklı proteinüri yapar."
+  },
+  {
+    q:"Periferik sinir sisteminde miyelin kılıfın hasar gördüğü demiyelinizan hastalıklarda, aksiyon potansiyelinin Ranvier boğumları arasında sıçrayarak ilerlemesini sağlayan \"saltatorik iletim\" sekteye uğrar. Ranvier boğumlarında aksiyon potansiyelinin hızlıca yeniden üretilmesini sağlayan ve bu boğumlarda en yüksek yoğunlukta kümelenmiş olan voltaj bağımlı iyon kanalları aşağıdakilerden hangisidir?",
+    opts:["Voltaj bağımlı K+ kanalları","Voltaj bağımlı Na+ kanalları","Voltaj bağımlı Ca2+ kanalları","Cl- kanalları","Kaçak (leak) K+ kanalları"],
+    ans:1,
+    hint:"Aksiyon potansiyelinin depolarizasyon (yükseliş) fazını hangi iyon kanalı üretir? Boğumda \"yeniden üretim\" = depolarizasyon.",
+    trap:"<b>Voltaj bağımlı K+ kanalları</b> repolarizasyon yapar ama Ranvier boğumunda değil, <b>juxtaparanodal bölgede</b> (miyelin altında) yoğunlaşır. Boğumun kendisinde baskın kümelenen kanal Na+ kanalıdır.",
+    exp:"Ranvier boğumlarında <b>voltaj bağımlı Na⁺ kanalları</b> çok yüksek yoğunlukta (~1000-2000/µm²) kümelenir. Her boğumda hızlı Na⁺ girişi aksiyon potansiyelini yeniden üretir, böylece impuls boğumdan boğuma sıçrar (saltatorik iletim). Miyelin hasarında bu kanallar dağıldığı/yalıtım kaybolduğu için iletim bloke olur veya yavaşlar."
+  },
+  {
+    q:"74 yaşında erkek hasta, ani başlayan şiddetli interskapular (sırt) yırtılır tarzda ağrı ve soğuk terleme şikayetiyle acil servise getiriliyor. Fizik muayenesinde hastanın kan basıncı sol kolda 185/100 mmHg, sağ kolda ise 140/85 mmHg ölçülüyor; sağ radial nabız soldan belirgin şekilde daha zayıf alınıyor. Kalp oskültasyonunda aort odağında 2/6 erken diyastolik üfürüm duyuluyor. Akut aort diseksiyonu (Stanford Tip A) ön tanısıyla çekilen kontrastlı göğüs bilgisayarlı tomografisinde assendan aortta diseksiyon flebi izleniyor. Bu hastanın cerrahiye kadar olan süreçte aort duvarındaki yırtılma stresini (shear stress) minimuma indirmek amacıyla, kalp hızını <60/dk ve sistolik kan basıncını <120 mmHg düzeyine çekmek için acil serviste intravenöz infüzyon şeklinde başlanması gereken, hem alfa-1 hem de beta-1 ve beta-2 reseptör blokajı yapabilen ilk tercih ajan aşağıdakilerden hangisidir?",
+    opts:["Esmolol","Labetalol","Nitroprussid","Metoprolol","Diltiazem"],
+    ans:1,
+    hint:"Soru tek bir ajanda HEM alfa-1 HEM beta blokajı istiyor. Bu iki özelliği tek molekülde birleştiren ajan hangisi?",
+    trap:"<b>Esmolol</b> ve <b>Metoprolol</b> sadece <b>β-1 selektiftir</b>, alfa blokajı yapmaz. <b>Nitroprussid</b> güçlü vazodilatördür ama tek başına verilirse refleks taşikardi ve dP/dt artışıyla diseksiyonu KÖTÜLEŞTİRİR — mutlaka önce β-bloker gerekir. Soru \"alfa + beta tek ajan\" dediği için cevap labetalol.",
+    exp:"<b>Labetalol</b> hem <b>alfa-1</b> hem <b>beta-1/beta-2</b> blokajı yapan kombine bir ajandır; kalp hızını ve kontraktiliteyi (dP/dt) düşürerek aort duvarındaki shear stress'i azaltır, aynı zamanda alfa blokajıyla kan basıncını kontrol eder. Bu yüzden akut aort diseksiyonunda tek ajanla hedefe ulaştıran ilk tercihtir. Esmolol da kullanılır ama saf β-blokerdir; ek vazodilatasyon için nitroprussid eklenmesi gerekir."
+  }
+];
+
+let cur=0, score=0;
+const answered = new Array(QUESTIONS.length).fill(null); // stores chosen index
+const starred = new Array(QUESTIONS.length).fill(false);
+
+const quizEl=document.getElementById('quiz');
+document.getElementById('tot').textContent=QUESTIONS.length;
+
+function render(){
+  const Q=QUESTIONS[cur];
+  const done = answered[cur]!==null;
+  const chosen = answered[cur];
+  quizEl.innerHTML = `
+    <div class="qmeta">
+      <span class="qnum">SORU ${cur+1} / ${QUESTIONS.length}</span>
+      <button class="star ${starred[cur]?'active':''}" onclick="toggleStar()" aria-label="Yer işareti">⭐</button>
+    </div>
+    <p class="qtext">${Q.q}</p>
+    <div id="opts">
+      ${Q.opts.map((o,i)=>{
+        let cls='opt';
+        if(done){
+          if(i===Q.ans) cls+=' correct';
+          else if(i===chosen) cls+=' wrong';
+        }
+        return `<button class="${cls}" ${done?'disabled':''} onclick="choose(${i})">
+          <span class="lbl">${String.fromCharCode(65+i)})</span>${o}</button>`;
+      }).join('')}
+    </div>
+    <div id="feedback">${feedbackHTML(Q,done)}</div>
+    <div class="nav">
+      <button class="prev" onclick="go(-1)" ${cur===0?'disabled':''}>← Önceki</button>
+      <button class="next" onclick="go(1)">${cur===QUESTIONS.length-1?'Bitir ✓':'Sonraki →'}</button>
+    </div>
+  `;
+  document.getElementById('cur').textContent=cur+1;
+  document.getElementById('score').textContent=score;
+  document.getElementById('prog').style.width=((cur+1)/QUESTIONS.length*100)+'%';
+}
+
+function feedbackHTML(Q,done){
+  // Hint is always available; open automatically after answering, tappable before.
+  let html = `
+    <div class="box hint ${done?'open':''}" id="bhint">
+      <div class="box-head" onclick="tog('bhint')">💡 İpucu <span class="chev">▾</span></div>
+      <div class="box-body">${Q.hint}</div>
+    </div>`;
+  // Trap and explanation only appear after answering.
+  if(done){
+    html += `
+    <div class="box trap open" id="btrap">
+      <div class="box-head" onclick="tog('btrap')">⚠️ Tuzak <span class="chev">▾</span></div>
+      <div class="box-body">${Q.trap}</div>
+    </div>
+    <div class="box exp open" id="bexp">
+      <div class="box-head" onclick="tog('bexp')">📖 Açıklama <span class="chev">▾</span></div>
+      <div class="box-body">${Q.exp}</div>
+    </div>`;
+  }
+  return html;
+}
+
+function choose(i){
+  if(answered[cur]!==null) return;
+  answered[cur]=i;
+  if(i===QUESTIONS[cur].ans) score++;
+  render();
+}
+function toggleStar(){ starred[cur]=!starred[cur]; render(); }
+function tog(id){ document.getElementById(id).classList.toggle('open'); }
+function go(d){
+  if(d===1 && cur===QUESTIONS.length-1){ showResults(); return; }
+  cur=Math.max(0,Math.min(QUESTIONS.length-1,cur+d));
+  render();
+}
+
+function showResults(){
+  document.getElementById('quiz').style.display='none';
+  document.getElementById('results').style.display='block';
+  document.getElementById('finalScore').textContent=`${score}/${QUESTIONS.length}`;
+  document.getElementById('finalPct').textContent=`%${Math.round(score/QUESTIONS.length*100)} başarı`;
+  const grid=document.getElementById('revGrid');
+  grid.innerHTML=QUESTIONS.map((Q,i)=>{
+    const ok = answered[i]===Q.ans;
+    const cls = answered[i]===null?'':(ok?'ok':'no');
+    return `<div class="rev-cell ${cls}" onclick="jump(${i})">${i+1}
+      ${starred[i]?'<span class="fav">⭐</span>':''}</div>`;
+  }).join('');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function jump(i){
+  cur=i;
+  document.getElementById('results').style.display='none';
+  document.getElementById('quiz').style.display='block';
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function restart(){
+  cur=0; score=0;
+  answered.fill(null); starred.fill(false);
+  document.getElementById('results').style.display='none';
+  document.getElementById('quiz').style.display='block';
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+render();
+</script>
+</body>
+</html>

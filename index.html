@@ -3,310 +3,289 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TUS Karma Deneme #2 — 10 Soru</title>
+<title>TUS Quiz — Histofizyoloji & Klinik</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
   :root{
-    --bg:#0e1116; --card:#171b22; --card2:#1e232c; --line:#2a303b;
-    --txt:#e7ecf3; --muted:#9aa4b2; --accent:#5eead4; --accent2:#818cf8;
-    --green:#22c55e; --greenbg:#123a26; --red:#ef4444; --redbg:#3a1414;
-    --amber:#f59e0b; --amberbg:#2e2410; --star:#fbbf24;
+    --bg:#0f1115; --card:#171a21; --card2:#1e222b; --border:#2a2f3a;
+    --txt:#e7ebf0; --muted:#9aa4b2; --accent:#4f8cff; --accent2:#3a6fd8;
+    --correct:#1f7a4d; --correctbg:#12331f; --wrong:#8a2b2b; --wrongbg:#331414;
+    --hint:#2d3a2f; --hintbd:#3f6b45; --trap:#3a2a1a; --trapbd:#a86a2a;
+    --exp:#1a2433; --expbd:#3a5b8a; --star:#ffd34d;
   }
-  body{
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-    background:var(--bg); color:var(--txt); line-height:1.6;
-    padding:16px; max-width:820px; margin:0 auto; -webkit-font-smoothing:antialiased;
-  }
-  header{ text-align:center; margin-bottom:14px; }
-  header h1{ font-size:19px; font-weight:800; letter-spacing:.2px; }
-  header p{ color:var(--muted); font-size:13px; margin-top:2px; }
-
-  .bar{ height:8px; background:var(--card2); border-radius:99px; overflow:hidden; margin:12px 0 8px; }
-  .bar > i{ display:block; height:100%; width:0; background:linear-gradient(90deg,var(--accent),var(--accent2)); transition:width .3s; }
-
-  .meta{ display:flex; justify-content:space-between; align-items:center; font-size:13px; color:var(--muted); margin-bottom:14px; }
-  .meta .score b{ color:var(--accent); }
-  .meta .cat{ background:var(--card2); border:1px solid var(--line); padding:3px 10px; border-radius:99px; font-size:12px; color:var(--accent2); font-weight:600; }
-
-  .card{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px; }
-  .qhead{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
-  .qno{ font-size:12px; font-weight:700; color:var(--muted); background:var(--card2); padding:3px 9px; border-radius:8px; white-space:nowrap; }
-  .star{ background:none; border:none; font-size:22px; cursor:pointer; line-height:1; filter:grayscale(1) opacity(.5); transition:.15s; }
-  .star.on{ filter:none; }
-  .qtext{ font-size:15.5px; font-weight:600; margin:12px 0 6px; white-space:pre-line; }
-  .qtext .hl{ background:rgba(94,234,212,.20); color:#7ff0dd; border-radius:4px; padding:1px 4px; font-weight:700;
-    box-decoration-break:clone; -webkit-box-decoration-break:clone; }
-
-  .hintbtn{ background:var(--card2); border:1px solid var(--line); color:var(--amber); font-size:13px; font-weight:600;
-    padding:7px 12px; border-radius:10px; cursor:pointer; margin:6px 0 4px; }
-  .hint{ display:none; background:var(--amberbg); border:1px solid #4a3a12; border-radius:10px; padding:10px 12px; font-size:13.5px; color:#fde68a; margin:8px 0; }
-  .hint.show{ display:block; }
-
-  .opts{ margin-top:12px; display:flex; flex-direction:column; gap:9px; }
-  .opt{ text-align:left; background:var(--card2); border:1px solid var(--line); color:var(--txt);
-    padding:12px 14px; border-radius:12px; font-size:14.5px; cursor:pointer; transition:.12s; display:flex; gap:10px; }
-  .opt:hover:not(:disabled){ border-color:var(--accent2); }
-  .opt .k{ font-weight:800; color:var(--accent2); flex-shrink:0; }
-  .opt:disabled{ cursor:default; }
-  .opt.correct{ background:var(--greenbg); border-color:var(--green); }
-  .opt.correct .k{ color:var(--green); }
-  .opt.wrong{ background:var(--redbg); border-color:var(--red); }
-  .opt.wrong .k{ color:var(--red); }
-
-  .trap{ display:none; background:var(--redbg); border:1px solid #5b2020; border-left:4px solid var(--red);
-    border-radius:10px; padding:12px 14px; margin-top:14px; font-size:14px; scroll-margin-top:14px; }
-  .trap b{ color:#fca5a5; }
-  .exp{ display:none; background:var(--card2); border:1px solid var(--line); border-left:4px solid var(--accent);
-    border-radius:10px; padding:12px 14px; margin-top:12px; font-size:14px; }
-  .exp b, .exp strong{ color:var(--accent); }
-  .show{ display:block; }
-  .tag{ font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; opacity:.85; display:block; margin-bottom:5px; }
-
-  nav{ display:flex; gap:10px; margin-top:16px; }
-  nav button{ flex:1; padding:13px; border-radius:12px; border:1px solid var(--line); background:var(--card2);
-    color:var(--txt); font-size:14.5px; font-weight:700; cursor:pointer; }
-  nav button:disabled{ opacity:.4; cursor:default; }
-  nav button.next{ background:linear-gradient(90deg,var(--accent),var(--accent2)); color:#06251f; border:none; }
-
-  .foot{ text-align:center; color:var(--muted); font-size:12px; margin-top:16px; }
-  .foot button{ background:none; border:none; color:var(--accent2); font-size:12px; cursor:pointer; text-decoration:underline; }
-
-  .result{ text-align:center; padding:8px 4px; }
-  .result h2{ font-size:22px; margin-bottom:6px; }
-  .result .big{ font-size:42px; font-weight:800; color:var(--accent); }
-  .result .sub{ color:var(--muted); margin:4px 0 16px; }
-  .grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin:14px 0; }
-  .cell{ aspect-ratio:1; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; cursor:pointer; border:1px solid var(--line); }
-  .cell.ok{ background:var(--greenbg); border-color:var(--green); color:#86efac; }
-  .cell.no{ background:var(--redbg); border-color:var(--red); color:#fca5a5; }
-  .cell.skip{ background:var(--card2); color:var(--muted); }
+    line-height:1.55;-webkit-text-size-adjust:100%}
+  .wrap{max-width:760px;margin:0 auto;padding:16px 14px 48px}
+  header{position:sticky;top:0;background:linear-gradient(180deg,var(--bg) 70%,transparent);
+    padding:10px 0 8px;z-index:5}
+  .title{font-size:17px;font-weight:700;letter-spacing:.2px}
+  .sub{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .bar{height:8px;background:var(--card2);border-radius:6px;margin:10px 0 4px;overflow:hidden}
+  .bar>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),#7db0ff);
+    transition:width .35s ease}
+  .meta{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);margin-top:4px}
+  .meta b{color:var(--txt)}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;
+    padding:16px 15px;margin-top:12px}
+  .qtop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px}
+  .qno{font-size:12.5px;color:var(--accent);font-weight:700}
+  .star{cursor:pointer;font-size:20px;line-height:1;user-select:none;
+    filter:grayscale(1) opacity(.5);transition:.15s}
+  .star.on{filter:none;color:var(--star)}
+  .qtext{font-size:15.5px;font-weight:600;margin:2px 0 12px;white-space:pre-line}
+  .qtext mark{background:transparent;color:#ff5b5b;font-weight:800;padding:0}
+  .opts{display:flex;flex-direction:column;gap:8px}
+  .opt{display:flex;gap:10px;align-items:flex-start;background:var(--card2);
+    border:1.5px solid var(--border);border-radius:12px;padding:11px 12px;
+    cursor:pointer;transition:.12s;font-size:14.5px}
+  .opt:hover{border-color:#3a4152}
+  .opt .k{font-weight:700;color:var(--muted);min-width:16px}
+  .opt.correct{background:var(--correctbg);border-color:var(--correct)}
+  .opt.wrong{background:var(--wrongbg);border-color:var(--wrong)}
+  .opt.correct .k{color:#57d992}
+  .opt.wrong .k{color:#ff7b7b}
+  .opt.dis{cursor:default;opacity:.9}
+  .box{border-radius:12px;padding:11px 12px;margin-top:10px;font-size:13.8px;display:none}
+  .box.show{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+  .box .h{font-weight:700;margin-bottom:4px;display:flex;gap:6px;align-items:center}
+  .hint{background:var(--hint);border:1px solid var(--hintbd)}
+  .trap{background:var(--trap);border:1px solid var(--trapbd)}
+  .exp{background:var(--exp);border:1px solid var(--expbd)}
+  .exp b,.trap b{color:#fff}
+  .hintbtn{margin-top:10px;background:transparent;border:1px dashed var(--hintbd);
+    color:#a9d6b0;border-radius:10px;padding:8px 12px;font-size:13px;cursor:pointer;width:100%}
+  .hintbtn:active{transform:scale(.99)}
+  .nav{display:flex;gap:10px;margin-top:14px}
+  .btn{flex:1;background:var(--card2);border:1px solid var(--border);color:var(--txt);
+    border-radius:12px;padding:12px;font-size:14.5px;font-weight:600;cursor:pointer}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn:disabled{opacity:.4;cursor:default}
+  /* results */
+  .result{text-align:center}
+  .score{font-size:44px;font-weight:800;margin:6px 0}
+  .scoresub{color:var(--muted);font-size:14px}
+  .ring{font-size:15px;margin-top:6px}
+  .review{margin-top:16px;text-align:left}
+  .rrow{display:flex;justify-content:space-between;align-items:center;gap:10px;
+    background:var(--card2);border:1px solid var(--border);border-radius:12px;
+    padding:11px 12px;margin-top:8px;cursor:pointer;font-size:14px}
+  .rrow .l{display:flex;gap:9px;align-items:center}
+  .rrow .badge{width:24px;height:24px;border-radius:7px;display:flex;align-items:center;
+    justify-content:center;font-weight:700;font-size:13px}
+  .badge.ok{background:var(--correctbg);color:#57d992;border:1px solid var(--correct)}
+  .badge.no{background:var(--wrongbg);color:#ff7b7b;border:1px solid var(--wrong)}
+  .badge.sk{background:var(--card);color:var(--muted);border:1px solid var(--border)}
+  .hidden{display:none}
 </style>
 </head>
 <body>
+<div class="wrap">
+  <header>
+    <div class="title">TUS Quiz · Histofizyoloji & Klinik</div>
+    <div class="bar"><span id="prog"></span></div>
+    <div class="meta">
+      <div>Soru <b id="cur">1</b> / <b id="tot">10</b></div>
+      <div>Doğru: <b id="score">0</b> · ⭐ <b id="stars">0</b></div>
+    </div>
+  </header>
 
-<header>
-  <h1>TUS Karma Deneme #2</h1>
-  <p>Patoloji · Mikrobiyoloji · Parazitoloji · Hematopatoloji · 10 Soru</p>
-</header>
-
-<div class="bar"><i id="prog"></i></div>
-<div class="meta">
-  <span>Soru <b id="cur">1</b> / <span id="tot">10</span></span>
-  <span class="cat" id="cat">—</span>
-  <span class="score">Doğru: <b id="sc">0</b></span>
-</div>
-
-<div id="app"></div>
-
-<nav>
-  <button id="prev" onclick="go(-1)">‹ Önceki</button>
-  <button id="next" class="next" onclick="go(1)">Sonraki ›</button>
-</nav>
-
-<div class="foot">
-  <span id="starcount">0 yer işareti</span> · <button onclick="resetAll()">Sıfırla</button>
+  <div id="quiz"></div>
+  <div id="results" class="card result hidden"></div>
 </div>
 
 <script>
-const Q = [
+const QUESTIONS = [
   {
-    cat:"Mikoloji",
-    q:`Son 6 aydır lenfadenopati şikayeti olan ve <span class="hl">HIV pozitifliği</span> yeni saptanan (CD4+ T lenfosit sayısı: 180/µL) 38 yaşında erkek hastanın kan kültüründe, oda sıcaklığında (25°C) üretildiğinde septalı hiflerin uçlarında karakteristik <span class="hl">"tekerlek veya güneş ışını" benzeri çıkıntıları olan büyük, kalın duvarlı makrokonidyumlar</span> oluşturan bir fungus ürüyor.\n\nDoku formunda ise <span class="hl">makrofajların içinde kapsülsüz, tomurcuklanan küçük maya hücreleri</span> şeklinde izlenen bu <span class="hl">termal dimorfik</span> enfeksiyon etkeni aşağıdakilerden hangisidir?`,
-    o:["Histoplasma capsulatum","Blastomyces dermatitidis","Coccidioides immitis","Sporothrix schenckii","Paracoccidioides brasiliensis"],
-    a:0,
-    hint:`Doku formunda makrofaj İÇİNDE küçük maya + 25°C'de "güneş ışını / tekerlek" (tüberkülat) makrokonidyum ipuçlarına odaklan.`,
-    trap:`Adı <b>"capsulatum"</b> olsa da bu maya <b>kapsülsüzdür</b> — kapsüllü Cryptococcus ile karıştırma. Blastomyces geniş tabanlı tomurcuklanır, Coccidioides sferül/endospor, Paracoccidioides "kaptan dümeni".`,
-    exp:`<strong>Histoplasma capsulatum</strong>: 25°C'de <strong>tüberkülat (güneş ışını) makrokonidyum</strong>, 37°C/dokuda <strong>makrofaj içinde kapsülsüz küçük maya</strong>. HIV/CD4↓ hastada dissemine histoplazmoz tipiktir. İntraselüler oluşu <strong>Leishmania</strong>'yı taklit edebilir.`
+    q: "Gastrointestinal sistem histofizyolojisinde, intestinal mukozadaki enterositlerin apikal membranında yer alan fırçamsı kenar (brush border) enzimleri, oligopeptidleri ve disakkaritleri emilebilir son moleküllere parçalar. Bu <mark>fırçamsı kenarda</mark> yer alan, protein sindiriminin son basamaklarında kritik öneme sahip olan ve <mark>pankreastan salgılanan inaktif tripsinojeni aktif tripsine dönüştürerek</mark> tüm luminal proteolitik kaskadı başlatan aktivatör enzim aşağıdakilerden hangisidir?",
+    opts:["Aminopeptidaz","Enteropeptidaz (Enterokinaz)","Karboksipeptidaz","Kimotripsinojen","Dipeptidil peptidaz-4 (DPP-4)"],
+    ans:1,
+    hint:"Anahtar kelime: fırçamsı kenarda, tripsinojen → tripsin dönüşümünü tetikleyen ilk enzim. Bu, proteolitik kaskadın 'ilk kıvılcımı'.",
+    trap:"Aminopeptidaz ve karboksipeptidaz da protein sindiriminde rol alır ama tripsinojeni <b>aktive etmez</b>. Kimotripsinojen bir zimojendir, aktivatör değil. DPP-4 inkretin metabolizmasıyla ilgilidir.",
+    exp:"<b>Enteropeptidaz (enterokinaz)</b>, duodenum enterositlerinin fırçamsı kenarında yer alır ve pankreastan salgılanan inaktif <b>tripsinojeni → tripsine</b> çevirir. Oluşan tripsin ise kimotripsinojen, proelastaz ve prokarboksipeptidazları aktive ederek tüm luminal proteolitik kaskadı başlatır. Bu yüzden 'kaskadın başlatıcısı' olarak sorulur."
   },
   {
-    cat:"Jinekopatoloji",
-    q:`Endometrium kanserleri ile ilgili aşağıdaki ifadelerden hangisi <span class="hl">yanlıştır</span>?`,
-    o:[
-      "Tip 1 endometrial karsinom (endometrioid tip) en sık görülen tiptir ve hiperöstrojenizmle ilişkilidir.",
-      "Tip 2 (seröz tip) karsinomlar genellikle atrofik endometrium üzerinde gelişir ve p53 mutasyonu ile karakterizedir.",
-      "Tip 1 endometrial karsinomlarda PTEN gen mutasyonu sık görülür.",
-      "Endometrioid adenokarsinomun diferansiasyonunda skuamöz metaplazi varlığı prognozu kötüleştirir.",
-      "LYNCH sendromu (HNPCC) olan kadınlarda endometrial kanser riski artmıştır."
-    ],
-    a:3,
-    hint:`Dört ifade doğru; yanlış olan "prognozu kötüleştirir" diyen şıktır.`,
-    trap:`<b>Skuamöz metaplazi/diferansiasyon (adenoakantom)</b> prognozu değiştirmez. Yalnızca malign skuamöz komponent (adenoskuamöz karsinom) kötü olabilir — ama basit skuamöz metaplazi değil.`,
-    exp:`Yanlış ifade <strong>D</strong>'dir: endometrioid karsinomda <strong>benign skuamöz diferansiasyon prognozu kötüleştirmez</strong>. Diğerleri doğru — Tip 1: endometrioid + hiperöstrojenizm + <strong>PTEN</strong>; Tip 2: seröz + atrofik zemin + <strong>p53</strong>; <strong>Lynch/HNPCC</strong>'de risk artar.`
+    q: "74 yaşında erkek hasta, ani başlayan şiddetli interskapular (sırt) yırtılır tarzda ağrı ve soğuk terleme şikayetiyle acil servise getiriliyor. Kan basıncı sol kolda 185/100 mmHg, sağ kolda 140/85 mmHg; sağ radial nabız soldan zayıf. Aort odağında 2/6 erken diyastolik üfürüm. Kontrastlı BT'de assendan aortta diseksiyon flebi izleniyor (Stanford Tip A). Cerrahiye kadar aort duvarındaki yırtılma stresini (shear stress) minimuma indirmek için kalp hızını <60/dk ve sistolik KB'yi <120 mmHg'ye çekmek amacıyla acil serviste IV infüzyon şeklinde başlanması gereken, <mark>hem alfa-1 hem de beta-1 ve beta-2 reseptör blokajı yapabilen</mark> ilk tercih ajan hangisidir?",
+    opts:["Esmolol","Labetalol","Nitroprussid","Metoprolol","Diltiazem"],
+    ans:1,
+    hint:"Soru özellikle 'hem alfa-1 hem de beta blokajı' yapan tek ajanı istiyor. Kombine α/β bloker ara.",
+    trap:"<b>Esmolol</b> aort diseksiyonunda çok kullanılan ultra-kısa etkili bir ajan ama <b>saf β1-selektiftir, alfa blokajı yapmaz</b> — tanıma uymaz. Nitroprussid saf vazodilatördür; tek başına verilirse refleks taşikardi ile shear stress'i <b>artırır</b> (önce β-bloker şart). Metoprolol de saf β-blokerdir.",
+    exp:"<b>Labetalol</b>, tek başına hem <b>α1</b> hem de <b>β1/β2</b> blokajı yapabilen kombine bir adrenerjik antagonisttir. Aort diseksiyonunda hem kalp hızını hem kontraktiliteyi (dP/dt) hem de kan basıncını düşürerek duvardaki yırtılma stresini azaltır. Sorudaki 'hem alfa hem beta' tanımı doğrudan labetalolü işaret eder."
   },
   {
-    cat:"Parazitoloji",
-    q:`Aşağıdaki parazitlerden hangisi; hermafrodit (çift cinsiyetli) olmayan, yani erkek ve dişi formları ayrı ayrı bulunan (<span class="hl">diyoik</span>), erişkin formları insan <span class="hl">mezenterik ven</span> suşlarında yaşayarak yumurtalarını bağırsak veya mesane duvarına bırakan ve laboratuvar tanısında idrar veya dışkı örneğinde <span class="hl">"lateral ya da terminal dikenli" yumurtalarının</span> görülmesiyle tanınan bir trematoddur (yassı solucan)?`,
-    o:["Fasciola hepatica","Schistosoma mansoni","Clonorchis sinensis","Paragonimus westermani","Diphyllobothrium latum"],
-    a:1,
-    hint:`Trematodlar arasında SADECE bir cins diyoiktir (ayrı erkek/dişi form). Mezenterik ven + dikenli yumurta buna işaret eder.`,
-    trap:`Diğer tüm trematodlar (Fasciola, Clonorchis, Paragonimus) <b>hermafrodit</b>tir. <b>Diphyllobothrium latum</b> ise bir <b>sestoddur</b> (trematod değil) — çeldirici.`,
-    exp:`<strong>Schistosoma</strong> tek <strong>diyoik</strong> trematoddur; erişkinler mezenterik venlerde yaşar. <strong>Lateral diken → S. mansoni</strong> (bağırsak), <strong>terminal diken → S. haematobium</strong> (mesane). Soru her iki formu da kapsıyor; şıklarda tek şistozom S. mansoni'dir.`
+    q: "Böbrek proksimal tübül epiteli, glomerülden filtre edilen proteinlerin ve peptidlerin geri emiliminden sorumludur. Ultrafiltrattaki proteinler, proksimal tübül hücrelerinin apikal membranında yer alan ve <mark>klatrin bağımlı reseptör aracılı endositoz sistemini oluşturan iki dev endositer reseptör</mark> kompleksi tarafından yakalanır. Bu iki reseptörün mutasyonu/eksikliğinde ağır proteinüri (<mark>Lowe sendromu veya Donnai-Barrow sendromu</mark> gibi) gelişir. Bahsedilen bu iki histofizyolojik endositoz reseptörü hangisidir?",
+    opts:["Megalin - Kübilin","SGLT-1 - SGLT-2","Podokin - Nefrin","Okludin - Klaudin","Aquaporin-1 - Aquaporin-2"],
+    ans:0,
+    hint:"Proksimal tübül apikal endositoz + Donnai-Barrow sendromu = klasik reseptör ikilisi.",
+    trap:"<b>Podosin-Nefrin</b> podosit yarık diyaframına aittir (glomerüler bariyer), tübüler endositoza değil. SGLT'ler glukoz taşıyıcısı, aquaporinler su kanalıdır; hiçbiri reseptör aracılı protein endositozu yapmaz.",
+    exp:"<b>Megalin</b> ve <b>Kübilin</b>, proksimal tübül apikal membranında klatrin çukurlarında yerleşen dev endositer reseptörlerdir. Filtre olan albümin, düşük moleküllü proteinler, vitamin taşıyıcıları vb. bunlar aracılığıyla geri emilir. Megalin mutasyonu <b>Donnai-Barrow</b>, ilişkili OCRL yolağı bozukluğu <b>Lowe sendromu</b> ile birlikte tübüler proteinüri yapar."
   },
   {
-    cat:"Mikrobiyoloji",
-    q:`Bağışıklık sistemi normal olan 24 yaşında erkek hasta, tek taraflı <span class="hl">ağrısız servikal lenfadenopati</span> şikayetiyle başvuruyor. Öyküsünden evinde <span class="hl">kedi beslediği</span> ve yakın zamanda ellerinde <span class="hl">kedi tırmalamasına bağlı çizikler</span> oluştuğu öğreniliyor. Laboratuvar tanısında <span class="hl">Warthin-Starry gümüşleme</span> boyası kullanılan bu hastadaki tablonun etkeni aşağıdakilerden hangisidir?`,
-    o:["Bartonella henselae","Pasteurella multocida","Francisella tularensis","Afipia felis","Brucella melitensis"],
-    a:0,
-    hint:`Kedi TIRMIĞI + ağrısız bölgesel LAP + Warthin-Starry gümüşleme üçlüsüne uyan etken hangisi?`,
-    trap:`<b>Afipia felis</b> eskiden kedi tırmığı etkeni sanılırdı (en klasik çeldirici) ama gerçek etken Bartonella'dır. <b>Pasteurella multocida</b> ise kedi <b>ISIRIĞI</b> selüliti yapar (tırmık değil).`,
-    exp:`<strong>Bartonella henselae</strong> kedi tırmığı hastalığının etkenidir; ağrısız bölgesel LAP, <strong>Warthin-Starry (+)</strong>. İmmünsüpresede basiller anjiyomatozis/peliozis yapabilir. İmmünkompetanda genelde kendini sınırlar.`
+    q: "Özellikle immün sistem hücrelerinin (makrofajlar, lenfositler) endotel duvarına tutunarak dokuya göç etmesi (diapedez) sürecinde hücreler arası bağlantı kompleksleri kritik rol oynar. Lökositlerin endotel hücreleri arasından geçişi (transendotelyal göç) sırasında lökosit yüzeyindeki moleküllere bağlanarak <mark>homofilik etkileşim</mark> kuran ve histolojik olarak zonula occludens ile zonula adherens yapılarının hemen altında, lateral membranın bazal kısımlarında yoğunlaşan <mark>immunoglobulin süper ailesi</mark> üyesi bağlantı proteini hangisidir?",
+    opts:["E-Kadherin","İntegrin (VLA-4)","PECAM-1 (CD31)","Selektin (L-selektin)","Okludin"],
+    ans:2,
+    hint:"Anahtar: 'homofilik etkileşim' + 'immunoglobulin süper ailesi' + transendotelyal göç.",
+    trap:"<b>Selektin</b> yuvarlanma (rolling) basamağını sağlar, homofilik değildir. <b>İntegrin (VLA-4)</b> heterofiliktir (VCAM-1'e bağlanır), sıkı yapışmayı sağlar. E-kadherin ve okludin epitelde bulunur; okludin Ig ailesinden değildir.",
+    exp:"<b>PECAM-1 (CD31)</b>, Ig süper ailesi üyesidir ve endotel hücreleri arası bileşkelerde yoğunlaşır. Diapedez sırasında lökosit ve endotel yüzeyindeki PECAM-1 molekülleri arasında <b>homofilik (PECAM-PECAM)</b> etkileşim kurularak lökositin endotel arasından geçişi sağlanır."
   },
   {
-    cat:"Patoloji / Dahiliye",
-    q:`45 yaşında kadın hastada halsizlik ve <span class="hl">kaşıntı</span> şikayetleri mevcuttur. Laboratuvarda <span class="hl">alkalen fosfataz (ALP) yüksek</span> ve <span class="hl">Antimitokondriyal antikor (AMA) pozitifliği</span> saptanmıştır. Karaciğer biyopsisinde <span class="hl">safra yollarının granülomatöz yıkımı</span> görülmüştür. En olası tanı aşağıdakilerden hangisidir?`,
-    o:["Otoimmün hepatit","Primer biliyer kolanjit","Primer sklerozan kolanjit","Alkolik hepatit","Wilson hastalığı"],
-    a:1,
-    hint:`AMA(+) + safra yollarının granülomatöz yıkımı hangi hastalığa özgüdür?`,
-    trap:`<b>PSC</b> ile karıştırma: PSC → AMA(−), p-ANCA(+), erkek/İBH ilişkili, "soğan zarı" periduktal fibrozis, kolanjiyografide boncuk dizisi. AMA(+) + granülomatöz duktus yıkımı = <b>PBC</b>.`,
-    exp:`<strong>Primer biliyer kolanjit</strong>: orta yaş kadın, kaşıntı, <strong>ALP↑</strong>, <strong>AMA(+)</strong>, biyopside <strong>florid duktal lezyon (granülomatöz safra yolu yıkımı)</strong>. Tedavi: ursodeoksikolik asit.`
+    q: "Solunum fizyolojisinde alveol yüzey gerilimini azaltarak ekspiryum sırasında alveollerin kollabe olmasını (atelektazi) önleyen sürfaktan maddesi, histolojik olarak akciğer alveol duvarında yer alan aşağıdaki hücrelerden hangisi tarafından sentezlenir ve <mark>lameler cisimcikler (lamellar bodies) içinde depolanarak</mark> ekzositozla salgılanır?",
+    opts:["Tip 1 pnömosit","Tip 2 pnömosit","Alveoler makrofaj (Toz hücresi)","Kulçitski (K) hücresi","Clara (Kulüp) hücresi"],
+    ans:1,
+    hint:"'Lameller cisimcik' + sürfaktan → tek bir hücre tipi akla gelmeli.",
+    trap:"<b>Tip 1 pnömosit</b> ince, yassı, gaz değişimi yüzeyidir — sürfaktan yapmaz. <b>Clara hücresi</b> bronşiyollerde bulunur ve kendi sekresyonunu yapar (sürfaktan benzeri değil, sorunun aradığı alveol hücresi değil).",
+    exp:"<b>Tip 2 pnömosit</b> (büyük alveoler hücre), kübik yapıda olup <b>lameller cisimcikler</b> içinde depoladığı sürfaktanı (dipalmitoilfosfatidilkolin ağırlıklı) ekzositozla alveol lümenine salgılar. Yüzey gerilimini düşürerek atelektaziyi önler; ayrıca alveol onarımında Tip 1 hücrelere farklılaşan kök hücre görevi görür."
   },
   {
-    cat:"Hematopatoloji",
-    q:`Lenf nodu biyopsisinde <span class="hl">nodüler sklerozan tip Hodgkin lenfoma</span> tanısı alan bir hastada, karakteristik olarak izlenen <span class="hl">Reed-Sternberg hücrelerinin yüzey belirteçleri (immünofenotipi)</span> için aşağıdakilerden hangisi doğrudur?`,
-    o:[
-      "CD15 ve CD30 pozitif, CD20 negatif",
-      "CD20 pozitif, CD15 negatif",
-      "CD45 pozitif, CD30 negatif",
-      "CD3 ve CD20 pozitif",
-      "CD19 ve CD5 pozitif"
-    ],
-    a:0,
-    hint:`Klasik Hodgkin'de Reed-Sternberg hücresi B-hücre belirtecini (CD20) genellikle KAYBEDER.`,
-    trap:`<b>NLPHL</b> (nodüler lenfosit predominant) tam tersidir: <b>CD20(+), CD15/CD30(−)</b>, "popcorn / L&H" hücreleri. Klasik HL ile karıştırma.`,
-    exp:`Klasik HL Reed-Sternberg hücresi: <strong>CD15(+), CD30(+), CD20(−), CD45(−)</strong> (PAX5 zayıf +). Nodüler sklerozan en sık klasik alttiptir.`
+    q: "Klinik mikrobiyoloji laboratuvarında anaerop kültür çalışmalarında Gram negatif, pleomorfik ve anaerop bir basil izole edilmiştir. Tanımlamada; <mark>%20 safra içeren besiyerinde (BBE agar) siyah renkli koloniler</mark> oluşturarak üreyebilmesi ve <mark>katalaz testinin pozitif</mark> olması en önemli kriterlerdir. Bu anaerop bakterinin hücre duvarında endotoksik aktivite gösteren <mark>klasik Lipid A yapısı bulunmadığı</mark> ve bu nedenle sepsiste DİK'e nadiren yol açtığı bilinmektedir. Bahsedilen bu anaerop patojen hangisidir?",
+    opts:["Bacteroides fragilis","Fusobacterium nucleatum","Clostridium perfringens","Prevotella melaninogenica","Porphyromonas gingivalis"],
+    ans:0,
+    hint:"BBE (Bacteroides Bile Esculin) agarda safraya dirençli + eskülin hidrolizi ile siyah koloni + katalaz(+) anaerop basil.",
+    trap:"<b>Clostridium perfringens</b> Gram <b>pozitif</b> basildir — 'Gram negatif' ifadesi eler. Prevotella melaninogenica ve Porphyromonas siyah pigment yapar ama <b>safrada baskılanır</b> (BBE'de üremez) ve genelde katalaz negatiftir.",
+    exp:"<b>Bacteroides fragilis</b>, safraya dirençli olduğu için <b>BBE agarda</b> ürer; eskülini hidrolize ederek koyu/siyah koloniler yapar ve katalaz pozitiftir. LPS'sindeki lipid A yapısı klasik enterik LPS'ten farklı (atipik) olduğundan endotoksik aktivitesi zayıftır ve DİK'e nadiren yol açar. Anaerop enfeksiyonların en sık etkenidir."
   },
   {
-    cat:"Parazitoloji",
-    q:`Paraziter enfeksiyonların laboratuvar tanısında; periferik kan yaymasında <span class="hl">"Maltız Haçı" (Maltese cross) şeklinde tetrad</span> oluşturan <span class="hl">intraeritrositer</span> halka formlarının görülmesiyle karakterize olan, <span class="hl">Ixodes cinsi kenelerle</span> bulaşan ve klinik olarak sıtmayı taklit eden protozoon aşağıdakilerden hangisidir?`,
-    o:["Plasmodium falciparum","Babesia microti","Leishmania donovani","Toxoplasma gondii","Trypanosoma cruzi"],
-    a:1,
-    hint:`İntraeritrositer <b>tetrad (Maltese cross)</b> + <b>Ixodes</b> kene birlikteliği ayırt ettirir.`,
-    trap:`<b>Plasmodium falciparum</b> da eritrosit içidir ve sıtma yapar; ancak yaymada <b>pigment (hemozoin) vardır ve Maltese cross yoktur</b>, Anopheles ile bulaşır. Babesia'da pigment bulunmaz.`,
-    exp:`<strong>Babesia microti</strong>: intraeritrositer <strong>Maltese cross tetrad</strong>, Ixodes kenesi (Lyme ile ko-enfeksiyon), aspleniklerde ağır seyir. Sıtmayı taklit eder ama endemik seyahat öyküsü olmayabilir.`
+    q: "Periferik sinir sisteminde miyelin kılıfın hasar gördüğü demiyelinizan hastalıklarda, aksiyon potansiyelinin Ranvier boğumları arasında sıçrayarak ilerlemesini sağlayan 'saltatorik iletim' sekteye uğrar. Ranvier boğumlarında <mark>aksiyon potansiyelinin hızlıca yeniden üretilmesini</mark> sağlayan ve bu boğumlarda <mark>en yüksek yoğunlukta kümelenmiş</mark> olan voltaj bağımlı iyon kanalları hangisidir?",
+    opts:["Voltaj bağımlı K+ kanalları","Voltaj bağımlı Na+ kanalları","Voltaj bağımlı Ca2+ kanalları","Cl- kanalları","Kaçak (leak) K+ kanalları"],
+    ans:1,
+    hint:"Aksiyon potansiyelinin depolarizasyon (yükseliş) fazını hangi kanal yapar? Boğumda en yoğun o kanal vardır.",
+    trap:"<b>Voltaj bağımlı K+ kanalları</b> daha çok jukstaparanodal bölgede (miyelin altında) yoğunlaşır; boğumda değil. Ca2+ kanalları sinaptik terminalde önemlidir, Ranvier boğumunda AP yenilenmesini yapmaz.",
+    exp:"<b>Voltaj bağımlı Na+ kanalları</b> (özellikle Nav1.6), Ranvier boğumlarında çok yüksek yoğunlukta kümelenir. Her boğumda hızlı Na+ girişiyle aksiyon potansiyeli yeniden üretilir ve akım bir sonraki boğuma sıçrar (<b>saltatorik iletim</b>). Demiyelinizasyonda bu kümelenme bozulur, iletim yavaşlar/bloke olur."
   },
   {
-    cat:"Jinekopatoloji",
-    q:`Over tümörleri arasında yer alan, histolojik olarak <span class="hl">kalın fibröz stroma</span> içerisinde yerleşmiş <span class="hl">transisyonel epiteli andıran hücre adacıkları</span> ve <span class="hl">"kahve çekirdeği" (coffee bean) nükleer olukları</span> ile karakterize tümör aşağıdakilerden hangisidir?`,
-    o:["Brenner tümörü","Granüloza hücreli tümör","Seröz kistadenokarsinom","Disgerminom","Krukenberg tümörü"],
-    a:0,
-    hint:`Anahtar ayırt edici: <b>transisyonel (ürotelyal benzeri) epitel</b> + kalın fibröz stroma.`,
-    trap:`"Kahve çekirdeği nükleer oluk" <b>hem Brenner hem granüloza hücreli tümörde</b> görülür — tek başına ayırt etmez! Granülozada <b>Call-Exner cisimcikleri</b> olur. Ayırt edici bulgu: <b>transisyonel epitel adacıkları</b> → Brenner.`,
-    exp:`<strong>Brenner tümörü</strong>: yoğun fibröz stromada <strong>ürotelyal (transisyonel) epitel yuvaları</strong> ve <strong>kahve çekirdeği nükleer oluklar</strong>. Genelde benign ve insidental saptanır.`
+    q: "Kronik hepatit B enfeksiyonu olan bir hastanın serolojik takibinde; serumda HBsAg ve anti-HBc IgG pozitif, <mark>HBeAg ise negatif</mark> saptanmıştır. Bu hastada aktif viral replikasyonun durduğunu, bulaşıcılığın belirgin şekilde azaldığını ve klinik olarak <mark>serokonversiyonun (remisyonun) gerçekleştiğini</mark> gösteren <mark>en spesifik</mark> serolojik gösterge hangisidir?",
+    opts:["Anti-HBs","Anti-HBe","Anti-HBc IgM","HDV Antijeni","Anti-HCV"],
+    ans:1,
+    hint:"HBeAg negatifleşti; onun 'karşıt antikoru' pozitifleşince replikasyon/bulaşıcılık azalır. Hangi antikor?",
+    trap:"<b>Anti-HBs</b> hastalığın <b>tam iyileşmesini/bağışıklığını</b> gösterir ama burada HBsAg hâlâ pozitif (kronik taşıyıcı), dolayısıyla anti-HBs beklenmez ve sorulan 'e-serokonversiyon' değildir. Anti-HBc IgM akut/alevlenmeyi gösterir.",
+    exp:"HBeAg → <b>anti-HBe</b> serokonversiyonu, viral replikasyonun ve bulaşıcılığın belirgin azaldığını gösteren en spesifik göstergedir. HBeAg kaybı + <b>anti-HBe</b> pozitifliği 'e-antijen serokonversiyonu' olarak adlandırılır ve kronik HBV'de daha iyi (inaktif taşıyıcı) faza geçişi yansıtır."
   },
   {
-    cat:"Kemik Patolojisi",
-    q:`15 yaşında erkek hastanın <span class="hl">femur diafizinde</span> kemik ağrısı ve şişlik şikayeti vardır. Radyolojide <span class="hl">soğan zarı (onion-skin) periost reaksiyonu</span> izlenmiştir. Tümör hücreleri <span class="hl">küçük, koyu mavi sitoplazmalı ve glikojen içerir</span>. Bu tümörde görülen spesifik genetik translokasyon aşağıdakilerden hangisidir?`,
-    o:["t(11;22)","t(9;22)","t(X;18)","t(14;18)","t(15;17)"],
-    a:0,
-    hint:`Diafiz + <b>soğan zarı periost</b> + küçük yuvarlak mavi glikojen(+) hücre = Ewing sarkomu.`,
-    trap:`Diğer translokasyonları karıştırma: <b>t(9;22)</b> KML/ALL (Philadelphia), <b>t(X;18)</b> sinovyal sarkom, <b>t(14;18)</b> foliküler lenfoma (BCL2), <b>t(15;17)</b> APL (M3).`,
-    exp:`<strong>Ewing sarkomu</strong>: <strong>t(11;22)(q24;q12) → EWSR1-FLI1</strong> füzyonu. PAS(+) glikojen, membranöz CD99(+). Diafizde <strong>soğan zarı periost reaksiyonu</strong> tipiktir.`
+    q: "Hücre içi sinyal yolaklarını etkileyerek immün sistemi baskılayan parazit varyantları klinik çalışmalarda incelenmektedir. Leishmania promastigotlarının makrofajlar tarafından fagositozunu takiben, <mark>fagozom-lizozom füzyonunu geciktiren</mark>, makrofaj içi serbest radikal üretimini (oksidatif patlamayı) baskılayan ve parazitin hücre içi sağkalımında rol oynayan en önemli yüzey glikoproteini (<mark>metalloproteaz</mark>) hangisidir?",
+    opts:["GP63 (Leishmanyolizin)","Lipofosfoglikan (LPG)","K39 Antijeni","SAGA (Soluble Antigen)","VSG (Variant Surface Glycoprotein)"],
+    ans:0,
+    hint:"Soru özellikle 'metalloproteaz' olan yüzey glikoproteinini istiyor.",
+    trap:"<b>LPG</b> de makrofaj içi sağkalımda çok önemlidir (kompleman/oksidatif hasara direnç) ama <b>metalloproteaz değildir</b> — soru 'metalloproteaz' dediği için eler. <b>VSG</b> ise Trypanosoma'nın antijenik varyasyon molekülüdür, Leishmania'ya ait değildir. K39 tanısal antijendir.",
+    exp:"<b>GP63 (leishmanyolizin)</b>, çinko bağımlı bir <b>metalloproteaz</b> olan majör yüzey glikoproteinidir. Komplemanı parçalar (C3b → iC3b ile opsonizasyonu yönlendirip fagositozu kolaylaştırır), fagozom-lizozom füzyonunu ve oksidatif patlamayı baskılar; böylece parazit makrofaj içinde amastigot olarak hayatta kalır."
   },
   {
-    cat:"GİS Patolojisi",
-    q:`İnflamatuar bağırsak hastalıklarından Ülseratif kolit ve Crohn hastalığını ayırt etmede histolojik bulgular kullanılır. Aşağıdaki patolojik bulgulardan hangisi <span class="hl">Crohn hastalığı için karakteristik olup Ülseratif kolitte görülmez</span>?`,
-    o:["Kript apseleri","Non-kazeifiye granülomlar","Mukozal ülserasyonlar","Yaygın submukozal fibrozis","Psödopolipler"],
-    a:1,
-    hint:`İkisini ayıran en kesin histolojik bulgu hangi granülom tipidir?`,
-    trap:`<b>Psödopolip (E)</b> aslında <b>ÜK'de daha karakteristiktir</b> — çeldirici. <b>Kript apsesi (A)</b> özellikle ÜK'de belirgindir. Granülom Crohn'da bile sadece ~%30 vakada görülür, ama görülürse Crohn'u işaret eder.`,
-    exp:`<strong>Non-kazeifiye granülom</strong> Crohn için karakteristiktir ve ÜK'de görülmez. Crohn: <strong>transmural, atlamalı (skip), granülom, fistül</strong>. ÜK: mukoza/submukozaya sınırlı, kontinü, <strong>kript apsesi + psödopolip</strong>.`
+    q: "Klinik mikrobiyoloji laboratuvarında solunum yolu örneklerinden izole edilen Gram negatif bir basilin identifikasyonunda; <mark>oksidaz testinin pozitif</mark> olması, <mark>42°C sıcaklıkta üreyebilmesi</mark>, kültür plaklarında <mark>yeşil-mavi renkli pigment (piyosiyanin)</mark> üretmesi ve tipik olarak <mark>tatlı meyve/taze üzüm kokusu</mark> salgılaması aşağıdaki patojenlerden hangisini doğrudan düşündürür?",
+    opts:["Klebsiella pneumoniae","Pseudomonas aeruginosa","Haemophilus influenzae","Acinetobacter baumannii","Escherichia coli"],
+    ans:1,
+    hint:"Oksidaz(+), 42°C üreme, mavi-yeşil pigment ve üzüm kokusu → tek bir klasik etken.",
+    trap:"<b>Klebsiella</b> ve <b>E. coli</b> oksidaz <b>negatiftir</b> (Enterobacterales) — hemen eler. <b>Acinetobacter</b> da oksidaz negatiftir ve pigment/koku özelliği yoktur.",
+    exp:"<b>Pseudomonas aeruginosa</b>; oksidaz pozitif, non-fermentatif, 42°C'de üreyebilen Gram negatif basildir. <b>Piyosiyanin</b> (mavi-yeşil) ve piyoverdin pigmentleri üretir, tipik <b>tatlı üzüm/meyve kokusu</b> verir. Nozokomiyal pnömoni, yanık ve kistik fibrozis enfeksiyonlarının önemli etkenidir."
   }
 ];
 
-const HARF = ["A","B","C","D","E"];
-let i = 0;
-const answered = new Array(Q.length).fill(null);
-const stars = new Array(Q.length).fill(false);
+let idx=0, answered=[], picked=[], starred=[], correct=0;
+QUESTIONS.forEach(()=>{answered.push(false);picked.push(null);starred.push(false);});
+
+const quiz=document.getElementById('quiz');
+const results=document.getElementById('results');
+document.getElementById('tot').textContent=QUESTIONS.length;
 
 function render(){
-  const q = Q[i];
-  const sel = answered[i];
-  const locked = sel !== null;
-
-  document.getElementById("cur").textContent = i+1;
-  document.getElementById("cat").textContent = q.cat;
-  document.getElementById("prog").style.width = ((i+1)/Q.length*100)+"%";
-  document.getElementById("sc").textContent = score();
-  document.getElementById("prev").disabled = (i===0);
-  document.getElementById("next").textContent = (i===Q.length-1) ? "Sonuç ›" : "Sonraki ›";
-
-  let opts = q.o.map((t,idx)=>{
-    let cls = "opt";
-    if(locked){
-      if(idx===q.a) cls+=" correct";
-      else if(idx===sel) cls+=" wrong";
+  const q=QUESTIONS[idx];
+  const done=answered[idx];
+  const sel=picked[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(done){cls+=' dis';
+      if(i===q.ans)cls+=' correct';
+      else if(i===sel)cls+=' wrong';
     }
-    return `<button class="${cls}" ${locked?"disabled":""} onclick="pick(${idx})">
-      <span class="k">${HARF[idx]}</span><span>${t}</span></button>`;
-  }).join("");
-
-  document.getElementById("app").innerHTML = `
-    <div class="card">
-      <div class="qhead">
-        <span class="qno">Soru ${i+1}</span>
-        <button class="star ${stars[i]?"on":""}" onclick="toggleStar()" title="Yer işareti">★</button>
-      </div>
-      <div class="qtext">${q.q}</div>
-      ${!locked ? `<button class="hintbtn" onclick="toggleHint()">💡 İpucu</button>
-                   <div class="hint" id="hint">${q.hint}</div>` : ``}
-      <div class="opts">${opts}</div>
-      <div class="trap ${locked?"show":""}" id="trapbox"><span class="tag">⚠️ Tuzak / Sık Yapılan Hata</span>${q.trap}</div>
-      <div class="exp ${locked?"show":""}"><span class="tag">✅ Açıklama</span>${q.exp}</div>
-    </div>`;
-  updateStarCount();
-}
-
-function pick(idx){
-  if(answered[i]!==null) return;
-  answered[i]=idx;
-  render();
-  requestAnimationFrame(()=>{
-    const box = document.getElementById("trapbox");
-    if(box) box.scrollIntoView({behavior:"smooth", block:"start"});
+    optsHtml+=`<div class="${cls}" onclick="choose(${i})">
+      <span class="k">${String.fromCharCode(65+i)})</span><span>${o}</span></div>`;
   });
-}
-function toggleHint(){ document.getElementById("hint").classList.toggle("show"); }
-function toggleStar(){ stars[i]=!stars[i]; render(); }
-function go(d){
-  if(d>0 && i===Q.length-1){ showResult(); return; }
-  const ni=i+d;
-  if(ni<0||ni>=Q.length) return;
-  i=ni; render(); window.scrollTo({top:0,behavior:"smooth"});
-}
-function score(){ return answered.reduce((s,a,idx)=> s + (a===Q[idx].a?1:0), 0); }
-function updateStarCount(){
-  const n=stars.filter(Boolean).length;
-  document.getElementById("starcount").textContent = n+" yer işareti";
-}
-function resetAll(){
-  if(!confirm("Tüm cevaplar ve yer işaretleri sıfırlansın mı?")) return;
-  for(let k=0;k<Q.length;k++){ answered[k]=null; stars[k]=false; }
-  i=0; render(); window.scrollTo({top:0,behavior:"smooth"});
+
+  quiz.innerHTML=`
+  <div class="card">
+    <div class="qtop">
+      <div class="qno">SORU ${idx+1}</div>
+      <div class="star ${starred[idx]?'on':''}" onclick="toggleStar()">★</div>
+    </div>
+    <div class="qtext">${q.q}</div>
+    <div class="opts">${optsHtml}</div>
+
+    <button class="hintbtn" id="hb" onclick="showHint()" ${done?'style="display:none"':''}>💡 İpucu göster</button>
+
+    <div class="box hint ${done?'show':''}" id="bhint">
+      <div class="h">💡 İpucu</div>${q.hint}</div>
+    <div class="box trap ${done?'show':''}" id="btrap">
+      <div class="h">⚠️ Tuzak</div>${q.trap}</div>
+    <div class="box exp ${done?'show':''}" id="bexp">
+      <div class="h">📖 Açıklama</div>${q.exp}</div>
+
+    <div class="nav">
+      <button class="btn" onclick="prev()" ${idx===0?'disabled':''}>← Önceki</button>
+      <button class="btn primary" onclick="next()">${idx===QUESTIONS.length-1?'Bitir ✓':'Sonraki →'}</button>
+    </div>
+  </div>`;
+  updateHead();
 }
 
-function showResult(){
-  const sc=score(), done=answered.filter(a=>a!==null).length;
-  const cells=Q.map((q,idx)=>{
-    const a=answered[idx];
-    let cls="skip", lbl=idx+1;
-    if(a!==null) cls = (a===q.a)?"ok":"no";
-    return `<div class="cell ${cls}" onclick="jump(${idx})">${lbl}</div>`;
-  }).join("");
-  const pct=Math.round(sc/Q.length*100);
-  let msg = pct>=80?"Harika iş! 🎯" : pct>=60?"İyi gidiyor, tuzaklara çalış. 💪" : "Yanlışları tekrar et. 📚";
-  document.getElementById("app").innerHTML=`
-    <div class="card result">
-      <h2>Deneme Bitti</h2>
-      <div class="big">${sc} / ${Q.length}</div>
-      <div class="sub">${pct}% doğru · ${done} soru cevaplandı<br>${msg}</div>
-      <div class="grid">${cells}</div>
-      <p style="color:var(--muted);font-size:12px">Bir kutuya dokunarak o soruya dön.</p>
-    </div>`;
-  document.getElementById("next").textContent="Baştan ›";
-  document.getElementById("prog").style.width="100%";
-  window.scrollTo({top:0,behavior:"smooth"});
+function choose(i){
+  if(answered[idx])return;
+  answered[idx]=true;picked[idx]=i;
+  if(i===QUESTIONS[idx].ans)correct++;
+  render(); // auto-opens hint/trap/exp
+  const box=document.getElementById('bhint');
+  const hd=document.querySelector('header');
+  if(box)setTimeout(()=>{
+    const off=(hd?hd.offsetHeight:0)+8;
+    const y=box.getBoundingClientRect().top+window.pageYOffset-off;
+    window.scrollTo({top:y,behavior:'smooth'});
+  },120);
 }
-function jump(idx){ i=idx; render(); window.scrollTo({top:0,behavior:"smooth"}); }
+function showHint(){document.getElementById('bhint').classList.add('show');
+  document.getElementById('hb').style.display='none';}
+function toggleStar(){starred[idx]=!starred[idx];render();}
+function prev(){if(idx>0){idx--;render();}}
+function next(){if(idx<QUESTIONS.length-1){idx++;render();}else finish();}
+
+function updateHead(){
+  document.getElementById('cur').textContent=idx+1;
+  document.getElementById('score').textContent=correct;
+  document.getElementById('stars').textContent=starred.filter(Boolean).length;
+  document.getElementById('prog').style.width=((idx+1)/QUESTIONS.length*100)+'%';
+}
+
+function finish(){
+  quiz.classList.add('hidden');
+  results.classList.remove('hidden');
+  const pct=Math.round(correct/QUESTIONS.length*100);
+  let msg = pct>=80?'Harika, çok iyi 🔥':pct>=60?'İyi, tekrar edelim 💪':'Zayıf konuları çalış 📚';
+  let rows='';
+  QUESTIONS.forEach((q,i)=>{
+    const st = !answered[i]?'sk':(picked[i]===q.ans?'ok':'no');
+    const sym = st==='ok'?'✓':st==='no'?'✗':'–';
+    rows+=`<div class="rrow" onclick="goto(${i})">
+      <div class="l"><div class="badge ${st}">${sym}</div>
+      <div>Soru ${i+1} ${starred[i]?'⭐':''}</div></div>
+      <div style="color:var(--muted);font-size:12.5px">${String.fromCharCode(65+q.ans)} şık →</div>
+    </div>`;
+  });
+  results.innerHTML=`
+    <div class="score">${correct}/${QUESTIONS.length}</div>
+    <div class="scoresub">%${pct} doğru</div>
+    <div class="ring">${msg}</div>
+    <div class="review">
+      <div style="font-weight:700;margin-bottom:2px">Soru İncelemesi</div>
+      ${rows}
+    </div>
+    <div class="nav"><button class="btn primary" onclick="restart()">↺ Baştan Başla</button></div>`;
+  updateHead();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function goto(i){idx=i;results.classList.add('hidden');quiz.classList.remove('hidden');render();
+  window.scrollTo({top:0,behavior:'smooth'});}
+function restart(){idx=0;correct=0;
+  QUESTIONS.forEach((_,i)=>{answered[i]=false;picked[i]=null;});
+  results.classList.add('hidden');quiz.classList.remove('hidden');render();
+  window.scrollTo({top:0,behavior:'smooth'});}
 
 render();
 </script>

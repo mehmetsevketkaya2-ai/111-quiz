@@ -7,6 +7,26 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="pragma" content="no-cache">
 <title>TUS Quiz</title>
+<script>
+/* ===== GitHub Pages otomatik tazeleme =====
+   Tarayıcı/CDN eski HTML'i sunsa bile: canlı dosyayı no-store ile çek,
+   çalışan build ile karşılaştır, farklıysa cache-bust'lı adrese geç.
+   Sonsuz döngü koruması sessionStorage ile. file:// (yerel) açılışta çalışmaz. */
+window.__BUILD__ = '2026-07-06-1858';
+(function(){
+  try{
+    if(!/^https?:$/.test(location.protocol)) return;
+    var live = location.pathname + '?_cf=' + Date.now();
+    fetch(live, {cache:'no-store'}).then(function(r){return r.text();}).then(function(t){
+      var m = t.match(/__BUILD__\s*=\s*'([^']+)'/);
+      if(m && m[1] !== window.__BUILD__ && !sessionStorage.getItem('fresh_'+m[1])){
+        sessionStorage.setItem('fresh_'+m[1],'1');
+        location.replace(location.pathname + '?v=' + encodeURIComponent(m[1]));
+      }
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
 <style>
   :root{
     --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#2a3340;
@@ -22,7 +42,6 @@
   mark{background:none;color:#ff5b5b;font-weight:800;}
   b{color:#fff;}
 
-  /* Sabit başlık */
   header{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--panel);
     border-bottom:1px solid var(--border);padding:10px 14px 0;}
   .hrow{display:flex;align-items:center;gap:10px;max-width:760px;margin:0 auto;}
@@ -81,7 +100,6 @@
   .box.b-exp .bt{color:var(--exp);}
   .hidden{display:none!important;}
 
-  /* Navigasyon */
   .nav{position:fixed;bottom:0;left:0;right:0;background:var(--panel);
     border-top:1px solid var(--border);padding:12px 14px;z-index:90;}
   .navin{max-width:760px;margin:0 auto;display:flex;gap:12px;}
@@ -92,7 +110,6 @@
   .btn-next{background:var(--accent);color:#fff;border-color:var(--accentd);}
   .btn-fin{background:var(--green);color:#fff;border-color:var(--greenbd);}
 
-  /* Modal soru listesi */
   .overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:none;
     padding:20px 14px;overflow:auto;}
   .overlay.show{display:block;}
@@ -111,7 +128,6 @@
     background:var(--panel2);border:1px solid var(--border);color:var(--txt);
     font-weight:700;cursor:pointer;}
 
-  /* Sonuç ekranı */
   .result{max-width:760px;margin:0 auto;padding:24px 14px 120px;text-align:center;}
   .score-big{font-size:52px;font-weight:800;margin:8px 0;}
   .score-pct{font-size:20px;color:var(--muted);font-weight:700;}
@@ -139,6 +155,11 @@
   .ra-wrong{background:var(--redbg);color:var(--redbd);border-color:var(--redbd);}
   .ra-star{background:rgba(245,179,1,.1);color:var(--star);border-color:var(--star);}
   .ra-wrong:disabled,.ra-star:disabled{opacity:.4;cursor:not-allowed;}
+
+  .build-badge{position:fixed;right:8px;bottom:70px;z-index:85;font-size:10px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#5b6673;
+    background:rgba(22,27,34,.82);border:1px solid var(--border);border-radius:6px;
+    padding:2px 7px;pointer-events:none;letter-spacing:.2px;}
 </style>
 </head>
 <body>
@@ -317,7 +338,6 @@ const QUESTIONS = [
   }
 ];
 
-/* ---------- Durum ---------- */
 let order = QUESTIONS.map((_,i)=>i);
 let pos = 0;
 const state = QUESTIONS.map(()=>({answered:false, choice:null, correct:false, star:false}));
@@ -439,7 +459,6 @@ nextBtn.onclick=()=>{
   else showResult();
 };
 
-/* ---------- Modal ---------- */
 document.getElementById('menuBtn').onclick=()=>{ buildGrid(); overlay.classList.add('show'); };
 document.getElementById('closeModal').onclick=()=>overlay.classList.remove('show');
 overlay.onclick=e=>{ if(e.target===overlay) overlay.classList.remove('show'); };
@@ -460,13 +479,11 @@ function buildGrid(){
   });
 }
 
-/* ---------- Sonuç ---------- */
 function showResult(){
   const total=order.length;
   const ok=order.filter(qi=>state[qi].correct).length;
   const answered=order.filter(qi=>state[qi].answered).length;
   const wrong=answered-ok;
-  const empty=total-answered;
   const starCount=order.filter(qi=>state[qi].star).length;
   const pct=Math.round((ok/total)*100);
 
@@ -479,8 +496,8 @@ function showResult(){
   let rev='';
   order.forEach((qi,idx)=>{
     const s=state[qi];
-    let badge,txt;
-    if(!s.answered){badge='⚪';}
+    let badge;
+    if(!s.answered) badge='⚪';
     else badge=s.correct?'✅':'❌';
     const plain=QUESTIONS[qi].soru.replace(/<[^>]+>/g,'');
     rev+=`<div class="rev-item" data-idx="${idx}">
@@ -557,6 +574,14 @@ function retrySubset(subset){
 
 updateCounters();
 render();
+
+/* Build damgası */
+(function(){
+  var b=document.createElement('div');
+  b.className='build-badge';
+  b.textContent='build '+(window.__BUILD__||'?');
+  document.body.appendChild(b);
+})();
 </script>
 </body>
 </html>

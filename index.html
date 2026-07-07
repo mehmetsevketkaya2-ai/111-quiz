@@ -2,803 +2,2147 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Expires" content="0">
-<meta http-equiv="Pragma" content="no-cache">
-<title>TUS Fizyoloji — FHE 5'te 5 (55 Soru)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="pragma" content="no-cache">
+<title>Pediatri TTS — Yenidoğan</title>
 <style>
-:root{
-  --bg:#0d1117; --panel:#161b22; --panel2:#1c232d; --border:#2a323d;
-  --text:#e6edf3; --muted:#9aa7b4; --accent:#4c9aff; --accent2:#7c5cff;
-  --green:#2ea043; --greenbg:#0f2417; --greenbd:#2ea04377;
-  --red:#f85149; --redbg:#2a1416; --redbd:#f8514977;
-  --star:#f5c518;
-  --hint-bg:#0f2233; --hint-bd:#1e4a6b;
-  --trap-bg:#2a1d12; --trap-bd:#6b4a1e;
-  --exp-bg:#191330; --exp-bd:#463a6b;
-}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;padding:0}
-body{
-  background:var(--bg); color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  line-height:1.55; -webkit-font-smoothing:antialiased;
-}
-mark{background:none;color:#ff5b5b;font-weight:800}
-b{color:#cdd9e5}
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --line:#2a3444;
+    --text:#e6edf3; --muted:#9aa7b5; --accent:#4c9aff; --accent2:#7c5cff;
+    --green:#2ea043; --green-bg:#12341c; --red:#e5484d; --red-bg:#3a1518;
+    --star:#f5c451; --hint:#3fb6a8; --trap:#ff5b5b; --exp:#b487ff;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;-webkit-text-size-adjust:100%;}
+  mark{background:none;color:var(--trap);font-weight:800;}
+  b{color:#fff;font-weight:700;}
 
-/* Header */
-header{position:fixed;top:0;left:0;right:0;z-index:60;
-  background:rgba(13,17,23,.97);backdrop-filter:blur(6px);
-  border-bottom:1px solid var(--border)}
-.hrow{display:flex;align-items:center;gap:10px;padding:9px 12px}
-.htitle{font-size:14.5px;font-weight:800;letter-spacing:.2px;flex:1;min-width:0;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hbtn{background:var(--panel2);border:1px solid var(--border);color:var(--text);
-  border-radius:9px;padding:6px 10px;font-size:16px;cursor:pointer;line-height:1}
-.hstats{display:flex;gap:8px;font-size:12.5px;color:var(--muted);align-items:center;white-space:nowrap}
-.hstats span{background:var(--panel2);border:1px solid var(--border);padding:4px 7px;border-radius:8px;font-weight:700}
-.pbar-wrap{height:4px;background:var(--panel2)}
-.pbar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .3s}
+  header{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--panel);
+    border-bottom:1px solid var(--line);padding:env(safe-area-inset-top) 0 0 0;
+    box-shadow:0 4px 18px rgba(0,0,0,.35);}
+  .hbar{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:11px 16px 10px;}
+  .htitle{font-size:15px;font-weight:800;letter-spacing:.3px;}
+  .htitle span{color:var(--accent);}
+  .stats{display:flex;gap:8px;}
+  .chip{display:flex;align-items:center;gap:5px;background:var(--panel2);
+    border:1px solid var(--line);border-radius:999px;padding:5px 11px;
+    font-size:13px;font-weight:700;}
+  .chip.correct{color:var(--green);} .chip.star{color:var(--star);}
+  .progress{height:5px;background:var(--panel2);width:100%;}
+  .progress > i{display:block;height:100%;width:0;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    transition:width .35s ease;}
 
-/* Main */
-main{max-width:760px;margin:0 auto;padding:18px 14px 120px}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px 15px 18px}
-.qtop{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.qno{font-size:12.5px;font-weight:800;color:var(--muted);background:var(--panel2);
-  border:1px solid var(--border);padding:4px 9px;border-radius:20px}
-.ybadge{font-size:11.5px;font-weight:800;color:#cdb8ff;background:#241a3d;
-  border:1px solid #40315f;padding:4px 9px;border-radius:20px}
-.starbtn{margin-left:auto;background:none;border:none;font-size:23px;cursor:pointer;
-  filter:grayscale(1);opacity:.5;transition:.15s;line-height:1;padding:2px}
-.starbtn.on{filter:none;opacity:1;transform:scale(1.08)}
-.qtext{font-size:16.5px;font-weight:600;margin:2px 0 16px;line-height:1.5}
-.qtext .lead{display:block;font-weight:500;color:var(--muted);font-size:14.5px;
-  margin-bottom:10px;padding-left:11px;border-left:3px solid var(--border)}
-.qtext .romen{display:block;font-weight:600;color:var(--text);font-size:15px;
-  margin:3px 0;padding-left:6px}
+  main{max-width:720px;margin:0 auto;padding:16px 16px 120px;}
 
-/* Options */
-.opts{display:flex;flex-direction:column;gap:9px}
-.opt{display:flex;align-items:flex-start;gap:11px;width:100%;text-align:left;
-  background:var(--panel2);border:1px solid var(--border);color:var(--text);
-  border-radius:12px;padding:12px 13px;font-size:15.5px;cursor:pointer;
-  font-family:inherit;line-height:1.45;transition:.12s}
-.opt:hover:not(:disabled){border-color:var(--accent);background:#20ya}
-.opt:hover:not(:disabled){border-color:var(--accent)}
-.opt:disabled{cursor:default}
-.opt-k{font-weight:800;color:var(--muted);min-width:20px}
-.opt.correct{background:var(--greenbg);border-color:var(--greenbd)}
-.opt.correct .opt-k{color:#3fb950}
-.opt.wrong{background:var(--redbg);border-color:var(--redbd)}
-.opt.wrong .opt-k{color:#ff6b63}
-.opt.dim{opacity:.5}
-.opt .tick{margin-left:auto;font-weight:800}
-.opt.correct .tick{color:#3fb950}
-.opt.wrong .tick{color:#ff6b63}
+  .qmeta{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .qnum{font-size:13px;font-weight:800;color:var(--muted);letter-spacing:.5px;}
+  .star-btn{background:none;border:none;cursor:pointer;font-size:26px;line-height:1;
+    filter:grayscale(1) opacity(.45);transition:transform .15s,filter .15s;padding:2px 4px;}
+  .star-btn.on{filter:none;transform:scale(1.12);}
 
-/* Hint toggle + prehint */
-.hint-toggle{margin-top:14px;background:var(--hint-bg);color:#79c0ff;
-  border:1px solid var(--hint-bd);border-radius:11px;padding:11px 14px;
-  font-size:14.5px;font-weight:700;cursor:pointer;width:100%;font-family:inherit}
-.prehint{margin-top:12px}
+  .year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+  .year-tag{font-size:11.5px;font-weight:700;letter-spacing:.3px;color:var(--accent);
+    background:rgba(76,154,255,.1);border:1px solid rgba(76,154,255,.3);
+    border-radius:6px;padding:3px 9px;}
 
-/* Reveal boxes */
-.reveal{display:none;flex-direction:column;gap:11px;margin-top:16px}
-.reveal.show{display:flex}
-.box{border-radius:12px;padding:12px 14px;font-size:14.7px;line-height:1.55;
-  border:1px solid;animation:fade .35s ease both}
-.box .bt{font-weight:800;display:block;margin-bottom:5px;font-size:14px;letter-spacing:.2px}
-.box-hint{background:var(--hint-bg);border-color:var(--hint-bd)}
-.box-hint .bt{color:#79c0ff}
-.box-trap{background:var(--trap-bg);border-color:var(--trap-bd)}
-.box-trap .bt{color:#e3a857}
-.box-exp{background:var(--exp-bg);border-color:var(--exp-bd)}
-.box-exp .bt{color:#c9a9ff}
-.box-hint{animation-delay:0s}.box-trap{animation-delay:.09s}.box-exp{animation-delay:.18s}
-@keyframes fade{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+  .qcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:18px 17px;margin-bottom:14px;font-size:16.5px;}
 
-/* Nav */
-.navbar{position:fixed;bottom:0;left:0;right:0;z-index:60;
-  background:rgba(13,17,23,.97);backdrop-filter:blur(6px);
-  border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;
-  padding:11px 14px;max-width:760px;margin:0 auto}
-.navbar button{flex:1;background:var(--panel2);border:1px solid var(--border);
-  color:var(--text);border-radius:11px;padding:12px;font-size:15px;font-weight:700;
-  cursor:pointer;font-family:inherit}
-.navbar button:disabled{opacity:.4;cursor:default}
-#nextBtn{background:linear-gradient(90deg,var(--accent),var(--accent2));border:none;color:#fff}
-#nextBtn.finish{background:linear-gradient(90deg,#2ea043,#238636)}
-.qcount{flex:0 0 auto;font-size:13px;color:var(--muted);font-weight:700;min-width:52px;text-align:center}
+  .opts{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+  .opt{display:flex;align-items:flex-start;gap:12px;background:var(--panel);
+    border:1.5px solid var(--line);border-radius:13px;padding:13px 14px;cursor:pointer;
+    font-size:16px;transition:border-color .15s,background .15s,transform .05s;
+    text-align:left;color:var(--text);width:100%;}
+  .opt:active{transform:scale(.995);}
+  .opt .k{flex:0 0 26px;height:26px;border-radius:50%;background:var(--panel2);
+    border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:14px;color:var(--muted);}
+  .opt .t{flex:1;padding-top:1px;}
+  .opt:not(.locked):hover{border-color:var(--accent);}
+  .opts.locked .opt{cursor:default;}
+  .opt.correct{border-color:var(--green);background:var(--green-bg);}
+  .opt.correct .k{background:var(--green);border-color:var(--green);color:#fff;}
+  .opt.wrong{border-color:var(--red);background:var(--red-bg);}
+  .opt.wrong .k{background:var(--red);border-color:var(--red);color:#fff;}
+  .opt.dim{opacity:.55;}
+  .opt .mark{flex:0 0 24px;height:26px;display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:18px;line-height:1;}
+  .opt.correct .mark::after{content:"✓";color:var(--green);}
+  .opt.wrong .mark::after{content:"✗";color:var(--red);}
 
-/* Modal */
-.overlay{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.6);
-  display:none;align-items:flex-start;justify-content:center;padding:16px}
-.overlay.show{display:flex}
-.modal{background:var(--panel);border:1px solid var(--border);border-radius:16px;
-  width:100%;max-width:520px;margin-top:64px;max-height:76vh;display:flex;flex-direction:column;overflow:hidden}
-.modal-head{display:flex;align-items:center;justify-content:space-between;
-  padding:14px 16px;border-bottom:1px solid var(--border);font-weight:800}
-.modal-head button{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer}
-.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:16px;overflow:auto}
-.gcell{position:relative;aspect-ratio:1;display:flex;align-items:center;justify-content:center;
-  background:var(--panel2);border:1px solid var(--border);border-radius:10px;
-  font-size:14px;font-weight:800;cursor:pointer;color:var(--text)}
-.gcell.correct{background:var(--greenbg);border-color:var(--greenbd);color:#3fb950}
-.gcell.wrong{background:var(--redbg);border-color:var(--redbd);color:#ff6b63}
-.gcell.current{outline:2px solid var(--accent);outline-offset:1px}
-.gcell .gstar{position:absolute;top:-6px;right:-4px;font-size:12px}
+  .hintbtn{display:inline-flex;align-items:center;gap:7px;background:var(--panel2);
+    color:var(--hint);border:1px solid var(--line);border-radius:11px;padding:11px 15px;
+    font-size:14.5px;font-weight:700;cursor:pointer;margin-bottom:14px;}
+  .hintbtn:hover{border-color:var(--hint);}
 
-/* Result */
-.result{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px 16px;text-align:center}
-.ring{--p:0;width:150px;height:150px;border-radius:50%;margin:6px auto 14px;
-  background:conic-gradient(var(--accent) calc(var(--p)*1%),var(--panel2) 0);
-  display:flex;align-items:center;justify-content:center}
-.ring .inner{width:118px;height:118px;border-radius:50%;background:var(--panel);
-  display:flex;flex-direction:column;align-items:center;justify-content:center}
-.ring .pct{font-size:30px;font-weight:800}
-.ring .sc{font-size:13px;color:var(--muted);margin-top:2px}
-.fb{font-size:15.5px;color:var(--muted);margin-bottom:18px}
-.statrow{display:flex;gap:9px;margin-bottom:20px}
-.stat{flex:1;background:var(--panel2);border:1px solid var(--border);border-radius:12px;padding:12px 6px}
-.stat .n{font-size:21px;font-weight:800}.stat .l{font-size:11.5px;color:var(--muted);margin-top:2px}
-.stat.g .n{color:#3fb950}.stat.r .n{color:#ff6b63}.stat.s .n{color:var(--star)}
-.ractions{display:flex;flex-direction:column;gap:9px;margin-bottom:20px}
-.ractions button{border:none;border-radius:12px;padding:13px;font-size:15px;font-weight:800;
-  cursor:pointer;font-family:inherit;color:#fff}
-#raRestart{background:linear-gradient(90deg,var(--accent),var(--accent2))}
-#raWrong{background:#7a2620}#raStar{background:#7a5f14}
-.ractions button:disabled{opacity:.4;cursor:default}
-.rev{text-align:left;margin-top:6px}
-.rev h3{font-size:14px;color:var(--muted);margin:0 0 10px;font-weight:800}
-.rev-item{display:flex;align-items:center;gap:10px;background:var(--panel2);
-  border:1px solid var(--border);border-radius:11px;padding:10px 12px;margin-bottom:8px;cursor:pointer}
-.rev-badge{width:26px;height:26px;border-radius:8px;display:flex;align-items:center;
-  justify-content:center;font-size:14px;font-weight:800;flex:0 0 auto}
-.rev-badge.ok{background:var(--greenbg);color:#3fb950}
-.rev-badge.no{background:var(--redbg);color:#ff6b63}
-.rev-badge.bl{background:var(--panel);color:var(--muted)}
-.rev-item .rq{font-size:13.5px;flex:1;min-width:0;color:var(--muted);
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rev-item .ra{font-size:12.5px;font-weight:800;color:#3fb950;flex:0 0 auto}
+  .box{border-radius:13px;padding:13px 15px;margin-bottom:11px;font-size:15.5px;
+    border:1px solid var(--line);animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .box .bt{display:flex;align-items:center;gap:8px;font-weight:800;margin-bottom:6px;
+    font-size:14px;letter-spacing:.3px;}
+  .box.ip{background:rgba(63,182,168,.08);border-color:rgba(63,182,168,.35);}
+  .box.ip .bt{color:var(--hint);}
+  .box.tz{background:rgba(255,91,91,.07);border-color:rgba(255,91,91,.32);}
+  .box.tz .bt{color:var(--trap);}
+  .box.ac{background:rgba(180,135,255,.08);border-color:rgba(180,135,255,.32);}
+  .box.ac .bt{color:var(--exp);}
+
+  .nav{position:fixed;bottom:0;left:0;right:0;z-index:40;background:var(--panel);
+    border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+    display:flex;gap:10px;max-width:720px;margin:0 auto;align-items:stretch;}
+  .nav button{border:1px solid var(--line);border-radius:12px;padding:14px;
+    font-size:15.5px;font-weight:800;cursor:pointer;background:var(--panel2);color:var(--text);}
+  .nav .prev,.nav .next{flex:1;}
+  .nav .list{flex:0 0 auto;min-width:66px;color:var(--muted);font-size:13px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.1;}
+  .nav .list .lc{font-size:16px;}
+  .nav .next{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+  .nav button:disabled{opacity:.4;cursor:not-allowed;}
+
+  /* Question-list modal (bottom sheet) */
+  .modal-ov{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.55);
+    display:none;align-items:flex-end;justify-content:center;}
+  .modal-ov.show{display:flex;animation:fade .2s ease;}
+  .modal{width:100%;max-width:720px;background:var(--panel);
+    border-top-left-radius:20px;border-top-right-radius:20px;
+    border:1px solid var(--line);border-bottom:none;padding:16px 16px 26px;
+    max-height:72vh;overflow:auto;animation:slideup .28s ease;}
+  @keyframes slideup{from{transform:translateY(30px);opacity:.6;}to{transform:none;opacity:1;}}
+  .modal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .modal-h span{font-size:15px;font-weight:800;letter-spacing:.3px;}
+  .modal-h .close{background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    border-radius:9px;width:34px;height:34px;font-size:16px;cursor:pointer;font-weight:800;}
+  .qgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;}
+  .gbtn{aspect-ratio:1/1;border-radius:10px;border:1.5px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:14px;font-weight:800;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;position:relative;}
+  .gbtn.ok{background:var(--green-bg);border-color:var(--green);color:var(--green);}
+  .gbtn.no{background:var(--red-bg);border-color:var(--red);color:var(--red);}
+  .gbtn.cur{outline:2px solid var(--accent);outline-offset:1px;}
+  .gbtn.star::after{content:"";position:absolute;top:3px;right:3px;width:7px;height:7px;
+    border-radius:50%;background:var(--star);}
+
+  /* Result */
+  .result{display:none;}
+  .result.show{display:block;animation:fade .4s ease;}
+  .score-ring{display:flex;flex-direction:column;align-items:center;justify-content:center;
+    width:170px;height:170px;margin:8px auto 6px;border-radius:50%;
+    background:conic-gradient(var(--accent) var(--pct,0%),var(--panel2) 0);}
+  .score-ring .inner{width:138px;height:138px;border-radius:50%;background:var(--bg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .score-ring .big{font-size:34px;font-weight:900;}
+  .score-ring .sub{font-size:13px;color:var(--muted);font-weight:700;}
+  .pctline{text-align:center;font-size:20px;font-weight:900;margin:2px 0 4px;}
+  .fb{text-align:center;color:var(--muted);font-size:15px;margin-bottom:14px;}
+  .result-stats{display:flex;gap:10px;justify-content:center;margin-bottom:22px;flex-wrap:wrap;}
+  .rstat{background:var(--panel);border:1px solid var(--line);border-radius:11px;
+    padding:9px 15px;font-size:13.5px;font-weight:800;}
+  .rstat.g{color:var(--green);} .rstat.r{color:var(--red);} .rstat.s{color:var(--star);}
+  .review-h{font-size:14px;font-weight:800;color:var(--muted);letter-spacing:.4px;
+    margin:6px 0 10px;}
+  .rev{display:flex;align-items:center;gap:11px;background:var(--panel);
+    border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:9px;
+    cursor:pointer;transition:border-color .15s;}
+  .rev:hover{border-color:var(--accent);}
+  .rev .badge{flex:0 0 auto;width:24px;height:24px;border-radius:6px;font-size:15px;
+    display:flex;align-items:center;justify-content:center;font-weight:900;}
+  .rev .badge.ok{background:var(--green-bg);color:var(--green);}
+  .rev .badge.no{background:var(--red-bg);color:var(--red);}
+  .rev .badge.blank{background:var(--panel2);color:var(--muted);}
+  .rev .rq{flex:1;font-size:14px;}
+  .rev .ra{font-size:12.5px;color:var(--muted);margin-top:2px;}
+  .rev .ra b{color:var(--green);}
+  .result-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+  .ract{width:100%;padding:15px;border-radius:13px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:15px;font-weight:800;cursor:pointer;}
+  .ract:hover{border-color:var(--accent);}
+  .ract.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+  .ract:disabled{opacity:.4;cursor:not-allowed;}
+
+  /* Toast */
+  .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);
+    background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    padding:11px 18px;border-radius:11px;font-size:14px;font-weight:700;z-index:80;
+    opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 6px 20px rgba(0,0,0,.4);}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 </style>
 </head>
 <body>
-
 <header id="hdr">
-  <div class="hrow">
-    <button class="hbtn" id="menuBtn" aria-label="Sorular">☰</button>
-    <div class="htitle" id="hTitle">TUS Fizyoloji — FHE 5'te 5</div>
-    <div class="hstats"><span id="scoreStat">✅ 0</span><span id="starStat">⭐ 0</span></div>
+  <div class="hbar">
+    <div class="htitle">Pediatri · Yenidoğan <span>TTS</span></div>
+    <div class="stats">
+      <div class="chip correct">✓ <span id="cCount">0</span></div>
+      <div class="chip star">⭐ <span id="sCount">0</span></div>
+    </div>
   </div>
-  <div class="pbar-wrap"><div class="pbar" id="pbar"></div></div>
+  <div class="progress"><i id="bar"></i></div>
 </header>
 
-<main id="main"></main>
+<main id="main">
+  <div id="quiz"></div>
 
-<div class="navbar" id="navBar">
-  <button id="prevBtn">‹ Önceki</button>
-  <span class="qcount" id="qcount"></span>
-  <button id="nextBtn">Sonraki ›</button>
+  <div class="result" id="result">
+    <div class="score-ring" id="ring">
+      <div class="inner">
+        <div class="big" id="scoreBig">0/0</div>
+        <div class="sub">DOĞRU</div>
+      </div>
+    </div>
+    <div class="pctline" id="pctLine">%0</div>
+    <div class="fb" id="fbText"></div>
+    <div class="result-stats" id="rStats"></div>
+    <div class="review-h">SORU İNCELEMESİ</div>
+    <div id="reviewList"></div>
+    <div class="result-actions">
+      <button class="ract primary" onclick="restart()">↺ Tüm Soruları Yeniden Çöz</button>
+      <button class="ract" id="retryWrongBtn" onclick="retryWrong()">✗ Yanlışları Tekrar Çöz</button>
+      <button class="ract" id="retryStarBtn" onclick="retryStar()">⭐ Yıldızlıları Tekrar Çöz</button>
+    </div>
+  </div>
+</main>
+
+<div class="nav" id="nav">
+  <button class="prev" id="prevBtn" onclick="go(-1)">← Önceki</button>
+  <button class="list" id="listBtn" onclick="openModal()"><span class="lc">☰</span><span id="navCounter">0/0</span></button>
+  <button class="next" id="nextBtn" onclick="go(1)">Sonraki →</button>
 </div>
 
-<div class="overlay" id="overlay">
+<div class="modal-ov" id="modalOv" onclick="modalBg(event)">
   <div class="modal">
-    <div class="modal-head"><span>Sorular</span><button id="closeModal">✕</button></div>
-    <div class="grid" id="grid"></div>
+    <div class="modal-h"><span>Sorular</span><button class="close" onclick="closeModal()">✕</button></div>
+    <div class="qgrid" id="qGrid"></div>
   </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
+/* =========================================================
+   QUESTIONS — SADECE BU DİZİ DEĞİŞİR.
+   Her obje: { yil?, soru, siklar[5], dogru(0-4), ipucu, tuzak, aciklama }
+   ========================================================= */
 const QUESTIONS = [
-/* ===== DENEME 1 ===== */
-{yil:"Deneme 1", soru:"Atenuasyon refleksiyle ilgili aşağıdakilerden hangisi <mark>yanlıştır</mark>?",
- siklar:[{k:"A",t:"Gürültülü ortamlarda yüksek frekanslı sesler maskelenir"},{k:"B",t:"Kişinin kendisi konuşurken de bu refleks oluşabilir"},{k:"C",t:"M. Tensor tympani kasılır"},{k:"D",t:"Kohleayı aşırı vibrasyondan korur"},{k:"E",t:"M. Stapedius kasılır"},{k:"F",t:"Orta kulakta ossiküler sistemin rijiditesini artırır"},{k:"G",t:"Düşük frekanslı seslerin ossiküler sistemle iletimini azaltır"}],
- dogru:0,
- ipucu:"Refleks hangi frekans bandını zayıflatır? Zayıflayan banttaki sesler maskelenir.",
- tuzak:"Atenuasyon refleksi <b>düşük frekanslı</b> sesleri zayıflatır. Bu nedenle gürültülü ortamda maskelenen sesler <b>düşük frekanslı</b> olanlardır; yüksek frekanslı (konuşma) seslerin duyulması ise <b>kolaylaşır</b>. Şık A bunu ters söylediği için yanlış.",
- aciklama:"Atenuasyon (sesi zayıflatma) refleksinde <b>m. tensor tympani</b> ve <b>m. stapedius</b> kasılır; ossiküler sistemin <b>rijiditesi artar</b> ve özellikle <b>1000 Hz altı düşük frekanslı</b> iletim azalır. İşlevleri: kohleayı yüksek şiddetli düşük frekanslı titreşimden korumak, gürültülü ortamda düşük frekanslı fon gürültüsünü maskeleyerek yüksek frekanslı konuşmayı öne çıkarmak ve kişinin <b>kendi konuşmasına</b> duyarlılığını azaltmaktır."},
-
-{yil:"Deneme 1", soru:"Hipovolemik şokun erken döneminde aşağıdaki yanıtlardan hangisinin görülmesi <mark>en az olasıdır</mark>?",
- siklar:[{k:"A",t:"Anjiyotensin II oluşumunda artma"},{k:"B",t:"ADH düzeyinde artma"},{k:"C",t:"Kalp atım hızında artma"},{k:"D",t:"Venöz dilatasyon"},{k:"E",t:"Renal kan akımında azalma"},{k:"F",t:"Arteriyollerde vazokonstrüksiyon"},{k:"G",t:"Plazma glukokortikoid düzeyinde artma"},{k:"H",t:"Ekstraselüler sıvı hacminde azalma"}],
- dogru:3,
- ipucu:"Şokta venöz dönüşü artırmak için venlerde ne olur?",
- tuzak:"Şokun kompanzasyonunda venlerde <b>venokonstriksiyon</b> olur (venöz dönüşü ve önyükü artırmak için). <b>Venöz dilatasyon</b> beklenmez; bu yüzden en az olası yanıt D'dir.",
- aciklama:"Erken hipovolemik şokta sempatik + nörohumoral kompanzasyon devreye girer: <b>taşikardi</b>, arteriyol ve <b>ven</b> düzeyinde vazokonstriksiyon, <b>RAAS</b> aktivasyonu (anjiyotensin II↑), <b>ADH↑</b>, <b>kortizol↑</b>, renal kan akımında azalma ve kanamaya bağlı EHS hacminde azalma görülür. Venöz <b>dilatasyon</b> bu tabloya terstir."},
-
-{yil:"Deneme 1", soru:"Çekirdeği eksantrik yerleşimli ve <mark>at arabası tekerleği</mark> görünümünde olan bağ dokusu hücresi aşağıdakilerden hangisidir?",
- siklar:[{k:"A",t:"Histiyosit"},{k:"B",t:"Kahverengi adiposit"},{k:"C",t:"Plazma hücresi"},{k:"D",t:"Fibroblast"},{k:"E",t:"B lenfosit"}],
- dogru:2,
- ipucu:"Bol RER'li, antikor üreten hücre; heterokromatin dizilimi tekerlek gibidir.",
- tuzak:"<b>B lenfosit</b> çeldiricidir: plazma hücresi B lenfositten köken alır, ancak tarif edilen morfoloji (eksantrik çekirdek + tekerlek deseni) olgunlaşmış <b>plazma hücresine</b> özgüdür.",
- aciklama:"<b>Plazma hücresi</b>; eksantrik yerleşimli çekirdek ve periferik yoğunlaşmış heterokromatinle <b>araba tekerleği (cartwheel/saat kadranı)</b> görünümü verir. Bol gelişmiş RER nedeniyle sitoplazma bazofiliktir ve çekirdek yanında açık bir Golgi alanı (perinükleer hale) bulunur; antikor sentezinden sorumludur."},
-
-{yil:"Deneme 1", soru:"I. Trakea<br>II. Epididimis<br>III. İç kulak<br>IV. Tuba uterina<br>Yukarıdaki organların hangisi <mark>stereosilyalı</mark> epitele sahiptir?",
- siklar:[{k:"A",t:"I, II"},{k:"B",t:"II, IV"},{k:"C",t:"I, III"},{k:"D",t:"II, III"},{k:"E",t:"I, IV"}],
- dogru:3,
- ipucu:"Stereosilya = uzun, dallanmayan mikrovillus. Trakea ve tuba uterina'da ise gerçek (hareketli) silya vardır.",
- tuzak:"Trakea ve tuba uterina hareketli <b>silya (kinosilya)</b> taşır, stereosilya değil. Stereosilya aslında modifiye <b>mikrovillustur</b>, gerçek silya değildir.",
- aciklama:"<b>Stereosilya</b>; <b>epididimis</b> (ve duktus deferens) yalancı çok katlı epitelinde emilim/salgı için, <b>iç kulakta</b> ise tüy hücrelerinde mekanoresepsiyon için bulunur. Trakea ve tuba uterina epitelinde hareketli silya vardır. Doğru kombinasyon II ve III."},
-
-{yil:"Deneme 1", soru:"Aşağıdakilerden hangisi gonadların ilk oluşumu esnasında gonad yapısına katılır?",
- siklar:[{k:"A",t:"Mezotel"},{k:"B",t:"Yüzeyel ektoderm"},{k:"C",t:"Yolk sac"},{k:"D",t:"Spermatogonyum"},{k:"E",t:"Oogonyum"}],
- dogru:0,
- ipucu:"Genital kabartı hangi örtü epitelinin çoğalmasıyla oluşur?",
- tuzak:"<b>Yolk sac</b> güçlü çeldiricidir: primordiyal germ hücrelerinin <b>kaynağıdır</b>, ancak bu hücreler gonada <b>göç eder</b>; yolk sac'ın kendisi gonad yapısına katılmaz.",
- aciklama:"Gonadal (genital) kabartı, <b>çölomik epitel (mezotel)</b>'in çoğalması ve altındaki mezenkimin yoğunlaşmasıyla oluşur; mezotel içeri sokularak <b>primitif seks kordonlarını</b> yapar. Primordiyal germ hücreleri yolk sac duvarından göç ederek bu yapıya yerleşir. İlk yapıya doğrudan katılan örtü ise mezoteldir."},
-
-/* ===== DENEME 2 ===== */
-{yil:"Deneme 2", soru:"Aşağıdakilerden hangisi gastrin salınımını <mark>uyarır</mark>?",
- siklar:[{k:"A",t:"Sekretin"},{k:"B",t:"Glukagon"},{k:"C",t:"Kalsitonin"},{k:"D",t:"Vazoaktif intestinal peptid"},{k:"E",t:"Histamin"}],
- dogru:4,
- ipucu:"Diğer dört seçenek klasik gastrin/asit <b>baskılayıcılarıdır</b>. Geriye kalan hangisi?",
- tuzak:"<b>Sekretin, glukagon, kalsitonin ve VIP</b> gastrin salınımını <b>baskılar</b>. Histaminin asıl rolü paryetal hücrede asit salgısını (efektör) uyarmaktır; bu soruda ise dışlama yoluyla uyaran seçenek olarak kalır.",
- aciklama:"Gastrin salınımının klasik <b>uyaranları</b>: distansiyon, peptid/aminoasitler, vagal uyarı (GRP/bombesin) ve hiperkalsemi. <b>Baskılayanlar</b>: düşük pH, somatostatin, <b>sekretin, VIP, glukagon, kalsitonin</b>, GIP. Şıklardaki dört inhibitör elenince, uyaran olarak <b>histamin</b> işaretlenir."},
-
-{yil:"Deneme 2", soru:"I- Rezidüel volüm<br>II- Fonksiyonel rezidüel kapasite<br>III- Total akciğer kapasitesi<br>Yukarıdaki akciğer hacimlerinden hangisi/hangileri spirometre ile <mark>ölçülemez</mark>?",
- siklar:[{k:"A",t:"I, II"},{k:"B",t:"II, III"},{k:"C",t:"I, II, III"},{k:"D",t:"I, III"},{k:"E",t:"I"}],
- dogru:2,
- ipucu:"Rezidüel volüm içeren her hacim/kapasite spirometreyle ölçülemez.",
- tuzak:"Yalnız RV değil; RV içeren tüm kapasiteler (FRC = ERV+RV, TLC = VK+RV) da spirometreyle <b>ölçülemez</b>. Bu yüzden her üçü de doğrudur.",
- aciklama:"Spirometre <b>rezidüel volümü (RV)</b> ölçemez; çünkü RV zorlu ekspirasyondan sonra bile ciğerde kalan havadır. Dolayısıyla RV'yi içeren <b>FRC</b> ve <b>TLC</b> de doğrudan ölçülemez; bunlar helyum dilüsyonu veya vücut pletismografisi ile bulunur. Doğru yanıt I, II, III."},
-
-{yil:"Deneme 2", soru:"Pigment hücresi aşağıdakilerin hangisinde yer alan bir <mark>mononükleer fagositer sistem</mark> hücresidir?",
- siklar:[{k:"A",t:"Böbrek"},{k:"B",t:"Plasenta"},{k:"C",t:"Karaciğer"},{k:"D",t:"Retina"},{k:"E",t:"Epidermis"}],
- dogru:2,
- ipucu:"Eritrositleri yıkıp içine pigment (hemosiderin/lipofuksin) dolan, MFS'ye ait makrofaj hangisinde?",
- tuzak:"<b>Retina</b> güçlü çeldiricidir: retina pigment epiteli pigmentli ve fagositiktir, ancak <b>nöroektoderm</b> kökenli epiteldir, MFS üyesi <b>değildir</b>. Epidermisteki melanosit de MFS değildir (Langerhans hücresi MFS'dir ama pigmentsizdir).",
- aciklama:"<b>Mononükleer fagositer sistem (MFS)</b>'in karaciğerdeki üyesi <b>Kupffer hücreleridir</b>. Yaşlanmış eritrositleri fagosite ederek içlerinde <b>hemosiderin, safra pigmenti ve lipofuksin</b> biriktirir; böylece pigment içeren tipik bir MFS makrofajı olarak öne çıkar."},
-
-{yil:"Deneme 2", soru:"I. Endosteum<br>II. Konsantrik lameller<br>III. Periosteum<br>IV. Laküna<br>Yukarıdakilerin hangisinde <mark>osteoprogenitör</mark> hücrelerin bulunması en olasıdır?",
- siklar:[{k:"A",t:"I, II"},{k:"B",t:"II, IV"},{k:"C",t:"I, III"},{k:"D",t:"II, III"},{k:"E",t:"I, IV"}],
- dogru:2,
- ipucu:"Öncül (kök) kemik hücreleri, kemiğin dış ve iç yüzeyini kaplayan hücresel tabakalarda bulunur.",
- tuzak:"<b>Laküna</b> içinde olgun <b>osteosit</b>, konsantrik lameller içinde ise mineralize matriks + osteosit bulunur; osteoprogenitör hücre buralarda beklenmez.",
- aciklama:"<b>Osteoprogenitör hücreler</b>, kemiğin dış yüzeyini örten <b>periosteumun</b> iç (hücresel/kambiyum) tabakasında ve iç yüzeyleri döşeyen <b>endosteumda</b> yer alır. Osteoblast ve osteosite farklılaşırlar. Doğru yanıt I ve III."},
-
-{yil:"Deneme 2", soru:"Korpus luteumun canlılığını devam ettirebilmesi için gerekli hormon aşağıdakilerden hangisidir? <span class='lead'>Korpus luteum plasenta oluşuncaya kadar canlı kalır; östrojen ve progesteron salgılayarak gebeliğin devamlılığını sağlar.</span>",
- siklar:[{k:"A",t:"GnRH"},{k:"B",t:"FSH"},{k:"C",t:"LH"},{k:"D",t:"hPL"},{k:"E",t:"hCG"}],
- dogru:4,
- ipucu:"Soru kökü 'plasenta oluşuncaya kadar' diyor — yani gebelik bağlamı.",
- tuzak:"<b>LH</b> çeldiricidir: normal siklusta korpus luteumu LH ayakta tutar. Ancak soru <b>gebelik</b> bağlamındadır; gebelikte korpus luteumu kurtaran ve devam ettiren hormon <b>hCG</b>'dir.",
- aciklama:"Gebelikte sinsityotrofoblasttan salınan <b>hCG</b>, LH'ye benzer etkiyle <b>korpus luteumu kurtarır</b> ve progesteron/östrojen üretimini plasenta devralana dek (~ilk trimester) sürdürür. Bu 'luteal-plasental geçiş' tamamlanınca korpus luteum geriler."},
-
-/* ===== DENEME 3 ===== */
-{yil:"Deneme 3", soru:"PTH ile ilgili aşağıda verilen bilgilerden hangisi <mark>yanlıştır</mark>?",
- siklar:[{k:"A",t:"Paratiroid bezlerdeki esas hücrelerden sentezlenir."},{k:"B",t:"Kemiklerden kalsiyum serbestlenmesini sağlar."},{k:"C",t:"Karaciğerde 1 alfa hidroksilaz enzimini indükleyerek D vitamininin aktif forma dönmesini uyarır."},{k:"D",t:"Kanda kalsiyumu yükseltici, fosfatı düşürücü etki yapar."},{k:"E",t:"Böbrek proksimal tübülde fosfat, bikarbonat ve aminoasit geri emilimini azaltır."}],
- dogru:2,
- ipucu:"1α-hidroksilaz hangi organda? Karaciğer mi böbrek mi?",
- tuzak:"<b>1α-hidroksilaz böbrekte</b> (proksimal tübül) bulunur, karaciğerde değil. Karaciğer 25-hidroksilasyondan sorumludur. PTH bu enzimi <b>böbrekte</b> uyarır; şık 'karaciğerde' dediği için yanlıştır.",
- aciklama:"PTH; paratiroid <b>esas (chief) hücrelerinden</b> salınır, kemikten Ca²⁺ mobilize eder, kanda <b>Ca²⁺ yükseltir–fosfat düşürür</b> ve böbrek proksimal tübülde fosfat/bikarbonat geri emilimini azaltır. Ayrıca <b>böbrekte 1α-hidroksilazı</b> uyararak 25-OH-D₃'ü aktif <b>1,25-(OH)₂-D₃</b>'e çevirir. 'Karaciğerde' ifadesi hatalıdır."},
-
-{yil:"Deneme 3", soru:"I. A lifleri<br>II. B lifleri<br>III. C lifleri<br>Basınca duyarlılık açısından sinir lifleri <mark>çok duyarlıdan az duyarlıya</mark> doğru kıyaslandığında aşağıdakilerden hangisi doğrudur?",
- siklar:[{k:"A",t:"I > II > III"},{k:"B",t:"III > II > I"},{k:"C",t:"II > I > III"},{k:"D",t:"I > III > II"},{k:"E",t:"II > III > I"}],
- dogru:0,
- ipucu:"Basınç/kompresyon en çok kalın miyelinli lifleri bloke eder.",
- tuzak:"Blokaj sıralaması ajana göre değişir: <b>lokal anestezikte</b> C>B>A, <b>hipokside</b> B en duyarlı. Bu soru <b>basınç</b> içindir; karıştırılırsa yanlış sıraya gidilir.",
- aciklama:"<b>Basınca (kompresyona)</b> en duyarlı lifler kalın, miyelinli <b>A lifleridir</b>; onu B, en son ince C lifleri izler. Yani basınç duyarlılığı <b>A > B > C</b> (I > II > III). Karşılaştırma için: lokal anestezik ince C liflerini, hipoksi ise B liflerini önce etkiler."},
-
-{yil:"Deneme 3", soru:"Aşağıdaki hücrelerden hangisinin hem optik disk hem de fovea centraliste bulunması <mark>beklenmez</mark>?",
- siklar:[{k:"A",t:"Rod hücresi"},{k:"B",t:"Koni hücresi"},{k:"C",t:"Bipolar hücre"},{k:"D",t:"Gangliyon hücresi"},{k:"E",t:"Pigment epiteli hücresi"}],
- dogru:0,
- ipucu:"Fovea = yalnız koni; optik disk = kör nokta (fotoreseptör yok). İki yerde birden olmayan hücre hangisi?",
- tuzak:"<b>Koni</b> foveada yoğun bulunur (optik diskte yok), <b>bipolar/gangliyon</b> fovea çevresinde vardır. Ama <b>rod</b> hem foveada hem optik diskte <b>hiç yoktur</b> — aranan budur.",
- aciklama:"<b>Fovea centralis</b> yalnızca <b>koni</b> içerir, rod yoktur; <b>optik disk</b> ise fotoreseptör içermeyen kör noktadır (yalnız gangliyon aksonları geçer). Dolayısıyla <b>rod hücresi</b> her iki bölgede de <b>bulunmaz</b>; en yüksek koni yoğunluğu ise foveadadır."},
-
-{yil:"Deneme 3", soru:"I- Tip I pnömosit epiteli<br>II- Tip I pnömosit bazal laminası<br>III- Sürfaktan<br>IV- Kapiller endoteli<br>V- Kapiller endotel bazal laminası<br>Alveol lümeninden kapillere doğru hava-kan bariyerini oluşturan yapılar <mark>sırasıyla</mark> hangisinde verilmiştir?",
- siklar:[{k:"A",t:"I - II - III - IV - V"},{k:"B",t:"III - II - I - V - IV"},{k:"C",t:"III - I - II - V - IV"},{k:"D",t:"I - III - II - V - IV"},{k:"E",t:"III - I - II - IV - V"}],
- dogru:2,
- ipucu:"Havadan başla: en dışta sürfaktan; en içte (kana en yakın) endotel.",
- tuzak:"En sık hata bazal laminaların sırasını karıştırmaktır: içeri doğru önce <b>pnömosit bazal laminası</b>, sonra (çoğu yerde füzyona uğramış) <b>endotel bazal laminası</b>, en son <b>endotel</b> gelir.",
- aciklama:"Hava-kan bariyeri alveol lümeninden kana doğru: <b>Sürfaktan → Tip I pnömosit → pnömosit bazal laminası → kapiller endotel bazal laminası → kapiller endotel</b>. Yani <b>III - I - II - V - IV</b>. İnce kesimlerde iki bazal lamina genellikle kaynaşmıştır."},
-
-{yil:"Deneme 3", soru:"Aşağıdaki faringeal yapılardan hangisinin defektif gelişimi hastadaki kraniyofasyal gelişim bozukluğunun en temel nedenidir? <span class='lead'>3 yaşında kız çocuğu alt göz kapağında kolobom, deforme kulaklar ve zigomatik kemiklerde hipoplazik görünümle başvuruyor. Aşağı meyilli palpebral fissürler ve mikrognati de mevcut; Treacher-Collins sendromu tanısı konuluyor.</span>",
- siklar:[{k:"A",t:"1. faringeal ark"},{k:"B",t:"2. faringeal ark"},{k:"C",t:"1. faringeal cep"},{k:"D",t:"2. faringeal cep"},{k:"E",t:"3. ve 4. faringeal cep"}],
- dogru:0,
- ipucu:"Maksilla, mandibula, zigoma ve çiğneme kaslarının kökeni hangi arktır?",
- tuzak:"<b>Cep (poş)</b> seçenekleri çeldiricidir: cepler endodermal yapıları (timus, paratiroid, tonsil vb.) verir. Yüz iskeleti/mandibula ise <b>arktan</b> köken alır; Treacher-Collins bir <b>1. ark</b> hastalığıdır.",
- aciklama:"<b>Treacher-Collins sendromu (mandibulofasiyal dizostoz)</b>, <b>1. faringeal arkın</b> nöral krest kaynaklı gelişim kusurudur. Maksilla, mandibula, zigomatik kemik ve dış/orta kulak yapıları etkilenir; sonuçta malar hipoplazi, mikrognati, aşağı meyilli palpebral fissür, alt kapak kolobomu ve kulak anomalileri görülür."},
-
-/* ===== DENEME 4 ===== */
-{yil:"Deneme 4", soru:"Aşağıdakilerden hangisi tükürük salgısının <mark>sıvıdan zengin</mark> salınmasına neden olur?",
- siklar:[{k:"A",t:"cGMP"},{k:"B",t:"cAMP"},{k:"C",t:"Protein kinaz G"},{k:"D",t:"Protein kinaz A"},{k:"E",t:"Protein kinaz C"}],
- dogru:4,
- ipucu:"Sulu tükürük = parasempatik (M3 → Gq → Ca²⁺/DAG) yolu. Proteinden zengin = sempatik (cAMP).",
- tuzak:"<b>cAMP/PKA</b> (B, D) yolu sempatik uyarıyla <b>proteinden zengin, viskoz</b> tükürük yapar; sulu tükürük değil. Sulu (sıvıdan zengin) salgı <b>Gq → PLC → DAG/Ca²⁺ → PKC</b> yoluna aittir.",
- aciklama:"Parasempatik uyarı (ACh → <b>M3</b> → Gq → PLC → IP₃/Ca²⁺ ve DAG → <b>PKC</b>) asiner hücrelerden Cl⁻/su akışını artırarak <b>bol ve sulu</b> tükürük oluşturur. Sempatik (β → cAMP → PKA) yol ise az miktarda, <b>amilaz/proteinden zengin</b> viskoz tükürük sağlar. Seçenekler arasında sulu salgıyı temsil eden <b>PKC</b>'dir."},
-
-{yil:"Deneme 4", soru:"Ghrelin ile ilgili aşağıdakilerden hangisi <mark>yanlıştır</mark>?",
- siklar:[{k:"A",t:"Açlıkta plazma ghrelin düzeyi artar"},{k:"B",t:"Hipotalamik arkuat nükleustaki AGRP/NPY nöronlarını uyarır"},{k:"C",t:"Reseptörü GHSR1a, Gq kenetlidir"},{k:"D",t:"Adipoz dokudan salınır"},{k:"E",t:"Büyüme hormonu salgısını uyarır"}],
- dogru:3,
- ipucu:"Ghrelin hangi organdan salınır? Yağ dokusundan salınan iştah hormonu hangisidir?",
- tuzak:"<b>Leptin</b> yağ dokusundan salınır; ghrelin değil. Ghrelin ağırlıkla <b>mide fundusundaki</b> hücrelerden salgılanır. Şık D bunu yağ dokusuna atfettiği için yanlıştır.",
- aciklama:"<b>Ghrelin</b> ('açlık hormonu') başlıca <b>mide fundusundaki X/A benzeri (P/D1) hücrelerden</b> salınır; açlıkta artar, arkuat çekirdekteki <b>AgRP/NPY</b> (oreksijenik) nöronları uyararak iştahı artırır. Reseptörü <b>GHS-R1a (Gq kenetli)</b> olup güçlü bir <b>GH sekretagogudur</b>. Yağ dokusundan salınan iştah hormonu ise leptindir."},
-
-{yil:"Deneme 4", soru:"Damar düz kas hücresinde diğer kas hücrelerinden <mark>farklı olarak</mark> bulunan ara filament aşağıdakilerden hangisidir?",
- siklar:[{k:"A",t:"Desmin"},{k:"B",t:"Vimentin"},{k:"C",t:"Nestin"},{k:"D",t:"Sinemin"},{k:"E",t:"Sinkoilin"},{k:"F",t:"Paranemin"}],
- dogru:1,
- ipucu:"Tüm kas tiplerinde ortak olan ara filament hangisi? 'Farklı olan' onun dışındakidir.",
- tuzak:"<b>Desmin</b> çeldiricidir: iskelet, kalp ve visseral düz kas dahil tüm kaslarda bulunan ortak ara filamenttir. Sorunun aradığı, damar düz kasını ayıran filament <b>vimentindir</b>.",
- aciklama:"Kas hücrelerinin ortak ara filamenti <b>desmindir</b>. <b>Vasküler (damar) düz kas</b> hücresi ise ek olarak/baskın biçimde <b>vimentin</b> içerir; bu onu visseral düz kas ve diğer kas tiplerinden ayırır. Diğer seçenekler (nestin, sinemin, sinkoilin, paranemin) bu ayrımı sağlamaz."},
-
-{yil:"Deneme 4", soru:"İskelet kası hücresinde desminleri strese karşı koruyan <mark>ısı şok proteini</mark> aşağıdakilerden hangisidir?",
- siklar:[{k:"A",t:"Kristallin"},{k:"B",t:"Plektin"},{k:"C",t:"Titin"},{k:"D",t:"Ankirin"},{k:"E",t:"Nebulin"}],
- dogru:0,
- ipucu:"Küçük bir ısı şok proteini (sHSP) olan hangisi? Ara filamentleri agregasyondan korur.",
- tuzak:"<b>Plektin</b> ara filamentleri birbirine ve hücre iskeletine <b>çapraz bağlar</b>, ama bir ısı şok proteini değildir. Sorunun aradığı sHSP <b>αB-kristallindir</b>.",
- aciklama:"<b>αB-kristallin (HSPB5)</b> küçük bir ısı şok proteinidir; iskelet ve kalp kasında <b>desmin</b> ara filamentlerine bağlanarak stres altında yanlış katlanma ve agregasyonu önler, sitoiskeleti korur. Titin/nebulin sarkomerik iskelet, plektin çapraz bağlayıcı, ankirin ise membran bağlantı proteinidir."},
-
-{yil:"Deneme 4", soru:"Fertilizasyonu takiben oluşan zigotun endometriyuma <mark>implantasyonu</mark> hangi aşamada gerçekleşir?",
- siklar:[{k:"A",t:"Klivaj"},{k:"B",t:"Kompaksiyon"},{k:"C",t:"Morula"},{k:"D",t:"Blastokist"},{k:"E",t:"Gastrula"}],
- dogru:3,
- ipucu:"İç hücre kitlesi ve blastosöl boşluğu oluştuktan sonra tutunma başlar (~6-7. gün).",
- tuzak:"<b>Morula</b> çeldiricidir: morula henüz uterus lümenindedir ve zona pellucida ile örtülüdür; tutunma zona'dan çıkıp <b>blastokist</b> oluştuktan sonra gerçekleşir.",
- aciklama:"Döllenmeden sonra klivaj → kompaksiyon → morula → <b>blastokist</b> aşamaları izlenir. Blastokist zona pellucidadan çıkar (hatching) ve yaklaşık <b>6-7. günde</b> trofoblastıyla endometriyuma tutunarak <b>implantasyonu</b> başlatır. Gastrulasyon implantasyondan sonraki (3. hafta) bir olaydır."},
-
-/* ===== DENEME 5 ===== */
-{yil:"Deneme 5", soru:"I- Voltaj kapılı Ca kanallarından hücreye Ca girer<br>II- ATP duyarlı K kanalları kapanır<br>III- Glikoz GLUT-2 ile beta hücresine girer<br>IV- Hücrede ADP'den ATP sentezi artar<br>V- Hücre depolarize olur<br>Pankreas beta hücresinden kana insülin salınım mekanizması hangi seçenekte <mark>doğru sıralanmıştır</mark>?",
- siklar:[{k:"A",t:"I, II, III, IV, V"},{k:"B",t:"I, II, IV, V, III"},{k:"C",t:"III, IV, II, I, V"},{k:"D",t:"I, IV, III, V, II"},{k:"E",t:"III, IV, II, V, I"}],
- dogru:4,
- ipucu:"Her şey glikozun hücreye girip ATP üretmesiyle başlar; en son Ca girer.",
- tuzak:"Sık hata <b>depolarizasyon (V)</b> ile <b>Ca girişi (I)</b> sırasını ters yazmaktır: önce depolarizasyon olur, <b>sonra</b> voltaj kapılı Ca kanalları açılır.",
- aciklama:"Sıralama: <b>III</b> glikoz GLUT-2 ile girer → <b>IV</b> metabolizmayla ATP/ADP oranı artar → <b>II</b> ATP-duyarlı K⁺ kanalları kapanır → <b>V</b> membran depolarize olur → <b>I</b> voltaj kapılı Ca²⁺ kanalları açılıp Ca girer ve insülin ekzositozu tetiklenir. Yani <b>III-IV-II-V-I</b>."},
-
-{yil:"Deneme 5", soru:"Merkezi sinir sisteminde <mark>serotonin</mark> sentezinin en fazla olduğu nöronlar aşağıdakilerden hangisinde bulunur?",
- siklar:[{k:"A",t:"Substansiya nigra"},{k:"B",t:"Tüberomamiller nükleus"},{k:"C",t:"Raphe nükleusu"},{k:"D",t:"Lokus seruleus"},{k:"E",t:"Pineal bez"}],
- dogru:2,
- ipucu:"Beyin sapı orta hattındaki, seratonerjik projeksiyonların merkezi çekirdek.",
- tuzak:"<b>Pineal bez</b> çeldiricidir: seratoninden <b>melatonin</b> yapar, ancak MSS'nin asıl serotonerjik <b>nöron gövdeleri</b> raphe çekirdeklerindedir.",
- aciklama:"MSS'de <b>serotonin (5-HT)</b> üreten nöronlar beyin sapı orta hattındaki <b>raphe çekirdeklerinde</b> yoğunlaşır. Karşılaştırma: substansiya nigra → dopamin, lokus seruleus → noradrenalin, tüberomamiller çekirdek → histamin, pineal → melatonin."},
-
-{yil:"Deneme 5", soru:"Plazma Na dengesinin regülasyonunda rol oynayan <mark>aldosteronun</mark> renal etkisinde görev alan başlıca hücreler aşağıdakilerden hangileridir?",
- siklar:[{k:"A",t:"Proksimal tübül epitel hücresi"},{k:"B",t:"Jukstaglomerüler hücre"},{k:"C",t:"Makula densa hücreleri"},{k:"D",t:"Toplayıcı kanal esas hücreleri"},{k:"E",t:"Toplayıcı kanal interkale hücreleri"}],
- dogru:3,
- ipucu:"ENaC ve Na/K-ATPaz'ı olan, Na tutup K atan hücre hangisi?",
- tuzak:"<b>İnterkale hücreler</b> çeldiricidir: asit-baz ve K⁺ düzenlemesinde rol alır, ama aldosteronun asıl Na⁺ geri emilim etkisi <b>esas (principal) hücrelerdedir</b>.",
- aciklama:"<b>Aldosteron</b>, toplayıcı kanaldaki <b>esas (principal) hücrelerde</b> apikal <b>ENaC</b> ve bazolateral <b>Na⁺/K⁺-ATPaz</b> ekspresyonunu artırarak Na⁺ geri emilimini ve K⁺ sekresyonunu sağlar. Böylece plazma Na⁺ dengesini düzenler. İnterkale hücreler ise H⁺/HCO₃⁻ dengesinden sorumludur."},
-
-{yil:"Deneme 5", soru:"Aşağıda bahsedilen programlanmış apoptotik hücre ölümü aşağıdakilerden hangisidir? <span class='lead'>Bir hücrenin ekstraselüler matriksle bağlantısı kaybolunca hücrenin daha fazla büyümesi ve ECM'ye uygunsuz yeniden bağlanması engellenir; bu koşullarda hücre döngüsü durdurulur ve apoptoz başlatılır.</span>",
- siklar:[{k:"A",t:"Anoikis"},{k:"B",t:"Otofaji"},{k:"C",t:"Nekrozis"},{k:"D",t:"Entozis"},{k:"E",t:"Parapitozis"}],
- dogru:0,
- ipucu:"Yunanca 'evsizlik' — ECM tutunması kaybolunca tetiklenen apoptoz.",
- tuzak:"<b>Otofaji</b> çeldiricidir ama o bir yıkım/geri dönüşüm sürecidir. ECM bağlantısının kaybına özgü apoptoz türü <b>anoikistir</b>.",
- aciklama:"<b>Anoikis</b>, hücrenin <b>ekstraselüler matriks (ECM)</b> ile integrin aracılı bağlantısını yitirmesi sonucu tetiklenen apoptoz türüdür ('evsiz kalma'). Hücrelerin yanlış yere yerleşip çoğalmasını önler; anoikis direnci kanser <b>metastazında</b> önemli bir basamaktır."},
-
-{yil:"Deneme 5", soru:"Aşağıdaki vasküler yapılardan hangisi <mark>1. aortik arkustan</mark> farklılaşır?",
- siklar:[{k:"A",t:"A. Carotis communis"},{k:"B",t:"A. Carotis externa"},{k:"C",t:"A. Carotis interna"},{k:"D",t:"A. Stapedialis"},{k:"E",t:"Ductus arteriosus"}],
- dogru:1,
- ipucu:"1. ark → maksiller arter bölgesi. Diğer şıklar 2., 3. ve 6. ark türevleridir; elimine et.",
- tuzak:"Bu ayrım kaynağa göre değişebilir: bazı embriyoloji kaynakları eksternal karotisi <b>aortik keseden/3. arktan</b> türetir. Elenme mantığıyla — <b>komün/internal karotis 3.</b>, <b>stapedial 2.</b>, <b>duktus arteriozus 6.</b> ark olduğundan — 1. ark bölgesine (maksiller arter ilişkili) en uygun seçenek <b>eksternal karotistir</b>.",
- aciklama:"Aortik ark türevleri: <b>1. ark</b> → büyük ölçüde kaybolur, <b>maksiller arter</b> (ve dış karotis bölgesi) ile ilişkilidir; <b>2. ark</b> → stapedial/hyoid arter; <b>3. ark</b> → a. carotis communis ve internal karotisin proksimali; <b>4. ark</b> → sol arkus aorta / sağ subklavia; <b>6. ark</b> → pulmoner arterler ve <b>duktus arteriozus</b>. Verilen seçenekler içinde 1. arka bağlanan yapı <b>a. carotis externa</b> olarak işaretlenir."},
-
-/* ===== DENEME 6 ===== */
-{yil:"Deneme 6", soru:"Glikoza ilgisi (<mark>affinitesi</mark>) en yüksek olan taşıyıcı protein aşağıdakilerden hangisidir?",
- siklar:[{k:"A",t:"GLUT 1"},{k:"B",t:"GLUT 3"},{k:"C",t:"GLUT 4"},{k:"D",t:"GLUT 8"},{k:"E",t:"GLUT 12"}],
- dogru:1,
- ipucu:"En düşük Km = en yüksek affinite. Düşük glikozda bile taşıyabilen nöron taşıyıcısı hangisi?",
- tuzak:"<b>GLUT-2</b> (düşük affinite, yüksek Km — mide/karaciğer/β-hücre) çeldiricidir ama şıklarda yok; <b>GLUT-4</b> (kas/yağ) ise insüline duyarlıdır, en yüksek affiniteli değildir.",
- aciklama:"Glikoza <b>en yüksek affiniteye (en düşük Km, ~1 mM)</b> sahip taşıyıcı <b>GLUT-3'tür</b> ve başlıca <b>nöronlarda</b> bulunur; bu sayede düşük glikoz düzeylerinde bile beyin glikoz alımı garanti edilir. GLUT-1 de yüksek affinitelidir (eritrosit/BBB), GLUT-2 ise düşük affinitelidir."},
-
-{yil:"Deneme 6", soru:"Aşağıdaki organlara ait vasküler yapıların hangisinde <mark>hipoksiye bağlı vazokonstriksiyon</mark> gelişir?",
- siklar:[{k:"A",t:"Deri"},{k:"B",t:"Beyin"},{k:"C",t:"Koroner arter"},{k:"D",t:"Akciğer"},{k:"E",t:"Tiroid"}],
- dogru:3,
- ipucu:"Sistemik dokularda hipoksi vazodilatasyon yapar; hangi organ bunun tersini yapar?",
- tuzak:"Sistemik damarlar (deri, beyin, koroner, tiroid) hipokside <b>vazodilate</b> olur (daha çok kan çekmek için). Yalnız <b>akciğer</b> tersini yapar.",
- aciklama:"<b>Hipoksik pulmoner vazokonstriksiyon</b>: alveolar hipoksi olan akciğer bölgelerinde damarlar kasılarak kanı iyi havalanan alanlara yönlendirir; böylece ventilasyon-perfüzyon eşleşmesi korunur. Sistemik dolaşımda ise hipoksi genel olarak <b>vazodilatasyona</b> yol açar."},
-
-{yil:"Deneme 6", soru:"Hematoksilen &amp; eozin ile boyanmış mikroskopik görüntü (<mark>multiloküler, santral çekirdekli, zengin kapiller</mark>) hangi dokuya aittir?",
- siklar:[{k:"A",t:"Kıkırdak doku"},{k:"B",t:"Epitel doku"},{k:"C",t:"Kahverengi yağ doku"},{k:"D",t:"Beyaz yağ doku"},{k:"E",t:"Tiroid bezi"}],
- dogru:2,
- ipucu:"Çok sayıda küçük lipid damlacığı + santral çekirdek + bol mitokondri/kapiller.",
- tuzak:"<b>Beyaz yağ doku</b> çeldiricidir: onun adiposit­leri <b>tek büyük</b> lipid damlası (uniloküler) ve <b>periferik yassı çekirdek</b> ('taşlı yüzük') gösterir. Multiloküler + santral çekirdek ise kahverengi yağa özgüdür.",
- aciklama:"<b>Kahverengi yağ dokusu</b>; <b>multiloküler</b> (çok sayıda küçük lipid damlacığı) sitoplazma, <b>santral çekirdek</b>, bol <b>mitokondri</b> (UCP-1/termogenin) ve zengin kapiller ağ ile tanınır. Isı üretiminden (nonshivering termogenez) sorumludur. Beyaz yağdan uniloküler yapı ve santral çekirdekle ayrılır."},
-
-{yil:"Deneme 6", soru:"Golgi aygıtı için aşağıdakilerden hangisi <mark>yanlıştır</mark>?",
- siklar:[{k:"A",t:"Rutin histolojik boyama yöntemleriyle boyanmaz"},{k:"B",t:"Posttranslasyonel modifikasyonda görev alır"},{k:"C",t:"Golgiden endoplazmik retikuluma vezikül transportu COP-2 ile sağlanır"},{k:"D",t:"SNARE proteinlerini içerir"},{k:"E",t:"Goblet hücresinde bol bulunur"}],
- dogru:2,
- ipucu:"Geriye (Golgi → ER) taşıma hangi kot proteiniyle? COP-I mi COP-II mi?",
- tuzak:"Yön karıştırması klasik tuzaktır: <b>COP-II</b> ileri yön (ER → Golgi), <b>COP-I</b> geri yön (Golgi → ER) taşımasını yapar. Şık 'Golgi'den ER'ye COP-II' dediği için yanlıştır; doğrusu <b>COP-I</b>'dir.",
- aciklama:"Golgi; rutin H&amp;E ile boyanmaz (negatif görüntü verir), <b>posttranslasyonel modifikasyon</b> (glikozilasyon vb.) ve vezikül trafiğinde SNARE proteinleriyle iş görür, mukus üreten <b>goblet hücrelerinde</b> belirgindir. Vezikül kotları: <b>ER→Golgi = COP-II</b>, <b>Golgi→ER (retrograd) = COP-I</b>, membran→endozom = klatrin."},
-
-{yil:"Deneme 6", soru:"<mark>İris kaslarının</mark> kökeni aşağıdakilerden hangisidir?",
- siklar:[{k:"A",t:"Paraksiyal mezoderm"},{k:"B",t:"Ara mezoderm"},{k:"C",t:"Somatik mezoderm"},{k:"D",t:"Splanknik mezoderm"},{k:"E",t:"Nöroektoderm"}],
- dogru:4,
- ipucu:"Kaslar genelde mezodermden gelir; iris kasları klasik bir istisnadır.",
- tuzak:"Tüm şıklardaki mezoderm türleri çeldiricidir: kasların çoğu mezodermaldir, ancak iris kasları bu kuralın <b>istisnasıdır</b>.",
- aciklama:"<b>İris sfinkter ve dilatör pupilla kasları</b>, optik kupanın dış tabakasından, yani <b>nöroektodermden</b> köken alır. Bu, düz kasların ve genel kas dokusunun mezodermal kökeninden ayrılan önemli bir istisnadır (aynı şekilde retina ve optik sinir de nöroektodermaldir)."},
-
-/* ===== DENEME 7 ===== */
-{yil:"Deneme 7", soru:"Hücre içinden tomurcuklanarak ayrılan bir vezikülün membrandan <mark>ayrılmasında</mark> (fisyon) görev alan protein aşağıdakilerden hangisidir?",
- siklar:[{k:"A",t:"Klatrin"},{k:"B",t:"Dinamin"},{k:"C",t:"Endozomal ayırma kompleksi"},{k:"D",t:"Adaptin"},{k:"E",t:"Kaveolin"}],
- dogru:1,
- ipucu:"GTPaz olan, vezikül boynunu 'kıstırıp' koparan protein hangisi?",
- tuzak:"<b>Klatrin</b> ve <b>adaptin</b> kılıf/kargo seçiminde görev alır ama koparma işini yapmaz; koparan GTPaz <b>dinamindir</b>.",
- aciklama:"<b>Dinamin</b>, bir GTPaz olarak tomurcuklanan vezikülün boynunu sararak GTP hidrolizi ile <b>fisyonu (membrandan ayrılmayı)</b> gerçekleştirir. Klatrin kılıfı oluşturur, adaptin (AP kompleksi) klatrini kargoya bağlar, kaveolin kaveola yapımında, ESCRT ise sitoplazmadan uzağa (MVB, viral) tomurcuklanmada rol alır."},
-
-{yil:"Deneme 7", soru:"<mark>Resirkülasyonun</mark> en fazla görüldüğü lenfatik organ aşağıdakilerden hangisidir? <span class='lead'>Lenfositler özel damarlarla kandan ayrılır ve tekrar lenfatik organa geri dönerler; buna resirkülasyon denir.</span>",
- siklar:[{k:"A",t:"Lenf nodu"},{k:"B",t:"Dalak"},{k:"C",t:"Timus"},{k:"D",t:"Tonsilla"},{k:"E",t:"Appendiks"}],
- dogru:0,
- ipucu:"HEV (yüksek endotelli venül) hangi organın karakteristiğidir?",
- tuzak:"<b>Dalak</b> çeldiricidir: dalakta da lenfosit geçişi olur, ama açık dolaşım üzerindendir ve <b>HEV içermez</b>. Klasik HEV aracılı resirkülasyon organı <b>lenf nodudur</b>.",
- aciklama:"Lenfosit <b>resirkülasyonu</b>, kandaki lenfositlerin <b>yüksek endotelli venüller (HEV)</b> aracılığıyla lenfoid dokuya girip lenfle tekrar dolaşıma dönmesidir. Bu geçiş en belirgin şekilde <b>lenf nodlarında</b> (ve Peyer plaklarında) olur; timus resirkülasyona kapalıdır."},
-
-{yil:"Deneme 7", soru:"Aşağıdaki transkripsiyon faktörlerinden hangisinin ekspresyonu <mark>nöral tüp gelişimini indüklemez</mark>?",
- siklar:[{k:"A",t:"BMP-4"},{k:"B",t:"FGF"},{k:"C",t:"Folistatin"},{k:"D",t:"Noggin"},{k:"E",t:"Chordin"}],
- dogru:0,
- ipucu:"Nöral indüksiyon = BMP baskılanması. BMP'nin kendisi ne yapar?",
- tuzak:"<b>Noggin, chordin, folistatin</b> BMP <b>antagonistidir</b> → nöral indüksiyonu destekler; FGF de nöral yönlenmeyi teşvik eder. <b>BMP-4</b> ise tam tersini yapar.",
- aciklama:"Nöral indüksiyonun temeli <b>BMP sinyalinin baskılanmasıdır</b>. Organizatörden salınan <b>Noggin, Chordin ve Folistatin</b> BMP'yi bloke ederek ektodermi nöral plağa yönlendirir; <b>FGF</b> de bunu destekler. <b>BMP-4</b> ise ektodermi <b>epidermise</b> yönlendirip nöral gelişimi baskıladığı için indüklemez."},
-
-{yil:"Deneme 7", soru:"Kasılmış düz kasta <mark>gevşemenin başlaması</mark> için aşağıdakilerden hangisi meydana gelir?",
- siklar:[{k:"A",t:"Miyozin hafif zincir kinaz defosforilasyonu"},{k:"B",t:"Miyozin hafif zincirinin fosforilasyonu"},{k:"C",t:"Miyozin hafif zincir fosfataz defosforilasyonu"},{k:"D",t:"Miyozin hafif zincir fosfataz fosforilasyonu"},{k:"E",t:"Kalsiyum-kalmodulin kompleksi oluşumu"}],
- dogru:2,
- ipucu:"Gevşeme için fosfataz (MLCP) aktif olmalı. MLCP hangi durumda aktiftir?",
- tuzak:"Şık D (<b>MLCP fosforilasyonu</b>) tam tersini yapar: fosforile MLCP <b>inaktiftir</b> → kasılmayı sürdürür (Rho-kinaz / Ca²⁺ duyarlılaştırma). Şık B (MLC fosforilasyonu) ve E (Ca-kalmodulin) ise kasılmayı başlatır.",
- aciklama:"Düz kas gevşemesi, miyozin hafif zincirinin <b>defosforilasyonu</b> ile olur ve bunu <b>miyozin hafif zincir fosfatazı (MLCP)</b> yapar. MLCP <b>defosforile</b> olduğunda aktiftir; Rho-kinaz onu fosforile ederse inhibe olur ve kasılma sürer. Dolayısıyla gevşemeyi başlatan olay <b>MLCP'nin defosforilasyonudur</b>."},
-
-{yil:"Deneme 7", soru:"<mark>Poiseuille yasasına</mark> göre kan akım hızı için hangisi <mark>yanlıştır</mark>?",
- siklar:[{k:"A",t:"Viskosite artışı kan akım hızını azaltır"},{k:"B",t:"Basınç farkı arttıkça kan akım hızı artar"},{k:"C",t:"Damar çapı genişledikçe kan akım hızı artar"},{k:"D",t:"Hematokrit arttıkça kan akım hızı azalır"},{k:"E",t:"Damar uzunluğu arttıkça kan akım hızı artar"}],
- dogru:4,
- ipucu:"Q = (π·ΔP·r⁴)/(8·η·L). Uzunluk (L) paydada; artınca akım ne olur?",
- tuzak:"Uzunluk (L) formülde <b>paydadadır</b>; yani L artınca akım <b>azalır</b>. Şık E 'artar' dediği için yanlıştır. Çap ise <b>4. kuvvet</b> olarak akımı belirleyen en güçlü etkendir.",
- aciklama:"Poiseuille: <b>Q = (π·ΔP·r⁴)/(8·η·L)</b>. Akım; basınç farkı (ΔP) ve yarıçapın 4. kuvveti (r⁴) ile <b>doğru</b>, viskozite (η) ve <b>damar uzunluğu (L)</b> ile <b>ters</b> orantılıdır. Hematokrit artışı viskoziteyi artırarak akımı azaltır. Uzunluk artışı akımı azalttığından şık E hatalıdır."},
-
-/* ===== DENEME 8 ===== */
-{yil:"Deneme 8", soru:"I. PCO₂<br>II. pH<br>III. Sıcaklık<br>IV. 2,3-difosfogliserat<br>Yukarıdakilerden hangilerinin kanda <mark>artışı</mark> oksijen-hemoglobin disosiyasyon eğrisini <mark>sağa</mark> kaydırır?",
- siklar:[{k:"A",t:"Yalnız II"},{k:"B",t:"II ve III"},{k:"C",t:"I, III ve IV"},{k:"D",t:"I, III ve IV"},{k:"E",t:"I, II, III ve IV"}],
- dogru:2,
- ipucu:"pH'nin ARTIŞI (alkaloz) eğriyi hangi yöne kaydırır?",
- tuzak:"Dikkat: soru pH <b>artışını</b> soruyor; <b>pH artışı (alkaloz) eğriyi SOLA</b> kaydırır, sağa değil. Bu yüzden II dışlanır. Ayrıca basılı şıklarda <b>C ve D birebir aynı</b> ('I, III ve IV') — bir <b>dizgi hatası</b>; doğru kombinasyon I, III, IV'tür.",
- aciklama:"Eğriyi <b>sağa</b> (O₂ affinitesi↓, dokuya O₂ bırakma↑) kaydıran faktörler: <b>↑PCO₂, ↓pH (asidoz), ↑sıcaklık, ↑2,3-DPG</b> (Bohr etkisi). Burada I (↑PCO₂), III (↑sıcaklık), IV (↑2,3-DPG) sağa kaydırır; II ise <b>pH artışı</b> olduğundan (alkaloz) sola kaydırır ve dışlanır."},
-
-{yil:"Deneme 8", soru:"Kohleada işitilen sesin frekansına göre <mark>ayrıştırılması</mark>, aşağıdaki yapılardan hangisinin mekanik titreşim özellikleri sayesinde gerçekleşir?",
- siklar:[{k:"A",t:"Timpanik membran"},{k:"B",t:"Reissner membranı"},{k:"C",t:"Baziller membran"},{k:"D",t:"Tektoryal membran"},{k:"E",t:"Helikotrema"}],
- dogru:2,
- ipucu:"Tabanı dar/sert (yüksek frekans), tepesi geniş/gevşek (düşük frekans) olan yapı hangisi?",
- tuzak:"<b>Tektoryal membran</b> tüy hücrelerinin stereosilyalarının büküldüğü yapıdır ama frekans ayrımını yapan mekanik özellik <b>baziller membrana</b> aittir.",
- aciklama:"Frekans ayrımı (<b>tonotopi</b>), <b>baziller membranın</b> boyunca değişen genişlik ve sertliği ile sağlanır: <b>taban</b> (koklea girişi) dar ve sert olup <b>yüksek frekanslara</b>, <b>apeks</b> geniş ve gevşek olup <b>düşük frekanslara</b> rezonans verir. Her frekans membranın belirli bir bölgesini maksimum titreştirir."},
-
-{yil:"Deneme 8", soru:"Aşağıdakilerden hangisinin yapısında <mark>elastik kıkırdak bulunmaz</mark>?",
- siklar:[{k:"A",t:"Plika vokalis"},{k:"B",t:"Kuneiform kıkırdak"},{k:"C",t:"Kornikulat kıkırdak"},{k:"D",t:"Epiglottis"},{k:"E",t:"Krikoid kıkırdak"}],
- dogru:4,
- ipucu:"Larinks kıkırdaklarından hangisi HİYALİN kıkırdaktır?",
- tuzak:"<b>Plika vokalis</b> çeldiricidir: vokal ligament <b>elastik lif</b> içerir ama bu elastik <b>kıkırdak</b> değildir. Temiz yanıt, hiyalin bir larinks kıkırdağı olan <b>krikoiddir</b>.",
- aciklama:"Larinkste <b>elastik kıkırdak</b>: epiglottis, kuneiform, kornikulat kıkırdaklar ve aritenoidin apeksi/vokal çıkıntısı. <b>Hiyalin kıkırdak</b>: tiroid, <b>krikoid</b> ve aritenoidin çoğu. Dolayısıyla <b>krikoid kıkırdak</b> elastik kıkırdak içermez (hiyalindir)."},
-
-{yil:"Deneme 8", soru:"<mark>Bowman kapsülünün visseral yaprağını</mark> oluşturan epitel hücresi aşağıdakilerden hangisidir?",
- siklar:[{k:"A",t:"Podosin"},{k:"B",t:"Pedisel"},{k:"C",t:"Podosit"},{k:"D",t:"Pitüisit"},{k:"E",t:"Perisit"}],
- dogru:2,
- ipucu:"Ayaksı çıkıntılarıyla glomerül kapillerini saran hücre.",
- tuzak:"<b>Pedisel</b> ve <b>podosin</b> çeldiricidir: pedisel bu hücrenin <b>ayaksı çıkıntısıdır</b>, podosin ise yarık diyaframdaki bir <b>proteindir</b> — ikisi de hücrenin kendisi değildir.",
- aciklama:"Bowman kapsülünün <b>visseral yaprağı</b>, glomerül kapillerlerini saran <b>podositlerden</b> oluşur. Podositlerin birincil ve ikincil ayaksı çıkıntıları (<b>pedisel</b>) arasında filtrasyon yarıkları ve <b>yarık diyaframı</b> (nefrin, <b>podosin</b>) bulunur. Pitüisit nörohipofizde, perisit ise kapiller çevresinde yer alır."},
-
-{yil:"Deneme 8", soru:"<mark>Gastrulasyon</mark> sürecinde aşağıdaki olaylardan hangisi <mark>ilk olarak</mark> gerçekleşir?",
- siklar:[{k:"A",t:"Mezodermin notokordal süreç boyunca farklılaşması"},{k:"B",t:"Primitif çizginin oluşumu"},{k:"C",t:"Nöral tüpün kapanması"},{k:"D",t:"Somitlerin segmentasyonu"},{k:"E",t:"İntraembriyonik mezodermin lateral plaklara ayrılması"}],
- dogru:1,
- ipucu:"Gastrulasyonun ilk morfolojik işareti nedir?",
- tuzak:"<b>Nöral tüp kapanması</b> ve <b>somit segmentasyonu</b> nörülasyon/sonraki dönem olaylarıdır; gastrulasyonun kendisinden sonradır. İlk olan <b>primitif çizgidir</b>.",
- aciklama:"<b>Gastrulasyon</b>, 3. haftada epiblastta <b>primitif çizginin oluşmasıyla</b> başlar; bu, gastrulasyonun ilk morfolojik belirtisidir. Ardından hücreler primitif çizgiden göç ederek üç germ yaprağını (endoderm, mezoderm, ektoderm) ve notokordu oluşturur. Nöral tüp ve somitler bunu izleyen aşamalardır."},
-
-/* ===== DENEME 9 ===== */
-{yil:"Deneme 9", soru:"Ağrının ovalamayla azalması hakkında aşağıdakilerden hangisi <mark>yanlıştır</mark>? <span class='lead'>Parmağına çekiçle vuran bir boyacı, parmağını ovalayarak ağrısını hafifletiyor.</span>",
- siklar:[{k:"A",t:"Omurilik dorsal boynuzda ağrı iletimi engellenir"},{k:"B",t:"Ovalama esnasında A delta lifleri uyarılır"},{k:"C",t:"Ağrının iletiminde presinaptik inhibisyon oluşur"},{k:"D",t:"Ağrı regülasyonunda bu olaya kapı kontrol teorisi denir"},{k:"E",t:"İnhibitör ara nöronlardan GABA salgılanır"}],
- dogru:1,
- ipucu:"Ovalama/dokunma hangi lifleri uyarır? Aβ mı Aδ mı?",
- tuzak:"Ovalama <b>dokunma</b> uyarısıdır ve kalın miyelinli <b>Aβ (A-beta)</b> mekanoreseptör liflerini uyarır. <b>Aδ</b> ise <b>hızlı/keskin ağrı</b> taşır. Şık B, ovalamayı Aδ'ya bağladığı için yanlıştır.",
- aciklama:"<b>Kapı kontrol teorisi</b>: ovalama ile uyarılan kalın <b>Aβ</b> lifleri, omurilik <b>dorsal boynuzunda</b> inhibitör ara nöronları aktive eder; bu nöronlar <b>GABA/glisin</b> salarak ağrı liflerinde (Aδ/C) <b>presinaptik inhibisyon</b> yapar ve ağrı iletimini 'kapatır'. Uyarılan lif Aδ değil, <b>Aβ</b>'dir."},
-
-{yil:"Deneme 9", soru:"Aşağıdakilerden hangisi <mark>hipoksik hipoksiye</mark> neden olmaz?",
- siklar:[{k:"A",t:"Pnömotoraks"},{k:"B",t:"Solunum kaslarının felci"},{k:"C",t:"Akciğer fibrozisi"},{k:"D",t:"Şok"},{k:"E",t:"Bronş obstrüksiyonu"}],
- dogru:3,
- ipucu:"Hipoksik hipoksi = düşük arteriyel PO₂. Şokta arteriyel PO₂ genelde normaldir.",
- tuzak:"<b>Şok</b>, kan akımının azaldığı <b>dolaşımsal (stagnant) hipoksidir</b>; arteriyel PO₂ genellikle normaldir. Bu yüzden hipoksik hipoksi yapmaz.",
- aciklama:"<b>Hipoksik hipoksi</b>, kanın akciğerde yeterince oksijenlenememesiyle (arteriyel PO₂↓) oluşur: pnömotoraks, solunum kası felci (hipoventilasyon), akciğer fibrozisi, bronş obstrüksiyonu bunu yapar. <b>Şok</b> ise perfüzyonun azaldığı <b>dolaşımsal hipoksidir</b>, hipoksik hipoksi kategorisine girmez."},
-
-{yil:"Deneme 9", soru:"Blastula döneminde, blastokist içinde <mark>embriyoyu geliştirecek</mark> kitle aşağıdakilerden hangisidir?",
- siklar:[{k:"A",t:"Amnioblast"},{k:"B",t:"Sitotrofoblast"},{k:"C",t:"Sinsityotrofoblast"},{k:"D",t:"Embriyoblast"},{k:"E",t:"Blastomer"}],
- dogru:3,
- ipucu:"İç hücre kitlesinin diğer adı nedir?",
- tuzak:"<b>Trofoblast</b> türevleri (sito-/sinsityotrofoblast) çeldiricidir: bunlar embriyoyu değil <b>plasenta/zarları</b> oluşturur. Embriyonun kendisi <b>iç hücre kitlesinden (embriyoblast)</b> gelişir.",
- aciklama:"Blastokistte iki hücre topluluğu vardır: dışta <b>trofoblast</b> (plasenta ve fetal zarları yapar) ve içte <b>embriyoblast (iç hücre kitlesi)</b>. <b>Embriyoblast</b> epiblast ve hipoblasta ayrılarak asıl <b>embriyoyu</b> oluşturur. Blastomer ise klivaj bölünmesindeki erken hücrelerin genel adıdır."},
-
-{yil:"Deneme 9", soru:"I- Somatotrop hücre<br>II- Mamotrop hücre<br>III- Kortikotrop hücre<br>Hipofiz ön lobunda bulunan yukarıdaki hücre tiplerinden hangisi <mark>asidofilik</mark> boyanır?",
- siklar:[{k:"A",t:"Yalnız I"},{k:"B",t:"I ve II"},{k:"C",t:"II ve III"},{k:"D",t:"I, II ve III"},{k:"E",t:"Yalnız III"}],
- dogru:1,
- ipucu:"GH ve prolaktin üreten hücreler asidofil; ACTH/TSH/gonadotrop üretenler bazofildir.",
- tuzak:"<b>Kortikotrop</b> çeldiricidir: ACTH üretir ve <b>bazofilik</b> boyanır, asidofilik değil. Asidofiller yalnız somatotrop ve mamotroptur.",
- aciklama:"Ön hipofizde <b>asidofil</b> hücreler: <b>somatotrop</b> (GH) ve <b>mamotrop/laktotrop</b> (prolaktin). <b>Bazofil</b> hücreler: <b>kortikotrop</b> (ACTH), <b>tirotrop</b> (TSH) ve <b>gonadotrop</b> (FSH/LH). Dolayısıyla asidofilik boyanan I ve II'dir."},
-
-{yil:"Deneme 9", soru:"<mark>Kan-timus bariyerinin en dışında</mark> (timus korteksi tarafında) yer alan yapısal bileşen aşağıdakilerden hangisidir?",
- siklar:[{k:"A",t:"Perivasküler bağ doku"},{k:"B",t:"Epitelyoretiküler hücre"},{k:"C",t:"Kapiller endoteli"},{k:"D",t:"Kapiller endotel bazal laminası"},{k:"E",t:"Epitelyoretiküler hücre bazal laminası"}],
- dogru:1,
- ipucu:"Kandan korteks parankimine doğru sırala; en dıştaki (kana en uzak) hangisi?",
- tuzak:"<b>Kapiller endoteli</b> bariyerin <b>en içidir</b> (kan tarafı), en dışı değil. En dış (korteks tarafı) tabaka <b>epitelyoretiküler hücredir</b>; onun bazal laminası bir katman içeridedir.",
- aciklama:"Kan-timus bariyeri kandan timus korteksine doğru: <b>kapiller endoteli → endotel bazal laminası → perivasküler aralık (makrofajlar) → epitelyoretiküler hücre bazal laminası → epitelyoretiküler hücre</b>. Dolayısıyla <b>en dıştaki</b> yapısal bileşen <b>Tip I epitelyoretiküler hücredir</b>."},
-
-/* ===== DENEME 10 ===== */
-{yil:"Deneme 10", soru:"Sinir-kas kavşağında presinaptik membrana tutunmuş asetilkolin vezikülünü <mark>ATPaz aktivitesiyle</mark> membrandan ayıran protein aşağıdakilerden hangisidir?",
- siklar:[{k:"A",t:"Sinaptotagmin"},{k:"B",t:"Sinaptobrevin"},{k:"C",t:"Sintaksin"},{k:"D",t:"SNAP 25"},{k:"E",t:"NSF"}],
- dogru:4,
- ipucu:"SNARE kompleksini ATP harcayarak ayıran/söken protein hangisi?",
- tuzak:"Diğer dört seçenek (sinaptotagmin, sinaptobrevin, sintaksin, SNAP-25) dokinge/füzyona aracılık eder ama <b>ATPaz aktivitesi yoktur</b>. Soru 'ATPaz ile ayıran' dediği için yanıt <b>NSF</b>'dir.",
- aciklama:"<b>NSF (N-etilmaleimid duyarlı faktör)</b>, α-SNAP ile birlikte <b>ATP hidrolizini</b> kullanarak füzyondan sonra <b>SNARE kompleksini söker</b> (disassemble), böylece SNARE proteinlerini yeniden kullanılabilir hale getirir. v-SNARE (sinaptobrevin) ve t-SNARE (sintaksin, SNAP-25) ile sinaptotagmin (Ca²⁺ sensörü) füzyonu sağlar; ATPaz olan tek protein NSF'dir."},
-
-{yil:"Deneme 10", soru:"Aşağıdaki pıhtılaşma faktörlerinden hangisinin eksikliğinde parsiyel tromboplastin zamanı (<mark>aPTT normal</mark>) sınırlarda kalır?",
- siklar:[{k:"A",t:"Faktör X"},{k:"B",t:"Faktör IX"},{k:"C",t:"Faktör VIII"},{k:"D",t:"Faktör VII"},{k:"E",t:"Faktör II"}],
- dogru:3,
- ipucu:"Yalnız ekstrinsik yola özgü, intrinsik/ortak yolda yer almayan faktör hangisi?",
- tuzak:"<b>Faktör X ve II</b> (ortak yol) ile <b>VIII, IX</b> (intrinsik yol) eksikliğinde aPTT <b>uzar</b>. Yalnız <b>Faktör VII</b> (ekstrinsik) eksikliğinde aPTT normal kalır; onun yerine <b>PT uzar</b>.",
- aciklama:"<b>aPTT</b> intrinsik + ortak yolu (XII, XI, IX, VIII, X, V, II, I), <b>PT</b> ise ekstrinsik + ortak yolu (VII, X, V, II, I) ölçer. <b>Faktör VII</b> sadece ekstrinsik yolda yer aldığından eksikliğinde <b>PT uzar, aPTT normal</b> kalır. Ortak yol (X, II) veya intrinsik yol (VIII, IX) faktörlerinde aPTT etkilenir."},
-
-{yil:"Deneme 10", soru:"Sağ atriumun düz bölümü (<mark>sinus venarum</mark>), kalp borusunun hangi bölümünden gelişir?",
- siklar:[{k:"A",t:"Sol sinüs boynuzu"},{k:"B",t:"Primitif sağ atrium"},{k:"C",t:"Sağ sinüs boynuzu"},{k:"D",t:"Primitif pulmoner ven"},{k:"E",t:"Truncus arteriosus distali"}],
- dogru:2,
- ipucu:"Sinus venosus'un sağ boynuzu sağ atriuma nasıl katılır?",
- tuzak:"<b>Primitif sağ atrium</b> çeldiricidir: o, atriumun <b>trabeküllü (pektinat)</b> kısmını oluşturur. Düz duvarlı sinus venarum ise <b>sağ sinüs boynuzundan</b> gelir. <b>Sol</b> sinüs boynuzu ise koroner sinüs olur.",
- aciklama:"Sağ atriumun düz duvarlı <b>sinus venarum</b> bölümü, sinus venosus'un <b>sağ boynuzunun</b> atriuma katılmasıyla oluşur. Trabeküllü (pektinat kaslı) ön kısım primitif sağ atriumdan gelişir; ikisi <b>crista terminalis</b> ile ayrılır. Sol sinüs boynuzu → koroner sinüs + oblik ven."},
-
-{yil:"Deneme 10", soru:"Kronik anosmi nedeniyle nazal mukozadan biyopsi alınan hastada psödostratifiye epitel içinde bipolar nöronlar izleniyor. Bu bölgenin lamina propriasında yer alan ve salgılarıyla <mark>odoran maddelerin çözünmesini</mark> sağlayan bezler aşağıdakilerden hangisidir?",
- siklar:[{k:"A",t:"Meibomian bezleri"},{k:"B",t:"Von Ebner bezleri"},{k:"C",t:"Bowman bezleri"},{k:"D",t:"Zeis bezleri"},{k:"E",t:"Littre bezleri"}],
- dogru:2,
- ipucu:"Olfaktör epitelin altındaki seröz bezler; koku moleküllerini çözer.",
- tuzak:"<b>Von Ebner bezleri</b> güçlü çeldiricidir: aynı işlevi (madde çözme) yapar ama <b>tat</b> için (dil sirkumvallat papilla). Koku için olan bezler <b>Bowman bezleridir</b>.",
- aciklama:"Tarif edilen doku <b>olfaktör epiteldir</b> (bipolar koku nöronları). Lamina propriasındaki <b>Bowman (olfaktör) bezleri</b> seröz salgılarıyla <b>odoranları çözerek</b> reseptörlerle etkileşimini sağlar ve mukus tabakasını yeniler. Von Ebner tatta, Meibomian/Zeis göz kapağında, Littre üretrada bulunur."},
-
-{yil:"Deneme 10", soru:"Tükürüğün <mark>hipotonik</mark> salgılanmasından asıl sorumlu olan yapı aşağıdakilerden hangisidir?",
- siklar:[{k:"A",t:"Çizgili duktuslar"},{k:"B",t:"İnterkale duktuslar"},{k:"C",t:"Asiner hücreler"},{k:"D",t:"İnterlobular duktuslar"},{k:"E",t:"İnterlobar duktuslar"}],
- dogru:0,
- ipucu:"NaCl geri emen ama suya geçirgen olmayan duktus hangisi?",
- tuzak:"<b>Asiner hücreler</b> çeldiricidir: onlar <b>izotonik</b> primer tükürüğü üretir; hipotoniyi yaratan asıl yapı değildir. İnterkale duktuslar ise HCO₃⁻ ekler.",
- aciklama:"Asiner hücreler <b>izotonik</b> primer salgı yapar. <b>Çizgili (striated) duktuslar</b> Na⁺ ve Cl⁻'yi geri emer (K⁺/HCO₃⁻ salgılar) ama <b>suya geçirgen olmadığından</b> lümen sıvısı sulanmadan tuzdan fakirleşir; sonuçta tükürük <b>hipotonik</b> hale gelir. Bazolateral kıvrımlar ve bol mitokondri ('çizgili' görünüm) bu aktif transporta hizmet eder."},
-
-/* ===== DENEME 11 ===== */
-{yil:"Deneme 11", soru:"Karın bölgesine radyoterapi uygulanan hastanın ince bağırsak mukozasında yaygın epitelyal dökülme ve mikrovillus hasarı gelişiyor. Bu hastada aşağıdaki <mark>peptidazlardan</mark> hangisinde belirgin eksiklik en olasıdır?",
- siklar:[{k:"A",t:"Tripsinojen"},{k:"B",t:"Kimotripsinojen"},{k:"C",t:"Aminopeptidaz"},{k:"D",t:"Elastaz"},{k:"E",t:"Prokarboksipeptidaz"}],
- dogru:2,
- ipucu:"Hangi peptidaz bağırsak fırça kenarına (mikrovillus) aittir, pankreasa değil?",
- tuzak:"<b>Tripsinojen, kimotripsinojen, elastaz, prokarboksipeptidaz</b> hepsi <b>pankreas</b> kaynaklı zimojenlerdir; bağırsak mukoza hasarından etkilenmez. Etkilenen, fırça kenarı enzimi <b>aminopeptidazdır</b>.",
- aciklama:"<b>Aminopeptidaz</b>, enterositlerin <b>fırça kenarı (mikrovillus)</b> membranına yerleşmiş bir peptidazdır. Radyoterapiye bağlı mukozal dökülme ve mikrovillus hasarı bu enzimin kaybına yol açar. Diğer seçenekler pankreastan salgılanan proteolitik zimojenler olduğundan intestinal hasardan doğrudan etkilenmez."},
-
-{yil:"Deneme 11", soru:"Polisomnografide EEG'de uyanıklığa benzer düşük amplitüdlü-yüksek frekanslı aktivite, hızlı göz hareketleri ve yaygın iskelet kası atonisi izlenen (<mark>REM</mark>) uyku evresiyle ilgili aşağıdakilerden hangisi <mark>yanlıştır</mark>?",
- siklar:[{k:"A",t:"Penil tümesans görülebilir."},{k:"B",t:"Pontin kolinerjik nöronların aktivitesi artmıştır."},{k:"C",t:"EEG'de beta dalgası hakimdir."},{k:"D",t:"Büyüme hormonu salınımının en yoğun olduğu uyku dönemidir."},{k:"E",t:"Kalp hızı, solunum sayısı ve kan basıncı düzensiz seyreder."}],
- dogru:3,
- ipucu:"Büyüme hormonu piki hangi uyku evresinde olur? REM mi, derin yavaş dalga mı?",
- tuzak:"<b>Büyüme hormonu</b> piki <b>REM'de değil</b>, <b>derin yavaş dalga uykusunda (N3/NREM)</b> olur. Şık D bunu REM'e atfettiği için yanlıştır.",
- aciklama:"Tarif edilen tablo <b>REM uykusudur</b>: EEG uyanıklığa benzer (desenkronize, beta benzeri, testere dişi), hızlı göz hareketleri, iskelet kası <b>atonisi</b>, otonom değişkenlik (nabız/solunum/TA düzensiz), penil tümesans ve pontin <b>kolinerjik (REM-on)</b> nöron aktivitesinde artış görülür. <b>GH salınımı ise derin NREM/yavaş dalga uykusunda</b> en yoğundur."},
-
-{yil:"Deneme 11", soru:"<mark>Renal glomerül kapillerlerini</mark>, intestinal villus kapillerlerinden ayıran en önemli özellik aşağıdakilerden hangisidir?",
- siklar:[{k:"A",t:"Fenestra içermeleri"},{k:"B",t:"Bazal laminanın kesintisiz olması"},{k:"C",t:"Fenestralarda diyafram bulunmaması"},{k:"D",t:"Bazal laminanın kesintili olması"},{k:"E",t:"Kapiller doku arasında direkt madde alışverişi sağlanabilmesi"}],
- dogru:2,
- ipucu:"Her ikisi de fenestralı; ama glomerül fenestralarında ne yoktur?",
- tuzak:"Şık A (<b>fenestra içermeleri</b>) ayırt edici değildir çünkü <b>her ikisi de fenestralıdır</b>. Fark, glomerül fenestralarının <b>diyaframsız</b> olmasıdır.",
- aciklama:"Hem glomerül hem de intestinal villus kapilleri <b>fenestralı</b> tiptir; ancak intestinal (ve çoğu visseral) fenestrada ince bir <b>diyafram</b> bulunurken, <b>glomerül fenestraları diyaframsızdır</b> (açık). Ayrıca glomerülde kalın, sürekli bir <b>glomerüler bazal membran</b> vardır. Ayırt eden en önemli özellik fenestralarda <b>diyafram bulunmamasıdır</b>."},
-
-{yil:"Deneme 11", soru:"I- Langerhans hücresi<br>II- Merkel hücresi<br>III- Melanosit<br>Yukarıdakilerden hangisi/hangileri <mark>epidermisin en alt tabakasında</mark> (stratum basale) bulunur?",
- siklar:[{k:"A",t:"I, II"},{k:"B",t:"I, II, III"},{k:"C",t:"II, III"},{k:"D",t:"Yalnız I"},{k:"E",t:"Yalnız II"}],
- dogru:2,
- ipucu:"Langerhans hücresi hangi tabakada yoğundur? En altta mı, dikensi tabakada mı?",
- tuzak:"<b>Langerhans hücresi</b> çeldiricidir: esas olarak <b>stratum spinozumda</b> bulunur, en alt tabaka (bazale) değil. Bazal tabakada Merkel ve melanosit yer alır.",
- aciklama:"<b>Stratum basale (en alt tabaka)</b>: bazal keratinositler, <b>Merkel hücreleri</b> (mekanoresepsiyon) ve <b>melanositler</b> (melanin). <b>Langerhans hücreleri</b> ise antijen sunan hücreler olup ağırlıkla <b>stratum spinozumda</b> yerleşir. Dolayısıyla en alt tabakada bulunanlar II ve III'tür."},
-
-{yil:"Deneme 11", soru:"Medulla spinalis gelişimi esnasında spinal ve kranial nöronların <mark>afferent lifleri</mark>, nöral tüpün hangi kısmından köken alır?",
- siklar:[{k:"A",t:"Marjinal tabaka"},{k:"B",t:"Taban plağı"},{k:"C",t:"Tavan plağı"},{k:"D",t:"Alar (dorsal) plak"},{k:"E",t:"Bazal (ventral) plak"}],
- dogru:3,
- ipucu:"Duyusal (afferent) = dorsal; motor (efferent) = ventral. Hangisi dorsaldir?",
- tuzak:"<b>Bazal (ventral) plak</b> çeldiricidir: o <b>motor/efferent</b> nöronları verir. Afferent (duyusal) yapılar <b>alar (dorsal) plaktan</b> gelişir.",
- aciklama:"Nöral tüpte <b>alar (dorsal) plak duyusal/afferent</b>, <b>bazal (ventral) plak motor/efferent</b> nöronlara ayrılır; ikisini <b>sulcus limitans</b> ayırır. Spinal ve kranial afferent liflerin bağlantı (association) nöronları dorsal boynuzda, yani <b>alar plaktan</b> gelişir. Tavan ve taban plakları ise nöron içermeyen çatı/taban bölgeleridir."}
+  {
+    "yil": [
+      "İlkbahar-98"
+    ],
+    "soru": "Sistemik Lupus Eritematozus'lu (SLE) annelerden doğan bebeklerde görülen <mark>ilk ve geçici</mark> SLE bulgusu aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Döküntü"
+      },
+      {
+        "k": "B",
+        "t": "Nefrit"
+      },
+      {
+        "k": "C",
+        "t": "Pozitif LE hücresi"
+      },
+      {
+        "k": "D",
+        "t": "Trombositopeni"
+      },
+      {
+        "k": "E",
+        "t": "Nötropeni"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Neonatal lupusta en sık ve ilk görülen bulgu <b>kutanöz</b>tur; UV maruziyeti sonrası ilk 6 haftada çıkar.",
+    "tuzak": "Neonatal lupusta <b>renal tutulum olmaz</b>; nefrit erişkin SLE bulgusu olarak çeldirici konmuştur.",
+    "aciklama": "Neonatal Lupus Sendromu, anneden geçen <b>anti-Ro (SSA)</b> ve <b>anti-La (SSB)</b> antikorlarıyla oluşur. En sık ve ilk bulgu <b>eritema anülare</b> tarzı döküntüdür (yüz ve saçlı deri), geçicidir ve tedavi gerektirmez. Kalıcı olabilen tek bulgu <b>konjenital kalp bloğu</b>dur; renal tutulum görülmez."
+  },
+  {
+    "yil": [
+      "İlkbahar 2017 Orijinal"
+    ],
+    "soru": "Kalp hızının yavaşlaması nedeniyle 35. gebelik haftasında doğurtulan yenidoğan bebeğin fizik muayenesinde kalp hızı 58/dakika saptanıyor. Özellikle yüzde daha belirgin olmak üzere tüm vücutta <mark>annüler, eritematöz lezyonları</mark> olan bebeğin elektrokardiyografisinde <b>atriyoventriküler tam blok</b> saptanıyor. Bu bebekte atriyoventriküler tam bloğa yol açan en olası maternal antikor aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "ANA"
+      },
+      {
+        "k": "B",
+        "t": "Anti-dsDNA"
+      },
+      {
+        "k": "C",
+        "t": "Anti-Ro"
+      },
+      {
+        "k": "D",
+        "t": "Anti-Sm"
+      },
+      {
+        "k": "E",
+        "t": "Anti-fosfolipid antikor"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Konjenital AV tam blok + eritema anülare = neonatal lupus. En <b>spesifik</b> antikoru düşün.",
+    "tuzak": "<mark>ANA</mark> ve <mark>anti-dsDNA</mark> annenin SLE'sini gösterir ama AV bloktan sorumlu değildir; sorumlu antikor <b>anti-Ro/anti-La</b>.",
+    "aciklama": "Konjenital <b>AV tam bloktan</b> sorumlu maternal antikorlar <b>anti-Ro (SSA)</b> (daha spesifik) ve <b>anti-La (SSB)</b>'dir; plasentadan geçerek fetal ileti sistemine hasar verir. Doğumsal AV tam blokların ~%30-40'ı KKH (en sık düzeltilmiş büyük arter transpozisyonu-L-TGA, sol atriyal izomerizm) ile birliktedir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2017 BENZERİ"
+    ],
+    "soru": "<b>I.</b> Anti-fosfolipid antikor<br><b>II.</b> Anti-Ro<br><b>III.</b> Anti-dsDNA<br><b>IV.</b> Anti-La<br>Yukarıdakilerden hangisi/hangileri, Neonatal Lupus Sendromu olan yenidoğan bebeklerde <mark>atriyoventriküler tam bloğa</mark> yol açma olasılığı en yüksek olan maternal antikor/antikorlardır?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "I ve II"
+      },
+      {
+        "k": "B",
+        "t": "I ve III"
+      },
+      {
+        "k": "C",
+        "t": "II ve IV"
+      },
+      {
+        "k": "D",
+        "t": "II, III ve IV"
+      },
+      {
+        "k": "E",
+        "t": "III ve IV"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "AV bloktan sorumlu ikili: <b>anti-Ro (II)</b> ve <b>anti-La (IV)</b>.",
+    "tuzak": "Anti-fosfolipid (I) ve anti-dsDNA (III) tromboz/SLE aktivitesiyle ilişkilidir; konjenital AV blok yapmazlar.",
+    "aciklama": "Neonatal lupusta konjenital AV bloktan sorumlu antikorlar <b>anti-Ro/SSA</b> (II) ve <b>anti-La/SSB</b> (IV)'dir → <b>C</b>. Bu, bir önceki sorunun aynı vaka üzerinden çoktan-seçmeli varyantıdır."
+  },
+  {
+    "yil": [
+      "Sonbahar 2011"
+    ],
+    "soru": "Aşağıdaki neonatal hastalıklardan hangisinin etiyolojisinde <mark>anneden fetüse geçen antikorların</mark> rol oynadığı düşünülmelidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Neonatal hipoglisemi"
+      },
+      {
+        "k": "B",
+        "t": "Neonatal hipokalsemi"
+      },
+      {
+        "k": "C",
+        "t": "Geçici neonatal tirotoksikoz"
+      },
+      {
+        "k": "D",
+        "t": "Makrozomi"
+      },
+      {
+        "k": "E",
+        "t": "Mikrosefali"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Hangi tabloda anneden <b>IgG antikor</b> geçişi vardır? Graves → tiroidi uyaran antikor.",
+    "tuzak": "Hipoglisemi ve makrozomi (diyabetik anne) <b>insülin</b> aracılıdır, antikor değil; hipokalsemi/mikrosefalide de antikor rolü yoktur.",
+    "aciklama": "Annedeki <b>Graves hastalığında</b> tiroidi stimüle eden <b>TSH-reseptör antikorları (IgG)</b> plasentadan geçerek bebekte <b>geçici neonatal tirotoksikoz</b> yapar. Diğer seçeneklerde maternal-fetal antikor etkileşimi rol oynamaz."
+  },
+  {
+    "yil": [
+      "Sonbahar 2022 Orijinal"
+    ],
+    "soru": "\"<b>Ex utero intrapartum treatment (EXIT)</b>\" girişimi aşağıda belirtilen fetal durumların hangisinde doğum esnasında uygulanır?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Nöral tüp defekti"
+      },
+      {
+        "k": "B",
+        "t": "Kritik hava yolu obstrüksiyonu"
+      },
+      {
+        "k": "C",
+        "t": "Ağır intrauterin anemi"
+      },
+      {
+        "k": "D",
+        "t": "Hidrops fetalis"
+      },
+      {
+        "k": "E",
+        "t": "Aşırı düşük gebelik yaşı"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "EXIT = doğumda <b>hava yolu</b> güvence altına alınana kadar plasental dolaşımın sürdürülmesi.",
+    "tuzak": "Anemi/hidrops için intrauterin transfüzyon yapılır; EXIT özellikle <mark>solunum yolunu tıkayan</mark> kitle/obstrüksiyon içindir.",
+    "aciklama": "<b>EXIT protokolünde</b>, solunum yolunu tam bloke eden ve postnatal entübasyonun mümkün olmadığı durumlarda bebek çıkarılırken <b>umbilikal kord klemplenmez</b>; plasental gaz değişimi sürerken hava yolu sağlanır (ör. trakeostomi), sonra kord klemplenir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2003"
+    ],
+    "soru": "Aşağıdakilerden hangisi <mark>oligohidramniyosla birlikte görülmesi beklenen</mark> durumlardan birisi <b>değildir</b>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "İntrauterin büyüme geriliği"
+      },
+      {
+        "k": "B",
+        "t": "Üretral atrezi"
+      },
+      {
+        "k": "C",
+        "t": "Duodenal atrezi"
+      },
+      {
+        "k": "D",
+        "t": "Pulmoner hipoplazi"
+      },
+      {
+        "k": "E",
+        "t": "Prune-Belly Sendromu"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "GİS'te amniyon sıvısı emilir; üst GİS atrezileri sıvıyı <b>ememeyince polihidramniyos</b> olur.",
+    "tuzak": "<mark>Duodenal atrezi</mark> (ve özofagus atrezisi) → sıvı emilemez → <b>polihidramniyos</b>. Oligo değil!",
+    "aciklama": "Oligohidramniyos, idrar çıkışının azaldığı (üretral atrezi, renal agenezi, IUGR, Prune-Belly) ve plasental yetmezlik durumlarında olur. <b>Duodenal atrezi</b> üst GİS'ten sıvı emilimini engelleyerek <b>polihidramniyos</b> yapar; oligohidramniyos ile birlikte beklenmez."
+  },
+  {
+    "yil": [
+      "İlkbahar 2006"
+    ],
+    "soru": "Aşağıdakilerden hangisi <mark>oligohidramniyosla birlikte görülmesi beklenen</mark> durumlardan birisi <b>değildir</b>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Fetal anomali"
+      },
+      {
+        "k": "B",
+        "t": "Akondroplazi"
+      },
+      {
+        "k": "C",
+        "t": "Renal agenezi"
+      },
+      {
+        "k": "D",
+        "t": "Pulmoner hipoplazi"
+      },
+      {
+        "k": "E",
+        "t": "İntestinal psödoobstrüksiyon"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "<b>Akondroplazi</b> polihidramniyos ile ilişkilidir, oligo ile değil.",
+    "tuzak": "Güncel (21. Nelson) bilgiyle <mark>intestinal psödoobstrüksiyon</mark> oligo nedenleri tablosundan çıkarıldı; soru artık <b>çift cevaplı (B ve E)</b>. Sorulduğu yılda dönem cevabı B'dir.",
+    "aciklama": "<b>Akondroplazi</b> oligohidramniyos değil <b>polihidramniyos</b> ile ilişkilidir → dönem cevabı <b>B</b>. Not: 21. baskı Nelson'da intestinal psödoobstrüksiyon oligohidramniyos nedenlerinden çıkarıldığı için soru güncel bilgiyle çift cevaplı hale gelmiştir."
+  },
+  {
+    "yil": [
+      "İlkbahar-94"
+    ],
+    "soru": "<mark>Oligohidramniyosda</mark> yenidoğanlarda aşağıdakilerden hangisi beklenir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Özefagus atrezisi"
+      },
+      {
+        "k": "B",
+        "t": "Hidrosefali"
+      },
+      {
+        "k": "C",
+        "t": "Nöral tüp defekti"
+      },
+      {
+        "k": "D",
+        "t": "Renal agenezi"
+      },
+      {
+        "k": "E",
+        "t": "Pulmoner efüzyon"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "İdrar üretmeyen böbrek = amniyon sıvısı azalır (Potter).",
+    "tuzak": "Özefagus atrezisi, hidrosefali, NTD ve plevral efüzyon <b>polihidramniyos</b> tarafıdır; tek oligo nedeni <b>renal agenezi</b>.",
+    "aciklama": "<b>Renal agenezi</b> fetal idrar üretimini durdurarak oligohidramniyosa (Potter sekansı) yol açar. Diğer seçenekler polihidramniyosla ilişkilidir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2010"
+    ],
+    "soru": "Aşağıdakilerden hangisi, <mark>oligohidramniyosun</mark> yenidoğan bebeklerdeki <b>komplikasyonlarından</b> biridir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Anensefali"
+      },
+      {
+        "k": "B",
+        "t": "Trakeaözofageal fistül"
+      },
+      {
+        "k": "C",
+        "t": "Pulmoner hipoplazi"
+      },
+      {
+        "k": "D",
+        "t": "Diabetes mellitus"
+      },
+      {
+        "k": "E",
+        "t": "Spina bifida"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Amniyon sıvısı az → akciğer olgunlaşamaz.",
+    "tuzak": "Anensefali, TÖF, spina bifida <b>polihidramniyos</b> ile ilişkilidir; bunlar oligo komplikasyonu değildir.",
+    "aciklama": "Akciğer maturasyonu için yeterli amniyon sıvısı gerekir. Oligohidramniyos/anhidramniyos, olayın şiddetiyle orantılı <b>pulmoner hipoplazi</b> yapar (Potter sekansının parçası)."
+  },
+  {
+    "yil": [
+      "İlkbahar 2012"
+    ],
+    "soru": "Yenidoğan bir bebeğin 5. dakikadaki değerlendirilmesinde; dudaklarının pembe, el ve ayaklarının mor, kalp hızının <b>80/dakika</b>, öğürme refleksinin normal ve solunumunun yavaş-düzensiz olduğu, kol ve bacaklarını hafif fleksiyonda tuttuğu görülüyor. Bu bebeğin 5. dakika <b>APGAR skoru</b> kaçtır?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "4"
+      },
+      {
+        "k": "B",
+        "t": "5"
+      },
+      {
+        "k": "C",
+        "t": "6"
+      },
+      {
+        "k": "D",
+        "t": "7"
+      },
+      {
+        "k": "E",
+        "t": "8"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Kalp <100 (1), solunum düzensiz (1), tonus fleksiyon (1), refleks normal öğürme (2), akrosiyanoz (1).",
+    "tuzak": "Öğürme refleksinin <b>normal</b> olması refleks yanıtına <mark>2 puan</mark> kazandırır (1 değil); bu toplamı 6 yapar.",
+    "aciklama": "Kalp hızı 80 (<100)=1, solunum yavaş-düzensiz=1, kas tonusu hafif fleksiyon=1, refleks (öğürme normal)=2, renk (gövde pembe-ekstremite mor/akrosiyanoz)=1 → <b>Toplam 6</b>."
+  },
+  {
+    "yil": [
+      "İlkbahar 2000"
+    ],
+    "soru": "Kalp hızı <b>93/dk</b>, solunumu yavaş ve düzensiz, ekstremiteleri hafif fleksiyon halinde olan, burnuna kateter sokulunca <mark>yüzünü buruşturan</mark> ve gövdesi pembe, ekstremiteleri mavimtrak renkte olan yenidoğanın APGAR skoru kaçtır?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "3"
+      },
+      {
+        "k": "B",
+        "t": "4"
+      },
+      {
+        "k": "C",
+        "t": "5"
+      },
+      {
+        "k": "D",
+        "t": "6"
+      },
+      {
+        "k": "E",
+        "t": "7"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Kateter sokulunca sadece <b>yüz buruşturma (grimace)</b> = 1 puan (öksürük/aksırık olsaydı 2 olurdu).",
+    "tuzak": "<mark>Yüzünü buruşturma</mark> refleks yanıtına yalnız 1 puan verir; bu yüzden toplam 6 değil <b>5</b>.",
+    "aciklama": "Kalp 93 (<100)=1, solunum düzensiz=1, tonus fleksiyon=1, refleks (yalnız yüz buruşturma)=1, renk (akrosiyanoz)=1 → <b>Toplam 5</b>."
+  },
+  {
+    "yil": [
+      "Sonbahar-94"
+    ],
+    "soru": "Aşağıdakilerden hangisi <mark>APGAR skorlamasında kullanılmaz</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Kas tonusu"
+      },
+      {
+        "k": "B",
+        "t": "Deri rengi"
+      },
+      {
+        "k": "C",
+        "t": "Kalp hızı"
+      },
+      {
+        "k": "D",
+        "t": "Kan basıncı"
+      },
+      {
+        "k": "E",
+        "t": "Refleks aktivitesi"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "APGAR = Appearance, Pulse, Grimace, Activity, Respiration. <b>Kan basıncı yok.</b>",
+    "tuzak": "<mark>Kan basıncı</mark> APGAR parametresi değildir; nabız (kalp hızı) vardır ama tansiyon yoktur.",
+    "aciklama": "APGAR parametreleri: <b>cilt rengi, kalp atımı, refleks yanıt (grimace), tonus ve solunum</b>. <b>Kan basıncı</b> yer almaz."
+  },
+  {
+    "yil": [
+      "İlkbahar 2007"
+    ],
+    "soru": "Aşağıdakilerden hangisi <mark>APGAR skorlaması kriterlerinden</mark> birisi <b>değildir</b>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Kalp hızı"
+      },
+      {
+        "k": "B",
+        "t": "Solunum paterni"
+      },
+      {
+        "k": "C",
+        "t": "Kas tonusu"
+      },
+      {
+        "k": "D",
+        "t": "Renk"
+      },
+      {
+        "k": "E",
+        "t": "Patella refleksi"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Refleks yanıt vardır ama bu 'patella (diz) refleksi' değildir.",
+    "tuzak": "<mark>Patella refleksi</mark> APGAR'da yoktur; APGAR'daki refleks 'grimace' (uyarana yüz/öksürük yanıtı)dır.",
+    "aciklama": "APGAR'ın 5 parametresi: kalp hızı, solunum, tonus, renk ve <b>refleks irritabilite (grimace)</b>. <b>Patella (derin tendon) refleksi</b> değerlendirilmez."
+  },
+  {
+    "yil": [
+      "Sonbahar 2012"
+    ],
+    "soru": "Maternal eklampsi ve koryoamnionit nedeniyle acil sezaryen ile 28 haftalık ve 1000 gram doğan bir yenidoğanın 1. dakika APGAR skoru 3, 5. dakika APGAR skoru 5 olarak belirleniyor. Aşağıdaki faktörlerden hangisi bu yenidoğanın APGAR skorunun düşük olmasını <mark>açıklamaz</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Anneye magnezyum sülfat verilmesi"
+      },
+      {
+        "k": "B",
+        "t": "Anneye narkotik analjezik verilmesi"
+      },
+      {
+        "k": "C",
+        "t": "Prematürite"
+      },
+      {
+        "k": "D",
+        "t": "Bebekteki olası konjenital pnömoni ve sepsis"
+      },
+      {
+        "k": "E",
+        "t": "Anneye intravenöz sıvı verilmesi"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Hangi faktör solunum depresyonu/hipotoni <b>yapmaz</b>? IV sıvının etkisi geçici takipnedir.",
+    "tuzak": "MgSO4, narkotik, prematürite, sepsis hepsi APGAR'ı düşürür; <mark>IV sıvı</mark> siyanoz/hipotoni/bradikardi yapmadığından skoru açıklamaz.",
+    "aciklama": "MgSO4 (hipotoni, solunum depresyonu), narkotik (solunum depresyonu/apne), prematürite ve sepsis/pnömoni APGAR'ı düşürür. <b>Anneye IV sıvı</b> bebekte geçici takipneye yol açabilir ama siyanoz, hipotoni, bradikardi veya refleks azalması yapmaz → skoru açıklamaz."
+  },
+  {
+    "yil": [
+      "Sonbahar 2007"
+    ],
+    "soru": "Aşağıdakilerden hangisi, <mark>ülkemizdeki rutin yenidoğan tarama programları</mark> kapsamında yer alır?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Alfa-1 antitripsin eksikliği"
+      },
+      {
+        "k": "B",
+        "t": "Konjenital hipotiroidi"
+      },
+      {
+        "k": "C",
+        "t": "Nöroblastom"
+      },
+      {
+        "k": "D",
+        "t": "Tüberküloz"
+      },
+      {
+        "k": "E",
+        "t": "AIDS"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Topuk kanıyla taranan, sık ve tedavi edilebilir endokrin hastalık.",
+    "tuzak": "Nöroblastom, TB, AIDS ve alfa-1 antitripsin <b>rutin topuk taramasında yoktur</b>.",
+    "aciklama": "Türkiye'de rutin topuk kanı taraması: <b>konjenital hipotiroidi</b>, fenilketonüri, biyotinidaz eksikliği, kistik fibrozis, konjenital adrenal hiperplazi ve spinal musküler atrofi (SMA). Ayrıca gelişimsel kalça displazisi ve işitme taraması yapılır."
+  },
+  {
+    "yil": [
+      "İlkbahar 2018 Orijinal"
+    ],
+    "soru": "Ülkemizde <b>konjenital hipotiroidi taraması</b> için topuktan alınan kan örneğinde ölçülmesi gerekenler aşağıdakilerin hangisinde verilmiştir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "TSH"
+      },
+      {
+        "k": "B",
+        "t": "Tiroglobulin"
+      },
+      {
+        "k": "C",
+        "t": "TSH + T3"
+      },
+      {
+        "k": "D",
+        "t": "TSH + T3 + T4"
+      },
+      {
+        "k": "E",
+        "t": "TSH + tiroglobulin"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Ulusal programda topuk kanında tek bir analit bakılır.",
+    "tuzak": "T3/T4/tiroglobulin çeldiricidir; ulusal tarama <b>yalnız TSH</b> ile yapılır.",
+    "aciklama": "Türkiye'de konjenital hipotiroidi taraması topuk kanında <b>TSH</b> ölçümüyle yapılır (ideal 3-5. gün). TSH >20 mIU/L saptananlar Çocuk Endokrinolojisine yönlendirilir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2018 BENZERİ"
+    ],
+    "soru": "Ülkemizde yenidoğan döneminde taranan hastalıklar, tarama yöntemleriyle eşleştirilmiştir. Bu eşleştirmelerden hangisi <mark>doğru değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Konjenital hipotiroidi — Serbest T4"
+      },
+      {
+        "k": "B",
+        "t": "İşitme testi — ABR yöntemi"
+      },
+      {
+        "k": "C",
+        "t": "Kistik fibrozis — İmmün reaktif tripsinojen"
+      },
+      {
+        "k": "D",
+        "t": "Biyotinidaz eksikliği — Enzim aktivitesinin ölçümü"
+      },
+      {
+        "k": "E",
+        "t": "Fenilketonüri — Fenilalanin düzeyi"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Konjenital hipotiroidi hangi analitle taranır? Serbest T4 değil.",
+    "tuzak": "<mark>Konjenital hipotiroidi–Serbest T4</mark> yanlış eşleşmedir; doğrusu <b>TSH</b>.",
+    "aciklama": "Konjenital hipotiroidi topuk kanında <b>TSH</b> ile taranır (serbest T4 ile değil) → yanlış eşleşme A. Diğerleri doğrudur: KF–immünreaktif tripsinojen, biyotinidaz–enzim aktivitesi, FKÜ–fenilalanin, işitme–ABR."
+  },
+  {
+    "yil": [
+      "Sonbahar-94"
+    ],
+    "soru": "Yenidoğan bir bebekte aşağıdaki bulgulardan hangisinin saptanması, <mark>sistemik bir hastalığın</mark> bulunduğunu gösterir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Milia"
+      },
+      {
+        "k": "B",
+        "t": "Ebstein incileri"
+      },
+      {
+        "k": "C",
+        "t": "Sklerem"
+      },
+      {
+        "k": "D",
+        "t": "Mongol lekesi"
+      },
+      {
+        "k": "E",
+        "t": "Yenidoğanın püstüler melanozisi"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Hangisi 'kötü/hasta' bebekle birlikte görülür?",
+    "tuzak": "Milia, Ebstein incileri, mongol lekesi ve püstüler melanozis <b>masum</b> bulgulardır; çeldiricidir.",
+    "aciklama": "<b>Sklerem (sklerema neonatorum)</b>, prematüre veya ağır hasta yenidoğanlarda derinin sert-soğuk endürasyonudur; hemen daima sepsis, KKH, konjenital anomali veya hipotermi gibi <b>ciddi sistemik hastalıkla</b> birliktedir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2001"
+    ],
+    "soru": "Aşağıdaki bulgulardan hangisi, yenidoğan bir bebekte saptanması durumunda <mark>patolojik</mark> olarak kabul edilmelidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Ebstein incileri"
+      },
+      {
+        "k": "B",
+        "t": "Sklerem"
+      },
+      {
+        "k": "C",
+        "t": "Milia"
+      },
+      {
+        "k": "D",
+        "t": "Mongol lekesi"
+      },
+      {
+        "k": "E",
+        "t": "Kutis marmaratus"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Sağlıklı yenidoğanda görülmeyen, hasta bebekle ilişkili bulgu.",
+    "tuzak": "Ebstein incileri, milia, mongol lekesi ve kutis marmaratus <b>normal</b> yenidoğan bulgularıdır.",
+    "aciklama": "<b>Sklerem</b> patolojiktir ve ciddi hastalık göstergesidir. Diğerleri normal/geçici cilt bulgularıdır (kutis marmaratus, soğukla ortaya çıkan fizyolojik retiküler desendir)."
+  },
+  {
+    "yil": [
+      "İlkbahar 2009"
+    ],
+    "soru": "Yenidoğan bir bebeğin muayenesinde saptanan aşağıdaki cilt bulgularından hangisi, <mark>eşlik edebileceği diğer defektler</mark> nedeniyle patolojik kabul edilmelidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Eritema toksikum"
+      },
+      {
+        "k": "B",
+        "t": "Püstüler melanozis"
+      },
+      {
+        "k": "C",
+        "t": "Lanugo"
+      },
+      {
+        "k": "D",
+        "t": "Amniyotik band izleri"
+      },
+      {
+        "k": "E",
+        "t": "Mongol lekeleri"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Mekanik konstriksiyon → amputasyon, yarık, omfalosel eşlik edebilir.",
+    "tuzak": "Eritema toksikum, püstüler melanozis, lanugo ve mongol lekesi <b>izole/masum</b> bulgulardır.",
+    "aciklama": "<b>Amniyotik band izleri</b>, amniyon bantlarının fetüs üzerindeki mekanik etkisiyle oluşur; ekstremite amputasyonu, fasiyal yarık, kraniyofasiyal anomali, omfalosel ve gastroşizis eşlik edebildiğinden patolojiktir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2011"
+    ],
+    "soru": "Yenidoğan bir bebekte saptanan aşağıdaki cilt bulgularından hangisinin, zaman içinde <mark>kendiliğinden kaybolması beklenmez</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Port-wine (Porto şarabı) hemanjiyom"
+      },
+      {
+        "k": "B",
+        "t": "Mongol lekeleri"
+      },
+      {
+        "k": "C",
+        "t": "Harlekuin renk değişikliği"
+      },
+      {
+        "k": "D",
+        "t": "Toksik eritem"
+      },
+      {
+        "k": "E",
+        "t": "Kutis marmoratus"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Basmakla solmayan, kalıcı vasküler malformasyon.",
+    "tuzak": "Mongol lekesi, harlekuin, toksik eritem ve kutis marmoratus <b>geçicidir</b>; port-wine kalıcıdır.",
+    "aciklama": "<b>Port-wine lekesi (nevus flammeus)</b> kalıcı bir kapiller malformasyondur; basmakla solmaz ve kendiliğinden kaybolmaz (Sturge-Weber ile ilişkili olabilir). Diğer seçenekler zamanla geçen bulgulardır."
+  },
+  {
+    "yil": [
+      "Sonbahar 2012"
+    ],
+    "soru": "Yenidoğanlarda sık görülen Mongol lekesi ile ilgili aşağıdaki ifadelerden hangisi <mark>yanlıştır</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Mavi pigmentli lezyonlardır."
+      },
+      {
+        "k": "B",
+        "t": "Presakral bölge, kalça ve bel bölgesinde görülebilirler."
+      },
+      {
+        "k": "C",
+        "t": "Down Sendromlu bebeklerde daha sık görülür."
+      },
+      {
+        "k": "D",
+        "t": "Bir yıl içinde kaybolurlar."
+      },
+      {
+        "k": "E",
+        "t": "Malign değişim göstermezler."
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "İlk kez Down'lu bebeklerde tanımlanmış olması 'daha sık' demek değildir.",
+    "tuzak": "<mark>Down'da daha sık</mark> ifadesi yanlıştır; isim tarihseldir, sıklık artmamıştır.",
+    "aciklama": "Mongol lekesi ilk kez Down Sendromlu bebeklerde tanımlandığı için bu adı almıştır ama Down'da sıklığı <b>artmamıştır</b> (Down'da en sık cilt bulgusu toksik eritemdir). Mavi-gri pigmente sakral lezyonlardır, ~1 yaşta kaybolur, malignleşmez."
+  },
+  {
+    "yil": [
+      "Sonbahar 2018 Orijinal"
+    ],
+    "soru": "İki günlük yenidoğan, sırtında sarı-beyaz, 1-2 mm çapında papüler ve püstüler lezyonlar nedeniyle getiriliyor. Püstüllerin <b>Wright boyamasında bol eozinofil</b> görülüyor, kültürde üreme olmuyor ve lezyonlar bir haftada kayboluyor. En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Eritema toksikum"
+      },
+      {
+        "k": "B",
+        "t": "Miliaria rubra"
+      },
+      {
+        "k": "C",
+        "t": "Miliaria kristallina"
+      },
+      {
+        "k": "D",
+        "t": "Neonatal akne"
+      },
+      {
+        "k": "E",
+        "t": "İnfantil akropüstülozis"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Eozinofil + kültür negatif + kendiliğinden geçen = klasik ikili.",
+    "tuzak": "Neonatal akne yanak/çenede lokalize ve eozinofilsizdir; akropüstülozis avuç/tabanda ve şiddetli kaşıntılıdır.",
+    "aciklama": "<b>Eritema toksikum</b> term bebeklerin ~%50'sinde, en sık 2. günde görülür; eritemli zeminde sarı-beyaz papül/püstüller (avuç içi-taban hariç), Wright'ta <b>eozinofil kümeleri</b>, kültür negatif ve kendiliğinden geçer."
+  },
+  {
+    "yil": [
+      "Sonbahar 2018 BENZERİ"
+    ],
+    "soru": "4 günlük bir bebek, <b>avuç içi ve ayak tabanı hariç</b> vücudunda yaygın, kırmızı zeminde sivilce benzeri papüler/püstüler döküntülerle getiriliyor. Genel durumu iyi, ateşsiz; kan sayımı ve biyokimyası normal; lezyon ve kan kültüründe üreme yok; annede döküntü yok. En olası tanı?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Toksik eritem"
+      },
+      {
+        "k": "B",
+        "t": "Püstüler melanozis"
+      },
+      {
+        "k": "C",
+        "t": "Neonatal akne"
+      },
+      {
+        "k": "D",
+        "t": "Piyoderma"
+      },
+      {
+        "k": "E",
+        "t": "Herpes Simpleks lezyonları"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "İyi görünümlü bebek + kültür negatif + avuç/taban tutulmaz.",
+    "tuzak": "Piyoderma ve HSV'de bebek septik/veziküler olur; püstüler melanozis doğumda mevcuttur ve avuç/tabanı da tutar.",
+    "aciklama": "Tablo yine <b>toksik eritem</b> ile uyumludur: iyi genel durum, kültür negatif, avuç içi-taban ayrık. Püstüler melanozis doğumda vardır ve avuç/tabanda da görülür; HSV veziküler ve annede lezyonla; piyodermada PNL/bakteri ve septik görünümle gider."
+  },
+  {
+    "yil": [
+      "İlkbahar 2005"
+    ],
+    "soru": "Aşağıdakilerden hangisi yenidoğan bebeklerde <mark>mikrosefali nedenleri arasında yer almaz</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Konjenital Sitomegalovirus (CMV) enfeksiyonu"
+      },
+      {
+        "k": "B",
+        "t": "Radyasyona maruz kalma"
+      },
+      {
+        "k": "C",
+        "t": "Trizomi 21"
+      },
+      {
+        "k": "D",
+        "t": "Fetal alkol sendromu"
+      },
+      {
+        "k": "E",
+        "t": "Konjenital akuaduktus stenozu"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "BOS dolaşımını bozan durum baş çevresini büyütür (makrosefali).",
+    "tuzak": "<mark>Akuaduktus stenozu</mark> hidrosefali → makrosefali yapar, mikrosefali değil.",
+    "aciklama": "<b>Konjenital akuaduktus stenozu</b> BOS akımını tıkayarak hidrosefali ve <b>makrosefali</b> yapar. CMV, radyasyon, trizomi 21 ve fetal alkol sendromu mikrosefali nedenidir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2021"
+    ],
+    "soru": "Aşağıdakilerden hangisi yenidoğanda <mark>normalden büyük fontanel</mark> nedenlerinden biri <b>değildir</b>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Hipofosfatazya"
+      },
+      {
+        "k": "B",
+        "t": "Konjenital rubella"
+      },
+      {
+        "k": "C",
+        "t": "Osteogenezis imperfekta"
+      },
+      {
+        "k": "D",
+        "t": "Hipertiroidizm"
+      },
+      {
+        "k": "E",
+        "t": "Piknodizostozis"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Tiroid hormonu fazlalığı sütürleri erken kapatır.",
+    "tuzak": "<mark>Hipertiroidizm</mark> küçük fontanel/erken kapanma yapar; büyük fontanel nedeni değildir (geniş fontaneli hipotiroidi yapar).",
+    "aciklama": "<b>Konjenital hipertiroidizm</b> sütürlerin erken kapanmasına ve <b>küçük fontanele</b> yol açar. Hipofosfatazya, konjenital rubella, osteogenezis imperfekta ve piknodizostozis geniş fontanel yapar."
+  },
+  {
+    "yil": [
+      "Sonbahar-99"
+    ],
+    "soru": "Aşağıdakilerden hangisi, yenidoğan bebeklerde <mark>geniş fontanele neden olan</mark> durumlar arasında yer <b>almaz</b>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Osteogenezis imperfekta"
+      },
+      {
+        "k": "B",
+        "t": "Konjenital hipertiroidi"
+      },
+      {
+        "k": "C",
+        "t": "Hidrosefali"
+      },
+      {
+        "k": "D",
+        "t": "Raşitizm"
+      },
+      {
+        "k": "E",
+        "t": "Akondroplazi"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Hangi tiroid durumu fontaneli küçültür?",
+    "tuzak": "<mark>Konjenital hipertiroidi</mark> küçük fontanel yapar; geniş fontanel nedeni değildir (hipotiroidi geniş yapar).",
+    "aciklama": "<b>Konjenital hipertiroidi</b> sütürleri erken kapatıp fontaneli küçültür. Osteogenezis imperfekta, hidrosefali, raşitizm ve akondroplazi geniş fontanel nedenleridir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2003"
+    ],
+    "soru": "Yenidoğan bebeklerde, aşağıdaki hastalıklardan hangisinin varlığında <mark>genişlemiş ön fontanel</mark> saptanması <b>beklenmez</b>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Akondroplazi"
+      },
+      {
+        "k": "B",
+        "t": "Apert Sendromu"
+      },
+      {
+        "k": "C",
+        "t": "Hipofosfatazya"
+      },
+      {
+        "k": "D",
+        "t": "Osteogenezis imperfekta"
+      },
+      {
+        "k": "E",
+        "t": "D vitamini hipervitaminozu"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Aşırı D vitamini erken kalsifikasyon/kapanma yapar.",
+    "tuzak": "<mark>D vitamini hipervitaminozu</mark> fontaneli küçültür/erken kapatır; genişletmez.",
+    "aciklama": "<b>D vitamini hipervitaminozu</b> erken kalsifikasyonla fontanellerin küçülmesine/erken kapanmasına yol açar. Akondroplazi, Apert, hipofosfatazya ve osteogenezis imperfekta geniş ön fontanel yapar."
+  },
+  {
+    "yil": [
+      "İlkbahar 2010"
+    ],
+    "soru": "Zamanında doğmuş 24 saatlik bir bebeğin <b>henüz gayta yapmadığı</b>, arka fontanelinin 2 cm açık olduğu ve <b>umbilikal hernisi</b> bulunduğu saptanıyor. Bu bulgulara öncelikle aşağıdakilerden hangisi sebep olmuştur?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Osteogenezis imperfekta"
+      },
+      {
+        "k": "B",
+        "t": "Beckwith-Wiedemann Sendromu"
+      },
+      {
+        "k": "C",
+        "t": "Konjenital hipotiroidi"
+      },
+      {
+        "k": "D",
+        "t": "Trizomi 13"
+      },
+      {
+        "k": "E",
+        "t": "Hirschsprung Hastalığı"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Geç mekonyum + geniş fontanel + umbilikal herni üçlüsü tek tanıya işaret eder.",
+    "tuzak": "Beckwith-Wiedemann'da umbilikal herni <mark>çeldirici</mark>dir ama geç mekonyum + geniş fontaneli açıklamaz.",
+    "aciklama": "<b>Konjenital hipotiroidi</b>: geç mekonyum çıkışı (kabızlık), geniş arka fontanel ve umbilikal herni klasik üçlüsüdür. Hirschsprung geniş fontanel/umbilikal herni yapmaz; Beckwith-Wiedemann geç mekonyum/geniş fontaneli açıklamaz."
+  },
+  {
+    "yil": [
+      "İlkbahar 2007"
+    ],
+    "soru": "Aşağıdaki durumların hangisinde <mark>kraniyotabes</mark> beklenen bir bulgu <b>değildir</b>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Prematürite"
+      },
+      {
+        "k": "B",
+        "t": "Marfan Sendromu"
+      },
+      {
+        "k": "C",
+        "t": "Raşitizm"
+      },
+      {
+        "k": "D",
+        "t": "Osteogenezis imperfekta"
+      },
+      {
+        "k": "E",
+        "t": "Hidrosefali"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Kafatası mineralizasyon/yapı bozukluklarını düşün; Marfan bağ dokusu-iskelet sendromudur.",
+    "tuzak": "<mark>Marfan</mark> kraniyotabes yapmaz; araknodaktili, lens subluksasyonu ve aort dilatasyonu ile gider.",
+    "aciklama": "<b>Kraniyotabes</b> (oksipital kemikte pinpon topu esnekliği) prematürite, raşitizm, hidrosefali, osteogenezis imperfekta, sifiliz ve kretenizm gibi durumlarda görülür. <b>Marfan sendromunda</b> beklenen bir bulgu değildir."
+  },
+  {
+    "yil": [
+      "Sonbahar-98"
+    ],
+    "soru": "Yenidoğan bir bebekte besleme sırasında gelişen ve <mark>ağlama ile açılan</mark> siyanoz gözleniyor. Bu hastada en olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Trakeoözofageal fistül"
+      },
+      {
+        "k": "B",
+        "t": "Koanal atrezi"
+      },
+      {
+        "k": "C",
+        "t": "Patent duktus arteriyozus"
+      },
+      {
+        "k": "D",
+        "t": "Yarık damak"
+      },
+      {
+        "k": "E",
+        "t": "Bronşiyal kist"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Bebekler zorunlu burun soluyucusudur; ağlarken ağızdan soluyunca siyanoz açılır.",
+    "tuzak": "Beslenmede artıp <mark>ağlamayla düzelen</mark> siyanoz = koanal atrezi klişesidir; TÖF öksürük/aspirasyonla gider.",
+    "aciklama": "<b>Koanal atrezi</b>: yenidoğan zorunlu burun soluyucusu olduğundan beslenirken/dinlenirken siyanoz olur, <b>ağlamayla (ağız açılınca) düzelir</b>. Bilateral olduğunda doğumda ciddi solunum sıkıntısı yapar."
+  },
+  {
+    "yil": [
+      "İlkbahar-90"
+    ],
+    "soru": "Yenidoğanların baş muayenesinde saçlı deride <b>lokalize ve sütürleri geçmeyen</b> şişlik saptanması durumunda aşağıdakilerden hangisi öncelikle düşünülmelidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Sefal hematom"
+      },
+      {
+        "k": "B",
+        "t": "Kaput suksadenum"
+      },
+      {
+        "k": "C",
+        "t": "Periost üstü kanama"
+      },
+      {
+        "k": "D",
+        "t": "Subgaleal hematom"
+      },
+      {
+        "k": "E",
+        "t": "Epidural kanama"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Subperiostal → şişlik <b>sütürleri geçmez</b>.",
+    "tuzak": "<mark>Sütürleri geçen</mark> şişlik kaput/subgaleal olur; geçmeyen = sefal hematom.",
+    "aciklama": "<b>Sefal hematom</b> subperiostal kanamadır; kemik sınırında kaldığı için şişlik <b>sütürleri geçmez</b>, lokalizedir (genellikle pariyetal), 24-48 saatte belirir. Kaput ve subgaleal ise sütürleri geçer."
+  },
+  {
+    "yil": [
+      "İlkbahar-99"
+    ],
+    "soru": "Yenidoğanlarda aşağıdaki durumlardan hangisinde <mark>kraniyumda lineer kırık</mark> görülme olasılığı en fazladır?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Sefal hematom"
+      },
+      {
+        "k": "B",
+        "t": "Kaput suksadenum"
+      },
+      {
+        "k": "C",
+        "t": "Subaraknoid kanama"
+      },
+      {
+        "k": "D",
+        "t": "Subdural hematom"
+      },
+      {
+        "k": "E",
+        "t": "Kronik subdural hematom"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Subperiostal kanamanın altında sıklıkla kemik hasarı vardır.",
+    "tuzak": "Kaput suksadenum yumuşak doku ödemidir, kırıkla ilişkili değildir; kırık ilişkisi <b>sefal hematomda</b>dır.",
+    "aciklama": "<b>Sefal hematomların ~%15'inde</b> altta lineer kafatası kırığı bulunur; travmatik/forseps doğumla ilişkilidir. Kaput suksadenum ve intrakraniyal kanamalar bu düzeyde kemik kırığıyla ilişkili değildir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2003"
+    ],
+    "soru": "Aşağıdakilerden hangisi, <mark>sefal hematomun</mark> özelliklerinden birisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Subperiosteal kanama"
+      },
+      {
+        "k": "B",
+        "t": "Deride ekimoz gözlenmesi"
+      },
+      {
+        "k": "C",
+        "t": "Sütürleri atlayıp kafada yaygın şişliğe neden olması"
+      },
+      {
+        "k": "D",
+        "t": "Kafa kemiklerinde kırık gözlenmemesi"
+      },
+      {
+        "k": "E",
+        "t": "Çoğunlukla ilk hafta içinde rezorbe olması"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Sefal hematom kemik ile periost arasındadır.",
+    "tuzak": "<mark>Sütürleri atlayıp yaygın şişlik</mark> (C) ve hızlı rezorpsiyon (E) sefal hematomun değil kaput/subgaleal özellikleridir.",
+    "aciklama": "<b>Sefal hematom = subperiostal kanamadır (A)</b>. Şişlik sütürleri geçmez, haftalar-aylar içinde yavaş rezorbe olur ve olguların ~%15'inde altta kırık bulunur (yani 'kırık gözlenmemesi' zorunlu değildir)."
+  },
+  {
+    "yil": [
+      "Sonbahar-96"
+    ],
+    "soru": "Vakumla doğurtulmuş, travmaya maruz kalmış bir yenidoğanın kafasında <mark>sütürleri geçen</mark> şişlik saptanıyor. Bu bebekte <b>en olası</b> tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Kaput suksadenum"
+      },
+      {
+        "k": "B",
+        "t": "Molding"
+      },
+      {
+        "k": "C",
+        "t": "Subgaleal hematom"
+      },
+      {
+        "k": "D",
+        "t": "Milia"
+      },
+      {
+        "k": "E",
+        "t": "Sefal hematom"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Sütürleri geçen + en sık = ?",
+    "tuzak": "Subgaleal de sütürleri geçer ama nadirdir; <mark>en olası</mark> denince sık görülen <b>kaput suksadenum</b> seçilir.",
+    "aciklama": "Sütürleri geçen şişlik kaput suksadenum veya subgaleal olabilir; ancak <b>kaput suksadenum</b> çok daha sık görüldüğü için 'en olası' cevap odur. Sefal hematom sütürleri geçmez."
+  },
+  {
+    "yil": [
+      "Sonbahar 2021 Orijinal"
+    ],
+    "soru": "Altı saat önce vakum yardımıyla doğurtulan 41 haftalık yenidoğanın muayenesinde <b>hipotonisite, solukluk</b> ve her iki kulağının öne doğru dönük olduğu saptanıyor. <b>Hemoglobin 7 g/dL</b>. Bu hastada en olası kraniyal kanama tipi hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Subgaleal"
+      },
+      {
+        "k": "B",
+        "t": "Subdural"
+      },
+      {
+        "k": "C",
+        "t": "Epidural"
+      },
+      {
+        "k": "D",
+        "t": "Sefal hematom"
+      },
+      {
+        "k": "E",
+        "t": "İntraventriküler"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Kulakları öne iten, sütürleri geçen, ciddi Hgb düşüşü yapan kanama.",
+    "tuzak": "Sefal hematom sınırlı kalır ve Hgb'yi bu kadar düşürmez; <mark>anemi + şok</mark> tablosu subgaleali gösterir.",
+    "aciklama": "<b>Subgaleal kanama</b> galea aponörotika altındaki gevşek dokuya olur; vakum/forseps ile ilişkilidir, geniştir, sütürleri geçer, kulakları öne iter ve büyük hacmi nedeniyle <b>hipovolemi, şok ve belirgin Hgb düşüşü</b> (mortalite ~%20) yapar."
+  },
+  {
+    "yil": [
+      "Sonbahar 2021 BENZERİ"
+    ],
+    "soru": "<b>I.</b> Çoğunlukla kemik kırıkları ile ilişkilidir<br><b>II.</b> Hayati risk hiçbir zaman yoktur<br><b>III.</b> Sütürleri geçer<br><b>IV.</b> Hemoglobin düşüşü belirgindir<br>Yukarıdakilerden hangileri yenidoğanlarda doğum sırasında ortaya çıkan <mark>subgaleal kanama</mark> için doğrudur?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "I ve II"
+      },
+      {
+        "k": "B",
+        "t": "I ve III"
+      },
+      {
+        "k": "C",
+        "t": "II ve III"
+      },
+      {
+        "k": "D",
+        "t": "II ve IV"
+      },
+      {
+        "k": "E",
+        "t": "III ve IV"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Subgaleal: geniş kanama → sütürleri geçer + Hgb düşer.",
+    "tuzak": "Kemik kırığı ilişkisi (I) <b>sefal hematoma</b> aittir; subgaleal hayati risk taşıyabilir (II yanlış).",
+    "aciklama": "Subgaleal kanama <b>sütürleri geçer (III)</b> ve büyük hacmi nedeniyle <b>belirgin Hgb düşüşü (IV)</b> yapar → E. Kemik kırığı ilişkisi sefal hematomdadır; subgaleal şok/mortalite riski taşıdığından 'hayati risk yok' ifadesi yanlıştır."
+  },
+  {
+    "yil": [
+      "İlkbahar-97"
+    ],
+    "soru": "<b>I.</b> Maksiller<br><b>II.</b> Etmoidal<br><b>III.</b> Frontal<br><b>IV.</b> Sfenoidal<br>Yukarıdaki paranazal sinüslerden hangileri <mark>yenidoğanlarda bulunur</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "I ve II"
+      },
+      {
+        "k": "B",
+        "t": "I ve III"
+      },
+      {
+        "k": "C",
+        "t": "II ve IV"
+      },
+      {
+        "k": "D",
+        "t": "II ve III"
+      },
+      {
+        "k": "E",
+        "t": "I, II, III ve IV"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "En erken gelişen iki sinüs doğumda vardır.",
+    "tuzak": "<mark>Frontal (2-5 yaş)</mark> ve <mark>sfenoid (~3 yaş)</mark> sinüsler doğumda yoktur; postnatal gelişir.",
+    "aciklama": "<b>Maksiller ve etmoid sinüsler</b> en erken gelişenlerdir ve doğumda (BT ile) saptanabilir → I ve II. Frontal sinüs ~2 yaşta gelişip 5-6 yaşta grafide görünür; sfenoid ~3 yaşta görünür."
+  },
+  {
+    "yil": [
+      "İlkbahar 2017 Orijinal"
+    ],
+    "soru": "Aşağıdakilerden hangisi yenidoğanlarda <mark>iki taraflı lökokoriye</mark> neden olur?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Blefarit"
+      },
+      {
+        "k": "B",
+        "t": "Glokom"
+      },
+      {
+        "k": "C",
+        "t": "Nazolakrimal kanal tıkanıklığı"
+      },
+      {
+        "k": "D",
+        "t": "Katarakt"
+      },
+      {
+        "k": "E",
+        "t": "Pitozis"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Lökokori = beyaz pupil refleksi; lensi tutan bilateral neden.",
+    "tuzak": "Blefarit (kapak enf.), glokom (GİB↑), nazolakrimal tıkanıklık (epifora), pitozis (kapak düşüklüğü) lökokori yapmaz.",
+    "aciklama": "<b>Lökokori (beyaz pupiller refleks)</b> katarakt (bilateral olabilir), retinoblastom, koryoretinit, prematüre retinopatisi veya PHPV'de görülür. Verilen seçenekler içinde bilateral lökokori nedeni <b>katarakt</b>tır; acil göz konsültasyonu gerekir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2017 BENZERİ"
+    ],
+    "soru": "Aşağıdaki durumlardan hangisi yenidoğanlarda <mark>lökokoriye neden olmaz</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Retinoblastom"
+      },
+      {
+        "k": "B",
+        "t": "Galaktozemi"
+      },
+      {
+        "k": "C",
+        "t": "Koryoretinit"
+      },
+      {
+        "k": "D",
+        "t": "Glokom"
+      },
+      {
+        "k": "E",
+        "t": "Katarakt"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Hangisi beyaz pupil değil, göz içi basınç sorunudur?",
+    "tuzak": "Galaktozemi kataraktla lökokori yapar; <mark>glokom</mark> lökokori değil büyük kornea/bulanıklık yapar.",
+    "aciklama": "Retinoblastom, katarakt (galaktozemi dahil) ve koryoretinit lökokori yapar. <b>Glokom</b> lökokori nedeni değildir (buftalmi, kornea bulanıklığı, epifora ile gider)."
+  },
+  {
+    "yil": [
+      "Sonbahar 2020 Orijinal"
+    ],
+    "soru": "Yenidoğan bebeğin gözlerini <b>katarakt ve retinoblastom</b> açısından taramak için aşağıdaki testlerden hangisi en uygundur?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Kırmızı yansıma testi"
+      },
+      {
+        "k": "B",
+        "t": "Kornea refleksi testi"
+      },
+      {
+        "k": "C",
+        "t": "Lea sembol testleri"
+      },
+      {
+        "k": "D",
+        "t": "Snellen tabloları testi"
+      },
+      {
+        "k": "E",
+        "t": "Pupil ışık reaksiyonu testi"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Göz dibinden kırmızı refle alınıp alınamadığına bakılır.",
+    "tuzak": "Lea/Snellen görme keskinliği testleridir (yenidoğanda uygulanamaz); tarama <b>kırmızı yansıma</b> ile yapılır.",
+    "aciklama": "<b>Kırmızı yansıma (Brückner) testi</b>: göze ışık tutulur, normalde bilateral simetrik kırmızı refle alınır. Beyaz refle (lökokori) katarakt veya retinoblastomu düşündürür → acil oftalmoloji. Yenidoğan tarama testidir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2020 BENZERİ"
+    ],
+    "soru": "Yenidoğan bebeklerde tarama testi olarak kullanılan <b>kırmızı yansıma testi</b>, aşağıdaki hastalıklardan hangisinin saptanması için kullanılır?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Retinoblastom"
+      },
+      {
+        "k": "B",
+        "t": "Glokom"
+      },
+      {
+        "k": "C",
+        "t": "Retinal hemoraji"
+      },
+      {
+        "k": "D",
+        "t": "Konjunktivit"
+      },
+      {
+        "k": "E",
+        "t": "Görme bozuklukları"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Beyaz refle → göz dibinde kitle.",
+    "tuzak": "Glokom, konjunktivit ve retinal hemoraji bu testin hedefi değildir.",
+    "aciklama": "<b>Kırmızı yansıma testi</b> lökokori yapan durumları (özellikle <b>retinoblastom</b> ve katarakt) yakalamak için kullanılır; beyaz yansıma acil sevk gerektirir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2002"
+    ],
+    "soru": "Aşağıdaki ilaçlardan hangisi <mark>neonatal konjonktivit profilaksisinde kullanılmaz</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "%1'lik Gümüş Nitrat"
+      },
+      {
+        "k": "B",
+        "t": "%0.5'lik Eritromisin"
+      },
+      {
+        "k": "C",
+        "t": "%1'lik Tetrasiklin"
+      },
+      {
+        "k": "D",
+        "t": "%2.5'lik Povidon-iyod"
+      },
+      {
+        "k": "E",
+        "t": "%20'lik Klorheksidin"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Hangisi (özellikle prematürede) nörotoksiktir?",
+    "tuzak": "Gümüş nitrat eskimiş olsa da profilakside listede geçer; <mark>klorheksidin/heksaklorofen</mark> nörotoksite nedeniyle önerilmez.",
+    "aciklama": "Neonatal konjonktivit profilaksisinde %1 gümüş nitrat, %1 tetrasiklin, %0.5 eritromisin ve %2.5 povidon-iyod kullanılabilir. <b>Klorheksidin (ve heksaklorofen)</b> özellikle çok düşük doğum ağırlıklı bebeklerde nörotoksik olabildiğinden göz profilaksisinde kullanılmaz."
+  },
+  {
+    "yil": [
+      "İlkbahar 2017 Orijinal"
+    ],
+    "soru": "<mark>Göbek kordonunun geç düşmesi</mark>, lökositoz ve nötrofili ile karakterize hastalık aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Lökosit adhezyon defekti tip I"
+      },
+      {
+        "k": "B",
+        "t": "Chediak-Higashi sendromu"
+      },
+      {
+        "k": "C",
+        "t": "Hermansky-Pudlak sendromu"
+      },
+      {
+        "k": "D",
+        "t": "Wiskott-Aldrich sendromu"
+      },
+      {
+        "k": "E",
+        "t": "Griscelli sendromu"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Nötrofiller dokuya geçemeyince kanda birikir (lökositoz), göbek geç düşer.",
+    "tuzak": "Chediak-Higashi/Griscelli albinizm+immün defektle gider; göbek geç düşme klasiği <b>LAD</b>'dir.",
+    "aciklama": "<b>Lökosit Adhezyon Defekti tip I</b>'de (CD18/β2-integrin eksikliği) nötrofiller endotele yapışıp dokuya geçemez; belirgin <b>lökositoz/nötrofili</b> olur, enfeksiyon bölgesine nötrofil gidemez, yara iyileşmesi bozulur ve <b>göbek geç düşer (>3 hafta)</b>."
+  },
+  {
+    "yil": [
+      "İlkbahar 2017 BENZERİ"
+    ],
+    "soru": "Tam kan sayımında lökosit 45.000/mm³, mutlak nötrofil 30.000/mm³ olan ve öyküsünde <b>göbeği geç düşen</b> bir bebekte en olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Lökosit adhezyon defekti"
+      },
+      {
+        "k": "B",
+        "t": "Job Sendromu"
+      },
+      {
+        "k": "C",
+        "t": "Şiddetli Kombine İmmün Yetmezlik (SCID)"
+      },
+      {
+        "k": "D",
+        "t": "Chediak-Higashi Sendromu"
+      },
+      {
+        "k": "E",
+        "t": "Kronik granülomatöz hastalık"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Yüksek nötrofil + geç göbek düşmesi ikilisi tek tanıya götürür.",
+    "tuzak": "SCID'de lenfopeni, KGH'de katalaz-pozitif enfeksiyon öne çıkar; bu tablo <b>LAD</b>'dir.",
+    "aciklama": "Belirgin nötrofili (dokuya geçemeyen nötrofiller kanda birikir) + <b>geç göbek düşmesi</b> = <b>Lökosit Adhezyon Defekti</b>. Normalde göbek 7-14 günde düşer; LAD dışında hipotiroidi ve F-XIII eksikliğinde de gecikebilir."
+  },
+  {
+    "yil": [
+      "Sonbahar-89"
+    ],
+    "soru": "Aşağıdakilerden hangisi, <b>üç günlük</b> bir bebekte görülen <mark>kanlı vajinal akıntının</mark> en olası nedenidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Hemolitik anemi"
+      },
+      {
+        "k": "B",
+        "t": "K vitamini eksikliği"
+      },
+      {
+        "k": "C",
+        "t": "Vajinal adenozis"
+      },
+      {
+        "k": "D",
+        "t": "Kanama eğilimi"
+      },
+      {
+        "k": "E",
+        "t": "Maternal hormon"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Doğumdan sonra maternal hormonların ani çekilmesi.",
+    "tuzak": "K vitamini eksikliği/kanama eğilimi çeldiricidir; izole vajinal kanama <b>hormon çekilmesi</b>dir.",
+    "aciklama": "Yenidoğanda ilk günlerde görülen kanlı vajinal akıntı, plasenta yoluyla geçen <b>maternal östrojenin doğumdan sonra çekilmesine</b> bağlı fizyolojik çekilme kanamasıdır; kendiliğinden geçer."
+  },
+  {
+    "yil": [
+      "Sonbahar 2021 Orijinal"
+    ],
+    "soru": "Aşağıdakilerden hangisi yenidoğan ve infantlarda <mark>tonusun değerlendirilmesinde</mark> en uygun testtir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Gelişimsel refleksler"
+      },
+      {
+        "k": "B",
+        "t": "Patolojik refleksler"
+      },
+      {
+        "k": "C",
+        "t": "Traksiyon yanıtı, vertikal ve horizontal süspansiyon"
+      },
+      {
+        "k": "D",
+        "t": "Derin tendon refleksleri"
+      },
+      {
+        "k": "E",
+        "t": "Kas gücü"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Bebeği havada tutup baş-gövde kontrolüne bakmak tonusu gösterir.",
+    "tuzak": "Derin tendon refleksleri ve kas gücü erişkin muayenesidir; infantta tonus <b>süspansiyon/traksiyon</b> ile değerlendirilir.",
+    "aciklama": "İnfantta tonus, <b>traksiyon yanıtı</b> (ellerinden çekince başını beraberinde getirmesi) ve <b>vertikal/horizontal süspansiyon</b> (havada tutunca gövde-baş kontrolü) ile değerlendirilir. Hipotonide baş geriden gelir, süspansiyonda 'ters U' görülür."
+  },
+  {
+    "yil": [
+      "Sonbahar 2021 BENZERİ"
+    ],
+    "soru": "<b>I.</b> Traksiyon yanıtı<br><b>II.</b> Derin tendon refleksleri<br><b>III.</b> Vertikal süspansiyon<br><b>IV.</b> Yakalama refleksi<br>İnfantlarda <mark>tonusu değerlendirmek</mark> için yukarıdakilerden hangilerinin kullanılması en uygundur?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "I ve II"
+      },
+      {
+        "k": "B",
+        "t": "I ve III"
+      },
+      {
+        "k": "C",
+        "t": "II ve III"
+      },
+      {
+        "k": "D",
+        "t": "II ve IV"
+      },
+      {
+        "k": "E",
+        "t": "III ve IV"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Tonus = traksiyon + süspansiyon.",
+    "tuzak": "Derin tendon refleksi (II) ve yakalama refleksi (IV) tonusu ölçmez.",
+    "aciklama": "İnfantta tonus değerlendirmesi için <b>traksiyon yanıtı (I)</b> ve <b>vertikal süspansiyon (III)</b> en uygun yöntemlerdir → B. DTR ve yakalama refleksi tonusu doğrudan göstermez."
+  },
+  {
+    "yil": [
+      "Sonbahar-88"
+    ],
+    "soru": "<mark>Moro refleksi</mark> ne zaman kaybolur?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "1 ay"
+      },
+      {
+        "k": "B",
+        "t": "9 ay"
+      },
+      {
+        "k": "C",
+        "t": "6 ay"
+      },
+      {
+        "k": "D",
+        "t": "12 ay"
+      },
+      {
+        "k": "E",
+        "t": "Kaybolmaz"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Doğuşta var, ~4-6. ayda kaybolur.",
+    "tuzak": "Moro <b>kalıcı değildir</b>; 6. aydan sonra devam etmesi patolojiktir.",
+    "aciklama": "<b>Moro refleksi</b> doğuşta mevcuttur ve ~<b>6. ayda</b> (4-6 ay) kaybolur. 6. aydan sonra varlığı veya erkenden yokluğu/asimetrisi patolojiktir."
+  },
+  {
+    "yil": [
+      "Sonbahar-90"
+    ],
+    "soru": "<mark>Moro refleksi</mark> yaşamın kaçıncı ayına kadar devam eder?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Kaybolmaz"
+      },
+      {
+        "k": "B",
+        "t": "2"
+      },
+      {
+        "k": "C",
+        "t": "6"
+      },
+      {
+        "k": "D",
+        "t": "8"
+      },
+      {
+        "k": "E",
+        "t": "12"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Palmar yakalama ~6 ay, Moro da ~6 ay.",
+    "tuzak": "'Kaybolmaz' çeldiricidir; Moro geçici bir yenidoğan refleksidir.",
+    "aciklama": "<b>Moro refleksi ~6. aya kadar</b> devam edip kaybolur. Ani uyaranla kolların abduksiyon-ekstansiyonu, ardından adduksiyonu şeklindedir; asimetrik olması (klavikula kırığı, brakiyal pleksus hasarı) patolojiktir."
+  },
+  {
+    "yil": [
+      "Sonbahar-92"
+    ],
+    "soru": "Yenidoğan muayenesinde aşağıdaki bulgulardan hangisi <mark>patolojiktir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Moro refleksi"
+      },
+      {
+        "k": "B",
+        "t": "Babinski refleksi"
+      },
+      {
+        "k": "C",
+        "t": "Yakalama refleksi"
+      },
+      {
+        "k": "D",
+        "t": "Hipotonisite"
+      },
+      {
+        "k": "E",
+        "t": "Adımlama refleksi"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Yenidoğan refleksleri normaldir; anormal olan tonustur.",
+    "tuzak": "<mark>Babinski pozitifliği</mark> yenidoğanda normaldir (çeldirici); patolojik olan <b>hipotoni</b>.",
+    "aciklama": "Yenidoğanda Moro, yakalama, emme, adımlama refleksleri ve <b>pozitif Babinski</b> normaldir. <b>Hipo-/hipertonisite</b>, refleks kaybı/asimetrisi, emme-yutma kaybı, apne ve konvülziyon patolojiktir."
+  }
 ];
 
-/* ================= Uygulama mantığı ================= */
-const header=document.getElementById('hdr');
-const hTitle=document.getElementById('hTitle');
-const pbar=document.getElementById('pbar');
-const main=document.getElementById('main');
-const navBar=document.getElementById('navBar');
-const overlay=document.getElementById('overlay');
-const scoreStat=document.getElementById('scoreStat');
-const starStat=document.getElementById('starStat');
-const prevBtn=document.getElementById('prevBtn');
-const nextBtn=document.getElementById('nextBtn');
-const qcount=document.getElementById('qcount');
+/* ================= STATE ================= */
+let order = QUESTIONS.map(function(_,i){return i;});
+let idx = 0;
+const answered = new Array(QUESTIONS.length).fill(null);
+const starred  = new Array(QUESTIONS.length).fill(false);
+let finished = false;
 
-let order=QUESTIONS.map((_,i)=>i);
-let pos=0;
-let state=QUESTIONS.map(()=>({answered:false,choice:null,correct:false,star:false}));
+function qid(){ return order[idx]; }
+function curQ(){ return QUESTIONS[order[idx]]; }
 
-function syncHeaderPad(){ main.style.paddingTop=(header.offsetHeight+16)+'px'; }
-
-function updateCounters(){
-  const c=state.filter(s=>s.correct).length;
-  const st=state.filter(s=>s.star).length;
-  scoreStat.textContent='✅ '+c;
-  starStat.textContent='⭐ '+st;
+/* ========== HEADER SPACING (JS-measured) ========== */
+const hdr = document.getElementById('hdr');
+const main = document.getElementById('main');
+function syncHeader(){
+  const h = hdr.offsetHeight;
+  main.style.paddingTop = (h + 14) + 'px';
+  document.documentElement.style.setProperty('--hdrH', h + 'px');
 }
+window.addEventListener('load', syncHeader);
+window.addEventListener('resize', syncHeader);
+syncHeader();
+
+/* ================= RENDER ================= */
+const quizEl = document.getElementById('quiz');
+const resultEl = document.getElementById('result');
+const navEl = document.getElementById('nav');
 
 function render(){
-  const qi=order[pos];
-  const q=QUESTIONS[qi];
-  const s=state[qi];
+  if(finished){ renderResult(); return; }
+  resultEl.classList.remove('show');
+  quizEl.style.display='block';
+  navEl.style.display='flex';
 
-  pbar.style.width=(((pos+1)/order.length)*100)+'%';
-  hTitle.textContent='Soru '+(pos+1)+' / '+order.length;
-  qcount.textContent=(pos+1)+'/'+order.length;
+  const q = curQ();
+  const id = qid();
+  const chosen = answered[id];
+  const isAns = chosen !== null;
 
-  const opts=q.siklar.map((o,i)=>{
-    let cls='opt';let tick='';
-    if(s.answered){
-      if(i===q.dogru){cls+=' correct';tick='<span class="tick">✓</span>';}
-      else if(i===s.choice){cls+=' wrong';tick='<span class="tick">✕</span>';}
+  let html = '';
+  html += '<div class="qmeta">';
+  html += '<div class="qnum">SORU '+(idx+1)+' / '+order.length+'</div>';
+  html += '<button class="star-btn '+(starred[id]?'on':'')+'" onclick="toggleStar()" aria-label="Yıldızla">⭐</button>';
+  html += '</div>';
+
+  if(q.yil && q.yil.length){
+    html += '<div class="year-tags">';
+    q.yil.forEach(function(y){ html += '<span class="year-tag">'+y+'</span>'; });
+    html += '</div>';
+  }
+
+  html += '<div class="qcard">'+q.soru+'</div>';
+
+  html += '<div class="opts '+(isAns?'locked':'')+'" id="opts">';
+  q.siklar.forEach(function(s,i){
+    let cls='opt';
+    if(isAns){
+      if(i===q.dogru) cls+=' correct';
+      else if(i===chosen) cls+=' wrong';
       else cls+=' dim';
     }
-    return '<button class="'+cls+'" data-i="'+i+'" '+(s.answered?'disabled':'')+'>'
-      +'<span class="opt-k">'+o.k+'</span><span class="opt-t">'+o.t+'</span>'+tick+'</button>';
-  }).join('');
-
-  const yb=q.yil?'<span class="ybadge">'+q.yil+'</span>':'';
-
-  main.innerHTML=
-    '<div class="card">'
-     +'<div class="qtop"><span class="qno">Soru '+(pos+1)+'</span>'+yb
-        +'<button class="starbtn '+(s.star?'on':'')+'" id="starBtn">★</button></div>'
-     +'<div class="qtext">'+q.soru+'</div>'
-     +'<div class="opts">'+opts+'</div>'
-     +(!s.answered?'<button class="hint-toggle" id="hintToggle">💡 İpucu göster</button>'
-                    +'<div class="box box-hint prehint" id="prehint" style="display:none"><span class="bt">💡 İpucu</span>'+q.ipucu+'</div>':'')
-     +'<div class="reveal'+(s.answered?' show':'')+'" id="reveal">'
-        +'<div class="box box-hint"><span class="bt">💡 İpucu</span>'+q.ipucu+'</div>'
-        +'<div class="box box-trap"><span class="bt">⚠️ Tuzak</span>'+q.tuzak+'</div>'
-        +'<div class="box box-exp"><span class="bt">📖 Açıklama</span>'+q.aciklama+'</div>'
-     +'</div>'
-    +'</div>';
-
-  prevBtn.disabled=(pos===0);
-  if(pos===order.length-1){nextBtn.textContent='Bitir';nextBtn.classList.add('finish');}
-  else{nextBtn.textContent='Sonraki ›';nextBtn.classList.remove('finish');}
-
-  main.querySelectorAll('.opt').forEach(b=>{
-    b.onclick=()=>{ if(state[qi].answered)return; answer(qi,+b.dataset.i); };
+    html += '<button class="'+cls+'" '+(isAns?'':'onclick="answer('+i+')"')+'>'
+          + '<span class="k">'+s.k+'</span><span class="t">'+s.t+'</span><span class="mark"></span></button>';
   });
-  const st=document.getElementById('starBtn');
-  if(st) st.onclick=()=>{ state[qi].star=!state[qi].star; st.classList.toggle('on'); updateCounters(); };
-  const ht=document.getElementById('hintToggle');
-  if(ht) ht.onclick=()=>{ document.getElementById('prehint').style.display='block'; ht.style.display='none'; };
+  html += '</div>';
 
-  syncHeaderPad();
+  if(!isAns){
+    html += '<button class="hintbtn" id="preHint" onclick="showPreHint()">💡 İpucu göster</button>';
+    html += '<div id="revealZone"></div>';
+  } else {
+    html += '<div id="revealZone">'+revealHTML(q)+'</div>';
+  }
+
+  quizEl.innerHTML = html;
+
+  document.getElementById('prevBtn').disabled = (idx===0);
+  document.getElementById('nextBtn').textContent = (idx===order.length-1) ? 'Bitir ✓' : 'Sonraki →';
+  document.getElementById('navCounter').textContent = (idx+1)+'/'+order.length;
+
+  updateBars();
 }
 
-function answer(qi,i){
-  const s=state[qi];
-  s.answered=true;s.choice=i;s.correct=(i===QUESTIONS[qi].dogru);
-  updateCounters();
+function revealHTML(q){
+  return ''
+   + '<div class="box ip"><div class="bt">💡 İPUCU</div><div>'+q.ipucu+'</div></div>'
+   + '<div class="box tz"><div class="bt">⚠️ TUZAK</div><div>'+q.tuzak+'</div></div>'
+   + '<div class="box ac"><div class="bt">📖 AÇIKLAMA</div><div>'+q.aciklama+'</div></div>';
+}
+
+function showPreHint(){
+  const q = curQ();
+  const btn = document.getElementById('preHint');
+  if(btn) btn.style.display='none';
+  document.getElementById('revealZone').innerHTML =
+    '<div class="box ip"><div class="bt">💡 İPUCU</div><div>'+q.ipucu+'</div></div>';
+  scrollToReveal();
+}
+
+/* ================= ACTIONS ================= */
+function answer(i){
+  const id = qid();
+  if(answered[id]!==null) return;
+  answered[id]=i;
+  const q=curQ();
+
+  const opts=document.getElementById('opts');
+  opts.classList.add('locked');
+  const btns=opts.querySelectorAll('.opt');
+  btns.forEach(function(b,k){
+    b.setAttribute('onclick','');
+    if(k===q.dogru) b.classList.add('correct');
+    else if(k===i) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+
+  const pre=document.getElementById('preHint');
+  if(pre) pre.style.display='none';
+
+  document.getElementById('revealZone').innerHTML = revealHTML(q);
+  updateBars();
+  scrollToReveal();
+}
+
+function scrollToReveal(){
+  requestAnimationFrame(function(){
+    const zone=document.getElementById('revealZone');
+    const first=zone && zone.firstElementChild;
+    if(!first) return;
+    const offset = hdr.offsetHeight + 10;
+    const y = first.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({top:y, behavior:'smooth'});
+  });
+}
+
+function toggleStar(){
+  const id=qid();
+  starred[id]=!starred[id];
   render();
-  requestAnimationFrame(()=>{
-    const rv=document.getElementById('reveal');
-    if(rv){
-      const y=rv.getBoundingClientRect().top+window.scrollY-header.offsetHeight-8;
-      window.scrollTo({top:y,behavior:'smooth'});
-    }
-  });
 }
 
-prevBtn.onclick=()=>{ if(pos>0){pos--;render();window.scrollTo({top:0});} };
-nextBtn.onclick=()=>{
-  if(pos<order.length-1){pos++;render();window.scrollTo({top:0});}
-  else showResult();
-};
-
-/* Modal */
-document.getElementById('menuBtn').onclick=()=>{ buildGrid();overlay.classList.add('show'); };
-document.getElementById('closeModal').onclick=()=>overlay.classList.remove('show');
-overlay.onclick=e=>{ if(e.target===overlay) overlay.classList.remove('show'); };
-
-function buildGrid(){
-  const g=document.getElementById('grid');
-  g.innerHTML='';
-  order.forEach((qi,idx)=>{
-    const s=state[qi];
-    let cls='gcell';
-    if(s.answered) cls+= s.correct?' correct':' wrong';
-    if(idx===pos) cls+=' current';
-    const star=s.star?'<span class="gstar">⭐</span>':'';
-    const cell=document.createElement('div');
-    cell.className=cls;
-    cell.innerHTML=(idx+1)+star;
-    cell.onclick=()=>{ pos=idx;overlay.classList.remove('show');render();window.scrollTo({top:0}); };
-    g.appendChild(cell);
-  });
+function go(dir){
+  if(dir===1 && idx===order.length-1){ finished=true; render(); window.scrollTo({top:0,behavior:'smooth'}); return; }
+  idx=Math.max(0,Math.min(order.length-1, idx+dir));
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-/* Sonuç ekranı */
-function showResult(){
+/* ================= MODAL ================= */
+function openModal(){
+  const grid=document.getElementById('qGrid');
+  let h='';
+  order.forEach(function(id,p){
+    let cls='gbtn';
+    if(answered[id]!==null){ cls += (answered[id]===QUESTIONS[id].dogru)?' ok':' no'; }
+    if(p===idx) cls+=' cur';
+    if(starred[id]) cls+=' star';
+    h += '<button class="'+cls+'" onclick="jump('+p+')">'+(p+1)+'</button>';
+  });
+  grid.innerHTML=h;
+  document.getElementById('modalOv').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('modalOv').classList.remove('show');
+  document.body.style.overflow='';
+}
+function modalBg(e){ if(e.target.id==='modalOv') closeModal(); }
+function jump(p){ idx=p; finished=false; closeModal(); render(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+/* ================= COUNTERS / PROGRESS ================= */
+function correctCount(){
+  let c=0;
+  answered.forEach(function(a,i){ if(a!==null && a===QUESTIONS[i].dogru) c++; });
+  return c;
+}
+function starCount(){ return starred.filter(Boolean).length; }
+function updateBars(){
+  document.getElementById('cCount').textContent = correctCount();
+  document.getElementById('sCount').textContent = starCount();
+  const done = order.filter(function(id){return answered[id]!==null;}).length;
+  document.getElementById('bar').style.width = Math.round((done/order.length)*100)+'%';
+}
+
+/* ================= RESULT ================= */
+function renderResult(){
+  quizEl.style.display='none';
+  navEl.style.display='none';
+  resultEl.classList.add('show');
+
   const total=order.length;
-  const correct=order.filter(qi=>state[qi].correct).length;
-  const answered=order.filter(qi=>state[qi].answered).length;
-  const wrong=order.filter(qi=>state[qi].answered&&!state[qi].correct).length;
-  const blank=total-answered;
-  const starCount=order.filter(qi=>state[qi].star).length;
+  let correct=0, wrong=0, blank=0, starHere=0;
+  order.forEach(function(id){
+    const a=answered[id];
+    if(a===null) blank++;
+    else if(a===QUESTIONS[id].dogru) correct++;
+    else wrong++;
+    if(starred[id]) starHere++;
+  });
   const pct=Math.round((correct/total)*100);
 
+  document.getElementById('scoreBig').textContent = correct+'/'+total;
+  document.getElementById('pctLine').textContent = '%'+pct;
+  document.getElementById('ring').style.setProperty('--pct', pct+'%');
+
   let fb;
-  if(pct>=80) fb='Mükemmel! Konuya hakimsin. 🎯';
-  else if(pct>=60) fb='İyi iş — birkaç tekrar ile tam olur. 💪';
-  else if(pct>=40) fb='Temeller var; yanlışları gözden geçir. 📚';
-  else fb='Bu konuları tekrar çalışmak iyi olur. 🔁';
+  if(pct>=90) fb='Mükemmel! Bu konulara hâkimsin. 🎯';
+  else if(pct>=70) fb='Çok iyi. Birkaç tuzak dışında sağlamsın. 👏';
+  else if(pct>=50) fb='Fena değil; yanlışları ve tuzakları tekrar et. 📚';
+  else fb='Bu blokları tekrar çalışmakta fayda var. Devam! 💪';
+  document.getElementById('fbText').textContent = fb;
 
-  const rev=order.map((qi,idx)=>{
-    const s=state[qi];
-    let bcls,bico;
-    if(!s.answered){bcls='bl';bico='—';}
-    else if(s.correct){bcls='ok';bico='✓';}
-    else{bcls='no';bico='✕';}
-    const dk=QUESTIONS[qi].siklar[QUESTIONS[qi].dogru].k;
-    return '<div class="rev-item" data-idx="'+idx+'">'
-      +'<div class="rev-badge '+bcls+'">'+bico+'</div>'
-      +'<div class="rq">Soru '+(idx+1)+'</div>'
-      +'<div class="ra">Doğru: '+dk+'</div></div>';
-  }).join('');
+  document.getElementById('rStats').innerHTML =
+      '<div class="rstat g">✓ Doğru '+correct+'</div>'
+    + '<div class="rstat r">✗ Yanlış '+wrong+'</div>'
+    + '<div class="rstat s">⭐ Yıldızlı '+starHere+'</div>';
 
-  const res=document.createElement('div');
-  res.className='result';
-  res.innerHTML=
-    '<div class="ring" style="--p:'+pct+'"><div class="inner">'
-      +'<div class="pct">%'+pct+'</div><div class="sc">'+correct+' / '+total+'</div></div></div>'
-    +'<div class="fb">'+fb+'</div>'
-    +'<div class="statrow">'
-      +'<div class="stat g"><div class="n">'+correct+'</div><div class="l">Doğru</div></div>'
-      +'<div class="stat r"><div class="n">'+wrong+'</div><div class="l">Yanlış</div></div>'
-      +'<div class="stat s"><div class="n">'+starCount+'</div><div class="l">Yıldızlı</div></div>'
-    +'</div>'
-    +'<div class="ractions">'
-      +'<button id="raRestart">🔄 Baştan Başlat</button>'
-      +'<button id="raWrong" '+(wrong===0?'disabled':'')+'>❌ Yanlışları Tekrar Çöz ('+wrong+')</button>'
-      +'<button id="raStar" '+(starCount===0?'disabled':'')+'>⭐ Yıldızlıları Tekrar Çöz ('+starCount+')</button>'
-    +'</div>'
-    +'<div class="rev"><h3>Soru İncelemesi</h3>'+rev+'</div>';
-
-  document.body.innerHTML='';
-  document.body.appendChild(header);
-  document.body.appendChild(res);
-  document.body.appendChild(overlay);
-  hTitle.textContent='Sonuç';
-  pbar.style.width='100%';
-  syncHeaderPad();
-  window.scrollTo({top:0});
-
-  res.querySelectorAll('.rev-item').forEach(it=>{
-    it.onclick=()=>{ restoreQuiz();pos=+it.dataset.idx;render();window.scrollTo({top:0}); };
+  let rev='';
+  order.forEach(function(id,p){
+    const q=QUESTIONS[id];
+    const a=answered[id];
+    let badge, cls, label;
+    if(a===null){ badge='–'; cls='blank'; label='Boş'; }
+    else if(a===q.dogru){ badge='✓'; cls='ok'; label='Doğru'; }
+    else { badge='✗'; cls='no'; label='Yanlış'; }
+    const ds=q.siklar[q.dogru];
+    rev += '<div class="rev" onclick="jump('+p+')">'
+         + '<div class="badge '+cls+'">'+badge+'</div>'
+         + '<div style="flex:1">'
+         + '<div class="rq">Soru '+(p+1)+' — '+label+(starred[id]?' ⭐':'')+'</div>'
+         + '<div class="ra">Doğru cevap: <b>'+ds.k+') '+ds.t+'</b></div>'
+         + '</div></div>';
   });
-  document.getElementById('raRestart').onclick=()=>fullRestart();
-  document.getElementById('raWrong').onclick=()=>retrySubset(order.filter(qi=>state[qi].answered&&!state[qi].correct));
-  document.getElementById('raStar').onclick=()=>retrySubset(order.filter(qi=>state[qi].star));
+  document.getElementById('reviewList').innerHTML = rev;
+
+  document.getElementById('retryWrongBtn').disabled = (wrong===0);
+  document.getElementById('retryStarBtn').disabled = (starCount()===0);
+
+  updateBars();
 }
 
-function restoreQuiz(){
-  document.body.innerHTML='';
-  document.body.appendChild(header);
-  document.body.appendChild(main);
-  document.body.appendChild(navBar);
-  document.body.appendChild(overlay);
+/* ================= RETRY MODES ================= */
+function startSubset(ids){
+  order = ids.slice();
+  ids.forEach(function(id){ answered[id]=null; });
+  idx=0; finished=false;
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function restart(){
+  order = QUESTIONS.map(function(_,i){return i;});
+  for(let i=0;i<QUESTIONS.length;i++){ answered[i]=null; }
+  idx=0; finished=false;
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function retryWrong(){
+  const ids = order.filter(function(id){ return answered[id]!==null && answered[id]!==QUESTIONS[id].dogru; });
+  if(!ids.length){ toast('Yanlış soru yok 🎉'); return; }
+  startSubset(ids);
+}
+function retryStar(){
+  const ids = [];
+  starred.forEach(function(s,i){ if(s) ids.push(i); });
+  if(!ids.length){ toast('Yıldızlı soru yok ⭐'); return; }
+  startSubset(ids);
 }
 
-function fullRestart(){
-  order=QUESTIONS.map((_,i)=>i);
-  pos=0;
-  state.forEach(s=>{s.answered=false;s.choice=null;s.correct=false;s.star=false;});
-  restoreQuiz();updateCounters();render();window.scrollTo({top:0});
+/* ================= TOAST ================= */
+let toastT=null;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(toastT);
+  toastT=setTimeout(function(){ el.classList.remove('show'); },1800);
 }
 
-function retrySubset(subset){
-  if(!subset.length)return;
-  subset.forEach(qi=>{state[qi].answered=false;state[qi].choice=null;state[qi].correct=false;});
-  order=subset.slice();pos=0;
-  restoreQuiz();updateCounters();render();window.scrollTo({top:0});
-}
-
-window.addEventListener('load',syncHeaderPad);
-window.addEventListener('resize',syncHeaderPad);
-updateCounters();
+/* ================= INIT ================= */
 render();
+window.addEventListener('load', function(){ syncHeader(); updateBars(); });
 </script>
 </body>
 </html>

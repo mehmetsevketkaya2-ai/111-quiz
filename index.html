@@ -6,7 +6,7 @@
 <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="expires" content="0">
 <meta http-equiv="pragma" content="no-cache">
-<title>Pediatri TTS — Yenidoğan</title>
+<title>Pediatri · Yenidoğan · PART 2 — TTS</title>
 <style>
   :root{
     --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --line:#2a3444;
@@ -178,7 +178,7 @@
 <body>
 <header id="hdr">
   <div class="hbar">
-    <div class="htitle">Pediatri · Yenidoğan <span>TTS</span></div>
+    <div class="htitle">Pediatri · Yenidoğan · PART 2 <span>TTS</span></div>
     <div class="stats">
       <div class="chip correct">✓ <span id="cCount">0</span></div>
       <div class="chip star">⭐ <span id="sCount">0</span></div>
@@ -233,789 +233,405 @@
 const QUESTIONS = [
   {
     "yil": [
-      "İlkbahar-98"
+      "Sonbahar-95"
     ],
-    "soru": "Sistemik Lupus Eritematozus'lu (SLE) annelerden doğan bebeklerde görülen <mark>ilk ve geçici</mark> SLE bulgusu aşağıdakilerden hangisidir?",
+    "soru": "İki günlük bir bebekte aşağıdaki laboratuvar bulgularından hangisi <mark>patolojiktir</mark>?",
     "siklar": [
       {
         "k": "A",
-        "t": "Döküntü"
+        "t": "Hb 12.5 g/dL"
       },
       {
         "k": "B",
-        "t": "Nefrit"
+        "t": "İndirekt bilirubin 4 mg/dL"
       },
       {
         "k": "C",
-        "t": "Pozitif LE hücresi"
+        "t": "Kan şekeri 55 mg/dL"
       },
       {
         "k": "D",
-        "t": "Trombositopeni"
+        "t": "Nabız 140/dk"
       },
       {
         "k": "E",
-        "t": "Nötropeni"
+        "t": "Ca 8.2 mg/dL"
       }
     ],
     "dogru": 0,
-    "ipucu": "Neonatal lupusta en sık ve ilk görülen bulgu <b>kutanöz</b>tur; UV maruziyeti sonrası ilk 6 haftada çıkar.",
-    "tuzak": "Neonatal lupusta <b>renal tutulum olmaz</b>; nefrit erişkin SLE bulgusu olarak çeldirici konmuştur.",
-    "aciklama": "Neonatal Lupus Sendromu, anneden geçen <b>anti-Ro (SSA)</b> ve <b>anti-La (SSB)</b> antikorlarıyla oluşur. En sık ve ilk bulgu <b>eritema anülare</b> tarzı döküntüdür (yüz ve saçlı deri), geçicidir ve tedavi gerektirmez. Kalıcı olabilen tek bulgu <b>konjenital kalp bloğu</b>dur; renal tutulum görülmez."
-  },
-  {
-    "yil": [
-      "İlkbahar 2017 Orijinal"
-    ],
-    "soru": "Kalp hızının yavaşlaması nedeniyle 35. gebelik haftasında doğurtulan yenidoğan bebeğin fizik muayenesinde kalp hızı 58/dakika saptanıyor. Özellikle yüzde daha belirgin olmak üzere tüm vücutta <mark>annüler, eritematöz lezyonları</mark> olan bebeğin elektrokardiyografisinde <b>atriyoventriküler tam blok</b> saptanıyor. Bu bebekte atriyoventriküler tam bloğa yol açan en olası maternal antikor aşağıdakilerden hangisidir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "ANA"
-      },
-      {
-        "k": "B",
-        "t": "Anti-dsDNA"
-      },
-      {
-        "k": "C",
-        "t": "Anti-Ro"
-      },
-      {
-        "k": "D",
-        "t": "Anti-Sm"
-      },
-      {
-        "k": "E",
-        "t": "Anti-fosfolipid antikor"
-      }
-    ],
-    "dogru": 2,
-    "ipucu": "Konjenital AV tam blok + eritema anülare = neonatal lupus. En <b>spesifik</b> antikoru düşün.",
-    "tuzak": "<mark>ANA</mark> ve <mark>anti-dsDNA</mark> annenin SLE'sini gösterir ama AV bloktan sorumlu değildir; sorumlu antikor <b>anti-Ro/anti-La</b>.",
-    "aciklama": "Konjenital <b>AV tam bloktan</b> sorumlu maternal antikorlar <b>anti-Ro (SSA)</b> (daha spesifik) ve <b>anti-La (SSB)</b>'dir; plasentadan geçerek fetal ileti sistemine hasar verir. Doğumsal AV tam blokların ~%30-40'ı KKH (en sık düzeltilmiş büyük arter transpozisyonu-L-TGA, sol atriyal izomerizm) ile birliktedir."
-  },
-  {
-    "yil": [
-      "İlkbahar 2017 BENZERİ"
-    ],
-    "soru": "<b>I.</b> Anti-fosfolipid antikor<br><b>II.</b> Anti-Ro<br><b>III.</b> Anti-dsDNA<br><b>IV.</b> Anti-La<br>Yukarıdakilerden hangisi/hangileri, Neonatal Lupus Sendromu olan yenidoğan bebeklerde <mark>atriyoventriküler tam bloğa</mark> yol açma olasılığı en yüksek olan maternal antikor/antikorlardır?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "I ve II"
-      },
-      {
-        "k": "B",
-        "t": "I ve III"
-      },
-      {
-        "k": "C",
-        "t": "II ve IV"
-      },
-      {
-        "k": "D",
-        "t": "II, III ve IV"
-      },
-      {
-        "k": "E",
-        "t": "III ve IV"
-      }
-    ],
-    "dogru": 2,
-    "ipucu": "AV bloktan sorumlu ikili: <b>anti-Ro (II)</b> ve <b>anti-La (IV)</b>.",
-    "tuzak": "Anti-fosfolipid (I) ve anti-dsDNA (III) tromboz/SLE aktivitesiyle ilişkilidir; konjenital AV blok yapmazlar.",
-    "aciklama": "Neonatal lupusta konjenital AV bloktan sorumlu antikorlar <b>anti-Ro/SSA</b> (II) ve <b>anti-La/SSB</b> (IV)'dir → <b>C</b>. Bu, bir önceki sorunun aynı vaka üzerinden çoktan-seçmeli varyantıdır."
-  },
-  {
-    "yil": [
-      "Sonbahar 2011"
-    ],
-    "soru": "Aşağıdaki neonatal hastalıklardan hangisinin etiyolojisinde <mark>anneden fetüse geçen antikorların</mark> rol oynadığı düşünülmelidir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Neonatal hipoglisemi"
-      },
-      {
-        "k": "B",
-        "t": "Neonatal hipokalsemi"
-      },
-      {
-        "k": "C",
-        "t": "Geçici neonatal tirotoksikoz"
-      },
-      {
-        "k": "D",
-        "t": "Makrozomi"
-      },
-      {
-        "k": "E",
-        "t": "Mikrosefali"
-      }
-    ],
-    "dogru": 2,
-    "ipucu": "Hangi tabloda anneden <b>IgG antikor</b> geçişi vardır? Graves → tiroidi uyaran antikor.",
-    "tuzak": "Hipoglisemi ve makrozomi (diyabetik anne) <b>insülin</b> aracılıdır, antikor değil; hipokalsemi/mikrosefalide de antikor rolü yoktur.",
-    "aciklama": "Annedeki <b>Graves hastalığında</b> tiroidi stimüle eden <b>TSH-reseptör antikorları (IgG)</b> plasentadan geçerek bebekte <b>geçici neonatal tirotoksikoz</b> yapar. Diğer seçeneklerde maternal-fetal antikor etkileşimi rol oynamaz."
-  },
-  {
-    "yil": [
-      "Sonbahar 2022 Orijinal"
-    ],
-    "soru": "\"<b>Ex utero intrapartum treatment (EXIT)</b>\" girişimi aşağıda belirtilen fetal durumların hangisinde doğum esnasında uygulanır?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Nöral tüp defekti"
-      },
-      {
-        "k": "B",
-        "t": "Kritik hava yolu obstrüksiyonu"
-      },
-      {
-        "k": "C",
-        "t": "Ağır intrauterin anemi"
-      },
-      {
-        "k": "D",
-        "t": "Hidrops fetalis"
-      },
-      {
-        "k": "E",
-        "t": "Aşırı düşük gebelik yaşı"
-      }
-    ],
-    "dogru": 1,
-    "ipucu": "EXIT = doğumda <b>hava yolu</b> güvence altına alınana kadar plasental dolaşımın sürdürülmesi.",
-    "tuzak": "Anemi/hidrops için intrauterin transfüzyon yapılır; EXIT özellikle <mark>solunum yolunu tıkayan</mark> kitle/obstrüksiyon içindir.",
-    "aciklama": "<b>EXIT protokolünde</b>, solunum yolunu tam bloke eden ve postnatal entübasyonun mümkün olmadığı durumlarda bebek çıkarılırken <b>umbilikal kord klemplenmez</b>; plasental gaz değişimi sürerken hava yolu sağlanır (ör. trakeostomi), sonra kord klemplenir."
-  },
-  {
-    "yil": [
-      "İlkbahar 2003"
-    ],
-    "soru": "Aşağıdakilerden hangisi <mark>oligohidramniyosla birlikte görülmesi beklenen</mark> durumlardan birisi <b>değildir</b>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "İntrauterin büyüme geriliği"
-      },
-      {
-        "k": "B",
-        "t": "Üretral atrezi"
-      },
-      {
-        "k": "C",
-        "t": "Duodenal atrezi"
-      },
-      {
-        "k": "D",
-        "t": "Pulmoner hipoplazi"
-      },
-      {
-        "k": "E",
-        "t": "Prune-Belly Sendromu"
-      }
-    ],
-    "dogru": 2,
-    "ipucu": "GİS'te amniyon sıvısı emilir; üst GİS atrezileri sıvıyı <b>ememeyince polihidramniyos</b> olur.",
-    "tuzak": "<mark>Duodenal atrezi</mark> (ve özofagus atrezisi) → sıvı emilemez → <b>polihidramniyos</b>. Oligo değil!",
-    "aciklama": "Oligohidramniyos, idrar çıkışının azaldığı (üretral atrezi, renal agenezi, IUGR, Prune-Belly) ve plasental yetmezlik durumlarında olur. <b>Duodenal atrezi</b> üst GİS'ten sıvı emilimini engelleyerek <b>polihidramniyos</b> yapar; oligohidramniyos ile birlikte beklenmez."
-  },
-  {
-    "yil": [
-      "İlkbahar 2006"
-    ],
-    "soru": "Aşağıdakilerden hangisi <mark>oligohidramniyosla birlikte görülmesi beklenen</mark> durumlardan birisi <b>değildir</b>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Fetal anomali"
-      },
-      {
-        "k": "B",
-        "t": "Akondroplazi"
-      },
-      {
-        "k": "C",
-        "t": "Renal agenezi"
-      },
-      {
-        "k": "D",
-        "t": "Pulmoner hipoplazi"
-      },
-      {
-        "k": "E",
-        "t": "İntestinal psödoobstrüksiyon"
-      }
-    ],
-    "dogru": 1,
-    "ipucu": "<b>Akondroplazi</b> polihidramniyos ile ilişkilidir, oligo ile değil.",
-    "tuzak": "Güncel (21. Nelson) bilgiyle <mark>intestinal psödoobstrüksiyon</mark> oligo nedenleri tablosundan çıkarıldı; soru artık <b>çift cevaplı (B ve E)</b>. Sorulduğu yılda dönem cevabı B'dir.",
-    "aciklama": "<b>Akondroplazi</b> oligohidramniyos değil <b>polihidramniyos</b> ile ilişkilidir → dönem cevabı <b>B</b>. Not: 21. baskı Nelson'da intestinal psödoobstrüksiyon oligohidramniyos nedenlerinden çıkarıldığı için soru güncel bilgiyle çift cevaplı hale gelmiştir."
-  },
-  {
-    "yil": [
-      "İlkbahar-94"
-    ],
-    "soru": "<mark>Oligohidramniyosda</mark> yenidoğanlarda aşağıdakilerden hangisi beklenir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Özefagus atrezisi"
-      },
-      {
-        "k": "B",
-        "t": "Hidrosefali"
-      },
-      {
-        "k": "C",
-        "t": "Nöral tüp defekti"
-      },
-      {
-        "k": "D",
-        "t": "Renal agenezi"
-      },
-      {
-        "k": "E",
-        "t": "Pulmoner efüzyon"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "İdrar üretmeyen böbrek = amniyon sıvısı azalır (Potter).",
-    "tuzak": "Özefagus atrezisi, hidrosefali, NTD ve plevral efüzyon <b>polihidramniyos</b> tarafıdır; tek oligo nedeni <b>renal agenezi</b>.",
-    "aciklama": "<b>Renal agenezi</b> fetal idrar üretimini durdurarak oligohidramniyosa (Potter sekansı) yol açar. Diğer seçenekler polihidramniyosla ilişkilidir."
-  },
-  {
-    "yil": [
-      "İlkbahar 2010"
-    ],
-    "soru": "Aşağıdakilerden hangisi, <mark>oligohidramniyosun</mark> yenidoğan bebeklerdeki <b>komplikasyonlarından</b> biridir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Anensefali"
-      },
-      {
-        "k": "B",
-        "t": "Trakeaözofageal fistül"
-      },
-      {
-        "k": "C",
-        "t": "Pulmoner hipoplazi"
-      },
-      {
-        "k": "D",
-        "t": "Diabetes mellitus"
-      },
-      {
-        "k": "E",
-        "t": "Spina bifida"
-      }
-    ],
-    "dogru": 2,
-    "ipucu": "Amniyon sıvısı az → akciğer olgunlaşamaz.",
-    "tuzak": "Anensefali, TÖF, spina bifida <b>polihidramniyos</b> ile ilişkilidir; bunlar oligo komplikasyonu değildir.",
-    "aciklama": "Akciğer maturasyonu için yeterli amniyon sıvısı gerekir. Oligohidramniyos/anhidramniyos, olayın şiddetiyle orantılı <b>pulmoner hipoplazi</b> yapar (Potter sekansının parçası)."
-  },
-  {
-    "yil": [
-      "İlkbahar 2012"
-    ],
-    "soru": "Yenidoğan bir bebeğin 5. dakikadaki değerlendirilmesinde; dudaklarının pembe, el ve ayaklarının mor, kalp hızının <b>80/dakika</b>, öğürme refleksinin normal ve solunumunun yavaş-düzensiz olduğu, kol ve bacaklarını hafif fleksiyonda tuttuğu görülüyor. Bu bebeğin 5. dakika <b>APGAR skoru</b> kaçtır?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "4"
-      },
-      {
-        "k": "B",
-        "t": "5"
-      },
-      {
-        "k": "C",
-        "t": "6"
-      },
-      {
-        "k": "D",
-        "t": "7"
-      },
-      {
-        "k": "E",
-        "t": "8"
-      }
-    ],
-    "dogru": 2,
-    "ipucu": "Kalp <100 (1), solunum düzensiz (1), tonus fleksiyon (1), refleks normal öğürme (2), akrosiyanoz (1).",
-    "tuzak": "Öğürme refleksinin <b>normal</b> olması refleks yanıtına <mark>2 puan</mark> kazandırır (1 değil); bu toplamı 6 yapar.",
-    "aciklama": "Kalp hızı 80 (<100)=1, solunum yavaş-düzensiz=1, kas tonusu hafif fleksiyon=1, refleks (öğürme normal)=2, renk (gövde pembe-ekstremite mor/akrosiyanoz)=1 → <b>Toplam 6</b>."
-  },
-  {
-    "yil": [
-      "İlkbahar 2000"
-    ],
-    "soru": "Kalp hızı <b>93/dk</b>, solunumu yavaş ve düzensiz, ekstremiteleri hafif fleksiyon halinde olan, burnuna kateter sokulunca <mark>yüzünü buruşturan</mark> ve gövdesi pembe, ekstremiteleri mavimtrak renkte olan yenidoğanın APGAR skoru kaçtır?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "3"
-      },
-      {
-        "k": "B",
-        "t": "4"
-      },
-      {
-        "k": "C",
-        "t": "5"
-      },
-      {
-        "k": "D",
-        "t": "6"
-      },
-      {
-        "k": "E",
-        "t": "7"
-      }
-    ],
-    "dogru": 2,
-    "ipucu": "Kateter sokulunca sadece <b>yüz buruşturma (grimace)</b> = 1 puan (öksürük/aksırık olsaydı 2 olurdu).",
-    "tuzak": "<mark>Yüzünü buruşturma</mark> refleks yanıtına yalnız 1 puan verir; bu yüzden toplam 6 değil <b>5</b>.",
-    "aciklama": "Kalp 93 (<100)=1, solunum düzensiz=1, tonus fleksiyon=1, refleks (yalnız yüz buruşturma)=1, renk (akrosiyanoz)=1 → <b>Toplam 5</b>."
-  },
-  {
-    "yil": [
-      "Sonbahar-94"
-    ],
-    "soru": "Aşağıdakilerden hangisi <mark>APGAR skorlamasında kullanılmaz</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Kas tonusu"
-      },
-      {
-        "k": "B",
-        "t": "Deri rengi"
-      },
-      {
-        "k": "C",
-        "t": "Kalp hızı"
-      },
-      {
-        "k": "D",
-        "t": "Kan basıncı"
-      },
-      {
-        "k": "E",
-        "t": "Refleks aktivitesi"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "APGAR = Appearance, Pulse, Grimace, Activity, Respiration. <b>Kan basıncı yok.</b>",
-    "tuzak": "<mark>Kan basıncı</mark> APGAR parametresi değildir; nabız (kalp hızı) vardır ama tansiyon yoktur.",
-    "aciklama": "APGAR parametreleri: <b>cilt rengi, kalp atımı, refleks yanıt (grimace), tonus ve solunum</b>. <b>Kan basıncı</b> yer almaz."
-  },
-  {
-    "yil": [
-      "İlkbahar 2007"
-    ],
-    "soru": "Aşağıdakilerden hangisi <mark>APGAR skorlaması kriterlerinden</mark> birisi <b>değildir</b>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Kalp hızı"
-      },
-      {
-        "k": "B",
-        "t": "Solunum paterni"
-      },
-      {
-        "k": "C",
-        "t": "Kas tonusu"
-      },
-      {
-        "k": "D",
-        "t": "Renk"
-      },
-      {
-        "k": "E",
-        "t": "Patella refleksi"
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "Refleks yanıt vardır ama bu 'patella (diz) refleksi' değildir.",
-    "tuzak": "<mark>Patella refleksi</mark> APGAR'da yoktur; APGAR'daki refleks 'grimace' (uyarana yüz/öksürük yanıtı)dır.",
-    "aciklama": "APGAR'ın 5 parametresi: kalp hızı, solunum, tonus, renk ve <b>refleks irritabilite (grimace)</b>. <b>Patella (derin tendon) refleksi</b> değerlendirilmez."
-  },
-  {
-    "yil": [
-      "Sonbahar 2012"
-    ],
-    "soru": "Maternal eklampsi ve koryoamnionit nedeniyle acil sezaryen ile 28 haftalık ve 1000 gram doğan bir yenidoğanın 1. dakika APGAR skoru 3, 5. dakika APGAR skoru 5 olarak belirleniyor. Aşağıdaki faktörlerden hangisi bu yenidoğanın APGAR skorunun düşük olmasını <mark>açıklamaz</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Anneye magnezyum sülfat verilmesi"
-      },
-      {
-        "k": "B",
-        "t": "Anneye narkotik analjezik verilmesi"
-      },
-      {
-        "k": "C",
-        "t": "Prematürite"
-      },
-      {
-        "k": "D",
-        "t": "Bebekteki olası konjenital pnömoni ve sepsis"
-      },
-      {
-        "k": "E",
-        "t": "Anneye intravenöz sıvı verilmesi"
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "Hangi faktör solunum depresyonu/hipotoni <b>yapmaz</b>? IV sıvının etkisi geçici takipnedir.",
-    "tuzak": "MgSO4, narkotik, prematürite, sepsis hepsi APGAR'ı düşürür; <mark>IV sıvı</mark> siyanoz/hipotoni/bradikardi yapmadığından skoru açıklamaz.",
-    "aciklama": "MgSO4 (hipotoni, solunum depresyonu), narkotik (solunum depresyonu/apne), prematürite ve sepsis/pnömoni APGAR'ı düşürür. <b>Anneye IV sıvı</b> bebekte geçici takipneye yol açabilir ama siyanoz, hipotoni, bradikardi veya refleks azalması yapmaz → skoru açıklamaz."
-  },
-  {
-    "yil": [
-      "Sonbahar 2007"
-    ],
-    "soru": "Aşağıdakilerden hangisi, <mark>ülkemizdeki rutin yenidoğan tarama programları</mark> kapsamında yer alır?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Alfa-1 antitripsin eksikliği"
-      },
-      {
-        "k": "B",
-        "t": "Konjenital hipotiroidi"
-      },
-      {
-        "k": "C",
-        "t": "Nöroblastom"
-      },
-      {
-        "k": "D",
-        "t": "Tüberküloz"
-      },
-      {
-        "k": "E",
-        "t": "AIDS"
-      }
-    ],
-    "dogru": 1,
-    "ipucu": "Topuk kanıyla taranan, sık ve tedavi edilebilir endokrin hastalık.",
-    "tuzak": "Nöroblastom, TB, AIDS ve alfa-1 antitripsin <b>rutin topuk taramasında yoktur</b>.",
-    "aciklama": "Türkiye'de rutin topuk kanı taraması: <b>konjenital hipotiroidi</b>, fenilketonüri, biyotinidaz eksikliği, kistik fibrozis, konjenital adrenal hiperplazi ve spinal musküler atrofi (SMA). Ayrıca gelişimsel kalça displazisi ve işitme taraması yapılır."
-  },
-  {
-    "yil": [
-      "İlkbahar 2018 Orijinal"
-    ],
-    "soru": "Ülkemizde <b>konjenital hipotiroidi taraması</b> için topuktan alınan kan örneğinde ölçülmesi gerekenler aşağıdakilerin hangisinde verilmiştir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "TSH"
-      },
-      {
-        "k": "B",
-        "t": "Tiroglobulin"
-      },
-      {
-        "k": "C",
-        "t": "TSH + T3"
-      },
-      {
-        "k": "D",
-        "t": "TSH + T3 + T4"
-      },
-      {
-        "k": "E",
-        "t": "TSH + tiroglobulin"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Ulusal programda topuk kanında tek bir analit bakılır.",
-    "tuzak": "T3/T4/tiroglobulin çeldiricidir; ulusal tarama <b>yalnız TSH</b> ile yapılır.",
-    "aciklama": "Türkiye'de konjenital hipotiroidi taraması topuk kanında <b>TSH</b> ölçümüyle yapılır (ideal 3-5. gün). TSH >20 mIU/L saptananlar Çocuk Endokrinolojisine yönlendirilir."
-  },
-  {
-    "yil": [
-      "İlkbahar 2018 BENZERİ"
-    ],
-    "soru": "Ülkemizde yenidoğan döneminde taranan hastalıklar, tarama yöntemleriyle eşleştirilmiştir. Bu eşleştirmelerden hangisi <mark>doğru değildir</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Konjenital hipotiroidi — Serbest T4"
-      },
-      {
-        "k": "B",
-        "t": "İşitme testi — ABR yöntemi"
-      },
-      {
-        "k": "C",
-        "t": "Kistik fibrozis — İmmün reaktif tripsinojen"
-      },
-      {
-        "k": "D",
-        "t": "Biyotinidaz eksikliği — Enzim aktivitesinin ölçümü"
-      },
-      {
-        "k": "E",
-        "t": "Fenilketonüri — Fenilalanin düzeyi"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Konjenital hipotiroidi hangi analitle taranır? Serbest T4 değil.",
-    "tuzak": "<mark>Konjenital hipotiroidi–Serbest T4</mark> yanlış eşleşmedir; doğrusu <b>TSH</b>.",
-    "aciklama": "Konjenital hipotiroidi topuk kanında <b>TSH</b> ile taranır (serbest T4 ile değil) → yanlış eşleşme A. Diğerleri doğrudur: KF–immünreaktif tripsinojen, biyotinidaz–enzim aktivitesi, FKÜ–fenilalanin, işitme–ABR."
-  },
-  {
-    "yil": [
-      "Sonbahar-94"
-    ],
-    "soru": "Yenidoğan bir bebekte aşağıdaki bulgulardan hangisinin saptanması, <mark>sistemik bir hastalığın</mark> bulunduğunu gösterir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Milia"
-      },
-      {
-        "k": "B",
-        "t": "Ebstein incileri"
-      },
-      {
-        "k": "C",
-        "t": "Sklerem"
-      },
-      {
-        "k": "D",
-        "t": "Mongol lekesi"
-      },
-      {
-        "k": "E",
-        "t": "Yenidoğanın püstüler melanozisi"
-      }
-    ],
-    "dogru": 2,
-    "ipucu": "Hangisi 'kötü/hasta' bebekle birlikte görülür?",
-    "tuzak": "Milia, Ebstein incileri, mongol lekesi ve püstüler melanozis <b>masum</b> bulgulardır; çeldiricidir.",
-    "aciklama": "<b>Sklerem (sklerema neonatorum)</b>, prematüre veya ağır hasta yenidoğanlarda derinin sert-soğuk endürasyonudur; hemen daima sepsis, KKH, konjenital anomali veya hipotermi gibi <b>ciddi sistemik hastalıkla</b> birliktedir."
-  },
-  {
-    "yil": [
-      "Sonbahar 2001"
-    ],
-    "soru": "Aşağıdaki bulgulardan hangisi, yenidoğan bir bebekte saptanması durumunda <mark>patolojik</mark> olarak kabul edilmelidir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Ebstein incileri"
-      },
-      {
-        "k": "B",
-        "t": "Sklerem"
-      },
-      {
-        "k": "C",
-        "t": "Milia"
-      },
-      {
-        "k": "D",
-        "t": "Mongol lekesi"
-      },
-      {
-        "k": "E",
-        "t": "Kutis marmaratus"
-      }
-    ],
-    "dogru": 1,
-    "ipucu": "Sağlıklı yenidoğanda görülmeyen, hasta bebekle ilişkili bulgu.",
-    "tuzak": "Ebstein incileri, milia, mongol lekesi ve kutis marmaratus <b>normal</b> yenidoğan bulgularıdır.",
-    "aciklama": "<b>Sklerem</b> patolojiktir ve ciddi hastalık göstergesidir. Diğerleri normal/geçici cilt bulgularıdır (kutis marmaratus, soğukla ortaya çıkan fizyolojik retiküler desendir)."
-  },
-  {
-    "yil": [
-      "İlkbahar 2009"
-    ],
-    "soru": "Yenidoğan bir bebeğin muayenesinde saptanan aşağıdaki cilt bulgularından hangisi, <mark>eşlik edebileceği diğer defektler</mark> nedeniyle patolojik kabul edilmelidir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Eritema toksikum"
-      },
-      {
-        "k": "B",
-        "t": "Püstüler melanozis"
-      },
-      {
-        "k": "C",
-        "t": "Lanugo"
-      },
-      {
-        "k": "D",
-        "t": "Amniyotik band izleri"
-      },
-      {
-        "k": "E",
-        "t": "Mongol lekeleri"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "Mekanik konstriksiyon → amputasyon, yarık, omfalosel eşlik edebilir.",
-    "tuzak": "Eritema toksikum, püstüler melanozis, lanugo ve mongol lekesi <b>izole/masum</b> bulgulardır.",
-    "aciklama": "<b>Amniyotik band izleri</b>, amniyon bantlarının fetüs üzerindeki mekanik etkisiyle oluşur; ekstremite amputasyonu, fasiyal yarık, kraniyofasiyal anomali, omfalosel ve gastroşizis eşlik edebildiğinden patolojiktir."
-  },
-  {
-    "yil": [
-      "Sonbahar 2011"
-    ],
-    "soru": "Yenidoğan bir bebekte saptanan aşağıdaki cilt bulgularından hangisinin, zaman içinde <mark>kendiliğinden kaybolması beklenmez</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Port-wine (Porto şarabı) hemanjiyom"
-      },
-      {
-        "k": "B",
-        "t": "Mongol lekeleri"
-      },
-      {
-        "k": "C",
-        "t": "Harlekuin renk değişikliği"
-      },
-      {
-        "k": "D",
-        "t": "Toksik eritem"
-      },
-      {
-        "k": "E",
-        "t": "Kutis marmoratus"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Basmakla solmayan, kalıcı vasküler malformasyon.",
-    "tuzak": "Mongol lekesi, harlekuin, toksik eritem ve kutis marmoratus <b>geçicidir</b>; port-wine kalıcıdır.",
-    "aciklama": "<b>Port-wine lekesi (nevus flammeus)</b> kalıcı bir kapiller malformasyondur; basmakla solmaz ve kendiliğinden kaybolmaz (Sturge-Weber ile ilişkili olabilir). Diğer seçenekler zamanla geçen bulgulardır."
-  },
-  {
-    "yil": [
-      "Sonbahar 2012"
-    ],
-    "soru": "Yenidoğanlarda sık görülen Mongol lekesi ile ilgili aşağıdaki ifadelerden hangisi <mark>yanlıştır</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Mavi pigmentli lezyonlardır."
-      },
-      {
-        "k": "B",
-        "t": "Presakral bölge, kalça ve bel bölgesinde görülebilirler."
-      },
-      {
-        "k": "C",
-        "t": "Down Sendromlu bebeklerde daha sık görülür."
-      },
-      {
-        "k": "D",
-        "t": "Bir yıl içinde kaybolurlar."
-      },
-      {
-        "k": "E",
-        "t": "Malign değişim göstermezler."
-      }
-    ],
-    "dogru": 2,
-    "ipucu": "İlk kez Down'lu bebeklerde tanımlanmış olması 'daha sık' demek değildir.",
-    "tuzak": "<mark>Down'da daha sık</mark> ifadesi yanlıştır; isim tarihseldir, sıklık artmamıştır.",
-    "aciklama": "Mongol lekesi ilk kez Down Sendromlu bebeklerde tanımlandığı için bu adı almıştır ama Down'da sıklığı <b>artmamıştır</b> (Down'da en sık cilt bulgusu toksik eritemdir). Mavi-gri pigmente sakral lezyonlardır, ~1 yaşta kaybolur, malignleşmez."
+    "ipucu": "Yenidoğan Hb alt sınırı ~13.7 g/dL.",
+    "tuzak": "Kan şekeri 55 (>50 normal), Ca 8.2 (>8 normal), indirekt bilirubin 4 (fizyolojik), nabız 140 (normal) → hepsi normal; <mark>Hb 12.5 düşük</mark>.",
+    "aciklama": "Yenidoğanda Hb normal aralığı ~<b>13.7-16.8 g/dL</b>; <b>Hb 12.5 g/dL</b> anemiktir → patolojik. Kan şekeri >50, total Ca >8 (term), 2. günde indirekt bilirubin 4 mg/dL fizyolojik ve nabız 120-160 normaldir."
   },
   {
     "yil": [
       "Sonbahar 2018 Orijinal"
     ],
-    "soru": "İki günlük yenidoğan, sırtında sarı-beyaz, 1-2 mm çapında papüler ve püstüler lezyonlar nedeniyle getiriliyor. Püstüllerin <b>Wright boyamasında bol eozinofil</b> görülüyor, kültürde üreme olmuyor ve lezyonlar bir haftada kayboluyor. En olası tanı hangisidir?",
+    "soru": "Doğduğunda soluk görünen term bir bebekte <b>Hb 7 g/dL</b> ölçülüyor. Fizik muayenesi normal, periferik yaymada hemoliz yok, <b>direkt Coombs testi negatif</b>. Aneminin <mark>fetomaternal kanamaya</mark> bağlı olduğu düşünülüyor. Bu tanının doğrulanması için hangi tetkik en uygundur?",
     "siklar": [
       {
         "k": "A",
-        "t": "Eritema toksikum"
+        "t": "Kleihauer-Betke testi"
       },
       {
         "k": "B",
-        "t": "Miliaria rubra"
+        "t": "Eritropoietin düzeyi"
       },
       {
         "k": "C",
-        "t": "Miliaria kristallina"
+        "t": "İndirekt Coombs testi"
       },
       {
         "k": "D",
-        "t": "Neonatal akne"
+        "t": "Plazma hemoglobin düzeyi"
       },
       {
         "k": "E",
-        "t": "İnfantil akropüstülozis"
+        "t": "Plazma haptoglobin düzeyi"
       }
     ],
     "dogru": 0,
-    "ipucu": "Eozinofil + kültür negatif + kendiliğinden geçen = klasik ikili.",
-    "tuzak": "Neonatal akne yanak/çenede lokalize ve eozinofilsizdir; akropüstülozis avuç/tabanda ve şiddetli kaşıntılıdır.",
-    "aciklama": "<b>Eritema toksikum</b> term bebeklerin ~%50'sinde, en sık 2. günde görülür; eritemli zeminde sarı-beyaz papül/püstüller (avuç içi-taban hariç), Wright'ta <b>eozinofil kümeleri</b>, kültür negatif ve kendiliğinden geçer."
+    "ipucu": "Anne kanında fetal eritrositleri gösteren test.",
+    "tuzak": "Coombs (izoimmünizasyon) negatif ve hemoliz yok → haptoglobin/plazma Hb işe yaramaz. <b>Kleihauer-Betke</b> fetomaternal kanamayı gösterir.",
+    "aciklama": "<b>Kleihauer-Betke testi</b>, anne kanındaki fetal eritrositleri (HbF asit-dirençlidir) boyayarak <b>fetomaternal kanamayı</b> gösterir. Direkt Coombs negatif + hemoliz yok, izoimmün/hemolitik nedeni dışlar."
   },
   {
     "yil": [
       "Sonbahar 2018 BENZERİ"
     ],
-    "soru": "4 günlük bir bebek, <b>avuç içi ve ayak tabanı hariç</b> vücudunda yaygın, kırmızı zeminde sivilce benzeri papüler/püstüler döküntülerle getiriliyor. Genel durumu iyi, ateşsiz; kan sayımı ve biyokimyası normal; lezyon ve kan kültüründe üreme yok; annede döküntü yok. En olası tanı?",
+    "soru": "Soluk, taşikardik ve dolaşım bozukluğu olan, ödemsiz bir yenidoğanda (bebek 0 Rh+, anne A Rh+) Hb 9.1 g/dL; anne ve bebekte direkt/indirekt Coombs negatif; yaymada hemoliz yok. Etiyoloji olarak <mark>fetomaternal kanama</mark> düşünülürse <b>anneye</b> hangi test yapılmalıdır?",
     "siklar": [
       {
         "k": "A",
-        "t": "Toksik eritem"
+        "t": "Kleihauer-Betke testi"
       },
       {
         "k": "B",
-        "t": "Püstüler melanozis"
+        "t": "İndirekt Coombs testi"
       },
       {
         "k": "C",
-        "t": "Neonatal akne"
+        "t": "Hemoglobin elektroforezi"
       },
       {
         "k": "D",
-        "t": "Piyoderma"
+        "t": "Apt testi"
       },
       {
         "k": "E",
-        "t": "Herpes Simpleks lezyonları"
+        "t": "Serum demir bağlama ve ferritin düzeyleri"
       }
     ],
     "dogru": 0,
-    "ipucu": "İyi görünümlü bebek + kültür negatif + avuç/taban tutulmaz.",
-    "tuzak": "Piyoderma ve HSV'de bebek septik/veziküler olur; püstüler melanozis doğumda mevcuttur ve avuç/tabanı da tutar.",
-    "aciklama": "Tablo yine <b>toksik eritem</b> ile uyumludur: iyi genel durum, kültür negatif, avuç içi-taban ayrık. Püstüler melanozis doğumda vardır ve avuç/tabanda da görülür; HSV veziküler ve annede lezyonla; piyodermada PNL/bakteri ve septik görünümle gider."
+    "ipucu": "Fetomaternal kanama → anne kanında fetal hücre aranır.",
+    "tuzak": "Apt testi GİS kanamasının anne/bebek ayrımı içindir; <b>Kleihauer-Betke</b> anne kanında fetal eritrosit gösterir.",
+    "aciklama": "Fetomaternal kanama <b>anne kanında Kleihauer-Betke</b> testiyle doğrulanır. Apt testi bebeğin ağız/gaytasından gelen kanın kaynağını ayırır; Coombs izoimmünizasyon içindir."
   },
   {
     "yil": [
-      "İlkbahar 2005"
+      "Sonbahar-93"
     ],
-    "soru": "Aşağıdakilerden hangisi yenidoğan bebeklerde <mark>mikrosefali nedenleri arasında yer almaz</mark>?",
+    "soru": "Yenidoğan bebeklerde <mark>gestasyon haftasını tahmin etmek</mark> amacıyla aşağıdakilerden hangisine <b>bakılmaz</b>?",
     "siklar": [
       {
         "k": "A",
-        "t": "Konjenital Sitomegalovirus (CMV) enfeksiyonu"
+        "t": "Genitalya"
       },
       {
         "k": "B",
-        "t": "Radyasyona maruz kalma"
+        "t": "Gözler arası uzaklık"
       },
       {
         "k": "C",
-        "t": "Trizomi 21"
+        "t": "Ayak tabanı çizgileri"
+      },
+      {
+        "k": "D",
+        "t": "Lanugo"
+      },
+      {
+        "k": "E",
+        "t": "Kulağın katlanabilirliği"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Ballard testi parametrelerini düşün.",
+    "tuzak": "<mark>Gözler arası uzaklık</mark> Ballard/maturasyon parametresi değildir (dismorfoloji bulgusudur).",
+    "aciklama": "Gestasyon yaşı en iyi son adet tarihi/USG ile belirlenir; yoksa <b>Ballard testi</b> kullanılır. Fiziksel parametreler: deri, lanugo, ayak tabanı çizgileri, meme dokusu, kulak katlanabilirliği, genitalya. <b>Gözler arası uzaklık</b> yer almaz."
+  },
+  {
+    "yil": [
+      "İlkbahar 2001"
+    ],
+    "soru": "Aşağıdakilerden hangisi yenidoğan yaşını belirlemede kullanılan <mark>fiziksel maturasyon bulgularından birisi değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Tırnakların uzunluğu"
+      },
+      {
+        "k": "B",
+        "t": "Ayak tabanı çizgileri"
+      },
+      {
+        "k": "C",
+        "t": "Meme başı"
+      },
+      {
+        "k": "D",
+        "t": "Lanugo"
+      },
+      {
+        "k": "E",
+        "t": "Kulak yapısı ve kıkırdağı"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Postmatürde uzasa da 3. trimesterde belirgin değişmez → güvenilmez.",
+    "tuzak": "<mark>Tırnak uzunluğu</mark> mantıklı görünür ama Ballard parametresi değildir (yanıltıcı olduğu için).",
+    "aciklama": "Ballard fiziksel maturasyon parametreleri: deri, lanugo, ayak tabanı çizgileri, meme dokusu, kulak, genitalya. <b>Tırnak uzunluğu</b>, 3. trimester-42. haftaya dek belirgin değişmediğinden değerlendirmeye alınmaz."
+  },
+  {
+    "yil": [
+      "İlkbahar 2001"
+    ],
+    "soru": "41. gebelik haftasında <b>3600 gram</b> (10-50p) doğan, boyu 48 cm ve baş çevresi 34 cm olan bir yenidoğanı <mark>en iyi tanımlayan</mark> ifade hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Matür SGA bebek"
+      },
+      {
+        "k": "B",
+        "t": "Prematür SGA bebek"
+      },
+      {
+        "k": "C",
+        "t": "Postmatür SGA bebek"
+      },
+      {
+        "k": "D",
+        "t": "Düşük doğum ağırlıklı bebek"
+      },
+      {
+        "k": "E",
+        "t": "Matür normal ağırlıklı bebek"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "37-42 hafta = matür; 2500-4000 g = normal ağırlık.",
+    "tuzak": "41 hafta postmatür değildir (>42 gerekir); 3600 g SGA değildir (10-50p normaldir).",
+    "aciklama": "37-42 hafta arası doğum <b>matür (term)</b>, 2500-4000 g arası <b>normal ağırlık</b>tır. 41 hafta + 3600 g (10-50p) → <b>matür, normal doğum ağırlıklı bebek</b>."
+  },
+  {
+    "yil": [
+      "İlkbahar 2023"
+    ],
+    "soru": "<mark>Simetrik</mark> intrauterin büyüme kısıtlılığı olan bebekler ile ilgili aşağıdaki ifadelerden hangisi <b>doğrudur</b>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Fetal malnütrisyon belirgindir."
+      },
+      {
+        "k": "B",
+        "t": "Baş çevresi korunmuştur."
+      },
+      {
+        "k": "C",
+        "t": "Etiyolojide plasental yetmezlik ön plandadır."
+      },
+      {
+        "k": "D",
+        "t": "IUGR olgularının çoğunluğunu oluşturur."
+      },
+      {
+        "k": "E",
+        "t": "İlk trimesterdeki konjenital enfeksiyonlar fetal nedenler arasındadır."
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Erken (ilk trimester) etkilenme → hem baş hem gövde küçük → fetal nedenler.",
+    "tuzak": "Baş çevresi <mark>korunması</mark> asimetriktir; malnütrisyon ve plasental yetmezlik asimetrik yapar; simetrik daha nadirdir.",
+    "aciklama": "<b>Simetrik IUGR</b> gebeliğin ilk ~16 haftasında (hiperplazi dönemi) etkilenmeyle olur; baş dahil tüm ölçüler <10p. En önemli nedenler <b>ilk trimester konjenital enfeksiyonlar (TORCH)</b>, kromozom anomalileri ve genetik sendromlardır; asimetriktekinden nadirdir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2024"
+    ],
+    "soru": "Aşağıdaki maternal sorunlardan hangisinde <mark>fetal büyüme kısıtlılığı en az</mark> olasıdır?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Orak hücreli anemi"
+      },
+      {
+        "k": "B",
+        "t": "Malnütrisyon"
+      },
+      {
+        "k": "C",
+        "t": "Hipertansiyon"
+      },
+      {
+        "k": "D",
+        "t": "Gestasyonel diyabet"
+      },
+      {
+        "k": "E",
+        "t": "Kronik böbrek yetmezliği"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Hangi durum tersine iri bebek yapar?",
+    "tuzak": "<mark>Gestasyonel diyabet</mark> büyüme kısıtlılığı değil <b>makrozomi</b> yapar.",
+    "aciklama": "Orak hücreli anemi, malnütrisyon, hipertansiyon ve kronik böbrek yetmezliği uteroplasental yetmezlik/hipoksi ile IUGR yapar. <b>Gestasyonel diyabet</b> ise tersine <b>makrozomi</b> ile ilişkilidir."
+  },
+  {
+    "yil": [
+      "İlkbahar-99"
+    ],
+    "soru": "38 haftalık ve <b>1600 gram</b> doğan, baş çevresi 33 cm ve boyu 48 cm olan bir yenidoğanda ilk 12 saatte hangisinin görülmesi <mark>en olasıdır</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Anemi"
+      },
+      {
+        "k": "B",
+        "t": "Sklerem"
+      },
+      {
+        "k": "C",
+        "t": "Hipertermi"
+      },
+      {
+        "k": "D",
+        "t": "Hiperbilirubinemi"
+      },
+      {
+        "k": "E",
+        "t": "Hipoglisemi"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Term ama <2500 g → SGA; rezervi az.",
+    "tuzak": "SGA'da anemi değil <b>polisitemi</b> beklenir; hipertermi değil hipotermi olur.",
+    "aciklama": "Term + <2500 g = <b>SGA</b>. Glikojen rezervi düşük olduğundan ilk saatlerde en olası bulgu <b>hipoglisemi</b>dir (ayrıca hipokalsemi, hipotermi, polisitemi görülür; anemi/hipertermi beklenmez)."
+  },
+  {
+    "yil": [
+      "Sonbahar 2002"
+    ],
+    "soru": "Aşağıdakilerden hangisi intrauterin büyüme geriliği olan bir yenidoğanda <mark>görülmesi beklenen bulgulardan biri değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Polisitemi"
+      },
+      {
+        "k": "B",
+        "t": "Hipoglisemi"
+      },
+      {
+        "k": "C",
+        "t": "Hiperkalsemi"
+      },
+      {
+        "k": "D",
+        "t": "İntrauterin enfeksiyon"
+      },
+      {
+        "k": "E",
+        "t": "Hipotermi"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Kalsiyum deposu az → hangi yönde bozulur?",
+    "tuzak": "<mark>Hiperkalsemi</mark> değil <b>hipokalsemi</b> beklenir (anneden yeterli Ca depolanamaz).",
+    "aciklama": "IUGR'da rezerv yetersizliği nedeniyle <b>hipoglisemi, hipokalsemi, hipotermi, polisitemi</b> görülür; intrauterin enfeksiyon hem neden hem bulgudur. <b>Hiperkalsemi</b> beklenmez."
+  },
+  {
+    "yil": [
+      "Sonbahar 2004"
+    ],
+    "soru": "Aşağıdakilerden hangisi SGA'lı (gestasyon yaşına göre küçük) bebeklerde <mark>görülmesi beklenen sorunlardan birisi değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Perinatal asfiksi"
+      },
+      {
+        "k": "B",
+        "t": "Hipoglisemi"
+      },
+      {
+        "k": "C",
+        "t": "Hipotermi"
+      },
+      {
+        "k": "D",
+        "t": "Polisitemi"
+      },
+      {
+        "k": "E",
+        "t": "Hipopotasemi"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "SGA'da potasyum yönü hangisi?",
+    "tuzak": "<mark>Hipopotasemi</mark> beklenmez; hücre içi K alımı bozulduğundan aksine K yükselebilir.",
+    "aciklama": "SGA'da <b>hipoglisemi, hipotermi (kahverengi yağ azlığı), perinatal asfiksi ve polisitemi</b> beklenir. İnsülin duyarlılığı azaldığından hücre içine K alımı bozulur; <b>hipopotasemi değil</b>, hafif yüksek K düzeyleri görülür."
+  },
+  {
+    "yil": [
+      "İlkbahar 2007"
+    ],
+    "soru": "37 haftalık doğan bir bebeğin değerlendirilmesinde <b>vücut ağırlığı <3p</b>, baş çevresi 25-50p bulunuyor. Bu bebekte hangisinin ortaya çıkma olasılığı <mark>en yüksektir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Hipotermi, hipoglisemi ve polisitemi"
+      },
+      {
+        "k": "B",
+        "t": "Respiratuvar distres sendromu"
+      },
+      {
+        "k": "C",
+        "t": "B grubu streptokok enfeksiyonu sıklığında artma"
+      },
+      {
+        "k": "D",
+        "t": "Hipernatremi, hipokalemi"
+      },
+      {
+        "k": "E",
+        "t": "Baş çevresi normal olduğundan sorun beklenmez"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Ağırlık düşük, baş korunmuş = asimetrik SGA.",
+    "tuzak": "SGA'da stres akciğer olgunlaşmasını hızlandırdığından <b>RDS azalır</b> (çeldirici B).",
+    "aciklama": "Ağırlık <10p, baş korunmuş → <b>asimetrik SGA</b>. Beklenen sorunlar <b>hipotermi, hipoglisemi, polisitemi</b> (ve asfiksi). SGA'da stres sürfaktanı hızlandırdığı için RDS aynı haftadaki AGA preterme göre daha azdır."
+  },
+  {
+    "yil": [
+      "İlkbahar 2002"
+    ],
+    "soru": "Aşağıdakilerden hangisi, intrauterin dönemde baş çevresi, boy ve ağırlık yönünden <mark>orantılı (simetrik) gelişme geriliğine</mark> neden olan etkenlerden biri <b>değildir</b>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Konjenital enfeksiyon"
+      },
+      {
+        "k": "B",
+        "t": "Kromozom defektleri"
+      },
+      {
+        "k": "C",
+        "t": "Teratojenler"
       },
       {
         "k": "D",
@@ -1023,403 +639,148 @@ const QUESTIONS = [
       },
       {
         "k": "E",
-        "t": "Konjenital akuaduktus stenozu"
+        "t": "Fetal malnutrisyon"
       }
     ],
     "dogru": 4,
-    "ipucu": "BOS dolaşımını bozan durum baş çevresini büyütür (makrosefali).",
-    "tuzak": "<mark>Akuaduktus stenozu</mark> hidrosefali → makrosefali yapar, mikrosefali değil.",
-    "aciklama": "<b>Konjenital akuaduktus stenozu</b> BOS akımını tıkayarak hidrosefali ve <b>makrosefali</b> yapar. CMV, radyasyon, trizomi 21 ve fetal alkol sendromu mikrosefali nedenidir."
-  },
-  {
-    "yil": [
-      "Sonbahar 2021"
-    ],
-    "soru": "Aşağıdakilerden hangisi yenidoğanda <mark>normalden büyük fontanel</mark> nedenlerinden biri <b>değildir</b>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Hipofosfatazya"
-      },
-      {
-        "k": "B",
-        "t": "Konjenital rubella"
-      },
-      {
-        "k": "C",
-        "t": "Osteogenezis imperfekta"
-      },
-      {
-        "k": "D",
-        "t": "Hipertiroidizm"
-      },
-      {
-        "k": "E",
-        "t": "Piknodizostozis"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "Tiroid hormonu fazlalığı sütürleri erken kapatır.",
-    "tuzak": "<mark>Hipertiroidizm</mark> küçük fontanel/erken kapanma yapar; büyük fontanel nedeni değildir (geniş fontaneli hipotiroidi yapar).",
-    "aciklama": "<b>Konjenital hipertiroidizm</b> sütürlerin erken kapanmasına ve <b>küçük fontanele</b> yol açar. Hipofosfatazya, konjenital rubella, osteogenezis imperfekta ve piknodizostozis geniş fontanel yapar."
-  },
-  {
-    "yil": [
-      "Sonbahar-99"
-    ],
-    "soru": "Aşağıdakilerden hangisi, yenidoğan bebeklerde <mark>geniş fontanele neden olan</mark> durumlar arasında yer <b>almaz</b>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Osteogenezis imperfekta"
-      },
-      {
-        "k": "B",
-        "t": "Konjenital hipertiroidi"
-      },
-      {
-        "k": "C",
-        "t": "Hidrosefali"
-      },
-      {
-        "k": "D",
-        "t": "Raşitizm"
-      },
-      {
-        "k": "E",
-        "t": "Akondroplazi"
-      }
-    ],
-    "dogru": 1,
-    "ipucu": "Hangi tiroid durumu fontaneli küçültür?",
-    "tuzak": "<mark>Konjenital hipertiroidi</mark> küçük fontanel yapar; geniş fontanel nedeni değildir (hipotiroidi geniş yapar).",
-    "aciklama": "<b>Konjenital hipertiroidi</b> sütürleri erken kapatıp fontaneli küçültür. Osteogenezis imperfekta, hidrosefali, raşitizm ve akondroplazi geniş fontanel nedenleridir."
-  },
-  {
-    "yil": [
-      "İlkbahar 2003"
-    ],
-    "soru": "Yenidoğan bebeklerde, aşağıdaki hastalıklardan hangisinin varlığında <mark>genişlemiş ön fontanel</mark> saptanması <b>beklenmez</b>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Akondroplazi"
-      },
-      {
-        "k": "B",
-        "t": "Apert Sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Hipofosfatazya"
-      },
-      {
-        "k": "D",
-        "t": "Osteogenezis imperfekta"
-      },
-      {
-        "k": "E",
-        "t": "D vitamini hipervitaminozu"
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "Aşırı D vitamini erken kalsifikasyon/kapanma yapar.",
-    "tuzak": "<mark>D vitamini hipervitaminozu</mark> fontaneli küçültür/erken kapatır; genişletmez.",
-    "aciklama": "<b>D vitamini hipervitaminozu</b> erken kalsifikasyonla fontanellerin küçülmesine/erken kapanmasına yol açar. Akondroplazi, Apert, hipofosfatazya ve osteogenezis imperfekta geniş ön fontanel yapar."
-  },
-  {
-    "yil": [
-      "İlkbahar 2010"
-    ],
-    "soru": "Zamanında doğmuş 24 saatlik bir bebeğin <b>henüz gayta yapmadığı</b>, arka fontanelinin 2 cm açık olduğu ve <b>umbilikal hernisi</b> bulunduğu saptanıyor. Bu bulgulara öncelikle aşağıdakilerden hangisi sebep olmuştur?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Osteogenezis imperfekta"
-      },
-      {
-        "k": "B",
-        "t": "Beckwith-Wiedemann Sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Konjenital hipotiroidi"
-      },
-      {
-        "k": "D",
-        "t": "Trizomi 13"
-      },
-      {
-        "k": "E",
-        "t": "Hirschsprung Hastalığı"
-      }
-    ],
-    "dogru": 2,
-    "ipucu": "Geç mekonyum + geniş fontanel + umbilikal herni üçlüsü tek tanıya işaret eder.",
-    "tuzak": "Beckwith-Wiedemann'da umbilikal herni <mark>çeldirici</mark>dir ama geç mekonyum + geniş fontaneli açıklamaz.",
-    "aciklama": "<b>Konjenital hipotiroidi</b>: geç mekonyum çıkışı (kabızlık), geniş arka fontanel ve umbilikal herni klasik üçlüsüdür. Hirschsprung geniş fontanel/umbilikal herni yapmaz; Beckwith-Wiedemann geç mekonyum/geniş fontaneli açıklamaz."
+    "ipucu": "Geç dönem beslenme sorunu → baş korunur (asimetrik).",
+    "tuzak": "<mark>Fetal malnutrisyon</mark> genellikle <b>asimetrik</b> IUGR yapar; simetrik değil.",
+    "aciklama": "Simetrik (orantılı) IUGR erken dönem/fetal nedenlerle olur: <b>konjenital enfeksiyon, kromozom defektleri, teratojenler, fetal alkol sendromu</b>. <b>Fetal malnutrisyon</b> (geç dönem, plasental) genellikle asimetrik IUGR yapar."
   },
   {
     "yil": [
       "İlkbahar 2007"
     ],
-    "soru": "Aşağıdaki durumların hangisinde <mark>kraniyotabes</mark> beklenen bir bulgu <b>değildir</b>?",
+    "soru": "Aşağıdakilerden hangisi <mark>preeklamptik anne bebeklerinde</mark> görülmesi <b>beklenmez</b>?",
     "siklar": [
       {
         "k": "A",
-        "t": "Prematürite"
+        "t": "İntrauterin gelişme geriliği"
       },
       {
         "k": "B",
-        "t": "Marfan Sendromu"
+        "t": "Polisitemi"
       },
       {
         "k": "C",
-        "t": "Raşitizm"
+        "t": "Hipoglisemi"
       },
       {
         "k": "D",
-        "t": "Osteogenezis imperfekta"
+        "t": "Trombositopeni"
       },
       {
         "k": "E",
-        "t": "Hidrosefali"
+        "t": "Makrozomi"
       }
     ],
-    "dogru": 1,
-    "ipucu": "Kafatası mineralizasyon/yapı bozukluklarını düşün; Marfan bağ dokusu-iskelet sendromudur.",
-    "tuzak": "<mark>Marfan</mark> kraniyotabes yapmaz; araknodaktili, lens subluksasyonu ve aort dilatasyonu ile gider.",
-    "aciklama": "<b>Kraniyotabes</b> (oksipital kemikte pinpon topu esnekliği) prematürite, raşitizm, hidrosefali, osteogenezis imperfekta, sifiliz ve kretenizm gibi durumlarda görülür. <b>Marfan sendromunda</b> beklenen bir bulgu değildir."
+    "dogru": 4,
+    "ipucu": "Uteroplasental yetmezlik → küçük bebek.",
+    "tuzak": "<mark>Makrozomi</mark> diyabetik anne bebeğinin bulgusudur; preeklampside tersine IUGR/mikrosefali olur.",
+    "aciklama": "Preeklampsi uteroplasental yetmezlik yaptığından bebekte <b>IUGR, hipoglisemi, fetal hipoksi, polisitemi, nötropeni, trombositopeni</b> görülür. <b>Makrozomi beklenmez</b> (aksine IUGR/mikrosefali)."
   },
   {
     "yil": [
-      "Sonbahar-98"
+      "Sonbahar-87",
+      "Sonbahar-89"
     ],
-    "soru": "Yenidoğan bir bebekte besleme sırasında gelişen ve <mark>ağlama ile açılan</mark> siyanoz gözleniyor. Bu hastada en olası tanı hangisidir?",
+    "soru": "Aşağıdakilerden hangisi <mark>prematürite nedeni değildir</mark>?",
     "siklar": [
       {
         "k": "A",
-        "t": "Trakeoözofageal fistül"
+        "t": "Diyabetik anne çocuğu"
       },
       {
         "k": "B",
-        "t": "Koanal atrezi"
+        "t": "Sigara"
       },
       {
         "k": "C",
-        "t": "Patent duktus arteriyozus"
+        "t": "Polihidramniyos"
       },
       {
         "k": "D",
-        "t": "Yarık damak"
+        "t": "Çoğul gebelik"
       },
       {
         "k": "E",
-        "t": "Bronşiyal kist"
+        "t": "Plasenta anomalileri"
       }
     ],
     "dogru": 1,
-    "ipucu": "Bebekler zorunlu burun soluyucusudur; ağlarken ağızdan soluyunca siyanoz açılır.",
-    "tuzak": "Beslenmede artıp <mark>ağlamayla düzelen</mark> siyanoz = koanal atrezi klişesidir; TÖF öksürük/aspirasyonla gider.",
-    "aciklama": "<b>Koanal atrezi</b>: yenidoğan zorunlu burun soluyucusu olduğundan beslenirken/dinlenirken siyanoz olur, <b>ağlamayla (ağız açılınca) düzelir</b>. Bilateral olduğunda doğumda ciddi solunum sıkıntısı yapar."
+    "ipucu": "Sigara hangi büyüme sorununu yapar?",
+    "tuzak": "<mark>Sigara</mark> prematüriteden çok <b>IUGR (SGA)</b> yapar.",
+    "aciklama": "Çoğul gebelik, polihidramniyos, plasenta anomalileri ve diyabetik anne prematürite ile ilişkilidir. Annenin <b>sigara</b> içmesi ise esas olarak <b>intrauterin gelişme geriliği (SGA)</b> yapar, prematürite nedeni değildir."
   },
   {
     "yil": [
       "İlkbahar-90"
     ],
-    "soru": "Yenidoğanların baş muayenesinde saçlı deride <b>lokalize ve sütürleri geçmeyen</b> şişlik saptanması durumunda aşağıdakilerden hangisi öncelikle düşünülmelidir?",
+    "soru": "Prematüre bebeklerle ilgili aşağıdaki ifadelerden hangisi <mark>yanlıştır</mark>?",
     "siklar": [
       {
         "k": "A",
-        "t": "Sefal hematom"
+        "t": "Deri altı yağ dokusu incedir"
       },
       {
         "k": "B",
-        "t": "Kaput suksadenum"
+        "t": "Solunum hızlıdır, göğüs içe çekilir"
       },
       {
         "k": "C",
-        "t": "Periost üstü kanama"
+        "t": "Meme dokusu palpe edilemez"
       },
       {
         "k": "D",
-        "t": "Subgaleal hematom"
+        "t": "Ayak tabanı çizgisi oluşmamıştır"
       },
       {
         "k": "E",
-        "t": "Epidural kanama"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Subperiostal → şişlik <b>sütürleri geçmez</b>.",
-    "tuzak": "<mark>Sütürleri geçen</mark> şişlik kaput/subgaleal olur; geçmeyen = sefal hematom.",
-    "aciklama": "<b>Sefal hematom</b> subperiostal kanamadır; kemik sınırında kaldığı için şişlik <b>sütürleri geçmez</b>, lokalizedir (genellikle pariyetal), 24-48 saatte belirir. Kaput ve subgaleal ise sütürleri geçer."
-  },
-  {
-    "yil": [
-      "İlkbahar-99"
-    ],
-    "soru": "Yenidoğanlarda aşağıdaki durumlardan hangisinde <mark>kraniyumda lineer kırık</mark> görülme olasılığı en fazladır?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Sefal hematom"
-      },
-      {
-        "k": "B",
-        "t": "Kaput suksadenum"
-      },
-      {
-        "k": "C",
-        "t": "Subaraknoid kanama"
-      },
-      {
-        "k": "D",
-        "t": "Subdural hematom"
-      },
-      {
-        "k": "E",
-        "t": "Kronik subdural hematom"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Subperiostal kanamanın altında sıklıkla kemik hasarı vardır.",
-    "tuzak": "Kaput suksadenum yumuşak doku ödemidir, kırıkla ilişkili değildir; kırık ilişkisi <b>sefal hematomda</b>dır.",
-    "aciklama": "<b>Sefal hematomların ~%15'inde</b> altta lineer kafatası kırığı bulunur; travmatik/forseps doğumla ilişkilidir. Kaput suksadenum ve intrakraniyal kanamalar bu düzeyde kemik kırığıyla ilişkili değildir."
-  },
-  {
-    "yil": [
-      "Sonbahar 2003"
-    ],
-    "soru": "Aşağıdakilerden hangisi, <mark>sefal hematomun</mark> özelliklerinden birisidir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Subperiosteal kanama"
-      },
-      {
-        "k": "B",
-        "t": "Deride ekimoz gözlenmesi"
-      },
-      {
-        "k": "C",
-        "t": "Sütürleri atlayıp kafada yaygın şişliğe neden olması"
-      },
-      {
-        "k": "D",
-        "t": "Kafa kemiklerinde kırık gözlenmemesi"
-      },
-      {
-        "k": "E",
-        "t": "Çoğunlukla ilk hafta içinde rezorbe olması"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Sefal hematom kemik ile periost arasındadır.",
-    "tuzak": "<mark>Sütürleri atlayıp yaygın şişlik</mark> (C) ve hızlı rezorpsiyon (E) sefal hematomun değil kaput/subgaleal özellikleridir.",
-    "aciklama": "<b>Sefal hematom = subperiostal kanamadır (A)</b>. Şişlik sütürleri geçmez, haftalar-aylar içinde yavaş rezorbe olur ve olguların ~%15'inde altta kırık bulunur (yani 'kırık gözlenmemesi' zorunlu değildir)."
-  },
-  {
-    "yil": [
-      "Sonbahar-96"
-    ],
-    "soru": "Vakumla doğurtulmuş, travmaya maruz kalmış bir yenidoğanın kafasında <mark>sütürleri geçen</mark> şişlik saptanıyor. Bu bebekte <b>en olası</b> tanı hangisidir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Kaput suksadenum"
-      },
-      {
-        "k": "B",
-        "t": "Molding"
-      },
-      {
-        "k": "C",
-        "t": "Subgaleal hematom"
-      },
-      {
-        "k": "D",
-        "t": "Milia"
-      },
-      {
-        "k": "E",
-        "t": "Sefal hematom"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Sütürleri geçen + en sık = ?",
-    "tuzak": "Subgaleal de sütürleri geçer ama nadirdir; <mark>en olası</mark> denince sık görülen <b>kaput suksadenum</b> seçilir.",
-    "aciklama": "Sütürleri geçen şişlik kaput suksadenum veya subgaleal olabilir; ancak <b>kaput suksadenum</b> çok daha sık görüldüğü için 'en olası' cevap odur. Sefal hematom sütürleri geçmez."
-  },
-  {
-    "yil": [
-      "Sonbahar 2021 Orijinal"
-    ],
-    "soru": "Altı saat önce vakum yardımıyla doğurtulan 41 haftalık yenidoğanın muayenesinde <b>hipotonisite, solukluk</b> ve her iki kulağının öne doğru dönük olduğu saptanıyor. <b>Hemoglobin 7 g/dL</b>. Bu hastada en olası kraniyal kanama tipi hangisidir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Subgaleal"
-      },
-      {
-        "k": "B",
-        "t": "Subdural"
-      },
-      {
-        "k": "C",
-        "t": "Epidural"
-      },
-      {
-        "k": "D",
-        "t": "Sefal hematom"
-      },
-      {
-        "k": "E",
-        "t": "İntraventriküler"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Kulakları öne iten, sütürleri geçen, ciddi Hgb düşüşü yapan kanama.",
-    "tuzak": "Sefal hematom sınırlı kalır ve Hgb'yi bu kadar düşürmez; <mark>anemi + şok</mark> tablosu subgaleali gösterir.",
-    "aciklama": "<b>Subgaleal kanama</b> galea aponörotika altındaki gevşek dokuya olur; vakum/forseps ile ilişkilidir, geniştir, sütürleri geçer, kulakları öne iter ve büyük hacmi nedeniyle <b>hipovolemi, şok ve belirgin Hgb düşüşü</b> (mortalite ~%20) yapar."
-  },
-  {
-    "yil": [
-      "Sonbahar 2021 BENZERİ"
-    ],
-    "soru": "<b>I.</b> Çoğunlukla kemik kırıkları ile ilişkilidir<br><b>II.</b> Hayati risk hiçbir zaman yoktur<br><b>III.</b> Sütürleri geçer<br><b>IV.</b> Hemoglobin düşüşü belirgindir<br>Yukarıdakilerden hangileri yenidoğanlarda doğum sırasında ortaya çıkan <mark>subgaleal kanama</mark> için doğrudur?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "I ve II"
-      },
-      {
-        "k": "B",
-        "t": "I ve III"
-      },
-      {
-        "k": "C",
-        "t": "II ve III"
-      },
-      {
-        "k": "D",
-        "t": "II ve IV"
-      },
-      {
-        "k": "E",
-        "t": "III ve IV"
+        "t": "Genital organlar tam gelişmiştir"
       }
     ],
     "dogru": 4,
-    "ipucu": "Subgaleal: geniş kanama → sütürleri geçer + Hgb düşer.",
-    "tuzak": "Kemik kırığı ilişkisi (I) <b>sefal hematoma</b> aittir; subgaleal hayati risk taşıyabilir (II yanlış).",
-    "aciklama": "Subgaleal kanama <b>sütürleri geçer (III)</b> ve büyük hacmi nedeniyle <b>belirgin Hgb düşüşü (IV)</b> yapar → E. Kemik kırığı ilişkisi sefal hematomdadır; subgaleal şok/mortalite riski taşıdığından 'hayati risk yok' ifadesi yanlıştır."
+    "ipucu": "Prematürede hangi yapı 'tam gelişmiş' olamaz?",
+    "tuzak": "<mark>Genital organlar tam gelişmiştir</mark> ifadesi yanlış; prematürede genital gelişim tamamlanmamıştır.",
+    "aciklama": "Prematürede deri altı yağ ince, solunum hızlı ve çekilmeli, meme dokusu palpe edilemez, ayak tabanı çizgileri oluşmamıştır. <b>Genital organlar tam gelişmemiştir</b> (Ballard skorunun temeli) → E yanlış."
   },
   {
     "yil": [
-      "İlkbahar-97"
+      "İlkbahar 2015 Orijinal"
     ],
-    "soru": "<b>I.</b> Maksiller<br><b>II.</b> Etmoidal<br><b>III.</b> Frontal<br><b>IV.</b> Sfenoidal<br>Yukarıdaki paranazal sinüslerden hangileri <mark>yenidoğanlarda bulunur</mark>?",
+    "soru": "Aşağıdaki etkenlerden hangisi, <mark>prematüre anemisinin</mark> nedenlerinden biri <b>değildir</b>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Testler için tekrarlanan kan alımı"
+      },
+      {
+        "k": "B",
+        "t": "Hızlı büyüme"
+      },
+      {
+        "k": "C",
+        "t": "Neonatal hiperbilirübineminin sık olması"
+      },
+      {
+        "k": "D",
+        "t": "Eritrosit ömrünün kısa olması"
+      },
+      {
+        "k": "E",
+        "t": "Neonatal dönemde PaO2'nin fetal dönemden yüksek olması"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Sarılık aneminin nedeni mi sonucu mu?",
+    "tuzak": "<mark>Hiperbilirubinemi</mark> aneminin nedeni değil, hemolizin/aneminin <b>sonucudur</b>.",
+    "aciklama": "Prematüre anemisi nedenleri: tekrarlanan kan alımı, hızlı büyüme, eritrosit ömrünün kısalığı, fetal→neonatal PaO2 artışının EPO'yu baskılaması, fizyolojik anemi, E vitamini/folat/demir eksikliği. <b>Hiperbilirubinemi</b> bir sonuçtur, neden değildir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2015 BENZERİ"
+    ],
+    "soru": "<b>I.</b> Hiperbilirubinemi<br><b>II.</b> Fizyolojik anemi<br><b>III.</b> E vitamini eksikliği<br><b>IV.</b> Testler için tekrarlanan kan alımı<br>Yukarıdakilerden hangileri <mark>prematüre bebeklerde görülen anemi nedenleri</mark> arasında yer alır?",
     "siklar": [
       {
         "k": "A",
@@ -1427,441 +788,377 @@ const QUESTIONS = [
       },
       {
         "k": "B",
-        "t": "I ve III"
+        "t": "II, III ve IV"
       },
       {
         "k": "C",
-        "t": "II ve IV"
+        "t": "I ve IV"
       },
       {
         "k": "D",
-        "t": "II ve III"
+        "t": "III ve IV"
       },
       {
         "k": "E",
         "t": "I, II, III ve IV"
       }
     ],
-    "dogru": 0,
-    "ipucu": "En erken gelişen iki sinüs doğumda vardır.",
-    "tuzak": "<mark>Frontal (2-5 yaş)</mark> ve <mark>sfenoid (~3 yaş)</mark> sinüsler doğumda yoktur; postnatal gelişir.",
-    "aciklama": "<b>Maksiller ve etmoid sinüsler</b> en erken gelişenlerdir ve doğumda (BT ile) saptanabilir → I ve II. Frontal sinüs ~2 yaşta gelişip 5-6 yaşta grafide görünür; sfenoid ~3 yaşta görünür."
+    "dogru": 1,
+    "ipucu": "Hiperbilirubinemi neden değil sonuçtur → onu ele.",
+    "tuzak": "<mark>Hiperbilirubinemi (I)</mark> aneminin sonucudur; nedenler arasında sayılmaz.",
+    "aciklama": "Prematüre anemi nedenleri: <b>fizyolojik anemi (II)</b>, <b>E vitamini eksikliği (III)</b> ve <b>tekrarlanan kan alımı (IV)</b> → B. Hiperbilirubinemi (I) bir sonuçtur, neden değildir."
   },
   {
     "yil": [
-      "İlkbahar 2017 Orijinal"
+      "İlkbahar-90"
     ],
-    "soru": "Aşağıdakilerden hangisi yenidoğanlarda <mark>iki taraflı lökokoriye</mark> neden olur?",
+    "soru": "Aşağıdakilerden hangisi, <mark>postmatürite ile beraber en sık görülen</mark> anomalidir?",
     "siklar": [
       {
         "k": "A",
-        "t": "Blefarit"
+        "t": "Anensefali"
       },
       {
         "k": "B",
-        "t": "Glokom"
+        "t": "Renal agenezi"
       },
       {
         "k": "C",
-        "t": "Nazolakrimal kanal tıkanıklığı"
+        "t": "Polikistik böbrek"
       },
       {
         "k": "D",
-        "t": "Katarakt"
+        "t": "Atriyal Septal Defekt"
       },
       {
         "k": "E",
-        "t": "Pitozis"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "Lökokori = beyaz pupil refleksi; lensi tutan bilateral neden.",
-    "tuzak": "Blefarit (kapak enf.), glokom (GİB↑), nazolakrimal tıkanıklık (epifora), pitozis (kapak düşüklüğü) lökokori yapmaz.",
-    "aciklama": "<b>Lökokori (beyaz pupiller refleks)</b> katarakt (bilateral olabilir), retinoblastom, koryoretinit, prematüre retinopatisi veya PHPV'de görülür. Verilen seçenekler içinde bilateral lökokori nedeni <b>katarakt</b>tır; acil göz konsültasyonu gerekir."
-  },
-  {
-    "yil": [
-      "İlkbahar 2017 BENZERİ"
-    ],
-    "soru": "Aşağıdaki durumlardan hangisi yenidoğanlarda <mark>lökokoriye neden olmaz</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Retinoblastom"
-      },
-      {
-        "k": "B",
-        "t": "Galaktozemi"
-      },
-      {
-        "k": "C",
-        "t": "Koryoretinit"
-      },
-      {
-        "k": "D",
-        "t": "Glokom"
-      },
-      {
-        "k": "E",
-        "t": "Katarakt"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "Hangisi beyaz pupil değil, göz içi basınç sorunudur?",
-    "tuzak": "Galaktozemi kataraktla lökokori yapar; <mark>glokom</mark> lökokori değil büyük kornea/bulanıklık yapar.",
-    "aciklama": "Retinoblastom, katarakt (galaktozemi dahil) ve koryoretinit lökokori yapar. <b>Glokom</b> lökokori nedeni değildir (buftalmi, kornea bulanıklığı, epifora ile gider)."
-  },
-  {
-    "yil": [
-      "Sonbahar 2020 Orijinal"
-    ],
-    "soru": "Yenidoğan bebeğin gözlerini <b>katarakt ve retinoblastom</b> açısından taramak için aşağıdaki testlerden hangisi en uygundur?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Kırmızı yansıma testi"
-      },
-      {
-        "k": "B",
-        "t": "Kornea refleksi testi"
-      },
-      {
-        "k": "C",
-        "t": "Lea sembol testleri"
-      },
-      {
-        "k": "D",
-        "t": "Snellen tabloları testi"
-      },
-      {
-        "k": "E",
-        "t": "Pupil ışık reaksiyonu testi"
+        "t": "Aort koarktasyonu"
       }
     ],
     "dogru": 0,
-    "ipucu": "Göz dibinden kırmızı refle alınıp alınamadığına bakılır.",
-    "tuzak": "Lea/Snellen görme keskinliği testleridir (yenidoğanda uygulanamaz); tarama <b>kırmızı yansıma</b> ile yapılır.",
-    "aciklama": "<b>Kırmızı yansıma (Brückner) testi</b>: göze ışık tutulur, normalde bilateral simetrik kırmızı refle alınır. Beyaz refle (lökokori) katarakt veya retinoblastomu düşündürür → acil oftalmoloji. Yenidoğan tarama testidir."
+    "ipucu": "Fetal hipofiz-adrenal aks bozukluğu doğumu geciktirir.",
+    "tuzak": "Renal/kalp anomalileri çeldirici; postmatürite klasiği <b>anensefali</b>.",
+    "aciklama": "<b>Anensefali</b> (bozulmuş fetal hipofiz-adrenal aks nedeniyle doğumun tetiklenememesi) postmatürite ile en sık birliktedir. Trizomi 18 ve Seckel sendromu da postmatürite ile gidebilir. Postmatür bebek fetal distres, polisitemi, MAS, hipoglisemi riski taşır."
   },
   {
     "yil": [
-      "Sonbahar 2020 BENZERİ"
+      "Sonbahar 2004"
     ],
-    "soru": "Yenidoğan bebeklerde tarama testi olarak kullanılan <b>kırmızı yansıma testi</b>, aşağıdaki hastalıklardan hangisinin saptanması için kullanılır?",
+    "soru": "Aşağıdakilerden hangisi uzun süre <b>Total Parenteral Nütrisyon (TPN)</b> uygulanan prematüre bebeklerin karşılaştıkları <mark>komplikasyonlardan birisi değildir</mark>?",
     "siklar": [
       {
         "k": "A",
-        "t": "Retinoblastom"
+        "t": "Kolestatik sarılık"
       },
       {
         "k": "B",
-        "t": "Glokom"
+        "t": "Hiperlipidemi"
       },
       {
         "k": "C",
-        "t": "Retinal hemoraji"
+        "t": "Alkaloz"
       },
       {
         "k": "D",
-        "t": "Konjunktivit"
+        "t": "Nefrokalsinozis"
       },
       {
         "k": "E",
-        "t": "Görme bozuklukları"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Beyaz refle → göz dibinde kitle.",
-    "tuzak": "Glokom, konjunktivit ve retinal hemoraji bu testin hedefi değildir.",
-    "aciklama": "<b>Kırmızı yansıma testi</b> lökokori yapan durumları (özellikle <b>retinoblastom</b> ve katarakt) yakalamak için kullanılır; beyaz yansıma acil sevk gerektirir."
-  },
-  {
-    "yil": [
-      "İlkbahar 2002"
-    ],
-    "soru": "Aşağıdaki ilaçlardan hangisi <mark>neonatal konjonktivit profilaksisinde kullanılmaz</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "%1'lik Gümüş Nitrat"
-      },
-      {
-        "k": "B",
-        "t": "%0.5'lik Eritromisin"
-      },
-      {
-        "k": "C",
-        "t": "%1'lik Tetrasiklin"
-      },
-      {
-        "k": "D",
-        "t": "%2.5'lik Povidon-iyod"
-      },
-      {
-        "k": "E",
-        "t": "%20'lik Klorheksidin"
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "Hangisi (özellikle prematürede) nörotoksiktir?",
-    "tuzak": "Gümüş nitrat eskimiş olsa da profilakside listede geçer; <mark>klorheksidin/heksaklorofen</mark> nörotoksite nedeniyle önerilmez.",
-    "aciklama": "Neonatal konjonktivit profilaksisinde %1 gümüş nitrat, %1 tetrasiklin, %0.5 eritromisin ve %2.5 povidon-iyod kullanılabilir. <b>Klorheksidin (ve heksaklorofen)</b> özellikle çok düşük doğum ağırlıklı bebeklerde nörotoksik olabildiğinden göz profilaksisinde kullanılmaz."
-  },
-  {
-    "yil": [
-      "İlkbahar 2017 Orijinal"
-    ],
-    "soru": "<mark>Göbek kordonunun geç düşmesi</mark>, lökositoz ve nötrofili ile karakterize hastalık aşağıdakilerden hangisidir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Lökosit adhezyon defekti tip I"
-      },
-      {
-        "k": "B",
-        "t": "Chediak-Higashi sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Hermansky-Pudlak sendromu"
-      },
-      {
-        "k": "D",
-        "t": "Wiskott-Aldrich sendromu"
-      },
-      {
-        "k": "E",
-        "t": "Griscelli sendromu"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Nötrofiller dokuya geçemeyince kanda birikir (lökositoz), göbek geç düşer.",
-    "tuzak": "Chediak-Higashi/Griscelli albinizm+immün defektle gider; göbek geç düşme klasiği <b>LAD</b>'dir.",
-    "aciklama": "<b>Lökosit Adhezyon Defekti tip I</b>'de (CD18/β2-integrin eksikliği) nötrofiller endotele yapışıp dokuya geçemez; belirgin <b>lökositoz/nötrofili</b> olur, enfeksiyon bölgesine nötrofil gidemez, yara iyileşmesi bozulur ve <b>göbek geç düşer (>3 hafta)</b>."
-  },
-  {
-    "yil": [
-      "İlkbahar 2017 BENZERİ"
-    ],
-    "soru": "Tam kan sayımında lökosit 45.000/mm³, mutlak nötrofil 30.000/mm³ olan ve öyküsünde <b>göbeği geç düşen</b> bir bebekte en olası tanı hangisidir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Lökosit adhezyon defekti"
-      },
-      {
-        "k": "B",
-        "t": "Job Sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Şiddetli Kombine İmmün Yetmezlik (SCID)"
-      },
-      {
-        "k": "D",
-        "t": "Chediak-Higashi Sendromu"
-      },
-      {
-        "k": "E",
-        "t": "Kronik granülomatöz hastalık"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Yüksek nötrofil + geç göbek düşmesi ikilisi tek tanıya götürür.",
-    "tuzak": "SCID'de lenfopeni, KGH'de katalaz-pozitif enfeksiyon öne çıkar; bu tablo <b>LAD</b>'dir.",
-    "aciklama": "Belirgin nötrofili (dokuya geçemeyen nötrofiller kanda birikir) + <b>geç göbek düşmesi</b> = <b>Lökosit Adhezyon Defekti</b>. Normalde göbek 7-14 günde düşer; LAD dışında hipotiroidi ve F-XIII eksikliğinde de gecikebilir."
-  },
-  {
-    "yil": [
-      "Sonbahar-89"
-    ],
-    "soru": "Aşağıdakilerden hangisi, <b>üç günlük</b> bir bebekte görülen <mark>kanlı vajinal akıntının</mark> en olası nedenidir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Hemolitik anemi"
-      },
-      {
-        "k": "B",
-        "t": "K vitamini eksikliği"
-      },
-      {
-        "k": "C",
-        "t": "Vajinal adenozis"
-      },
-      {
-        "k": "D",
-        "t": "Kanama eğilimi"
-      },
-      {
-        "k": "E",
-        "t": "Maternal hormon"
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "Doğumdan sonra maternal hormonların ani çekilmesi.",
-    "tuzak": "K vitamini eksikliği/kanama eğilimi çeldiricidir; izole vajinal kanama <b>hormon çekilmesi</b>dir.",
-    "aciklama": "Yenidoğanda ilk günlerde görülen kanlı vajinal akıntı, plasenta yoluyla geçen <b>maternal östrojenin doğumdan sonra çekilmesine</b> bağlı fizyolojik çekilme kanamasıdır; kendiliğinden geçer."
-  },
-  {
-    "yil": [
-      "Sonbahar 2021 Orijinal"
-    ],
-    "soru": "Aşağıdakilerden hangisi yenidoğan ve infantlarda <mark>tonusun değerlendirilmesinde</mark> en uygun testtir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Gelişimsel refleksler"
-      },
-      {
-        "k": "B",
-        "t": "Patolojik refleksler"
-      },
-      {
-        "k": "C",
-        "t": "Traksiyon yanıtı, vertikal ve horizontal süspansiyon"
-      },
-      {
-        "k": "D",
-        "t": "Derin tendon refleksleri"
-      },
-      {
-        "k": "E",
-        "t": "Kas gücü"
+        "t": "Hiperamonyemi"
       }
     ],
     "dogru": 2,
-    "ipucu": "Bebeği havada tutup baş-gövde kontrolüne bakmak tonusu gösterir.",
-    "tuzak": "Derin tendon refleksleri ve kas gücü erişkin muayenesidir; infantta tonus <b>süspansiyon/traksiyon</b> ile değerlendirilir.",
-    "aciklama": "İnfantta tonus, <b>traksiyon yanıtı</b> (ellerinden çekince başını beraberinde getirmesi) ve <b>vertikal/horizontal süspansiyon</b> (havada tutunca gövde-baş kontrolü) ile değerlendirilir. Hipotonide baş geriden gelir, süspansiyonda 'ters U' görülür."
+    "ipucu": "Aminoasit katabolizması hangi asit-baz bozukluğunu yapar?",
+    "tuzak": "<mark>Alkaloz</mark> değil, katyonik aminoasit katabolizmasına bağlı <b>metabolik asidoz</b> görülür.",
+    "aciklama": "TPN komplikasyonları: kolestatik sarılık, hiperlipidemi, nefrokalsinoz, hiperamonyemi, azotemi, ozmotik diürez/dehidratasyon, hipoglisemi ve <b>metabolik asidoz</b>. <b>Alkaloz</b> beklenmez."
   },
   {
     "yil": [
-      "Sonbahar 2021 BENZERİ"
+      "İlkbahar-94"
     ],
-    "soru": "<b>I.</b> Traksiyon yanıtı<br><b>II.</b> Derin tendon refleksleri<br><b>III.</b> Vertikal süspansiyon<br><b>IV.</b> Yakalama refleksi<br>İnfantlarda <mark>tonusu değerlendirmek</mark> için yukarıdakilerden hangilerinin kullanılması en uygundur?",
+    "soru": "Aşağıdaki ilaçlardan hangisinin prematürelerde <mark>böbrek yetmezliğine</mark> neden olma olasılığı <b>en yüksektir</b>?",
     "siklar": [
       {
         "k": "A",
-        "t": "I ve II"
+        "t": "Amfoterisin B"
       },
       {
         "k": "B",
-        "t": "I ve III"
+        "t": "Tetrasiklin"
       },
       {
         "k": "C",
-        "t": "II ve III"
+        "t": "Novobiosin"
       },
       {
         "k": "D",
-        "t": "II ve IV"
+        "t": "Tolazolin"
       },
       {
         "k": "E",
-        "t": "III ve IV"
+        "t": "Heksaklorofen"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Nefrotoksisitesi + ototoksisitesi belirgin antifungal.",
+    "tuzak": "Tetrasiklin diş/kemik, novobiosin sarılık, heksaklorofen nörotoksisite yapar; renal yetmezlik <b>amfoterisin B</b>.",
+    "aciklama": "<b>Amfoterisin B</b> prematürede renal yetmezlik ve sağırlık yapabilir. Novobiosin→sarılık, tolazolin→hipotansiyon/kanama/ishal, tetrasiklin→diş-kemik bozukluğu, heksaklorofen→nörotoksisite."
+  },
+  {
+    "yil": [
+      "İlkbahar-94"
+    ],
+    "soru": "Aşağıdakilerden hangisi, yenidoğanda <mark>işitme kaybı riskini artıran</mark> durumlar arasında yer <b>almaz</b>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Fetal hipoksi"
+      },
+      {
+        "k": "B",
+        "t": "Sezaryen ile doğum"
+      },
+      {
+        "k": "C",
+        "t": "Ailede işitme kaybı öyküsü"
+      },
+      {
+        "k": "D",
+        "t": "1500 gramın altında doğum"
+      },
+      {
+        "k": "E",
+        "t": "Forseps kullanımı"
       }
     ],
     "dogru": 1,
-    "ipucu": "Tonus = traksiyon + süspansiyon.",
-    "tuzak": "Derin tendon refleksi (II) ve yakalama refleksi (IV) tonusu ölçmez.",
-    "aciklama": "İnfantta tonus değerlendirmesi için <b>traksiyon yanıtı (I)</b> ve <b>vertikal süspansiyon (III)</b> en uygun yöntemlerdir → B. DTR ve yakalama refleksi tonusu doğrudan göstermez."
+    "ipucu": "Hangisi kulakla ilgisiz, sadece doğum yöntemi?",
+    "tuzak": "<mark>Sezaryen</mark> tek başına işitme kaybı riski değildir; forseps (travma) risktir.",
+    "aciklama": "İşitme kaybı risk faktörleri: ailede öykü, intrauterin enfeksiyon (TORCH), <1500 g / <34 hafta, hiperbilirubinemi/kan değişimi, fetal hipoksi, doğum travması (forseps/vakum), ototoksik ilaç, 5 günden uzun ventilasyon. <b>Sezaryen</b> yer almaz."
   },
   {
     "yil": [
-      "Sonbahar-88"
+      "İlkbahar 2025"
     ],
-    "soru": "<mark>Moro refleksi</mark> ne zaman kaybolur?",
+    "soru": "30 haftalık prematüre bebeğin 5. gününde TFT'de <b>T4 düşük, TSH normal</b> bulunuyor; iyot maruziyeti, SSS patolojisi ve maternal tiroid hastalığı yok; RDS nedeniyle sürfaktan almış. Bu bebek için en uygun <mark>tanı ve yaklaşım</mark> hangisidir?",
     "siklar": [
       {
         "k": "A",
-        "t": "1 ay"
+        "t": "Prematürenin geçici hipotiroksinemisi — LT4 tedavisi başlanmalı"
       },
       {
         "k": "B",
-        "t": "9 ay"
+        "t": "Santral hipotiroidizm — LT4 tedavisi başlanmalı"
       },
       {
         "k": "C",
-        "t": "6 ay"
+        "t": "Geçici primer hipotiroidizm — LT4 tedavisi başlanmalı"
       },
       {
         "k": "D",
-        "t": "12 ay"
+        "t": "Santral hipotiroidizm — 2. haftada kontrol bakılmalı"
       },
       {
         "k": "E",
-        "t": "Kaybolmaz"
+        "t": "Prematürenin geçici hipotiroksinemisi — 2. haftada kontrol bakılmalı"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "T4 düşük + TSH normal + prematüre + RDS → immatür aks; tedavi gerekmez, izle.",
+    "tuzak": "Santral hipotiroidide TSH <b>düşük</b>, primerde TSH <b>yüksek</b> olurdu; burada TSH normal → <mark>LT4 gereksiz</mark>.",
+    "aciklama": "<b>Prematürenin geçici hipotiroksinemisi</b>: T4/sT4 düşük, TSH normal; immatür hipotalamo-hipofizer aksa bağlıdır; RDS/sepsis/steroid/sürfaktan tabloyu destekler. <b>Tedavi gerekmez, kontrol edilir</b> → E."
+  },
+  {
+    "yil": [
+      "Sonbahar 2024"
+    ],
+    "soru": "27 haftalık 800 g doğan, RDS için sürfaktan verilen ve nazal CPAP ile izlenen bebekte 3. günde taşikardi, takipne, hipotansiyon, <b>geniş nabız basıncı</b> ve oksijen ihtiyacında artış; akciğer grafisinde bronkovasküler belirginleşme ve <b>kardiyomegali</b> görülüyor. En olası tanı ve öncelikli tetkik hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Pulmoner hipertansiyon — Satürasyon testi"
+      },
+      {
+        "k": "B",
+        "t": "Sekonder sürfaktan eksikliği — Akciğer ultrasonografisi"
+      },
+      {
+        "k": "C",
+        "t": "Patent duktus arteriozus — Ekokardiyografi"
+      },
+      {
+        "k": "D",
+        "t": "Erken neonatal sepsis — Akut faz reaktanları"
+      },
+      {
+        "k": "E",
+        "t": "Geç neonatal sepsis — Kan kültürü"
       }
     ],
     "dogru": 2,
-    "ipucu": "Doğuşta var, ~4-6. ayda kaybolur.",
-    "tuzak": "Moro <b>kalıcı değildir</b>; 6. aydan sonra devam etmesi patolojiktir.",
-    "aciklama": "<b>Moro refleksi</b> doğuşta mevcuttur ve ~<b>6. ayda</b> (4-6 ay) kaybolur. 6. aydan sonra varlığı veya erkenden yokluğu/asimetrisi patolojiktir."
+    "ipucu": "Prematüre + geniş sıçrayıcı nabız + kardiyomegali → soldan-sağa şant.",
+    "tuzak": "Sepsiste kardiyomegali/bronkovasküler belirginleşme beklenmez; <b>geniş nabız basıncı</b> PDA'yı işaret eder.",
+    "aciklama": "<b>PDA</b> prematürede en sık KKH'dir; pulmoner direnç hızla düştüğünden erken kalp yetmezliği, geniş sıçrayıcı nabız, klavikula altı devamlı üfürüm, kardiyomegali ve artmış pulmoner vaskülarite yapar. Tanı için öncelikle <b>ekokardiyografi</b> çekilir."
+  },
+  {
+    "yil": [
+      "Sonbahar-87"
+    ],
+    "soru": "Aşağıdaki durumlardan hangisinin yenidoğanda <mark>apneye neden olması beklenmez</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Hipoglisemi"
+      },
+      {
+        "k": "B",
+        "t": "Hipotermi"
+      },
+      {
+        "k": "C",
+        "t": "Hipokalsemi"
+      },
+      {
+        "k": "D",
+        "t": "Kernikterus"
+      },
+      {
+        "k": "E",
+        "t": "Maternal sülfonamid kullanımı"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Sülfonamid apne değil, hangi tabloyu yapar?",
+    "tuzak": "<mark>Maternal sülfonamid</mark> bilirubini albüminden ayırıp <b>kernikterus</b> yapar; doğrudan apne nedeni değildir.",
+    "aciklama": "Yenidoğan apnesi; MSS (asfiksi, kanama, konvülziyon, kernikterus), solunum, dolaşım, metabolik (hipoglisemi, hipokalsemi) ve ısı (hipotermi) nedenleriyle olur. <b>Maternal sülfonamid</b> serbest bilirubini artırıp kernikterusa yol açar; apne nedeni değildir."
   },
   {
     "yil": [
       "Sonbahar-90"
     ],
-    "soru": "<mark>Moro refleksi</mark> yaşamın kaçıncı ayına kadar devam eder?",
+    "soru": "Aşağıdakilerden hangisi yenidoğan bebekte <mark>apne nedenlerinden birisi değildir</mark>?",
     "siklar": [
       {
         "k": "A",
-        "t": "Kaybolmaz"
+        "t": "Hipoglisemi"
       },
       {
         "k": "B",
-        "t": "2"
+        "t": "Hipokalsemi"
       },
       {
         "k": "C",
-        "t": "6"
+        "t": "İntrakraniyal kanama"
       },
       {
         "k": "D",
-        "t": "8"
+        "t": "Bilirubin ensefalopatisi"
       },
       {
         "k": "E",
-        "t": "12"
+        "t": "Maternal sülfonamid alımı"
       }
     ],
-    "dogru": 2,
-    "ipucu": "Palmar yakalama ~6 ay, Moro da ~6 ay.",
-    "tuzak": "'Kaybolmaz' çeldiricidir; Moro geçici bir yenidoğan refleksidir.",
-    "aciklama": "<b>Moro refleksi ~6. aya kadar</b> devam edip kaybolur. Ani uyaranla kolların abduksiyon-ekstansiyonu, ardından adduksiyonu şeklindedir; asimetrik olması (klavikula kırığı, brakiyal pleksus hasarı) patolojiktir."
+    "dogru": 4,
+    "ipucu": "Bir öncekiyle aynı mantık.",
+    "tuzak": "<mark>Maternal sülfonamid</mark> yine apne değil kernikterus yapar.",
+    "aciklama": "Hipoglisemi, hipokalsemi, intrakraniyal kanama ve bilirubin ensefalopatisi (kernikterus) apne yapabilir. <b>Maternal sülfonamid alımı</b> serbest bilirubin artışı/kernikterus yapar; doğrudan apne nedeni değildir."
   },
   {
     "yil": [
-      "Sonbahar-92"
+      "Sonbahar 2017 Orijinal"
     ],
-    "soru": "Yenidoğan muayenesinde aşağıdaki bulgulardan hangisi <mark>patolojiktir</mark>?",
+    "soru": "Aşağıdakilerden hangisinin yenidoğan döneminde <mark>apneye neden olma olasılığı diğerlerine göre daha düşüktür</mark>?",
     "siklar": [
       {
         "k": "A",
-        "t": "Moro refleksi"
+        "t": "Hipoglisemi"
       },
       {
         "k": "B",
-        "t": "Babinski refleksi"
+        "t": "Hiperkalsemi"
       },
       {
         "k": "C",
-        "t": "Yakalama refleksi"
+        "t": "Hipotermi"
       },
       {
         "k": "D",
-        "t": "Hipotonisite"
+        "t": "Hiponatremi"
       },
       {
         "k": "E",
-        "t": "Adımlama refleksi"
+        "t": "Yüksek çevre sıcaklığı"
       }
     ],
-    "dogru": 3,
-    "ipucu": "Yenidoğan refleksleri normaldir; anormal olan tonustur.",
-    "tuzak": "<mark>Babinski pozitifliği</mark> yenidoğanda normaldir (çeldirici); patolojik olan <b>hipotoni</b>.",
-    "aciklama": "Yenidoğanda Moro, yakalama, emme, adımlama refleksleri ve <b>pozitif Babinski</b> normaldir. <b>Hipo-/hipertonisite</b>, refleks kaybı/asimetrisi, emme-yutma kaybı, apne ve konvülziyon patolojiktir."
+    "dogru": 1,
+    "ipucu": "Kalsiyumun hangi yönü apne yapar?",
+    "tuzak": "Hipokalsemi apne yapar ama <mark>hiperkalsemi</mark> apne etiyolojisinde yer almaz.",
+    "aciklama": "Apne metabolik nedenleri: hipoglisemi, hipokalsemi, hipo-/hipernatremi, hiperamonyemi, organik asidemi; ısı bozuklukları (hipotermi, ısı stresi) da yapar. <b>Hiperkalsemi</b> yenidoğan apnesi nedenleri arasında yer almaz."
+  },
+  {
+    "yil": [
+      "Sonbahar 2017 BENZERİ"
+    ],
+    "soru": "Bir yenidoğanda son 2 saatte 3 kez olan, taktil uyarı ile düzelen, 20-25 saniye süren ve sırasında <b>kalp tepe atımı 100/dk altına inen</b> solunum durmaları var. Aşağıdakilerden hangisinin bu duruma neden olma olasılığı <mark>en düşüktür</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Hipoksi"
+      },
+      {
+        "k": "B",
+        "t": "Hiperkalsemi"
+      },
+      {
+        "k": "C",
+        "t": "Hipernatremi"
+      },
+      {
+        "k": "D",
+        "t": "Hipoglisemi"
+      },
+      {
+        "k": "E",
+        "t": "Hipotansiyon"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Yine kalsiyumun yanlış yönü.",
+    "tuzak": "Hipoksi, hipernatremi, hipoglisemi, hipotansiyon apne yapar; <mark>hiperkalsemi</mark> yapmaz.",
+    "aciklama": "Tarif edilen tablo (bradikardi eşlikli, >20 sn apne) ciddi apnedir. Hipoksi, hipoglisemi, hipernatremi ve hipotansiyon apne yapabilir; <b>hiperkalsemi</b> apne nedeni değildir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2000"
+    ],
+    "soru": "30 haftalık prematüre bir bebekte 3. günde apne gelişiyor. Aşağıdakilerden hangisi bu hastanın tanı ve tedavisinde <mark>öncelikli olarak yapılmaz</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Apne monitörüne bağlanması"
+      },
+      {
+        "k": "B",
+        "t": "Kafein başlanması"
+      },
+      {
+        "k": "C",
+        "t": "Hipoksi, enfeksiyon, intrakraniyal kanama bulgularının aranması"
+      },
+      {
+        "k": "D",
+        "t": "Tam kan sayımı, arteriyel kan gazı, glukoz, elektrolit tetkikleri"
+      },
+      {
+        "k": "E",
+        "t": "Antibiyotik başlanması"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Prematürede ilk apne genelde immatüriteye bağlı → önce kafein.",
+    "tuzak": "Termde apne enfeksiyonu düşündürür ama <b>prematürede ilk apnede öncelik antibiyotik değil</b>, monitörizasyon + kafein + etiyoloji taramasıdır.",
+    "aciklama": "Prematüre apnesinde öncelik: monitörizasyon, etiyoloji taraması (hipoksi/enfeksiyon/kanama; TKS/kan gazı/glukoz/elektrolit) ve primer tedavi olan <b>kafein</b>. <b>Antibiyotik</b> ancak enfeksiyon bulgusu saptanırsa verilir; öncelikli değildir."
   }
 ];
 

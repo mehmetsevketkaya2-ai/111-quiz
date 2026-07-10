@@ -2,3033 +2,610 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="expires" content="0">
 <meta http-equiv="pragma" content="no-cache">
-<title>Pediatri TTS — Genetik (Tam Bölüm · 76 Soru)</title>
+<title>TUS Quiz</title>
 <style>
   :root{
-    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --line:#2a3444;
-    --text:#e6edf3; --muted:#9aa7b5; --accent:#4c9aff; --accent2:#7c5cff;
-    --green:#2ea043; --green-bg:#12341c; --red:#e5484d; --red-bg:#3a1518;
-    --star:#f5c451; --hint:#3fb6a8; --trap:#ff5b5b; --exp:#b487ff;
+    --bg:#0e1117; --panel:#161b22; --panel2:#1c2230; --border:#2a3140;
+    --text:#e6edf3; --muted:#8b95a5; --accent:#4c8dff; --accent2:#3a6fd6;
+    --green:#2ea043; --green-bg:#12331d; --red:#e5484d; --red-bg:#3a1518;
+    --star:#f5c518; --hint:#58a6ff; --trap:#ff5b5b; --exp:#a371f7;
   }
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; padding:0;}
+  body{
+    background:var(--bg); color:var(--text);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    line-height:1.6;-webkit-text-size-adjust:100%;}
-  mark{background:none;color:var(--trap);font-weight:800;}
-  b{color:#fff;font-weight:700;}
+    line-height:1.55; font-size:16px;
+  }
+  mark{background:none; color:var(--trap); font-weight:800;}
+  b{color:#fff; font-weight:700;}
 
-  header{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--panel);
-    border-bottom:1px solid var(--line);padding:env(safe-area-inset-top) 0 0 0;
-    box-shadow:0 4px 18px rgba(0,0,0,.35);}
-  .hbar{display:flex;align-items:center;justify-content:space-between;gap:10px;
-    padding:11px 16px 10px;}
-  .htitle{font-size:15px;font-weight:800;letter-spacing:.3px;}
-  .htitle span{color:var(--accent);}
-  .stats{display:flex;gap:8px;}
-  .chip{display:flex;align-items:center;gap:5px;background:var(--panel2);
-    border:1px solid var(--line);border-radius:999px;padding:5px 11px;
-    font-size:13px;font-weight:700;}
-  .chip.correct{color:var(--green);} .chip.star{color:var(--star);}
-  .progress{height:5px;background:var(--panel2);width:100%;}
-  .progress > i{display:block;height:100%;width:0;
-    background:linear-gradient(90deg,var(--accent),var(--accent2));
-    transition:width .35s ease;}
+  /* HEADER */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:var(--panel); border-bottom:1px solid var(--border);
+  }
+  .hbar{
+    display:flex; align-items:center; gap:10px;
+    padding:10px 14px; max-width:820px; margin:0 auto;
+  }
+  .menu-btn{
+    background:var(--panel2); border:1px solid var(--border); color:var(--text);
+    width:40px; height:40px; border-radius:9px; font-size:18px; cursor:pointer; flex:0 0 auto;
+  }
+  .htitle{font-size:15px; font-weight:700; letter-spacing:.3px; flex:0 0 auto;}
+  .counters{margin-left:auto; display:flex; gap:8px; flex:0 0 auto;}
+  .chip{
+    background:var(--panel2); border:1px solid var(--border);
+    padding:5px 10px; border-radius:20px; font-size:13px; font-weight:700; white-space:nowrap;
+  }
+  .chip.correct{color:var(--green);}
+  .chip.star{color:var(--star);}
+  .progress-wrap{height:4px; background:var(--panel2); width:100%;}
+  .progress-bar{height:100%; width:0%; background:var(--accent); transition:width .25s ease;}
 
-  main{max-width:720px;margin:0 auto;padding:16px 16px 120px;}
+  main{max-width:820px; margin:0 auto; padding:18px 14px 120px;}
 
-  .qmeta{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-  .qnum{font-size:13px;font-weight:800;color:var(--muted);letter-spacing:.5px;}
-  .star-btn{background:none;border:none;cursor:pointer;font-size:26px;line-height:1;
-    filter:grayscale(1) opacity(.45);transition:transform .15s,filter .15s;padding:2px 4px;}
-  .star-btn.on{filter:none;transform:scale(1.12);}
+  /* QUESTION CARD */
+  .qmeta{display:flex; align-items:center; gap:10px; margin-bottom:12px;}
+  .qnum{font-size:13px; color:var(--muted); font-weight:700;}
+  .yil-badge{
+    background:var(--panel2); border:1px solid var(--border); color:var(--accent);
+    padding:3px 9px; border-radius:14px; font-size:12px; font-weight:700;
+  }
+  .star-btn{
+    margin-left:auto; background:var(--panel2); border:1px solid var(--border);
+    color:var(--muted); width:38px; height:38px; border-radius:9px; font-size:18px; cursor:pointer;
+  }
+  .star-btn.on{color:var(--star); border-color:var(--star);}
+  .soru{font-size:17px; font-weight:600; margin:0 0 18px;}
 
-  .year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
-  .year-tag{font-size:11.5px;font-weight:700;letter-spacing:.3px;color:var(--accent);
-    background:rgba(76,154,255,.1);border:1px solid rgba(76,154,255,.3);
-    border-radius:6px;padding:3px 9px;}
+  .siklar{display:flex; flex-direction:column; gap:10px;}
+  .sik{
+    display:flex; align-items:flex-start; gap:12px; text-align:left;
+    background:var(--panel); border:1px solid var(--border); color:var(--text);
+    padding:13px 15px; border-radius:11px; font-size:15px; cursor:pointer;
+    transition:border-color .15s, background .15s; width:100%; font-family:inherit; line-height:1.45;
+  }
+  .sik:hover:not(.locked){border-color:var(--accent);}
+  .sik .k{
+    flex:0 0 auto; font-weight:800; color:var(--muted);
+    width:24px; height:24px; display:flex; align-items:center; justify-content:center;
+    border:1px solid var(--border); border-radius:6px; font-size:13px;
+  }
+  .sik.locked{cursor:default;}
+  .sik.correct{background:var(--green-bg); border-color:var(--green);}
+  .sik.correct .k{background:var(--green); color:#fff; border-color:var(--green);}
+  .sik.wrong{background:var(--red-bg); border-color:var(--red);}
+  .sik.wrong .k{background:var(--red); color:#fff; border-color:var(--red);}
 
-  .qcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;
-    padding:18px 17px;margin-bottom:14px;font-size:16.5px;}
+  /* HINT BUTTON */
+  .hint-btn{
+    margin-top:16px; background:transparent; border:1px dashed var(--hint); color:var(--hint);
+    padding:9px 14px; border-radius:9px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;
+  }
 
-  .opts{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
-  .opt{display:flex;align-items:flex-start;gap:12px;background:var(--panel);
-    border:1.5px solid var(--line);border-radius:13px;padding:13px 14px;cursor:pointer;
-    font-size:16px;transition:border-color .15s,background .15s,transform .05s;
-    text-align:left;color:var(--text);width:100%;}
-  .opt:active{transform:scale(.995);}
-  .opt .k{flex:0 0 26px;height:26px;border-radius:50%;background:var(--panel2);
-    border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
-    font-weight:800;font-size:14px;color:var(--muted);}
-  .opt .t{flex:1;padding-top:1px;}
-  .opt:not(.locked):hover{border-color:var(--accent);}
-  .opts.locked .opt{cursor:default;}
-  .opt.correct{border-color:var(--green);background:var(--green-bg);}
-  .opt.correct .k{background:var(--green);border-color:var(--green);color:#fff;}
-  .opt.wrong{border-color:var(--red);background:var(--red-bg);}
-  .opt.wrong .k{background:var(--red);border-color:var(--red);color:#fff;}
-  .opt.dim{opacity:.55;}
-  .opt .mark{flex:0 0 24px;height:26px;display:flex;align-items:center;justify-content:center;
-    font-weight:900;font-size:18px;line-height:1;}
-  .opt.correct .mark::after{content:"✓";color:var(--green);}
-  .opt.wrong .mark::after{content:"✗";color:var(--red);}
+  /* REVEAL BOXES */
+  .boxes{margin-top:18px; display:flex; flex-direction:column; gap:12px;}
+  .box{border:1px solid var(--border); border-radius:11px; padding:13px 15px; font-size:14.5px; display:none;}
+  .box.show{display:block; animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+  .box .bt{font-weight:800; margin-bottom:6px; font-size:14px;}
+  .box.ipucu{background:rgba(88,166,255,.07); border-color:rgba(88,166,255,.35);}
+  .box.ipucu .bt{color:var(--hint);}
+  .box.tuzak{background:rgba(255,91,91,.07); border-color:rgba(255,91,91,.35);}
+  .box.tuzak .bt{color:var(--trap);}
+  .box.aciklama{background:rgba(163,113,247,.07); border-color:rgba(163,113,247,.35);}
+  .box.aciklama .bt{color:var(--exp);}
 
-  .hintbtn{display:inline-flex;align-items:center;gap:7px;background:var(--panel2);
-    color:var(--hint);border:1px solid var(--line);border-radius:11px;padding:11px 15px;
-    font-size:14.5px;font-weight:700;cursor:pointer;margin-bottom:14px;}
-  .hintbtn:hover{border-color:var(--hint);}
+  /* NAV */
+  .nav{
+    position:fixed; bottom:0; left:0; right:0; z-index:90;
+    background:var(--panel); border-top:1px solid var(--border);
+    display:flex; gap:10px; padding:12px 14px; max-width:820px; margin:0 auto;
+  }
+  .nav button{
+    flex:1; padding:13px; border-radius:10px; font-size:15px; font-weight:700; cursor:pointer;
+    font-family:inherit; border:1px solid var(--border); background:var(--panel2); color:var(--text);
+  }
+  .nav button.primary{background:var(--accent); border-color:var(--accent); color:#fff;}
+  .nav button.finish{background:var(--green); border-color:var(--green); color:#fff;}
+  .nav button:disabled{opacity:.4; cursor:default;}
 
-  .box{border-radius:13px;padding:13px 15px;margin-bottom:11px;font-size:15.5px;
-    border:1px solid var(--line);animation:fade .35s ease;}
-  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
-  .box .bt{display:flex;align-items:center;gap:8px;font-weight:800;margin-bottom:6px;
-    font-size:14px;letter-spacing:.3px;}
-  .box.ip{background:rgba(63,182,168,.08);border-color:rgba(63,182,168,.35);}
-  .box.ip .bt{color:var(--hint);}
-  .box.tz{background:rgba(255,91,91,.07);border-color:rgba(255,91,91,.32);}
-  .box.tz .bt{color:var(--trap);}
-  .box.ac{background:rgba(180,135,255,.08);border-color:rgba(180,135,255,.32);}
-  .box.ac .bt{color:var(--exp);}
+  /* MODAL */
+  .modal-bg{
+    position:fixed; inset:0; background:rgba(0,0,0,.65); z-index:200;
+    display:none; align-items:flex-start; justify-content:center; padding:20px 14px;
+  }
+  .modal-bg.show{display:flex;}
+  .modal{
+    background:var(--panel); border:1px solid var(--border); border-radius:14px;
+    padding:16px; max-width:520px; width:100%; margin-top:60px; max-height:80vh; overflow:auto;
+  }
+  .modal h3{margin:0 0 14px; font-size:16px;}
+  .grid{display:grid; grid-template-columns:repeat(6,1fr); gap:8px;}
+  .cell{
+    position:relative; aspect-ratio:1; border:1px solid var(--border); border-radius:8px;
+    background:var(--panel2); color:var(--text); font-weight:700; font-size:14px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .cell.correct{background:var(--green-bg); border-color:var(--green); color:var(--green);}
+  .cell.wrong{background:var(--red-bg); border-color:var(--red); color:var(--red);}
+  .cell.current{outline:2px solid var(--accent); outline-offset:1px;}
+  .cell .sb{position:absolute; top:-6px; right:-4px; font-size:11px;}
+  .modal-close{
+    margin-top:14px; width:100%; padding:11px; border-radius:9px; cursor:pointer; font-family:inherit;
+    background:var(--panel2); border:1px solid var(--border); color:var(--text); font-weight:700;
+  }
 
-  .nav{position:fixed;bottom:0;left:0;right:0;z-index:40;background:var(--panel);
-    border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));
-    display:flex;gap:10px;max-width:720px;margin:0 auto;align-items:stretch;}
-  .nav button{border:1px solid var(--line);border-radius:12px;padding:14px;
-    font-size:15.5px;font-weight:800;cursor:pointer;background:var(--panel2);color:var(--text);}
-  .nav .prev,.nav .next{flex:1;}
-  .nav .list{flex:0 0 auto;min-width:66px;color:var(--muted);font-size:13px;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.1;}
-  .nav .list .lc{font-size:16px;}
-  .nav .next{background:linear-gradient(90deg,var(--accent),var(--accent2));
-    color:#fff;border-color:transparent;}
-  .nav button:disabled{opacity:.4;cursor:not-allowed;}
-
-  /* Question-list modal (bottom sheet) */
-  .modal-ov{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.55);
-    display:none;align-items:flex-end;justify-content:center;}
-  .modal-ov.show{display:flex;animation:fade .2s ease;}
-  .modal{width:100%;max-width:720px;background:var(--panel);
-    border-top-left-radius:20px;border-top-right-radius:20px;
-    border:1px solid var(--line);border-bottom:none;padding:16px 16px 26px;
-    max-height:72vh;overflow:auto;animation:slideup .28s ease;}
-  @keyframes slideup{from{transform:translateY(30px);opacity:.6;}to{transform:none;opacity:1;}}
-  .modal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-  .modal-h span{font-size:15px;font-weight:800;letter-spacing:.3px;}
-  .modal-h .close{background:var(--panel2);border:1px solid var(--line);color:var(--text);
-    border-radius:9px;width:34px;height:34px;font-size:16px;cursor:pointer;font-weight:800;}
-  .qgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;}
-  .gbtn{aspect-ratio:1/1;border-radius:10px;border:1.5px solid var(--line);
-    background:var(--panel2);color:var(--text);font-size:14px;font-weight:800;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;position:relative;}
-  .gbtn.ok{background:var(--green-bg);border-color:var(--green);color:var(--green);}
-  .gbtn.no{background:var(--red-bg);border-color:var(--red);color:var(--red);}
-  .gbtn.cur{outline:2px solid var(--accent);outline-offset:1px;}
-  .gbtn.star::after{content:"";position:absolute;top:3px;right:3px;width:7px;height:7px;
-    border-radius:50%;background:var(--star);}
-
-  /* Result */
-  .result{display:none;}
-  .result.show{display:block;animation:fade .4s ease;}
-  .score-ring{display:flex;flex-direction:column;align-items:center;justify-content:center;
-    width:170px;height:170px;margin:8px auto 6px;border-radius:50%;
-    background:conic-gradient(var(--accent) var(--pct,0%),var(--panel2) 0);}
-  .score-ring .inner{width:138px;height:138px;border-radius:50%;background:var(--bg);
-    display:flex;flex-direction:column;align-items:center;justify-content:center;}
-  .score-ring .big{font-size:34px;font-weight:900;}
-  .score-ring .sub{font-size:13px;color:var(--muted);font-weight:700;}
-  .pctline{text-align:center;font-size:20px;font-weight:900;margin:2px 0 4px;}
-  .fb{text-align:center;color:var(--muted);font-size:15px;margin-bottom:14px;}
-  .result-stats{display:flex;gap:10px;justify-content:center;margin-bottom:22px;flex-wrap:wrap;}
-  .rstat{background:var(--panel);border:1px solid var(--line);border-radius:11px;
-    padding:9px 15px;font-size:13.5px;font-weight:800;}
-  .rstat.g{color:var(--green);} .rstat.r{color:var(--red);} .rstat.s{color:var(--star);}
-  .review-h{font-size:14px;font-weight:800;color:var(--muted);letter-spacing:.4px;
-    margin:6px 0 10px;}
-  .rev{display:flex;align-items:center;gap:11px;background:var(--panel);
-    border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:9px;
-    cursor:pointer;transition:border-color .15s;}
-  .rev:hover{border-color:var(--accent);}
-  .rev .badge{flex:0 0 auto;width:24px;height:24px;border-radius:6px;font-size:15px;
-    display:flex;align-items:center;justify-content:center;font-weight:900;}
-  .rev .badge.ok{background:var(--green-bg);color:var(--green);}
-  .rev .badge.no{background:var(--red-bg);color:var(--red);}
-  .rev .badge.blank{background:var(--panel2);color:var(--muted);}
-  .rev .rq{flex:1;font-size:14px;}
-  .rev .ra{font-size:12.5px;color:var(--muted);margin-top:2px;}
-  .rev .ra b{color:var(--green);}
-  .result-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
-  .ract{width:100%;padding:15px;border-radius:13px;border:1px solid var(--line);
-    background:var(--panel2);color:var(--text);font-size:15px;font-weight:800;cursor:pointer;}
-  .ract:hover{border-color:var(--accent);}
-  .ract.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));
-    color:#fff;border-color:transparent;}
-  .ract:disabled{opacity:.4;cursor:not-allowed;}
-
-  /* Resume prompt */
-  .resume-ov{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.6);
-    display:none;align-items:center;justify-content:center;padding:20px;}
-  .resume-ov.show{display:flex;animation:fade .2s ease;}
-  .resume-box{width:100%;max-width:420px;background:var(--panel);border:1px solid var(--line);
-    border-radius:18px;padding:22px 20px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.5);}
-  .resume-t{font-size:18px;font-weight:900;margin-bottom:8px;}
-  .resume-s{font-size:14px;color:var(--muted);margin-bottom:18px;line-height:1.5;}
-  .resume-btns{display:flex;flex-direction:column;gap:10px;}
-  .resume-btn{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);
-    background:var(--panel2);color:var(--text);font-size:15px;font-weight:800;cursor:pointer;}
-  .resume-btn:hover{border-color:var(--accent);}
-  .resume-btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));
-    color:#fff;border-color:transparent;}
-
-  /* Toast */
-  .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);
-    background:var(--panel2);border:1px solid var(--line);color:var(--text);
-    padding:11px 18px;border-radius:11px;font-size:14px;font-weight:700;z-index:80;
-    opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 6px 20px rgba(0,0,0,.4);}
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  /* RESULTS */
+  .results{display:none; padding:24px 14px 120px; max-width:820px; margin:0 auto;}
+  .results.show{display:block;}
+  .score-hero{text-align:center; padding:26px 16px; background:var(--panel); border:1px solid var(--border); border-radius:16px; margin-bottom:18px;}
+  .score-big{font-size:44px; font-weight:800; margin:0;}
+  .score-pct{font-size:20px; color:var(--accent); font-weight:800; margin:4px 0 8px;}
+  .score-fb{color:var(--muted); font-size:15px;}
+  .stat-cards{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:20px;}
+  .stat{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:14px 8px; text-align:center;}
+  .stat .n{font-size:24px; font-weight:800;}
+  .stat .l{font-size:12px; color:var(--muted); margin-top:2px;}
+  .stat.g .n{color:var(--green);} .stat.r .n{color:var(--red);} .stat.s .n{color:var(--star);}
+  .review-title{font-size:15px; font-weight:800; margin:0 0 12px;}
+  .review-item{
+    display:flex; align-items:center; gap:11px; padding:11px 13px; margin-bottom:8px;
+    background:var(--panel); border:1px solid var(--border); border-radius:10px; cursor:pointer; font-size:14px;
+  }
+  .rbadge{flex:0 0 auto; width:26px; height:26px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px;}
+  .rbadge.ok{background:var(--green-bg); color:var(--green);}
+  .rbadge.no{background:var(--red-bg); color:var(--red);}
+  .rbadge.bl{background:var(--panel2); color:var(--muted);}
+  .rtext{flex:1; min-width:0;}
+  .rtext .rq{overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--muted); font-size:13px;}
+  .rans{flex:0 0 auto; font-weight:800; color:var(--green); font-size:13px;}
+  .result-btns{display:flex; flex-direction:column; gap:10px; margin-top:22px;}
+  .result-btns button{
+    padding:14px; border-radius:11px; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit;
+    border:1px solid var(--border); background:var(--panel2); color:var(--text);
+  }
+  .result-btns button.primary{background:var(--accent); border-color:var(--accent); color:#fff;}
+  .result-btns button:disabled{opacity:.4; cursor:default;}
 </style>
 </head>
 <body>
-<header id="hdr">
+
+<header>
   <div class="hbar">
-    <div class="htitle">Pediatri · Genetik (TAM BÖLÜM) <span>TTS</span></div>
-    <div class="stats">
-      <div class="chip correct">✓ <span id="cCount">0</span></div>
-      <div class="chip star">⭐ <span id="sCount">0</span></div>
+    <button class="menu-btn" id="menuBtn" aria-label="Soru listesi">☰</button>
+    <span class="htitle">TUS Quiz</span>
+    <div class="counters">
+      <span class="chip correct" id="chipCorrect">✔ 0</span>
+      <span class="chip star" id="chipStar">⭐ 0</span>
     </div>
   </div>
-  <div class="progress"><i id="bar"></i></div>
+  <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
 </header>
 
-<main id="main">
-  <div id="quiz"></div>
-
-  <div class="result" id="result">
-    <div class="score-ring" id="ring">
-      <div class="inner">
-        <div class="big" id="scoreBig">0/0</div>
-        <div class="sub">DOĞRU</div>
-      </div>
-    </div>
-    <div class="pctline" id="pctLine">%0</div>
-    <div class="fb" id="fbText"></div>
-    <div class="result-stats" id="rStats"></div>
-    <div class="review-h">SORU İNCELEMESİ</div>
-    <div id="reviewList"></div>
-    <div class="result-actions">
-      <button class="ract primary" onclick="restart()">↺ Tüm Soruları Yeniden Çöz</button>
-      <button class="ract" id="retryWrongBtn" onclick="retryWrong()">✗ Yanlışları Tekrar Çöz</button>
-      <button class="ract" id="retryStarBtn" onclick="retryStar()">⭐ Yıldızlıları Tekrar Çöz</button>
-    </div>
-  </div>
-</main>
+<main id="main"></main>
 
 <div class="nav" id="nav">
-  <button class="prev" id="prevBtn" onclick="go(-1)">← Önceki</button>
-  <button class="list" id="listBtn" onclick="openModal()"><span class="lc">☰</span><span id="navCounter">0/0</span></button>
-  <button class="next" id="nextBtn" onclick="go(1)">Sonraki →</button>
+  <button id="prevBtn">◀ Önceki</button>
+  <button id="nextBtn" class="primary">Sonraki ▶</button>
 </div>
 
-<div class="modal-ov" id="modalOv" onclick="modalBg(event)">
+<div class="results" id="results"></div>
+
+<div class="modal-bg" id="modalBg">
   <div class="modal">
-    <div class="modal-h"><span>Sorular</span><button class="close" onclick="closeModal()">✕</button></div>
-    <div class="qgrid" id="qGrid"></div>
+    <h3>Sorulara Git</h3>
+    <div class="grid" id="gridWrap"></div>
+    <button class="modal-close" id="modalClose">Kapat</button>
   </div>
 </div>
-
-<div class="resume-ov" id="resumeOv">
-  <div class="resume-box">
-    <div class="resume-t">↩ Kaldığın yerden devam?</div>
-    <div class="resume-s" id="resumeSub"></div>
-    <div class="resume-btns">
-      <button class="resume-btn primary" onclick="resumeYes()">Kaldığım yerden devam et</button>
-      <button class="resume-btn" onclick="resumeNo()">Baştan başla</button>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
 
 <script>
-/* =========================================================
-   QUESTIONS — SADECE BU DİZİ DEĞİŞİR.
-   Her obje: { yil?, soru, siklar[5], dogru(0-4), ipucu, tuzak, aciklama }
-   ========================================================= */
+/* ============ VERİ ============ */
 const QUESTIONS = [
   {
-    "yil": [
-      "İlkbahar 2022 Orijinal"
-    ],
-    "soru": "Genomda, protein kodlayan dizide meydana gelen bir baz değişimi, ilgili kodonda bir <b>aminoasit değişikliğine</b> neden oluyorsa bu değişim aşağıdakilerden hangisiyle tanımlanır?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Yanlış anlamlı (missense)"
-      },
-      {
-        "k": "B",
-        "t": "Anlamsız (nonsense)"
-      },
-      {
-        "k": "C",
-        "t": "Sessiz (silent)"
-      },
-      {
-        "k": "D",
-        "t": "Eş anlamlı (synonymous)"
-      },
-      {
-        "k": "E",
-        "t": "İnsersiyon (insertion)"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Aminoasit değişir ama stop kodon oluşmaz.",
-    "tuzak": "Nonsense'ta <mark>stop kodon</mark> oluşur; silent/synonymous'ta aminoasit <b>değişmez</b>.",
-    "aciklama": "<b>Missense (yanlış anlamlı)</b> mutasyonda baz değişimi kodladığı aminoasidi değiştirir (örn. GCA-Alanin → GAA-Glutamik asit). Nonsense'ta stop kodon oluşur; silent/synonymous'ta aminoasit değişmez."
-  },
-  {
-    "yil": [
-      "İlkbahar 2022 BENZERİ"
-    ],
-    "soru": "<b>Yanlış anlamlı (missense)</b> mutasyonun tanımı aşağıdakilerden hangisinde doğru verilmiştir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Baz değişimi olmasına rağmen kodlanan aminoasidin değişmemesi"
-      },
-      {
-        "k": "B",
-        "t": "Baz değişimi ile kodlanan aminoasidin değişmesi"
-      },
-      {
-        "k": "C",
-        "t": "Baz değişimi ile stop kodonunun ortaya çıkması"
-      },
-      {
-        "k": "D",
-        "t": "Pürin bazı ile pürin bazının değişimi"
-      },
-      {
-        "k": "E",
-        "t": "Pürin bazı ile pirimidin bazının değişimi"
-      }
-    ],
-    "dogru": 1,
-    "ipucu": "Missense = aminoasit değişimi.",
-    "tuzak": "A = sessiz mutasyon; C = nonsense; D = transisyon; E = transversiyon.",
-    "aciklama": "<b>Missense</b> mutasyonda baz değişimi kodlanan aminoasidi değiştirir. (A: silent, C: nonsense, D: transisyon, E: transversiyon tanımlarıdır.)"
-  },
-  {
-    "yil": [
-      "Sonbahar 2022 Orijinal"
-    ],
-    "soru": "Nörolojik gelişim geriliği olan 2 yaşındaki hastada rutin/ileri laboratuvar normal; anne-baba akraba ve benzer kardeş öyküsü var. Tüm ekzom analizinde <b>beş farklı gende</b> aday homozigot nükleotid değişikliği saptanıyor. Genotip-fenotip ilişkisini kurmak için <mark>ilk aşamada</mark> hangisi yapılmalıdır?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Ailede aday genler için varyasyon kalıtımının doğrulanması"
-      },
-      {
-        "k": "B",
-        "t": "Hastada kromozom analizi yapılması"
-      },
-      {
-        "k": "C",
-        "t": "Hasta ve ebeveynlerde mikrodizin analizi yapılması"
-      },
-      {
-        "k": "D",
-        "t": "Hastada uniparental heterodizomi araştırılması"
-      },
-      {
-        "k": "E",
-        "t": "Aday genlere ait fonksiyonel analiz yapılması"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Hangi gen gerçekten hastalıkla ilişkili? Aile içi segregasyon.",
-    "tuzak": "Genetik analiz zaten yapılmış; tekrar kromozom/mikrodizin gereksiz. İlk adım <b>ailede kalıtım doğrulaması</b>.",
-    "aciklama": "Birden çok aday gen olduğunda hangisinin hastalıkla ilişkili olduğunu ayırmak için <b>ailede (ebeveyn/kardeş) varyasyon kalıtımının doğrulanması (segregasyon analizi)</b> ilk adımdır; hasta ve etkilenen kardeşte ortak gen, en olası nedeni gösterir."
-  },
-  {
-    "yil": [
-      "Sonbahar 2021 Orijinal"
-    ],
-    "soru": "<b>X'e bağlı resesif</b> hastalığa sahip bir erkek bireyin, taşıyıcı olmayan sağlıklı bir kadınla evlenmesi durumunda <mark>erkek çocuklarının yüzde kaçında</mark> hastalık ortaya çıkabilir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "0"
-      },
-      {
-        "k": "B",
-        "t": "25"
-      },
-      {
-        "k": "C",
-        "t": "50"
-      },
-      {
-        "k": "D",
-        "t": "75"
-      },
-      {
-        "k": "E",
-        "t": "100"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Baba oğula X vermez, Y verir.",
-    "tuzak": "Baba X'ini <b>kızlarına</b> verir; oğullar Y alır → anne sağlıklıysa erkek çocuklar <mark>%0</mark> etkilenir.",
-    "aciklama": "X'e bağlı hastalıklar <b>babadan oğula geçmez</b> (baba oğula Y verir). Anne taşıyıcı değilse oğullar sağlam X alır → erkek çocuklarda hastalık %0. Baba X'ini tüm kızlarına verir (kızlar taşıyıcı olur)."
-  },
-  {
-    "yil": [
-      "Sonbahar 2021 BENZERİ"
-    ],
-    "soru": "<b>I.</b> X-Dominant kalıtım<br><b>II.</b> Otozomal dominant<br><b>III.</b> X-Resesif kalıtım<br><b>IV.</b> Psödodominant kalıtım<br>Yukarıdaki kalıtım şekillerinden hangilerinde <b>babada hastalık, annenin sağlıklı</b> olması durumunda erkek çocuklar <mark>%100 sağlıklıdır</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "I ve II"
-      },
-      {
-        "k": "B",
-        "t": "I ve III"
-      },
-      {
-        "k": "C",
-        "t": "II ve III"
-      },
-      {
-        "k": "D",
-        "t": "II ve IV"
-      },
-      {
-        "k": "E",
-        "t": "III ve IV"
-      }
-    ],
-    "dogru": 1,
-    "ipucu": "X ile kalıtımda baba oğula X vermez.",
-    "tuzak": "Otozomal (II, IV) kalıtımda erkek çocuk da etkilenebilir; X ile kalıtımda (I, III) baba oğula X vermediğinden erkek çocuklar sağlıklı.",
-    "aciklama": "X-Dominant (I) ve X-Resesif (III) kalıtımda baba X'ini oğluna vermediğinden, baba hasta-anne sağlıklıysa <b>erkek çocuklar %100 sağlıklıdır</b> → I ve III. Otozomal kalıtımda cinsiyet ayrımı yoktur."
-  },
-  {
-    "yil": [
-      "Sonbahar 2009"
-    ],
-    "soru": "Aşağıdakilerden hangisi <mark>tek gen (monogenik) mutasyonu</mark> sonucu gelişir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Anensefali"
-      },
-      {
-        "k": "B",
-        "t": "Hipospadias"
-      },
-      {
-        "k": "C",
-        "t": "Trizomiler"
-      },
-      {
-        "k": "D",
-        "t": "Yarık damak"
-      },
-      {
-        "k": "E",
-        "t": "Kondrodistrofiler"
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "Akondroplazi tek gen (FGFR3) hastalığıdır.",
-    "tuzak": "Anensefali/yarık damak <b>multifaktöriyel</b>; trizomiler <b>kromozomal</b>; hipospadias sporadiktir.",
-    "aciklama": "<b>Kondrodistrofiler</b> (en sık akondroplazi, FGFR3 mutasyonu, OD) tek gen hastalıklarıdır. Anensefali ve yarık damak multifaktöriyel, trizomiler kromozomal anomalidir."
-  },
-  {
-    "yil": [
-      "İlkbahar 2024"
-    ],
-    "soru": "Ebeveynlerden <b>yalnızca birinin taşıyıcı</b> olduğu bir otozomal resesif metabolik hastalık için çocuğun hasta olma ihtimali aşağıdaki durumlardan hangisinde <mark>en olasıdır</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Uniparental isodizomi"
-      },
-      {
-        "k": "B",
-        "t": "Uniparental heterodizomi"
-      },
-      {
-        "k": "C",
-        "t": "Translokasyon olasılığı"
-      },
-      {
-        "k": "D",
-        "t": "Kromozomal sayı anormalliği gelişmesi"
-      },
-      {
-        "k": "E",
-        "t": "Trinükleotid artışının (dinamik mutasyon) varlığı"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Taşıyıcı ebeveynin hatalı kromozomunun iki kopyası çocuğa geçerse.",
-    "tuzak": "Heterodizomide iki farklı homolog gelir (biri normal); <b>izodizomide aynı kromozomun iki kopyası</b> → homozigot hastalık.",
-    "aciklama": "<b>Uniparental izodizomi</b>: taşıyıcı ebeveynin mutant kromozomunun iki özdeş kopyası çocuğa geçer (2. mayoz hatası), diğer ebeveynden o kromozom gelmez → segmentler homozigot olur ve tek taşıyıcı ebeveynle bile OR hastalık ortaya çıkar."
-  },
-  {
-    "yil": [
-      "İlkbahar 2011"
-    ],
-    "soru": "Aşağıdaki durumların hangisinde yenidoğanda <mark>kromozom analizi yapılmasına gerek yoktur</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Akondroplazi"
-      },
-      {
-        "k": "B",
-        "t": "Down Sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Multipl anomali"
-      },
-      {
-        "k": "D",
-        "t": "Mental retardasyon"
-      },
-      {
-        "k": "E",
-        "t": "Cinsiyet anomalisi"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Tek gen hastalığında karyotip normaldir.",
-    "tuzak": "<mark>Akondroplazi</mark> tek gen (FGFR3) hastalığıdır; karyotip normal, tanı klinik/radyolojik.",
-    "aciklama": "<b>Akondroplazi</b> tipik dismorfik ve radyolojik bulgularla tanınan bir iskelet displazisidir (FGFR3 mutasyonu); kromozom analizi tanısal veri vermez. Down, multipl anomali, mental retardasyon ve cinsiyet anomalisinde karyotip endikedir."
-  },
-  {
-    "yil": [
-      "Sonbahar 2005"
-    ],
-    "soru": "Aşağıdaki hastalıklardan hangisinde, moleküler genetik yapıda <mark>üçlü nükleotid dizisinin tekrarı artmıştır</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Duchenne muskuler distrofi"
-      },
-      {
-        "k": "B",
-        "t": "Frajil-X Sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Osteogenezis imperfekta Tip II"
-      },
-      {
-        "k": "D",
-        "t": "Akondroplazi"
-      },
-      {
-        "k": "E",
-        "t": "Vitamin D'ye dirençli rikets"
-      }
-    ],
-    "dogru": 1,
-    "ipucu": "CGG tekrarı.",
-    "tuzak": "DMD (delesyon), akondroplazi (nokta mut.), OI (kollajen) farklı mekanizmalar; tekrar <b>Frajil-X</b>'te.",
-    "aciklama": "<b>Frajil-X sendromu</b> CGG üçlü nükleotid tekrar artışıyla oluşur. (Diğer tekrar hastalıkları: Huntington-CAG, Miyotonik distrofi-CTG, Friedreich-GAA.)"
-  },
-  {
-    "yil": [
-      "İlkbahar 2010"
-    ],
-    "soru": "Aşağıdaki hastalıklardan hangisi <mark>nükleotid tekrarlarında artma</mark> ile karakterizedir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Frajil-X Sendromu"
-      },
-      {
-        "k": "B",
-        "t": "Spinal musküler atrofi"
-      },
-      {
-        "k": "C",
-        "t": "Progresif musküler distrofi"
-      },
-      {
-        "k": "D",
-        "t": "Hemofili"
-      },
-      {
-        "k": "E",
-        "t": "Osteogenezis imperfekta"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "CGG tekrarı.",
-    "tuzak": "SMA (delesyon), hemofili (X-resesif), OI (kollajen) farklıdır; tekrar <b>Frajil-X</b>'te.",
-    "aciklama": "<b>Frajil-X sendromu</b> CGG üçlü nükleotid tekrar artışıyla karakterizedir. SMA delesyon, hemofili X-resesif faktör eksikliği, OI kollajen defektidir."
-  },
-  {
-    "yil": [
-      "Sonbahar 99"
-    ],
-    "soru": "<b>Mental retardasyon, iri testisler, uzun yüz görünümü ve kepçe kulaklar</b> aşağıdakilerden hangisinde daha sıklıkla rastlanır?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Turner Sendromu"
-      },
-      {
-        "k": "B",
-        "t": "Fenilketonüri"
-      },
-      {
-        "k": "C",
-        "t": "Frajil-X Sendromu"
-      },
-      {
-        "k": "D",
-        "t": "Down Sendromu"
-      },
-      {
-        "k": "E",
-        "t": "Lesch-Nyhan Sendromu"
-      }
-    ],
-    "dogru": 2,
-    "ipucu": "Makroorşidizm + uzun yüz + belirgin çene.",
-    "tuzak": "Makroorşidizm (iri testis) + uzun yüz + kepçe kulak klasik <b>Frajil-X</b>'tir.",
-    "aciklama": "<b>Frajil-X sendromu</b> (CGG tekrarı, X-resesif): mental retardasyon (mental retarde erkeklerin ~%30'u), makroorşidizm, uzun yüz, belirgin çene, kepçe kulak ve otistik davranış. Erkeklerde MR'ın en sık kalıtsal nedenidir."
-  },
-  {
-    "yil": [
-      "İlkbahar 2016 Orijinal"
-    ],
-    "soru": "Aşağıdakilerden hangisi <mark>üçlü nükleotid tekrar artışı ile karakterize hastalıklardan biri değildir</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Frajil X Sendromu"
-      },
-      {
-        "k": "B",
-        "t": "Miyotonik distrofi"
-      },
-      {
-        "k": "C",
-        "t": "Huntington hastalığı"
-      },
-      {
-        "k": "D",
-        "t": "Friedreich ataksisi"
-      },
-      {
-        "k": "E",
-        "t": "Hipokondroplazi"
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "Hipokondroplazi hangi mekanizma?",
-    "tuzak": "<mark>Hipokondroplazi</mark> (akondroplazinin hafif formu) FGFR3 nokta mutasyonudur, tekrar hastalığı değildir.",
-    "aciklama": "Frajil-X (CGG), miyotonik distrofi (CTG), Huntington (CAG) ve Friedreich ataksisi (GAA) üçlü nükleotid tekrar hastalıklarıdır. <b>Hipokondroplazi</b> FGFR3 mutasyonlu, OD kalıtılan iskelet displazisidir."
-  },
-  {
-    "yil": [
-      "İlkbahar 2016 BENZERİ"
-    ],
-    "soru": "<b>I.</b> Frajil-X Sendromu<br><b>II.</b> Prader-Willi Sendromu<br><b>III.</b> Miyotonik distrofi<br><b>IV.</b> Kearns-Sayre Sendromu<br><b>V.</b> Huntington hastalığı<br>Yukarıdakilerden hangileri <mark>üçlü nükleotid tekrar artışı ile karakterize hastalıklardan değildir</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Yalnız I"
-      },
-      {
-        "k": "B",
-        "t": "II ve V"
-      },
-      {
-        "k": "C",
-        "t": "III ve IV"
-      },
-      {
-        "k": "D",
-        "t": "II ve III"
-      },
-      {
-        "k": "E",
-        "t": "II ve IV"
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "Prader-Willi mikrodelesyon, Kearns-Sayre mitokondriyal.",
-    "tuzak": "<mark>Prader-Willi (II)</mark> mikrodelesyon/imprinting, <mark>Kearns-Sayre (IV)</mark> mitokondriyaldir.",
-    "aciklama": "Frajil-X (I, CGG), miyotonik distrofi (III, CTG), Huntington (V, CAG) tekrar hastalığıdır. <b>Prader-Willi (II)</b> mikrodelesyon/imprinting, <b>Kearns-Sayre (IV)</b> mitokondriyal hastalık → II ve IV."
-  },
-  {
-    "yil": [
-      "İlkbahar 2017 Orijinal"
-    ],
-    "soru": "Aşağıdakilerden hangisi <mark>CAG üçlü nükleotid tekrar hastalıklarından biri değildir</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Huntington hastalığı"
-      },
-      {
-        "k": "B",
-        "t": "Miyotonik distrofi"
-      },
-      {
-        "k": "C",
-        "t": "Spinal ve bulbar müsküler atrofi"
-      },
-      {
-        "k": "D",
-        "t": "Spinoserebellar ataksi tip 1"
-      },
-      {
-        "k": "E",
-        "t": "Machado-Joseph hastalığı"
-      }
-    ],
-    "dogru": 1,
-    "ipucu": "Miyotonik distrofide hangi kodon tekrarı var?",
-    "tuzak": "<mark>Miyotonik distrofi CTG</mark> tekrarıdır, CAG değil.",
-    "aciklama": "Huntington, spinal-bulbar müsküler atrofi, spinoserebellar ataksi tip 1 ve Machado-Joseph <b>CAG</b> tekrarı taşır. <b>Miyotonik distrofi</b> ise <b>CTG</b> tekrarıdır."
-  },
-  {
-    "yil": [
-      "İlkbahar 2017 BENZERİ"
-    ],
-    "soru": "Aşağıdakilerden hangisi <mark>üçlü nükleotid tekrarı hastalıklarından birisi değildir</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Huntington hastalığı"
-      },
-      {
-        "k": "B",
-        "t": "Cri-du-chat Sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Friedreich Sendromu"
-      },
-      {
-        "k": "D",
-        "t": "Frajil X Sendromu"
-      },
-      {
-        "k": "E",
-        "t": "Spinoserebellar ataksi tip 1"
-      }
-    ],
-    "dogru": 1,
-    "ipucu": "Cri-du-chat hangi mekanizma?",
-    "tuzak": "<mark>Cri-du-chat</mark> 5p delesyonudur, tekrar hastalığı değildir.",
-    "aciklama": "Huntington (CAG), Friedreich (GAA), Frajil-X (CGG) ve spinoserebellar ataksi tip 1 (CAG) tekrar hastalığıdır. <b>Cri-du-chat</b> 5p(-) delesyon sendromudur."
-  },
-  {
-    "yil": [
-      "İlkbahar 2023"
-    ],
-    "soru": "Aşağıdaki hastalıklardan hangisinin <mark>üçlü nükleotid tekrar mekanizması</mark> ile ortaya çıkması en olasıdır?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Noonan sendromu"
-      },
-      {
-        "k": "B",
-        "t": "Kabuki sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Spinoserebellar ataksi"
-      },
-      {
-        "k": "D",
-        "t": "Spinal musküler atrofi"
-      },
-      {
-        "k": "E",
-        "t": "DiGeorge sendromu"
-      }
-    ],
-    "dogru": 2,
-    "ipucu": "CAG tekrarı.",
-    "tuzak": "SMA ve DiGeorge <mark>mikrodelesyon</mark>; Noonan/Kabuki gen mutasyonu. Tekrar → <b>spinoserebellar ataksi</b>.",
-    "aciklama": "<b>Spinoserebellar ataksi</b> CAG üçlü nükleotid tekrarıyla oluşur. Spinal musküler atrofi ve DiGeorge mikrodelesyon, Noonan ve Kabuki gen mutasyonu ile ortaya çıkar."
-  },
-  {
-    "yil": [
-      "İlkbahar 2000"
-    ],
-    "soru": "Aşağıdakilerden hangisi <mark>delesyon şeklindeki kromozomal anomalilere</mark> örnektir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Patau Sendromu"
-      },
-      {
-        "k": "B",
-        "t": "Edwards Sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Down Sendromu"
-      },
-      {
-        "k": "D",
-        "t": "Cri du chat Sendromu"
-      },
-      {
-        "k": "E",
-        "t": "Frajil-X Sendromu"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "5p delesyonu.",
-    "tuzak": "Patau/Edwards/Down <b>trizomi</b>; Frajil-X tekrar. Delesyon → <b>Cri du chat</b>.",
-    "aciklama": "<b>Cri du chat sendromu</b> 5. kromozomun kısa kolu delesyonudur (5p-). Patau (trizomi 13), Edwards (18), Down (21) trizomilerdir; Frajil-X tekrar hastalığıdır."
-  },
-  {
-    "yil": [
-      "İlkbahar 2008"
-    ],
-    "soru": "Aşağıdakilerden hangisi <mark>mikrodelesyon sendromlarından biridir</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Williams Sendromu"
-      },
-      {
-        "k": "B",
-        "t": "Wolf-Hirschhorn Sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Cri-du-chat Sendromu"
-      },
-      {
-        "k": "D",
-        "t": "Turner Sendromu"
-      },
-      {
-        "k": "E",
-        "t": "Patau Sendromu"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "7q11 elastin delesyonu.",
-    "tuzak": "Wolf-Hirschhorn (4p-) ve Cri-du-chat (5p-) büyük delesyon; Turner (45X), Patau (trizomi 13). Mikrodelesyon → <b>Williams</b>.",
-    "aciklama": "<b>Williams sendromu</b> 7q11 mikrodelesyonudur (elastin geni): cin-peri yüzü, hafif MR, idiyopatik hiperkalsemi, supravalvüler aort/pulmoner stenoz. FISH ile saptanır."
-  },
-  {
-    "yil": [
-      "Sonbahar 2010"
-    ],
-    "soru": "Aşağıdakilerden hangisi <mark>mikrodelesyon sendromu değildir</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Silver-Russell Sendromu"
-      },
-      {
-        "k": "B",
-        "t": "Prader-Willi Sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Angelman Sendromu"
-      },
-      {
-        "k": "D",
-        "t": "DiGeorge Sendromu"
-      },
-      {
-        "k": "E",
-        "t": "Williams Sendromu"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Uniparental dizomi/imprinting hastalığı olan hangisi?",
-    "tuzak": "<mark>Silver-Russell</mark> genelde maternal UPD/imprinting (7 veya 11p15) ile oluşur; mikrodelesyon sendromu değildir.",
-    "aciklama": "<b>Silver-Russell sendromu</b> imprinting/uniparental dizomi (11p15 metilasyon veya kromozom 7 maternal UPD) ile oluşur; IUGR, üçgen yüz, göreceli baş büyüklüğü, beslenme güçlüğü. Prader-Willi, Angelman, DiGeorge ve Williams mikrodelesyon sendromlarıdır."
-  },
-  {
-    "yil": [
-      "Sonbahar 2022 Orijinal"
-    ],
-    "soru": "12 günlük term bebek nöbetle getiriliyor; <b>Fallot tetralojisi</b> var; muayenede düşük kulak, hipertelorizm, mikrognati. Ca 7,0↓, P 9,6↑, PTH 81 (normal-düşük). En olası tanı?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Barakat sendromu"
-      },
-      {
-        "k": "B",
-        "t": "Kearns-Sayre sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Sanjad-Sakati sendromu"
-      },
-      {
-        "k": "D",
-        "t": "DiGeorge sendromu"
-      },
-      {
-        "k": "E",
-        "t": "Kenny-Caffey sendromu"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "Konjenital kalp hastalığı + hipokalsemi = ?",
-    "tuzak": "Konotrunkal kalp anomalisi + hipoparatiroidiye bağlı hipokalsemi + dismorfizm klasik <b>DiGeorge</b>.",
-    "aciklama": "<b>DiGeorge (22q11.2 mikrodelesyonu)</b>: timus ve paratiroid hipo/aplazisi (→ hipokalsemi, düşük-normal PTH), konotrunkal kalp anomalileri (Fallot), düşük kulak, hipertelorizm, mikrognati. 'Konjenital kalp hastalığı + hipokalsemi' = DiGeorge."
-  },
-  {
-    "yil": [
-      "İlkbahar 2018 Orijinal"
-    ],
-    "soru": "Aşağıdakilerden hangisinin <mark>Angelman Sendromuna yol açması en az olasıdır</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Mikrodelesyon"
-      },
-      {
-        "k": "B",
-        "t": "Uniparental dizomi"
-      },
-      {
-        "k": "C",
-        "t": "'İmprinting center' mutasyonu"
-      },
-      {
-        "k": "D",
-        "t": "Nokta mutasyonu"
-      },
-      {
-        "k": "E",
-        "t": "Üçlü nükleotid tekrar artışı"
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "Angelman hangi mekanizmalarla oluşur?",
-    "tuzak": "<mark>Üçlü nükleotid tekrar artışı</mark> Angelman mekanizması değildir.",
-    "aciklama": "Angelman sendromu maternal 15q11-13 mikrodelesyonu, paternal uniparental dizomi, imprinting center mutasyonu veya UBE3A nokta mutasyonuyla oluşur. <b>Üçlü nükleotid tekrar artışı</b> Angelman mekanizması değildir."
-  },
-  {
-    "yil": [
-      "İlkbahar 2018 BENZERİ"
-    ],
-    "soru": "Aşağıdaki 'genetik hastalık – kalıtım şekli' eşleştirmelerinden hangisi <mark>yanlıştır</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Prader-Willi Sendromu – Uniparental dizomi"
-      },
-      {
-        "k": "B",
-        "t": "Williams Sendromu – Mikrodelesyon"
-      },
-      {
-        "k": "C",
-        "t": "Huntington Koresi – Üçlü nükleotid tekrar artışı"
-      },
-      {
-        "k": "D",
-        "t": "Rubinstein-Taybi Sendromu – Mikrodelesyon"
-      },
-      {
-        "k": "E",
-        "t": "Angelman Sendromu – Y ile kalıtım"
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "Angelman 15q (maternal) hastalığıdır.",
-    "tuzak": "<mark>Angelman – Y ile kalıtım</mark> yanlış; Angelman 15q11-13 (maternal) mikrodelesyon/imprinting hastalığıdır.",
-    "aciklama": "Prader-Willi (UPD/mikrodelesyon), Williams ve Rubinstein-Taybi (mikrodelesyon), Huntington (CAG tekrarı) doğru eşleşir. <b>Angelman 'Y ile kalıtım' yanlıştır</b>; Angelman 15q11-13 maternal kaynaklı bozukluktur."
-  },
-  {
-    "yil": [
-      "İlkbahar 2019 Orijinal"
-    ],
-    "soru": "Aşağıdaki hastalıklardan hangi ikisi, <mark>aynı genomik lokalizasyondaki</mark> bozukluk sonucu ortaya çıkar?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "DiGeorge sendromu – Down sendromu"
-      },
-      {
-        "k": "B",
-        "t": "Prader-Willi sendromu – Angelman sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Smith-Magenis sendromu – Williams sendromu"
-      },
-      {
-        "k": "D",
-        "t": "Wolf-Hirschhorn sendromu – Cri-du-chat sendromu"
-      },
-      {
-        "k": "E",
-        "t": "Edward sendromu – Patau sendromu"
-      }
-    ],
-    "dogru": 1,
-    "ipucu": "İkisi de 15q11-13.",
-    "tuzak": "Aynı lokusun (15q11-13) farklı ebeveyn kaynağı → <b>Prader-Willi (paternal) ve Angelman (maternal)</b>.",
-    "aciklama": "<b>Prader-Willi ve Angelman</b> aynı lokusta (15q11-13) oluşur: paternal kayıp → Prader-Willi, maternal kayıp → Angelman (genomik imprinting örneği)."
-  },
-  {
-    "yil": [
-      "İlkbahar 2019 BENZERİ"
-    ],
-    "soru": "<b>I.</b> Paternal 15q12 delesyonu → Prader-Willi<br><b>II.</b> Her iki 15. kromozomun babadan gelmesi → Prader-Willi<br><b>III.</b> Maternal 15q12 delesyonu → Angelman<br><b>IV.</b> Anneden gelen 15q12 bölgesinde imprinting → Angelman<br>Angelman ve Prader-Willi mekanizmalarıyla ilgili yukarıdakilerden hangisi/hangileri <mark>yanlıştır</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Sadece I"
-      },
-      {
-        "k": "B",
-        "t": "Sadece II"
-      },
-      {
-        "k": "C",
-        "t": "I ve IV"
-      },
-      {
-        "k": "D",
-        "t": "I ve III"
-      },
-      {
-        "k": "E",
-        "t": "I, III ve IV"
-      }
-    ],
-    "dogru": 1,
-    "ipucu": "Her iki 15 babadan gelirse hangi sendrom?",
-    "tuzak": "<mark>Her iki 15 babadan (paternal UPD) → Angelman'dır</mark>, Prader-Willi değil → II yanlış.",
-    "aciklama": "Prader-Willi paternal kaybı gerektirir (paternal delesyon veya <b>maternal</b> UPD). 'Her iki 15 babadan (paternal UPD) → Prader-Willi' ifadesi (II) yanlıştır; paternal UPD Angelman yapar. I, III, IV doğrudur → yanlış olan Sadece II."
-  },
-  {
-    "yil": [
-      "Sonbahar 2023"
-    ],
-    "soru": "<mark>Mitokondriyal kalıtım</mark> ile ilgili aşağıdaki ifadelerden hangisi doğrudur?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "MtDNA mutasyonu taşıyan kadının sadece kız çocukları etkilenir."
-      },
-      {
-        "k": "B",
-        "t": "Hasta çocukta tüm organ sistemleri aynı derecede etkilenir."
-      },
-      {
-        "k": "C",
-        "t": "Hasta erkeklerin kız çocuklarında hastalık bulguları görülebilir."
-      },
-      {
-        "k": "D",
-        "t": "Mitokondriyal hastalıklarda pleiotropi görülmez."
-      },
-      {
-        "k": "E",
-        "t": "Klinik bulgu için mutant mitokondri yükünün eşik değeri aşması gereklidir."
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "Eşik (threshold) etkisi.",
-    "tuzak": "Anne tüm çocuklara geçirir (A yanlış); baba geçirmez (C yanlış); organlar eşit etkilenmez (B); pleiotropi görülür (D).",
-    "aciklama": "Mitokondriyal hastalıklarda klinik bulgu için hücredeki <b>mutant mtDNA oranının eşik değeri aşması</b> gerekir (heteroplazmi). Anneden hem kız hem erkek tüm çocuklara geçer; babadan geçmez; enerji-yoğun organlar daha çok etkilenir; pleiotropi görülür."
-  },
-  {
-    "yil": [
-      "Sonbahar 2016 Orijinal"
-    ],
-    "soru": "Aşağıdakilerden hangisi <mark>mitokondriyal genomun (mtDNA) özelliklerinden biri değildir</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Heteroplazmi"
-      },
-      {
-        "k": "B",
-        "t": "Homoplazmi"
-      },
-      {
-        "k": "C",
-        "t": "Maternal kalıtım"
-      },
-      {
-        "k": "D",
-        "t": "Paternal kalıtım"
-      },
-      {
-        "k": "E",
-        "t": "Replikatif segregasyon"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "Mitokondri hangi ebeveynden gelir?",
-    "tuzak": "<mark>Paternal kalıtım</mark> mtDNA özelliği değildir; mitokondri anneden (ovumdan) gelir.",
-    "aciklama": "MtDNA özellikleri: maternal kalıtım, heteroplazmi/homoplazmi, replikatif segregasyon, eşik etkisi. <b>Paternal kalıtım</b> mtDNA özelliği değildir (sperm mitokondrisi döllenmeye katkı sağlamaz)."
-  },
-  {
-    "yil": [
-      "Sonbahar 2016 BENZERİ"
-    ],
-    "soru": "Maternal geçişli, mutant DNA'nın anneden tüm çocuklara geçtiği, hasta kadının tüm çocuklarının hastalandığı ancak hasta erkekten çocuklara geçmeyen kalıtım tipinin özelliklerini aşağıdakilerden hangisi <mark>taşımaz</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Maternal geçiş"
-      },
-      {
-        "k": "B",
-        "t": "Tanı için testin kandan alınması yeterli olmayabilir"
-      },
-      {
-        "k": "C",
-        "t": "Kliniğin vakadan vakaya farklılık gösterebilmesi"
-      },
-      {
-        "k": "D",
-        "t": "Paternal geçiş"
-      },
-      {
-        "k": "E",
-        "t": "Heteroplazmi"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "Mitokondriyal kalıtımda baba geçirir mi?",
-    "tuzak": "<mark>Paternal geçiş</mark> mitokondriyal kalıtımda görülmez.",
-    "aciklama": "Tanımlanan kalıtım <b>mitokondriyaldir</b>: maternal geçiş, heteroplazmi, klinik değişkenlik, tanı için etkilenen dokunun (kas gibi) gerekebilmesi özelliklerini taşır. <b>Paternal geçiş</b> özelliğini taşımaz."
-  },
-  {
-    "yil": [
-      "Sonbahar 2017 Orijinal"
-    ],
-    "soru": "Aşağıdaki genetik hastalıklardan hangisi <mark>genomik imprinting mekanizmasıyla</mark> oluşabilir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Cri-du-chat Sendromu"
-      },
-      {
-        "k": "B",
-        "t": "Edwards Sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Williams Sendromu"
-      },
-      {
-        "k": "D",
-        "t": "Prader-Willi Sendromu"
-      },
-      {
-        "k": "E",
-        "t": "Cat-eye Sendromu"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "Ebeveyn kaynağına bağlı ekspresyon.",
-    "tuzak": "Cri-du-chat/Williams delesyon, Edwards trizomi; imprinting → <b>Prader-Willi</b> (ve Angelman).",
-    "aciklama": "<b>Prader-Willi</b> (ve Angelman) genomik imprinting'in tipik örnekleridir; 15q11-13 bölgesinin ebeveyn kaynağına göre farklı ekspresyonuyla oluşur."
-  },
-  {
-    "yil": [
-      "Sonbahar 2017 BENZERİ"
-    ],
-    "soru": "<b>I.</b> Down Sendromu<br><b>II.</b> Angelman Sendromu<br><b>III.</b> Prader-Willi Sendromu<br><b>IV.</b> Wolfram Sendromu<br><b>V.</b> Wolman Sendromu<br>Yukarıdakilerden hangileri <mark>genomik imprinting mekanizmasıyla</mark> oluşan hastalıklardır?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "I ve II"
-      },
-      {
-        "k": "B",
-        "t": "II ve V"
-      },
-      {
-        "k": "C",
-        "t": "I ve IV"
-      },
-      {
-        "k": "D",
-        "t": "II ve III"
-      },
-      {
-        "k": "E",
-        "t": "I ve V"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "15q11-13 çifti.",
-    "tuzak": "Down trizomi, Wolfram (WFS1 gen), Wolman (lizozomal) farklıdır; imprinting → <b>Angelman ve Prader-Willi</b>.",
-    "aciklama": "<b>Angelman (II) ve Prader-Willi (III)</b> genomik imprinting hastalıklarıdır (15q11-13). Down trizomi, Wolfram (DIDMOAD, WFS1) ve Wolman (asit lipaz eksikliği) imprinting hastalığı değildir → II ve III."
-  },
-  {
-    "yil": [
-      "İlkbahar-99"
-    ],
-    "soru": "Yenidoğanlarda aşağıdaki anomalilerin hangisinde <mark>kromozom bozukluğu görülme olasılığı en yüksektir</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "İzole hidrosefali"
-      },
-      {
-        "k": "B",
-        "t": "Anensefali"
-      },
-      {
-        "k": "C",
-        "t": "Gastroşizis"
-      },
-      {
-        "k": "D",
-        "t": "Omfalosel"
-      },
-      {
-        "k": "E",
-        "t": "Spina bifida"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "Karın ön duvar defektlerinden hangisi trizomilerle birliktedir?",
-    "tuzak": "Gastroşizis genelde izole/kromozom normal; <mark>omfalosel</mark> trizomi 13-18 ile sık birliktedir.",
-    "aciklama": "<b>Omfalosel</b> (üzeri zarla kaplı umbilikal herniasyon) sıklıkla trizomi 13/18 gibi kromozom anomalileriyle birliktedir. Gastroşizis, anensefali ve spina bifida genelde izole/multifaktöriyeldir."
-  },
-  {
-    "yil": [
-      "İlkbahar 2020 Orijinal"
-    ],
-    "soru": "<b>'Postzigotik nondisjunction'</b> aşağıdaki durumlardan hangisinin oluşmasına neden olabilir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Kromozomal kırılma sendromu"
-      },
-      {
-        "k": "B",
-        "t": "Mozaik Down sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Değişken ekspresivite"
-      },
-      {
-        "k": "D",
-        "t": "Mitokondriyal hastalık"
-      },
-      {
-        "k": "E",
-        "t": "Metilasyon değişiklikleri"
-      }
-    ],
-    "dogru": 1,
-    "ipucu": "Zigot oluştuktan sonra ayrılamama → farklı hücre hatları.",
-    "tuzak": "Zigot oluşumundan <b>sonra</b> ayrılamama <mark>mozaiklik</mark> yaratır → mozaik Down.",
-    "aciklama": "Nondisjunction (ayrılamama) zigot oluştuktan <b>sonra (postzigotik)</b> gerçekleşirse farklı kromozom sayılı hücre hatları (mozaiklik) ortaya çıkar. <b>Mozaik Down sendromu</b> bunun tipik örneğidir."
-  },
-  {
-    "yil": [
-      "İlkbahar 2021 Orijinal"
-    ],
-    "soru": "Antenatal tarama testleriyle rutin olarak taranması önerilen <mark>kromozomal anöploidiler</mark> aşağıdakilerden hangisinde birlikte verilmiştir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "11, 13, 21"
-      },
-      {
-        "k": "B",
-        "t": "13, 14, 21"
-      },
-      {
-        "k": "C",
-        "t": "17, 18, 21"
-      },
-      {
-        "k": "D",
-        "t": "18, 19, 21"
-      },
-      {
-        "k": "E",
-        "t": "13, 18, 21"
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "Klinikte en sık görülen üç trizomi.",
-    "tuzak": "Rutin anöploidi taraması <mark>trizomi 13, 18 ve 21</mark>'i kapsar.",
-    "aciklama": "Gebeliğin ~10. haftasında yapılan anöploidi taraması <b>trizomi 13, 18 ve 21</b>'i tarar (klinikte en sık görülen üç trizomi). Non-invaziv bir testtir; anormalse invaziv tanısal testle doğrulanır."
-  },
-  {
-    "yil": [
-      "İlkbahar 2021 BENZERİ"
-    ],
-    "soru": "<b>I.</b> Trizomi 11<br><b>II.</b> Trizomi 13<br><b>III.</b> Trizomi 16<br><b>IV.</b> Trizomi 18<br><b>V.</b> Trizomi 21<br>Yukarıdakilerden hangileri antenatal tarama testleri ile <mark>rutin taranması önerilen</mark> anöploidilerdendir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "I, II, III"
-      },
-      {
-        "k": "B",
-        "t": "II, III, IV"
-      },
-      {
-        "k": "C",
-        "t": "I, IV, V"
-      },
-      {
-        "k": "D",
-        "t": "II, IV, V"
-      },
-      {
-        "k": "E",
-        "t": "III, IV, V"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "13, 18, 21.",
-    "tuzak": "Trizomi 11 ve 16 rutin taranmaz; taranan <b>13 (II), 18 (IV), 21 (V)</b>.",
-    "aciklama": "Rutin anöploidi taraması <b>trizomi 13 (II), 18 (IV) ve 21 (V)</b>'i kapsar → II, IV, V."
-  },
-  {
-    "yil": [
-      "İlkbahar 2006"
-    ],
-    "soru": "<b>Yukarı çekik palpebral aralık, hipotoni, boy kısalığı, simian çizgisi, dilin dışarıda olması</b> bulguları olan 7 yaşındaki bir çocukta IQ 50 saptanıyor. En olası tanı?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Trizomi 18"
-      },
-      {
-        "k": "B",
-        "t": "Trizomi 13"
-      },
-      {
-        "k": "C",
-        "t": "Cat-cry Sendromu"
-      },
-      {
-        "k": "D",
-        "t": "Down Sendromu"
-      },
-      {
-        "k": "E",
-        "t": "Turner Sendromu"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "Simian çizgisi + hipotoni + çekik göz.",
-    "tuzak": "Cat-cry'da karakteristik ağlama sesi belirgindir; bu tablo klasik <b>Down</b>.",
-    "aciklama": "Yukarı çekik palpebral aralık, hipotoni, simian çizgisi, protrüde dil, boy kısalığı ve MR (IQ<50) klasik <b>Down sendromu (trizomi 21)</b> bulgularıdır; en sık kromozom anomalisi ve orta derece MR'nin en sık nedenidir."
-  },
-  {
-    "yil": [
-      "Sonbahar 2012"
-    ],
-    "soru": "Aşağıdaki göz bulgularından hangisinin <b>Down sendromlu</b> çocuklarda görülmesi <mark>beklenmez</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Strabismus"
-      },
-      {
-        "k": "B",
-        "t": "Katarakt"
-      },
-      {
-        "k": "C",
-        "t": "Nistagmus"
-      },
-      {
-        "k": "D",
-        "t": "Glokom"
-      },
-      {
-        "k": "E",
-        "t": "Bitot lekeleri"
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "Hangisi A vitamini eksikliği bulgusudur?",
-    "tuzak": "<mark>Bitot lekeleri</mark> A vitamini eksikliğine özgüdür; Down bulgusu değildir.",
-    "aciklama": "Down sendromunda strabismus, katarakt, nistagmus, glokom ve Brushfield lekeleri görülebilir. <b>Bitot lekeleri</b> A vitamini eksikliğinde konjonktivada görülen gümüş grisi plaklardır; Down bulgusu değildir."
-  },
-  {
-    "yil": [
-      "İlkbahar 2017 Orijinal"
-    ],
-    "soru": "Down sendromlu çocuklarda aşağıdaki doğumsal kalp hastalıklarından hangisi <mark>en sık</mark> görülür?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Atrioventriküler kanal defekti"
-      },
-      {
-        "k": "B",
-        "t": "Büyük arter transpozisyonu"
-      },
-      {
-        "k": "C",
-        "t": "Hipoplastik sol kalp sendromu"
-      },
-      {
-        "k": "D",
-        "t": "Ebstein anomalisi"
-      },
-      {
-        "k": "E",
-        "t": "Aort koarktasyonu"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Endokardiyal yastık defekti.",
-    "tuzak": "TGA diyabetik anne, Ebstein lityum, aort koarktasyonu Turner ile ilişkilidir; Down → <b>AV kanal defekti</b>.",
-    "aciklama": "Down sendromunda en sık konjenital kalp hastalığı <b>atriyoventriküler (endokardiyal yastık) kanal defekti</b>dir."
-  },
-  {
-    "yil": [
-      "İlkbahar 2017 BENZERİ"
-    ],
-    "soru": "Down stigmatları taşıyan 3 aylık erkek bebekte takipne, dispne var; siyanoz yok. Sol 2-3. İKA'da 3/6 sistolik üfürüm; grafide kardiyomegali ve vaskülarite artışı; EKG'de <b>sol aks ve sol ventrikül hipertrofisi</b>. En olası tanı?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Atrioventriküler kanal defekti"
-      },
-      {
-        "k": "B",
-        "t": "Aort koarktasyonu"
-      },
-      {
-        "k": "C",
-        "t": "Trikuspid atrezisi"
-      },
-      {
-        "k": "D",
-        "t": "Ebstein anomalisi"
-      },
-      {
-        "k": "E",
-        "t": "Ventriküler Septal Defekt"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Down + sol aks/sağ-sol ventrikül hipertrofisi.",
-    "tuzak": "Down + EKG'de sol aks klasik <b>AV kanal defekti</b> bulgusudur.",
-    "aciklama": "Down sendromlu, asiyanotik, artmış pulmoner vaskülariteli ve EKG'de sol aks deviasyonu olan bebek klasik <b>AV kanal (endokardiyal yastık) defekti</b>ni gösterir."
-  },
-  {
-    "yil": [
-      "Sonbahar 2011"
-    ],
-    "soru": "Down sendromlu çocuklarda <mark>en sık görülen malignite</mark> aşağıdakilerden hangisidir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Medulloblastom"
-      },
-      {
-        "k": "B",
-        "t": "Lenfoma"
-      },
-      {
-        "k": "C",
-        "t": "Glioblastoma multiforme"
-      },
-      {
-        "k": "D",
-        "t": "Rabdomiyosarkom"
-      },
-      {
-        "k": "E",
-        "t": "Lösemi"
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "Konjenital löseminin en sık nedeni.",
-    "tuzak": "Down, konjenital löseminin en sık nedenidir; ALL/AML riski artar → <b>lösemi</b>.",
-    "aciklama": "Down sendromu <b>konjenital löseminin en sık nedenidir</b>; ileri yaşlarda da ALL ve AML riski artmıştır. En sık görülen malignite lösemidir."
-  },
-  {
-    "yil": [
-      "Sonbahar-90"
-    ],
-    "soru": "Aşağıdaki hastalıklardan hangisinde <mark>alfa-fetoprotein artışı görülmez</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Down Sendromu"
-      },
-      {
-        "k": "B",
-        "t": "Duodenal atrezi"
-      },
-      {
-        "k": "C",
-        "t": "Nöral tüp defekti"
-      },
-      {
-        "k": "D",
-        "t": "Spina bifida"
-      },
-      {
-        "k": "E",
-        "t": "Omfalosel"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Otozomal trizomilerde AFP nasıl?",
-    "tuzak": "<mark>Down (trizomi 21)</mark>'de AFP <b>düşer</b>, artmaz.",
-    "aciklama": "Nöral tüp defekti, spina bifida, omfalosel ve GİS obstrüksiyonlarında maternal AFP <b>artar</b>. <b>Down sendromu (otozomal trizomi)</b>'nde AFP <b>azalır</b>."
-  },
-  {
-    "yil": [
-      "Sonbahar-95"
-    ],
-    "soru": "Antenatal tarama testlerinde <mark>Alfa-fetoproteinin düşük olduğu</mark> durum aşağıdakilerden hangisidir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Pilonidal sinus"
-      },
-      {
-        "k": "B",
-        "t": "İntestinal obstrüksiyon"
-      },
-      {
-        "k": "C",
-        "t": "Böbrek agenezisi"
-      },
-      {
-        "k": "D",
-        "t": "Trizomi 21"
-      },
-      {
-        "k": "E",
-        "t": "Omfalosel"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "Trizomilerde AFP düşer.",
-    "tuzak": "Diğerlerinde AFP artar; <mark>Trizomi 21</mark>'de düşer.",
-    "aciklama": "<b>Trizomi 21 (Down)</b> ve diğer otozomal trizomilerde maternal AFP düşüktür. İntestinal obstrüksiyon, böbrek anomalisi ve omfaloselde AFP artar."
-  },
-  {
-    "yil": [
-      "İlkbahar 2001"
-    ],
-    "soru": "Antenatal tarama testlerinde <mark>Alfa-fetoprotein aşağıdaki durumların hangisinde artmaz</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Trizomi 18"
-      },
-      {
-        "k": "B",
-        "t": "Anensefali"
-      },
-      {
-        "k": "C",
-        "t": "Spina bifida"
-      },
-      {
-        "k": "D",
-        "t": "Nöral tüp defekti"
-      },
-      {
-        "k": "E",
-        "t": "Epidermolizis bülloza"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Trizomilerde AFP düşer.",
-    "tuzak": "<mark>Trizomi 18</mark>'de AFP düşer; NTD/anensefali/spina bifidada artar.",
-    "aciklama": "Nöral tüp defektleri (anensefali, spina bifida) ve epidermolizis bülloza gibi cilt defektlerinde AFP artar. <b>Trizomi 18</b> (otozomal trizomi) AFP'yi artırmaz, azaltır."
-  },
-  {
-    "yil": [
-      "İlkbahar 2007"
-    ],
-    "soru": "Aşağıdakilerden hangisi <mark>hidrosefaliye yol açan durumlardan biri değildir</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Konjenital akuaduktal stenoz"
-      },
-      {
-        "k": "B",
-        "t": "Chiari malformasyonu"
-      },
-      {
-        "k": "C",
-        "t": "Dandy-Walker sendromu"
-      },
-      {
-        "k": "D",
-        "t": "Menenjit"
-      },
-      {
-        "k": "E",
-        "t": "Trizomi 18"
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "Trizomiler mikrosefali eğilimindedir.",
-    "tuzak": "<mark>Trizomiler</mark> genelde mikrosefali yapar; hidrosefali beklenmez.",
-    "aciklama": "Akuaduktal stenoz, Chiari, Dandy-Walker ve menenjit hidrosefali yapar. <b>Trizomiler</b> genelde mikrosefali/gelişim geriliği eğilimindedir; hidrosefali beklenmez (tartışmalı soru)."
-  },
-  {
-    "yil": [
-      "Sonbahar-95"
-    ],
-    "soru": "Aşağıdakilerden hangisinde <mark>Barr cisimciği bulunmaz</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Klinefelter Sendromu"
-      },
-      {
-        "k": "B",
-        "t": "Süper dişi (XXX)"
-      },
-      {
-        "k": "C",
-        "t": "XXX/XX genotipi"
-      },
-      {
-        "k": "D",
-        "t": "Turner Sendromu"
-      },
-      {
-        "k": "E",
-        "t": "Down Sendromu"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "İnaktive X yoksa Barr cismi yok.",
-    "tuzak": "<mark>Turner (45,X0)</mark>'da tek X aktif kalır, inaktive edilecek ikinci X yok → Barr cismi yok.",
-    "aciklama": "Barr cisimciği inaktive edilen ekstra X kromozomudur. <b>Turner (45,X0)</b>'da tek X vardır ve inaktive edilmez → Barr cismi bulunmaz. Klinefelter (XXY), XXX ve Down'da bulunur."
-  },
-  {
-    "yil": [
-      "İlkbahar 2003"
-    ],
-    "soru": "Turner Sendromunda <mark>en sık görülen kardiyovasküler anomali</mark> aşağıdakilerden hangisidir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Ventriküler septal defekt"
-      },
-      {
-        "k": "B",
-        "t": "Atrial septal defekt"
-      },
-      {
-        "k": "C",
-        "t": "Patent duktus arteriyozus"
-      },
-      {
-        "k": "D",
-        "t": "Biküspid aortik valv"
-      },
-      {
-        "k": "E",
-        "t": "Mitral stenoz"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "En sık kapak anomalisi mi kalp anomalisi mi soruluyor?",
-    "tuzak": "En sık <b>kalp anomalisi</b> aort koarktasyonudur; şıkta yoksa, en sık <b>kapak anomalisi</b> olan <mark>biküspid aortik valv</mark> işaretlenir.",
-    "aciklama": "Turner'da en sık kardiyak <b>kapak</b> anomalisi <b>biküspid aortik valv</b>, en sık <b>kalp</b> anomalisi aort koarktasyonudur. Şıklarda aort koarktasyonu yoksa (bu soruda yok) biküspid aortik valv işaretlenir."
-  },
-  {
-    "yil": [
-      "Sonbahar 2005"
-    ],
-    "soru": "Aşağıdakilerden hangisi <mark>Turner Sendromunun bulgularından biridir</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Gonadotropinlerde azalma"
-      },
-      {
-        "k": "B",
-        "t": "Pulmoner stenoz"
-      },
-      {
-        "k": "C",
-        "t": "Boy kısalığı"
-      },
-      {
-        "k": "D",
-        "t": "46 XX kromozom yapısı"
-      },
-      {
-        "k": "E",
-        "t": "Kubitus varus"
-      }
-    ],
-    "dogru": 2,
-    "ipucu": "Doktora en sık başvuru nedeni.",
-    "tuzak": "Turner'da gonadotropinler <b>yükselir</b>, kubitus <b>valgus</b> olur, karyotip 45,X0; bulgusu <mark>boy kısalığı</mark>.",
-    "aciklama": "Turner (45,X0)'da <b>boy kısalığı</b> (en sık başvuru nedeni) vardır; gonadotropinler yüksek (östrojen düşük), kubitus valgus, en sık kalp anomalisi aort koarktasyonudur. Pulmoner stenoz Noonan'da beklenir."
-  },
-  {
-    "yil": [
-      "İlkbahar-94"
-    ],
-    "soru": "16 yaşındaki kız çocuğu hiç adet görmediği için getiriliyor; 35 kg, 135 cm, saç çizgisi aşağıda ve yüksek damak var. En olası tanı?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Hipofiz adenomu"
-      },
-      {
-        "k": "B",
-        "t": "Turner sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Noonan sendromu"
-      },
-      {
-        "k": "D",
-        "t": "Testiküler feminizasyon"
-      },
-      {
-        "k": "E",
-        "t": "McCune-Albright sendromu"
-      }
-    ],
-    "dogru": 1,
-    "ipucu": "Boy kısalığı + primer amenore + düşük saç çizgisi.",
-    "tuzak": "Boy kısalığı + primer amenore + düşük ense saç çizgisi + yüksek damak klasik <b>Turner</b>.",
-    "aciklama": "Boy kısalığı, primer amenore, düşük ense saç çizgisi ve yüksek damak <b>Turner sendromu (45,X0)</b>'nu düşündürür."
-  },
-  {
-    "yil": [
-      "İlkbahar-94"
-    ],
-    "soru": "Bir önceki (Turner düşünülen) hastada <mark>tanıyı desteklemek için öncelikle</mark> yapılması gereken hangisidir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Bilgisayarlı tomografi"
-      },
-      {
-        "k": "B",
-        "t": "Manyetik rezonans görüntüleme"
-      },
-      {
-        "k": "C",
-        "t": "Batın ultrasonografisi"
-      },
-      {
-        "k": "D",
-        "t": "Gonadotropin düzeyleri"
-      },
-      {
-        "k": "E",
-        "t": "Karyotip tayini"
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "45,X0'ı gösteren test.",
-    "tuzak": "Kesin tanı <b>karyotip</b> iledir (bazı vakalar mozaik olabilir).",
-    "aciklama": "Turner tanısı <b>karyotip (kromozom analizi)</b> ile kesinleştirilir; 45,X0 veya mozaik yapı gösterilir."
-  },
-  {
-    "yil": [
-      "İlkbahar 2011"
-    ],
-    "soru": "Boy kısalığıyla getirilen 9 yaşındaki kızda boy SDS -2,5; <b>orantısız boy kısalığı</b>, kubbe damak, düşük ense saç çizgisi, yele boyun ve meme başı ayrıklığı var. En olası tanı?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Hipotiroidi"
-      },
-      {
-        "k": "B",
-        "t": "Silver-Russell Sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Turner Sendromu"
-      },
-      {
-        "k": "D",
-        "t": "Klinefelter Sendromu"
-      },
-      {
-        "k": "E",
-        "t": "Hipokondroplazi"
-      }
-    ],
-    "dogru": 2,
-    "ipucu": "Yele boyun + meme başı ayrıklığı + boy kısalığı.",
-    "tuzak": "Silver-Russell üçgen yüz/asimetri; Klinefelter erkek. Bu tablo <b>Turner</b>.",
-    "aciklama": "Boy kısalığı + yele boyun + düşük ense saç çizgisi + meme başı ayrıklığı + kubbe damak klasik <b>Turner sendromu</b> bulgularıdır."
-  },
-  {
-    "yil": [
-      "Sonbahar 2020 Orijinal"
-    ],
-    "soru": "Boy kısalığıyla getirilen 14 yaşındaki kızda sık kulak enfeksiyonu, düşük okul başarısı; boy <3p, düşük saç çizgisi, ayrık meme başları, Tanner evre 1, kubitus valgus, kısa 4. metakarp ve <b>at nalı böbrek</b> saptanıyor. Kesin tanı için en uygun tetkik?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Ekokardiyografi"
-      },
-      {
-        "k": "B",
-        "t": "Hipofiz manyetik rezonans görüntüleme"
-      },
-      {
-        "k": "C",
-        "t": "PTPN22 gen dizi analizi"
-      },
-      {
-        "k": "D",
-        "t": "Büyüme hormonu uyarı testi"
-      },
-      {
-        "k": "E",
-        "t": "Kromozom analizi"
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "Turner tablosu → hangi test tanı koyar?",
-    "tuzak": "EKO/GH testi bulgu araştırır; kesin tanı <b>kromozom analizi</b>.",
-    "aciklama": "Turner stigmatları (boy kısalığı, yele boyun, kubitus valgus, kısa 4. metakarp, at nalı böbrek) olan bu hastada kesin tanı <b>kromozom analizi (karyotip)</b> ile konur."
-  },
-  {
-    "yil": [
-      "Sonbahar 2020 BENZERİ"
-    ],
-    "soru": "Adet görememeyle getirilen 16 yaşındaki kızda işitme azlığı, boy kısalığı, düşük saç çizgisi, yele boyun, ayrık meme başları; EKO'da <b>biküspit aort kapağı</b>. En olası tanı ve tanı için yapılacak tetkik?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Noonan sendromu — PTPN22 gen analizi"
-      },
-      {
-        "k": "B",
-        "t": "Hipogonadotropik hipogonadizm — Hipofiz MR"
-      },
-      {
-        "k": "C",
-        "t": "Turner sendromu — Kromozom analizi"
-      },
-      {
-        "k": "D",
-        "t": "Growth hormon eksikliği — BH uyarı testi"
-      },
-      {
-        "k": "E",
-        "t": "Testiküler feminizasyon — Abdominopelvik USG"
-      }
-    ],
-    "dogru": 2,
-    "ipucu": "Turner + biküspid aort → karyotip.",
-    "tuzak": "Turner stigmatları + biküspit aort kapağı → <b>Turner–kromozom analizi</b>.",
-    "aciklama": "Boy kısalığı, yele boyun, ayrık meme başları, işitme azlığı ve biküspit aort kapağı <b>Turner sendromu</b>nu gösterir; tanı <b>kromozom analizi</b> ile konur."
-  },
-  {
-    "yil": [
-      "İlkbahar 2012"
-    ],
-    "soru": "Turner Sendromunda aşağıdaki klinik bulgulardan hangisi <mark>beklenmez</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Boy kısalığı"
-      },
-      {
-        "k": "B",
-        "t": "Gecikmiş puberte"
-      },
-      {
-        "k": "C",
-        "t": "Hipertiroidi"
-      },
-      {
-        "k": "D",
-        "t": "Aort koarktasyonu"
-      },
-      {
-        "k": "E",
-        "t": "İskelet deformitesi"
-      }
-    ],
-    "dogru": 2,
-    "ipucu": "Turner'da tiroid hangi yöne?",
-    "tuzak": "Turner'da otoimmün tiroidite bağlı <b>hipotiroidi</b> beklenir, hipertiroidi değil.",
-    "aciklama": "Turner'da boy kısalığı, gecikmiş puberte, aort koarktasyonu ve iskelet deformiteleri (kubitus valgus) görülür. Otoimmün tiroidite bağlı <b>hipotiroidi</b> sıktır; <b>hipertiroidi</b> beklenmez."
-  },
-  {
-    "yil": [
-      "İlkbahar 2018 Orijinal"
-    ],
-    "soru": "Aşağıdakilerden hangisinin <b>Noonan sendromunda</b> görülmesi <mark>en az olasıdır</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Kısa ve yeleli boyun"
-      },
-      {
-        "k": "B",
-        "t": "Düşük kulaklar"
-      },
-      {
-        "k": "C",
-        "t": "Kriptorşidizm"
-      },
-      {
-        "k": "D",
-        "t": "Yarık damak"
-      },
-      {
-        "k": "E",
-        "t": "Trombositopeni"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "Yarık damak hangi sendromun bulgusu?",
-    "tuzak": "<mark>Yarık damak</mark> DiGeorge'da beklenir; Noonan'da beklenmez.",
-    "aciklama": "Noonan (OD, PTPN11): displastik kapaklı pulmoner stenoz, kısa/yele boyun, kriptorşidizm, trombositopenik kanama diyatezi. <b>Yarık damak</b> Noonan'da beklenmez (DiGeorge'da görülür)."
-  },
-  {
-    "yil": [
-      "İlkbahar 2018 BENZERİ"
-    ],
-    "soru": "<b>I.</b> Displastik kapaklı pulmoner stenoz<br><b>II.</b> Kısa ve yeleli boyun<br><b>III.</b> Kriptorşidizm<br><b>IV.</b> Yarık damak<br><b>V.</b> X'e bağlı dominant kalıtım<br>Noonan sendromlu hastalarda yukarıdakilerden hangisi/hangilerinin görülmesi <mark>beklenmez</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "I, II, IV"
-      },
-      {
-        "k": "B",
-        "t": "II ve IV"
-      },
-      {
-        "k": "C",
-        "t": "I, II, V"
-      },
-      {
-        "k": "D",
-        "t": "IV ve V"
-      },
-      {
-        "k": "E",
-        "t": "I, II ve IV"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "Noonan OD kalıtılır; yarık damak yok.",
-    "tuzak": "<mark>Yarık damak (IV)</mark> ve <mark>X-dominant kalıtım (V)</mark> Noonan'da beklenmez (Noonan OD'dir).",
-    "aciklama": "Noonan'da displastik pulmoner stenoz (I), kısa/yele boyun (II), kriptorşidizm (III) görülür ve <b>otozomal dominant</b> kalıtılır. <b>Yarık damak (IV)</b> ve <b>X-dominant kalıtım (V)</b> beklenmez → IV ve V."
-  },
-  {
-    "yil": [
-      "Sonbahar 2006"
-    ],
-    "soru": "Okulda öğrenme zorluğu ve davranış bozukluğuyla getirilen 15 yaşındaki çocukta pubik kıllanma evre 1, bilateral testisler <b>3 mL</b>, boy 97. persentil, ağırlık 25. persentil. En olası tanı?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Kallman sendromu"
-      },
-      {
-        "k": "B",
-        "t": "Yapısal puberte gecikmesi"
-      },
-      {
-        "k": "C",
-        "t": "Hipertiroidi"
-      },
-      {
-        "k": "D",
-        "t": "Hipopituitarizm"
-      },
-      {
-        "k": "E",
-        "t": "Klinefelter sendromu"
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "Uzun boy + küçük testis + öğrenme güçlüğü.",
-    "tuzak": "Kallman/hipopituitarizm boy kısalığı yapar; uzun boy + küçük testis → <b>Klinefelter</b>.",
-    "aciklama": "Uzun boy (97p), küçük prepubertal testisler (3 mL), gecikmiş puberte ve öğrenme/davranış sorunu <b>Klinefelter sendromu (47,XXY)</b>nu gösterir."
-  },
-  {
-    "yil": [
-      "İlkbahar 2009"
-    ],
-    "soru": "Aşağıdakilerden hangisi <mark>Klinefelter Sendromunda gözlenen bulgulardan biridir</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Dişi fenotip"
-      },
-      {
-        "k": "B",
-        "t": "45,X0 kromozom yapısı"
-      },
-      {
-        "k": "C",
-        "t": "46,XX kromozom yapısı"
-      },
-      {
-        "k": "D",
-        "t": "Boy kısalığı"
-      },
-      {
-        "k": "E",
-        "t": "Jinekomasti"
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "47,XXY erkekte meme gelişimi.",
-    "tuzak": "Klinefelter 47,XXY, erkek fenotip, <b>uzun boy</b>; bulgusu <mark>jinekomasti</mark>.",
-    "aciklama": "Klinefelter (47,XXY) erkek fenotipli, uzun boylu, küçük testisli hastalardır; hemen her vakada <b>jinekomasti</b> görülür."
-  },
-  {
-    "yil": [
-      "İlkbahar 2015 Orijinal"
-    ],
-    "soru": "<b>Frajil X sendromuyla</b> ilgili aşağıdaki ifadelerden hangisi <mark>yanlıştır</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Dikkat eksikliği-hiperaktivite bulguları taşıyabilir"
-      },
-      {
-        "k": "B",
-        "t": "Premutasyon taşıyıcılarında herhangi bir klinik bulgu izlenmez"
-      },
-      {
-        "k": "C",
-        "t": "Üçlü nükleotid tekrar artışıyla karakterizedir"
-      },
-      {
-        "k": "D",
-        "t": "Tekrarlayan akut otit atakları görülebilir"
-      },
-      {
-        "k": "E",
-        "t": "Uzun yüz, iri kulaklar ve yüksek damak bulunur"
-      }
-    ],
-    "dogru": 1,
-    "ipucu": "Premutasyon (55-200 tekrar) sessiz mi?",
-    "tuzak": "<mark>Premutasyon taşıyıcılarında</mark> otizm dahil hafif klinik bulgular görülebilir; 'bulgu izlenmez' yanlış.",
-    "aciklama": "Frajil-X'te FMR1 geninde ≥200 CGG tekrarı tam mutasyon yapar; <b>55-200 arası premutasyonda</b> otizm dahil daha hafif klinik bulgular görülebilir. 'Premutasyonda bulgu izlenmez' ifadesi yanlıştır."
-  },
-  {
-    "yil": [
-      "İlkbahar 2015 BENZERİ"
-    ],
-    "soru": "<b>Frajil-X sendromuyla</b> ilgili aşağıdaki ifadelerden hangisi <mark>yanlıştır</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Makroorşidi vardır."
-      },
-      {
-        "k": "B",
-        "t": "Zeka genellikle normaldir."
-      },
-      {
-        "k": "C",
-        "t": "Premutasyon taşıyıcılarında klinik bulgular hafif olarak vardır."
-      },
-      {
-        "k": "D",
-        "t": "FMR-1 geninde 200 kezden fazla tekrarlayan CGG dizisi bulunur."
-      },
-      {
-        "k": "E",
-        "t": "Uzun yüz ve iri kulaklar tipik yüz görünümünü oluşturur."
-      }
-    ],
-    "dogru": 1,
-    "ipucu": "Frajil-X ve mental durum?",
-    "tuzak": "<mark>Zeka genellikle normaldir</mark> yanlış; Frajil-X mental retardasyon yapar.",
-    "aciklama": "Frajil-X, erkeklerde mental retardasyonun en sık kalıtsal nedenidir; olgular genellikle <b>mental retardedir</b>. 'Zeka genellikle normaldir' yanlıştır. Makroorşidi, uzun yüz, iri kulaklar ve ≥200 CGG tekrarı doğrudur."
-  },
-  {
-    "yil": [
-      "İlkbahar 2018 Orijinal"
-    ],
-    "soru": "Aşağıdakilerden hangisinin <b>Potter sendromunda</b> görülmesi <mark>en olasıdır</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Akciğer hipoplazisi"
-      },
-      {
-        "k": "B",
-        "t": "Hepatomegali"
-      },
-      {
-        "k": "C",
-        "t": "Sindaktili"
-      },
-      {
-        "k": "D",
-        "t": "At nalı böbrek"
-      },
-      {
-        "k": "E",
-        "t": "Aplastik anemi"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Oligohidramniyos → akciğer gelişimi.",
-    "tuzak": "Renal agenezi → oligohidramniyos → <mark>pulmoner hipoplazi</mark> (Potter'ın ölüm nedeni).",
-    "aciklama": "<b>Potter sendromunda</b> bilateral renal agenezi → oligohidramniyos → <b>pulmoner (akciğer) hipoplazi</b> gelişir; karakteristik yüz ve iskelet anomalileri eşlik eder. Ölüm nedeni ağır solunum yetmezliğidir."
-  },
-  {
-    "yil": [
-      "İlkbahar 2018 BENZERİ"
-    ],
-    "soru": "Doğduktan hemen sonra <b>pulmoner hipoplazi</b> nedeniyle kaybedilen, bilateral renal agenezi saptanan yenidoğanda düşük kulaklar, ayrık gözler ve geniş burun dikkati çekiyor. En olası tanı?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Potter Sendromu"
-      },
-      {
-        "k": "B",
-        "t": "Hinman Sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Pendred Sendromu"
-      },
-      {
-        "k": "D",
-        "t": "Pierre Robin Sendromu"
-      },
-      {
-        "k": "E",
-        "t": "Rokitansky-Küster-Hauser Sendromu"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Bilateral renal agenezi + pulmoner hipoplazi + karakteristik yüz.",
-    "tuzak": "Pendred işitme kaybı/guatr, Pierre Robin mikrognati/yarık damak; bu tablo <b>Potter</b>.",
-    "aciklama": "Bilateral renal agenezi + oligohidramniyos + pulmoner hipoplazi + karakteristik yüz (basık burun, düşük kulaklar) <b>Potter sendromu</b>dur."
-  },
-  {
-    "yil": [
-      "Sonbahar 2011"
-    ],
-    "soru": "Zekâsı normal olup <b>uzun boy, aortik dilatasyon ve lens dislokasyonu</b> olan bir çocukta aşağıdaki hastalıklardan hangisi düşünülmelidir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Marfan Sendromu"
-      },
-      {
-        "k": "B",
-        "t": "Nörofibromatozis"
-      },
-      {
-        "k": "C",
-        "t": "Fenilketonüri"
-      },
-      {
-        "k": "D",
-        "t": "Glutarik asidüri"
-      },
-      {
-        "k": "E",
-        "t": "Hurler Sendromu"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Fibrillin-1 defekti + ektopik lens + aort.",
-    "tuzak": "Fenilketonüri/Hurler'de MR var; normal zeka + lens dislokasyonu + aort → <b>Marfan</b>.",
-    "aciklama": "<b>Marfan sendromu</b> (fibrillin-1 defekti): uzun ekstremiteler, araknodaktili, lens subluksasyonu, asendan aort dilatasyonu, mitral valv prolapsusu; zeka normaldir."
-  },
-  {
-    "yil": [
-      "İlkbahar-99"
-    ],
-    "soru": "Marfan Sendromunda aşağıdakilerden hangisi <mark>topluma göre daha sık</mark> gözlenir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Mitral stenoz"
-      },
-      {
-        "k": "B",
-        "t": "Trikuspid darlığı"
-      },
-      {
-        "k": "C",
-        "t": "Aort koarktasyonu"
-      },
-      {
-        "k": "D",
-        "t": "Dissekan aort anevrizması"
-      },
-      {
-        "k": "E",
-        "t": "Aort darlığı"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "Marfan'da en sık ölüm nedeni.",
-    "tuzak": "Aort kökünden başlayan dilatasyon → <mark>dissekan aort anevrizması</mark> (en sık ölüm nedeni).",
-    "aciklama": "Marfan'da aort kökünden başlayan dilatasyona bağlı <b>dissekan aort anevrizması</b> gelişir; en sık ölüm nedenidir."
-  },
-  {
-    "yil": [
-      "Sonbahar 2003"
-    ],
-    "soru": "Annenin gebelik sırasında orta veya çok miktarda <b>alkol</b> kullanması aşağıdakilerden hangisine <mark>yol açmaz</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Büyüme geriliği"
-      },
-      {
-        "k": "B",
-        "t": "Kalp defektleri"
-      },
-      {
-        "k": "C",
-        "t": "Eklem anomalileri"
-      },
-      {
-        "k": "D",
-        "t": "Zeka geriliği"
-      },
-      {
-        "k": "E",
-        "t": "Genital sistem anomalileri"
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "FAS bulguları arasında genital var mı?",
-    "tuzak": "<mark>Genital sistem anomalileri</mark> fetal alkol sendromunda görülmez.",
-    "aciklama": "Fetal alkol sendromu: büyüme geriliği, MR, mikrosefali, karakteristik yüz, kalp defektleri (en sık ASD), eklem/ekstremite anomalileri. <b>Genital sistem anomalileri</b> görülmez."
-  },
-  {
-    "yil": [
-      "İlkbahar 2004"
-    ],
-    "soru": "Aşağıdakilerden hangisi <b>fetal alkol sendromunun</b> karakteristik özelliklerinden biri <mark>değildir</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Organomegali"
-      },
-      {
-        "k": "B",
-        "t": "Fasiyal anomaliler"
-      },
-      {
-        "k": "C",
-        "t": "Kardiyak anomaliler"
-      },
-      {
-        "k": "D",
-        "t": "Mental retardasyon"
-      },
-      {
-        "k": "E",
-        "t": "İntrauterin gelişme geriliği"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "FAS'ta büyüme geriliği var; organomegali?",
-    "tuzak": "<mark>Organomegali</mark> FAS'ta görülmez (aksine büyüme geriliği vardır).",
-    "aciklama": "Fetal alkol sendromunda fasiyal anomaliler, kardiyak defekt, MR ve IUGR görülür. <b>Organomegali</b> beklenmez."
-  },
-  {
-    "yil": [
-      "İlkbahar 2005"
-    ],
-    "soru": "Aşağıdakilerden hangisi <b>fetal alkol sendromunun</b> bulgularından birisi <mark>değildir</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Organomegali"
-      },
-      {
-        "k": "B",
-        "t": "Fasiyal anomaliler"
-      },
-      {
-        "k": "C",
-        "t": "Kalp defektleri"
-      },
-      {
-        "k": "D",
-        "t": "Mental retardasyon"
-      },
-      {
-        "k": "E",
-        "t": "Gelişme geriliği"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Bir yıl arayla tekrarlanan soru.",
-    "tuzak": "<mark>Organomegali</mark> FAS'ta görülmez.",
-    "aciklama": "Fetal alkol sendromunda <b>organomegali</b> görülmez; fasiyal anomali, kalp defekti, MR ve gelişme geriliği tipiktir."
-  },
-  {
-    "yil": [
-      "İlkbahar 2016 Orijinal"
-    ],
-    "soru": "12 yaşındaki MR'li kız hasta göğüs ağrısıyla getiriliyor; kalın dudaklar, geniş ağız, yüksek kaş çizgisi, <b>devamlı gülme</b> ve aort odağında 4/6 üfürüm var. EKO'da <b>supravalvüler aort darlığı</b> saptanıyor. En olası tanı?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Williams Sendromu"
-      },
-      {
-        "k": "B",
-        "t": "Noonan Sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Down Sendromu"
-      },
-      {
-        "k": "D",
-        "t": "Alagille Sendromu"
-      },
-      {
-        "k": "E",
-        "t": "Turner Sendromu"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Supravalvüler aort darlığı + peri yüzü + aşırı sosyal.",
-    "tuzak": "Supravalvüler aort darlığı klasik <b>Williams</b> bulgusudur (Noonan'da valvüler pulmoner stenoz).",
-    "aciklama": "<b>Williams sendromu</b> (7q11 mikrodelesyonu, elastin): cin-peri yüzü, aşırı sosyal/gülümseyen davranış, hafif MR, idiyopatik hiperkalsemi ve <b>supravalvüler aort darlığı</b>."
-  },
-  {
-    "yil": [
-      "İlkbahar 2016 BENZERİ"
-    ],
-    "soru": "Mental retardasyon, <b>supravalvüler aort darlığı, 'peri yüzü' ve hiperkalsemisi</b> olan bir çocukta en olası tanı aşağıdakilerden hangisidir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Williams Sendromu"
-      },
-      {
-        "k": "B",
-        "t": "Patau Sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Apert Sendromu"
-      },
-      {
-        "k": "D",
-        "t": "Marfan Sendromu"
-      },
-      {
-        "k": "E",
-        "t": "Frajil-X Sendromu"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "İdiyopatik hiperkalsemi + supravalvüler aort.",
-    "tuzak": "Hiperkalsemi + supravalvüler aort darlığı + peri yüzü klasik <b>Williams</b>.",
-    "aciklama": "<b>Williams sendromu</b>: peri yüzü, idiyopatik hiperkalsemi, supravalvüler aort/pulmoner stenoz, hafif MR (7q11 elastin mikrodelesyonu)."
-  },
-  {
-    "yil": [
-      "Sonbahar 2017 Orijinal"
-    ],
-    "soru": "Özellikleri arasında <b>büyüme-gelişme geriliği, genital anomaliler, kolobom ve sağırlık</b> bulunan; ilk tanımlandığında assosiasyon iken sorumlu gen saptanınca sendrom adını alan hastalık hangisidir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Down sendromu"
-      },
-      {
-        "k": "B",
-        "t": "DiGeorge sendromu"
-      },
-      {
-        "k": "C",
-        "t": "CHARGE sendromu"
-      },
-      {
-        "k": "D",
-        "t": "Marfan sendromu"
-      },
-      {
-        "k": "E",
-        "t": "Noonan sendromu"
-      }
-    ],
-    "dogru": 2,
-    "ipucu": "Kolobom + kalp + koanal atrezi + gelişme geriliği + genital + kulak.",
-    "tuzak": "Kolobom + sağırlık + genital anomali akronimi <b>CHARGE</b> (CHD7 geni).",
-    "aciklama": "<b>CHARGE sendromu</b> (CHD7 geni, 8q12.2): Kolobom, Heart (kalp), Atrezi (koanal), Retardasyon (gelişme), Genital anomali, Ear (kulak/sağırlık). Önceden assosiasyon iken gen saptanınca sendrom oldu."
-  },
-  {
-    "yil": [
-      "Sonbahar 2017 BENZERİ"
-    ],
-    "soru": "Kardiyak ve genital anomaliler, kulak anomalileri, <b>kolobom</b> ve gelişme geriliği ile karakterize genetik hastalık aşağıdakilerden hangisidir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "VATER Sendromu"
-      },
-      {
-        "k": "B",
-        "t": "VACTERL Sendromu"
-      },
-      {
-        "k": "C",
-        "t": "CHARGE Sendromu"
-      },
-      {
-        "k": "D",
-        "t": "Pierre-Robin Sendromu"
-      },
-      {
-        "k": "E",
-        "t": "Fetal Alkol Sendromu"
-      }
-    ],
-    "dogru": 2,
-    "ipucu": "Kolobom = C harfi.",
-    "tuzak": "VATER/VACTERL'de kolobom yok; kolobom + kular + genital → <b>CHARGE</b>.",
-    "aciklama": "<b>CHARGE sendromu</b>: kolobom, kalp, koanal atrezi, gelişme geriliği, genital ve kulak anomalileri. VATER/VACTERL vertebra-anal-TÖF-radial-renal (ve kardiyak-ekstremite) içerir; kolobom yoktur."
-  },
-  {
-    "yil": [
-      "İlkbahar 89"
-    ],
-    "soru": "<mark>Kollajen metabolizma bozukluğu</mark> aşağıdakilerden hangisinde bulunur?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Tuberoskleroz"
-      },
-      {
-        "k": "B",
-        "t": "Ehler-Danlos"
-      },
-      {
-        "k": "C",
-        "t": "Niemann-Pick"
-      },
-      {
-        "k": "D",
-        "t": "Tay-Sachs"
-      },
-      {
-        "k": "E",
-        "t": "Gaucher"
-      }
-    ],
-    "dogru": 1,
-    "ipucu": "Deri hiperelastisitesi + eklem hipermobilitesi.",
-    "tuzak": "Niemann-Pick/Tay-Sachs/Gaucher lizozomal depo; kollajen (bağ doku) → <b>Ehler-Danlos</b>.",
-    "aciklama": "<b>Ehler-Danlos sendromu</b> kollajen (bağ doku) hastalığıdır: deri hiperelastisitesi, damar/deri frajilitesi, eklem hipermobilitesi. Niemann-Pick, Tay-Sachs, Gaucher lizozomal depo hastalıklarıdır."
-  },
-  {
-    "yil": [
-      "Sonbahar 91"
-    ],
-    "soru": "<b>Mavi sklerası olan ve kemiklerinde kolay kırıklar</b> oluşan bir çocukta aşağıdakilerden hangisi düşünülür?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Osteogenesis imperfekta"
-      },
-      {
-        "k": "B",
-        "t": "Ehler-Danlos Sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Marfan Sendromu"
-      },
-      {
-        "k": "D",
-        "t": "Fankoni Sendromu"
-      },
-      {
-        "k": "E",
-        "t": "Bloom Sendromu"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Mavi sklera + kolay kırık.",
-    "tuzak": "Ehler-Danlos/Marfan'da mavi sklera olabilir ama <b>kolay kemik kırığı OI'ye özgü</b>.",
-    "aciklama": "<b>Osteogenesis imperfekta</b> (OD, tip 1 kollajen defekti): mavi sklera + doğuştan/tekrarlayan kemik kırıkları, boy kısalığı; zeka normaldir."
-  },
-  {
-    "yil": [
-      "İlkbahar-93"
-    ],
-    "soru": "<b>Büyük fontanel, doğduğunda ekstremite kırıkları, kraniyotabes ve mavi sklerası</b> olan yenidoğanda aşağıdakilerden hangisi en olasıdır?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Konjenital raşitizm"
-      },
-      {
-        "k": "B",
-        "t": "Histiyositozis"
-      },
-      {
-        "k": "C",
-        "t": "Osteopetrozis"
-      },
-      {
-        "k": "D",
-        "t": "Osteopoikilozis"
-      },
-      {
-        "k": "E",
-        "t": "Osteogenezis imperfekta"
-      }
-    ],
-    "dogru": 4,
-    "ipucu": "Mavi sklera + doğuştan kırık + geniş fontanel.",
-    "tuzak": "Mavi sklera + doğuştan kemik kırıkları → <b>OI</b>.",
-    "aciklama": "Mavi sklera, doğumdan itibaren kemik kırıkları, geniş fontanel ve kraniyotabes <b>osteogenezis imperfekta</b>nın özellikleridir."
-  },
-  {
-    "yil": [
-      "Sonbahar 2006"
-    ],
-    "soru": "Aşağıdakilerden hangisi <b>Beckwith-Wiedemann Sendromunun</b> tipik bulgularından biri <mark>değildir</mark>?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Makroglossi"
-      },
-      {
-        "k": "B",
-        "t": "Omfalosel"
-      },
-      {
-        "k": "C",
-        "t": "Hepatoblastom"
-      },
-      {
-        "k": "D",
-        "t": "Ağır anemi"
-      },
-      {
-        "k": "E",
-        "t": "Mikrosefali"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "BWS'de anemi mi polisitemi mi?",
-    "tuzak": "<mark>Ağır anemi</mark> değil, BWS'de yenidoğan döneminde <b>polisitemi</b> görülür.",
-    "aciklama": "Beckwith-Wiedemann: makrozomi, makroglossi, omfalosel, neonatal hipoglisemi, hepatoblastom/Wilms riski, hemihipertrofi. Yenidoğanda <b>polisitemi</b> görülür; <b>ağır anemi</b> beklenmez."
-  },
-  {
-    "yil": [
-      "Sonbahar 2025"
-    ],
-    "soru": "Makrozomik doğum ve postnatal hipoglisemi öyküsü olan 2 yaşındaki kızın boy ve ağırlığı 97p üzerinde; <b>makroglossi, kulak sayvanında çentik ve nevus flammeus</b> var. Bu hasta hangi tümör açısından <mark>periyodik tarama</mark> ile izlenmelidir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Retinoblastom"
-      },
-      {
-        "k": "B",
-        "t": "Ewing sarkomu"
-      },
-      {
-        "k": "C",
-        "t": "Optik gliom"
-      },
-      {
-        "k": "D",
-        "t": "Wilms tümörü"
-      },
-      {
-        "k": "E",
-        "t": "Medülloblastom"
-      }
-    ],
-    "dogru": 3,
-    "ipucu": "Tablo Beckwith-Wiedemann; en sık tümör?",
-    "tuzak": "BWS'de en sık tümör <b>Wilms</b> (ve hepatoblastom); batın USG ile taranır.",
-    "aciklama": "Tablo <b>Beckwith-Wiedemann sendromu</b> (11p15 imprinting bozukluğu). En sık <b>Wilms tümörü</b> ve hepatoblastom riski artar; batın USG (8 yaşa kadar 3 ayda bir) ve AFP ile taranır."
-  },
-  {
-    "yil": [
-      "İlkbahar-90"
-    ],
-    "soru": "<b>Pierre-Robin Sendromunda</b> aşağıdaki özelliklerden hangileri bulunur?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Yarık damak, glossoptozis, mikrognati"
-      },
-      {
-        "k": "B",
-        "t": "Yarık dudak, glossoptozis, mikrognati"
-      },
-      {
-        "k": "C",
-        "t": "Yarık damak, glossoptozis, makrognati"
-      },
-      {
-        "k": "D",
-        "t": "Makroglossi, glossoptozis, makrognati"
-      },
-      {
-        "k": "E",
-        "t": "Yarık damak, makroglossi"
-      }
-    ],
-    "dogru": 0,
-    "ipucu": "Asıl patoloji küçük çene (mikrognati).",
-    "tuzak": "Makrognati/makroglossi değil; <b>mikrognati + glossoptozis + yarık damak</b>.",
-    "aciklama": "<b>Pierre-Robin sekansı</b>: asıl patoloji <b>mikrognati</b>dir; buna bağlı glossoptozis ve yüksek arklı yarık damak gelişir. Yenidoğanda hava yolu obstrüksiyonu ve beslenme sorunu olur."
-  },
-  {
-    "yil": [
-      "Sonbahar 2013"
-    ],
-    "soru": "Prenatal tanıda kullanılan <b>koryon villus örneklemesi</b> gebeliğin hangi haftalarında yapılabilir?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "6-7"
-      },
-      {
-        "k": "B",
-        "t": "8-9"
-      },
-      {
-        "k": "C",
-        "t": "10-12"
-      },
-      {
-        "k": "D",
-        "t": "13-14"
-      },
-      {
-        "k": "E",
-        "t": "15-17"
-      }
-    ],
-    "dogru": 2,
-    "ipucu": "İlk trimester sitogenetik tanı.",
-    "tuzak": "Daha erken (6-9. hafta) komplikasyon artırır; amniyosentez 16-18. hafta. KVÖ → <b>10-12. hafta</b>.",
-    "aciklama": "<b>Koryon villus örneklemesi</b> ilk trimesterde (10-12. hafta) yapılır. Daha erken uygulama komplikasyonu artırır; amniyosentez ise 16-18. haftalarda yapılır."
-  },
-  {
-    "yil": [
-      "İlkbahar 2020 Orijinal"
-    ],
-    "soru": "Simetrik büyüme geriliği olan yenidoğanda hipertrikozis ve minör ekstremite anomalisi var; yüz muayenesinde <b>kısa palpebral fissür, silik filtrum ve ince üst dudak</b> saptanıyor. En olası tanı?",
-    "siklar": [
-      {
-        "k": "A",
-        "t": "Fetal valproat sendromu"
-      },
-      {
-        "k": "B",
-        "t": "Fetal alkol sendromu"
-      },
-      {
-        "k": "C",
-        "t": "Williams sendromu"
-      },
-      {
-        "k": "D",
-        "t": "Gebelikte kokain kullanan anne bebeği"
-      },
-      {
-        "k": "E",
-        "t": "Gebelikte sigara kullanan anne bebeği"
-      }
-    ],
-    "dogru": 1,
-    "ipucu": "Silik filtrum + ince üst dudak + kısa palpebral fissür.",
-    "tuzak": "Valproatta spina bifida, kokain/sigarada IUGR; <b>silik filtrum + ince üst dudak</b> klasik FAS triadıdır.",
-    "aciklama": "<b>Fetal alkol sendromu</b>nun karakteristik yüzü: kısa palpebral fissürler, silik/düz filtrum ve ince üst dudak (+ büyüme geriliği, mikrosefali). Valproat spina bifida, kokain/sigara IUGR yapar ama bu yüz triadını yapmaz."
+    soru:'Aşağıdakilerden hangisi deri melanomunda <mark>iyi prognoz</mark> ile ilişkilidir?',
+    siklar:[
+      {k:'A',t:'Erkek cinsiyet'},
+      {k:'B',t:'Gövde yerleşimi'},
+      {k:'C',t:'Lenfosit sayısının fazla olması'},
+      {k:'D',t:'Tümör kalınlığının fazla olması'},
+      {k:'E',t:'Monozomi 3 varlığı'}
+    ],
+    dogru:2,
+    ipucu:'Tümörü infiltre eden lenfositler (TILs) konağın etkin immün yanıtını gösterir.',
+    tuzak:'Kötü prognoz faktörleri şaşırtabilir: <b>erkek cinsiyet</b>, <b>gövde/baş-boyun</b> yerleşimi, artmış <b>Breslow kalınlığı</b> ve üveal melanomda <b>monozomi 3</b>.',
+    aciklama:'Deri melanomunda iyi prognoz göstergeleri: <b>kadın cinsiyet</b>, <b>ekstremite</b> yerleşimi, ince tümör (düşük <b>Breslow</b>), ülserasyon yokluğu, düşük mitotik hız ve belirgin <b>TILs (tümör infiltre eden lenfositler)</b>.'
+  },
+  {
+    soru:'Balıkçıda çalışan işçinin eline kılçık batması ile ağrı, şişlik ve <mark>balina parmağı</mark> görünümünde belirtiler ile gelen hastanın yapılan kültüründe <mark>H2S üreten Gram pozitif basiller</mark> tespit ediliyor. Aşağıdaki bakterilerden hangisi etken olarak düşünülebilir?',
+    siklar:[
+      {k:'A',t:'Corynebacterium jeikeium'},
+      {k:'B',t:'Listeria monocytogenez'},
+      {k:'C',t:'Legionella pneumoniae'},
+      {k:'D',t:'Bacillus cereus'},
+      {k:'E',t:'Erysipelothrix rhusiopathiae'}
+    ],
+    dogru:4,
+    ipucu:'Balık/et işleyenlerde el sırtında eritemli, ağrılı lezyon = <b>erizipeloid</b>.',
+    tuzak:'<b>Erysipelothrix rhusiopathiae</b>, TSI besiyerinde <b>H2S üreten nadir Gram pozitif basildir</b>; bu özellik onu Listeria/Corynebacterium gibi diğer Gram pozitif basillerden ayırır.',
+    aciklama:'<b>Erysipelothrix rhusiopathiae</b>: katalaz negatif, <b>H2S pozitif</b>, hareketsiz Gram pozitif basil. Balıkçı/kasaplarda mesleki <b>erizipeloid</b> yapar; ciddi olgularda <b>endokardit</b> gelişebilir.'
+  },
+  {
+    soru:'Aşağıdakilerden hangisi proteinin <mark>tersiyer yapısının belirlenmesinde kullanılan yöntemlerden biri değildir</mark>?',
+    siklar:[
+      {k:'A',t:'Nükleer manyetik rezonans spektrofotometre'},
+      {k:'B',t:'X-Ray Kristallografi'},
+      {k:'C',t:'Kağıt Kromatografisi'},
+      {k:'D',t:'Kriyoelektron mikroskobisi'},
+      {k:'E',t:'Moleküler Modelleme'}
+    ],
+    dogru:2,
+    ipucu:'Soru "<b>değildir</b>" ile bitiyor; üç boyutlu yapı belirleme yöntemi <b>OLMAYANI</b> seç.',
+    tuzak:'<b>Kağıt kromatografisi</b> bir <b>ayırma</b> yöntemidir (amino asit/küçük molekül); proteinin üç boyutlu (tersiyer) yapısını belirlemez.',
+    aciklama:'Protein <b>tersiyer/3B yapı</b> belirleme yöntemleri: <b>X-ışını kristallografisi</b>, <b>NMR spektroskopisi</b>, <b>kriyo-EM</b> ve <b>moleküler modelleme</b>. Kağıt kromatografisi yapı belirlemede kullanılmaz.'
+  },
+  {
+    soru:'Farenjit nedeniyle oral penisilin tedavisi almasına rağmen iyileşme olmayan bir hastanın <mark>servikal lenf bezlerinde büyüme</mark> tespit edilmiş ve ağrı gelişmiştir. Bu hastanın boğaz sürüntü örneği <mark>sistein içeren kanlı ağara</mark> ekilmiş, 4. günün sonunda oluşan kolonilerin çok küçük <mark>gram negatif kokobasillere</mark> ait olduğu tespit edilmiştir. Bu tabloda en olası etken aşağıdakilerden hangisidir?',
+    siklar:[
+      {k:'A',t:'Francisella tularensis'},
+      {k:'B',t:'Listeria monocytogenez'},
+      {k:'C',t:'Neisseria gonorrhoeae'},
+      {k:'D',t:'Haemophilus influenzae'},
+      {k:'E',t:'Brucella melitentis'}
+    ],
+    dogru:0,
+    ipucu:'<b>Sistein zenginleştirilmiş</b> besiyeri ihtiyacı + orofarengeal farenjit + servikal lenfadenopati.',
+    tuzak:'<b>Brucella</b> da küçük Gram negatif kokobasildir; ancak <b>sistein gerektiren besiyeri</b> ve orofarengeal tularemi tablosu <b>Francisella</b>ya özgüdür.',
+    aciklama:'<b>Francisella tularensis</b> üreme için <b>sistin/sistein</b> gerektirir (BCYE, sisteinli çukulata agar), çok küçük Gram negatif kokobasildir. <b>Orofarengeal tularemi</b> penisiline yanıtsız farenjit + servikal lenfadenit yapar; tedavi <b>aminoglikozid</b> (streptomisin/gentamisin).'
+  },
+  {
+    yil:'',
+    soru:'Yirmi dört yaşında erkek hasta karın ağrısı yakınmasıyla başvuruyor. Laboratuvar tetkiklerinde amilaz ve lipaz yüksekliği dikkat çekiyor. Öyküsünden bu karın ağrısı ataklarının <mark>çocukluğundan bu yana devam ettiği</mark> öğreniliyor. Buna göre bu hastada saptanması <mark>en olası</mark> pankreas anomalisi aşağıdakilerden hangisidir?',
+    siklar:[
+      {k:'A',t:'Agenezi'},
+      {k:'B',t:'Anüler pankreas'},
+      {k:'C',t:'Pankreas divisium'},
+      {k:'D',t:'Ektopik pankreas'},
+      {k:'E',t:'Hipoplazi'}
+    ],
+    dogru:2,
+    ipucu:'En sık <b>konjenital pankreas anomalisi</b> hangisidir?',
+    tuzak:'<b>Anüler pankreas</b> daha çok duodenal obstrüksiyonla; <b>pankreas divisum</b> ise <b>tekrarlayan pankreatit</b>le ilişkilidir. "<b>En olası</b>" ifadesi sıklığa işaret eder.',
+    aciklama:'<b>Pankreas divisum</b>, dorsal ve ventral kanal tomurcuklarının birleşmemesiyle oluşan <b>en sık konjenital pankreas anomalisidir</b>. <b>Minör papilla</b>dan yetersiz drenaj, tekrarlayan akut pankreatit ataklarına yol açar.'
+  },
+  {
+    soru:'Lubiproston ile ilgili aşağıdaki ifadelerden hangisi <mark>yanlıştır</mark>?',
+    siklar:[
+      {k:'A',t:'PGI2 (prostasiklin) analoğudur.'},
+      {k:'B',t:'Tip 2 klorür kanallarını aktive eder.'},
+      {k:'C',t:'Kronik konstipasyon tedavisinde kullanılır.'},
+      {k:'D',t:'Laksatif etkisi de vardır.'},
+      {k:'E',t:'En sık yan tesiri bulantıdır.'}
+    ],
+    dogru:0,
+    ipucu:'Lubiproston hangi <b>prostaglandin</b>den türetilir?',
+    tuzak:'Lubiproston bir <b>PGE1 türevidir</b>, <b>PGI2 (prostasiklin) analoğu DEĞİLDİR</b>. Dolayısıyla A ifadesi yanlıştır.',
+    aciklama:'<b>Lubiproston</b>, PGE1 türevi bisiklik yağ asididir. Bağırsak epitelindeki <b>ClC-2 (tip 2 klorür kanalı)</b> kanallarını aktive ederek sıvı sekresyonunu artırır; <b>kronik idiyopatik konstipasyon</b> ve IBS-C tedavisinde kullanılır, en sık yan etkisi <b>bulantı</b>dır.'
+  },
+  {
+    soru:'Aşağıdakilerden hangisi tıbbi abortus oluşturmak ve doğum indüksiyonunda kullanılan <mark>PGE2 analoğu</mark> bir ilaçtır?',
+    siklar:[
+      {k:'A',t:'Alprostadil'},
+      {k:'B',t:'Karboprost'},
+      {k:'C',t:'Epoprostenol'},
+      {k:'D',t:'Bimatoprost'},
+      {k:'E',t:'Dinoproston'}
+    ],
+    dogru:4,
+    ipucu:'Servikal olgunlaşma ve doğum indüksiyonunda kullanılan <b>PGE2</b> hangisidir?',
+    tuzak:'<b>Karboprost</b> bir <b>PGF2α</b> analoğudur (postpartum kanama/abortus). <b>Alprostadil = PGE1</b>, <b>Epoprostenol = PGI2</b>, <b>Bimatoprost = PGF2α</b> (glokom). Yalnızca <b>dinoproston PGE2</b>dir.',
+    aciklama:'<b>Dinoproston (PGE2)</b>; <b>servikal olgunlaşma</b>, <b>doğum indüksiyonu</b> ve ikinci trimester <b>tıbbi abortus</b>ta kullanılır. Vajinal jel, ovül ve insert formları bulunur.'
+  },
+  {
+    soru:'"Janus kinase/signal transducers and activators of transcription (JAK–STAT)" yolunu <mark>kullanmayan</mark> hormon hangisidir?',
+    siklar:[
+      {k:'A',t:'Büyüme hormonu'},
+      {k:'B',t:'Leptin'},
+      {k:'C',t:'İnsülin'},
+      {k:'D',t:'Prolaktin'},
+      {k:'E',t:'Eritropoietin'}
+    ],
+    dogru:2,
+    ipucu:'<b>İnsülin reseptörü</b> hangi enzim ailesindendir?',
+    tuzak:'<b>İnsülin</b>, kendi <b>reseptör tirozin kinaz (RTK)</b> yolunu kullanır; IRS-1/PI3K–Akt üzerinden sinyal iletir, <b>JAK–STAT DEĞİL</b>.',
+    aciklama:'<b>Büyüme hormonu</b>, <b>prolaktin</b>, <b>leptin</b>, <b>eritropoietin</b> ve pek çok sitokin <b>JAK–STAT</b> yolunu kullanır. İnsülin ise <b>tirozin kinaz aktiviteli reseptör (RTK)</b> ile sinyal iletir.'
+  },
+  {
+    soru:'Aşağıdakilerden hangisi özellikle <mark>iki nokta diskriminasyonundan</mark> sorumlu olup dudaklarda ve parmak uçlarında bol miktarda görülen tüysüz derinin papiller dermisinde bulunan uzun, <mark>kapsüllü</mark> bir reseptör olarak tanımlanır?',
+    siklar:[
+      {k:'A',t:'Merkel diski'},
+      {k:'B',t:'Serbest sinir uçları'},
+      {k:'C',t:'Meissner cisimciği'},
+      {k:'D',t:'Ruffini sonlanmaları'},
+      {k:'E',t:'Paccini cisimciği'}
+    ],
+    dogru:2,
+    ipucu:'<b>Papiller dermis</b>te yerleşen, <b>glabröz (tüysüz)</b> deride yoğun, hızlı adapte olan hafif dokunma reseptörü.',
+    tuzak:'<b>Merkel diski</b> de iki nokta ayrımına katkı sağlar ancak <b>kapsülsüzdür</b>. <b>Paccini</b> derin basınç/titreşim için subkütan yerleşir. Sorudaki "<b>kapsüllü + papiller dermis</b>" tanımı Meissner\'a özgüdür.',
+    aciklama:'<b>Meissner cisimciği</b>: kapsüllü, hızlı adapte olan mekanoreseptör; <b>dermal papillalarda</b> yerleşir, <b>glabröz deride</b> (parmak ucu, dudak) yoğundur ve <b>iki nokta diskriminasyonu</b> ile hafif dokunmadan sorumludur.'
+  },
+  {
+    soru:'Triptofan yüklemesi sonucu idrarda <mark>ksantoürenik asit</mark> bileşiklerindeki artış, aşağıdaki vitaminlerden hangisinin eksikliği için tanısaldır?',
+    siklar:[
+      {k:'A',t:'B1'},
+      {k:'B',t:'B2'},
+      {k:'C',t:'B3'},
+      {k:'D',t:'B9'},
+      {k:'E',t:'B6'}
+    ],
+    dogru:4,
+    ipucu:'Triptofan yükleme testi hangi <b>PLP-bağımlı</b> enzimi test eder?',
+    tuzak:'<b>B3 (niasin)</b> triptofandan sentezlenir; ancak <b>ksantürenik asit artışı</b> özellikle <b>B6 (piridoksin)</b> eksikliğine tanısaldır.',
+    aciklama:'Triptofan → kinürenin yolunda <b>kinüreninaz</b> enzimi <b>PLP (aktif B6)</b> gerektirir. B6 eksikliğinde yol bloke olur, ara ürünler <b>ksantürenik asit</b>e dönüşerek idrarda artar; bu nedenle <b>triptofan yükleme testi B6 eksikliğinde tanısaldır</b>.'
   }
 ];
 
-/* ================= STATE ================= */
-let order = QUESTIONS.map(function(_,i){return i;});
-let idx = 0;
-const answered = new Array(QUESTIONS.length).fill(null);
-const starred  = new Array(QUESTIONS.length).fill(false);
-let finished = false;
+/* ============ DURUM ============ */
+const TOTAL = QUESTIONS.length;
+let order = Array.from({length:TOTAL}, (_,i)=>i);   // aktif soru indeksleri
+let answers = {};                                    // qIndex -> seçilen indeks
+let stars = new Set();                               // yıldızlı qIndex
+let current = 0;                                      // order içindeki pozisyon
 
-/* ================= PERSISTENCE (localStorage) ================= */
-const STORAGE_KEY = 'tusquiz::' + (document.title || 'quiz') + '::' + QUESTIONS.length;
-function saveState(){
-  try{
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      answered:answered, starred:starred, idx:idx, order:order, finished:finished, v:1
-    }));
-  }catch(e){}
-}
-function loadSavedState(){
-  try{ const r=localStorage.getItem(STORAGE_KEY); return r?JSON.parse(r):null; }catch(e){ return null; }
-}
-function clearSavedState(){ try{ localStorage.removeItem(STORAGE_KEY); }catch(e){} }
-function hasProgress(s){
-  if(!s) return false;
-  const a = s.answered && s.answered.some(function(x){return x!==null;});
-  return a || (s.idx>0) || s.finished;
-}
-function applyState(s){
-  for(let i=0;i<QUESTIONS.length;i++){
-    answered[i] = (s.answered && i<s.answered.length) ? s.answered[i] : null;
-    starred[i]  = (s.starred  && i<s.starred.length)  ? !!s.starred[i] : false;
-  }
-  order = (s.order && s.order.length) ? s.order.slice() : QUESTIONS.map(function(_,i){return i;});
-  idx = (typeof s.idx==='number') ? Math.max(0,Math.min(order.length-1,s.idx)) : 0;
-  finished = !!s.finished;
-}
+function active(){ return order.length; }            // N dinamik olarak order.length'ten türetilir
 
-function qid(){ return order[idx]; }
-function curQ(){ return QUESTIONS[order[idx]]; }
-
-/* ========== HEADER SPACING (JS-measured) ========== */
-const hdr = document.getElementById('hdr');
+/* ============ ELEMANLAR ============ */
 const main = document.getElementById('main');
-function syncHeader(){
-  const h = hdr.offsetHeight;
-  main.style.paddingTop = (h + 14) + 'px';
-  document.documentElement.style.setProperty('--hdrH', h + 'px');
+const results = document.getElementById('results');
+const nav = document.getElementById('nav');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const progressBar = document.getElementById('progressBar');
+const chipCorrect = document.getElementById('chipCorrect');
+const chipStar = document.getElementById('chipStar');
+const header = document.querySelector('header');
+
+/* ============ HEADER OFFSET (px sabit yok) ============ */
+function alignHeader(){
+  const h = header.offsetHeight;
+  main.style.paddingTop = (h + 18) + 'px';
+  results.style.paddingTop = (h + 24) + 'px';
 }
-window.addEventListener('load', syncHeader);
-window.addEventListener('resize', syncHeader);
-syncHeader();
+window.addEventListener('load', alignHeader);
+window.addEventListener('resize', alignHeader);
 
-/* ================= RENDER ================= */
-const quizEl = document.getElementById('quiz');
-const resultEl = document.getElementById('result');
-const navEl = document.getElementById('nav');
+/* ============ SAYAÇLAR ============ */
+function updateCounters(){
+  let correct = 0;
+  order.forEach(qi=>{ if(answers[qi]!==undefined && answers[qi]===QUESTIONS[qi].dogru) correct++; });
+  chipCorrect.textContent = '✔ ' + correct;
+  chipStar.textContent = '⭐ ' + stars.size;
+  progressBar.style.width = ((current)/active()*100) + '%';
+}
 
+/* ============ SORU RENDER ============ */
 function render(){
-  if(finished){ renderResult(); return; }
-  resultEl.classList.remove('show');
-  quizEl.style.display='block';
-  navEl.style.display='flex';
+  const qi = order[current];
+  const q = QUESTIONS[qi];
+  const answered = answers[qi] !== undefined;
+  progressBar.style.width = ((current+1)/active()*100) + '%';
 
-  const q = curQ();
-  const id = qid();
-  const chosen = answered[id];
-  const isAns = chosen !== null;
-
-  let html = '';
-  html += '<div class="qmeta">';
-  html += '<div class="qnum">SORU '+(idx+1)+' / '+order.length+'</div>';
-  html += '<button class="star-btn '+(starred[id]?'on':'')+'" onclick="toggleStar()" aria-label="Yıldızla">⭐</button>';
+  let html = '<div class="qmeta">';
+  html += '<span class="qnum">Soru '+(current+1)+' / '+active()+'</span>';
+  if(q.yil) html += '<span class="yil-badge">'+q.yil+'</span>';
+  html += '<button class="star-btn '+(stars.has(qi)?'on':'')+'" id="starBtn">⭐</button>';
   html += '</div>';
 
-  if(q.yil && q.yil.length){
-    html += '<div class="year-tags">';
-    q.yil.forEach(function(y){ html += '<span class="year-tag">'+y+'</span>'; });
-    html += '</div>';
-  }
+  html += '<p class="soru">'+q.soru+'</p>';
 
-  html += '<div class="qcard">'+q.soru+'</div>';
-
-  html += '<div class="opts '+(isAns?'locked':'')+'" id="opts">';
-  q.siklar.forEach(function(s,i){
-    let cls='opt';
-    if(isAns){
-      if(i===q.dogru) cls+=' correct';
-      else if(i===chosen) cls+=' wrong';
-      else cls+=' dim';
+  html += '<div class="siklar">';
+  q.siklar.forEach((s,idx)=>{
+    let cls = 'sik';
+    if(answered){
+      cls += ' locked';
+      if(idx===q.dogru) cls += ' correct';
+      else if(idx===answers[qi]) cls += ' wrong';
     }
-    html += '<button class="'+cls+'" '+(isAns?'':'onclick="answer('+i+')"')+'>'
-          + '<span class="k">'+s.k+'</span><span class="t">'+s.t+'</span><span class="mark"></span></button>';
+    html += '<button class="'+cls+'" data-idx="'+idx+'"><span class="k">'+s.k+'</span><span>'+s.t+'</span></button>';
   });
   html += '</div>';
 
-  if(!isAns){
-    html += '<button class="hintbtn" id="preHint" onclick="showPreHint()">💡 İpucu göster</button>';
-    html += '<div id="revealZone"></div>';
-  } else {
-    html += '<div id="revealZone">'+revealHTML(q)+'</div>';
+  // Cevaptan önce manuel ipucu butonu
+  if(!answered){
+    html += '<button class="hint-btn" id="hintBtn">💡 İpucu göster</button>';
   }
 
-  quizEl.innerHTML = html;
+  // Açılan kutular
+  html += '<div class="boxes" id="boxes">';
+  html += '<div class="box ipucu" id="boxIpucu"><div class="bt">💡 İpucu</div>'+q.ipucu+'</div>';
+  html += '<div class="box tuzak" id="boxTuzak"><div class="bt">⚠️ Tuzak</div>'+q.tuzak+'</div>';
+  html += '<div class="box aciklama" id="boxAciklama"><div class="bt">📖 Açıklama</div>'+q.aciklama+'</div>';
+  html += '</div>';
 
-  document.getElementById('prevBtn').disabled = (idx===0);
-  document.getElementById('nextBtn').textContent = (idx===order.length-1) ? 'Bitir ✓' : 'Sonraki →';
-  document.getElementById('navCounter').textContent = (idx+1)+'/'+order.length;
+  main.innerHTML = html;
 
-  updateBars();
+  // Olaylar
+  document.getElementById('starBtn').onclick = ()=>{
+    if(stars.has(qi)) stars.delete(qi); else stars.add(qi);
+    document.getElementById('starBtn').classList.toggle('on');
+    updateCounters();
+  };
+
+  if(!answered){
+    document.querySelectorAll('.sik').forEach(btn=>{
+      btn.onclick = ()=> selectAnswer(qi, parseInt(btn.dataset.idx));
+    });
+    const hb = document.getElementById('hintBtn');
+    if(hb) hb.onclick = ()=>{
+      document.getElementById('boxIpucu').classList.add('show');
+      hb.style.display='none';
+    };
+  } else {
+    // Cevaplanmışsa kutuları açık göster
+    document.getElementById('boxIpucu').classList.add('show');
+    document.getElementById('boxTuzak').classList.add('show');
+    document.getElementById('boxAciklama').classList.add('show');
+  }
+
+  // Nav butonları
+  prevBtn.disabled = (current===0);
+  if(current === active()-1){
+    nextBtn.textContent = 'Bitir';
+    nextBtn.classList.remove('primary'); nextBtn.classList.add('finish');
+  } else {
+    nextBtn.textContent = 'Sonraki ▶';
+    nextBtn.classList.add('primary'); nextBtn.classList.remove('finish');
+  }
+  updateCounters();
 }
 
-function revealHTML(q){
-  return ''
-   + '<div class="box ip"><div class="bt">💡 İPUCU</div><div>'+q.ipucu+'</div></div>'
-   + '<div class="box tz"><div class="bt">⚠️ TUZAK</div><div>'+q.tuzak+'</div></div>'
-   + '<div class="box ac"><div class="bt">📖 AÇIKLAMA</div><div>'+q.aciklama+'</div></div>';
-}
-
-function showPreHint(){
-  const q = curQ();
-  const btn = document.getElementById('preHint');
-  if(btn) btn.style.display='none';
-  document.getElementById('revealZone').innerHTML =
-    '<div class="box ip"><div class="bt">💡 İPUCU</div><div>'+q.ipucu+'</div></div>';
-  scrollToReveal();
-}
-
-/* ================= ACTIONS ================= */
-function answer(i){
-  const id = qid();
-  if(answered[id]!==null) return;
-  answered[id]=i;
-  const q=curQ();
-
-  const opts=document.getElementById('opts');
-  opts.classList.add('locked');
-  const btns=opts.querySelectorAll('.opt');
-  btns.forEach(function(b,k){
-    b.setAttribute('onclick','');
-    if(k===q.dogru) b.classList.add('correct');
-    else if(k===i) b.classList.add('wrong');
-    else b.classList.add('dim');
-  });
-
-  const pre=document.getElementById('preHint');
-  if(pre) pre.style.display='none';
-
-  document.getElementById('revealZone').innerHTML = revealHTML(q);
-  updateBars();
-  saveState();
-  scrollToReveal();
-}
-
-function scrollToReveal(){
-  requestAnimationFrame(function(){
-    const zone=document.getElementById('revealZone');
-    const first=zone && zone.firstElementChild;
-    if(!first) return;
-    const offset = hdr.offsetHeight + 10;
-    const y = first.getBoundingClientRect().top + window.pageYOffset - offset;
+/* ============ CEVAP SEÇ ============ */
+function selectAnswer(qi, idx){
+  if(answers[qi]!==undefined) return;
+  answers[qi] = idx;
+  render();
+  // Kutuları sıralı aç + ipucu kutusuna kaydır (başlık altına yasla)
+  const bi = document.getElementById('boxIpucu');
+  const bt = document.getElementById('boxTuzak');
+  const ba = document.getElementById('boxAciklama');
+  bi.classList.add('show');
+  setTimeout(()=>bt.classList.add('show'), 120);
+  setTimeout(()=>ba.classList.add('show'), 240);
+  setTimeout(()=>{
+    const off = header.offsetHeight + 10;
+    const y = bi.getBoundingClientRect().top + window.pageYOffset - off;
     window.scrollTo({top:y, behavior:'smooth'});
-  });
+  }, 60);
 }
 
-function toggleStar(){
-  const id=qid();
-  starred[id]=!starred[id];
-  saveState();
-  render();
-}
+/* ============ NAVİGASYON ============ */
+prevBtn.onclick = ()=>{ if(current>0){ current--; render(); window.scrollTo({top:0}); } };
+nextBtn.onclick = ()=>{
+  if(current < active()-1){ current++; render(); window.scrollTo({top:0}); }
+  else showResults();
+};
 
-function go(dir){
-  if(dir===1 && idx===order.length-1){ finished=true; saveState(); render(); window.scrollTo({top:0,behavior:'smooth'}); return; }
-  idx=Math.max(0,Math.min(order.length-1, idx+dir));
-  saveState();
-  render();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
+/* ============ MODAL ============ */
+const modalBg = document.getElementById('modalBg');
+const gridWrap = document.getElementById('gridWrap');
+document.getElementById('menuBtn').onclick = ()=>{ buildGrid(); modalBg.classList.add('show'); };
+document.getElementById('modalClose').onclick = ()=> modalBg.classList.remove('show');
+modalBg.onclick = (e)=>{ if(e.target===modalBg) modalBg.classList.remove('show'); };
 
-/* ================= MODAL ================= */
-function openModal(){
-  const grid=document.getElementById('qGrid');
+function buildGrid(){
   let h='';
-  order.forEach(function(id,p){
-    let cls='gbtn';
-    if(answered[id]!==null){ cls += (answered[id]===QUESTIONS[id].dogru)?' ok':' no'; }
-    if(p===idx) cls+=' cur';
-    if(starred[id]) cls+=' star';
-    h += '<button class="'+cls+'" onclick="jump('+p+')">'+(p+1)+'</button>';
+  order.forEach((qi,pos)=>{
+    let cls='cell';
+    if(answers[qi]!==undefined){ cls += (answers[qi]===QUESTIONS[qi].dogru)?' correct':' wrong'; }
+    if(pos===current) cls+=' current';
+    const sb = stars.has(qi) ? '<span class="sb">⭐</span>' : '';
+    h += '<div class="'+cls+'" data-pos="'+pos+'">'+(pos+1)+sb+'</div>';
   });
-  grid.innerHTML=h;
-  document.getElementById('modalOv').classList.add('show');
-  document.body.style.overflow='hidden';
-}
-function closeModal(){
-  document.getElementById('modalOv').classList.remove('show');
-  document.body.style.overflow='';
-}
-function modalBg(e){ if(e.target.id==='modalOv') closeModal(); }
-function jump(p){ idx=p; finished=false; closeModal(); saveState(); render(); window.scrollTo({top:0,behavior:'smooth'}); }
-
-/* ================= COUNTERS / PROGRESS ================= */
-function correctCount(){
-  let c=0;
-  answered.forEach(function(a,i){ if(a!==null && a===QUESTIONS[i].dogru) c++; });
-  return c;
-}
-function starCount(){ return starred.filter(Boolean).length; }
-function updateBars(){
-  document.getElementById('cCount').textContent = correctCount();
-  document.getElementById('sCount').textContent = starCount();
-  const pos = finished ? order.length : (idx+1);
-  document.getElementById('bar').style.width = Math.round((pos/order.length)*100)+'%';
+  gridWrap.innerHTML = h;
+  gridWrap.querySelectorAll('.cell').forEach(c=>{
+    c.onclick = ()=>{ current=parseInt(c.dataset.pos); modalBg.classList.remove('show'); render(); window.scrollTo({top:0}); };
+  });
 }
 
-/* ================= RESULT ================= */
-function renderResult(){
-  quizEl.style.display='none';
-  navEl.style.display='none';
-  resultEl.classList.add('show');
-
-  const total=order.length;
-  let correct=0, wrong=0, blank=0, starHere=0;
-  order.forEach(function(id){
-    const a=answered[id];
-    if(a===null) blank++;
-    else if(a===QUESTIONS[id].dogru) correct++;
+/* ============ SONUÇ EKRANI ============ */
+function showResults(){
+  let correct=0, wrong=0, blank=0;
+  order.forEach(qi=>{
+    if(answers[qi]===undefined) blank++;
+    else if(answers[qi]===QUESTIONS[qi].dogru) correct++;
     else wrong++;
-    if(starred[id]) starHere++;
   });
-  const pct=Math.round((correct/total)*100);
-
-  document.getElementById('scoreBig').textContent = correct+'/'+total;
-  document.getElementById('pctLine').textContent = '%'+pct;
-  document.getElementById('ring').style.setProperty('--pct', pct+'%');
-
+  const n = active();
+  const pct = Math.round(correct/n*100);
   let fb;
-  if(pct>=90) fb='Mükemmel! Bu konulara hâkimsin. 🎯';
-  else if(pct>=70) fb='Çok iyi. Birkaç tuzak dışında sağlamsın. 👏';
-  else if(pct>=50) fb='Fena değil; yanlışları ve tuzakları tekrar et. 📚';
-  else fb='Bu blokları tekrar çalışmakta fayda var. Devam! 💪';
-  document.getElementById('fbText').textContent = fb;
+  if(pct>=85) fb='Mükemmel! Konuya hâkimsin. 🎯';
+  else if(pct>=70) fb='İyi iş — birkaç ayrıntıyı gözden geçir.';
+  else if(pct>=50) fb='Fena değil, tekrar çözerek pekiştir.';
+  else fb='Bu konuları tekrar çalışman faydalı olur.';
 
-  document.getElementById('rStats').innerHTML =
-      '<div class="rstat g">✓ Doğru '+correct+'</div>'
-    + '<div class="rstat r">✗ Yanlış '+wrong+'</div>'
-    + '<div class="rstat s">⭐ Yıldızlı '+starHere+'</div>';
+  let h = '<div class="score-hero">';
+  h += '<p class="score-big">'+correct+' / '+n+'</p>';
+  h += '<div class="score-pct">%'+pct+'</div>';
+  h += '<div class="score-fb">'+fb+'</div></div>';
 
-  let rev='';
-  order.forEach(function(id,p){
-    const q=QUESTIONS[id];
-    const a=answered[id];
-    let badge, cls, label;
-    if(a===null){ badge='–'; cls='blank'; label='Boş'; }
-    else if(a===q.dogru){ badge='✓'; cls='ok'; label='Doğru'; }
-    else { badge='✗'; cls='no'; label='Yanlış'; }
-    const ds=q.siklar[q.dogru];
-    rev += '<div class="rev" onclick="jump('+p+')">'
-         + '<div class="badge '+cls+'">'+badge+'</div>'
-         + '<div style="flex:1">'
-         + '<div class="rq">Soru '+(p+1)+' — '+label+(starred[id]?' ⭐':'')+'</div>'
-         + '<div class="ra">Doğru cevap: <b>'+ds.k+') '+ds.t+'</b></div>'
-         + '</div></div>';
+  h += '<div class="stat-cards">';
+  h += '<div class="stat g"><div class="n">'+correct+'</div><div class="l">Doğru</div></div>';
+  h += '<div class="stat r"><div class="n">'+wrong+'</div><div class="l">Yanlış</div></div>';
+  h += '<div class="stat s"><div class="n">'+stars.size+'</div><div class="l">Yıldızlı</div></div>';
+  h += '</div>';
+
+  h += '<p class="review-title">Soru İncelemesi</p>';
+  order.forEach((qi,pos)=>{
+    const q = QUESTIONS[qi];
+    let badge, bcls;
+    if(answers[qi]===undefined){ badge='—'; bcls='bl'; }
+    else if(answers[qi]===q.dogru){ badge='✓'; bcls='ok'; }
+    else { badge='✕'; bcls='no'; }
+    const plain = q.soru.replace(/<[^>]+>/g,'');
+    h += '<div class="review-item" data-pos="'+pos+'">';
+    h += '<span class="rbadge '+bcls+'">'+badge+'</span>';
+    h += '<div class="rtext"><div class="rq">'+(pos+1)+'. '+plain+'</div></div>';
+    h += '<span class="rans">'+q.siklar[q.dogru].k+'</span>';
+    h += '</div>';
   });
-  document.getElementById('reviewList').innerHTML = rev;
 
-  document.getElementById('retryWrongBtn').disabled = (wrong===0);
-  document.getElementById('retryStarBtn').disabled = (starCount()===0);
+  const hasWrong = order.some(qi=>answers[qi]!==undefined && answers[qi]!==QUESTIONS[qi].dogru);
+  const hasStar = stars.size>0;
+  h += '<div class="result-btns">';
+  h += '<button class="primary" id="restartBtn">🔄 Baştan Başlat</button>';
+  h += '<button id="retryWrongBtn" '+(hasWrong?'':'disabled')+'>❌ Yanlışları Tekrar Çöz</button>';
+  h += '<button id="retryStarBtn" '+(hasStar?'':'disabled')+'>⭐ Yıldızlıları Tekrar Çöz</button>';
+  h += '</div>';
 
-  updateBars();
+  results.innerHTML = h;
+  main.style.display='none';
+  nav.style.display='none';
+  results.classList.add('show');
+  progressBar.style.width='100%';
+  window.scrollTo({top:0});
+
+  results.querySelectorAll('.review-item').forEach(it=>{
+    it.onclick = ()=>{ current=parseInt(it.dataset.pos); backToQuiz(); render(); window.scrollTo({top:0}); };
+  });
+  document.getElementById('restartBtn').onclick = ()=> resetQuiz(Array.from({length:TOTAL},(_,i)=>i));
+  document.getElementById('retryWrongBtn').onclick = ()=>{
+    const sub = order.filter(qi=>answers[qi]!==undefined && answers[qi]!==QUESTIONS[qi].dogru);
+    resetQuiz(sub);
+  };
+  document.getElementById('retryStarBtn').onclick = ()=>{
+    const sub = order.filter(qi=>stars.has(qi));
+    resetQuiz(sub);
+  };
 }
 
-/* ================= RETRY MODES ================= */
-function startSubset(ids){
-  order = ids.slice();
-  ids.forEach(function(id){ answered[id]=null; });
-  idx=0; finished=false;
-  saveState();
+function backToQuiz(){
+  results.classList.remove('show');
+  main.style.display='';
+  nav.style.display='flex';
+}
+
+/* Yeni alt-küme ile quiz'i sıfırla — durumlar sıfırlanır */
+function resetQuiz(subset){
+  order = subset.slice();
+  answers = {};
+  stars = new Set();
+  current = 0;
+  backToQuiz();
   render();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function restart(){
-  order = QUESTIONS.map(function(_,i){return i;});
-  for(let i=0;i<QUESTIONS.length;i++){ answered[i]=null; }
-  idx=0; finished=false;
-  clearSavedState();
-  render();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function retryWrong(){
-  const ids = order.filter(function(id){ return answered[id]!==null && answered[id]!==QUESTIONS[id].dogru; });
-  if(!ids.length){ toast('Yanlış soru yok 🎉'); return; }
-  startSubset(ids);
-}
-function retryStar(){
-  const ids = [];
-  starred.forEach(function(s,i){ if(s) ids.push(i); });
-  if(!ids.length){ toast('Yıldızlı soru yok ⭐'); return; }
-  startSubset(ids);
+  alignHeader();
+  window.scrollTo({top:0});
 }
 
-/* ================= TOAST ================= */
-let toastT=null;
-function toast(msg){
-  const el=document.getElementById('toast');
-  el.textContent=msg; el.classList.add('show');
-  clearTimeout(toastT);
-  toastT=setTimeout(function(){ el.classList.remove('show'); },1800);
-}
-
-/* ================= RESUME ================= */
-function showResumePrompt(saved){
-  const ov = document.getElementById('resumeOv');
-  const sub = document.getElementById('resumeSub');
-  const ord = (saved.order && saved.order.length) ? saved.order : QUESTIONS.map(function(_,i){return i;});
-  const total = ord.length;
-  const pos = saved.finished ? total : Math.min((saved.idx||0)+1, total);
-  const ansCount = saved.answered ? saved.answered.filter(function(x){return x!==null;}).length : 0;
-  sub.textContent = saved.finished
-    ? ('Testi bitirmiştin — sonuç ekranına dönebilirsin. (' + ansCount + ' soru işaretlenmiş)')
-    : ('Soru ' + pos + ' / ' + total + ' — ' + ansCount + ' soru cevaplanmış.');
-  window._savedState = saved;
-  ov.classList.add('show');
-}
-function resumeYes(){
-  applyState(window._savedState);
-  document.getElementById('resumeOv').classList.remove('show');
-  render();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function resumeNo(){
-  clearSavedState();
-  document.getElementById('resumeOv').classList.remove('show');
-  render();
-}
-
-/* ================= INIT ================= */
+/* ============ BAŞLAT ============ */
 render();
-(function(){ const s=loadSavedState(); if(hasProgress(s)) showResumePrompt(s); })();
-window.addEventListener('load', function(){ syncHeader(); updateBars(); });
+alignHeader();
 </script>
 </body>
 </html>

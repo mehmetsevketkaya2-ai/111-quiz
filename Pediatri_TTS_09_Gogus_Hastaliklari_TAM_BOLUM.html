@@ -1,0 +1,5391 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="pragma" content="no-cache">
+<title>Pediatri TTS — Göğüs Hastalıkları (Tam Bölüm · 143 Soru)</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --line:#2a3444;
+    --text:#e6edf3; --muted:#9aa7b5; --accent:#4c9aff; --accent2:#7c5cff;
+    --green:#2ea043; --green-bg:#12341c; --red:#e5484d; --red-bg:#3a1518;
+    --star:#f5c451; --hint:#3fb6a8; --trap:#ff5b5b; --exp:#b487ff;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;-webkit-text-size-adjust:100%;}
+  mark{background:none;color:var(--trap);font-weight:800;}
+  b{color:#fff;font-weight:700;}
+
+  header{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--panel);
+    border-bottom:1px solid var(--line);padding:env(safe-area-inset-top) 0 0 0;
+    box-shadow:0 4px 18px rgba(0,0,0,.35);}
+  .hbar{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:11px 16px 10px;}
+  .htitle{font-size:15px;font-weight:800;letter-spacing:.3px;}
+  .htitle span{color:var(--accent);}
+  .stats{display:flex;gap:8px;}
+  .chip{display:flex;align-items:center;gap:5px;background:var(--panel2);
+    border:1px solid var(--line);border-radius:999px;padding:5px 11px;
+    font-size:13px;font-weight:700;}
+  .chip.correct{color:var(--green);} .chip.star{color:var(--star);}
+  .progress{height:5px;background:var(--panel2);width:100%;}
+  .progress > i{display:block;height:100%;width:0;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    transition:width .35s ease;}
+
+  main{max-width:720px;margin:0 auto;padding:16px 16px 120px;}
+
+  .qmeta{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .qnum{font-size:13px;font-weight:800;color:var(--muted);letter-spacing:.5px;}
+  .star-btn{background:none;border:none;cursor:pointer;font-size:26px;line-height:1;
+    filter:grayscale(1) opacity(.45);transition:transform .15s,filter .15s;padding:2px 4px;}
+  .star-btn.on{filter:none;transform:scale(1.12);}
+
+  .year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+  .year-tag{font-size:11.5px;font-weight:700;letter-spacing:.3px;color:var(--accent);
+    background:rgba(76,154,255,.1);border:1px solid rgba(76,154,255,.3);
+    border-radius:6px;padding:3px 9px;}
+
+  .qcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:18px 17px;margin-bottom:14px;font-size:16.5px;}
+
+  .opts{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+  .opt{display:flex;align-items:flex-start;gap:12px;background:var(--panel);
+    border:1.5px solid var(--line);border-radius:13px;padding:13px 14px;cursor:pointer;
+    font-size:16px;transition:border-color .15s,background .15s,transform .05s;
+    text-align:left;color:var(--text);width:100%;}
+  .opt:active{transform:scale(.995);}
+  .opt .k{flex:0 0 26px;height:26px;border-radius:50%;background:var(--panel2);
+    border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:14px;color:var(--muted);}
+  .opt .t{flex:1;padding-top:1px;}
+  .opt:not(.locked):hover{border-color:var(--accent);}
+  .opts.locked .opt{cursor:default;}
+  .opt.correct{border-color:var(--green);background:var(--green-bg);}
+  .opt.correct .k{background:var(--green);border-color:var(--green);color:#fff;}
+  .opt.wrong{border-color:var(--red);background:var(--red-bg);}
+  .opt.wrong .k{background:var(--red);border-color:var(--red);color:#fff;}
+  .opt.dim{opacity:.55;}
+  .opt .mark{flex:0 0 24px;height:26px;display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:18px;line-height:1;}
+  .opt.correct .mark::after{content:"✓";color:var(--green);}
+  .opt.wrong .mark::after{content:"✗";color:var(--red);}
+
+  .hintbtn{display:inline-flex;align-items:center;gap:7px;background:var(--panel2);
+    color:var(--hint);border:1px solid var(--line);border-radius:11px;padding:11px 15px;
+    font-size:14.5px;font-weight:700;cursor:pointer;margin-bottom:14px;}
+  .hintbtn:hover{border-color:var(--hint);}
+
+  .box{border-radius:13px;padding:13px 15px;margin-bottom:11px;font-size:15.5px;
+    border:1px solid var(--line);animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .box .bt{display:flex;align-items:center;gap:8px;font-weight:800;margin-bottom:6px;
+    font-size:14px;letter-spacing:.3px;}
+  .box.ip{background:rgba(63,182,168,.08);border-color:rgba(63,182,168,.35);}
+  .box.ip .bt{color:var(--hint);}
+  .box.tz{background:rgba(255,91,91,.07);border-color:rgba(255,91,91,.32);}
+  .box.tz .bt{color:var(--trap);}
+  .box.ac{background:rgba(180,135,255,.08);border-color:rgba(180,135,255,.32);}
+  .box.ac .bt{color:var(--exp);}
+
+  .nav{position:fixed;bottom:0;left:0;right:0;z-index:40;background:var(--panel);
+    border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+    display:flex;gap:10px;max-width:720px;margin:0 auto;align-items:stretch;}
+  .nav button{border:1px solid var(--line);border-radius:12px;padding:14px;
+    font-size:15.5px;font-weight:800;cursor:pointer;background:var(--panel2);color:var(--text);}
+  .nav .prev,.nav .next{flex:1;}
+  .nav .list{flex:0 0 auto;min-width:66px;color:var(--muted);font-size:13px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.1;}
+  .nav .list .lc{font-size:16px;}
+  .nav .next{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+  .nav button:disabled{opacity:.4;cursor:not-allowed;}
+
+  /* Question-list modal (bottom sheet) */
+  .modal-ov{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.55);
+    display:none;align-items:flex-end;justify-content:center;}
+  .modal-ov.show{display:flex;animation:fade .2s ease;}
+  .modal{width:100%;max-width:720px;background:var(--panel);
+    border-top-left-radius:20px;border-top-right-radius:20px;
+    border:1px solid var(--line);border-bottom:none;padding:16px 16px 26px;
+    max-height:72vh;overflow:auto;animation:slideup .28s ease;}
+  @keyframes slideup{from{transform:translateY(30px);opacity:.6;}to{transform:none;opacity:1;}}
+  .modal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .modal-h span{font-size:15px;font-weight:800;letter-spacing:.3px;}
+  .modal-h .close{background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    border-radius:9px;width:34px;height:34px;font-size:16px;cursor:pointer;font-weight:800;}
+  .qgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;}
+  .gbtn{aspect-ratio:1/1;border-radius:10px;border:1.5px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:14px;font-weight:800;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;position:relative;}
+  .gbtn.ok{background:var(--green-bg);border-color:var(--green);color:var(--green);}
+  .gbtn.no{background:var(--red-bg);border-color:var(--red);color:var(--red);}
+  .gbtn.cur{outline:2px solid var(--accent);outline-offset:1px;}
+  .gbtn.star::after{content:"";position:absolute;top:3px;right:3px;width:7px;height:7px;
+    border-radius:50%;background:var(--star);}
+
+  /* Result */
+  .result{display:none;}
+  .result.show{display:block;animation:fade .4s ease;}
+  .score-ring{display:flex;flex-direction:column;align-items:center;justify-content:center;
+    width:170px;height:170px;margin:8px auto 6px;border-radius:50%;
+    background:conic-gradient(var(--accent) var(--pct,0%),var(--panel2) 0);}
+  .score-ring .inner{width:138px;height:138px;border-radius:50%;background:var(--bg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .score-ring .big{font-size:34px;font-weight:900;}
+  .score-ring .sub{font-size:13px;color:var(--muted);font-weight:700;}
+  .pctline{text-align:center;font-size:20px;font-weight:900;margin:2px 0 4px;}
+  .fb{text-align:center;color:var(--muted);font-size:15px;margin-bottom:14px;}
+  .result-stats{display:flex;gap:10px;justify-content:center;margin-bottom:22px;flex-wrap:wrap;}
+  .rstat{background:var(--panel);border:1px solid var(--line);border-radius:11px;
+    padding:9px 15px;font-size:13.5px;font-weight:800;}
+  .rstat.g{color:var(--green);} .rstat.r{color:var(--red);} .rstat.s{color:var(--star);}
+  .review-h{font-size:14px;font-weight:800;color:var(--muted);letter-spacing:.4px;
+    margin:6px 0 10px;}
+  .rev{display:flex;align-items:center;gap:11px;background:var(--panel);
+    border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:9px;
+    cursor:pointer;transition:border-color .15s;}
+  .rev:hover{border-color:var(--accent);}
+  .rev .badge{flex:0 0 auto;width:24px;height:24px;border-radius:6px;font-size:15px;
+    display:flex;align-items:center;justify-content:center;font-weight:900;}
+  .rev .badge.ok{background:var(--green-bg);color:var(--green);}
+  .rev .badge.no{background:var(--red-bg);color:var(--red);}
+  .rev .badge.blank{background:var(--panel2);color:var(--muted);}
+  .rev .rq{flex:1;font-size:14px;}
+  .rev .ra{font-size:12.5px;color:var(--muted);margin-top:2px;}
+  .rev .ra b{color:var(--green);}
+  .result-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+  .ract{width:100%;padding:15px;border-radius:13px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:15px;font-weight:800;cursor:pointer;}
+  .ract:hover{border-color:var(--accent);}
+  .ract.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+  .ract:disabled{opacity:.4;cursor:not-allowed;}
+
+  /* Resume prompt */
+  .resume-ov{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.6);
+    display:none;align-items:center;justify-content:center;padding:20px;}
+  .resume-ov.show{display:flex;animation:fade .2s ease;}
+  .resume-box{width:100%;max-width:420px;background:var(--panel);border:1px solid var(--line);
+    border-radius:18px;padding:22px 20px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.5);}
+  .resume-t{font-size:18px;font-weight:900;margin-bottom:8px;}
+  .resume-s{font-size:14px;color:var(--muted);margin-bottom:18px;line-height:1.5;}
+  .resume-btns{display:flex;flex-direction:column;gap:10px;}
+  .resume-btn{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:15px;font-weight:800;cursor:pointer;}
+  .resume-btn:hover{border-color:var(--accent);}
+  .resume-btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+
+
+  /* ================= EĞLENCE KATMANI ================= */
+  #fxCanvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:90;}
+  .emoji-pop{position:fixed;font-size:36px;pointer-events:none;z-index:95;
+    will-change:transform,opacity;animation:floatUp 1.7s cubic-bezier(.2,.7,.3,1) forwards;}
+  @keyframes floatUp{
+    0%{opacity:0;transform:translate(0,0) scale(.4) rotate(0deg);}
+    12%{opacity:1;transform:translate(0,-14px) scale(1.25) rotate(0deg);}
+    100%{opacity:0;transform:translate(var(--dx,0px),-190px) scale(1.05) rotate(var(--rot,25deg));}
+  }
+  .emoji-drop{position:fixed;font-size:30px;pointer-events:none;z-index:95;
+    animation:dropDown 1.5s ease-in forwards;}
+  @keyframes dropDown{
+    0%{opacity:0;transform:translateY(-30px) scale(.6) rotate(0deg);}
+    15%{opacity:1;}
+    100%{opacity:0;transform:translateY(150px) scale(1) rotate(var(--rot,-20deg));}
+  }
+  .shake{animation:shakeX .55s cubic-bezier(.36,.07,.19,.97) both;}
+  @keyframes shakeX{
+    10%,90%{transform:translateX(-2px);} 20%,80%{transform:translateX(4px);}
+    30%,50%,70%{transform:translateX(-8px);} 40%,60%{transform:translateX(8px);}
+  }
+  .opt.correct{animation:popOk .55s cubic-bezier(.2,1.4,.4,1);
+    box-shadow:0 0 22px rgba(46,160,67,.45);}
+  @keyframes popOk{0%{transform:scale(1);}35%{transform:scale(1.035);}100%{transform:scale(1);}}
+  .opt.wrong{animation:wobbleNo .5s;}
+  @keyframes wobbleNo{
+    0%,100%{transform:translateX(0);}20%{transform:translateX(-6px);}
+    40%{transform:translateX(6px);}60%{transform:translateX(-4px);}80%{transform:translateX(4px);}
+  }
+  .mascot{position:absolute;right:12px;top:50%;font-size:26px;line-height:1;
+    transform:translateY(-50%);animation:mascotDance .7s ease-in-out infinite alternate;
+    pointer-events:none;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4));}
+  @keyframes mascotDance{
+    from{transform:translateY(-42%) rotate(-12deg) scale(1);}
+    to{transform:translateY(-62%) rotate(12deg) scale(1.18);}
+  }
+  .streak{position:fixed;left:50%;top:22%;transform:translateX(-50%) scale(.6);
+    font-size:22px;font-weight:900;color:var(--star);z-index:96;opacity:0;
+    text-shadow:0 3px 14px rgba(0,0,0,.6);pointer-events:none;
+    animation:streakPop 1.5s ease-out forwards;white-space:nowrap;}
+  @keyframes streakPop{
+    0%{opacity:0;transform:translateX(-50%) scale(.5);}
+    20%{opacity:1;transform:translateX(-50%) scale(1.15);}
+    75%{opacity:1;transform:translateX(-50%) scale(1);}
+    100%{opacity:0;transform:translateX(-50%) scale(1) translateY(-24px);}
+  }
+  .score-ring{animation:ringIn .8s cubic-bezier(.2,1.2,.3,1);}
+  @keyframes ringIn{from{transform:scale(.75) rotate(-12deg);opacity:0;}to{transform:none;opacity:1;}}
+
+  /* Toast */
+  .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);
+    background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    padding:11px 18px;border-radius:11px;font-size:14px;font-weight:700;z-index:80;
+    opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 6px 20px rgba(0,0,0,.4);}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<header id="hdr">
+  <div class="hbar">
+    <div class="htitle">Pediatri · Göğüs Hastalıkları (TAM BÖLÜM) <span>TTS</span></div>
+    <div class="stats">
+      <div class="chip correct">✓ <span id="cCount">0</span></div>
+      <div class="chip star">⭐ <span id="sCount">0</span></div>
+    </div>
+  </div>
+  <div class="progress"><i id="bar"></i></div>
+</header>
+
+<main id="main">
+  <div id="quiz"></div>
+
+  <div class="result" id="result">
+    <div class="score-ring" id="ring">
+      <div class="inner">
+        <div class="big" id="scoreBig">0/0</div>
+        <div class="sub">DOĞRU</div>
+      </div>
+    </div>
+    <div class="pctline" id="pctLine">%0</div>
+    <div class="fb" id="fbText"></div>
+    <div class="result-stats" id="rStats"></div>
+    <div class="review-h">SORU İNCELEMESİ</div>
+    <div id="reviewList"></div>
+    <div class="result-actions">
+      <button class="ract primary" onclick="restart()">↺ Tüm Soruları Yeniden Çöz</button>
+      <button class="ract" id="retryWrongBtn" onclick="retryWrong()">✗ Yanlışları Tekrar Çöz</button>
+      <button class="ract" id="retryStarBtn" onclick="retryStar()">⭐ Yıldızlıları Tekrar Çöz</button>
+    </div>
+  </div>
+</main>
+
+<div class="nav" id="nav">
+  <button class="prev" id="prevBtn" onclick="go(-1)">← Önceki</button>
+  <button class="list" id="listBtn" onclick="openModal()"><span class="lc">☰</span><span id="navCounter">0/0</span></button>
+  <button class="next" id="nextBtn" onclick="go(1)">Sonraki →</button>
+</div>
+
+<div class="modal-ov" id="modalOv" onclick="modalBg(event)">
+  <div class="modal">
+    <div class="modal-h"><span>Sorular</span><button class="close" onclick="closeModal()">✕</button></div>
+    <div class="qgrid" id="qGrid"></div>
+  </div>
+</div>
+
+<div class="resume-ov" id="resumeOv">
+  <div class="resume-box">
+    <div class="resume-t">↩ Kaldığın yerden devam?</div>
+    <div class="resume-s" id="resumeSub"></div>
+    <div class="resume-btns">
+      <button class="resume-btn primary" onclick="resumeYes()">Kaldığım yerden devam et</button>
+      <button class="resume-btn" onclick="resumeNo()">Baştan başla</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   QUESTIONS — SADECE BU DİZİ DEĞİŞİR.
+   Her obje: { yil?, soru, siklar[5], dogru(0-4), ipucu, tuzak, aciklama }
+   ========================================================= */
+const QUESTIONS = [
+  {
+    "yil": [
+      "İlkbahar 2002"
+    ],
+    "soru": "<b>İzole aortik ark anomalilerinin</b> tanısında aşağıdakilerden hangisinin yardımcı olma olasılığı <mark>en düşüktür</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Telekardiyogram"
+      },
+      {
+        "k": "B",
+        "t": "Ekokardiyogram"
+      },
+      {
+        "k": "C",
+        "t": "Bilgisayarlı tomografi"
+      },
+      {
+        "k": "D",
+        "t": "Baryumlu özefagus grafisi"
+      },
+      {
+        "k": "E",
+        "t": "Manyetik rezonans görüntüleme"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Direkt grafinin değeri?",
+    "tuzak": "<mark>Telekardiyogram</mark> (direkt grafi) vasküler ring tanısında değersizdir.",
+    "aciklama": "Vasküler ring anomalilerinde (en sık çift aortik ark) <b>direkt grafilerin tanısal değeri yok denecek kadar azdır</b>. Baryumlu özefagus grafisi, EKO, BT ve MR tanıda yardımcıdır."
+  },
+  {
+    "yil": [
+      "Sonbahar 2025"
+    ],
+    "soru": "Aşağıdakilerden hangisinin çocuklarda <b>stridora</b> yol açması <mark>en az olasıdır</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Epiglottit"
+      },
+      {
+        "k": "B",
+        "t": "Vokal kord disfonksiyonu"
+      },
+      {
+        "k": "C",
+        "t": "Subglottik stenoz"
+      },
+      {
+        "k": "D",
+        "t": "Hipersensitivite pnömonisi"
+      },
+      {
+        "k": "E",
+        "t": "Laringomalazi"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Alveoler mi üst solunum yolu mu?",
+    "tuzak": "<mark>Hipersensitivite pnömonisi</mark> alveoler patolojidir → stridor yapmaz.",
+    "aciklama": "Krikoid kıkırdağın üstündeki (üst solunum yolu) obstrüksiyonlarda <b>inspiratuvar stridor</b>, altındakilerde wheezing duyulur. <b>Hipersensitivite pnömonisi</b> alveolleri tuttuğundan stridor yapmaz."
+  },
+  {
+    "yil": [
+      "İlkbahar 89"
+    ],
+    "soru": "<b>Konjenital diyafragma hernisi</b> bulunan bir çocukta <mark>mortaliteyi artıran en önemli neden</mark> aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Patent duktus arteriyozus"
+      },
+      {
+        "k": "B",
+        "t": "Hipoplazik akciğer"
+      },
+      {
+        "k": "C",
+        "t": "Ventriküler septal defekt"
+      },
+      {
+        "k": "D",
+        "t": "Mediastinal kayma"
+      },
+      {
+        "k": "E",
+        "t": "Karın içi basınç artımı"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Prognozu belirleyen.",
+    "tuzak": "Prognozu belirleyen asıl ölçüt <mark>akciğer hipoplazisi</mark>.",
+    "aciklama": "Konjenital (Bochdalek, %90 sol posterolateral) diyafragma hernisinde mortaliteyi belirleyen asıl faktör <b>akciğer hipoplazisi</b>dir; ECMO şartlarına sahip merkezde opere edilmelidir. Tanı göğüs grafisiyle konur."
+  },
+  {
+    "yil": [
+      "Sonbahar 96"
+    ],
+    "soru": "Bir çocukta <b>sternokleidomastoid kasının medialinde</b> kitle palpe ediliyor ve zaman zaman dışarı <b>fistülize</b> olduğu öğreniliyor. En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Dermoid kist"
+      },
+      {
+        "k": "B",
+        "t": "Brankial kist"
+      },
+      {
+        "k": "C",
+        "t": "Kistik higroma"
+      },
+      {
+        "k": "D",
+        "t": "Tiroglossal kist"
+      },
+      {
+        "k": "E",
+        "t": "Hemanjiom"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Lateral yerleşim.",
+    "tuzak": "SCM'nin <mark>medialinde/önünde lateral</mark> yerleşim → brankial kist (orta hatta olsaydı tiroglossal).",
+    "aciklama": "<b>Brankial kist</b> boyun yan tarafında, sternokleidomastoid kasının önünde/medialinde yerleşir; ÜSYE sırasında enfekte olup fistülize olabilir. Tiroglossal kist orta hatta yerleşir ve yutkunmakla hareket eder."
+  },
+  {
+    "yil": [
+      "İlkbahar 97"
+    ],
+    "soru": "Çocuklarda <b>pulmoner hipoplaziye en sık eşlik eden</b> durum aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Pilor stenozu"
+      },
+      {
+        "k": "B",
+        "t": "Bochdalek hernisi"
+      },
+      {
+        "k": "C",
+        "t": "Trakeoözefageal fistül"
+      },
+      {
+        "k": "D",
+        "t": "Nöroblastom"
+      },
+      {
+        "k": "E",
+        "t": "Kistik fibrozis"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Konjenital diyafragma hernisi.",
+    "tuzak": "Sekonder pulmoner hipoplazinin en sık nedeni <mark>konjenital diyafragma hernisi (Bochdalek)</mark>.",
+    "aciklama": "<b>Bochdalek hernisi</b> (konjenital diyafragma hernisi) sekonder pulmoner hipoplazinin en sık nedenidir; ikinci sırada Potter sendromu gelir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2013 Orijinal"
+    ],
+    "soru": "5 yaşındaki erkek burun tıkanıklığıyla geliyor; muayenede <b>nazal polip</b> saptanıyor. Aşağıdakilerden hangisi bu hasta için olası tanılardan <mark>biri değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Kronik sinüzit"
+      },
+      {
+        "k": "B",
+        "t": "Uzun süreli intranazal steroid kullanımı"
+      },
+      {
+        "k": "C",
+        "t": "Astım"
+      },
+      {
+        "k": "D",
+        "t": "Kistik fibrozis"
+      },
+      {
+        "k": "E",
+        "t": "Allerjik rinit"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Steroid polip yapar mı?",
+    "tuzak": "<mark>İntranazal steroid</mark> polip yapmaz; aksine polip TEDAVİSİNDE kullanılır.",
+    "aciklama": "Çocuklarda nazal polibin en sık nedeni <b>kistik fibrozis</b>, ikinci sırada allerjik rinittir; astım ve kronik sinüzitte de görülür. <b>İntranazal steroidler</b> polip tedavisinde kullanılır, neden değildir."
+  },
+  {
+    "yil": [
+      "1988-2013"
+    ],
+    "soru": "Yenidoğanlarda görülen <b>inspiratuar stridorun en sık nedeni</b> aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Laringomalazi"
+      },
+      {
+        "k": "B",
+        "t": "Vokal kord paralizisi"
+      },
+      {
+        "k": "C",
+        "t": "Subglottik stenoz"
+      },
+      {
+        "k": "D",
+        "t": "Trakeal kist"
+      },
+      {
+        "k": "E",
+        "t": "Larengeal kist"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Larinksin en sık konjenital anomalisi.",
+    "tuzak": "Yenidoğanda ısrarcı stridorun en sık nedeni <mark>laringomalazi</mark> (%60-70).",
+    "aciklama": "<b>Laringomalazi</b> larinksin en sık konjenital anomalisidir ve süt çocuğunda persistan inspiratuvar stridorun en sık nedenidir (%60-70). Ağlama/beslenme/supin pozisyonla artar, prone/baş ekstansiyonuyla azalır; 12-18. ayda kendiliğinden düzelir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2019 Orijinal"
+    ],
+    "soru": "1 yaşındaki kız kronik stridorla izleniyor; <b>30 haftalık doğmuş</b> ve yenidoğan döneminde <b>3 hafta entübe</b> kalmış. Kronik stridorun en olası nedeni hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Koanal atrezi"
+      },
+      {
+        "k": "B",
+        "t": "Vokal kord disfonksiyonu"
+      },
+      {
+        "k": "C",
+        "t": "Vasküler ring"
+      },
+      {
+        "k": "D",
+        "t": "Subglottik stenoz"
+      },
+      {
+        "k": "E",
+        "t": "Laringomalazi"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Uzun süreli entübasyon.",
+    "tuzak": "Uzun entübasyon → edinsel <mark>subglottik stenoz</mark>.",
+    "aciklama": "<b>Subglottik stenoz</b> laringomalaziden sonra 2. sık laringeal anomalidir; en önemli edinsel nedeni <b>uzun süreli entübasyon</b>dur. Ekspiryumda belirgin hırıltı yapar."
+  },
+  {
+    "yil": [
+      "Sonbahar 2019 BENZERİ"
+    ],
+    "soru": "28 haftalık doğan ve <b>4 hafta entübe kalan</b> 8 aylık hasta, taburculuktan beri süren <b>stridor</b> nedeniyle geliyor; ek patoloji yok. En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Laringeal papillomatozis"
+      },
+      {
+        "k": "B",
+        "t": "Çift aortik ark"
+      },
+      {
+        "k": "C",
+        "t": "Subglottik stenoz"
+      },
+      {
+        "k": "D",
+        "t": "Bronşiolit"
+      },
+      {
+        "k": "E",
+        "t": "Vokal kord paralizisi"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Entübasyon öyküsü.",
+    "tuzak": "Uzun entübasyon sonrası kalıcı stridor → <mark>subglottik stenoz</mark>.",
+    "aciklama": "Uzun süreli entübasyon sonrası taburculuktan beri devam eden stridor <b>edinsel subglottik stenoz</b>u gösterir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2019 Orijinal"
+    ],
+    "soru": "8 aylık kız <b>doğduğu günden beri</b> öksürük ve hışıltıyla geliyor; enfeksiyonlarda artıyor, arada da sürüyor, <b>bronkodilatör ve inhale steroid fayda etmemiş</b>. Muayenede <b>bifazik stridor</b> var; büyüme normal, akciğer grafisi ve immünoglobulinler normal. En olası ön tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Alerjik rinit"
+      },
+      {
+        "k": "B",
+        "t": "Sinüzit"
+      },
+      {
+        "k": "C",
+        "t": "Vasküler halka"
+      },
+      {
+        "k": "D",
+        "t": "Astım"
+      },
+      {
+        "k": "E",
+        "t": "Burunda yabancı cisim"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Tedaviye yanıtsız bifazik stridor.",
+    "tuzak": "Bifazik stridor + <mark>bronkodilatör/steroide yanıtsızlık</mark> → vasküler halka.",
+    "aciklama": "Doğuştan beri süren, bronkodilatör+steroide yanıtsız <b>bifazik stridor ve hışıltı</b> → <b>vasküler halka</b>. Trakea ve özofagusa bası yaptığı için solunum sıkıntısı + yutma güçlüğü birlikte olur."
+  },
+  {
+    "yil": [
+      "Sonbahar 2019 BENZERİ"
+    ],
+    "soru": "<b>I.</b> Bifazik stridor<br><b>II.</b> Yutma güçlüğü<br><b>III.</b> Tekrarlayan hışıltı<br><b>IV.</b> Akciğer grafisinde plevral efüzyon<br><b>V.</b> İnhaler steroid tedavisine iyi yanıt<br>Yukarıdakilerden hangileri çocuklarda <b>vasküler halkayı</b> düşündüren klinik özelliklerden <mark>değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Sadece I"
+      },
+      {
+        "k": "B",
+        "t": "I ve IV"
+      },
+      {
+        "k": "C",
+        "t": "IV ve V"
+      },
+      {
+        "k": "D",
+        "t": "II ve V"
+      },
+      {
+        "k": "E",
+        "t": "I, II ve III"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Steroide yanıt ve efüzyon.",
+    "tuzak": "Vasküler halka <mark>steroide yanıt vermez</mark> ve plevral efüzyon yapmaz → IV ve V.",
+    "aciklama": "Vasküler halkada bifazik stridor (I), yutma güçlüğü (II) ve tekrarlayan hışıltı (III) beklenir. <b>Plevral efüzyon (IV) ve inhaler steroide iyi yanıt (V)</b> beklenmez."
+  },
+  {
+    "yil": [
+      "Sonbahar 2023"
+    ],
+    "soru": "5 aylık bebek 1 aylıktan beri gürültülü solunum, hışıltı, öksürük, apne ve siyanoz ataklarıyla geliyor; <b>başını geriye attığında gürültülü solunum azalıyor</b>. Baryumlu özofagus grafisinde <b>özofagusta bası</b> saptanıyor. En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Kistik fibrozis"
+      },
+      {
+        "k": "B",
+        "t": "Primer siliyer diskinezi"
+      },
+      {
+        "k": "C",
+        "t": "Vasküler halka"
+      },
+      {
+        "k": "D",
+        "t": "Trakeoözofageal fistül"
+      },
+      {
+        "k": "E",
+        "t": "Konjenital lober amfizem"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Özofagusa bası.",
+    "tuzak": "Solunum sıkıntısı + <mark>özofagus basısı</mark> (yutma güçlüğü) birlikte → vasküler halka.",
+    "aciklama": "<b>Vasküler halka</b> hem trakeaya hem özofagusa bası yapar → stridor + yutma güçlüğü; baryumlu özofagus grafisinde bası gösterilir. Boyun ekstansiyonuyla semptom hafifler."
+  },
+  {
+    "yil": [
+      "İlkbahar 2024"
+    ],
+    "soru": "Aşağıdaki akciğer gelişim anomalilerinden hangisinde etkilenmiş akciğer alanını besleyen ve sıklıkla <b>aortadan ayrılan ayrı bir arter</b> vardır?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Pulmoner sekestrasyon"
+      },
+      {
+        "k": "B",
+        "t": "Konjenital lober amfizem"
+      },
+      {
+        "k": "C",
+        "t": "Konjenital kistik adenomatoid malformasyon"
+      },
+      {
+        "k": "D",
+        "t": "Pulmoner hipoplazi"
+      },
+      {
+        "k": "E",
+        "t": "Bronkojenik kist"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Sistemik dolaşımdan beslenen.",
+    "tuzak": "Aortadan beslenen fonksiyonsuz akciğer dokusu → <mark>pulmoner sekestrasyon</mark>.",
+    "aciklama": "<b>Pulmoner sekestrasyon</b>: arterini doğrudan sistemik dolaşımdan (aortadan) alan, fonksiyon görmeyen, normal akciğerden ayrı embriyonik doku. %60 sol alt lobda; tekrarlayan enfeksiyon/apse yapar, tedavi cerrahidir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2002"
+    ],
+    "soru": "3 aylık bebekte akciğer grafisinde <b>yelken görünümünde ön mediastinal kitle</b> saptanıyor. En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Rabdomyosarkom"
+      },
+      {
+        "k": "B",
+        "t": "Persistan timus"
+      },
+      {
+        "k": "C",
+        "t": "Özefagus duplikasyonu"
+      },
+      {
+        "k": "D",
+        "t": "Lenfoma"
+      },
+      {
+        "k": "E",
+        "t": "Nöroblastom"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Normal varyant.",
+    "tuzak": "Yelken (sail sign) görünümü → <mark>persistan timus</mark> (normal varyant).",
+    "aciklama": "Yenidoğan ve infantlarda <b>persistan timus</b> akciğer grafisinde 'yelken (sail sign)' görünümü yapar; normalin varyantıdır, timus involüe oldukça kaybolur. Nöroblastom/özofagus duplikasyonu arka mediastendedir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2013 Orijinal"
+    ],
+    "soru": "Ani solunum sıkıntısı gelişen 15 yaşındaki hastada solunum sesleri bir tarafta azalmış, perküsyonda <b>hiperrezonans</b>, <b>trakeal şift</b> ve boyun venlerinde belirginleşme var; kalp sesleri normal. En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Kardiyomiyopati"
+      },
+      {
+        "k": "B",
+        "t": "Kardiyak tamponad"
+      },
+      {
+        "k": "C",
+        "t": "Masif hemotoraks"
+      },
+      {
+        "k": "D",
+        "t": "Akut kalp yetmezliği"
+      },
+      {
+        "k": "E",
+        "t": "Tansiyon pnömotoraks"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Hiperrezonans + trakeal şift.",
+    "tuzak": "<mark>Hiperrezonans</mark> + trakeal şift → tansiyon pnömotoraks (hemotoraksta matite olurdu).",
+    "aciklama": "<b>Tansiyon pnömotoraks</b>: ani solunum sıkıntısı, tek taraflı solunum sesi azlığı, perküsyonda <b>hiperrezonans</b>, trakeal şift, boyun venlerinde dolgunluk. Kesin tanı akciğer grafisidir; masif hemotoraksta matite alınır."
+  },
+  {
+    "yil": [
+      "Sonbahar 2013 BENZERİ"
+    ],
+    "soru": "Tansiyon pnömotoraks gelişen adolesan hastalarda aşağıdaki klinik/laboratuvar bulgularından hangisi <mark>yanlıştır</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Solunum sesleri azalır"
+      },
+      {
+        "k": "B",
+        "t": "Akciğer grafisi ile tanı konabilir"
+      },
+      {
+        "k": "C",
+        "t": "Trakeal şift gözlenir"
+      },
+      {
+        "k": "D",
+        "t": "Boyun venleri dolgunlaşır"
+      },
+      {
+        "k": "E",
+        "t": "Perküsyonda belirgin matite alınır"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Hava mı sıvı mı?",
+    "tuzak": "Pnömotoraksta <mark>hiperrezonans</mark> alınır (matite değil).",
+    "aciklama": "Tansiyon pnömotoraksta perküsyonda <b>hiperrezonans</b> alınır; matite plevral sıvı/hemotoraks bulgusudur."
+  },
+  {
+    "yil": [
+      "İlkbahar 2015 Orijinal"
+    ],
+    "soru": "10 aylık bebek doğduğundan beri öksürük, burun akıntısı ve tekrarlayan ÜSYE ile geliyor; akraba evliliği var, 8 yaşındaki kardeşinde tekrarlayan sinüzit ve <b>polikistik böbrek hastalığı</b> var. Muayenede burun akıntısı, <b>seröz otit</b>, akciğerde ral ve ronküsler saptanıyor. En uygun tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Primer siliyer diskinezi"
+      },
+      {
+        "k": "B",
+        "t": "Trakeoözofageal fistül"
+      },
+      {
+        "k": "C",
+        "t": "Konjenital lober amfizem"
+      },
+      {
+        "k": "D",
+        "t": "Humoral immün yetmezlik"
+      },
+      {
+        "k": "E",
+        "t": "Gastroözefageal reflü"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Otit + sinüzit + pnömoni üçlüsü.",
+    "tuzak": "Otit + sinüzit + pnömoni + aile öyküsü → <mark>primer siliyer diskinezi</mark> (nadiren polikistik böbrek eşlik eder).",
+    "aciklama": "<b>Primer siliyer diskinezi (immotil silia sendromu)</b>: doğumdan itibaren kronik rinit, tekrarlayan otit/sinüzit/pnömoni; nadiren polikistik böbrek ve hidrosefali eşlik eder. Humoral immün yetmezlikte ilk 6 ayda enfeksiyon beklenmez."
+  },
+  {
+    "yil": [
+      "İlkbahar 2015 BENZERİ"
+    ],
+    "soru": "Doğduğundan beri tekrarlayan pnömoni ve otitis media öyküsü olan, her iki akciğerinde <b>bronşiektazi</b> ve <b>dekstrokardi</b> saptanan 10 yaşındaki çocukta öncelikle hangi tanı düşünülmelidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Kartagener sendromu"
+      },
+      {
+        "k": "B",
+        "t": "Wiskott-Aldrich sendromu"
+      },
+      {
+        "k": "C",
+        "t": "Konjenital lober amfizem"
+      },
+      {
+        "k": "D",
+        "t": "DiGeorge sendromu"
+      },
+      {
+        "k": "E",
+        "t": "Sandifer sendromu"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Dekstrokardi = situs inversus.",
+    "tuzak": "Bronşiektazi + otit/sinüzit + <mark>dekstrokardi</mark> → Kartagener.",
+    "aciklama": "<b>Kartagener sendromu</b> (OR): situs inversus (dekstrokardi) + kronik sinüzit + bronşiektazi triadı; primer siliyer diskinezinin klasik formudur. Erkek infertilitesi eşlik eder."
+  },
+  {
+    "yil": [
+      "İlkbahar 90"
+    ],
+    "soru": "Bir çocukta bol balgam çıkarma, sık tekrarlayan akciğer infeksiyonları, sinüzit ve <b>situs inversus</b> varlığında en olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Kartagener sendromu"
+      },
+      {
+        "k": "B",
+        "t": "Sinopulmoner infeksiyon"
+      },
+      {
+        "k": "C",
+        "t": "Kistik fibrozis"
+      },
+      {
+        "k": "D",
+        "t": "DiGeorge sendromu"
+      },
+      {
+        "k": "E",
+        "t": "Selektif IgA yetmezliği"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Situs inversus ayırt eder.",
+    "tuzak": "KF de sinüzit/enfeksiyon yapar ama <mark>situs inversus</mark> yapmaz → Kartagener.",
+    "aciklama": "Sinüzit + tekrarlayan akciğer enfeksiyonu + <b>situs inversus</b> → <b>Kartagener sendromu</b>. Kistik fibroziste situs inversus görülmez."
+  },
+  {
+    "yil": [
+      "İlkbahar-93"
+    ],
+    "soru": "<b>Kartagener sendromu</b> tanısı konulan bir hastada aşağıdaki bulgulardan hangisinin bulunması beklenir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Kronik sinüzit + Akut akciğer enfeksiyonu"
+      },
+      {
+        "k": "B",
+        "t": "Kronik sinüzit + Kronik bronşit"
+      },
+      {
+        "k": "C",
+        "t": "Kronik sinüzit + Sağırlık"
+      },
+      {
+        "k": "D",
+        "t": "Kronik sinüzit + Kronik bronşit + Dekstrokardi"
+      },
+      {
+        "k": "E",
+        "t": "Kronik sinüzit + Pulmoner hipertansiyon"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Klasik triad.",
+    "tuzak": "Kartagener triadı: <mark>situs inversus (dekstrokardi) + kronik sinüzit + bronşit/bronşektazi</mark>.",
+    "aciklama": "<b>Kartagener triadı</b>: situs inversus (dekstrokardi), kronik sinüzit ve kronik bronşit/bronşektazi."
+  },
+  {
+    "yil": [
+      "İlkbahar 2018 Orijinal"
+    ],
+    "soru": "5 yaşındaki kız devamlı hırıltı ve balgamlı öksürükle geliyor; yenidoğanda solunum sıkıntısı, sonrasında <b>4 kez pnömoni</b>, kronik burun akıntısı, tekrarlayan otit ve <b>işitme kaybı</b> öyküsü var. Muayenede <b>kalp tepe atımı sağ hemitoraksta</b> ve yaygın raller saptanıyor. Öncelikle düşünülmesi gereken tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Pulmoner sekestrasyon"
+      },
+      {
+        "k": "B",
+        "t": "H tipi trakeoözofageal fistül"
+      },
+      {
+        "k": "C",
+        "t": "Ağır kombine immün yetmezlik"
+      },
+      {
+        "k": "D",
+        "t": "Primer siliyer diskinezi"
+      },
+      {
+        "k": "E",
+        "t": "Kistik fibrozis"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Dekstrokardi + otit + pnömoni.",
+    "tuzak": "Siliyalı epitel bölgeleri + <mark>dekstrokardi</mark> → primer siliyer diskinezi (KF'de kardiyak bulgu yok, steatore var).",
+    "aciklama": "Kronik rinit, tekrarlayan pnömoni/otit, işitme kaybı ve <b>dekstrokardi</b> → <b>primer siliyer diskinezi</b> (%50'sinde situs inversus). Kistik fibroziste steatore olur, kardiyak bulgu olmaz."
+  },
+  {
+    "yil": [
+      "İlkbahar 2018 BENZERİ"
+    ],
+    "soru": "<b>Primer siliyer diskinezide</b> aşağıdaki durumlardan hangisinin görülmesi <mark>beklenmez</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Kronik rinit"
+      },
+      {
+        "k": "B",
+        "t": "Nazal polip"
+      },
+      {
+        "k": "C",
+        "t": "Tekrarlayan pnömoni"
+      },
+      {
+        "k": "D",
+        "t": "Steatore"
+      },
+      {
+        "k": "E",
+        "t": "Tekrarlayan otit ve işitme kaybı"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Pankreas tutulur mu?",
+    "tuzak": "<mark>Steatore</mark> kistik fibrozis bulgusudur (ekzokrin pankreas yetmezliği); PSD'de görülmez.",
+    "aciklama": "Primer siliyer diskinezide kronik rinit, nazal polip, tekrarlayan pnömoni/otit ve işitme kaybı görülür. <b>Steatore</b> (ekzokrin pankreas yetmezliği) kistik fibrozis bulgusudur."
+  },
+  {
+    "yil": [
+      "İlkbahar 2020 Orijinal"
+    ],
+    "soru": "<b>Fallot tetralojisi</b> tanısıyla takip edilen 2 aylık kızın <b>iris kolobomu</b> ve <b>koanal atrezisi</b> olduğu öğreniliyor. En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Noonan sendromu"
+      },
+      {
+        "k": "B",
+        "t": "DiGeorge sendromu"
+      },
+      {
+        "k": "C",
+        "t": "CHARGE sendromu"
+      },
+      {
+        "k": "D",
+        "t": "VATER sendromu"
+      },
+      {
+        "k": "E",
+        "t": "VACTERL sendromu"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Koloboma + kalp + koanal atrezi.",
+    "tuzak": "Koanal atreziye en sık eşlik eden sendrom <mark>CHARGE</mark>.",
+    "aciklama": "<b>CHARGE sendromu</b>: <b>C</b>oloboma, <b>H</b>eart (Fallot vb.), <b>A</b>tresia choanae, <b>R</b>etardation (büyüme/gelişme), <b>G</b>enital anomali, <b>E</b>ar anomalisi/sağırlık."
+  },
+  {
+    "yil": [
+      "Sonbahar 2006"
+    ],
+    "soru": "Çocukluk çağında görülen <b>grup A beta-hemolitik streptokok</b> enfeksiyonları ile ilgili aşağıdaki ifadelerden hangisi <mark>yanlıştır</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "En sık rastlanan klinik tablo akut tonsillofarenjittir."
+      },
+      {
+        "k": "B",
+        "t": "Otitis media, sinüzit ve peritonsiller apse pürülan komplikasyonlar arasındadır."
+      },
+      {
+        "k": "C",
+        "t": "En önemli tedavi endikasyonu ARA gibi nonpürülan komplikasyonların önlenmesidir."
+      },
+      {
+        "k": "D",
+        "t": "Hastalığın insidansı 3 yaşın altında en yüksektir."
+      },
+      {
+        "k": "E",
+        "t": "Tedavide ilk seçilecek ilaç penisilindir."
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Hangi yaşta sık?",
+    "tuzak": "GABHS enfeksiyonları <mark>3 yaş ÜSTÜNDE</mark> sıktır (altında değil).",
+    "aciklama": "Grup A streptokok enfeksiyonları genellikle <b>3 yaş üstünde</b> görülür (ifade D yanlış). En sık tablo tonsillofarenjit; tedavi endikasyonu ARA'nın önlenmesi; ilk seçenek penisilindir (direnç bildirilmemiştir)."
+  },
+  {
+    "yil": [
+      "İlkbahar 91"
+    ],
+    "soru": "Boğazda <b>kriptik anjin</b> geçirdikten <b>15 gün sonra</b> tanıyı desteklemek için aşağıdaki laboratuvar bulgularından hangisi en uygundur?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Antistreptolizin-O (ASO)"
+      },
+      {
+        "k": "B",
+        "t": "Kan kültürü"
+      },
+      {
+        "k": "C",
+        "t": "Sedimentasyon"
+      },
+      {
+        "k": "D",
+        "t": "Lökosit sayımı"
+      },
+      {
+        "k": "E",
+        "t": "İdrar kültürü"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Geçirilmiş enfeksiyon kanıtı.",
+    "tuzak": "<mark>ASO</mark> geçirilmiş streptokok enfeksiyonunu gösterir (~15 günde yükselir, erken tanıda kullanılmaz).",
+    "aciklama": "<b>ASO titresi</b> geçirilmiş A grubu streptokok enfeksiyonunun en önemli serolojik kanıtıdır; enfeksiyondan ~15 gün sonra yükselir (erken tanıda kullanılamaz)."
+  },
+  {
+    "yil": [
+      "Sonbahar 2022 Orijinal"
+    ],
+    "soru": "<b>Streptokoksik farenjiti</b> olan 20 kg ağırlığındaki 5 yaşındaki çocuğun tedavisinde aşağıdakilerden hangisi <mark>önerilmez</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Trimetoprim-sulfametoksazol (oral, 10 gün)"
+      },
+      {
+        "k": "B",
+        "t": "Benzatin penisilin G 600.000 IU (IM, tek doz)"
+      },
+      {
+        "k": "C",
+        "t": "Amoksisilin (1000 mg/gün, oral, 10 gün)"
+      },
+      {
+        "k": "D",
+        "t": "Penisilin V (500 mg/gün, oral, 10 gün)"
+      },
+      {
+        "k": "E",
+        "t": "Sefaleksin (40 mg/kg/gün, oral, 10 gün)"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Sülfonamid.",
+    "tuzak": "<mark>TMP-SMX (sülfonamid)</mark> kontrendikedir — geç iyileşme sağlar, ARA riskini artırır.",
+    "aciklama": "Streptokok farenjitinde <b>sülfonamidler (TMP-SMX) kontrendikedir</b>; geç eradikasyon sağladığından ARA riskini artırır. Penisilin (oral/IM), amoksisilin ve sefalosporinler kullanılır."
+  },
+  {
+    "yil": [
+      "Sonbahar 2000"
+    ],
+    "soru": "<b>Akut farenjit</b> etyolojisinde <mark>en az rol oynayan</mark> etken aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Streptococcus pyogenes"
+      },
+      {
+        "k": "B",
+        "t": "Corynebacterium diphtheriae"
+      },
+      {
+        "k": "C",
+        "t": "Pseudomonas aeruginosa"
+      },
+      {
+        "k": "D",
+        "t": "Mycoplasma pneumoniae"
+      },
+      {
+        "k": "E",
+        "t": "Neisseria gonorrhoeae"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Fırsatçı patojen.",
+    "tuzak": "<mark>Pseudomonas</mark> normal immüniteli çocukta farenjit yapmaz (KF/YBÜ/immünsüprese hastada akciğer enfeksiyonu yapar).",
+    "aciklama": "Akut farenjitin en sık nedeni virüslerdir; en sık bakteriyel etken A grubu beta hemolitik streptokoktur. <b>Pseudomonas aeruginosa</b> normal immüniteli hastalarda nadir bir farenjit etkenidir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2016 Orijinal"
+    ],
+    "soru": "7 yaşındaki erkek 3 gündür ateş, boğaz ağrısı, halsizlik ve boyunda şişmeyle geliyor; farinks-tonsiller hiperemik, <b>servikal ve inguinal LAP</b>, <b>dalak 2 cm</b>. <b>Monospot testi pozitif</b>. En uygun yaklaşım hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Asiklovir tedavisi"
+      },
+      {
+        "k": "B",
+        "t": "Amoksisilin tedavisi"
+      },
+      {
+        "k": "C",
+        "t": "Gansiklovir tedavisi"
+      },
+      {
+        "k": "D",
+        "t": "Semptomatik tedavi"
+      },
+      {
+        "k": "E",
+        "t": "Sidofovir tedavisi"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "EBV mononükleoz.",
+    "tuzak": "EBV mononükleozda tedavi <mark>semptomatiktir</mark>; amoksisilin verilirse döküntü çıkar.",
+    "aciklama": "Monospot (+) + ateş + farenjit + yaygın LAP + splenomegali → <b>enfeksiyöz mononükleoz (EBV)</b>. Tedavi <b>semptomatiktir</b>; ampisilin/amoksisilin verilirse makülopapüler döküntü gelişir. Splenik rüptür riski nedeniyle temas sporları yasaklanır."
+  },
+  {
+    "yil": [
+      "Sonbahar 2016 BENZERİ"
+    ],
+    "soru": "<b>Enfeksiyöz mononükleoz</b> sendromunda en uygun tedavi yaklaşımı aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Amoksisilin-klavulanik asit"
+      },
+      {
+        "k": "B",
+        "t": "Asiklovir"
+      },
+      {
+        "k": "C",
+        "t": "Gansiklovir"
+      },
+      {
+        "k": "D",
+        "t": "Semptomatik tedavi"
+      },
+      {
+        "k": "E",
+        "t": "Enfuvirtid"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Özgül antiviral gerekmez.",
+    "tuzak": "EBV mononükleozda <mark>semptomatik tedavi</mark> (antiviral/antibiyotik değil).",
+    "aciklama": "Enfeksiyöz mononükleozda (EBV) özgül antiviral tedavi endike değildir; <b>semptomatik tedavi</b> uygulanır (istirahat, analjezik/antipiretik)."
+  },
+  {
+    "yil": [
+      "İlkbahar 2002"
+    ],
+    "soru": "<b>Enfeksiyöz mononükleozda</b>, periferik yaymada görülen tipik bulgu aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Downey hücreleri"
+      },
+      {
+        "k": "B",
+        "t": "Pelger-Huet anomalisi"
+      },
+      {
+        "k": "C",
+        "t": "Toksik granülasyon"
+      },
+      {
+        "k": "D",
+        "t": "Döhle cisimcikleri"
+      },
+      {
+        "k": "E",
+        "t": "Hipogranülasyon"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Atipik lenfositler.",
+    "tuzak": "EBV → <mark>Downey hücreleri</mark> (atipik lenfositler).",
+    "aciklama": "Enfeksiyöz mononükleozda periferik yaymada <b>Downey hücreleri (atipik lenfositler)</b> görülür: büyük, parçalı çekirdekli, vakuollü bazofil sitoplazmalı. Lenfositlerin %30'a kadarı anormal olabilir."
+  },
+  {
+    "yil": [
+      "Eylül 97"
+    ],
+    "soru": "Çocuklarda sinüzit, otitis media, menenjit gibi tablolar oluşturan ve kanlı agarda <b>V faktörü diski</b> yerleştirilerek izole edilen bakteri aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Streptococcus pyogenes"
+      },
+      {
+        "k": "B",
+        "t": "Staphylococcus aureus"
+      },
+      {
+        "k": "C",
+        "t": "Bordetella pertussis"
+      },
+      {
+        "k": "D",
+        "t": "Haemophilus influenzae"
+      },
+      {
+        "k": "E",
+        "t": "Escherichia coli"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "X ve V faktörü.",
+    "tuzak": "X ve V faktörü gerektiren → <mark>H. influenzae</mark> (uydu fenomeni).",
+    "aciklama": "<b>Haemophilus influenzae</b> üremek için X (hemin) ve V (NAD) faktörlerine ihtiyaç duyar; stafilokok kolonileri etrafında uydu fenomeni gösterir. Tip b sinüzit, otit, epiglottit ve menenjit yapar."
+  },
+  {
+    "yil": [
+      "Sonbahar 2017 Orijinal"
+    ],
+    "soru": "9 yaşındaki erkek sol kulakta 2 haftadır süren tıkanma hissiyle geliyor; <b>ateşi yok</b>, genel durumu iyi, muayenede sol kulakta <b>orta kulak efüzyonu</b> saptanıyor. En uygun tanı-tedavi eşleştirmesi hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Akut otitis media — Yüksek doz amoksisilin + antihistaminik + dekonjestan"
+      },
+      {
+        "k": "B",
+        "t": "Akut otitis media — Yüksek doz kinolon"
+      },
+      {
+        "k": "C",
+        "t": "Akut otitis media — Antihistaminik + yüksek doz makrolid"
+      },
+      {
+        "k": "D",
+        "t": "Efüzyonlu otitis media — Oral kortikosteroid"
+      },
+      {
+        "k": "E",
+        "t": "Efüzyonlu otitis media — Asemptomatik hastada ilaçsız takip"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Akut enfeksiyon bulgusu yok.",
+    "tuzak": "Ateş/ağrı yoksa sadece efüzyon → <mark>ilaçsız izlem</mark> (antibiyotik değil).",
+    "aciklama": "<b>Efüzyonlu otitis media (EOM)</b>: akut enfeksiyon bulgusu olmadan orta kulakta sıvı; tedavi <b>ilaçsız izlemdir</b>. Akut otitis mediada (ateş, kulak ağrısı) <6 ay tüm bebeklere antibiyotik verilir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2017 BENZERİ"
+    ],
+    "soru": "<b>I.</b> Otitis media ataklarının çoğu spontan iyileşir.<br><b>II.</b> 6 ay altı bebeklerde antibiyotik tedavisi önerilir.<br><b>III.</b> 2 yaş üstünde asemptomatik bile olsa antibiyotik başlanmalıdır.<br><b>IV.</b> Orta kulakta efüzyon bulunması her zaman antibiyotik gerektirir.<br>Efüzyonlu otitis media için yukarıdakilerden hangileri <mark>doğrudur</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "I, II ve IV"
+      },
+      {
+        "k": "B",
+        "t": "II ve IV"
+      },
+      {
+        "k": "C",
+        "t": "I ve III"
+      },
+      {
+        "k": "D",
+        "t": "III ve IV"
+      },
+      {
+        "k": "E",
+        "t": "I ve II"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Asemptomatik = izlem.",
+    "tuzak": "Asemptomatik efüzyon antibiyotik gerektirmez (III, IV yanlış) → <mark>I ve II</mark>.",
+    "aciklama": "Otitis media atakları çoğunlukla spontan iyileşir (I) ve <6 ay bebeklere antibiyotik önerilir (II). Asemptomatik efüzyonda antibiyotik gerekmez (III, IV yanlış) → I ve II."
+  },
+  {
+    "yil": [
+      "Sonbahar 2000"
+    ],
+    "soru": "<b>Aşılanmamış</b> çocuklarda <b>akut epiglottitin</b> en sık sebebi aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Haemophilus influenzae tip B"
+      },
+      {
+        "k": "B",
+        "t": "Streptococcus pneumoniae"
+      },
+      {
+        "k": "C",
+        "t": "Adenovirüs"
+      },
+      {
+        "k": "D",
+        "t": "Neisseria meningitidis"
+      },
+      {
+        "k": "E",
+        "t": "Haemophilus parainfluenzae"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Hib aşısı öncesi klasik.",
+    "tuzak": "Aşılanmamışta epiglottit → <mark>Hib</mark> (aşılı toplumda pnömokok/S. aureus).",
+    "aciklama": "<b>Haemophilus influenzae tip b</b> aşılanmamış çocuklarda akut epiglottitin en sık nedenidir. Klinik: oturur pozisyon, salya akması, yan boyun grafisinde <b>baş parmak bulgusu</b>. İlk basamak hava yolu stabilizasyonu (entübasyon); <b>rasemik epinefrin ve steroidin yeri yoktur</b>."
+  },
+  {
+    "yil": [
+      "Sonbahar 2014 Orijinal"
+    ],
+    "soru": "3 yaşındaki erkek ateş, huzursuzluk, <b>boyun ağrısı</b>, beslenememe ve <b>salya akmasıyla</b> geliyor; 3 gün önce akut tonsillofarenjit tanısı almış. Muayenede ateş 39°C, <b>boyun hareketleri kısıtlı ve tortikolis</b> var. En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Lenfoma"
+      },
+      {
+        "k": "B",
+        "t": "Yabancı cisim aspirasyonu"
+      },
+      {
+        "k": "C",
+        "t": "Retrofaringeal apse"
+      },
+      {
+        "k": "D",
+        "t": "Vertebral osteomiyelit"
+      },
+      {
+        "k": "E",
+        "t": "Santral sinir sistemi enfeksiyonu"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Tortikolis + salya.",
+    "tuzak": "Farenjit sonrası + <mark>tortikolis + boyun hareket kısıtlılığı</mark> → retrofaringeal apse.",
+    "aciklama": "<b>Retrofaringeal apse</b> (3-4 yaş): yüksek ateş, boğaz ağrısı, yutma güçlüğü, paravertebral spazma bağlı <b>tortikolis</b> ve ense sertliği. Yan boyun grafisinde posterior farengeal yumuşak doku şişliği görülür. Trismus beklenmez (peritonsiller apsede olur)."
+  },
+  {
+    "yil": [
+      "Sonbahar 2014 BENZERİ"
+    ],
+    "soru": "2 yaşındaki kız yüksek ateş, yutma güçlüğü ve boğaz ağrısıyla geliyor; muayenede <b>ense sertliği</b> ve <b>boynun bir tarafa eğrilmesi</b> saptanıyor (yan boyun grafisi patolojik). En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Peritonsiller apse"
+      },
+      {
+        "k": "B",
+        "t": "Lemierre hastalığı"
+      },
+      {
+        "k": "C",
+        "t": "Retrofaringeal apse"
+      },
+      {
+        "k": "D",
+        "t": "Yabancı cisim aspirasyonu"
+      },
+      {
+        "k": "E",
+        "t": "Menenjit"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Tortikolis + yan boyun grafisi.",
+    "tuzak": "Ateş + yutma güçlüğü + <mark>tortikolis</mark> → retrofaringeal apse.",
+    "aciklama": "<b>Retrofaringeal apse</b>: ateş, yutma güçlüğü, tortikolis, paravertebral spazma bağlı ense sertliği; yan boyun grafisiyle tanı konur."
+  },
+  {
+    "yil": [
+      "İlkbahar 2015 Orijinal"
+    ],
+    "soru": "4 yaşındaki çocuk 2 gündür <b>ses kısıklığı ve havlar tarzda öksürükle</b> geliyor; ateş ve siyanoz yok, <b>stridor</b>, burun kanadı solunumu ve suprasternal çekilme var.<br><b>I.</b> Oral kortikosteroid<br><b>II.</b> Nebulize rasemik epinefrin<br><b>III.</b> Nebulize salbutamol<br><b>IV.</b> Antibiyotik<br><b>V.</b> Sıcak buhar<br>Hangileri en uygundur?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "I ve II"
+      },
+      {
+        "k": "B",
+        "t": "II ve V"
+      },
+      {
+        "k": "C",
+        "t": "III ve IV"
+      },
+      {
+        "k": "D",
+        "t": "IV ve V"
+      },
+      {
+        "k": "E",
+        "t": "I ve IV"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Krup tedavisi.",
+    "tuzak": "Viral krupta <mark>steroid + nebulize adrenalin</mark> (salbutamol/antibiyotik/sıcak buhar değil).",
+    "aciklama": "<b>Viral krup</b>: havlar tarzda öksürük + inspiratuvar stridor + ses kısıklığı. Tedavi: <b>oral/IM kortikosteroid (deksametazon) + nebulize rasemik epinefrin</b> + soğuk buhar/oksijen. Salbutamol ve antibiyotiğin yeri yoktur."
+  },
+  {
+    "yil": [
+      "İlkbahar 2015 BENZERİ"
+    ],
+    "soru": "Çocuklarda <b>viral krup</b> tedavisinde aşağıdakilerden hangisi <mark>önerilmez</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "IV magnezyum sülfat"
+      },
+      {
+        "k": "B",
+        "t": "Oral steroid"
+      },
+      {
+        "k": "C",
+        "t": "Soğuk buhar"
+      },
+      {
+        "k": "D",
+        "t": "Nebulize adrenalin"
+      },
+      {
+        "k": "E",
+        "t": "İM steroid"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Astım ilacı.",
+    "tuzak": "<mark>Magnezyum sülfat</mark> astım atağında kullanılır, krupta değil.",
+    "aciklama": "Viral krupta soğuk buhar, nebulize adrenalin ve oral/İM steroid kullanılır. <b>IV magnezyum sülfat</b> ağır astım atağı tedavisinde kullanılır."
+  },
+  {
+    "yil": [
+      "Sonbahar 2007"
+    ],
+    "soru": "Aşağıdakilerden hangisi <b>spazmodik krupun</b> özelliklerinden biridir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Bakteriyel enfeksiyon kaynaklı olması"
+      },
+      {
+        "k": "B",
+        "t": "Larengeal web'in sık görülmesi"
+      },
+      {
+        "k": "C",
+        "t": "Sıklıkla geceleri başlaması"
+      },
+      {
+        "k": "D",
+        "t": "Genellikle yüksek ateşle seyretmesi"
+      },
+      {
+        "k": "E",
+        "t": "5 yaşın üstünde daha sık görülmesi"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Gündüz asemptomatik.",
+    "tuzak": "Spazmodik krup <mark>geceleri</mark> başlar, ateş yoktur, gündüz asemptomatiktir.",
+    "aciklama": "<b>Spazmodik krup</b> (1-3 yaş): enfeksiyon bulgusu ve ateş yoktur; <b>geceleri</b> ani dispne, havlar tarzda öksürük ve stridorla uyanma, gündüz asemptomatik seyir tipiktir. Allerji, GÖR ve psikolojik faktörler rol oynar."
+  },
+  {
+    "yil": [
+      "Sonbahar 2001"
+    ],
+    "soru": "Çocuklarda <b>akut otitis mediaya en sık neden olan bakteri</b> aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Staphylococcus aureus"
+      },
+      {
+        "k": "B",
+        "t": "Grup A streptokoklar"
+      },
+      {
+        "k": "C",
+        "t": "Branhamella (Moraxella) catarrhalis"
+      },
+      {
+        "k": "D",
+        "t": "Streptococcus pneumoniae"
+      },
+      {
+        "k": "E",
+        "t": "Gram negatif bakteriler"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Sinüzit/otit/menenjit üçlüsü.",
+    "tuzak": "Çocukta otit/sinüzit/menenjitin en sık etkeni → <mark>S. pneumoniae</mark>.",
+    "aciklama": "Akut otitis medianın en sık etkeni <b>Streptococcus pneumoniae</b>'dır; ardından H. influenzae (%10-30) ve M. catarrhalis (%10-30) gelir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2002"
+    ],
+    "soru": "<b>Gece yarısı</b> ani başlayan <b>havlar tarzda öksürükle</b> gelen 1 yaşındaki kızın vücut ısısı normal; <b>gündüz yakınması yok</b>. En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Pnömoni"
+      },
+      {
+        "k": "B",
+        "t": "Akut epiglottit"
+      },
+      {
+        "k": "C",
+        "t": "Akut spazmodik larenjit"
+      },
+      {
+        "k": "D",
+        "t": "Bronşiyolit"
+      },
+      {
+        "k": "E",
+        "t": "Bronşit"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Ateş yok + gündüz normal.",
+    "tuzak": "Gece havlar tarzda öksürük + ateşsiz + gündüz asemptomatik → <mark>spazmodik krup</mark>.",
+    "aciklama": "<b>Akut spazmodik larenjit (spazmodik krup)</b>: enfeksiyon bulgusu yok, ateş yüksek değil; çocuk gece boğulur gibi öksürükle uyanır, gündüz asemptomatiktir ve birkaç gece tekrarlar."
+  },
+  {
+    "yil": [
+      "İlkbahar 2020 Orijinal"
+    ],
+    "soru": "<b>Grup A streptokok farenjiti</b> olan çocuk hastalarda uygun antibiyotik tedavisiyle <b>bulaşıcılık</b> genellikle ne zaman sonlanır?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Tedavinin 24. saatinde"
+      },
+      {
+        "k": "B",
+        "t": "Tedavinin 48. saatinde"
+      },
+      {
+        "k": "C",
+        "t": "Tedavinin 72. saatinde"
+      },
+      {
+        "k": "D",
+        "t": "Tedavinin 12. saatinde"
+      },
+      {
+        "k": "E",
+        "t": "Tedavi bitiminde"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Bir gün sonra okula.",
+    "tuzak": "Bulaştırıcılık antibiyotikten <mark>24 saat</mark> sonra biter.",
+    "aciklama": "Grup A streptokok farenjitinde bulaştırıcılık antibiyotik tedavisi başlandıktan <b>24 saat sonra</b> sona erer. Tedavinin asıl amacı ARA gelişimini engellemektir (9 gün içinde başlanmalı)."
+  },
+  {
+    "yil": [
+      "İlkbahar 2020 Orijinal"
+    ],
+    "soru": "<b>I.</b> Adölesan gebeler<br><b>II.</b> İki yaşın altındaki çocuklar<br><b>III.</b> Uzun süreli aspirin tedavisi alan çocuklar<br><b>IV.</b> Morbid obez olan çocuklar<br>Yukarıdakilerden hangileri çocukluk yaş grubunda <b>influenza komplikasyonları</b> için <mark>yüksek risk grubudur</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "I ve III"
+      },
+      {
+        "k": "B",
+        "t": "II ve III"
+      },
+      {
+        "k": "C",
+        "t": "II, III ve IV"
+      },
+      {
+        "k": "D",
+        "t": "I, II ve III"
+      },
+      {
+        "k": "E",
+        "t": "I, II, III ve IV"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Hepsi risk grubu.",
+    "tuzak": "Adölesan gebe + <2 yaş + aspirin + morbid obez → <mark>hepsi</mark> yüksek risk.",
+    "aciklama": "İnfluenza komplikasyonu açısından yüksek riskli (antiviral önerilen) gruplar: <b>2 yaş altı, kronik hastalık, immünsüpresyon, adölesan gebeler, uzun süreli aspirin alanlar, morbid obezler (VKİ>40)</b> → hepsi."
+  },
+  {
+    "yil": [
+      "Sonbahar 2024"
+    ],
+    "soru": "Akut tonsillofarenjiti olan 10 yaşındaki çocukta, etkenin <b>A grubu beta hemolitik streptokok</b> olabileceğini aşağıdakilerden hangisinin düşündürmesi <mark>en olasıdır</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Yumuşak damakta peteşi"
+      },
+      {
+        "k": "B",
+        "t": "Ses kısıklığı"
+      },
+      {
+        "k": "C",
+        "t": "Seröz burun akıntısı"
+      },
+      {
+        "k": "D",
+        "t": "Öksürük"
+      },
+      {
+        "k": "E",
+        "t": "Diyare"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Viral bulgular dışlar.",
+    "tuzak": "<mark>Yumuşak damakta peteşi</mark> GABHS'i düşündürür; öksürük/nezle/ishal viral (tanıdan uzaklaştırır).",
+    "aciklama": "GABHS tonsillofarenjiti (>3 yaş): ani yüksek ateş, boğaz ağrısı, karın ağrısı/kusma, <b>yumuşak damakta peteşiler</b>, ağrılı servikal LAP ve <b>öksürüğün olmaması</b>. Seröz burun akıntısı, ses kısıklığı ve ishal viral etkeni düşündürür."
+  },
+  {
+    "yil": [
+      "Sonbahar 2004"
+    ],
+    "soru": "Süt çocuklarında <b>bronşiolite en sık neden olan</b> mikroorganizma aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Respiratuvar sinsityal virüs (RSV)"
+      },
+      {
+        "k": "B",
+        "t": "Mycoplasma pneumoniae"
+      },
+      {
+        "k": "C",
+        "t": "Adenovirüs"
+      },
+      {
+        "k": "D",
+        "t": "Parainfluenza virüsü"
+      },
+      {
+        "k": "E",
+        "t": "Haemophilus influenzae tip b"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Kış aylarında pik.",
+    "tuzak": "Bronşiolitin en sık etkeni → <mark>RSV</mark> (%90'dan fazla).",
+    "aciklama": "Süt çocuğunda bronşiolitin en sık etkeni <b>RSV</b>'dir (vakaların %90'dan fazlası); ikinci sıklıkta parainfluenza virüsleri gelir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2010"
+    ],
+    "soru": "Aşağıdakilerden hangisi <b>akut bronşiyolit tedavisinin</b> ilkelerinden <mark>biri değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Bronşiyal obstrüksiyonun kaldırılması"
+      },
+      {
+        "k": "B",
+        "t": "Asiklovir tedavisi"
+      },
+      {
+        "k": "C",
+        "t": "Hipoksemi ve asidozun düzeltilmesi"
+      },
+      {
+        "k": "D",
+        "t": "Potansiyel kardiyak komplikasyonların önlenmesi"
+      },
+      {
+        "k": "E",
+        "t": "İkincil bakteriyel enfeksiyonların tedavisi"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Herpes ilacı.",
+    "tuzak": "<mark>Asiklovir</mark> bronşiolitte kullanılmaz (RSV'de gerekirse ribavirin).",
+    "aciklama": "Bronşiolit tedavisi <b>semptomatiktir</b>: soğuk-nemli oksijen, hidrasyon, beslenme. <b>Asiklovirin yeri yoktur</b>; ribavirin sadece immün yetmezlik, BPD veya KKH olanlarda düşünülür. En önemli komplikasyon KKY, en sık komplikasyon sekonder bakteriyel pnömonidir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2014 Orijinal"
+    ],
+    "soru": "Aşağıdakilerden hangisinde RSV sezonu boyunca <b>RSV monoklonal antikoru (palivizumab)</b> ile profilaksi <mark>önerilmez</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Gestasyon yaşı 29-32 hafta olan ve kronik akciğer hastalığı olan 0-3 aylık bebekler"
+      },
+      {
+        "k": "B",
+        "t": "Trakeostomili 0-12 aylık bebekler"
+      },
+      {
+        "k": "C",
+        "t": "2 yaşından küçük kronik akciğer hastalığı ve oksijen desteği alan hastalar"
+      },
+      {
+        "k": "D",
+        "t": "1 yaşından küçük siyanotik kalp hastalığı olan bebekler"
+      },
+      {
+        "k": "E",
+        "t": "Gestasyon yaşı 28 haftadan küçük olan 0-12 aylık bebekler"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "İzole trakeostomi.",
+    "tuzak": "Diğer açılardan sağlıklı <mark>izole trakeostomili</mark> bebeklerde palivizumab önerilmez.",
+    "aciklama": "Palivizumab profilaksisi: <28 hafta 0-12 aylık, 29-32 hafta + kronik akciğer hastalığı olan 0-3 aylık, 2 yaş altı kronik akciğer hastalığı + O2 desteği, 1 yaş altı siyanotik KKH, DA<1000 g, immün yetmezlik. <b>İzole trakeostomi</b> endikasyon değildir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2014 BENZERİ"
+    ],
+    "soru": "Aşağıdaki bebeklerden hangisine RSV sezonu boyunca <b>palivizumab profilaksisine</b> <mark>gerek yoktur</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Gestasyon yaşı 26 hafta olan 8 aylık bebek"
+      },
+      {
+        "k": "B",
+        "t": "Gestasyon yaşı 34 hafta olan 25 aylık bebek"
+      },
+      {
+        "k": "C",
+        "t": "Geniş VSD'si olan 6 aylık bebek"
+      },
+      {
+        "k": "D",
+        "t": "Bronkopulmoner displazisi olan 11 aylık bebek"
+      },
+      {
+        "k": "E",
+        "t": "Gestasyon yaşı 27 hafta olan 3 aylık bebek"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Yaş ve gestasyon sınırı.",
+    "tuzak": "34 hafta + <mark>25 aylık</mark> (2 yaş üstü) → profilaksi gerekmez.",
+    "aciklama": "34 haftalık doğan ve <b>25 aylık (2 yaş üstü)</b> sağlıklı bebek palivizumab endikasyonu dışındadır. Diğerleri (çok preterm, BPD, hemodinamik önemli KKH) profilaksi gerektirir."
+  },
+  {
+    "yil": [
+      "İlkbahar 95"
+    ],
+    "soru": "<b>Primer akciğer absesinin</b> en sık nedeni aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Sistemik hematojen yayılım yapan odak"
+      },
+      {
+        "k": "B",
+        "t": "Orofaringeal sekresyonun aspirasyonu"
+      },
+      {
+        "k": "C",
+        "t": "Yeterli rezolüsyona uğramamış pnömoni"
+      },
+      {
+        "k": "D",
+        "t": "Transdiyafragmatik karaciğer apsesi yayılımı"
+      },
+      {
+        "k": "E",
+        "t": "Toraks travması"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Aspirasyon.",
+    "tuzak": "Primer akciğer absesi en sık <mark>orofaringeal sekresyon aspirasyonu</mark> ile olur.",
+    "aciklama": "<b>Primer akciğer absesi</b>nin en sık nedeni <b>orofaringeal sekresyonların aspirasyonu</b>dur (özellikle nöromotor geriliği olanlarda, bilinç kaybında). Primer abseler daha çok sağ tarafta, sekonder abseler sol tarafta gelişir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2014 Orijinal"
+    ],
+    "soru": "2 yaşındaki çocuk ani solunum sıkıntısıyla geliyor; 1 saat önce <b>aniden öksürmeye başlamış</b>, morarmış, sonra morarma geçmiş ama solunumu hızlanmış. Muayenede <b>sol akciğer havalanması azalmış</b>, grafide <b>sol hemitoraksta havalanma fazlalığı</b>. En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Pnömoni"
+      },
+      {
+        "k": "B",
+        "t": "Astım"
+      },
+      {
+        "k": "C",
+        "t": "Epiglottit"
+      },
+      {
+        "k": "D",
+        "t": "Kistik adenomatoid malformasyon"
+      },
+      {
+        "k": "E",
+        "t": "Yabancı cisim aspirasyonu"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Ani + tek taraflı.",
+    "tuzak": "Ani başlangıç + <mark>tek taraflı</mark> havalanma fazlalığı → yabancı cisim (astımda bilateral).",
+    "aciklama": "4 yaş altında ani solunum zorluğu + <b>tek taraflı</b> dinleme ve grafi bulgusu (hava hapsi) → <b>yabancı cisim aspirasyonu</b>. Astımda bulgular bilateraldir; pnömonide ani başlangıç ve hava hapsi olmaz."
+  },
+  {
+    "yil": [
+      "İlkbahar 2014 BENZERİ"
+    ],
+    "soru": "Ani solunum sıkıntısı gelişen 3 yaşındaki bir çocukta ayırıcı tanıda aşağıdakilerden hangisi <mark>en az düşünülmelidir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Spazmodik larenjit"
+      },
+      {
+        "k": "B",
+        "t": "Anafilaksi"
+      },
+      {
+        "k": "C",
+        "t": "Epiglottit"
+      },
+      {
+        "k": "D",
+        "t": "Yabancı cisim aspirasyonu"
+      },
+      {
+        "k": "E",
+        "t": "Laringomalazi"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Kronik mi akut mu?",
+    "tuzak": "<mark>Laringomalazi</mark> kronik/persistan stridor yapar, ani solunum sıkıntısı yapmaz.",
+    "aciklama": "<b>Laringomalazi</b> yenidoğan/infantta persistan stridorun en sık nedenidir; <b>ani</b> solunum sıkıntısı yapmaz. Yabancı cisim, anafilaksi, epiglottit ve spazmodik larenjit ani başlar."
+  },
+  {
+    "yil": [
+      "Sonbahar 2006"
+    ],
+    "soru": "Aşağıdakilerden hangisi çocukluk çağında <b>atelektaziye neden olan</b> hastalıklardan <mark>biri değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Yabancı cisim"
+      },
+      {
+        "k": "B",
+        "t": "Plevral efüzyon"
+      },
+      {
+        "k": "C",
+        "t": "Tüberküloz"
+      },
+      {
+        "k": "D",
+        "t": "Alfa-1 antitripsin eksikliği"
+      },
+      {
+        "k": "E",
+        "t": "Pnömotoraks"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Amfizem mi atelektazi mi?",
+    "tuzak": "<mark>Alfa-1 antitripsin eksikliği</mark> amfizem/kolestaz yapar, atelektazi değil.",
+    "aciklama": "Atelektazi nedenleri: yabancı cisim, plevral efüzyon, pnömotoraks, tümör, lenf nodu büyümesi (TB), bronşiektazi, astım, bronşiolit. <b>Alfa-1 antitripsin eksikliği</b> çocukta kolestaz, erişkinde panasiner amfizem yapar; atelektazi nedeni değildir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2008"
+    ],
+    "soru": "3 yaşındaki erkek ani gelişen solunum sıkıntısıyla geliyor; <b>sağ akciğerde solunum sesleri azalmış</b>, grafide <b>sağ akciğerde havalanma fazlalığı ve karşı tarafa kayma</b> var. En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Pnömoni"
+      },
+      {
+        "k": "B",
+        "t": "Bronşiyolit"
+      },
+      {
+        "k": "C",
+        "t": "Ampiyem"
+      },
+      {
+        "k": "D",
+        "t": "Yabancı cisim aspirasyonu"
+      },
+      {
+        "k": "E",
+        "t": "Pnömotoraks"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Hava hapsi + mediastinal itilme.",
+    "tuzak": "Ani + tek taraflı hava hapsi + mediastinal itilme → <mark>yabancı cisim</mark> (sağ ana bronş daha sık).",
+    "aciklama": "Ani başlangıç + enfeksiyon bulgusu yokluğu + tek taraflı hava hapsi + mediastinal itilme → <b>yabancı cisim aspirasyonu</b>. <b>Sağ ana bronş</b> trakeanın daha doğal uzantısı olduğundan yabancı cisimler daha sık sağa kaçar."
+  },
+  {
+    "yil": [
+      "Sonbahar 2018 Orijinal"
+    ],
+    "soru": "3 yaşındaki kız <b>morarma ve ani başlayan hışıltıyla</b> geliyor; daha önce rahatsızlığı yok. Solunum 56/dk, <b>sol akciğerde solunum sesleri azalmış</b> (grafide sol aşırı havalanma + mediastende sağa itilme). En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Konjestif kalp yetmezliği"
+      },
+      {
+        "k": "B",
+        "t": "Atipik pnömoni"
+      },
+      {
+        "k": "C",
+        "t": "Hemotoraks"
+      },
+      {
+        "k": "D",
+        "t": "Yabancı cisim aspirasyonu"
+      },
+      {
+        "k": "E",
+        "t": "Anafilaktik şok"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Lokalize hışıltı.",
+    "tuzak": "Ani hışıltı + tek taraflı + <mark>mediastinal itilme</mark> → yabancı cisim.",
+    "aciklama": "Ani başlayan solunum sıkıntısı, tek taraflı solunum sesi azlığı, lokalize hışıltı ve grafide tek taraflı havalanma fazlalığı + mediastinal itilme → <b>yabancı cisim aspirasyonu</b> (en sık <4 yaş; üzüm, kuruyemiş, şeker)."
+  },
+  {
+    "yil": [
+      "Sonbahar 2018 BENZERİ"
+    ],
+    "soru": "4 yaşındaki çocuk ani solunum sıkıntısıyla geliyor; 1 saat önce aniden öksürüp morarmış, sonra solunumu hızlanmış. <b>Sağ akciğerde solunum sesleri azalmış</b> ve grafide <b>sağ hemitoraksta havalanma fazlalığı</b> var. En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Hemotoraks"
+      },
+      {
+        "k": "B",
+        "t": "Konjestif kalp yetmezliği"
+      },
+      {
+        "k": "C",
+        "t": "Atipik pnömoni"
+      },
+      {
+        "k": "D",
+        "t": "Yabancı cisim aspirasyonu"
+      },
+      {
+        "k": "E",
+        "t": "Anafilaktik şok"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Tek taraflı hava hapsi.",
+    "tuzak": "Ani öksürük/morarma + tek taraflı hava hapsi → <mark>yabancı cisim</mark>.",
+    "aciklama": "Ani öksürük-morarma atağı sonrası tek taraflı solunum sesi azlığı ve havalanma fazlalığı <b>yabancı cisim aspirasyonu</b>nu gösterir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2022 Orijinal"
+    ],
+    "soru": "14 aylık erkek <b>fındık yerken</b> ani solunum zorluğu ve morarmayla geliyor; annesi evde ağzından fındık parçaları çıkarmış. Muayenede <b>takipne ve retraksiyon</b> var ama <b>oskültasyon ve akciğer grafisi normal</b>. En uygun yaklaşım hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Acilen rijid bronkoskopi yapılması için işlemler başlatılır."
+      },
+      {
+        "k": "B",
+        "t": "Elektif şartlarda fleksibl bronkoskopi planlanır."
+      },
+      {
+        "k": "C",
+        "t": "Mutlaka bilgisayarlı tomografi çekilerek planlama yapılır."
+      },
+      {
+        "k": "D",
+        "t": "Semptom olması durumunda tekrar başvurması önerilerek eve gönderilir."
+      },
+      {
+        "k": "E",
+        "t": "Semptom olmasa bile ertesi gün kontrole gelmeleri söylenir."
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Semptom varsa grafi normal olsa da acil.",
+    "tuzak": "<mark>Solunum sıkıntısı (takipne/çekilme) varsa</mark> grafi normal olsa bile acil rijid bronkoskopi.",
+    "aciklama": "Yabancı cisim aspirasyonunda muayene ve grafi <b>normal olabilir</b>. Takipne/çekilme gibi <b>solunum sıkıntısı olan her hastaya acil tedavi</b> planlanır → <b>rijid bronkoskopi</b>. (Tanı amaçlı elektif fleksibl bronkoskopi ancak semptomsuz şüphede yapılır.)"
+  },
+  {
+    "yil": [
+      "Sonbahar 2008"
+    ],
+    "soru": "6 aylık erkek öksürük-ateşle geliyor; 2 kez akciğer enfeksiyonu, 1 kez <b>metabolik alkaloz</b> nedeniyle yatmış, günde 8-10 kez <b>yağlı gaita</b> yapıyor, <b>kız kardeşi 8 aylıkken ölmüş</b>. Tanı için en yararlı test hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Akciğer tomografisi"
+      },
+      {
+        "k": "B",
+        "t": "Terde klor ölçümü"
+      },
+      {
+        "k": "C",
+        "t": "Lenfosit alt grup tayini"
+      },
+      {
+        "k": "D",
+        "t": "Serum renin-aldosteron düzeyi"
+      },
+      {
+        "k": "E",
+        "t": "Gaitada yağ tayini"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Steatore + alkaloz + aile öyküsü.",
+    "tuzak": "Tekrarlayan pnömoni + steatore + <mark>hipokloremik alkaloz</mark> → KF; tanı ter testi.",
+    "aciklama": "Tekrarlayan akciğer enfeksiyonu + steatore + hipokloremik metabolik alkaloz + aile öyküsü <b>kistik fibrozis</b>i gösterir; kesin tanı <b>terde klor ölçümü (ter testi)</b> ile konur (>60 mmol/L pozitif)."
+  },
+  {
+    "yil": [
+      "İlkbahar 2017"
+    ],
+    "soru": "<b>İvakaftor</b> aşağıdaki hastalıkların hangisinde <b>mutant genin aktivitesini düzeltmek</b> için kullanılır?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Gaucher hastalığı"
+      },
+      {
+        "k": "B",
+        "t": "Biyotinidaz eksikliği"
+      },
+      {
+        "k": "C",
+        "t": "Hemofili A"
+      },
+      {
+        "k": "D",
+        "t": "Kistik fibrozis"
+      },
+      {
+        "k": "E",
+        "t": "Duchenne tipi musküler distrofi"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "CFTR modülatörü.",
+    "tuzak": "<mark>İvakaftor</mark> CFTR aktivatörüdür → kistik fibrozis.",
+    "aciklama": "<b>İvakaftor</b> bir CFTR modülatörüdür (aktivatör); kistik fibroziste class 3-4 mutasyonlarda kullanılır. Lumakaftor/tezakaftor + ivakaftor kombinasyonları F508del mutasyonunda onaylıdır."
+  },
+  {
+    "yil": [
+      "İlkbahar 2016 Orijinal"
+    ],
+    "soru": "12 aylık kız son 2 ayda <b>3. kez rektal prolapsus</b> nedeniyle geliyor; kabızlığı yok. Ağırlığı 3 persentilin <b>altında</b>, boyu 10 persentilde. Bir sonraki adımda en uygun yaklaşım hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Kolonoskopi"
+      },
+      {
+        "k": "B",
+        "t": "Baryumlu kolon grafisi"
+      },
+      {
+        "k": "C",
+        "t": "Anorektal manometri"
+      },
+      {
+        "k": "D",
+        "t": "Ter testi"
+      },
+      {
+        "k": "E",
+        "t": "Baryumlu üst gastrointestinal grafi"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Büyüme geriliği + prolapsus.",
+    "tuzak": "Rektal prolapsus + büyüme geriliği → <mark>KF (ter testi)</mark>.",
+    "aciklama": "<b>Rektal prolapsus</b> KF'li hastaların %20'sinde (12-30. aylarda) görülür; büyüme geriliğiyle birlikteyse <b>ter testi</b> yapılmalıdır."
+  },
+  {
+    "yil": [
+      "İlkbahar 2016 BENZERİ"
+    ],
+    "soru": "Aşağıdakilerden hangisi büyüme-gelişme geriliği olan bir süt çocuğunda <b>ter testi endikasyonu</b> <mark>değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Mekonyum ileusu öyküsü"
+      },
+      {
+        "k": "B",
+        "t": "Rektal prolapsus"
+      },
+      {
+        "k": "C",
+        "t": "Tekrarlayan hışıltı atakları"
+      },
+      {
+        "k": "D",
+        "t": "Peteşi ve purpuralar"
+      },
+      {
+        "k": "E",
+        "t": "Biliyer siroz"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Hematolojik seri tutulur mu?",
+    "tuzak": "KF hematolojik seriyi <mark>etkilemez</mark> → peteşi/purpura ter testi endikasyonu değildir.",
+    "aciklama": "Mekonyum ileusu, rektal prolapsus, tekrarlayan hışıltı ve fokal biliyer siroz KF bulgularıdır. <b>Kistik fibrozis hematolojik seriyi etkilemez</b>; peteşi-purpura ter testi endikasyonu değildir."
+  },
+  {
+    "yil": [
+      "İlkbahar 90"
+    ],
+    "soru": "Akciğer enfeksiyonu olan bir bebeğin <b>mekonyum çıkışında gecikme</b> olduğu ve <b>kardeş ölüm öyküsü</b> bulunduğu öğreniliyor. Tanı için en uygun yaklaşım hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Ter testi"
+      },
+      {
+        "k": "B",
+        "t": "Seruloplazmin düzeyi ölçümü"
+      },
+      {
+        "k": "C",
+        "t": "Serum IgA düzeyi"
+      },
+      {
+        "k": "D",
+        "t": "Serum bakır düzeyi"
+      },
+      {
+        "k": "E",
+        "t": "Serumda fenilalanin düzeyi"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Mekonyum ileusu + pnömoni.",
+    "tuzak": "Mekonyum gecikmesi + sık AC enfeksiyonu + kardeş ölümü → KF → <mark>ter testi</mark>.",
+    "aciklama": "Mekonyum ileusu, tekrarlayan pulmoner enfeksiyon ve aile öyküsü <b>kistik fibrozis</b>i düşündürür; kesin tanı <b>ter testi</b> ile konur (terde Na ve Cl artmıştır)."
+  },
+  {
+    "yil": [
+      "İlkbahar 2019 Orijinal"
+    ],
+    "soru": "2 yaşındaki erkek balgamlı öksürükle geliyor; daha önce <b>3 kez alt solunum yolu enfeksiyonu</b> ve <b>2 kez hipokloremik metabolik alkaloz</b> nedeniyle yatmış. Öncelikle hangi test yapılmalıdır?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Bronkoskopi"
+      },
+      {
+        "k": "B",
+        "t": "Waters grafisi"
+      },
+      {
+        "k": "C",
+        "t": "Kantitatif immünglobulinler"
+      },
+      {
+        "k": "D",
+        "t": "Böbrek fonksiyon testleri"
+      },
+      {
+        "k": "E",
+        "t": "Ter testi"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Terle klor kaybı.",
+    "tuzak": "Tekrarlayan pnömoni + <mark>hipokloremik metabolik alkaloz</mark> → KF → ter testi.",
+    "aciklama": "Terle aşırı klor kaybı <b>hipokloremik metabolik alkaloz</b> yapar; tekrarlayan solunum yolu enfeksiyonuyla birlikteyse <b>kistik fibrozis</b> düşünülür → <b>ter testi</b>."
+  },
+  {
+    "yil": [
+      "İlkbahar 2019 BENZERİ"
+    ],
+    "soru": "15 yaşındaki kız 3 yıldır balgamlı öksürük ve tekrarlayan akciğer enfeksiyonlarıyla geliyor; <b>parmaklarda çomaklaşma</b>, BT'de <b>bronşiektazi</b>, öyküde 2 kez <b>hipokloremik metabolik alkaloz</b> var. Etiyoloji için öncelikle hangi inceleme yapılmalıdır?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Ter testi"
+      },
+      {
+        "k": "B",
+        "t": "Siliya incelemesi"
+      },
+      {
+        "k": "C",
+        "t": "Solunum fonksiyon testi"
+      },
+      {
+        "k": "D",
+        "t": "Bronkoskopi"
+      },
+      {
+        "k": "E",
+        "t": "Serum immünoglobulin değerleri"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Alkaloz ayırt eder.",
+    "tuzak": "Bronşiektazi + <mark>hipokloremik alkaloz</mark> → KF (ter testi); PSD'de alkaloz olmaz.",
+    "aciklama": "Bronşiektazi + çomaklaşma + hipokloremik metabolik alkaloz <b>kistik fibrozis</b>i gösterir → <b>ter testi</b>. Primer siliyer diskinezide hipokloremik alkaloz görülmez."
+  },
+  {
+    "yil": [
+      "İlkbahar 93"
+    ],
+    "soru": "Aşağıdakilerden hangisi <b>kistik fibrozisin kalıtsal geçişini</b> tanımlamaktadır?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Otozomal dominant"
+      },
+      {
+        "k": "B",
+        "t": "Otozomal resesif"
+      },
+      {
+        "k": "C",
+        "t": "X'e bağlı resesif"
+      },
+      {
+        "k": "D",
+        "t": "X'e bağlı dominant"
+      },
+      {
+        "k": "E",
+        "t": "Multifaktöryel kalıtım"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "7. kromozom CFTR.",
+    "tuzak": "KF <mark>otozomal resesif</mark> (7. kromozom, CFTR; en sık F508del).",
+    "aciklama": "<b>Kistik fibrozis otozomal resesif</b> geçer; CFTR geni 7. kromozomdadır (en sık mutasyon F508del). Beyaz ırkta en sık görülen letal genetik hastalıktır."
+  },
+  {
+    "yil": [
+      "Sonbahar 97"
+    ],
+    "soru": "<b>Mekonyum ileusu</b> saptanan 7 günlük erkek bebekte öncelikle hangi hastalık araştırılmalıdır?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Alfa-1 antitripsin eksikliği"
+      },
+      {
+        "k": "B",
+        "t": "Glukoz-6-fosfat dehidrogenaz eksikliği"
+      },
+      {
+        "k": "C",
+        "t": "Trizomi 21"
+      },
+      {
+        "k": "D",
+        "t": "Kistik fibrozis"
+      },
+      {
+        "k": "E",
+        "t": "Wilson-Mikity sendromu"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Mekonyum ileusunun en sık nedeni.",
+    "tuzak": "Mekonyum ileusu → <mark>kistik fibrozis</mark> (%10-20'sinde görülür).",
+    "aciklama": "<b>Mekonyum ileusunun en sık nedeni kistik fibrozis</b>tir; aynı zamanda KF'li hastalarda yenidoğan döneminde en sık klinik prezentasyondur (%10-20)."
+  },
+  {
+    "yil": [
+      "Sonbahar 2000"
+    ],
+    "soru": "Kistik fibrozis tanılı kız çocuğunda <b>periferik nöropati ve serebellar ataksi</b> gelişiyor. En olası neden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "A vitamini eksikliği"
+      },
+      {
+        "k": "B",
+        "t": "B6 vitamini eksikliği"
+      },
+      {
+        "k": "C",
+        "t": "D vitamini eksikliği"
+      },
+      {
+        "k": "D",
+        "t": "E vitamini eksikliği"
+      },
+      {
+        "k": "E",
+        "t": "K vitamini eksikliği"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Yağda eriyen vitamin.",
+    "tuzak": "Periferik nöropati + serebellar ataksi → <mark>E vitamini</mark> eksikliği.",
+    "aciklama": "KF'de pankreas yetmezliğine bağlı yağda eriyen vitaminler (A, D, E, K) eksilir. <b>E vitamini eksikliği</b> periferik nöropati, serebellar ataksi, demiyelinizasyon ve hemolitik anemi yapar."
+  },
+  {
+    "yil": [
+      "Sonbahar 2002"
+    ],
+    "soru": "Kistik fibrozisli bir çocukta <b>kliniğe başvuruda en sık gözlenen</b> durum aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Rektal prolapsus"
+      },
+      {
+        "k": "B",
+        "t": "Akut ya da tekrarlayan akciğer bulguları"
+      },
+      {
+        "k": "C",
+        "t": "Pozitif aile hikayesi"
+      },
+      {
+        "k": "D",
+        "t": "Mekonyum ileusu"
+      },
+      {
+        "k": "E",
+        "t": "Elektrolit ve asit-baz bozuklukları"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "En sık başvuru şikayeti.",
+    "tuzak": "Kliniğe en sık <mark>tekrarlayan akciğer bulguları</mark> ile başvurulur (mekonyum ileusu yenidoğanda en sık).",
+    "aciklama": "KF'de kliniğe en sık başvuru nedeni <b>öksürük/balgam gibi tekrarlayan akciğer bulguları</b>dır. (Yenidoğan döneminde en sık bulgu mekonyum ileusudur.)"
+  },
+  {
+    "yil": [
+      "Sonbahar 99"
+    ],
+    "soru": "Kistik fibrozis tanılı hastalarda <b>akciğer enfeksiyonuna yol açma olasılığı en yüksek</b> etken aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Pseudomonas aeruginosa"
+      },
+      {
+        "k": "B",
+        "t": "Streptococcus pneumoniae"
+      },
+      {
+        "k": "C",
+        "t": "Klebsiella pneumoniae"
+      },
+      {
+        "k": "D",
+        "t": "Moraxella catarrhalis"
+      },
+      {
+        "k": "E",
+        "t": "Legionella pneumophila"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Genel olarak en sık.",
+    "tuzak": "KF'de genel en sık → <mark>Pseudomonas aeruginosa</mark> (ilk 2 yaşta S. aureus).",
+    "aciklama": "KF'de pnömoni etkenleri yaşa göre değişir: <b>ilk 2 yaşta S. aureus</b>, <b>sonrasında (genel en sık) Pseudomonas aeruginosa</b>. Ardından Burkholderia cepacia gelir."
+  },
+  {
+    "yil": [
+      "Sonbahar 88"
+    ],
+    "soru": "Kistik fibrozisli <b>küçük çocukların</b> balgamından enfeksiyon etkeni olarak <b>en sık izole edilen</b> mikroorganizma hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Staphylococcus aureus"
+      },
+      {
+        "k": "B",
+        "t": "Neisseria gonorrhoeae"
+      },
+      {
+        "k": "C",
+        "t": "Streptococcus faecalis"
+      },
+      {
+        "k": "D",
+        "t": "Streptococcus pneumoniae"
+      },
+      {
+        "k": "E",
+        "t": "Corynebacterium diphtheriae"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "İlk 2 yaş kuralı.",
+    "tuzak": "<mark>İlk 2 yaşta S. aureus</mark> (sonrasında Pseudomonas).",
+    "aciklama": "KF'de <b>ilk 2 yaşta en sık etken Staphylococcus aureus</b>tur (ardından H. influenzae); 2 yaştan sonra Pseudomonas aeruginosa öne geçer."
+  },
+  {
+    "yil": [
+      "İlkbahar 91"
+    ],
+    "soru": "2 aylıkken pnömoni geçiren 2 yaşındaki çocuk solunum sıkıntısıyla geliyor; muayenede <b>gelişme geriliği ve nazal polip</b> saptanıyor. Tanı ve tedaviye yönelik aşağıdakilerden hangisinin yapılması <mark>uygun değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Ter testi"
+      },
+      {
+        "k": "B",
+        "t": "Akciğer grafisi"
+      },
+      {
+        "k": "C",
+        "t": "Kan kültürü"
+      },
+      {
+        "k": "D",
+        "t": "Balgam kültürü"
+      },
+      {
+        "k": "E",
+        "t": "Sinüs grafisi"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Sinüsler ne zaman gelişir?",
+    "tuzak": "<mark>Sinüs grafisi</mark> 4 yaş altında anlamsızdır (sinüsler gelişmemiştir).",
+    "aciklama": "Bu tipik KF olgusunda ter testi, akciğer grafisi, kan ve balgam kültürü uygundur. <b>Sinüs grafisinin 4 yaş altı çocuklarda anlamı yoktur</b> (paranazal sinüsler henüz gelişmemiştir)."
+  },
+  {
+    "yil": [
+      "Sonbahar 98"
+    ],
+    "soru": "<b>Kistik fibrozis</b> hastalığında aşağıdakilerden hangisinin görülmesi <mark>en az olasıdır</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Bronşektazi"
+      },
+      {
+        "k": "B",
+        "t": "Mekonyum ileusu"
+      },
+      {
+        "k": "C",
+        "t": "Hemolitik anemi"
+      },
+      {
+        "k": "D",
+        "t": "Hipoalbuminemi"
+      },
+      {
+        "k": "E",
+        "t": "Fokal biliyer siroz"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Hematolojik tutulum.",
+    "tuzak": "KF hematolojik seriyi <mark>etkilemez</mark> → hemolitik anemi beklenmez.",
+    "aciklama": "KF'de bronşektazi, mekonyum ileusu, hipoalbuminemi ve fokal biliyer siroz görülür. <b>Kistik fibrozis hematolojik seriyi etkilemez</b>; hemolitik anemi beklenmez (E vitamini eksikliği dışında)."
+  },
+  {
+    "yil": [
+      "Sonbahar 2004"
+    ],
+    "soru": "<b>Mekonyum ileusu</b> saptanan bir hastada öncelikle aşağıdakilerden hangisi düşünülmelidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Hipotiroidi"
+      },
+      {
+        "k": "B",
+        "t": "Aganglionik megakolon"
+      },
+      {
+        "k": "C",
+        "t": "Kistik fibrozis"
+      },
+      {
+        "k": "D",
+        "t": "Alfa-1 antitripsin eksikliği"
+      },
+      {
+        "k": "E",
+        "t": "Wilson hastalığı"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "En sık neden.",
+    "tuzak": "Mekonyum ileusu → önce <mark>kistik fibrozis</mark>.",
+    "aciklama": "<b>Mekonyum ileusunun en sık nedeni kistik fibrozis</b>tir; saptandığında öncelikle KF araştırılmalıdır."
+  },
+  {
+    "yil": [
+      "Sonbahar 2005"
+    ],
+    "soru": "4 yaşındaki çocuk büyüme geriliği ve sık akciğer enfeksiyonuyla geliyor; muayenede <b>nazal polipler ve rektal prolapsus</b> saptanıyor. Öncelikle hangisi düşünülmelidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Yabancı cisim aspirasyonu"
+      },
+      {
+        "k": "B",
+        "t": "Fallot tetralojisi"
+      },
+      {
+        "k": "C",
+        "t": "Gastroözefageal reflü"
+      },
+      {
+        "k": "D",
+        "t": "Kistik fibrozis"
+      },
+      {
+        "k": "E",
+        "t": "Kartagener sendromu"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Klasik dörtlü.",
+    "tuzak": "Büyüme geriliği + pnömoni + <mark>nazal polip + rektal prolapsus</mark> → KF.",
+    "aciklama": "Büyüme geriliği, tekrarlayan akciğer enfeksiyonu, <b>nazal polip ve rektal prolapsus</b> birlikteliği klasik <b>kistik fibrozis</b> tablosudur. (Çocukta nazal polibin en sık nedeni KF'dir ve iyi prognoz işaretidir.)"
+  },
+  {
+    "yil": [
+      "İlkbahar 2006"
+    ],
+    "soru": "Aşağıdakilerden hangisi kistik fibrozisin <b>yenidoğan bebeklerde en sık rastlanan bulgusudur</b>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Bronkopulmoner displazi"
+      },
+      {
+        "k": "B",
+        "t": "Nekrotizan enterokolit"
+      },
+      {
+        "k": "C",
+        "t": "Mekonyum ileusu"
+      },
+      {
+        "k": "D",
+        "t": "Pnömatozis intestinalis"
+      },
+      {
+        "k": "E",
+        "t": "Rektal prolapsus"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Yenidoğan dönemi.",
+    "tuzak": "Yenidoğanda en sık → <mark>mekonyum ileusu</mark> (çocuklukta öksürük).",
+    "aciklama": "KF'de <b>yenidoğanda en sık bulgu mekonyum ileusu</b>dur; süt çocukluğunda kronik ishal ve kilo alamama, çocukluk çağında öksürük öne çıkar."
+  },
+  {
+    "yil": [
+      "Sonbahar 2008"
+    ],
+    "soru": "Aşağıdakilerden hangisi <b>kistik fibrozisin belirti ve bulgularından</b> <mark>biri değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Nazal polip"
+      },
+      {
+        "k": "B",
+        "t": "Yenidoğan döneminde mekonyum ileusu"
+      },
+      {
+        "k": "C",
+        "t": "Genitoüriner sistem bulguları"
+      },
+      {
+        "k": "D",
+        "t": "Sitopeni"
+      },
+      {
+        "k": "E",
+        "t": "İki farklı günde terde klor konsantrasyonu fazlalığı"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Kan hücreleri etkilenir mi?",
+    "tuzak": "KF hematolojik seriyi etkilemez → <mark>sitopeni</mark> beklenmez.",
+    "aciklama": "Nazal polip, mekonyum ileusu, genitoüriner bulgular (infertilite) ve terde klor artışı KF bulgularıdır. <b>Sitopeni</b> KF bulgusu değildir (hematolojik seri etkilenmez)."
+  },
+  {
+    "yil": [
+      "Sonbahar 2009"
+    ],
+    "soru": "Aşağıdaki mikroorganizmalardan hangisi kistik fibrozisli hastaların akciğerinde sık enfeksiyon yapar ve <b>kronik kolonizasyona</b> neden olur?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Streptococcus pneumoniae"
+      },
+      {
+        "k": "B",
+        "t": "Moraxella catarrhalis"
+      },
+      {
+        "k": "C",
+        "t": "Pseudomonas aeruginosa"
+      },
+      {
+        "k": "D",
+        "t": "Klebsiella pneumoniae"
+      },
+      {
+        "k": "E",
+        "t": "Candida albicans"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Mukoid suş.",
+    "tuzak": "KF'de kronik kolonizasyon → <mark>Pseudomonas aeruginosa</mark>.",
+    "aciklama": "KF'de solunum yollarında en sık kolonize olan ve kronik enfeksiyon yapan ajan <b>Pseudomonas aeruginosa</b>'dır (mukoid suşlar)."
+  },
+  {
+    "yil": [
+      "İlkbahar 2011"
+    ],
+    "soru": "Gelişme geriliği ve kronik ishalle gelen 3 yaşındaki çocuğun dışkısında <b>yağ +++, yağ asidi ++, pH 6, indirgen madde (−)</b> bulunuyor. En olası ön tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Laktoz intoleransı"
+      },
+      {
+        "k": "B",
+        "t": "Doğumsal sükraz-izomaltaz eksikliği"
+      },
+      {
+        "k": "C",
+        "t": "Akrodermatitis enteropatika"
+      },
+      {
+        "k": "D",
+        "t": "Kistik fibrozis"
+      },
+      {
+        "k": "E",
+        "t": "Menkes hastalığı"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Yağ malabsorpsiyonu.",
+    "tuzak": "Dışkıda bol yağ + <mark>pH asidik değil</mark> + indirgen madde (−) → KF (karbonhidrat malabsorpsiyonunda pH ~5 olurdu).",
+    "aciklama": "Dışkıda bol yağ (steatore) + normal pH + indirgen madde negatifliği <b>ekzokrin pankreas yetmezliği (kistik fibrozis)</b>ni gösterir. Karbonhidrat malabsorpsiyonunda dışkı pH'sı asidiktir (~5)."
+  },
+  {
+    "yil": [
+      "Sonbahar 2020 Orijinal"
+    ],
+    "soru": "Kistik fibrozise bağlı pankreatik yetmezlik nedeniyle <b>pankreatik enzim tedavisi</b> alan çocuğun beslenmesinde aşağıdakilerden hangisi <mark>önerilmez</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Yüksek kalorili, proteinden zengin diyet"
+      },
+      {
+        "k": "B",
+        "t": "Yüksek kalorili, yağdan fakir diyet"
+      },
+      {
+        "k": "C",
+        "t": "Tuz desteği"
+      },
+      {
+        "k": "D",
+        "t": "Yağda eriyen vitaminler"
+      },
+      {
+        "k": "E",
+        "t": "Yeterli kilo alınamazsa gastrostomi ile beslenme"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Enzim alıyorsa yağ kısıtlanır mı?",
+    "tuzak": "Enzim replasmanı varsa yağ kısıtlanmaz → <mark>yağdan fakir diyet önerilmez</mark>.",
+    "aciklama": "KF'de beslenme <b>yüksek kalorili, protein içeriği yüksek, yağ içeriği normal</b> olmalıdır (enzim replasmanı yağ sindirimini sağlar). Terle tuz kaybı nedeniyle <b>tuz desteği</b> ve yağda eriyen vitaminler eklenir. <b>Yağdan fakir diyet önerilmez</b>."
+  },
+  {
+    "yil": [
+      "Sonbahar 2020 BENZERİ"
+    ],
+    "soru": "Kistik fibrozisli hastaların beslenmesiyle ilgili aşağıdakilerden hangisi <mark>en uygundur</mark>? (Yağ içeriği — Protein içeriği — Tuz ilavesi)",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Yüksek — Yüksek — Gereksiz"
+      },
+      {
+        "k": "B",
+        "t": "Normal — Yüksek — Gerekli"
+      },
+      {
+        "k": "C",
+        "t": "Normal — Yüksek — Gereksiz"
+      },
+      {
+        "k": "D",
+        "t": "Fakir — Normal — Gerekli"
+      },
+      {
+        "k": "E",
+        "t": "Fakir — Yüksek — Gereksiz"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Tuz kaybı var.",
+    "tuzak": "Yağ <mark>normal</mark>, protein yüksek, tuz <mark>gerekli</mark>.",
+    "aciklama": "KF beslenmesi: <b>yağ normal, protein yüksek, yüksek kalorili + tuz ilavesi gerekli</b> (terle aşırı Na/Cl kaybı olduğundan)."
+  },
+  {
+    "yil": [
+      "İlkbahar 2012"
+    ],
+    "soru": "Kistik fibrozisli hastaların akciğerinde <b>sıklıkla kolonize olan</b> mikroorganizma aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Pseudomonas aeruginosa"
+      },
+      {
+        "k": "B",
+        "t": "B grubu streptokoklar"
+      },
+      {
+        "k": "C",
+        "t": "A grubu streptokoklar"
+      },
+      {
+        "k": "D",
+        "t": "Pneumocystis jirovecii"
+      },
+      {
+        "k": "E",
+        "t": "Legionella pneumophila"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Mukoid suş, kronik kolonizasyon.",
+    "tuzak": "KF'de en sık kolonize ajan → <mark>Pseudomonas aeruginosa</mark>.",
+    "aciklama": "KF'de solunum yollarında en sık kolonize olan ajan <b>Pseudomonas aeruginosa</b>'dır. Diğer sık patojenler: S. aureus, H. influenzae, Burkholderia cepacia, Stenotrophomonas maltophilia."
+  },
+  {
+    "yil": [
+      "Sonbahar 2021 Orijinal"
+    ],
+    "soru": "Aşağıdaki mikroorganizmalardan hangisinin kistik fibroziste akciğerde <b>kronik kolonizasyon ve enfeksiyona</b> yol açması <mark>en az olasıdır</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Haemophilus influenzae"
+      },
+      {
+        "k": "B",
+        "t": "Pneumocystis jirovecii"
+      },
+      {
+        "k": "C",
+        "t": "Staphylococcus aureus"
+      },
+      {
+        "k": "D",
+        "t": "Burkholderia cepacia complex"
+      },
+      {
+        "k": "E",
+        "t": "Stenotrophomonas maltophilia"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Hangi hastalarda görülür?",
+    "tuzak": "<mark>Pneumocystis jirovecii</mark> hücresel immün yetmezlikte görülür; KF'de tipik değildir.",
+    "aciklama": "KF patojenleri: P. aeruginosa (en sık), S. aureus (<2 yaş), H. influenzae, B. cepacia, S. maltophilia, Achromobacter, Aspergillus. <b>Pneumocystis jirovecii</b> KF'de tipik değildir (T hücre yetmezliğinde görülür)."
+  },
+  {
+    "yil": [
+      "Sonbahar 2021 BENZERİ"
+    ],
+    "soru": "3 yaşındaki erkek ateş ve öksürükle geliyor; ralleri var, nötrofilik lökositoz ve akut faz yüksekliğiyle pnömoni tanısı alıyor. Sık solunum yolu enfeksiyonu geçiriyor, boy-kilo 3 persentil altında; <b>ter testinde Cl 70 mmol/L</b>. Bu hastadaki pnömoniden hangi etkenin sorumlu olması <mark>en az olasıdır</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Staphylococcus aureus"
+      },
+      {
+        "k": "B",
+        "t": "Stenotrophomonas maltophilia"
+      },
+      {
+        "k": "C",
+        "t": "Haemophilus influenzae"
+      },
+      {
+        "k": "D",
+        "t": "Burkholderia cepacia complex"
+      },
+      {
+        "k": "E",
+        "t": "Pneumocystis jirovecii"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "KF patojen listesi.",
+    "tuzak": "KF'de <mark>Pneumocystis</mark> beklenmez (immün yetmezlik patojeni).",
+    "aciklama": "Ter testi pozitif (Cl 70) → kistik fibrozis. KF'de <b>Pneumocystis jirovecii</b> kolonizasyonu tipik değildir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2012"
+    ],
+    "soru": "Aşağıdakilerden hangisi <b>kistik fibrozisin akciğer komplikasyonlarından</b> <mark>biri değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Atelektazi"
+      },
+      {
+        "k": "B",
+        "t": "Hemoptizi"
+      },
+      {
+        "k": "C",
+        "t": "Reaktif hava yolu hastalığı"
+      },
+      {
+        "k": "D",
+        "t": "Alerjik bronkopulmoner aspergilloz"
+      },
+      {
+        "k": "E",
+        "t": "Bronşiolitis obliterans"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Adenovirüs sonrası tablo.",
+    "tuzak": "<mark>Bronşiolitis obliterans</mark> adenovirüs/kollajenoz/nakil sonrası gelişir; KF komplikasyonu değildir.",
+    "aciklama": "KF akciğer komplikasyonları: bronşit, bronşiolit, pnömoni, atelektazi, hemoptizi, bronşektazi, ABPA, reaktif hava yolu hastalığı, solunum yetmezliği, kor pulmonale. <b>Bronşiolitis obliterans</b> en sık adenovirüs enfeksiyonu, kollajenozlar ve AC/Kİ nakli sonrası gelişir; KF komplikasyonu değildir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2020 Orijinal"
+    ],
+    "soru": "10 yaşındaki kız 2 yıldır kronik <b>balgamlı öksürükle</b> geliyor; yenidoğanda <b>mekonyum ileusu</b> öyküsü var, muayenede <b>nazal polip</b> saptanıyor. En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Primer siliyer diskinezi"
+      },
+      {
+        "k": "B",
+        "t": "Kistik fibrozis"
+      },
+      {
+        "k": "C",
+        "t": "Trakeoözofageal fistül"
+      },
+      {
+        "k": "D",
+        "t": "Astım"
+      },
+      {
+        "k": "E",
+        "t": "Ağır kombine immün yetmezlik"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Mekonyum ileusu + nazal polip.",
+    "tuzak": "Mekonyum ileusu + nazal polip + balgamlı öksürük → <mark>KF</mark>.",
+    "aciklama": "Mekonyum ileusu (KF'nin yenidoğanda en sık bulgusu) + nazal polip (çocukta en sık nedeni KF) + kronik balgamlı öksürük <b>kistik fibrozis</b>i gösterir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2025"
+    ],
+    "soru": "Aşağıdakilerden hangisinin çocukluk çağında <b>kistik fibroziste görülen enfeksiyon etkenlerinden</b> biri olması <mark>en az olasıdır</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Pseudomonas aeruginosa"
+      },
+      {
+        "k": "B",
+        "t": "Klebsiella pneumoniae"
+      },
+      {
+        "k": "C",
+        "t": "Staphylococcus aureus"
+      },
+      {
+        "k": "D",
+        "t": "Stenotrophomonas maltophilia"
+      },
+      {
+        "k": "E",
+        "t": "Achromobacter xylosoxidans"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Klasik KF patojen listesi.",
+    "tuzak": "<mark>Klebsiella</mark> KF'nin tipik patojenlerinden değildir.",
+    "aciklama": "KF patojenleri: P. aeruginosa (en sık), S. aureus (<2 yaş en sık), H. influenzae, B. cepacia, S. maltophilia, Achromobacter xylosoxidans, Aspergillus, atipik mikobakteriler. <b>Klebsiella pneumoniae</b> tipik KF etkeni değildir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2024"
+    ],
+    "soru": "9 aylık bebek emmeme, halsizlik ve kusmayla geliyor; yenidoğanda <b>mekonyum ileusu</b>, 2 kez bronşiyolit öyküsü, akraba evliliği var. Dehidratasyon bulguları; <b>Na 130, Cl 77, pH 7,50, HCO₃ 31</b>. En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Primer siliyer diskinezi"
+      },
+      {
+        "k": "B",
+        "t": "Kistik fibrozis"
+      },
+      {
+        "k": "C",
+        "t": "Renal tübüler asidoz"
+      },
+      {
+        "k": "D",
+        "t": "Gastroözofageal reflü"
+      },
+      {
+        "k": "E",
+        "t": "Yutma disfonksiyonu"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Hipokloremik alkaloz + mekonyum ileusu.",
+    "tuzak": "Mekonyum ileusu + <mark>hipokloremik metabolik alkaloz</mark> → KF (PSD'de olmaz).",
+    "aciklama": "<b>Kistik fibrozis</b>: mekonyum ileusu + tekrarlayan solunum enfeksiyonu + terle Na/Cl kaybına bağlı <b>hipokloremik hipokalemik metabolik alkaloz</b>. Primer siliyer diskinezide mekonyum ileusu ve alkaloz görülmez (dekstrokardi eşlik eder)."
+  },
+  {
+    "yil": [
+      "Sonbahar 2011"
+    ],
+    "soru": "Yineleyen <b>hışıltı (wheezing)</b> öyküsü olan hastada aşağıdakilerden hangisi <mark>düşünülmez</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Bronşiyal astım"
+      },
+      {
+        "k": "B",
+        "t": "Gastroözofageal reflü"
+      },
+      {
+        "k": "C",
+        "t": "Kistik fibrozis"
+      },
+      {
+        "k": "D",
+        "t": "Bronşiolitis obliterans"
+      },
+      {
+        "k": "E",
+        "t": "Plevral efüzyon"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Alt hava yolu tıkanıklığı mı bası mı?",
+    "tuzak": "<mark>Plevral efüzyon</mark> matite/solunum sesi azlığı yapar; wheezing beklenmez.",
+    "aciklama": "Wheezing <b>alt hava yolu tıkanıklığı</b> bulgusudur (astım, bronşiolit, KF, GÖR, bronşiolitis obliterans). <b>Plevral efüzyonda</b> solunum sesleri azalır, perküsyonda matite alınır; wheezing beklenmez."
+  },
+  {
+    "yil": [
+      "İlkbahar 2017 Orijinal"
+    ],
+    "soru": "1 yaşındaki erkek 3 kez hışıltılı atak geçirmiş; ailede/çocukta atopi ve sigara yok. Muayenede <b>motor-mental retardasyon</b>, başını tutamama, oturamama var; <b>mamaları zor yutuyor</b>, hâlâ püre besleniyor. Hışıltılı atakların en olası nedeni hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Bronşiyal astım"
+      },
+      {
+        "k": "B",
+        "t": "Kistik fibrozis"
+      },
+      {
+        "k": "C",
+        "t": "Primer siliyer diskinezi"
+      },
+      {
+        "k": "D",
+        "t": "Kronik aspirasyon"
+      },
+      {
+        "k": "E",
+        "t": "İmmün yetmezlik"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Yutma disfonksiyonu.",
+    "tuzak": "Nöromotor gerilik + yutma güçlüğü → <mark>kronik aspirasyon</mark>.",
+    "aciklama": "Ağır nöromotor retardasyonu olan, yutma disfonksiyonu bulunan süt çocuğunda tekrarlayan hışıltının en olası nedeni <b>kronik aspirasyon</b>dur (atopi öyküsü yokluğu astımdan uzaklaştırır)."
+  },
+  {
+    "yil": [
+      "İlkbahar 99"
+    ],
+    "soru": "Aşağıdakilerden hangisinin çocuklarda <b>persistan veya rekürren hışıltı</b> sebepleri arasında yer alma olasılığı <mark>en düşüktür</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Kistik fibrozis"
+      },
+      {
+        "k": "B",
+        "t": "Kalp yetmezliği"
+      },
+      {
+        "k": "C",
+        "t": "Yabancı cisim aspirasyonu"
+      },
+      {
+        "k": "D",
+        "t": "Bronş adenomu"
+      },
+      {
+        "k": "E",
+        "t": "Atrial septal defekt"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Asemptomatik şant.",
+    "tuzak": "<mark>ASD</mark> asemptomatiktir; hışıltı yapmaz.",
+    "aciklama": "Tekrarlayan hışıltı nedenleri: enfeksiyonlar (RSV), astım, KF, yabancı cisim, kalp yetmezliği, bronş adenomu, vasküler ring. <b>Atrial septal defekt</b> genellikle asemptomatiktir ve hışıltı yapmaz (üfürüm ve S2 sabit çiftleşme ile tanı alır)."
+  },
+  {
+    "yil": [
+      "İlkbahar 2004"
+    ],
+    "soru": "Aşağıdakilerden hangisi bebek ve çocuklarda görülen <b>intratorasik obstrüktif akciğer hastalığının</b> klinik bulgularından <mark>biri değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Ekspirasyon süresinde uzama"
+      },
+      {
+        "k": "B",
+        "t": "İnspirasyon süresinde kısalma"
+      },
+      {
+        "k": "C",
+        "t": "Akciğer volümünde artma"
+      },
+      {
+        "k": "D",
+        "t": "Retraksiyonlar"
+      },
+      {
+        "k": "E",
+        "t": "Ekspiratuvar wheezing"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "İnspiryum süresi değişir mi?",
+    "tuzak": "İntratorasik obstrüksiyonda <mark>inspiryum süresi değişmez</mark>; ekspiryum uzar.",
+    "aciklama": "İntratorasik obstrüksiyonda (astım): solunum hızı artar, <b>ekspirasyon uzar</b> (inspiryum süresi değişmez), yardımcı kaslar katılır, retraksiyon, ekspiratuvar wheezing ve akciğer volümünde artış olur."
+  },
+  {
+    "yil": [
+      "İlkbahar 2004"
+    ],
+    "soru": "Aşağıdakilerden hangisi <b>tekrarlayan ya da persistan wheezing'e</b> neden olan durumlardan <mark>biri değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Pulmoner hemosideroz"
+      },
+      {
+        "k": "B",
+        "t": "Aspirasyon"
+      },
+      {
+        "k": "C",
+        "t": "Astım bronşiale"
+      },
+      {
+        "k": "D",
+        "t": "Vasküler ring"
+      },
+      {
+        "k": "E",
+        "t": "Kronik sinüzit"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Postnazal akıntı ne yapar?",
+    "tuzak": "<mark>Kronik sinüzit</mark> postnazal akıntıyla öksürük yapar, wheezing değil.",
+    "aciklama": "Tekrarlayan wheezing nedenleri: astım, vasküler ring, aspirasyon/GÖR, pulmoner hemosideroz, viral-bakteriyel enfeksiyon (RSV), TB, KF, pulmoner sekestrasyon, TÖF. <b>Kronik sinüzit</b> postnazal akıntıya bağlı irritatif öksürük yapar; wheezing beklenmez."
+  },
+  {
+    "yil": [
+      "Sonbahar 2001"
+    ],
+    "soru": "<b>Kronik öksürük</b> şikayeti olan 3 yaşındaki çocukta aşağıdakilerden hangisi <mark>en az düşünülmelidir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Gastroözofageal reflü"
+      },
+      {
+        "k": "B",
+        "t": "H-tipi trakeoözofageal fistül"
+      },
+      {
+        "k": "C",
+        "t": "Alfa-1 antitripsin eksikliği"
+      },
+      {
+        "k": "D",
+        "t": "Vasküler ring"
+      },
+      {
+        "k": "E",
+        "t": "Kistik fibrozis"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Çocukta hangi organı tutar?",
+    "tuzak": "<mark>Alfa-1 antitripsin eksikliği</mark> çocukta kolestaz yapar; akciğer (amfizem) tablosu erişkinde görülür.",
+    "aciklama": "<b>Alfa-1 antitripsin eksikliği</b> küçük çocuklarda daha çok intrahepatik kolestaz yapar (PiZZ fenotipi); akciğer tutulumu (amfizem) erişkin dönemde görülür → çocukta kronik öksürük nedeni olarak en az düşünülür."
+  },
+  {
+    "yil": [
+      "Sonbahar 2008"
+    ],
+    "soru": "Aşağıdakilerden hangisi çocuklarda <b>persistan öksürük</b> nedenlerinden <mark>biri değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Kronik sinüzit"
+      },
+      {
+        "k": "B",
+        "t": "Yabancı cisim aspirasyonu"
+      },
+      {
+        "k": "C",
+        "t": "Gastroözofageal reflü"
+      },
+      {
+        "k": "D",
+        "t": "Pulmoner emboli"
+      },
+      {
+        "k": "E",
+        "t": "Boğmaca"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Akut mu kronik mi?",
+    "tuzak": "<mark>Pulmoner emboli</mark> akut bir tablodur; persistan öksürük yapmaz.",
+    "aciklama": "Persistan öksürük nedenleri: postenfeksiyöz öksürük, kronik sinüzit (postnazal akıntı), GÖR, yabancı cisim, boğmaca, astım, bronşektazi, psikojenik öksürük. <b>Pulmoner emboli</b> akut tablodur (plöretik göğüs ağrısı, taşipne, hipoksi); persistan öksürük beklenmez."
+  },
+  {
+    "yil": [
+      "Sonbahar 2013 Orijinal"
+    ],
+    "soru": "Aşağıdakilerden hangisi <b>pulmoner hemosiderozis nedeni</b> <mark>değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Vasküler halka"
+      },
+      {
+        "k": "B",
+        "t": "Wegener granülomatozu"
+      },
+      {
+        "k": "C",
+        "t": "Mitral stenoz"
+      },
+      {
+        "k": "D",
+        "t": "Çölyak hastalığı"
+      },
+      {
+        "k": "E",
+        "t": "Heiner sendromu"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Bası mı kanama mı?",
+    "tuzak": "<mark>Vasküler halka</mark> bası yapar (stridor/disfaji); pulmoner hemosideroz yapmaz.",
+    "aciklama": "Pulmoner hemosideroz nedenleri: idiyopatik, Goodpasture, Heiner (inek sütü alerjisi), kalp hastalıkları (mitral stenoz), vaskülitler (Wegener, SLE, HSP), çölyak, kanama diatezi, prematürite. <b>Vasküler halka</b> trakea/özofagus basısı yapar; hemosideroz nedeni değildir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2013 BENZERİ"
+    ],
+    "soru": "Öksürük, hışıltı ve <b>hemoptizi</b> olan, <b>demir eksikliği anemisi</b> ve grafide <b>yer değiştiren diffüz alveolar infiltrasyonlar</b> saptanan süt çocuğunda <b>inek sütü kesildikten sonra</b> klinik iyileşme görülüyor. En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Heiner sendromu"
+      },
+      {
+        "k": "B",
+        "t": "Wegener granülomatozu"
+      },
+      {
+        "k": "C",
+        "t": "Goodpasture sendromu"
+      },
+      {
+        "k": "D",
+        "t": "Çölyak hastalığı"
+      },
+      {
+        "k": "E",
+        "t": "Laktoz intoleransı"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "İnek sütü kesilince düzeliyor.",
+    "tuzak": "İnek sütü alerjisiyle ilişkili pulmoner hemosideroz → <mark>Heiner sendromu</mark>.",
+    "aciklama": "<b>Heiner sendromu</b>: inek sütü alerjisine bağlı primer pulmoner hemosideroz. Hemoptizi, hışıltı, demir eksikliği anemisi, gezici alveolar infiltratlar; kronik rinit, otit ve büyüme geriliği eşlik eder. İnek sütü spesifik IgG (presipitin) yükselir; diyetten süt çıkarılınca düzelir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2007"
+    ],
+    "soru": "Aşağıdakilerden hangisi <b>pulmoner hemoraji</b> nedenlerinden <mark>biri değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Yabancı cisim aspirasyonu"
+      },
+      {
+        "k": "B",
+        "t": "Pulmoner venöz basınçta artış"
+      },
+      {
+        "k": "C",
+        "t": "İnterstisyel pnömoni"
+      },
+      {
+        "k": "D",
+        "t": "Arteriovenöz malformasyon"
+      },
+      {
+        "k": "E",
+        "t": "Pulmoner emboli"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Kanama yapar mı?",
+    "tuzak": "<mark>İnterstisyel pnömoni</mark> taşipne/dispne yapar; pulmoner kanama olasılığı çok düşüktür.",
+    "aciklama": "Pulmoner hemoraji nedenleri: enfeksiyon/bronşektazi, travma (yabancı cisim), kardiyovasküler (pulmoner venöz basınç artışı, AVM, emboli), vaskülit, toksik ajanlar, neoplazi, inek sütü alerjisi. <b>İnterstisyel pnömoni</b> pulmoner kanamaya yol açmaz."
+  },
+  {
+    "yil": [
+      "İlkbahar 2018 Orijinal"
+    ],
+    "soru": "Aşağıdakilerin hangisinde <b>diffüz alveoler hemoraji</b> görülmesi <mark>en olasıdır</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Sarkoidoz"
+      },
+      {
+        "k": "B",
+        "t": "Pulmoner alveoler proteinozis"
+      },
+      {
+        "k": "C",
+        "t": "Goodpasture sendromu"
+      },
+      {
+        "k": "D",
+        "t": "Pulmoner mikrolitiyazis"
+      },
+      {
+        "k": "E",
+        "t": "Bronşit"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Pulmoner-renal sendrom.",
+    "tuzak": "Anti-GBM antikorlu <mark>Goodpasture</mark> → diffüz alveoler hemoraji.",
+    "aciklama": "<b>Goodpasture sendromu</b> (anti-GBM antikoru) pulmoner-renal tutulumla giden, diffüz alveolar hemoraji ve pulmoner hemosideroz yapan bir vaskülittir; demir eksikliği anemisi, hemoptizi ve multipl alveolar infiltratlarla seyreder."
+  },
+  {
+    "yil": [
+      "İlkbahar 2018 BENZERİ"
+    ],
+    "soru": "Aşağıdaki vaskülitlerden hangisinin <b>pulmoner hemosiderozise</b> neden olma olasılığı <mark>en düşüktür</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Sistemik lupus eritematozus"
+      },
+      {
+        "k": "B",
+        "t": "Mikroskopik polianjitis"
+      },
+      {
+        "k": "C",
+        "t": "Klasik polianjitis (poliarteritis nodosa)"
+      },
+      {
+        "k": "D",
+        "t": "Goodpasture sendromu"
+      },
+      {
+        "k": "E",
+        "t": "Henoch-Schönlein purpurası"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Küçük damar mı orta damar mı?",
+    "tuzak": "<mark>Klasik polianjitis (PAN)</mark> akciğeri genelde tutmaz → hemosideroz en az olası.",
+    "aciklama": "Vaskülitlerin çoğu (SLE, mikroskopik polianjitis, Goodpasture, HSP) pulmoner hemosideroz yapabilir. <b>Klasik polianjitis (poliarteritis nodosa)</b> orta boy damarları tutar ve akciğeri genellikle etkilemez."
+  },
+  {
+    "yil": [
+      "İlkbahar 2017 Orijinal"
+    ],
+    "soru": "20 aylık kız 3 gündür ateş ve kulak ağrısıyla geliyor; beslenemiyor, hızlı nefes alıyor. Muayenede bazallerde bilateral solunum sesi azalması ve <b>krepitan raller</b>; solunum 50/dk, ateş 39,3°C; <b>lökosit 30.000, CRP 45, ESR 50</b>. En uygun tanı-etken eşleştirmesi hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Akut bronşiyolit — Respiratuvar sinsityal virüs"
+      },
+      {
+        "k": "B",
+        "t": "Akut otitis media — A grubu beta hemolitik streptokok"
+      },
+      {
+        "k": "C",
+        "t": "Bronkopnömoni — Streptococcus pneumoniae"
+      },
+      {
+        "k": "D",
+        "t": "Akut bronşit — Staphylococcus aureus"
+      },
+      {
+        "k": "E",
+        "t": "Bronkopnömoni — Chlamydia trachomatis"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Lökositoz + CRP yüksek = bakteriyel.",
+    "tuzak": "3 hafta-4 yaş bakteriyel bronkopnömoni → <mark>S. pneumoniae</mark>.",
+    "aciklama": "Yüksek ateş + krepitan raller + belirgin lökositoz/CRP → <b>bakteriyel bronkopnömoni</b>. 3 hafta-4 yaş arasında toplum kaynaklı bakteriyel pnömoninin en sık etkeni <b>Streptococcus pneumoniae</b>'dır (3 yaş altı bronkopnömoni, üstü lober pnömoni yapar)."
+  },
+  {
+    "yil": [
+      "İlkbahar 2017 BENZERİ"
+    ],
+    "soru": "<b>3 hafta-4 yaş</b> arasındaki çocuklarda <b>bronkopnömoni ve plevral efüzyonun en sık bakteriyel etkeni</b> aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Mycoplasma pneumoniae"
+      },
+      {
+        "k": "B",
+        "t": "A grubu beta hemolitik streptokok"
+      },
+      {
+        "k": "C",
+        "t": "Streptococcus pneumoniae"
+      },
+      {
+        "k": "D",
+        "t": "Staphylococcus aureus"
+      },
+      {
+        "k": "E",
+        "t": "Chlamydia trachomatis"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Toplum kaynaklı en sık.",
+    "tuzak": "3 hafta-4 yaş → <mark>S. pneumoniae</mark> (mikoplazma okul çağında).",
+    "aciklama": "<b>Streptococcus pneumoniae</b> 3 hafta-4 yaş arası toplum kaynaklı bakteriyel pnömoninin en sık etkenidir; en sık komplikasyonları plörezi ve ampiyemdir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2012"
+    ],
+    "soru": "<b>3 hafta-4 yaş</b> arasındaki çocuklarda, <b>toplum kaynaklı pnömoninin en sık bakteriyel etkeni</b> aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Mycoplasma pneumoniae"
+      },
+      {
+        "k": "B",
+        "t": "Haemophilus influenzae"
+      },
+      {
+        "k": "C",
+        "t": "Staphylococcus aureus"
+      },
+      {
+        "k": "D",
+        "t": "Streptococcus pneumoniae"
+      },
+      {
+        "k": "E",
+        "t": "Chlamydia trachomatis"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Yaşa göre etken.",
+    "tuzak": "Yenidoğan → GBS; 3 hafta-5 yaş → <mark>S. pneumoniae</mark>; >5 yaş → Mycoplasma.",
+    "aciklama": "Yaşa göre bakteriyel pnömoni etkenleri: <b>yenidoğan (0-1 ay) → B grubu streptokok</b>; <b>3 hafta-5 yaş → S. pneumoniae</b>; <b>>5 yaş → Mycoplasma pneumoniae</b>. Chlamydia trachomatis 1-3 aylık ateşsiz pnömoninin etkenidir."
+  },
+  {
+    "yil": [
+      "Sonbahar-98"
+    ],
+    "soru": "Aşağıdakilerden hangisi <b>pnömokokkal pnömoni</b> geçiren bir çocukta beklenen bulgulardan <mark>biri değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Plörezi"
+      },
+      {
+        "k": "B",
+        "t": "Ampiyem"
+      },
+      {
+        "k": "C",
+        "t": "Sarı-yeşil balgam"
+      },
+      {
+        "k": "D",
+        "t": "Çomak parmak"
+      },
+      {
+        "k": "E",
+        "t": "Segmental konsolidasyon"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Akut mu kronik mi bulgu?",
+    "tuzak": "<mark>Çomak parmak</mark> kronik hipoksi bulgusudur; akut pnömonide görülmez.",
+    "aciklama": "Pnömokok pnömonisinde konsolidasyon, balgamlı öksürük, plörezi ve ampiyem (en sık komplikasyonlar) görülür. <b>Çomak parmak</b> kronik hipoksik durumlarda gelişen hipertrofik osteoartropatidir; akut pnömonide beklenmez."
+  },
+  {
+    "yil": [
+      "İlkbahar 90"
+    ],
+    "soru": "Çocuklarda <b>stafilokok pnömonisinde en sık gelişen komplikasyon</b> aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Pnömatosel"
+      },
+      {
+        "k": "B",
+        "t": "Akciğer apsesi"
+      },
+      {
+        "k": "C",
+        "t": "Pnömotoraks"
+      },
+      {
+        "k": "D",
+        "t": "Ampiyem"
+      },
+      {
+        "k": "E",
+        "t": "Akut otitis media"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Plevra %90 tutulur.",
+    "tuzak": "Stafilokok pnömonisinde en sık komplikasyon <mark>ampiyem</mark> (sonra pyopnömotoraks, pnömatosel).",
+    "aciklama": "Stafilokok pnömonisi nekrotizandır; plevra %90 tutulur. En sık komplikasyon sırasıyla <b>ampiyem</b>, pyopnömotoraks ve pnömatoseldir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2002"
+    ],
+    "soru": "Aşağıdakilerden hangisi <b>stafilokok pnömonisinin radyolojik bulgularından</b> <mark>biri değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Pnömatosel"
+      },
+      {
+        "k": "B",
+        "t": "Pyopnömotoraks"
+      },
+      {
+        "k": "C",
+        "t": "Plevral efüzyon"
+      },
+      {
+        "k": "D",
+        "t": "Bronşiektazi"
+      },
+      {
+        "k": "E",
+        "t": "Yama tarzında infiltrasyon"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Akut mu kronik mi?",
+    "tuzak": "<mark>Bronşiektazi</mark> kronik akciğer hastalığıdır; akut stafilokok pnömonisinde beklenmez.",
+    "aciklama": "Stafilokok pnömonisinin radyolojik bulguları: yama tarzı konsolidasyon, pnömatosel (%40-60, ilk hafta), plevral efüzyon/ampiyem, pyopnömotoraks. <b>Bronşiektazi</b> kronik bir hastalıktır; akut tabloda görülmez."
+  },
+  {
+    "yil": [
+      "Sonbahar 89"
+    ],
+    "soru": "Pnömoni tanılı bir çocukta uygun antibiyotiğe rağmen <b>parapnömonik plörezi</b> geliştiği saptanıyor. En olası etken hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Mycoplasma"
+      },
+      {
+        "k": "B",
+        "t": "Pnömokok"
+      },
+      {
+        "k": "C",
+        "t": "Klebsiella"
+      },
+      {
+        "k": "D",
+        "t": "Chlamydia"
+      },
+      {
+        "k": "E",
+        "t": "Stafilokok"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "En sık bakteriyel pnömoni etkeni.",
+    "tuzak": "Parapnömonik efüzyonun en sık nedeni <mark>pnömokok</mark> (en sık pnömoni etkeni olduğu için).",
+    "aciklama": "Çocuklarda parapnömonik efüzyonların en sık nedeni <b>pnömokok pnömonisi</b>dir (plörezi ve ampiyem pnömokokun en sık komplikasyonlarıdır). Tanıda ayakta ve lateral dekübit akciğer grafisi çekilir."
+  },
+  {
+    "yil": [
+      "İlkbahar 90"
+    ],
+    "soru": "Çocuklarda <b>Löffler pnömonisine</b> yol açan en olası etken aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Necator americanus"
+      },
+      {
+        "k": "B",
+        "t": "Ancylostoma duodenale"
+      },
+      {
+        "k": "C",
+        "t": "Ascaris lumbricoides"
+      },
+      {
+        "k": "D",
+        "t": "Entamoeba histolytica"
+      },
+      {
+        "k": "E",
+        "t": "Leishmania donovani"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Larva akciğerden geçer.",
+    "tuzak": "<mark>Ascaris</mark> larvasının akciğerden geçişi → Löffler (eozinofilik pnömoni).",
+    "aciklama": "<b>Ascaris lumbricoides</b> larvasının akciğerden geçişi sırasında ateş, öksürük, hışıltı, <b>eozinofili</b> ve akciğerde gezici infiltrasyonlar = <b>Löffler pnömonisi</b>. Tedavi: mebendazol/pirantel pamoat."
+  },
+  {
+    "yil": [
+      "İlkbahar 96"
+    ],
+    "soru": "Akciğerde alveoller içinde <b>köpüksü eozinofilik materyal</b> ve interstisyel mononükleer hücre infiltrasyonu ile karakterize pnömoni hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Stafilokok pnömonisi"
+      },
+      {
+        "k": "B",
+        "t": "Pnömokok pnömonisi"
+      },
+      {
+        "k": "C",
+        "t": "Mikoplazma pnömonisi"
+      },
+      {
+        "k": "D",
+        "t": "Adenovirüs pnömonisi"
+      },
+      {
+        "k": "E",
+        "t": "Pneumocystis jirovecii (carinii) pnömonisi"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "AIDS/immün yetmezlik.",
+    "tuzak": "Alveolde <mark>köpüksü materyal</mark> → Pneumocystis (Gomori/Giemsa ile boyanır).",
+    "aciklama": "<b>Pneumocystis jirovecii</b> interstisyel pnömoni yapar; alveollerde köpüklü materyali andıran kistler bulunur (Gomori metenamin gümüş ve Giemsa ile boyanır). AIDS ve kombine immün yetmezlikte en sık pnömoni etkenidir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2000"
+    ],
+    "soru": "Çocuk hastalarda <b>nozokomiyal pnömoninin en sık viral sebebi</b> aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Respiratuvar sinsityal virüs"
+      },
+      {
+        "k": "B",
+        "t": "İnfluenza virüsü"
+      },
+      {
+        "k": "C",
+        "t": "Parainfluenza virüsü"
+      },
+      {
+        "k": "D",
+        "t": "Adenovirüs"
+      },
+      {
+        "k": "E",
+        "t": "Sitomegalovirüs"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Süt çocuğunda da en sık.",
+    "tuzak": "Nozokomiyal pnömoninin en sık viral etkeni → <mark>RSV</mark>.",
+    "aciklama": "<b>RSV</b> çocuklarda hem nozokomiyal pnömoninin hem de 5 yaş altı alt solunum yolu enfeksiyonlarının en sık etkenidir. (İmmünsüprese hastada en sık viral pnömoni etkeni CMV'dir.)"
+  },
+  {
+    "yil": [
+      "İlkbahar 99"
+    ],
+    "soru": "Çocukta <b>primer atipik pnömoniye</b> yol açan en sık mikroorganizma aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Streptococcus pneumoniae"
+      },
+      {
+        "k": "B",
+        "t": "Streptococcus viridans"
+      },
+      {
+        "k": "C",
+        "t": "Haemophilus influenzae"
+      },
+      {
+        "k": "D",
+        "t": "Staphylococcus aureus"
+      },
+      {
+        "k": "E",
+        "t": "Mycoplasma pneumoniae"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Eaton ajanı.",
+    "tuzak": "Primer atipik pnömoni → <mark>Mycoplasma (Eaton ajanı)</mark>; soğuk aglütinin (+).",
+    "aciklama": "<b>Mycoplasma pneumoniae (Eaton ajanı)</b>: 5 yaş üstünde en sık atipik pnömoni nedeni. Kuru öksürük, büllöz miringitis; akciğer dinlemekle sıklıkla normal. Tanı: <b>soğuk aglütininler ≥1:64</b>."
+  },
+  {
+    "yil": [
+      "Sonbahar 2007"
+    ],
+    "soru": "Aşağıdakilerden hangisi <b>stafilokoksik pnömoninin</b> sık görülen bulgularından <mark>biri değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Akciğer absesi"
+      },
+      {
+        "k": "B",
+        "t": "Pnömatosel"
+      },
+      {
+        "k": "C",
+        "t": "Hiler lenfadenopati"
+      },
+      {
+        "k": "D",
+        "t": "Plevral efüzyon"
+      },
+      {
+        "k": "E",
+        "t": "Solunum sıkıntısı"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Hangi hastalıkta hiler LAP?",
+    "tuzak": "<mark>Hiler lenfadenopati</mark> tüberküloz/malignite bulgusudur.",
+    "aciklama": "Stafilokok pnömonisinde apse, pnömatosel, ampiyem/plevral efüzyon, pnömotoraks, osteomiyelit görülür. <b>Hiler lenfadenopati</b> tüberküloz ve malignitelerde sıktır; stafilokok pnömonisinin tipik bulgusu değildir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2008"
+    ],
+    "soru": "Aşağıdakilerden hangisi <b>pnömokok pnömonisine yatkınlık</b> oluşturan durumlardan <mark>biri değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Orak hücreli anemi"
+      },
+      {
+        "k": "B",
+        "t": "Splenektomi"
+      },
+      {
+        "k": "C",
+        "t": "Nörofibromatozis"
+      },
+      {
+        "k": "D",
+        "t": "Kronik kalp hastalığı"
+      },
+      {
+        "k": "E",
+        "t": "Nefrotik sendrom"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Pnömokok aşısı kime yapılır?",
+    "tuzak": "<mark>Nörofibromatozis</mark> pnömokok enfeksiyonuna yatkınlık yaratmaz.",
+    "aciklama": "Pnömokok enfeksiyonuna yatkınlık: orak hücreli anemi, aspleni/splenektomi, HIV, immün yetmezlik, kronik kalp/akciğer/böbrek hastalığı, nefrotik sendrom, DM, koklear implant, BOS kaçağı. <b>Nörofibromatozis</b> yatkınlık oluşturmaz."
+  },
+  {
+    "yil": [
+      "İlkbahar 2011"
+    ],
+    "soru": "35 günlük kız bebek öksürük ve solunum zorluğuyla geliyor; vajinal yolla zamanında doğmuş, izlemde <b>bilateral konjonktivit</b> saptanmış. Etken olarak öncelikle hangisi düşünülmelidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Streptococcus pyogenes"
+      },
+      {
+        "k": "B",
+        "t": "Chlamydia trachomatis"
+      },
+      {
+        "k": "C",
+        "t": "Mycoplasma pneumoniae"
+      },
+      {
+        "k": "D",
+        "t": "Listeria monocytogenes"
+      },
+      {
+        "k": "E",
+        "t": "Staphylococcus aureus"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Konjonktivit + ateşsiz pnömoni.",
+    "tuzak": "1-3 ay + konjonktivit + <mark>ateşsiz</mark> pnömoni → C. trachomatis.",
+    "aciklama": "<b>Chlamydia trachomatis</b>: 1-3 ay arası <b>ateşsiz</b> pnömoninin en sık etkeni; inklüzyon konjonktiviti eşlik eder, eozinofili görülür, hışıltı yoktur (RSV'den ayırt ettirir). Tedavi: eritromisin/makrolid."
+  },
+  {
+    "yil": [
+      "İlkbahar 2013"
+    ],
+    "soru": "1 aylık erkek bebek doğumdan 3 hafta sonra başlayan öksürükle geliyor; <b>ateşi yok</b>, takipne ve krepitan raller var, hemogramda <b>lenfositoz ve eozinofili</b>. En olası etken hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Streptococcus agalactiae"
+      },
+      {
+        "k": "B",
+        "t": "Mycoplasma pneumoniae"
+      },
+      {
+        "k": "C",
+        "t": "Chlamydia trachomatis"
+      },
+      {
+        "k": "D",
+        "t": "Solunum sinsityal virüs"
+      },
+      {
+        "k": "E",
+        "t": "Staphylococcus aureus"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Ateşsiz + eozinofili.",
+    "tuzak": "Ateşsiz pnömoni + <mark>eozinofili</mark> → C. trachomatis.",
+    "aciklama": "İnfantta <b>ateşsiz pnömoni + eozinofili</b> (± konjonktivit) <b>Chlamydia trachomatis</b>i gösterir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2011"
+    ],
+    "soru": "<b>Okul çağındaki</b> çocuklarda <b>trakeobronşite ve pnömoniye en sık neden olan</b> mikroorganizma hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Chlamydia pneumoniae"
+      },
+      {
+        "k": "B",
+        "t": "Bordetella pertussis"
+      },
+      {
+        "k": "C",
+        "t": "Mycoplasma pneumoniae"
+      },
+      {
+        "k": "D",
+        "t": "Legionella pneumophila"
+      },
+      {
+        "k": "E",
+        "t": "Haemophilus influenzae"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": ">5 yaş kuralı.",
+    "tuzak": "Okul çağı/adölesan → <mark>Mycoplasma</mark> (en sık viral etken influenza).",
+    "aciklama": "<b>Mycoplasma pneumoniae</b> okul çağı ve adölesanlarda pnömoni ve trakeobronşitin en sık etkenidir. (Bu yaşta en sık viral etken influenzadır.)"
+  },
+  {
+    "yil": [
+      "Sonbahar 2018 Orijinal"
+    ],
+    "soru": "27 günlük kız bebek öksürük ve solunum sıkıntısıyla geliyor; annenin gebelikte <b>sarı-yeşil vajinal akıntısı</b> olmuş (tedavi almamış). Ateş 37,1°C; muayenede takipne, <b>bilateral konjonktivit</b> ve raller; grafide <b>havalanma artışı</b> + infiltrasyon. En olası etken hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Streptococcus pneumoniae"
+      },
+      {
+        "k": "B",
+        "t": "Respiratuvar sinsityal virüs"
+      },
+      {
+        "k": "C",
+        "t": "Haemophilus influenzae"
+      },
+      {
+        "k": "D",
+        "t": "Chlamydia trachomatis"
+      },
+      {
+        "k": "E",
+        "t": "Pseudomonas aeruginosa"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Anneden bulaş + konjonktivit.",
+    "tuzak": "Ateşsiz + konjonktivit + havalanma artışı + maternal akıntı → <mark>C. trachomatis</mark>.",
+    "aciklama": "Maternal genital enfeksiyon öyküsü + ateşsiz pnömoni + inklüzyon konjonktiviti + grafide havalanma fazlalığı → <b>Chlamydia trachomatis</b>. (RSV 1-3 ay arası <b>ateşli</b> pnömoninin en sık nedenidir ve hışıltı yapar.)"
+  },
+  {
+    "yil": [
+      "İlkbahar 2021 Orijinal"
+    ],
+    "soru": "Daha önce sağlıklı 6 yaşındaki erkek 3 gündür öksürük ve <b>yüksek ateşle</b> geliyor; krepitan raller ve grafide pnömoni bulguları var. Bu hastada pnömoni etkeni olması <mark>en az olası</mark> mikroorganizma hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Streptococcus pneumoniae"
+      },
+      {
+        "k": "B",
+        "t": "Mycoplasma pneumoniae"
+      },
+      {
+        "k": "C",
+        "t": "Chlamydia trachomatis"
+      },
+      {
+        "k": "D",
+        "t": "İnfluenza virüs"
+      },
+      {
+        "k": "E",
+        "t": "Adenovirüs"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Yaş ve ateş.",
+    "tuzak": "<mark>C. trachomatis</mark> 1-3 aylık bebekte ATEŞSİZ pnömoni yapar; 6 yaşta ateşli pnömoni yapmaz.",
+    "aciklama": "<b>Chlamydia trachomatis</b> 1-3 aylık bebeklerde ateşsiz pnömoni etkenidir; 6 yaşındaki ateşli pnömonide beklenmez. Bu yaşta S. pneumoniae, Mycoplasma, influenza ve adenovirüs olasıdır."
+  },
+  {
+    "yil": [
+      "İlkbahar 2021 BENZERİ"
+    ],
+    "soru": "Çocukluk çağında aşağıdaki etkenlerden hangisinin <b>ateşli pnömoniye</b> yol açması <mark>en az olasıdır</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Mycoplasma pneumoniae"
+      },
+      {
+        "k": "B",
+        "t": "İnfluenza virüs"
+      },
+      {
+        "k": "C",
+        "t": "Respiratuvar sinsityal virüs"
+      },
+      {
+        "k": "D",
+        "t": "Streptococcus pneumoniae"
+      },
+      {
+        "k": "E",
+        "t": "Chlamydia trachomatis"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Ateşsiz pnömoni etkeni.",
+    "tuzak": "<mark>C. trachomatis</mark> ateşsiz pnömoni yapar.",
+    "aciklama": "<b>Chlamydia trachomatis</b> 1-3 aylık çocuklarda <b>ateşsiz</b> pnömoniye neden olur; ateşli pnömoni yapması beklenmez."
+  },
+  {
+    "yil": [
+      "Sonbahar 89"
+    ],
+    "soru": "1 yıldır yorgunluk, <b>sabahları belirgin balgamlı öksürükle</b> gelen 5 yaşındaki kızın 2 yıl önce <b>kızamık</b> geçirdiği öğreniliyor. En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Kronik bronşit"
+      },
+      {
+        "k": "B",
+        "t": "Atelektazi"
+      },
+      {
+        "k": "C",
+        "t": "Bronşiolit"
+      },
+      {
+        "k": "D",
+        "t": "Bronşiektazi"
+      },
+      {
+        "k": "E",
+        "t": "Amfizem"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Enfeksiyon sonrası kronik balgam.",
+    "tuzak": "Kızamık/boğmaca sonrası kronik balgamlı öksürük → <mark>bronşiektazi</mark>.",
+    "aciklama": "<b>Bronşiektazi</b> kardinal bulguları: kronik (özellikle sabah) balgamlı öksürük, tekrarlayan pnömoni, hemoptizi, çomak parmak. Kızamık, boğmaca, adenovirüs ve TB sonrası gelişebilir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2023"
+    ],
+    "soru": "Çocukluk çağı <b>bronşiektazileri etiyolojisinde</b> aşağıdakilerden hangisi <mark>yer almaz</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Yabancı cisim aspirasyonu"
+      },
+      {
+        "k": "B",
+        "t": "Primer siliyer diskinezi"
+      },
+      {
+        "k": "C",
+        "t": "Trakeoözofageal fistül"
+      },
+      {
+        "k": "D",
+        "t": "Ataksi telanjiektazi"
+      },
+      {
+        "k": "E",
+        "t": "Poland sendromu"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Göğüs duvarı anomalisi.",
+    "tuzak": "<mark>Poland sendromu</mark> (pektoral kas agenezisi) bronşiektazi yapmaz.",
+    "aciklama": "Bronşiektazi etyolojisi: hava yolu tıkanıklığı (yabancı cisim), tekrarlayan enfeksiyon (TÖF, KF), savunma bozukluğu (primer siliyer diskinezi), immün yetmezlik (ataksi-telanjiektazi, hipogamaglobulinemi). <b>Poland sendromu</b> (pektoral kas/meme agenezisi) bronşiektazi nedeni değildir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2003"
+    ],
+    "soru": "Kronik öksürük, <b>bol balgam çıkarma ve çomak parmak</b> gözlenen bir çocukta en olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Bronşiyal astım"
+      },
+      {
+        "k": "B",
+        "t": "Amfizem"
+      },
+      {
+        "k": "C",
+        "t": "Atelektazi"
+      },
+      {
+        "k": "D",
+        "t": "Bronşiektazi"
+      },
+      {
+        "k": "E",
+        "t": "Pnömotoraks"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Kardinal üçlü.",
+    "tuzak": "Kronik balgam + hemoptizi + <mark>çomak parmak</mark> → bronşiektazi.",
+    "aciklama": "<b>Bronşiektazi</b>: kronik balgamlı öksürük, tekrarlayan pnömoni, hemoptizi, çomak parmak. En sık alt lobları (özellikle sol alt lob) tutar; komplikasyonları ağır pnömoni, hemoptizi ve kor pulmonaledir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2003"
+    ],
+    "soru": "<b>Bronşiektazi tanısı koymada en iyi tanı yöntemi</b> aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Akciğer grafisi"
+      },
+      {
+        "k": "B",
+        "t": "Fiberoptik bronkoskopi"
+      },
+      {
+        "k": "C",
+        "t": "İnce kesitli (yüksek rezolüsyonlu) toraks BT"
+      },
+      {
+        "k": "D",
+        "t": "Toraks manyetik rezonans görüntüleme"
+      },
+      {
+        "k": "E",
+        "t": "Akciğer sintigrafisi"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Altın standart.",
+    "tuzak": "Bronşiektazide altın standart → <mark>yüksek rezolüsyonlu (ince kesitli) toraks BT</mark>.",
+    "aciklama": "Bronşiektazi tanısında en iyi yöntem <b>ince kesitli (yüksek rezolüsyonlu) toraks bilgisayarlı tomografi</b>dir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2007"
+    ],
+    "soru": "Aşağıdakilerden hangisi <b>çomak parmak</b> gelişimine neden olan hastalıklardan <mark>biri değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Siyanotik konjenital kalp hastalığı"
+      },
+      {
+        "k": "B",
+        "t": "Akciğer absesi"
+      },
+      {
+        "k": "C",
+        "t": "Enfektif endokardit"
+      },
+      {
+        "k": "D",
+        "t": "Siroz"
+      },
+      {
+        "k": "E",
+        "t": "Akut kalp yetmezliği"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Kronik mi akut mu?",
+    "tuzak": "Çomak parmak <mark>kronik</mark> hastalık bulgusudur; akut kalp yetmezliğinde gelişmez.",
+    "aciklama": "Çomak parmak (hipertrofik osteoartropati) kronik hipoksi/kronik hastalık zemininde gelişir: siyanotik KKH, kronik akciğer hastalıkları (bronşektazi, KF, apse), subakut endokardit, siroz, İBH. <b>Akut kalp yetmezliği</b> çomak parmak yapmaz."
+  },
+  {
+    "yil": [
+      "Sonbahar 89"
+    ],
+    "soru": "Sağ hemitoraksta skapuladan kaideye <b>matite</b>, <b>vibrasyon torasik alınmıyor</b>, solunum sesleri duyulmuyor; skapula altında <b>frotman</b> var. Grafide sağda opasite ve <b>mediasten sola itilmiş</b>. En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Atelektazi"
+      },
+      {
+        "k": "B",
+        "t": "Pnömotoraks"
+      },
+      {
+        "k": "C",
+        "t": "Amfizem"
+      },
+      {
+        "k": "D",
+        "t": "Plevral efüzyon"
+      },
+      {
+        "k": "E",
+        "t": "Pnömoninin konsolidasyon dönemi"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Vibrasyon torasik yönü.",
+    "tuzak": "Matite + <mark>vibrasyon azalması</mark> + mediasten karşıya itilme → plevral efüzyon (pnömonide vibrasyon ARTAR).",
+    "aciklama": "<b>Plevral efüzyon</b>: matite, vibrasyon torasik ve solunum sesi azalması, frotman, mediastenin karşı tarafa itilmesi. Pnömoni konsolidasyonunda vibrasyon torasik <b>artar</b>; atelektazide mediasten aynı tarafa çekilir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2002"
+    ],
+    "soru": "Plevral efüzyonu olan bir çocuğun plevral sıvı incelemesinde aşağıdaki bulgulardan hangisi <b>tüberküloz tanısını</b> <mark>desteklemez</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Protein düzeyinin 3 g/dL'nin üzerinde olması"
+      },
+      {
+        "k": "B",
+        "t": "LDH düzeyinin 200 IU/L'den düşük olması"
+      },
+      {
+        "k": "C",
+        "t": "pH'nın 7,20'nin altında olması"
+      },
+      {
+        "k": "D",
+        "t": "Mikroskopide mononükleer hücrelerin görülmesi"
+      },
+      {
+        "k": "E",
+        "t": "Dansitenin 1016'dan fazla olması"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Eksuda kriterleri.",
+    "tuzak": "TB plörezi eksudadır → LDH <mark>>200</mark> olmalı (düşük olması eksudayı dışlar).",
+    "aciklama": "TB plörezi <b>eksuda</b> niteliğindedir: protein >3 g/dL, <b>LDH >200 IU/L</b>, dansite >1016, pH <7,2, lenfomonositer hücreler, düşük glukoz, ADA (+). <b>LDH'nin 200'den düşük olması</b> transudayı gösterir, TB'yi desteklemez."
+  },
+  {
+    "yil": [
+      "İlkbahar 89"
+    ],
+    "soru": "Bir çocukta <b>saman sarısı renkli ve lenfosit hakimiyeti</b> bulunan eksudatif plevral efüzyon saptanıyor. En olası neden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Pnömokoksik pnömoni"
+      },
+      {
+        "k": "B",
+        "t": "Tüberküloz"
+      },
+      {
+        "k": "C",
+        "t": "Akciğer absesi"
+      },
+      {
+        "k": "D",
+        "t": "Amip"
+      },
+      {
+        "k": "E",
+        "t": "Konjestif kalp yetmezliği"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Lenfositik eksuda.",
+    "tuzak": "Lenfomonositer eksuda + saman sarısı → aksi ispat edilene kadar <mark>tüberküloz</mark>.",
+    "aciklama": "Plevra boşluğunda <b>mononükleer (lenfositik) pleositoz</b> gösteren eksudatif sıvı, aksi ispat edilene kadar <b>tüberküloz</b> kabul edilir (saman sarısı renk, düşük glukoz, ADA pozitifliği)."
+  },
+  {
+    "yil": [
+      "İlkbahar 2012"
+    ],
+    "soru": "Aşağıdakilerin hangisinde <b>plevral sıvıda glukoz düzeyi düşük değildir</b>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Malign efüzyon"
+      },
+      {
+        "k": "B",
+        "t": "Ampiyem"
+      },
+      {
+        "k": "C",
+        "t": "Tüberküloz"
+      },
+      {
+        "k": "D",
+        "t": "Sistemik lupus eritematozus"
+      },
+      {
+        "k": "E",
+        "t": "Nefrotik sendrom"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Transuda mı eksuda mı?",
+    "tuzak": "<mark>Nefrotik sendrom</mark> transuda yapar → glukoz normaldir.",
+    "aciklama": "Plevral sıvıda glukoz <60 mg/dL olan durumlar (eksuda): pnömoni/ampiyem, tüberküloz, malignite, romatoid artrit, SLE. <b>Nefrotik sendrom</b>, kalp yetmezliği ve hipervolemide efüzyon <b>transuda</b>dır; glukoz normaldir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2025"
+    ],
+    "soru": "10 yaşındaki erkek 1 haftadır ateş, öksürük, solunum sıkıntısıyla geliyor; sağ akciğerde solunum sesleri alınamıyor, grafide plevral efüzyon var. Torasentezde <b>pH 7,19</b>, plevra/serum protein 0,7, plevra/serum LDH 0,9; <b>kültürde S. pneumoniae</b> üremiş. En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Hidrotoraks"
+      },
+      {
+        "k": "B",
+        "t": "Hemotoraks"
+      },
+      {
+        "k": "C",
+        "t": "Ampiyem"
+      },
+      {
+        "k": "D",
+        "t": "Şilotoraks"
+      },
+      {
+        "k": "E",
+        "t": "Transüdatif plörezi"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Kültür pozitif eksuda.",
+    "tuzak": "Eksuda + <mark>kültür pozitifliği</mark> (mikrobiyal enfeksiyon) → ampiyem.",
+    "aciklama": "<b>Ampiyem</b> plevral boşluğun mikrobiyal enfeksiyonudur; eksuda kriterleri (pH <7,2, plevra/serum protein >0,5, LDH >0,6, glukoz <60) + kültür pozitifliği ile tanı konur. Çocukta plevral efüzyonun en sık nedeni pnömonidir (S. pneumoniae, S. aureus, GAS)."
+  },
+  {
+    "yil": [
+      "İlkbahar 2018 Orijinal"
+    ],
+    "soru": "14 yaşındaki erkek <b>araç içi trafik kazası</b> sonrası kötüleşiyor; TA 78/40, nabız 148, solunum 42, SpO₂ %92. Periferik nabızlar alınamıyor, santral nabızlar zayıf. <b>Sağ akciğerde solunum sesleri yok</b>, <b>boyun venleri dolgun değil</b>, <b>trakea orta hatta</b>. En olası tanı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Şilotoraks"
+      },
+      {
+        "k": "B",
+        "t": "Hemotoraks"
+      },
+      {
+        "k": "C",
+        "t": "Yelken göğüs"
+      },
+      {
+        "k": "D",
+        "t": "Kardiyak tamponad"
+      },
+      {
+        "k": "E",
+        "t": "Pnömoniye sekonder ampiyem"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Travma + hipotansiyon + solunum sesi yok.",
+    "tuzak": "Travma + kanamaya bağlı şok + tek taraflı solunum sesi yok, <mark>trakea orta hatta</mark> → hemotoraks (tansiyon pnömotoraksta trakea kayar; tamponadda boyun venleri dolgun).",
+    "aciklama": "<b>Hemotoraks</b>: plevral boşlukta kan birikimi. Travma sonrası hipotansiyon (akut kanama) + tek taraflı solunum sesi kaybı; trakea orta hatta (tansiyon pnömotoraks yok), boyun venleri dolgun değil (tamponad yok)."
+  },
+  {
+    "yil": [
+      "İlkbahar 2018 BENZERİ"
+    ],
+    "soru": "Çocuklarda <b>hemotoraksın en sık nedeni</b> aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Tüberküloz"
+      },
+      {
+        "k": "B",
+        "t": "Travmalar"
+      },
+      {
+        "k": "C",
+        "t": "Maligniteler"
+      },
+      {
+        "k": "D",
+        "t": "Akciğer absesi"
+      },
+      {
+        "k": "E",
+        "t": "İyatrojenik"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Künt/penetran yaralanma.",
+    "tuzak": "Çocukta hemotoraksın en sık nedeni → <mark>travma</mark>.",
+    "aciklama": "Çocuklarda hemotoraksın en sık nedeni <b>künt veya penetran travmalar</b>dır. İyatrojenik (cerrahi sonrası), malignite, kanama diatezi ve TB daha nadir nedenlerdir."
+  },
+  {
+    "yil": [
+      "Sonbahar 2016 Orijinal"
+    ],
+    "soru": "Aşağıdaki <b>tüberküloz formlarının</b> hangisinde <b>kortikosteroid tedavisi</b> genel olarak <mark>yer almaz</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Tüberküloz menenjit"
+      },
+      {
+        "k": "B",
+        "t": "Endobronşiyal tüberküloz"
+      },
+      {
+        "k": "C",
+        "t": "Miliyer tüberküloz"
+      },
+      {
+        "k": "D",
+        "t": "Tüberküloz perikardit"
+      },
+      {
+        "k": "E",
+        "t": "Kütanöz tüberküloz"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Steroid nerede kullanılır?",
+    "tuzak": "<mark>Kütanöz TB</mark> steroid endikasyonu değildir.",
+    "aciklama": "TB'de steroid endikasyonları: <b>TB menenjit</b> (ensefalopati/vaskülit/dirençli baş ağrısı), <b>miliyer TB</b> (siyanoz varsa), <b>plevral-perikardiyal efüzyon</b>, <b>endobronşiyal TB</b>, bası yapan hiler/paratrakeal LAP. <b>Kütanöz tüberkülozda</b> steroid gerekmez."
+  },
+  {
+    "yil": [
+      "Sonbahar 2016 BENZERİ"
+    ],
+    "soru": "Tüberküloz menenjiti tanısı alan bir hastada <b>ensefalopati</b> gelişirse aşağıdakilerden hangisi tedaviye eklenir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "İnterferon beta"
+      },
+      {
+        "k": "B",
+        "t": "Streptomisin"
+      },
+      {
+        "k": "C",
+        "t": "İVİG"
+      },
+      {
+        "k": "D",
+        "t": "Etambutol"
+      },
+      {
+        "k": "E",
+        "t": "Metilprednizolon"
+      }
+    ],
+    "dogru": 4,
+    "ipucu": "Anti-inflamatuvar.",
+    "tuzak": "TB menenjit + ensefalopati → <mark>kortikosteroid (metilprednizolon)</mark>.",
+    "aciklama": "TB menenjitinde <b>ensefalopati, serebral vaskülit veya kontrol edilemeyen baş ağrısı</b> varsa tedaviye <b>kortikosteroid</b> eklenir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2016 Orijinal"
+    ],
+    "soru": "Babasında tüberküloz saptanan, <b>yakınması olmayan</b> 6 yaşındaki çocukta 1 ay önce tüberkülin cilt testi <b>negatif</b>; BCG skarı var, muayene normal. <b>Latent tüberküloz enfeksiyonu</b> tanısı için hangi inceleme yönlendirici olur?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Açlık mide suyunda M. tuberculosis PCR"
+      },
+      {
+        "k": "B",
+        "t": "Akciğer grafisi"
+      },
+      {
+        "k": "C",
+        "t": "İnterferon gama salınım testi (IGST)"
+      },
+      {
+        "k": "D",
+        "t": "Bilgisayarlı akciğer tomografisi"
+      },
+      {
+        "k": "E",
+        "t": "Balgamda aside dirençli basil aranması"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "BCG'den etkilenmeyen test.",
+    "tuzak": "Latent TB → <mark>interferon gama salınım testi</mark> (BCG'den etkilenmez).",
+    "aciklama": "<b>İnterferon gama salınım testleri (IGST/QuantiFERON, T-SPOT.TB)</b> latent TB enfeksiyonu tanısı için geliştirilmiştir; <b>BCG aşısından etkilenmez</b>. Balgam ARB ve PCR aktif hastalığı gösterir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2016 BENZERİ"
+    ],
+    "soru": "<b>İnterferon gama salınım testi</b> aşağıdaki hastalıklardan hangisinin tanısında kullanılabilir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Astım"
+      },
+      {
+        "k": "B",
+        "t": "Bronşiektazi"
+      },
+      {
+        "k": "C",
+        "t": "Tüberküloz"
+      },
+      {
+        "k": "D",
+        "t": "Allerjik bronkopulmoner aspergilloz"
+      },
+      {
+        "k": "E",
+        "t": "Bronşiolitis obliterans"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Hafıza T hücreleri.",
+    "tuzak": "IGST → <mark>tüberküloz</mark> (özellikle latent enfeksiyon).",
+    "aciklama": "<b>İnterferon gama salınım testi</b> M. tuberculosis antijenleriyle uyarılan hafıza T hücrelerinin IFN-γ üretimini ölçer; tüberküloz (özellikle latent enfeksiyon) tanısında kullanılır."
+  },
+  {
+    "yil": [
+      "Sonbahar 2015 Orijinal"
+    ],
+    "soru": "İlk tüberküloz enfeksiyonundan sonra hastalık aşağıdakilerin hangisinde <mark>en geç</mark> ortaya çıkar?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Gastrointestinal sistem"
+      },
+      {
+        "k": "B",
+        "t": "Böbrek"
+      },
+      {
+        "k": "C",
+        "t": "Akciğer"
+      },
+      {
+        "k": "D",
+        "t": "Lenf nodları"
+      },
+      {
+        "k": "E",
+        "t": "Santral sinir sistemi"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Aylar-yıllar sonra.",
+    "tuzak": "<mark>Renal tüberküloz</mark> ilk enfeksiyondan aylar-yıllar sonra ortaya çıkar (en geç).",
+    "aciklama": "<b>Renal tüberküloz</b> ilk enfeksiyondan aylar-yıllar sonra ortaya çıkar (en geç). Sessiz seyreder; steril piyüri ve mikroskobik hematüri görülür. En sık komplikasyonları hidronefroz ve üreteral striktürdür."
+  },
+  {
+    "yil": [
+      "Sonbahar 2014 Orijinal"
+    ],
+    "soru": "Babada <b>kaviter TB + balgamda ARB (+)</b>. Aile taraması: <b>1. çocuk</b> (8 yaş, muayene/grafi normal, PPD 17 mm); <b>2. çocuk</b> (3 yaş, muayene/grafi normal, PPD 6 mm); <b>3. çocuk</b> (1 yaş, sağ akciğerde ral, grafide <b>hiler LAP</b>, PPD 16 mm). En uygun tedavi yaklaşımı hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "1. çocuk: INH profilaksisi — 2. çocuk: INH profilaksisi — 3. çocuk: INH-RIF-PZA tedavi"
+      },
+      {
+        "k": "B",
+        "t": "1. çocuk: INH-RIF-PZA tedavi — 2. çocuk: INH profilaksisi — 3. çocuk: INH-RIF-PZA tedavi"
+      },
+      {
+        "k": "C",
+        "t": "1. çocuk: INH profilaksisi — 2. çocuk: Tedavisiz izlem — 3. çocuk: INH-RIF-PZA tedavi"
+      },
+      {
+        "k": "D",
+        "t": "1. çocuk: Tedavisiz izlem — 2. çocuk: Tedavisiz izlem — 3. çocuk: INH-RIF-PZA tedavi"
+      },
+      {
+        "k": "E",
+        "t": "1. çocuk: INH profilaksisi — 2. çocuk: INH profilaksisi — 3. çocuk: INH profilaksisi"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Asemptomatik = profilaksi; bulgu varsa tedavi.",
+    "tuzak": "Bulaştırıcı temaslıda <mark>PPD'ye bakılmaksızın tüm asemptomatik çocuklara INH profilaksisi</mark>; hastalık bulgusu (hiler LAP) olana tam tedavi.",
+    "aciklama": "Bulaştırıcı (ARB+) erişkinle temaslı çocuklarda: <b>PPD pozitif veya negatif olsun, aktif hastalık bulgusu olmayan tüm çocuklara INH profilaksisi</b> verilir. <b>Hastalık bulgusu (hiler LAP, ral) olan çocuğa tam TB tedavisi</b> (INH+RIF+PZA) başlanır."
+  },
+  {
+    "yil": [
+      "Sonbahar 2014 BENZERİ"
+    ],
+    "soru": "Annede kaviter TB + balgamda ARB (+). <b>10 yaşındaki erkek çocuğunda</b>: BCG skarı var, <b>muayene ve akciğer grafisi normal</b>, PPD endürasyonu <b>17 mm</b>. En uygun yaklaşım hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "İzoniazid profilaksisi"
+      },
+      {
+        "k": "B",
+        "t": "Sadece izlem"
+      },
+      {
+        "k": "C",
+        "t": "Rifampin profilaksisi"
+      },
+      {
+        "k": "D",
+        "t": "İzoniazid + rifampin + pirazinamid tedavisi"
+      },
+      {
+        "k": "E",
+        "t": "Akciğer BT çekilmesi"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Hastalık bulgusu yok.",
+    "tuzak": "Temaslı + PPD (+) ama <mark>hastalık bulgusu yok</mark> → INH profilaksisi (tam tedavi değil).",
+    "aciklama": "Temaslı, PPD pozitif (>15 mm), muayene ve grafi normal (aktif hastalık yok) → <b>izoniazid profilaksisi</b> (6-9 ay). Tam tedavi hastalık bulgusu varsa başlanır."
+  },
+  {
+    "yil": [
+      "Sonbahar 2012"
+    ],
+    "soru": "Çocukluk döneminde <b>akciğer dışı tüberkülozun en sık görülen şekli</b> aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Tüberküloz menenjit"
+      },
+      {
+        "k": "B",
+        "t": "Renal tüberküloz"
+      },
+      {
+        "k": "C",
+        "t": "Tüberküloz lenfadenit"
+      },
+      {
+        "k": "D",
+        "t": "Tüberküloz peritonit"
+      },
+      {
+        "k": "E",
+        "t": "Tüberküloz perikardit"
+      }
+    ],
+    "dogru": 2,
+    "ipucu": "Servikal nodlar.",
+    "tuzak": "Ekstrapulmoner TB'nin en sık formu → <mark>lenfadenit</mark> (skrofula).",
+    "aciklama": "Çocuklarda akciğer dışı tüberkülozun en sık formu <b>tüberküloz lenfadenit</b>tir; en çok baş-boyunda, özellikle <b>servikal</b> nodlarda görülür (ağrısız LAP, sinüs/apse gelişebilir)."
+  },
+  {
+    "yil": [
+      "İlkbahar-88"
+    ],
+    "soru": "<b>Pulmoner tüberküloz enfeksiyonu</b> için aşağıdakilerden hangisi <mark>yanlıştır</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Alınan basil sayısı hastalıkta önemlidir."
+      },
+      {
+        "k": "B",
+        "t": "Tüberkülin deri testi (PPD) pozitifliği aktif enfeksiyonu gösterir."
+      },
+      {
+        "k": "C",
+        "t": "Tüberküloz basili intraselüler yerleşir."
+      },
+      {
+        "k": "D",
+        "t": "Damlacık enfeksiyonu ile geçer."
+      },
+      {
+        "k": "E",
+        "t": "Basil zorunlu aerobdur."
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "PPD ne gösterir?",
+    "tuzak": "<mark>PPD pozitifliği aktif enfeksiyonu göstermez</mark>; sadece basille karşılaşmayı/BCG'yi gösterir.",
+    "aciklama": "<b>PPD pozitifliği aktif hastalığı göstermez</b>; kişinin basille karşılaştığını, geçirdiğini veya aşılandığını gösterir. Test enfeksiyondan 4-6 hafta sonra pozitifleşir (preallerjik anerji dönemi). Kızamık, boğmaca, Hodgkin, sarkoidozda yalancı negatif olabilir."
+  },
+  {
+    "yil": [
+      "Sonbahar 96"
+    ],
+    "soru": "Tüberküloz enfeksiyonunda <b>prognozu en fazla etkileyen faktör</b> aşağıdakilerden hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Yaygınlık"
+      },
+      {
+        "k": "B",
+        "t": "Etkin kemoterapi"
+      },
+      {
+        "k": "C",
+        "t": "Primer organ tutulumu"
+      },
+      {
+        "k": "D",
+        "t": "Yaş"
+      },
+      {
+        "k": "E",
+        "t": "Vücut ağırlığı"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Miliyer TB en ağır.",
+    "tuzak": "Prognozu en çok belirleyen → hastalığın <mark>yaygınlığı</mark>.",
+    "aciklama": "TB'de prognozu etkileyen faktörler yaş, immünite ve enfeksiyonun şiddeti/yaygınlığıdır; bunlar arasında <b>yaygınlık</b> en önemlisidir (miliyer TB en ağır formdur)."
+  },
+  {
+    "yil": [
+      "İlkbahar 94"
+    ],
+    "soru": "11 yaşında, <b>klinik olarak bulgusu olmayan</b> çocukta tüberkülin deri testi endürasyon çapı <b>22 mm</b> saptanıyor. En uygun yaklaşım hangisidir?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "6 ay INH verilmesi"
+      },
+      {
+        "k": "B",
+        "t": "3 ay sonra tekrar PPD kontrolü"
+      },
+      {
+        "k": "C",
+        "t": "1 ay streptomisin + 6 ay INH tedavisi"
+      },
+      {
+        "k": "D",
+        "t": "2 ay etambutol + 6 ay rifampisin tedavisi"
+      },
+      {
+        "k": "E",
+        "t": "3 ay rifampisin tedavisi"
+      }
+    ],
+    "dogru": 0,
+    "ipucu": "Enfekte ama hasta değil.",
+    "tuzak": "PPD (+) + asemptomatik → <mark>6-9 ay INH profilaksisi</mark>.",
+    "aciklama": "PPD >15 mm tüm gruplarda pozitiftir. Klinik olarak sağlıklı, PPD pozitif kişi <b>enfekte</b> kabul edilir ve disseminasyonu önlemek için <b>6-9 ay INH profilaksisi</b> uygulanır. (PPD eşikleri: ≥5 mm temaslı/immünsüprese, ≥10 mm <4 yaş/riskli, ≥15 mm risksiz >4 yaş.)"
+  },
+  {
+    "yil": [
+      "İlkbahar 2018 Orijinal"
+    ],
+    "soru": "TB perikardit tanısıyla 45 gündür <b>izoniazid, rifampisin, pirazinamid, etambutol ve prednizolon</b> alan çocuk 2 gündür <b>diz ağrısıyla</b> geliyor (TB şikayetleri gerilemiş, kilo alıyor). Diz ağrısının hangi ilaca bağlı olması <mark>en olasıdır</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "İzoniazid"
+      },
+      {
+        "k": "B",
+        "t": "Etambutol"
+      },
+      {
+        "k": "C",
+        "t": "Prednizolon"
+      },
+      {
+        "k": "D",
+        "t": "Pirazinamid"
+      },
+      {
+        "k": "E",
+        "t": "Rifampisin"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Ürik asit yükselir.",
+    "tuzak": "<mark>Pirazinamid</mark> ürik asidi artırır → eklem ağrısı/artralji.",
+    "aciklama": "<b>Pirazinamid</b> ürik asit düzeyini artırarak <b>eklem ağrısı (artralji)</b> yapar; akut gut nadirdir. Semptomatik antiinflamatuvar tedavi verilir."
+  },
+  {
+    "yil": [
+      "İlkbahar 2018 BENZERİ"
+    ],
+    "soru": "Tüberkülozun majör tedavisinde kullanılan ilaçlardan hangisinde <b>optik nörit, görme alanında azalma ve yeşil rengi algılamada güçlük</b> semptomlarının olma olasılığı <mark>en yüksektir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Rifampisin"
+      },
+      {
+        "k": "B",
+        "t": "Pirazinamid"
+      },
+      {
+        "k": "C",
+        "t": "Prednizolon"
+      },
+      {
+        "k": "D",
+        "t": "Etambutol"
+      },
+      {
+        "k": "E",
+        "t": "İzoniazid"
+      }
+    ],
+    "dogru": 3,
+    "ipucu": "Göz toksisitesi.",
+    "tuzak": "<mark>Etambutol</mark> → optik nörit / renk görme bozukluğu (ilaç hemen kesilir).",
+    "aciklama": "<b>Etambutol</b> optik nörit yapar: görme alanı daralması, yeşil-kırmızı renk ayırt etme güçlüğü; doza bağımlıdır, ilaç <b>hemen kesilmelidir</b>. (INH → periferik nöropati/piridoksin; rifampisin → kırmızı idrar; streptomisin → ototoksisite; INH+RIF → hepatotoksisite.)"
+  },
+  {
+    "yil": [
+      "İlkbahar 2004"
+    ],
+    "soru": "Aşağıdakilerden hangisi çocuklarda <b>obstrüktif uyku apnesi ve hipoventilasyona</b> neden olan faktörlerden <mark>biri değildir</mark>?",
+    "siklar": [
+      {
+        "k": "A",
+        "t": "Obezite"
+      },
+      {
+        "k": "B",
+        "t": "Nazal steroid kullanımı"
+      },
+      {
+        "k": "C",
+        "t": "Kistik fibrozis"
+      },
+      {
+        "k": "D",
+        "t": "Adenotonsiller hipertrofi"
+      },
+      {
+        "k": "E",
+        "t": "Laringomalazi"
+      }
+    ],
+    "dogru": 1,
+    "ipucu": "Neden mi tedavi mi?",
+    "tuzak": "<mark>Nazal steroid</mark> OSAS nedeni değil, tedavisinde kullanılır.",
+    "aciklama": "OSAS nedenleri: <b>adenotonsiller hipertrofi (en sık)</b>, obezite, nazal patolojiler (polip, septum deviasyonu, rinit), laringomalazi, makroglossi, mikrognati, kraniyofasiyal anomaliler, KF, nöromusküler hastalıklar. <b>Nazal steroid</b> OSAS'a yol açan allerjik rinit/polip tedavisinde kullanılır (neden değildir). Çocukta en sık tedavi: adenotonsillektomi."
+  }
+];
+
+/* ================= STATE ================= */
+let order = QUESTIONS.map(function(_,i){return i;});
+let idx = 0;
+const answered = new Array(QUESTIONS.length).fill(null);
+const starred  = new Array(QUESTIONS.length).fill(false);
+let finished = false;
+
+/* ================= PERSISTENCE (localStorage) ================= */
+const STORAGE_KEY = 'tusquiz::' + (document.title || 'quiz') + '::' + QUESTIONS.length;
+function saveState(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      answered:answered, starred:starred, idx:idx, order:order, finished:finished, v:1
+    }));
+  }catch(e){}
+}
+function loadSavedState(){
+  try{ const r=localStorage.getItem(STORAGE_KEY); return r?JSON.parse(r):null; }catch(e){ return null; }
+}
+function clearSavedState(){ try{ localStorage.removeItem(STORAGE_KEY); }catch(e){} }
+function hasProgress(s){
+  if(!s) return false;
+  const a = s.answered && s.answered.some(function(x){return x!==null;});
+  return a || (s.idx>0) || s.finished;
+}
+function applyState(s){
+  for(let i=0;i<QUESTIONS.length;i++){
+    answered[i] = (s.answered && i<s.answered.length) ? s.answered[i] : null;
+    starred[i]  = (s.starred  && i<s.starred.length)  ? !!s.starred[i] : false;
+  }
+  order = (s.order && s.order.length) ? s.order.slice() : QUESTIONS.map(function(_,i){return i;});
+  idx = (typeof s.idx==='number') ? Math.max(0,Math.min(order.length-1,s.idx)) : 0;
+  finished = !!s.finished;
+}
+
+function qid(){ return order[idx]; }
+function curQ(){ return QUESTIONS[order[idx]]; }
+
+/* ========== HEADER SPACING (JS-measured) ========== */
+const hdr = document.getElementById('hdr');
+const main = document.getElementById('main');
+function syncHeader(){
+  const h = hdr.offsetHeight;
+  main.style.paddingTop = (h + 14) + 'px';
+  document.documentElement.style.setProperty('--hdrH', h + 'px');
+}
+window.addEventListener('load', syncHeader);
+window.addEventListener('resize', syncHeader);
+syncHeader();
+
+/* ================= RENDER ================= */
+const quizEl = document.getElementById('quiz');
+const resultEl = document.getElementById('result');
+const navEl = document.getElementById('nav');
+
+function render(){
+  if(finished){ renderResult(); return; }
+  resultEl.classList.remove('show');
+  quizEl.style.display='block';
+  navEl.style.display='flex';
+
+  const q = curQ();
+  const id = qid();
+  const chosen = answered[id];
+  const isAns = chosen !== null;
+
+  let html = '';
+  html += '<div class="qmeta">';
+  html += '<div class="qnum">SORU '+(idx+1)+' / '+order.length+'</div>';
+  html += '<button class="star-btn '+(starred[id]?'on':'')+'" onclick="toggleStar()" aria-label="Yıldızla">⭐</button>';
+  html += '</div>';
+
+  if(q.yil && q.yil.length){
+    html += '<div class="year-tags">';
+    q.yil.forEach(function(y){ html += '<span class="year-tag">'+y+'</span>'; });
+    html += '</div>';
+  }
+
+  html += '<div class="qcard">'+q.soru+'</div>';
+
+  html += '<div class="opts '+(isAns?'locked':'')+'" id="opts">';
+  q.siklar.forEach(function(s,i){
+    let cls='opt';
+    if(isAns){
+      if(i===q.dogru) cls+=' correct';
+      else if(i===chosen) cls+=' wrong';
+      else cls+=' dim';
+    }
+    html += '<button class="'+cls+'" '+(isAns?'':'onclick="answer('+i+')"')+'>'
+          + '<span class="k">'+s.k+'</span><span class="t">'+s.t+'</span><span class="mark"></span></button>';
+  });
+  html += '</div>';
+
+  if(!isAns){
+    html += '<button class="hintbtn" id="preHint" onclick="showPreHint()">💡 İpucu göster</button>';
+    html += '<div id="revealZone"></div>';
+  } else {
+    html += '<div id="revealZone">'+revealHTML(q)+'</div>';
+  }
+
+  quizEl.innerHTML = html;
+
+  document.getElementById('prevBtn').disabled = (idx===0);
+  document.getElementById('nextBtn').textContent = (idx===order.length-1) ? 'Bitir ✓' : 'Sonraki →';
+  document.getElementById('navCounter').textContent = (idx+1)+'/'+order.length;
+
+  updateBars();
+}
+
+function revealHTML(q){
+  return ''
+   + '<div class="box ip"><div class="bt">💡 İPUCU</div><div>'+q.ipucu+'</div></div>'
+   + '<div class="box tz"><div class="bt">⚠️ TUZAK</div><div>'+q.tuzak+'</div></div>'
+   + '<div class="box ac"><div class="bt">📖 AÇIKLAMA</div><div>'+q.aciklama+'</div></div>';
+}
+
+function showPreHint(){
+  const q = curQ();
+  const btn = document.getElementById('preHint');
+  if(btn) btn.style.display='none';
+  document.getElementById('revealZone').innerHTML =
+    '<div class="box ip"><div class="bt">💡 İPUCU</div><div>'+q.ipucu+'</div></div>';
+  scrollToReveal();
+}
+
+/* ================= ACTIONS ================= */
+function answer(i){
+  const id = qid();
+  if(answered[id]!==null) return;
+  answered[id]=i;
+  const q=curQ();
+
+  const opts=document.getElementById('opts');
+  opts.classList.add('locked');
+  const btns=opts.querySelectorAll('.opt');
+  btns.forEach(function(b,k){
+    b.setAttribute('onclick','');
+    if(k===q.dogru) b.classList.add('correct');
+    else if(k===i) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+
+  const pre=document.getElementById('preHint');
+  if(pre) pre.style.display='none';
+
+  document.getElementById('revealZone').innerHTML = revealHTML(q);
+  updateBars();
+  saveState();
+  if(i === q.dogru){ celebrate(btns[q.dogru]); } else { commiserate(); }
+  scrollToReveal();
+}
+
+function scrollToReveal(){
+  requestAnimationFrame(function(){
+    const zone=document.getElementById('revealZone');
+    const first=zone && zone.firstElementChild;
+    if(!first) return;
+    const offset = hdr.offsetHeight + 10;
+    const y = first.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({top:y, behavior:'smooth'});
+  });
+}
+
+function toggleStar(){
+  const id=qid();
+  starred[id]=!starred[id];
+  saveState();
+  render();
+}
+
+function go(dir){
+  if(dir===1 && idx===order.length-1){ finished=true; saveState(); render(); window.scrollTo({top:0,behavior:'smooth'}); return; }
+  idx=Math.max(0,Math.min(order.length-1, idx+dir));
+  saveState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ================= MODAL ================= */
+function openModal(){
+  const grid=document.getElementById('qGrid');
+  let h='';
+  order.forEach(function(id,p){
+    let cls='gbtn';
+    if(answered[id]!==null){ cls += (answered[id]===QUESTIONS[id].dogru)?' ok':' no'; }
+    if(p===idx) cls+=' cur';
+    if(starred[id]) cls+=' star';
+    h += '<button class="'+cls+'" onclick="jump('+p+')">'+(p+1)+'</button>';
+  });
+  grid.innerHTML=h;
+  document.getElementById('modalOv').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('modalOv').classList.remove('show');
+  document.body.style.overflow='';
+}
+function modalBg(e){ if(e.target.id==='modalOv') closeModal(); }
+function jump(p){ idx=p; finished=false; closeModal(); saveState(); render(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+/* ================= COUNTERS / PROGRESS ================= */
+function correctCount(){
+  let c=0;
+  answered.forEach(function(a,i){ if(a!==null && a===QUESTIONS[i].dogru) c++; });
+  return c;
+}
+function starCount(){ return starred.filter(Boolean).length; }
+function updateBars(){
+  document.getElementById('cCount').textContent = correctCount();
+  document.getElementById('sCount').textContent = starCount();
+  const pos = finished ? order.length : (idx+1);
+  document.getElementById('bar').style.width = Math.round((pos/order.length)*100)+'%';
+}
+
+/* ================= RESULT ================= */
+function renderResult(){
+  quizEl.style.display='none';
+  navEl.style.display='none';
+  resultEl.classList.add('show');
+
+  const total=order.length;
+  let correct=0, wrong=0, blank=0, starHere=0;
+  order.forEach(function(id){
+    const a=answered[id];
+    if(a===null) blank++;
+    else if(a===QUESTIONS[id].dogru) correct++;
+    else wrong++;
+    if(starred[id]) starHere++;
+  });
+  const pct=Math.round((correct/total)*100);
+
+  document.getElementById('scoreBig').textContent = correct+'/'+total;
+  document.getElementById('pctLine').textContent = '%'+pct;
+  document.getElementById('ring').style.setProperty('--pct', pct+'%');
+
+  let fb;
+  if(pct>=90) fb='Mükemmel! Bu konulara hâkimsin. 🎯';
+  else if(pct>=70) fb='Çok iyi. Birkaç tuzak dışında sağlamsın. 👏';
+  else if(pct>=50) fb='Fena değil; yanlışları ve tuzakları tekrar et. 📚';
+  else fb='Bu blokları tekrar çalışmakta fayda var. Devam! 💪';
+  document.getElementById('fbText').textContent = fb;
+
+  document.getElementById('rStats').innerHTML =
+      '<div class="rstat g">✓ Doğru '+correct+'</div>'
+    + '<div class="rstat r">✗ Yanlış '+wrong+'</div>'
+    + '<div class="rstat s">⭐ Yıldızlı '+starHere+'</div>';
+
+  let rev='';
+  order.forEach(function(id,p){
+    const q=QUESTIONS[id];
+    const a=answered[id];
+    let badge, cls, label;
+    if(a===null){ badge='–'; cls='blank'; label='Boş'; }
+    else if(a===q.dogru){ badge='✓'; cls='ok'; label='Doğru'; }
+    else { badge='✗'; cls='no'; label='Yanlış'; }
+    const ds=q.siklar[q.dogru];
+    rev += '<div class="rev" onclick="jump('+p+')">'
+         + '<div class="badge '+cls+'">'+badge+'</div>'
+         + '<div style="flex:1">'
+         + '<div class="rq">Soru '+(p+1)+' — '+label+(starred[id]?' ⭐':'')+'</div>'
+         + '<div class="ra">Doğru cevap: <b>'+ds.k+') '+ds.t+'</b></div>'
+         + '</div></div>';
+  });
+  document.getElementById('reviewList').innerHTML = rev;
+
+  document.getElementById('retryWrongBtn').disabled = (wrong===0);
+  document.getElementById('retryStarBtn').disabled = (starCount()===0);
+  setTimeout(function(){ finaleShow(pct); }, 250);
+
+  updateBars();
+}
+
+/* ================= RETRY MODES ================= */
+function startSubset(ids){
+  fxStreak = 0;
+  order = ids.slice();
+  ids.forEach(function(id){ answered[id]=null; });
+  idx=0; finished=false;
+  saveState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function restart(){
+  fxStreak = 0;
+  order = QUESTIONS.map(function(_,i){return i;});
+  for(let i=0;i<QUESTIONS.length;i++){ answered[i]=null; }
+  idx=0; finished=false;
+  clearSavedState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function retryWrong(){
+  const ids = order.filter(function(id){ return answered[id]!==null && answered[id]!==QUESTIONS[id].dogru; });
+  if(!ids.length){ toast('Yanlış soru yok 🎉'); return; }
+  startSubset(ids);
+}
+function retryStar(){
+  const ids = [];
+  starred.forEach(function(s,i){ if(s) ids.push(i); });
+  if(!ids.length){ toast('Yıldızlı soru yok ⭐'); return; }
+  startSubset(ids);
+}
+
+/* ================= TOAST ================= */
+let toastT=null;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(toastT);
+  toastT=setTimeout(function(){ el.classList.remove('show'); },1800);
+}
+
+/* ================= RESUME ================= */
+function showResumePrompt(saved){
+  const ov = document.getElementById('resumeOv');
+  const sub = document.getElementById('resumeSub');
+  const ord = (saved.order && saved.order.length) ? saved.order : QUESTIONS.map(function(_,i){return i;});
+  const total = ord.length;
+  const pos = saved.finished ? total : Math.min((saved.idx||0)+1, total);
+  const ansCount = saved.answered ? saved.answered.filter(function(x){return x!==null;}).length : 0;
+  sub.textContent = saved.finished
+    ? ('Testi bitirmiştin — sonuç ekranına dönebilirsin. (' + ansCount + ' soru işaretlenmiş)')
+    : ('Soru ' + pos + ' / ' + total + ' — ' + ansCount + ' soru cevaplanmış.');
+  window._savedState = saved;
+  ov.classList.add('show');
+}
+function resumeYes(){
+  applyState(window._savedState);
+  document.getElementById('resumeOv').classList.remove('show');
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function resumeNo(){
+  clearSavedState();
+  document.getElementById('resumeOv').classList.remove('show');
+  render();
+}
+
+
+/* ================= EĞLENCE MOTORU ================= */
+const fxCanvas = document.createElement('canvas');
+fxCanvas.id = 'fxCanvas';
+document.body.appendChild(fxCanvas);
+const fxCtx = fxCanvas.getContext('2d');
+let fxParts = [], fxRaf = null;
+
+function fxResize(){
+  fxCanvas.width = window.innerWidth;
+  fxCanvas.height = window.innerHeight;
+}
+window.addEventListener('resize', fxResize);
+fxResize();
+
+const FX_COLORS = ['#4c9aff','#7c5cff','#2ea043','#f5c451','#ff5b5b','#3fb6a8','#ffffff','#ff9de2'];
+
+function confettiBurst(n, originY){
+  const oy = (typeof originY === 'number') ? originY : window.innerHeight * 0.38;
+  for(let i=0;i<n;i++){
+    fxParts.push({
+      x: window.innerWidth/2 + (Math.random()-0.5)*160,
+      y: oy,
+      vx: (Math.random()-0.5)*13,
+      vy: Math.random()*-13 - 4,
+      g: 0.34,
+      w: Math.random()*8 + 5,
+      h: Math.random()*5 + 3,
+      c: FX_COLORS[Math.floor(Math.random()*FX_COLORS.length)],
+      rot: Math.random()*6.28,
+      vr: (Math.random()-0.5)*0.35,
+      life: 130
+    });
+  }
+  if(!fxRaf) fxRaf = requestAnimationFrame(fxTick);
+}
+
+function fxTick(){
+  fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height);
+  fxParts = fxParts.filter(function(p){ return p.life > 0 && p.y < window.innerHeight + 60; });
+  fxParts.forEach(function(p){
+    p.x += p.vx; p.y += p.vy; p.vy += p.g; p.vx *= 0.995;
+    p.rot += p.vr; p.life--;
+    fxCtx.save();
+    fxCtx.translate(p.x, p.y);
+    fxCtx.rotate(p.rot);
+    fxCtx.globalAlpha = Math.max(0, Math.min(1, p.life/45));
+    fxCtx.fillStyle = p.c;
+    fxCtx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+    fxCtx.restore();
+  });
+  if(fxParts.length){ fxRaf = requestAnimationFrame(fxTick); }
+  else { fxRaf = null; fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height); }
+}
+
+function emojiFloat(list, count){
+  for(let i=0;i<count;i++){
+    const e = document.createElement('div');
+    e.className = 'emoji-pop';
+    e.textContent = list[Math.floor(Math.random()*list.length)];
+    e.style.left = (window.innerWidth/2 + (Math.random()-0.5)*240) + 'px';
+    e.style.top  = (window.innerHeight*0.58) + 'px';
+    e.style.setProperty('--dx', ((Math.random()-0.5)*140) + 'px');
+    e.style.setProperty('--rot', ((Math.random()-0.5)*90) + 'deg');
+    e.style.animationDelay = (Math.random()*0.28) + 's';
+    document.body.appendChild(e);
+    setTimeout(function(){ if(e.parentNode) e.remove(); }, 2200);
+  }
+}
+
+function emojiRain(list, count){
+  for(let i=0;i<count;i++){
+    const e = document.createElement('div');
+    e.className = 'emoji-drop';
+    e.textContent = list[Math.floor(Math.random()*list.length)];
+    e.style.left = (window.innerWidth*0.15 + Math.random()*window.innerWidth*0.7) + 'px';
+    e.style.top  = (window.innerHeight*0.30) + 'px';
+    e.style.setProperty('--rot', ((Math.random()-0.5)*70) + 'deg');
+    e.style.animationDelay = (Math.random()*0.25) + 's';
+    document.body.appendChild(e);
+    setTimeout(function(){ if(e.parentNode) e.remove(); }, 2000);
+  }
+}
+
+const GOOD_EMO = ['🎉','🥳','😄','👏','⭐','💪','🔥','✨','🏆','😎','💚','🩺'];
+const BAD_EMO  = ['😢','😞','💔','😵','🙈','😬','🥲'];
+const MASCOTS  = ['🐵','🦉','🐣','🦊','🐼','🚀'];
+
+const GOOD_MSG = ['Harika! 🎉','Bravo! 👏','Tam isabet! 🎯','Süpersin! 🥳','İşte bu! 💪',
+                  'Mükemmel! ⭐','Doğru cevap! 🔥','Efsanesin! 🏆','Aferin doktor! 🩺',
+                  'Nefes kesici! 😮‍💨','Çok iyisin! 💚'];
+const BAD_MSG  = ['Olsun, tekrar bakalım 💪','Tuzağa düştün ⚠️','Yanlış ama öğrendik 📚',
+                  'Boş ver, devam! 🙌','Bir dahakine 😉','Not al, unutma 📝',
+                  'Açıklamayı oku, kaçırma 👀','Nefesini topla, devam 🫁'];
+const STREAK_MSG = {3:'🔥 3 ÜST ÜSTE!',5:'⚡ 5 SERİ! HARİKA!',8:'🏆 8 SERİ! EFSANE!',
+                    10:'👑 10 SERİ! ŞAMPİYON!',15:'🚀 15 SERİ! DURDURULAMAZ!',
+                    20:'🌟 20 SERİ! İNANILMAZ!'};
+
+let fxStreak = 0;
+
+function showStreak(msg){
+  const s = document.createElement('div');
+  s.className = 'streak';
+  s.textContent = msg;
+  document.body.appendChild(s);
+  setTimeout(function(){ if(s.parentNode) s.remove(); }, 1700);
+}
+
+function celebrate(btn){
+  confettiBurst(95);
+  emojiFloat(GOOD_EMO, 8);
+  toast(GOOD_MSG[Math.floor(Math.random()*GOOD_MSG.length)]);
+  if(btn){
+    const m = document.createElement('span');
+    m.className = 'mascot';
+    m.textContent = MASCOTS[Math.floor(Math.random()*MASCOTS.length)];
+    btn.style.position = 'relative';
+    btn.appendChild(m);
+  }
+  fxStreak++;
+  if(STREAK_MSG[fxStreak]){
+    showStreak(STREAK_MSG[fxStreak]);
+    setTimeout(function(){ confettiBurst(70, window.innerHeight*0.30); }, 220);
+  }
+  try{ if(navigator.vibrate) navigator.vibrate(35); }catch(e){}
+}
+
+function commiserate(){
+  const m = document.getElementById('main');
+  if(m){
+    m.classList.remove('shake');
+    void m.offsetWidth;
+    m.classList.add('shake');
+    setTimeout(function(){ m.classList.remove('shake'); }, 700);
+  }
+  emojiRain(BAD_EMO, 6);
+  toast(BAD_MSG[Math.floor(Math.random()*BAD_MSG.length)]);
+  fxStreak = 0;
+  try{ if(navigator.vibrate) navigator.vibrate([40,60,40]); }catch(e){}
+}
+
+function finaleShow(pct){
+  if(pct >= 90){
+    [0,300,600,900].forEach(function(d){
+      setTimeout(function(){ confettiBurst(110, window.innerHeight*0.30); }, d);
+    });
+    emojiFloat(['🏆','👑','🎉','🥳','⭐'], 12);
+  } else if(pct >= 70){
+    confettiBurst(110, window.innerHeight*0.32);
+    setTimeout(function(){ confettiBurst(80, window.innerHeight*0.30); }, 350);
+    emojiFloat(GOOD_EMO, 8);
+  } else if(pct >= 50){
+    confettiBurst(60, window.innerHeight*0.34);
+    emojiFloat(['💪','📚','✨'], 5);
+  } else {
+    emojiFloat(['📚','💪','🩺'], 4);
+  }
+}
+
+/* ================= INIT ================= */
+render();
+(function(){ const s=loadSavedState(); if(hasProgress(s)) showResumePrompt(s); })();
+window.addEventListener('load', function(){ syncHeader(); updateBars(); });
+</script>
+</body>
+</html>

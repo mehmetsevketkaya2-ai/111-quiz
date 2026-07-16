@@ -1,0 +1,5400 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="pragma" content="no-cache">
+<title>Pediatri TTS — Nefroloji (Tam Bölüm · 113 Soru)</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --line:#2a3444;
+    --text:#e6edf3; --muted:#9aa7b5; --accent:#4c9aff; --accent2:#7c5cff;
+    --green:#2ea043; --green-bg:#12341c; --red:#e5484d; --red-bg:#3a1518;
+    --star:#f5c451; --hint:#3fb6a8; --trap:#ff5b5b; --exp:#b487ff;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;-webkit-text-size-adjust:100%;}
+  mark{background:none;color:var(--trap);font-weight:800;}
+  b{color:#fff;font-weight:700;}
+
+  header{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--panel);
+    border-bottom:1px solid var(--line);padding:env(safe-area-inset-top) 0 0 0;
+    box-shadow:0 4px 18px rgba(0,0,0,.35);}
+  .hbar{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:11px 16px 10px;}
+  .htitle{font-size:15px;font-weight:800;letter-spacing:.3px;}
+  .htitle span{color:var(--accent);}
+  .stats{display:flex;gap:8px;}
+  .chip{display:flex;align-items:center;gap:5px;background:var(--panel2);
+    border:1px solid var(--line);border-radius:999px;padding:5px 11px;
+    font-size:13px;font-weight:700;}
+  .chip.correct{color:var(--green);} .chip.star{color:var(--star);}
+  .progress{height:5px;background:var(--panel2);width:100%;}
+  .progress > i{display:block;height:100%;width:0;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    transition:width .35s ease;}
+
+  main{max-width:720px;margin:0 auto;padding:16px 16px 120px;}
+
+  .qmeta{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .qnum{font-size:13px;font-weight:800;color:var(--muted);letter-spacing:.5px;}
+  .star-btn{background:none;border:none;cursor:pointer;font-size:26px;line-height:1;
+    filter:grayscale(1) opacity(.45);transition:transform .15s,filter .15s;padding:2px 4px;}
+  .star-btn.on{filter:none;transform:scale(1.12);}
+
+  .year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+  .year-tag{font-size:11.5px;font-weight:700;letter-spacing:.3px;color:var(--accent);
+    background:rgba(76,154,255,.1);border:1px solid rgba(76,154,255,.3);
+    border-radius:6px;padding:3px 9px;}
+
+  .qcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:18px 17px;margin-bottom:14px;font-size:16.5px;}
+
+  .opts{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+  .opt{display:flex;align-items:flex-start;gap:12px;background:var(--panel);
+    border:1.5px solid var(--line);border-radius:13px;padding:13px 14px;cursor:pointer;
+    font-size:16px;transition:border-color .15s,background .15s,transform .05s;
+    text-align:left;color:var(--text);width:100%;}
+  .opt:active{transform:scale(.995);}
+  .opt .k{flex:0 0 26px;height:26px;border-radius:50%;background:var(--panel2);
+    border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:14px;color:var(--muted);}
+  .opt .t{flex:1;padding-top:1px;}
+  .opt:not(.locked):hover{border-color:var(--accent);}
+  .opts.locked .opt{cursor:default;}
+  .opt.correct{border-color:var(--green);background:var(--green-bg);}
+  .opt.correct .k{background:var(--green);border-color:var(--green);color:#fff;}
+  .opt.wrong{border-color:var(--red);background:var(--red-bg);}
+  .opt.wrong .k{background:var(--red);border-color:var(--red);color:#fff;}
+  .opt.dim{opacity:.55;}
+  .opt .mark{flex:0 0 24px;height:26px;display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:18px;line-height:1;}
+  .opt.correct .mark::after{content:"✓";color:var(--green);}
+  .opt.wrong .mark::after{content:"✗";color:var(--red);}
+
+  .hintbtn{display:inline-flex;align-items:center;gap:7px;background:var(--panel2);
+    color:var(--hint);border:1px solid var(--line);border-radius:11px;padding:11px 15px;
+    font-size:14.5px;font-weight:700;cursor:pointer;margin-bottom:14px;}
+  .hintbtn:hover{border-color:var(--hint);}
+
+  .box{border-radius:13px;padding:13px 15px;margin-bottom:11px;font-size:15.5px;
+    border:1px solid var(--line);animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .box .bt{display:flex;align-items:center;gap:8px;font-weight:800;margin-bottom:6px;
+    font-size:14px;letter-spacing:.3px;}
+  .box.ip{background:rgba(63,182,168,.08);border-color:rgba(63,182,168,.35);}
+  .box.ip .bt{color:var(--hint);}
+  .box.tz{background:rgba(255,91,91,.07);border-color:rgba(255,91,91,.32);}
+  .box.tz .bt{color:var(--trap);}
+  .box.ac{background:rgba(180,135,255,.08);border-color:rgba(180,135,255,.32);}
+  .box.ac .bt{color:var(--exp);}
+
+  /* ===== AYIRICI TANI: gizli ok + eğlenceli flip + yeşil ipucu ===== */
+  .qcard{position:relative;}
+  .qcard.has-ddx{cursor:pointer;padding-right:46px;}
+  .qcard .cue{transition:all .3s;border-radius:4px;}
+  .qcard.flash .cue{background:rgba(46,160,67,.3);color:#fff;box-shadow:0 0 0 3px rgba(46,160,67,.3);padding:0 2px;}
+  .ddx-ok{position:absolute;top:12px;right:12px;width:28px;height:28px;display:grid;place-items:center;
+    color:var(--accent);cursor:pointer;animation:ddxpulse 2.2s ease-in-out infinite;z-index:3;}
+  .ddx-ok svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  @keyframes ddxpulse{0%,100%{opacity:.5;transform:translateY(0)}50%{opacity:1;transform:translateY(-2px)}}
+
+  .cueMsg{position:fixed;left:0;right:0;top:0;z-index:400;background:#0f2a1e;
+    border-bottom:2px solid var(--green);color:#b6f0d4;font-weight:700;font-size:15.5px;
+    padding:15px 18px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.5);
+    transform:translateY(-110%);transition:transform .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;}
+  .cueMsg.show{transform:translateY(0);animation:cuewiggle .5s ease .35s;}
+  @keyframes cuewiggle{0%,100%{transform:translateY(0)}25%{transform:translateY(0) rotate(-.4deg)}75%{transform:translateY(0) rotate(.4deg)}}
+
+  .ddx-ov{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;
+    padding:20px;background:rgba(6,10,15,.55);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);perspective:1800px;}
+  .ddx-ov.show{display:flex;}
+  .ddx-card{width:100%;max-width:440px;max-height:88vh;overflow-y:auto;
+    background:linear-gradient(160deg,#1a2230 0%,#141a24 100%);
+    border:1px solid rgba(76,154,255,.4);border-radius:22px;padding:22px;
+    box-shadow:0 24px 70px rgba(0,0,0,.6),0 0 40px rgba(76,154,255,.12);
+    cursor:pointer;}
+  .ddx-ov.show .ddx-card{animation:dealIn .5s cubic-bezier(.2,.8,.22,1) both;}
+  @keyframes dealIn{0%{opacity:0;transform:translateY(60vh) rotate(14deg) scale(.8)}100%{opacity:1;transform:none}}
+  .ddx-ov.closing .ddx-card{animation:dealOut .4s cubic-bezier(.5,0,.75,.4) both;}
+  @keyframes dealOut{0%{opacity:1;transform:none}100%{opacity:0;transform:translateY(60vh) rotate(14deg) scale(.8)}}
+  .ddx-card h3{margin:0 0 14px;display:flex;align-items:center;gap:9px;font-size:16px;font-weight:800;
+    background:linear-gradient(90deg,#4c9aff,#7ee7c7);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .ddx-key{font-size:14.5px;color:var(--text);background:rgba(76,154,255,.1);
+    border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:10px 13px;margin-bottom:14px;}
+  .ddx-cards{display:flex;flex-direction:column;gap:10px;}
+  .dc{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;
+    padding:12px 13px;background:rgba(255,255,255,.025);position:relative;overflow:hidden;
+    opacity:0;transform:translateX(-90px) rotate(-7deg);animation:ddxslide .45s cubic-bezier(.2,.85,.28,1.25) forwards;}
+  .dc:nth-child(1){animation-delay:.12s} .dc:nth-child(2){animation-delay:.20s}
+  .dc:nth-child(3){animation-delay:.28s} .dc:nth-child(4){animation-delay:.36s}
+  .dc:nth-child(5){animation-delay:.44s} .dc:nth-child(6){animation-delay:.52s}
+  .ddx-ov.closing .dc{animation:dcOut .28s cubic-bezier(.5,0,.75,.4) forwards;}
+  @keyframes dcOut{to{opacity:0;transform:translateX(-90px) rotate(-7deg)}}
+  .ddx-ov.closing .dc:nth-child(5){animation-delay:.02s}
+  .ddx-ov.closing .dc:nth-child(4){animation-delay:.06s}
+  .ddx-ov.closing .dc:nth-child(3){animation-delay:.10s}
+  .ddx-ov.closing .dc:nth-child(2){animation-delay:.14s}
+  .ddx-ov.closing .dc:nth-child(1){animation-delay:.18s}
+  @keyframes ddxslide{to{opacity:1;transform:none}}
+  .dc .emo{font-size:24px;flex:none;line-height:1.1;}
+  .dc .txt .dn{font-weight:800;font-size:15px;margin-bottom:2px;color:var(--text);}
+  .dc .txt .dv{font-size:13.5px;color:var(--muted);} .dc .txt .dv b{color:var(--text);font-weight:600;}
+  .dc.hit{border-color:var(--green);background:linear-gradient(120deg,rgba(46,160,67,.2),rgba(46,160,67,.06));
+    box-shadow:0 0 20px rgba(46,160,67,.25);}
+  .dc.hit .dn{color:#7ee7a8;}
+  .dc.hit::after{content:"⭐";position:absolute;top:8px;right:10px;font-size:15px;animation:ddxtwinkle 1.4s ease-in-out infinite;}
+  @keyframes ddxtwinkle{0%,100%{opacity:.4;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
+  .nav{position:fixed;bottom:0;left:0;right:0;z-index:40;background:var(--panel);
+    border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+    display:flex;gap:10px;max-width:720px;margin:0 auto;align-items:stretch;}
+  .nav button{border:1px solid var(--line);border-radius:12px;padding:14px;
+    font-size:15.5px;font-weight:800;cursor:pointer;background:var(--panel2);color:var(--text);}
+  .nav .prev,.nav .next{flex:1;}
+  .nav .list{flex:0 0 auto;min-width:66px;color:var(--muted);font-size:13px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.1;}
+  .nav .list .lc{font-size:16px;}
+  .nav .next{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+  .nav button:disabled{opacity:.4;cursor:not-allowed;}
+  /* nav dokunma/focus fix: buton basılı kalıp beyazlaşmaz */
+  .nav button{-webkit-tap-highlight-color:transparent;}
+  .nav button:focus{outline:none;}
+  .nav .prev:focus,.nav .prev:active{background:var(--panel2);color:var(--text);border-color:var(--line);}
+  .nav .list:focus,.nav .list:active{background:var(--panel2);color:var(--muted);border-color:var(--line);}
+  .nav .next:focus,.nav .next:active{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;}
+
+
+  /* Question-list modal (bottom sheet) */
+  .modal-ov{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.55);
+    display:none;align-items:flex-end;justify-content:center;}
+  .modal-ov.show{display:flex;animation:fade .2s ease;}
+  .modal{width:100%;max-width:720px;background:var(--panel);
+    border-top-left-radius:20px;border-top-right-radius:20px;
+    border:1px solid var(--line);border-bottom:none;padding:16px 16px 26px;
+    max-height:72vh;overflow:auto;animation:slideup .28s ease;}
+  @keyframes slideup{from{transform:translateY(30px);opacity:.6;}to{transform:none;opacity:1;}}
+  .modal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .modal-h span{font-size:15px;font-weight:800;letter-spacing:.3px;}
+  .modal-h .close{background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    border-radius:9px;width:34px;height:34px;font-size:16px;cursor:pointer;font-weight:800;}
+  .qgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;}
+  .gbtn{aspect-ratio:1/1;border-radius:10px;border:1.5px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:14px;font-weight:800;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;position:relative;}
+  .gbtn.ok{background:var(--green-bg);border-color:var(--green);color:var(--green);}
+  .gbtn.no{background:var(--red-bg);border-color:var(--red);color:var(--red);}
+  .gbtn.cur{outline:2px solid var(--accent);outline-offset:1px;}
+  .gbtn.star::after{content:"";position:absolute;top:3px;right:3px;width:7px;height:7px;
+    border-radius:50%;background:var(--star);}
+
+  /* Result */
+  .result{display:none;}
+  .result.show{display:block;animation:fade .4s ease;}
+  .score-ring{display:flex;flex-direction:column;align-items:center;justify-content:center;
+    width:170px;height:170px;margin:8px auto 6px;border-radius:50%;
+    background:conic-gradient(var(--accent) var(--pct,0%),var(--panel2) 0);}
+  .score-ring .inner{width:138px;height:138px;border-radius:50%;background:var(--bg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .score-ring .big{font-size:34px;font-weight:900;}
+  .score-ring .sub{font-size:13px;color:var(--muted);font-weight:700;}
+  .pctline{text-align:center;font-size:20px;font-weight:900;margin:2px 0 4px;}
+  .fb{text-align:center;color:var(--muted);font-size:15px;margin-bottom:14px;}
+  .result-stats{display:flex;gap:10px;justify-content:center;margin-bottom:22px;flex-wrap:wrap;}
+  .rstat{background:var(--panel);border:1px solid var(--line);border-radius:11px;
+    padding:9px 15px;font-size:13.5px;font-weight:800;}
+  .rstat.g{color:var(--green);} .rstat.r{color:var(--red);} .rstat.s{color:var(--star);}
+  .review-h{font-size:14px;font-weight:800;color:var(--muted);letter-spacing:.4px;
+    margin:6px 0 10px;}
+  .rev{display:flex;align-items:center;gap:11px;background:var(--panel);
+    border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:9px;
+    cursor:pointer;transition:border-color .15s;}
+  .rev:hover{border-color:var(--accent);}
+  .rev .badge{flex:0 0 auto;width:24px;height:24px;border-radius:6px;font-size:15px;
+    display:flex;align-items:center;justify-content:center;font-weight:900;}
+  .rev .badge.ok{background:var(--green-bg);color:var(--green);}
+  .rev .badge.no{background:var(--red-bg);color:var(--red);}
+  .rev .badge.blank{background:var(--panel2);color:var(--muted);}
+  .rev .rq{flex:1;font-size:14px;}
+  .rev .ra{font-size:12.5px;color:var(--muted);margin-top:2px;}
+  .rev .ra b{color:var(--green);}
+  .result-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+  .ract{width:100%;padding:15px;border-radius:13px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:15px;font-weight:800;cursor:pointer;}
+  .ract:hover{border-color:var(--accent);}
+  .ract.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+  .ract:disabled{opacity:.4;cursor:not-allowed;}
+
+  /* Resume prompt */
+  .resume-ov{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.6);
+    display:none;align-items:center;justify-content:center;padding:20px;}
+  .resume-ov.show{display:flex;animation:fade .2s ease;}
+  .resume-box{width:100%;max-width:420px;background:var(--panel);border:1px solid var(--line);
+    border-radius:18px;padding:22px 20px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.5);}
+  .resume-t{font-size:18px;font-weight:900;margin-bottom:8px;}
+  .resume-s{font-size:14px;color:var(--muted);margin-bottom:18px;line-height:1.5;}
+  .resume-btns{display:flex;flex-direction:column;gap:10px;}
+  .resume-btn{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:15px;font-weight:800;cursor:pointer;}
+  .resume-btn:hover{border-color:var(--accent);}
+  .resume-btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+
+
+  /* ================= EĞLENCE KATMANI ================= */
+  #fxCanvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:90;}
+  .emoji-pop{position:fixed;font-size:36px;pointer-events:none;z-index:95;
+    will-change:transform,opacity;animation:floatUp 1.7s cubic-bezier(.2,.7,.3,1) forwards;}
+  @keyframes floatUp{
+    0%{opacity:0;transform:translate(0,0) scale(.4) rotate(0deg);}
+    12%{opacity:1;transform:translate(0,-14px) scale(1.25) rotate(0deg);}
+    100%{opacity:0;transform:translate(var(--dx,0px),-190px) scale(1.05) rotate(var(--rot,25deg));}
+  }
+  .emoji-drop{position:fixed;font-size:30px;pointer-events:none;z-index:95;
+    animation:dropDown 1.5s ease-in forwards;}
+  @keyframes dropDown{
+    0%{opacity:0;transform:translateY(-30px) scale(.6) rotate(0deg);}
+    15%{opacity:1;}
+    100%{opacity:0;transform:translateY(150px) scale(1) rotate(var(--rot,-20deg));}
+  }
+  .shake{animation:shakeX .55s cubic-bezier(.36,.07,.19,.97) both;}
+  @keyframes shakeX{
+    10%,90%{transform:translateX(-2px);} 20%,80%{transform:translateX(4px);}
+    30%,50%,70%{transform:translateX(-8px);} 40%,60%{transform:translateX(8px);}
+  }
+  .opt.correct{animation:popOk .55s cubic-bezier(.2,1.4,.4,1);
+    box-shadow:0 0 22px rgba(46,160,67,.45);}
+  @keyframes popOk{0%{transform:scale(1);}35%{transform:scale(1.035);}100%{transform:scale(1);}}
+  .opt.wrong{animation:wobbleNo .5s;}
+  @keyframes wobbleNo{
+    0%,100%{transform:translateX(0);}20%{transform:translateX(-6px);}
+    40%{transform:translateX(6px);}60%{transform:translateX(-4px);}80%{transform:translateX(4px);}
+  }
+  .mascot{position:absolute;right:12px;top:50%;font-size:26px;line-height:1;
+    transform:translateY(-50%);animation:mascotDance .7s ease-in-out infinite alternate;
+    pointer-events:none;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4));}
+  @keyframes mascotDance{
+    from{transform:translateY(-42%) rotate(-12deg) scale(1);}
+    to{transform:translateY(-62%) rotate(12deg) scale(1.18);}
+  }
+  .streak{position:fixed;left:50%;top:22%;transform:translateX(-50%) scale(.6);
+    font-size:22px;font-weight:900;color:var(--star);z-index:96;opacity:0;
+    text-shadow:0 3px 14px rgba(0,0,0,.6);pointer-events:none;
+    animation:streakPop 1.5s ease-out forwards;white-space:nowrap;}
+  @keyframes streakPop{
+    0%{opacity:0;transform:translateX(-50%) scale(.5);}
+    20%{opacity:1;transform:translateX(-50%) scale(1.15);}
+    75%{opacity:1;transform:translateX(-50%) scale(1);}
+    100%{opacity:0;transform:translateX(-50%) scale(1) translateY(-24px);}
+  }
+  .score-ring{animation:ringIn .8s cubic-bezier(.2,1.2,.3,1);}
+  @keyframes ringIn{from{transform:scale(.75) rotate(-12deg);opacity:0;}to{transform:none;opacity:1;}}
+
+
+  /* Cevap mesaji: son sik ile ipucu kutusu arasinda YUZEN baloncuk.
+     Yuksekligi 0 -> icerigi itmez; birkac saniyede kaybolur. */
+  .fxfloat{position:relative;height:0;overflow:visible;}
+  .fxfloat .pill{position:absolute;left:50%;top:-4px;
+    transform:translateX(-50%);
+    background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    padding:11px 18px;border-radius:11px;font-size:14px;font-weight:700;
+    white-space:nowrap;z-index:80;pointer-events:none;
+    box-shadow:0 6px 20px rgba(0,0,0,.45);
+    animation:pillIn .25s ease both, pillOut .45s ease 1.55s forwards;}
+  @keyframes pillIn{
+    from{opacity:0;transform:translateX(-50%) translateY(12px);}
+    to{opacity:1;transform:translateX(-50%) translateY(0);}
+  }
+  @keyframes pillOut{
+    to{opacity:0;transform:translateX(-50%) translateY(-8px);}
+  }
+
+  /* Toast */
+  .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);
+    background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    padding:11px 18px;border-radius:11px;font-size:14px;font-weight:700;z-index:80;
+    opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 6px 20px rgba(0,0,0,.4);}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<header id="hdr">
+  <div class="hbar">
+    <div class="htitle">Pediatri · Nefroloji (TAM BÖLÜM) <span>TTS</span></div>
+    <div class="stats">
+      <div class="chip correct">✓ <span id="cCount">0</span></div>
+      <div class="chip star">⭐ <span id="sCount">0</span></div>
+    </div>
+  </div>
+  <div class="progress"><i id="bar"></i></div>
+</header>
+
+<main id="main">
+  <div id="quiz"></div>
+  <div class="cueMsg" id="cueMsg"></div>
+  <div class="ddx-ov" id="ddxOv" onclick="closeDdx()"></div>
+
+  <div class="result" id="result">
+    <div class="score-ring" id="ring">
+      <div class="inner">
+        <div class="big" id="scoreBig">0/0</div>
+        <div class="sub">DOĞRU</div>
+      </div>
+    </div>
+    <div class="pctline" id="pctLine">%0</div>
+    <div class="fb" id="fbText"></div>
+    <div class="result-stats" id="rStats"></div>
+    <div class="result-actions">
+      <button class="ract primary" onclick="restart()">↺ Tüm Soruları Yeniden Çöz</button>
+      <button class="ract" id="retryWrongBtn" onclick="retryWrong()">✗ Yanlışları Tekrar Çöz</button>
+      <button class="ract" id="retryStarBtn" onclick="retryStar()">⭐ Yıldızlıları Tekrar Çöz</button>
+    </div>
+    <div class="review-h">SORU İNCELEMESİ</div>
+    <div id="reviewList"></div>
+    
+  </div>
+</main>
+
+<div class="nav" id="nav">
+  <button class="prev" id="prevBtn" onclick="go(-1)">← Önceki</button>
+  <button class="list" id="listBtn" onclick="openModal()"><span class="lc">☰</span><span id="navCounter">0/0</span></button>
+  <button class="next" id="nextBtn" onclick="go(1)">Sonraki →</button>
+</div>
+
+<div class="modal-ov" id="modalOv" onclick="modalBg(event)">
+  <div class="modal">
+    <div class="modal-h"><span>Sorular</span><button class="close" onclick="closeModal()">✕</button></div>
+    <div class="qgrid" id="qGrid"></div>
+  </div>
+</div>
+
+<div class="resume-ov" id="resumeOv">
+  <div class="resume-box">
+    <div class="resume-t">↩ Kaldığın yerden devam?</div>
+    <div class="resume-s" id="resumeSub"></div>
+    <div class="resume-btns">
+      <button class="resume-btn primary" onclick="resumeYes()">Kaldığım yerden devam et</button>
+      <button class="resume-btn" onclick="resumeNo()">Baştan başla</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   QUESTIONS — SADECE BU DİZİ DEĞİŞİR.
+   Her obje: { yil?, soru, siklar[5], dogru(0-4), ipucu, tuzak, aciklama }
+   ========================================================= */
+const QUESTIONS = [
+ {
+  "yil": [
+   "İlkbahar 1988"
+  ],
+  "soru": "Çocukluk çağında en sık <mark class=\"cue\">üriner enfeksiyon etkeni</mark> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Proteus mirabilis"
+   },
+   {
+    "k": "B",
+    "t": "Staphylococcus aureus"
+   },
+   {
+    "k": "C",
+    "t": "Klebsiella"
+   },
+   {
+    "k": "D",
+    "t": "Escherichia coli"
+   },
+   {
+    "k": "E",
+    "t": "Pseudomonas"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Tüm yaşlarda en sık iYE etkeni.",
+  "tuzak": "Proteus (taş), Pseudomonas (üriner anomali) ve Staphylococcus saprophyticus (adolesan) diğer etkenlerdir ama en sık her yaşta <b>E. coli</b>-dir.",
+  "aciklama": "Çocukta en sık üriner sistem enfeksiyon etkeni tüm yaşlarda <b>Escherichia coli</b>-dir (%75-90). Klebsiella, Proteus ve S. saprophyticus diğer nedenlerdir. iYE kızların %1-3'ünde, erkeklerin %1'inde görülür.",
+  "cue": "🎯 İdrar yolunun bir numaralı misafiri; gram-negatif enterik basil."
+ },
+ {
+  "yil": [
+   "Sonbahar 1990"
+  ],
+  "soru": "Çocukluk çağındaki <b>piyelonefritin</b> en sık görülen etkeni aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Streptococcus faecalis"
+   },
+   {
+    "k": "B",
+    "t": "Pseudomonas aeruginosa"
+   },
+   {
+    "k": "C",
+    "t": "Proteus mirabilis"
+   },
+   {
+    "k": "D",
+    "t": "Escherichia coli"
+   },
+   {
+    "k": "E",
+    "t": "Staphylococcus epidermidis"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "iYE ile aynı en sık etken.",
+  "tuzak": "iYE ve piyelonefritin en sık etkeni aynıdır: <b>E. coli</b>. Sıralama kızlarda E. coli > Klebsiella > Proteus; erkeklerde E. coli > Proteus > S. saprophyticus.",
+  "aciklama": "Çocukluk çağında hem iYE hem piyelonefritin en sık etkeni <b>E. coli</b> (%75-90). Kızlarda: E. coli > Klebsiella > Proteus; erkeklerde: E. coli > Proteus > S. saprophyticus.",
+  "cue": "🎯 Piyelonefritin de lideri aynı enterik basil."
+ },
+ {
+  "yil": [
+   "Sonbahar 2025"
+  ],
+  "soru": "Aşağıdakilerden hangisi çocuklarda <b>akut piyelonefritin</b> en sık bakteriyel etkenidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Klebsiella spp."
+   },
+   {
+    "k": "B",
+    "t": "Escherichia coli"
+   },
+   {
+    "k": "C",
+    "t": "Proteus mirabilis"
+   },
+   {
+    "k": "D",
+    "t": "Pseudomonas aeruginosa"
+   },
+   {
+    "k": "E",
+    "t": "Staphylococcus saprophyticus"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Her yaşta en sık etken.",
+  "tuzak": "Proteus (taş), Pseudomonas (anomali), S. saprophyticus (adolesan) diğer etkenlerdir; en sık <b>E. coli</b>.",
+  "aciklama": "Akut piyelonefrit: tekrarlayan titreme-ateş, sırt/böğür ağrısı, kostovertebral hassasiyet, karın ağrısı, bulantı-kusma. En sık etken <b>E. coli</b>. Kesin tanı idrar kültürü ile konur.",
+  "cue": "🎯 Yine gram-negatif enterik bir numara."
+ },
+ {
+  "yil": [
+   "Sonbahar 1996"
+  ],
+  "soru": "On günlük bebek kusma nedeniyle getiriliyor ve <b>idrar yolu enfeksiyonu</b> tanısı konuluyor.<br><br>Bu hastada <mark class=\"cue\">ilk istenmesi gereken radyolojik tetkik</mark> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "İntravenöz piyelografi"
+   },
+   {
+    "k": "B",
+    "t": "DMSA sintigrafisi"
+   },
+   {
+    "k": "C",
+    "t": "Miksiyon sistoüretrografisi"
+   },
+   {
+    "k": "D",
+    "t": "Abdominal tomografi"
+   },
+   {
+    "k": "E",
+    "t": "Ultrasonografi"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Her iYE'li çocukta ilk görüntüleme.",
+  "tuzak": "<b>MSUG (C)</b> reflü için ama akut dönemde kontrendike ve ilk değil. <b>DMSA (B)</b> skar/piyelonefrit için sonra. iYE tanısı alan her çocukta ilk görüntüleme <b>ultrasonografidir</b>.",
+  "aciklama": "1 aylıktan küçük iYE'li çocukta altta üriner anomali aranmalı → <b>ilk yapılacak USG</b> (böbrek yeri/yapısı, korteks kalınlığı, hidronefroz, taş, nefrokalsinozis). VCUG akut piyelonefritte kontrendikedir; DMSA skar/piyelonefrit için.",
+  "cue": "🎯 Yenidoğanda İLK ve invaziv olmayan görüntüleme hangisi?"
+ },
+ {
+  "yil": [
+   "Sonbahar 2000"
+  ],
+  "soru": "Aşağıdaki çocukluk çağı idrar yolu enfeksiyon etkenlerinden hangisi <mark class=\"cue\">taş oluşumuna sıklıkla</mark> sebep olur?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Proteus mirabilis"
+   },
+   {
+    "k": "B",
+    "t": "Escherichia coli"
+   },
+   {
+    "k": "C",
+    "t": "Staphylococcus saprophyticus"
+   },
+   {
+    "k": "D",
+    "t": "Streptococcus agalactiae"
+   },
+   {
+    "k": "E",
+    "t": "Neisseria gonore"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Üreaz enzimi → struvit taşı.",
+  "tuzak": "E. coli en sık iYE etkeni ama taş yapan (üreaz+) etken içinde çocukta en sık <b>Proteus mirabilis</b>-tir.",
+  "aciklama": "<b>Struvit taşları kronik enfeksiyon taşıdır</b>: üreyi parçalayan (üreaz+) bakteriler (Proteus, Klebsiella, Pseudomonas, stafilokok, Morganella) idrar alkalinizasyonu + amonyak → amonyum-magnezyum-fosfat (struvit) çökelmesi. Çocuklarda en sık neden <b>Proteus mirabilis</b>.",
+  "cue": "🎯 Üreaz yapıp idrarı alkalileştiren, strüvit taşı yapan."
+ },
+ {
+  "yil": [
+   "İlkbahar 2023"
+  ],
+  "soru": "7 yaşındaki erkek çocuk geceleri idrar kaçırma ile geliyor. 4 yaşında tuvalet eğitimini almış, sonrasında haftada 5 gece idrar kaçırmaya devam etmiş, <mark class=\"cue\">kuru kaldığı bir dönem olmamış</mark>. Gündüz idrar yakınması yok, iYE öyküsü yok, FM ve laboratuvar normal.<br><br>Bu hasta için en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Primer monosemptomatik enürezis nokturna"
+   },
+   {
+    "k": "B",
+    "t": "Sekonder monosemptomatik enürezis nokturna"
+   },
+   {
+    "k": "C",
+    "t": "Polisemptomatik enürezis"
+   },
+   {
+    "k": "D",
+    "t": "Aşırı aktif mesane"
+   },
+   {
+    "k": "E",
+    "t": "Mesane-bağırsak disfonksiyonu"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Hiç kuru kalmamış (primer) + sadece gece + başka semptom yok (monosemptomatik).",
+  "tuzak": "<b>Sekonder (B)</b> = birkaç ay kontrol sonrası başlar (bu vakada hiç kontrol olmamış). Gündüz semptomu/aciliyet olsaydı polisemptomatik/aşırı aktif mesane olurdu. Burada <b>primer monosemptomatik</b>.",
+  "aciklama": "5 yaş sonrası gece idrar kaçırma = enürezis nokturna. <b>Primer</b> (%75-90): idrar kontrolü hiç sağlanamamış; <b>sekonder</b> (%10-25): birkaç ay kontrol sonrası başlar. <b>Monosemptomatik</b>: sadece gece, ek semptom yok. Bu vaka: hiç kuru kalmamış + sadece gece + normal FM/lab = <b>primer monosemptomatik enürezis nokturna</b>.",
+  "cue": "🎯 Sadece gece + hiç kuru dönem yok + başka semptom yok."
+ },
+ {
+  "yil": [
+   "İlkbahar 2003"
+  ],
+  "soru": "<b>Miksiyon sistoüretrogram (MSUG/VCUG)</b>, aşağıdaki üriner sistem bozukluklarından hangisi için <mark class=\"cue\">tanısal değer taşımaz</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Vezikoüreteral reflü"
+   },
+   {
+    "k": "B",
+    "t": "Mesanenin anatomik bozuklukları"
+   },
+   {
+    "k": "C",
+    "t": "Posterior üretral valv (erkek çocuklarda)"
+   },
+   {
+    "k": "D",
+    "t": "Akut piyelonefrit"
+   },
+   {
+    "k": "E",
+    "t": "Üreterosel"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "MSUG akut piyelonefritte kontrendike + tanısal değil.",
+  "tuzak": "MSUG; VUR (altın standart), mesane anatomisi, posterior üretral valv ve üreterosel (kobra başı) için tanısaldır. <b>Akut piyelonefrit tanısı için değil</b> (o DMSA ile); ayrıca akut dönemde kontrendikedir.",
+  "aciklama": "MSUG (VCUG): mesane kateterizasyonu + kontrast → mesane anatomisi, VUR (altın standart), posterior üretral valv (işeme fazı), üreterosel (kobra başı) tanısı. <b>Akut piyelonefrit tanısında yeri yoktur; akut dönemde kontrendike.</b>",
+  "cue": "🎯 VCUG reflü/valv/anatomi gösterir; enfeksiyonun kendisini değil.",
+  "ddx": {
+   "baslik": "İYE Görüntüleme: Ne İçin?",
+   "ok": "USG anatomi, VCUG reflü/valv, DMSA skar. VCUG enfeksiyonu göstermez.",
+   "satirlar": [
+    {
+     "emo": "🔊",
+     "ad": "USG",
+     "bulgu": "İlk basamak · anatomi/hidronefroz"
+    },
+    {
+     "emo": "📽️",
+     "ad": "VCUG",
+     "bulgu": "Reflü · posterior üretral valv"
+    },
+    {
+     "emo": "☢️",
+     "ad": "DMSA",
+     "bulgu": "Kortikal skar/piyelonefrit"
+    },
+    {
+     "emo": "🚫",
+     "ad": "Akut piyelonefrit",
+     "bulgu": "VCUG ile GÖSTERİLMEZ",
+     "hit": true
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "İlkbahar 2008"
+  ],
+  "soru": "4 yaşında tekrarlayan idrar yolu enfeksiyonları olan kız çocuk daha önce bir kez bu nedenle yatırılarak tedavi edilmiş. <mark class=\"cue\">Renal skar</mark> olduğu düşünülen bu çocukta en yararlı tetkik aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "İntravenöz piyelografi"
+   },
+   {
+    "k": "B",
+    "t": "Üroflowmetri"
+   },
+   {
+    "k": "C",
+    "t": "İşeme sistoüretrogramı"
+   },
+   {
+    "k": "D",
+    "t": "Dimerkaptosüksinik asit (DMSA) sintigrafisi"
+   },
+   {
+    "k": "E",
+    "t": "Kreatinin klirens düzeyinin saptanması"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Renal skarı en iyi gösteren test.",
+  "tuzak": "MSUG (C) reflü için, DMSA ise skar/piyelonefrit için kullanılır. Renal skarı en duyarlı gösteren <b>DMSA sintigrafisidir</b>.",
+  "aciklama": "<b>DMSA (dimerkaptosüksinik asit) statik böbrek sintigrafisi</b>: renal skar ve akut piyelonefriti en duyarlı gösterir; her böbreğin ayrı (split) fonksiyonu, atnalı böbrek, hipoplazi, agenezi, ektopi tanısı. DTPA ise dinamik (GFR, obstrüksiyon değerlendirmesi).",
+  "cue": "🎯 Kortikal skarı en iyi gösteren sintigrafi."
+ },
+ {
+  "yil": [
+   "İlkbahar 2010"
+  ],
+  "soru": "Ateşli üriner sistem enfeksiyonu geçiren bir bebekte <b>renal skarları en yüksek oranda gösteren</b> görüntüleme yöntemi aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Ultrasonografi"
+   },
+   {
+    "k": "B",
+    "t": "İntravenöz piyelografi"
+   },
+   {
+    "k": "C",
+    "t": "Voiding sistogram"
+   },
+   {
+    "k": "D",
+    "t": "DMSA sintigrafisi"
+   },
+   {
+    "k": "E",
+    "t": "Tomografi"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Skar = statik böbrek sintigrafisi.",
+  "tuzak": "USG ilk görüntüleme, VCUG reflü için; renal skarı en iyi gösteren <b>DMSA</b>.",
+  "aciklama": "<b>DMSA sintigrafisi</b> statik böbrek sintigrafisi; akut piyelonefrit ve tekrarlayan enfeksiyona sekonder renal skar tayininde en duyarlı yöntem.",
+  "cue": "🎯 Skar = kortikal sintigrafi."
+ },
+ {
+  "yil": [
+   "Sonbahar 2010"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>idrar yolu enfeksiyonlarının gelişiminde</b> risk faktörü <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "İşeme disfonksiyonu"
+   },
+   {
+    "k": "B",
+    "t": "Kabızlık"
+   },
+   {
+    "k": "C",
+    "t": "Nörojenik mesane"
+   },
+   {
+    "k": "D",
+    "t": "Hamilelik"
+   },
+   {
+    "k": "E",
+    "t": "Hipertansiyon"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Sistemik HT üriner stazı artırır mı?",
+  "tuzak": "İşeme disfonksiyonu, kabızlık, nörojenik mesane (üriner staz) ve hamilelik (mesaneye bası) iYE riskini artırır. <b>Sistemik hipertansiyon iYE riskini artırmaz.</b>",
+  "aciklama": "iYE kolaylaştırıcı faktörler: kız cinsiyet, üriner malformasyon (VUR), ürolitiazis, üreteral kateterizasyon, ağır konstipasyon, parazitler, işeme disfonksiyonu, nörojen mesane, tip II fimbriyalı E. coli, erken seksüel aktivite/gebelik, sünnetsizlik, labial yapışıklık. <b>Sistemik HT risk faktörü değildir.</b>",
+  "cue": "🎯 İşeme disfonksiyonu/kabızlık/nörojen mesane risk; biri değil."
+ },
+ {
+  "yil": [
+   "Sonbahar 2011"
+  ],
+  "soru": "Sık üriner sistem enfeksiyonu geçiren çocuklarda <b>üriner ultrasonografi sonrasında</b> yapılması <mark class=\"cue\">en uygun tetkik</mark> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "İşeme sistoüretrografisi"
+   },
+   {
+    "k": "B",
+    "t": "İntravenöz piyelografi"
+   },
+   {
+    "k": "C",
+    "t": "Manyetik rezonans ürografi"
+   },
+   {
+    "k": "D",
+    "t": "Kontrastlı karın bilgisayarlı tomografi"
+   },
+   {
+    "k": "E",
+    "t": "DTPA böbrek sintigrafisi"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Tekrarlayan iYE → VUR şüphesi → altın standart test.",
+  "tuzak": "Tekrarlayan iYE gizli VUR işaretidir. Ülkemizde 5 yaş üstü KBY'nin en sık nedeni VUR; tanısı için altın standart <b>işeme sistoüretrografisi (VCUG)</b>. (Akut piyelonefrit atağında yapılmaz.)",
+  "aciklama": "Tekrarlayan iYE → <b>vezikoüreteral reflü (VUR)</b> düşün. VUR tanısında altın standart <b>işeme sistoüretrografisi (VCUG)</b>. Akut piyelonefrit atağında kontrendike.",
+  "cue": "🎯 Reflüyü göstermek için işeme sırasında çekilen film."
+ },
+ {
+  "yil": [
+   "İlkbahar 2014 Orijinal"
+  ],
+  "soru": "5 yaşında kız çocuk bebekliğinden bu yana 4-5 kez iYE geçirmiş; bazılarında ateş-karın ağrısı, 2 kez idrar kültüründe üreme olmuş. Renal USG-de <mark class=\"cue\">sol böbrek sağa göre 12 mm daha küçük ve kenar düzensizlikleri</mark> var.<br><br>Bu hastada bundan sonraki en uygun yaklaşım aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Dimerkaptosüksinik asit renal sintigrafi"
+   },
+   {
+    "k": "B",
+    "t": "Abdominal bilgisayarlı tomografi"
+   },
+   {
+    "k": "C",
+    "t": "Lumbosakral manyetik rezonans görüntüleme"
+   },
+   {
+    "k": "D",
+    "t": "Manyetik rezonans ürografi"
+   },
+   {
+    "k": "E",
+    "t": "Direkt üriner sistem grafisi"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Küçük böbrek + kenar düzensizliği = skar → hangi test?",
+  "tuzak": "Tekrarlayan ateşli iYE + küçük böbrek + kenar düzensizliği = <b>renal skar</b> düşündürür. Skarı en iyi gösteren <b>DMSA sintigrafisidir</b>.",
+  "aciklama": "Tekrarlayan ateşli iYE (piyelonefrit) + bir böbrek küçük → en olası komplikasyon <b>skar</b>. Skarı en iyi gösteren <b>DMSA sintigrafisi</b>. Akut piyelonefritli çocukların %50'sinde DMSA anomalisi, bunların %50'sinde skar gelişir. Sıra: USG → DMSA (+ ise) → VCUG.",
+  "cue": "🎯 Skar şüphesi → kortikal sintigrafi."
+ },
+ {
+  "yil": [
+   "İlkbahar 2017"
+  ],
+  "soru": "48 saatlik antibiyotik tedavisine yanıt vermeyen 8 aylık bir bebekte, <b>akut piyelonefritin değerlendirilmesinde</b> aşağıdaki tetkiklerden hangisi <mark class=\"cue\">en duyarlıdır</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "İdrar kültürü"
+   },
+   {
+    "k": "B",
+    "t": "Kan kültürü"
+   },
+   {
+    "k": "C",
+    "t": "Böbrek ultrasonografisi"
+   },
+   {
+    "k": "D",
+    "t": "Renal kortikal sintigrafi"
+   },
+   {
+    "k": "E",
+    "t": "İşeme sistoüreterografisi"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Renal kortikal sintigrafi = DMSA.",
+  "tuzak": "İdrar kültürü tanıyı koyar ama piyelonefrit (parankim tutulumu) değerlendirmesinde en duyarlı <b>renal kortikal sintigrafi (DMSA)</b>-dır.",
+  "aciklama": "Akut piyelonefrit (renal parankim tutulumu) değerlendirmesinde en duyarlı görüntüleme <b>renal kortikal (DMSA) sintigrafisidir</b>.",
+  "cue": "🎯 Parankim/piyelonefrit tutulumunu en duyarlı gösteren."
+ },
+ {
+  "yil": [
+   "İlkbahar 2016"
+  ],
+  "soru": "3 günlük erkek bebek, doğum öncesi takiplerde sol böbrekte büyüme izlendiği için USG ile konsülte ediliyor. USG-de <mark class=\"cue\">sol renal pelvis normalden geniş (evre 2)</mark>, üreterler ve sol böbrek parankim kalınlığı normal.<br><br>Bu bebeğin izlemi için aşağıdakilerden hangisi en uygundur?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Hemen DMSA renal sintigrafisi çekilmelidir"
+   },
+   {
+    "k": "B",
+    "t": "Hemen dinamik sintigrafi çekilmelidir"
+   },
+   {
+    "k": "C",
+    "t": "1 aylık olunca intravenöz piyelografi yapılmalıdır"
+   },
+   {
+    "k": "D",
+    "t": "Hemen ürodinamik inceleme yapılmalıdır"
+   },
+   {
+    "k": "E",
+    "t": "Seri renal ultrasonografilerle takip edilmelidir"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Asemptomatik grade 1-2 antenatal hidronefroz → izlem.",
+  "tuzak": "Asemptomatik, hafif (grade 1-2) hidronefrozda invaziv/sintigrafik tetkiklere hemen gerek yok. <b>Seri USG ile izlem</b> uygundur.",
+  "aciklama": "Antenatal hidronefroz: hayatın 3. günü renal USG, yoksa 1. ayda tekrarla. <b>Grade 1-2 + asemptomatik → USG takibi</b> (hidronefroz kaybolana kadar). Hidronefrozlu çocukların ~%15'ine tek taraflı VUR eşlik edebileceği için VCUG da gerekebilir.",
+  "cue": "🎯 Asemptomatik hafif genişleme → invaziv değil, izle."
+ },
+ {
+  "yil": [
+   "İlkbahar 2018 Orijinal"
+  ],
+  "soru": "Tekrarlayan idrar yolu enfeksiyonu olan 5 aylık bir bebekte, aşağıdaki tetkiklerden hangisinin yapılması <mark class=\"cue\">gerekli değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Akut dönemde böbrek ultrasonografisi"
+   },
+   {
+    "k": "B",
+    "t": "Akut enfeksiyondan 4-6 ay sonra renal kortikal sintigrafi (DMSA)"
+   },
+   {
+    "k": "C",
+    "t": "Voiding sistoüreterografi"
+   },
+   {
+    "k": "D",
+    "t": "İntravenöz piyelografi"
+   },
+   {
+    "k": "E",
+    "t": "İdrar kültürü"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Çocukta artık kullanılmayan eski tetkik.",
+  "tuzak": "USG, DMSA, VCUG ve idrar kültürü tekrarlayan iYE değerlendirmesinde gereklidir. <b>İntravenöz piyelografi</b> artık çocuklarda kullanılmaz.",
+  "aciklama": "Tekrarlayan iYE tetkik sırası: <b>tam idrar tetkiki + idrar kültürü → akut dönemde renal USG → idrar sterilleşince VCUG (en sık neden VUR) → enfeksiyondan 4-6 ay sonra DMSA (skar)</b>. IVP çocuklarda gerekmez.",
+  "cue": "🎯 USG+VCUG+DMSA yeter; radyasyonlu eski yöntem gereksiz."
+ },
+ {
+  "yil": [
+   "İlkbahar 2025"
+  ],
+  "soru": "7 aylık kız hasta 3 gündür ateş, kusma ve huzursuzluk ile geliyor. Öksürük/burun akıntısı/ishal yok. Ateş 39,3°C, ateş odağı bulunamıyor. Lökositoz ve CRP yüksek; tam idrar tetkikinde 50-60 lökosit, <mark class=\"cue\">lökosit silendirleri</mark>, 7-8 eritrosit, 1+ protein.<br><br>Bu hasta için en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Akut sistit"
+   },
+   {
+    "k": "B",
+    "t": "Akut piyelonefrit"
+   },
+   {
+    "k": "C",
+    "t": "Akut poststreptokoksik glomerülonefrit"
+   },
+   {
+    "k": "D",
+    "t": "Membranoproliferatif glomerülonefrit"
+   },
+   {
+    "k": "E",
+    "t": "Akut gastroenterit"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Lökosit silendiri + yüksek CRP/lökositoz = üst üriner tutulum.",
+  "tuzak": "<b>Akut sistit (A)</b>-te lökosit silendiri ve yüksek akut faz beklenmez. Glomerülonefritlerde lökosit silendiri olmaz. <b>Lökosit silendiri + yüksek CRP → akut piyelonefrit</b>.",
+  "aciklama": "Ateş + piyüri birlikteliğinde iYE düşün. <b>Lökosit silendirleri akut piyelonefrit (parankim tutulumu) işaretidir</b>; lökositoz ve CRP yüksekliği de destekler. Sistitte silendir/yüksek CRP olmaz; APSGN/MPGN nefritik klinikle gelir (silendir beklenmez); gastroenteritte ishal olurdu.",
+  "cue": "🎯 Süt çocuğunda odaksız ateş + lökositoz → gizli İYE."
+ },
+ {
+  "yil": [
+   "Sonbahar 2014 Orijinal"
+  ],
+  "soru": "3 yaşındaki erkek çocuk idrardan kan gelmesi ile geliyor. Öyküsünden <mark class=\"cue\">3 kez taş düşürdüğü</mark> öğreniliyor. İdrar incelemesinde <b>altıgen (hekzagonal) kristaller</b> izleniyor.<br><br>Bu hasta için en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Sistinüri"
+   },
+   {
+    "k": "B",
+    "t": "Hiperkalsiüri"
+   },
+   {
+    "k": "C",
+    "t": "Fosfatüri"
+   },
+   {
+    "k": "D",
+    "t": "Hiperürikozüri"
+   },
+   {
+    "k": "E",
+    "t": "Hiperokzalüri"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Altıgen kristal + tekrarlayan taş + genç yaş.",
+  "tuzak": "Kristal morfolojisi ayırt eder: <b>altıgen (hekzagonal) = sistin</b>; mektup zarfı = kalsiyum okzalat; tabut = struvit; elips = ürik asit. Altıgen kristal → <b>sistinüri</b>.",
+  "aciklama": "<b>Sistinüri</b>: kalıtsal aminoasit transport defekti; dibazik aminoasitlerin (sistin, ornitin, arginin, lizin) transportu bozuk → sistin idrarla aşırı atılır → <b>altıgen kristaller</b> ve tekrarlayan taş. İdrar pH >7,5 alkali ortamda sistin çözünürlüğü artar.",
+  "cue": "🎯 Altıgen (hekzagonal) kristal = sistin."
+ },
+ {
+  "yil": [
+   "İlkbahar 1998"
+  ],
+  "soru": "Aşağıdaki hastalıklardan hangisinin çocuklarda <mark class=\"cue\">makroskopik hematüriye yol açması beklenmez</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Renal ven trombozu"
+   },
+   {
+    "k": "B",
+    "t": "Orak hücreli anemi"
+   },
+   {
+    "k": "C",
+    "t": "İdiyopatik nefrotik sendrom"
+   },
+   {
+    "k": "D",
+    "t": "Membranoproliferatif glomerülonefrit"
+   },
+   {
+    "k": "E",
+    "t": "IgA nefropatisi"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Saf nefrotik sendrom = minimal lezyon.",
+  "tuzak": "Diğer dördü makroskopik hematüri yapar. <b>İdiyopatik nefrotik sendrom (minimal lezyon)</b> saf nefrotik tablodur; makroskopik hematüri beklenmez (varsa biyopsi endikasyonu).",
+  "aciklama": "İdiyopatik nefrotik sendromun en sık nedeni <b>minimal lezyon hastalığıdır</b> ve makroskopik hematüri bulunmaz (varsa tanıdan şüphe → biyopsi). Diğer seçenekler makroskopik hematüri yapar.",
+  "cue": "🎯 MCD'de selektif proteinüri; makro hematüri beklenmez."
+ },
+ {
+  "yil": [
+   "Sonbahar 2023"
+  ],
+  "soru": "Aşağıdaki hematüri nedenlerinden hangisi <mark class=\"cue\">glomerül kökenli değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Alport sendromu"
+   },
+   {
+    "k": "B",
+    "t": "IgA nefropatisi"
+   },
+   {
+    "k": "C",
+    "t": "Renal ven trombozu"
+   },
+   {
+    "k": "D",
+    "t": "MYH9 sendromları"
+   },
+   {
+    "k": "E",
+    "t": "İnce bazal membran nefropatisi"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Vasküler patoloji glomerüler mi?",
+  "tuzak": "Alport, IgA nefropatisi, MYH9 ve ince bazal membran glomerüler hastalıklardır. <b>Renal ven trombozu vasküler → non-glomerüler hematüri</b>.",
+  "aciklama": "<b>Glomerüler hematüri</b>: kola/kahverengi idrar, >2+ proteinüri, eritrosit/lökosit silendirleri, dismorfik eritrosit (akantosit). <b>Non-glomerüler</b>: parlak kırmızı, pıhtı, normal eritrosit, terminal hematüri. Renal ven trombozu (vasküler) → non-glomerüler.",
+  "cue": "🎯 Alport/IgA/ince BM glomerüler; biri damar tıkanıklığı.",
+  "ddx": {
+   "baslik": "Glomerüler mi Değil mi",
+   "ok": "Glomerüler = dismorfik eritrosit/silendir/proteinüri; damar/tümör non-glomerüler.",
+   "satirlar": [
+    {
+     "emo": "🧬",
+     "ad": "Alport",
+     "bulgu": "Glomerüler · kollajen IV"
+    },
+    {
+     "emo": "🔵",
+     "ad": "IgA nefropatisi",
+     "bulgu": "Glomerüler · mezangial IgA"
+    },
+    {
+     "emo": "🩹",
+     "ad": "İnce bazal membran",
+     "bulgu": "Glomerüler · benign"
+    },
+    {
+     "emo": "🩸",
+     "ad": "Renal ven trombozu",
+     "bulgu": "NON-glomerüler (damar)",
+     "hit": true
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "İlkbahar 2024"
+  ],
+  "soru": "Çocuklarda aşağıdaki durumlardan hangisinin <b>glomerül kaynaklı hematüriye</b> yol açması <mark class=\"cue\">en olasıdır</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kistik böbrek hastalığı"
+   },
+   {
+    "k": "B",
+    "t": "Papiller nekroz"
+   },
+   {
+    "k": "C",
+    "t": "Renal hücreli karsinom"
+   },
+   {
+    "k": "D",
+    "t": "Nekrotizan vaskülit"
+   },
+   {
+    "k": "E",
+    "t": "Nutcracker sendromu"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "ANCA ilişkili vaskülit → nekrotizan glomerülonefrit.",
+  "tuzak": "Kistik böbrek/RHK → anatomik, papiller nekroz → tübülointerstisyel, Nutcracker → vasküler (hepsi non-glomerüler). <b>Nekrotizan vaskülit</b> pauci-immün nekrotizan GN → glomerüler hematüri.",
+  "aciklama": "<b>ANCA ilişkili nekrotizan vaskülitler</b> (mikroskopik polianjit, granülomatöz polianjit/Wegener, eozinofilik granülomatöz polianjit/Churg-Strauss) → immün depozit olmayan nekrotizan glomerülonefrit → <b>glomerüler hematüri</b>. Diğerleri non-glomerüler.",
+  "cue": "🎯 Glomerülü tahrip eden → vaskülit."
+ },
+ {
+  "yil": [
+   "Sonbahar 2008"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>akut nefritik sendrom</b> tablosuna <mark class=\"cue\">yol açmaz</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Henoch-Schönlein nefriti"
+   },
+   {
+    "k": "B",
+    "t": "Membranoproliferatif glomerülonefrit"
+   },
+   {
+    "k": "C",
+    "t": "Minimal lezyon hastalığı"
+   },
+   {
+    "k": "D",
+    "t": "Postenfeksiyöz glomerülonefrit"
+   },
+   {
+    "k": "E",
+    "t": "IgA nefropatisi"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Nefritik değil, saf nefrotik tablo yapan.",
+  "tuzak": "Diğerleri nefritik sendrom (HT + makroskopik hematüri + üremi) yapar. <b>Minimal lezyon hastalığı</b> saf nefrotik tablodur (masif proteinüri, ödem, hipoalbüminemi, hiperlipidemi) → nefritik yapmaz.",
+  "aciklama": "<b>Akut nefritik sendrom</b> (HT, makroskopik hematüri, üremi): HSP nefriti, MPGN, postenfeksiyöz GN, IgA nefropatisi. <b>Minimal lezyon hastalığı</b> nefrotik sendrom yapar (çocukta en sık nefrotik neden); makroskopik hematüri varsa tanıdan şüphe.",
+  "cue": "🎯 MCD nefrotiktir, nefritik tablo yapmaz."
+ },
+ {
+  "yil": [
+   "İlkbahar 2013"
+  ],
+  "soru": "Aşağıdakilerden hangisi çocuklarda <b>hematüriye neden olan hastalıklardan</b> biri <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Polikistik böbrek hastalığı"
+   },
+   {
+    "k": "B",
+    "t": "Minimal lezyon hastalığı"
+   },
+   {
+    "k": "C",
+    "t": "Hemolitik üremik sendrom"
+   },
+   {
+    "k": "D",
+    "t": "Nutcracker sendromu"
+   },
+   {
+    "k": "E",
+    "t": "IgA nefropatisi"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Saf nefrotik, hematüri listesinde yer almaz.",
+  "tuzak": "Polikistik böbrek, HÜS, Nutcracker ve IgA nefropatisi hematüri yapar. <b>Minimal lezyon hastalığı</b> hematüri nedenleri arasında sayılmaz (%15-20 geçici mikroskopik hematüri eşlik edebilir ama makroskopik olmaz).",
+  "aciklama": "<b>Minimal lezyon hastalığı</b> özü itibariyle hematüri yapan hastalıklar içine alınmaz; makroskopik hematüri beklenmez, sadece bazı olgularda geçici mikroskopik hematüri eşlik edebilir.",
+  "cue": "🎯 MCD'de hematüri beklenmez."
+ },
+ {
+  "yil": [
+   "İlkbahar 2010"
+  ],
+  "soru": "Aşağıdakilerden hangisi çocuklarda <b>hematüriye yol açan</b> hastalıklardan biri <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Alport sendromu"
+   },
+   {
+    "k": "B",
+    "t": "Poliarteritis nodosa"
+   },
+   {
+    "k": "C",
+    "t": "Polikistik böbrek hastalığı"
+   },
+   {
+    "k": "D",
+    "t": "Nefronoftizis"
+   },
+   {
+    "k": "E",
+    "t": "Akut glomerülonefrit"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Anemi ile başlayıp KBY ile biten herediter hastalık.",
+  "tuzak": "Alport, PAN, polikistik böbrek ve akut GN hematüri yapar. <b>Nefronoftizis</b> anemi + KBY ile seyreder, hematüri yapmaz.",
+  "aciklama": "<b>Nefronoftizis</b>: kortikomedüller kistler, eritropoietin azalmasına bağlı anemi ile başlar, KBY ile sonlanır (KBY'nin en sık herediter nedeni); <b>hematüri ile seyretmez</b>. Alport en sık herediter nefrit (tekrarlayan makroskopik hematüri).",
+  "cue": "🎯 Nefronoftizi tübülointerstisyel; hematüri tipik değil."
+ },
+ {
+  "yil": [
+   "Sonbahar 2011"
+  ],
+  "soru": "Aşağıdaki sistemik hastalıklardan hangisi çocuklarda <b>glomerülonefrit ile birlikte görülmez</b>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Goodpasture sendromu"
+   },
+   {
+    "k": "B",
+    "t": "Romatoid artrit"
+   },
+   {
+    "k": "C",
+    "t": "Lupus nefriti"
+   },
+   {
+    "k": "D",
+    "t": "Henoch-Schönlein purpurası"
+   },
+   {
+    "k": "E",
+    "t": "Vaskülit"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Sadece mezangial IgA birikimi olur ama GN kliniği yapmaz.",
+  "tuzak": "Goodpasture, lupus, HSP ve vaskülit tipik GN yapar. <b>Romatoid artrit</b>-te (ve ankilozan spondilit, siroz, çölyak) mezangiumda IgA birikebilir ama tipik GN kliniği görülmez.",
+  "aciklama": "Goodpasture ve vaskülitler → RPGN; HSP → IgA benzeri tablo; lupus nefriti → hipokomplementemik nefrit (en sık diffüz proliferatif). <b>Romatoid artrit, ankilozan spondilit, siroz, çölyak, dermatitis herpetiformis</b>-te tipik GN kliniği yoktur (sadece mezangial IgA depolanması).",
+  "cue": "🎯 SLE/HSP/vaskülit/Goodpasture GN yapar; biri klasik değil."
+ },
+ {
+  "yil": [
+   "Sonbahar 2024"
+  ],
+  "soru": "Aşağıdakilerden hangisi başlıca <b>kresentik glomerülonefrit (hızlı ilerleyen GN)</b> nedenleri arasında <mark class=\"cue\">yer almaz</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Mikroskopik polianjitis"
+   },
+   {
+    "k": "B",
+    "t": "Granülomatöz polianjitis"
+   },
+   {
+    "k": "C",
+    "t": "Antiglomerül bazal membran hastalığı"
+   },
+   {
+    "k": "D",
+    "t": "Frasier sendromu"
+   },
+   {
+    "k": "E",
+    "t": "Henoch-Schönlein nefriti"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "WT1 mutasyonu + gonadal disgenezi + steroide dirençli nefrotik.",
+  "tuzak": "Mikroskopik polianjit, granülomatöz polianjit (pauci-immün), anti-GBM (Goodpasture) ve HSP nefriti RPGN yapar. <b>Frasier sendromu</b> RPGN nedeni değildir.",
+  "aciklama": "RPGN (kresentik) tipleri: <b>Tip 1</b> anti-GBM (Goodpasture); <b>Tip 2</b> immün kompleks (MPGN, APSGN, IgA, SLE, HSP); <b>Tip 3</b> pauci-immün/ANCA (mikroskopik polianjit, granülomatöz polianjit). <b>Frasier sendromu</b> (WT1 mutasyonu): gonadal disgenezi + ürogenital anomali + steroide dirençli nefrotik sendrom — RPGN nedeni değildir.",
+  "cue": "🎯 Pausi-immün/anti-GBM/HSP hızlı ilerler; Frasier FSGS yapar."
+ },
+ {
+  "yil": [
+   "İlkbahar 2007"
+  ],
+  "soru": "15 yaşındaki erkek çocuk ayaklarda şişme, <mark class=\"cue\">koyu renkli idrar</mark>, görmede bulanıklık ve <mark class=\"cue\">işitme azlığı</mark> ile geliyor. Öyküsünden dayısının 4 yıldır hemodiyaliz tedavisinde izlendiği öğreniliyor.<br><br>Bu çocuk için en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "IgA nefropatisi"
+   },
+   {
+    "k": "B",
+    "t": "Alport sendromu"
+   },
+   {
+    "k": "C",
+    "t": "Fabry hastalığı"
+   },
+   {
+    "k": "D",
+    "t": "Lowe sendromu"
+   },
+   {
+    "k": "E",
+    "t": "Sistemik lupus eritematozus"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Hematüri + sensörinöral işitme kaybı + göz bulgusu + X'e bağlı (dayı).",
+  "tuzak": "Fabry ve Lowe da X'e bağlıdır ama nefrit + işitme + göz triadı Alport'a özgüdür. Dayıda son dönem böbrek yetmezliği X'e bağlı geçişi gösterir → <b>Alport</b>.",
+  "aciklama": "<b>Alport sendromu</b>: en sık herediter nefrit, %85 <b>X'e bağlı dominant</b> (erkekte seyir kötü). Hematüri (ÜSYE sonrası makroskopik ataklar) + <b>sensörinöral işitme kaybı</b> + göz bulgusu (<b>anterior lentikonus patognomonik</b>, korneal erozyon, maküler lezyon). Kollajen tip IV mutasyonu.",
+  "cue": "🎯 Hematüri + sensörinöral işitme kaybı + göz + X'e bağlı aile.",
+  "ddx": {
+   "baslik": "Kalıtsal Hematüri",
+   "ok": "Alport = hematüri + işitme + göz + böbrek yetmezliği; ince BM benign.",
+   "satirlar": [
+    {
+     "emo": "👂",
+     "ad": "Alport",
+     "bulgu": "Hematüri + sensörinöral işitme + göz + ilerleyici",
+     "hit": true
+    },
+    {
+     "emo": "🩹",
+     "ad": "İnce bazal membran",
+     "bulgu": "İzole benign familyal hematüri"
+    },
+    {
+     "emo": "🔵",
+     "ad": "IgA nefropatisi",
+     "bulgu": "ÜSYE ile eş zamanlı makrohematüri"
+    },
+    {
+     "emo": "🧪",
+     "ad": "Fabry",
+     "bulgu": "X'e bağlı · anjiokeratom/ağrı"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 2013 Orijinal"
+  ],
+  "soru": "Rutin idrar incelemesinde mikroskopik hematüri saptanan sağlıklı 6 yaşındaki kız hastanın annesinde ve 3 yaşındaki erkek kardeşinde de mikroskopik hematüri saptanıyor. <mark class=\"cue\">Ailede son dönem böbrek yetmezliği ve diyalize giren akraba yok</mark>.<br><br>Bu çocukta en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Alport sendromu"
+   },
+   {
+    "k": "B",
+    "t": "Membranöz glomerülonefrit"
+   },
+   {
+    "k": "C",
+    "t": "İnce bazal membran hastalığı"
+   },
+   {
+    "k": "D",
+    "t": "Mezengiokapiller glomerülonefrit"
+   },
+   {
+    "k": "E",
+    "t": "IgA nefropatisi"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Ailede yaygın hematüri AMA böbrek yetmezliği yok → selim.",
+  "tuzak": "<b>Alport (A)</b> benzer aile öyküsü verir ama <b>böbrek yetmezliği + işitme/göz bulgusu</b> ile ayrılır; burada yok. Ailede yaygın hematüri + selim gidiş → <b>ince bazal membran hastalığı</b>.",
+  "aciklama": "<b>İnce bazal membran hastalığı (idiyopatik selim familyal hematüri)</b>: OD geçiş (hem erkek hem kız + anne-baba), enfeksiyonlarda makroskopik olabilen mikroskopik hematüri, proteinüri/HT/böbrek yetmezliği çok nadir. Alport'taki gibi kollajen mutasyonu var ama biyopside tek bulgu <b>ince membran incelmesi</b>. Selim seyir.",
+  "cue": "🎯 Ailesel benign izole hematüri; işitme/görme normal."
+ },
+ {
+  "yil": [
+   "Sonbahar 2018 Orijinal"
+  ],
+  "soru": "Çocukluk çağı <b>IgA nefropatisi</b> ile ilgili aşağıdaki ifadelerden hangileri <mark class=\"cue\">doğrudur</mark>?<br><br>I. Glomerüllerde mezangiumda IgA birikimi olur.<br>II. Tanı için böbrek biyopsisi yapılabilir.<br>III. Serum kompleman C3 düzeyi düşüktür.<br>IV. Son dönem böbrek hastalığına ilerleyebilir.",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "I ve III"
+   },
+   {
+    "k": "B",
+    "t": "II ve III"
+   },
+   {
+    "k": "C",
+    "t": "I ve IV"
+   },
+   {
+    "k": "D",
+    "t": "I, II ve IV"
+   },
+   {
+    "k": "E",
+    "t": "II, III ve IV"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "IgA nefropatisi hipokomplementemik DEĞİLDİR (C3 normal).",
+  "tuzak": "III yanlıştır: IgA nefropatisinde <b>C3 normaldir</b> (hipokomplementemik değil). Doğrular: mezangial IgA (I), biyopsi ile tanı (II), SDBH'ye ilerleyebilir (IV) → <b>I, II, IV</b>.",
+  "aciklama": "<b>IgA nefropatisi (Berger)</b>: çocukta en sık kronik glomerülonefrit + <b>tekrarlayan makroskopik hematürinin en sık nedeni</b>. Mezangial IgA birikimi, biyopsi ile tanı, <b>C3 NORMAL (hipokomplementemik değil)</b>, 15-20 yılda SDBH'ye gidebilir. Kötü prognoz: HT, proteinüri, biyopside kresent. HSP'nin böbrek tutulumuna benzer.",
+  "cue": "🎯 Mezangiumda IgA + biyopsi tanısı; makro hematüri ÜSYE ile eş zamanlı."
+ },
+ {
+  "yil": [
+   "İlkbahar 2010"
+  ],
+  "soru": "10 yaşında erkek çocuk kırmızı renkli idrar ve idrar miktarında azalma ile acile geliyor. Göz kapaklarında ve bacak ön yüzünde ödem; KB 135/85 mmHg, <mark class=\"cue\">serum C3 düşük</mark>, BUN artmış.<br><br>Bu çocuk için en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Akut poststreptokokkal glomerülonefrit"
+   },
+   {
+    "k": "B",
+    "t": "İmmünoglobulin A nefropatisi"
+   },
+   {
+    "k": "C",
+    "t": "Goodpasture sendromu"
+   },
+   {
+    "k": "D",
+    "t": "İdiyopatik hızlı ilerleyen glomerülonefrit"
+   },
+   {
+    "k": "E",
+    "t": "Alport sendromu"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Nefritik sendrom + DÜŞÜK C3 + 5-15 yaş.",
+  "tuzak": "<b>IgA nefropatisi (B)</b> nefritik tablo yapar ama <b>C3 normaldir</b>. Düşük C3 + nefritik sendrom + okul çağı → <b>APSGN</b>.",
+  "aciklama": "<b>APSGN</b>: çocukta nefritik sendromun en sık nedeni; immün kompleks hastalığı. Boğaz (serotip 12, 1-2 hafta latent) veya deri (serotip 49, 3-6 hafta) enfeksiyonu sonrası. Alternatif yol aktivasyonu → <b>düşük C3</b>. Nefritik: makroskopik hematüri + ödem + HT + oligüri. En geç kaybolan bulgu mikroskopik hematüri (1 yıl); C3 6-8 haftada normale döner.",
+  "cue": "🎯 Enfeksiyondan ~2 hafta SONRA nefritik + düşük C3."
+ },
+ {
+  "yil": [
+   "Sonbahar 2010"
+  ],
+  "soru": "<b>Akut poststreptokoksik glomerülonefrit</b> ile ilgili aşağıdaki ifadelerden hangisi <mark class=\"cue\">yanlıştır</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Serum C3 düzeyleri düşüktür"
+   },
+   {
+    "k": "B",
+    "t": "Nefrit genellikle kendini sınırlar ve iyi prognozludur"
+   },
+   {
+    "k": "C",
+    "t": "Rekürrens sıktır"
+   },
+   {
+    "k": "D",
+    "t": "5-12 yaşları arasında sık görülür"
+   },
+   {
+    "k": "E",
+    "t": "Mikroskopik hematüri vardır"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "ARA'nın aksine tekrarlar mı, penisilin profilaksisi gerekir mi?",
+  "tuzak": "APSGN <b>tekrarlamaz</b> (serotip 12/49 ile 2. kez karşılaşma zor) → penisilin profilaksisi gerekmez (ARA'dan farkı). Diğer ifadeler doğru: C3 düşük, iyi prognoz, 5-12 yaş, mikroskopik hematüri.",
+  "aciklama": "<b>APSGN rekürrens beklenmez</b> (kendini sınırlayan, sekelsiz atlatılan); ARA'dan farklı olarak benzatin penisilin profilaksisi gerekmez. C3 düşük, iyi prognozlu, en sık 5-12 yaş, mikroskopik hematüri en geç kaybolan bulgu.",
+  "cue": "🎯 APSGN genelde kendini sınırlar; hangisi yanlış olur?"
+ },
+ {
+  "yil": [
+   "İlkbahar 2008"
+  ],
+  "soru": "Serum kompleman C3 düzeyinin düşük olması aşağıdaki glomerülonefrit tiplerinin hangisinde <mark class=\"cue\">tipik bir özellik değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Goodpasture sendromu"
+   },
+   {
+    "k": "B",
+    "t": "Lupus nefriti"
+   },
+   {
+    "k": "C",
+    "t": "Membranoproliferatif glomerülonefrit"
+   },
+   {
+    "k": "D",
+    "t": "Şant nefriti"
+   },
+   {
+    "k": "E",
+    "t": "Akut poststreptokoksik glomerülonefrit"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Anti-GBM hastalığında komplemanın rolü yok.",
+  "tuzak": "Lupus, MPGN, şant nefriti ve APSGN hipokomplementemiktir. <b>Goodpasture</b> patogenezinde komplemanlar rol oynamaz → C3 normal.",
+  "aciklama": "<b>Hipokomplementemik (C3 düşük) nefritler</b>: MPGN, lupus nefriti, şant nefriti, APSGN, subakut bakteriyel endokardit, kriyoglobulinemi. <b>Goodpasture sendromu</b> (anti-GBM): ilk semptom hemoptizi; patogenezde kompleman rol oynamaz → <b>C3 normaldir</b>.",
+  "cue": "🎯 SLE/MPGN/şant/APSGN C3 düşük; biri normal C3'lü.",
+  "ddx": {
+   "baslik": "Düşük C3 GN'ler",
+   "ok": "SLE/MPGN/şant/APSGN C3 düşük; IgA ve anti-GBM normal C3.",
+   "satirlar": [
+    {
+     "emo": "🎗️",
+     "ad": "SLE nefriti",
+     "bulgu": "Düşük C3/C4"
+    },
+    {
+     "emo": "🔗",
+     "ad": "MPGN",
+     "bulgu": "Kalıcı düşük C3"
+    },
+    {
+     "emo": "🦠",
+     "ad": "Şant/postenf. GN",
+     "bulgu": "Geçici düşük C3"
+    },
+    {
+     "emo": "🫁",
+     "ad": "Goodpasture (anti-GBM)",
+     "bulgu": "C3 NORMAL",
+     "hit": true
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "İlkbahar 2001"
+  ],
+  "soru": "Aşağıdakilerden hangisinde <b>hipokomplementemi</b> beklenen bulgulardan biri <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Sistemik lupus eritematozus"
+   },
+   {
+    "k": "B",
+    "t": "Membranöz glomerülonefrit"
+   },
+   {
+    "k": "C",
+    "t": "Membranoproliferatif glomerülonefrit"
+   },
+   {
+    "k": "D",
+    "t": "Şant nefriti"
+   },
+   {
+    "k": "E",
+    "t": "Akut poststreptokoksik glomerülonefrit"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Erişkinde en sık nefrotik neden; C3 normal.",
+  "tuzak": "SLE, MPGN, şant nefriti ve APSGN hipokomplementemiktir. <b>Membranöz glomerülonefrit</b>-te serum kompleman genellikle normaldir.",
+  "aciklama": "<b>Membranöz glomerülonefrit</b>: büyük çocuk/adolesan, belirgin proteinüri, steroide yanıtsız, en sık Hepatit B ile ilişkili; kapiller duvarda diffüz kalınlaşma + subepitelyal IgG/C3. <b>Serum kompleman genellikle normaldir</b> (erişkinde en sık nefrotik neden).",
+  "cue": "🎯 Düşük C3 kulübü var; biri normal komplemanlı."
+ },
+ {
+  "yil": [
+   "İlkbahar 2002"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>akut poststreptokoksik glomerülonefritin</b> klinik bulguları arasında <mark class=\"cue\">yer almaz</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Hematüri"
+   },
+   {
+    "k": "B",
+    "t": "Ödem"
+   },
+   {
+    "k": "C",
+    "t": "Miyalji"
+   },
+   {
+    "k": "D",
+    "t": "Hipertansiyon"
+   },
+   {
+    "k": "E",
+    "t": "Santral sinir sistemi semptomları"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Nefritik triad + hipertansif ensefalopati var; kas ağrısı yok.",
+  "tuzak": "Hematüri, ödem, HT ve SSS semptomları (hipertansif ensefalopati) APSGN bulgularıdır. <b>Miyalji</b> APSGN kliniğinde beklenmez.",
+  "aciklama": "APSGN: makroskopik hematüri, ödem (yüz/göz kapağı/bacak), hipertansiyon (hipervolemik), oligüri, böbrek yetmezliği, hipertansif ensefalopati (SSS: baş ağrısı, kusma, konfüzyon, konvülziyon). <b>Miyalji beklenmez.</b>",
+  "cue": "🎯 Hematüri/ödem/HT olur; kas ağrısı APSGN'nin işi değil."
+ },
+ {
+  "yil": [
+   "Sonbahar 2002"
+  ],
+  "soru": "10 yaşında çocuk göz kapaklarında/vücudunda şişlik, idrar azalması, <mark class=\"cue\">çay renginde idrar</mark> ve baş ağrısı ile acile getirilirken <b>jeneralize konvülsiyon</b> geçiriyor. Öyküsünden <mark class=\"cue\">10 gün önce kriptik tonsillit</mark> geçirdiği öğreniliyor.<br><br>Bu hastada en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Minimal değişiklik hastalığı"
+   },
+   {
+    "k": "B",
+    "t": "Nefrotik sendrom"
+   },
+   {
+    "k": "C",
+    "t": "Akut poststreptokoksik glomerülonefrit"
+   },
+   {
+    "k": "D",
+    "t": "Diyabetik nefropati"
+   },
+   {
+    "k": "E",
+    "t": "Membranöz glomerülonefrit"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Tonsillitten 1-2 hafta sonra + nefritik + hipertansif ensefalopati.",
+  "tuzak": "Minimal değişiklik/nefrotik → proteinüri + ödem (makroskopik hematüri/HT yok). Tonsillitten 10 gün sonra + çay rengi idrar + konvülsiyon (hipertansif ensefalopati) = <b>APSGN</b>.",
+  "aciklama": "<b>APSGN</b>: boğaz enfeksiyonundan 1-2 hafta sonra, 5 yaş üstü çocuk; periorbital ödem + gross hematüri (kola-çay rengi) + oligüri + HT → hipertansif ensefalopati (konvülsiyon). Nefrotik sendromda makroskopik hematüri/HT beklenmez; diyabetik nefropati 10 yaşta beklenmez.",
+  "cue": "🎯 Nefritik + hipertansif ensefalopati (konvülziyon)."
+ },
+ {
+  "yil": [
+   "Sonbahar 2005"
+  ],
+  "soru": "<b>Akut glomerülonefrit</b> tanısı alan ve renal yetmezlik bulguları olan bir hastada <mark class=\"cue\">hipertansiyon ve hiperkalemi</mark> varlığında en uygun tedavi aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Anjiotensin dönüştürücü enzim inhibitörleri"
+   },
+   {
+    "k": "B",
+    "t": "Aldakton"
+   },
+   {
+    "k": "C",
+    "t": "Tiazidler"
+   },
+   {
+    "k": "D",
+    "t": "Akut diyaliz"
+   },
+   {
+    "k": "E",
+    "t": "İntravenöz insülin ve furosemid tedavisi"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "ABY + hiperkalemi + HT birlikteliği.",
+  "tuzak": "ACE inhibitörü ve aldakton hiperkalemiyi <b>artırır</b> (kontrendike). ABY + hiperkalemi + HT birlikteliğinde en uygun <b>akut diyalizdir</b>.",
+  "aciklama": "Akut glomerülonefritte <b>akut böbrek yetmezliği + hiperkalemi + hipertansiyon</b> varlığında en uygun tedavi <b>diyalizdir</b>. Potasyum tutucu ajanlardan (ACE-i, aldakton) kaçınılır.",
+  "cue": "🎯 Dirençli HT + hiperkalemi + böbrek yetmezliği → hangi acil işlem?"
+ },
+ {
+  "yil": [
+   "Sonbahar 2007"
+  ],
+  "soru": "Kahverengi idrar yapma, baş ağrısı ve göz kapaklarında şişlik nedeniyle getirilen 7 yaşındaki erkek çocukta <mark class=\"cue\">öncelikle</mark> aşağıdakilerden hangisi düşünülmelidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Sistit"
+   },
+   {
+    "k": "B",
+    "t": "Nefrokalsinozis"
+   },
+   {
+    "k": "C",
+    "t": "IgA nefropatisi"
+   },
+   {
+    "k": "D",
+    "t": "Akut poststreptokoksik glomerülonefrit"
+   },
+   {
+    "k": "E",
+    "t": "Polikistik böbrek"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "5-15 yaş + çay rengi idrar + göz kapağı ödemi + baş ağrısı (HT).",
+  "tuzak": "<b>IgA nefropatisi (C)</b> tekrarlayan hematüri ise ayrılır (burada tekrar bilgisi yok). Bifissür ödem + çay rengi + baş ağrısı (HT) = tipik <b>APSGN</b>.",
+  "aciklama": "Çocukta gross hematürinin en sık nedeni <b>APSGN</b> (5-15 yaş): çay/kola rengi idrar + göz kapağı ödemi + idrar azalması + HT (baş ağrısı). Göz kapaklarındaki bifissür ödem renal tutulum (akut böbrek yetmezliği) göstergesi.",
+  "cue": "🎯 Nefritik üçlü (kahverengi idrar/ödem/HT) + strep öncesi."
+ },
+ {
+  "yil": [
+   "Sonbahar 1997"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>akut poststreptokoksik nefritin</b> beklenen bulgularından biri <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Periferik ödem"
+   },
+   {
+    "k": "B",
+    "t": "Konvülsiyon"
+   },
+   {
+    "k": "C",
+    "t": "Antinükleer antikor pozitifliği"
+   },
+   {
+    "k": "D",
+    "t": "Oligüri"
+   },
+   {
+    "k": "E",
+    "t": "Sedimantasyon yüksekliği"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "ANA hangi hastalığın belirteci?",
+  "tuzak": "Periferik ödem, konvülsiyon (hipertansif ensefalopati), oligüri ve sedim yüksekliği APSGN bulgularıdır. <b>ANA pozitifliği (SLE belirteci)</b> APSGN'de beklenmez.",
+  "aciklama": "APSGN bulguları: ödem, HT, hematüri, proteinüri, silendirüri, sedim yüksekliği, düşük C3, oligüri-azotemi-üremi-asidoz, hipertansif ensefalopati (konvülsiyon). <b>ANA pozitifliği görülmez</b> (SLE bulgusu).",
+  "cue": "🎯 APSGN'de C3 düşer ama biri (otoantikor) beklenmez."
+ },
+ {
+  "yil": [
+   "Sonbahar 1990"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>akut glomerülonefrit</b> geçiren bir hastada <mark class=\"cue\">hastaneye yatırılma endikasyonu değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Hipertansiyon"
+   },
+   {
+    "k": "B",
+    "t": "Mikroskopik hematüri"
+   },
+   {
+    "k": "C",
+    "t": "Ödem"
+   },
+   {
+    "k": "D",
+    "t": "Kalp yetmezliği"
+   },
+   {
+    "k": "E",
+    "t": "Azotemi"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "1 yıl sürebilen selim bulgu.",
+  "tuzak": "HT, ödem, kalp yetmezliği ve azotemi ciddiyet göstergesi → yatış. <b>Mikroskopik hematüri normalde 1 yıla kadar sürebildiğinden</b> tek başına yatış endikasyonu değildir.",
+  "aciklama": "APSGN'de yatış endikasyonları: HT/hipertansif ensefalopati, ödem, kalp yetmezliği, oligüri, azotemi. <b>Mikroskopik hematüri en geç kaybolan bulgu (1 yıla kadar sürer)</b> → tek başına yatış endikasyonu değildir.",
+  "cue": "🎯 HT/ödem/KY/azotemi yatırır; izole mikro hematüri değil."
+ },
+ {
+  "yil": [
+   "Sonbahar 2016 Orijinal"
+  ],
+  "soru": "9 yaşındaki kız çocuk 15 gün önce yüksek ateş-boğaz ağrısı sonrası idrar azalması, kanlı idrar ve göz kapaklarında ödem ile geliyor. KB yüksek; hesaplanan idame sıvısından <mark class=\"cue\">%25 daha fazla sıvı</mark> veriliyor.<br><br>Bu hastada gelişebilecek <mark class=\"cue\">mortalitenin en olası nedeni</mark> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Hipernatremi"
+   },
+   {
+    "k": "B",
+    "t": "Akciğer ödemi ve kalp yetmezliği"
+   },
+   {
+    "k": "C",
+    "t": "Ağır metabolik asidoz"
+   },
+   {
+    "k": "D",
+    "t": "Hipokalsemik konvülziyon"
+   },
+   {
+    "k": "E",
+    "t": "Hipokalemi"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "APSGN + fazla sıvı → volüm yükü.",
+  "tuzak": "APSGN'de zaten hipervolemi var; fazla sıvı verilmesi <b>volüm yükünü</b> artırır. Ayrıca APSGN'de dilüsyonel hiponatremi + hiperkalemi beklenir (hipernatremi/hipokalemi yanlış). En olası ölümcül komplikasyon <b>akciğer ödemi + kalp yetmezliği</b>.",
+  "aciklama": "APSGN'de volüm yüküne bağlı HT, <b>pulmoner ödem ve kalp yetmezliği</b> riski yüksektir; fazla idame sıvısı bunu artırır. Akut böbrek yetmezliğine bağlı <b>dilüsyonel hiponatremi + hiperpotasemi</b> beklenir.",
+  "cue": "🎯 Volüm yükü → hangi hayati komplikasyon?"
+ },
+ {
+  "yil": [
+   "Sonbahar 2014 Orijinal"
+  ],
+  "soru": "<b>Akut poststreptokokkal glomerülonefrit (APSGN)</b> ile ilgili aşağıdaki ifadelerden hangisi <mark class=\"cue\">yanlıştır</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Streptokokkal enfeksiyonlarda eradikasyonu sağlayan antibiyotik tedavisi APSGN gelişimini önler"
+   },
+   {
+    "k": "B",
+    "t": "Hastaların büyük çoğunluğunda tam düzelme olur"
+   },
+   {
+    "k": "C",
+    "t": "3 yaşından küçük çocuklarda nadir görülür"
+   },
+   {
+    "k": "D",
+    "t": "Tonsillofarenjiti takiben APSGN, piyodermi sonrası APSGN'ye göre daha kısa sürede gelişir"
+   },
+   {
+    "k": "E",
+    "t": "Hastaların büyük çoğunluğunda düşük C3 saptanır"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Antibiyotik nefrit gelişimini engeller mi?",
+  "tuzak": "Diğerleri doğru: iyi prognoz, <3 yaş nadir, boğaz 1-2 hafta / deri 3-6 hafta latent, C3 düşük. <b>Antibiyotik eradikasyonu APSGN gelişimini ÖNLEMEZ</b> (immün kompleks zaten oluşmuştur).",
+  "aciklama": "<b>A grubu streptokok tonsillit/cilt enfeksiyonu tedavisi APSGN gelişimini engellemez</b> (ARF'den farkı). Boğaz enfeksiyonu 1-2 hafta, deri enfeksiyonu 3-6 hafta latent sonra nefrit; C3 alternatif yol ile düşer; %90+ tam düzelir; <3 yaş nadir. APSGN rekürrens olmaz → penisilin profilaksisi gerekmez.",
+  "cue": "🎯 Antibiyotik bulaşı azaltır ama nefriti önlemez/geriletmez."
+ },
+ {
+  "yil": [
+   "İlkbahar 2016 Orijinal"
+  ],
+  "soru": "3 yaşındaki çocuk 5 gündür ateş ve <mark class=\"cue\">kanlı ishal</mark> ile geliyor. Solgun, halsiz, hipertansif. Laboratuvarda <b>trombositopeni ve kreatinin yüksekliği</b>; periferik yaymada <mark class=\"cue\">şistositler ve Burr hücreleri</mark>.<br><br>Bu çocuk için en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Postenfeksiyöz glomerülonefrit"
+   },
+   {
+    "k": "B",
+    "t": "Trombotik trombositopenik purpura"
+   },
+   {
+    "k": "C",
+    "t": "Hemolitik üremik sendrom"
+   },
+   {
+    "k": "D",
+    "t": "Good-Pasture hastalığı"
+   },
+   {
+    "k": "E",
+    "t": "Salmonella nefriti"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Kanlı ishal + mikroanjiopatik anemi + trombositopeni + böbrek yetmezliği.",
+  "tuzak": "<b>TTP (B)</b> benzer ama daha çok SSS bulgusu + minimal böbrek tutulumu. Kanlı ishal + şistosit + trombositopeni + ABY (böbrek ön planda) = <b>HÜS</b>.",
+  "aciklama": "<b>Hemolitik üremik sendrom (HÜS)</b> triadı: kanlı ishal sonrası <b>mikroanjiopatik hemolitik anemi (şistosit)</b> + <b>trombositopeni</b> + <b>böbrek yetmezliği</b>. En sık verotoksin üreten E. coli O157:H7; sonra Shigella dysenteriae tip 1. TTP'de SSS ön planda, ABY minimal; HÜS'te ABY ön planda.",
+  "cue": "🎯 Kanlı ishal + trombositopeni + AKI üçlemesi.",
+  "ddx": {
+   "baslik": "Kanlı İshal + Trombositopeni + AKI",
+   "ok": "Çocukta bu üçleme = HÜS (Shiga toksin); TTP erişkin/ADAMTS13.",
+   "satirlar": [
+    {
+     "emo": "🦠",
+     "ad": "Hemolitik üremik send.",
+     "bulgu": "EHEC/Shiga · MAHA + trombositopeni + AKI",
+     "hit": true
+    },
+    {
+     "emo": "🧠",
+     "ad": "TTP",
+     "bulgu": "Erişkin · ADAMTS13↓ · nörolojik"
+    },
+    {
+     "emo": "🩸",
+     "ad": "APSGN",
+     "bulgu": "Nefritik · C3↓ · ishal yok"
+    },
+    {
+     "emo": "🫁",
+     "ad": "Goodpasture",
+     "bulgu": "Akciğer + böbrek"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "İlkbahar 2014 Orijinal"
+  ],
+  "soru": "Normal gelişimli 2 yaşındaki çocuk 2 gündür artan halsizlik-solukluk ile geliyor. <mark class=\"cue\">5 gündür ishal, gaita koyu renkli ve kanlı</mark>. BUN ve kreatinin yüksek.<br><br>Bu hastada ayırıcı tanı için <mark class=\"cue\">öncelikle</mark> aşağıdakilerden hangisi yapılmalıdır?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Haptoglobulin düzeyi"
+   },
+   {
+    "k": "B",
+    "t": "Hemogram ve periferik yayma"
+   },
+   {
+    "k": "C",
+    "t": "Laktat dehidrogenaz düzeyi"
+   },
+   {
+    "k": "D",
+    "t": "Kreatinin klirensi"
+   },
+   {
+    "k": "E",
+    "t": "Gaita kültürü"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "HÜS triadını doğrulayacak en temel test.",
+  "tuzak": "Kanlı ishal + ABY + solukluk = HÜS düşündürür. Tanıyı kesinleştirmek için önce <b>hemogram (anemi/trombositopeni/retikülositoz) + periferik yayma (şistosit)</b> istenmelidir.",
+  "aciklama": "HÜS klasik triadı (kanlı ishal sonrası mikroanjiopatik anemi + trombositopeni + ABY) doğrulamak için öncelikle <b>hemogram + periferik yayma</b> gerekir. HÜS'te PT (protrombin zamanı) normaldir (DİK'ten farkı).",
+  "cue": "🎯 Şistosit/parçalanmış eritrositi hangi test gösterir?"
+ },
+ {
+  "yil": [
+   "İlkbahar 1996"
+  ],
+  "soru": "2 yaşındaki çocukta <b>mikroanjiopatik hemolitik anemi ve trombositopeni</b> gelişiyor.<br><br>Bu çocukta <mark class=\"cue\">öncelikle</mark> aşağıdakilerden hangisi düşünülmelidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Akut böbrek yetmezliği"
+   },
+   {
+    "k": "B",
+    "t": "Hidronefroz"
+   },
+   {
+    "k": "C",
+    "t": "Wilms tümörü"
+   },
+   {
+    "k": "D",
+    "t": "Hemolitik üremik sendrom"
+   },
+   {
+    "k": "E",
+    "t": "Böbrek taşı"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Mikroanjiopatik anemi + trombositopeni + <5 yaş.",
+  "tuzak": "Anemi + trombositopeni + renal yetmezlik triadı = <b>HÜS</b>. İlk 5 yaşta renal tip ABY'nin en sık nedeni HÜS'tür.",
+  "aciklama": "<b>HÜS</b>: mikroanjiopatik hemolitik anemi + trombositopeni + böbrek yetmezliği triadı; ilk 5 yaşta renal ABY'nin en sık nedeni. Tablo diyareye sekonderdir (sıvı kaybı değil, toksin etkisi).",
+  "cue": "🎯 Mikroanjiopatik anemi + trombositopeni + çocuk → böbrek."
+ },
+ {
+  "yil": [
+   "Sonbahar 2007"
+  ],
+  "soru": "İshal, dehidratasyon, anüri, renal fonksiyonlarda bozulma, solukluk, trombositopeni ile yatırılan 4 yaşındaki çocukta <b>hemolitik üremik sendroma</b> bağlı olarak aşağıdakilerden hangisinin <mark class=\"cue\">gelişme olasılığı en yüksektir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kortikal nekroz"
+   },
+   {
+    "k": "B",
+    "t": "Renal arter trombozu"
+   },
+   {
+    "k": "C",
+    "t": "Renal ven trombozu"
+   },
+   {
+    "k": "D",
+    "t": "Akut tübüler nekroz"
+   },
+   {
+    "k": "E",
+    "t": "Prerenal yetmezlik"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Anüri = ağır tablo → yaygın kortikal nekroz.",
+  "tuzak": "HÜS'te böbrek arteriyol endotelinde pıhtı → böbrek kanlanması bozulur → ağır tabloda <b>yaygın kortikal nekroz ve irreversibl anürik böbrek yetmezliği</b>. Anüri gelişmesi ağır tabloyu (kortikal nekroz) işaret eder.",
+  "aciklama": "HÜS'te primer lezyon böbrek arteriyol endotelinde pıhtı trombüsleri; PGI2 eksikliği → arteriyoler pıhtı. Böbrek tutulumu hafif (mikroskopik hematüri) → ağır (<b>yaygın kortikal nekroz + irreversibl anürik böbrek yetmezliği</b>) arası değişir. Anüri → kortikal nekroz.",
+  "cue": "🎯 Trombotik mikroanjiopati → hangi renal patoloji?"
+ },
+ {
+  "yil": [
+   "Sonbahar 2011"
+  ],
+  "soru": "4 yaşındaki kız çocukta <mark class=\"cue\">gastroenterit sonrası</mark> idrar azalması ve kırmızı idrar; laboratuvarda <b>anemi, trombositopeni ve kreatinin 1,7 mg/dL</b>.<br><br>Bu hasta için en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Postenfeksiyöz glomerülonefrit"
+   },
+   {
+    "k": "B",
+    "t": "Akut interstisyel nefrit"
+   },
+   {
+    "k": "C",
+    "t": "Rotavirus nefriti"
+   },
+   {
+    "k": "D",
+    "t": "Hemolitik üremik sendrom"
+   },
+   {
+    "k": "E",
+    "t": "IgA nefropatisi"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Gastroenterit sonrası + <5 yaş + anemi/trombositopeni/ABY triadı.",
+  "tuzak": "<b>Postenfeksiyöz GN (A)</b>-de trombositopeni beklenmez, anemi hemolitik değil (5-12 yaş). Gastroenterit sonrası + <5 yaş + klasik triad = <b>HÜS</b>.",
+  "aciklama": "<b>HÜS</b>: ABY'nin 5 yaş altı en sık nedeni; gastroenterit sonrası + anemi + trombositopeni + böbrek yetmezliği triadı. Postenfeksiyöz GN → trombositopeni yok, 5-12 yaş; IgA nefropatisi → ÜSYE + hematüri, trombositopeni yok.",
+  "cue": "🎯 İshal sonrası anemi + trombositopeni + kreatinin↑."
+ },
+ {
+  "yil": [
+   "İlkbahar 2024"
+  ],
+  "soru": "Kompleman sisteminde yer alan düzenleyici faktörlerden hangisinin eksikliğinde <b>atipik hemolitik üremik sendrom</b> görülmesi <mark class=\"cue\">en az olasıdır</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Faktör B"
+   },
+   {
+    "k": "B",
+    "t": "Faktör H"
+   },
+   {
+    "k": "C",
+    "t": "Membran kofaktör protein (MCP)"
+   },
+   {
+    "k": "D",
+    "t": "Faktör I"
+   },
+   {
+    "k": "E",
+    "t": "Properdin eksikliği"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Atipik HÜS nedenleri arasında sayılmayan.",
+  "tuzak": "Faktör H/I/B, MCP, C3, trombomodulin, ADAMTS-13 atipik HÜS nedenidir. <b>Properdin eksikliği atipik HÜS nedenleri arasında sayılmaz.</b>",
+  "aciklama": "<b>Atipik (genetik) HÜS</b> nedenleri: ADAMTS-13 (vWF proteaz) eksikliği, kompleman <b>H/I/B</b> eksikliği, C3 eksikliği, <b>MCP</b> eksikliği, trombomodulin mutasyonu, B12/kobalamin C defekti. <b>Properdin eksikliği bu grupta değildir.</b>",
+  "cue": "🎯 Faktör H/I/MCP/B alternatif yol; biri en az ilişkili."
+ },
+ {
+  "yil": [
+   "Sonbahar 2021"
+  ],
+  "soru": "Aşağıdakilerden hangisinde çocuklarda <b>hemolitik üremik sendrom</b> gelişme riski <mark class=\"cue\">en düşüktür</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Salmonella spp."
+   },
+   {
+    "k": "B",
+    "t": "Campylobacter spp."
+   },
+   {
+    "k": "C",
+    "t": "Enterotoksijenik E. coli"
+   },
+   {
+    "k": "D",
+    "t": "Shigella spp."
+   },
+   {
+    "k": "E",
+    "t": "Aeromonas spp."
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Ateşsiz sulu ishal yapan, HÜS yapmayan E. coli tipi.",
+  "tuzak": "HÜS yapan E. coli tipi <b>Shiga toksin üreten (STEC/EHEC O157:H7)</b>-dir. <b>Enterotoksijenik E. coli (ETEC)</b> enterotoksin ile sulu-ateşsiz ishal yapar, HÜS beklenmez. Salmonella/Campylobacter/Aeromonas nadir HÜS nedenidir.",
+  "aciklama": "HÜS en sık <b>Shiga toksin (verotoksin) üreten E. coli (STEC O157:H7)</b> ve Shigella dysenteriae tip 1 ile. <b>Enterotoksijenik E. coli (ETEC)</b> turist/infant ishalinin nedeni; enterotoksin → sulu-ateşsiz ishal, destekleyici tedavi ile iyileşir, <b>HÜS beklenmez</b>.",
+  "cue": "🎯 HÜS'ü Shiga toksinli tip yapar; ENTEROTOKSİJENİK olan değil.",
+  "ddx": {
+   "baslik": "HÜS Etkeni mi?",
+   "ok": "HÜS Shiga toksinli EHEC/Shigella yapar; enterotoksijenik E.coli yapmaz.",
+   "satirlar": [
+    {
+     "emo": "💥",
+     "ad": "EHEC (O157)",
+     "bulgu": "Shiga toksin · klasik HÜS"
+    },
+    {
+     "emo": "🦠",
+     "ad": "Shigella",
+     "bulgu": "Shiga toksin · HÜS"
+    },
+    {
+     "emo": "🍗",
+     "ad": "Campylobacter/Salmonella",
+     "bulgu": "Nadir HÜS"
+    },
+    {
+     "emo": "🚫",
+     "ad": "Enterotoksijenik E.coli",
+     "bulgu": "HÜS riski EN DÜŞÜK",
+     "hit": true
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "İlkbahar 2021"
+  ],
+  "soru": "<b>Shiga toksin ilişkili hemolitik üremik sendrom</b> için aşağıdakilerden hangisi <mark class=\"cue\">doğrudur</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Coombs pozitif hemolitik anemi görülür"
+   },
+   {
+    "k": "B",
+    "t": "Uzun dönemde olguların çoğunda son dönem böbrek yetmezliği gelişir"
+   },
+   {
+    "k": "C",
+    "t": "Retikülosit sayısı ve LDH düzeyi artmıştır"
+   },
+   {
+    "k": "D",
+    "t": "PT ve PTT genellikle uzamıştır"
+   },
+   {
+    "k": "E",
+    "t": "Olguların çoğunda ADAMTS13 aktivitesi %10'un altındadır"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Mikroanjiopatik hemoliz göstergeleri.",
+  "tuzak": "Coombs negatiftir (A yanlış); ishale bağlı HÜS prognozu en iyi, SDBY beklenmez (B yanlış); PT/PTT normaldir, DİK yok (D yanlış); ADAMTS13 düşüklüğü genetik/atipik HÜS'te (E yanlış). Doğru: <b>retikülositoz + LDH artışı</b>.",
+  "aciklama": "Shiga toksin ilişkili HÜS: <b>Coombs negatif</b> mikroanjiopatik hemoliz (şistosit, LDH↑, indirekt bilirubin↑, <b>retikülositoz</b>, haptoglobin↓); <b>PT/PTT normal (DİK yok)</b>; ishale bağlı (STEC) HÜS prognozu en iyi, SDBY beklenmez; ADAMTS13 eksikliği enfeksiyöz değil genetik HÜS'te görülür.",
+  "cue": "🎯 Hemoliz → LDH↑/retikülosit↑; Coombs negatif, ADAMTS13 normal."
+ },
+ {
+  "yil": [
+   "Sonbahar 1997"
+  ],
+  "soru": "Aşağıdaki hastalıkların hangisinde glomerüler bazal membranda <mark class=\"cue\">çift konturlu (tramvay yolu) görünüm</mark> karakteristiktir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Lipoid nefroz"
+   },
+   {
+    "k": "B",
+    "t": "Berger hastalığı"
+   },
+   {
+    "k": "C",
+    "t": "Membranoproliferatif glomerülonefrit"
+   },
+   {
+    "k": "D",
+    "t": "Good-pasture sendromu"
+   },
+   {
+    "k": "E",
+    "t": "Hızlı ilerleyen glomerülonefrit"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Bazal membranın iki katmana ayrılması (tramvay yolu).",
+  "tuzak": "Lipoid nefroz → podosit füzyonu; Berger → mezangial IgA; Goodpasture → lineer IgG; RPGN → kresent (hilal). <b>Çift kontur/tramvay yolu = MPGN</b>.",
+  "aciklama": "<b>MPGN</b>: mezangial matriksin kapiller kıvrımlara genişlemesi → bazal membran iki katmana ayrılır → gümüş boyada <b>çift konturlu 'tramvay yolu'</b>. (Membranöz GN → subepitelyal çıkıntılar 'demiryolu'; minimal değişiklik → podosit füzyonu; Goodpasture → lineer IgG; RPGN → kresent.)",
+  "cue": "🎯 Bazal membranda 'tramvay rayı' çift kontur."
+ },
+ {
+  "yil": [
+   "Sonbahar 1998"
+  ],
+  "soru": "Aşağıdaki hastalıklardan hangisi <mark class=\"cue\">bazal membrana karşı antikor gelişimi</mark> sonucu nefrit tablosuna neden olur?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Good-pasture sendromu"
+   },
+   {
+    "k": "B",
+    "t": "Lipoid nefroz"
+   },
+   {
+    "k": "C",
+    "t": "Berger hastalığı"
+   },
+   {
+    "k": "D",
+    "t": "Poliarteritis nodoza"
+   },
+   {
+    "k": "E",
+    "t": "Membranöz glomerülonefrit"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Anti-GBM antikoru + hemoptizi.",
+  "tuzak": "Berger → mezangial IgA; poliarteritis nodoza → vaskülit; membranöz → immün kompleks (HBV). Anti-bazal membran antikoru = <b>Goodpasture</b>.",
+  "aciklama": "<b>Goodpasture sendromu</b>: Tip II immünolojik reaksiyon; alveol ve glomerül bazal membranındaki <b>tip IV kollajene karşı otoantikor</b>. İlk belirti hemoptizi; histolojik olarak hızlı ilerleyen GN (kresent), <b>lineer IgG birikimi</b>. Prognozu kötü.",
+  "cue": "🎯 Anti-bazal membran antikoru → akciğer + böbrek."
+ },
+ {
+  "yil": [
+   "İlkbahar 2009"
+  ],
+  "soru": "<b>Goodpasture hastalığı</b> ile ilgili aşağıdaki ifadelerden hangisi <mark class=\"cue\">doğrudur</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Katarakt ve sağırlıkla birliktedir"
+   },
+   {
+    "k": "B",
+    "t": "Nefrotik sendromun en sık nedenidir"
+   },
+   {
+    "k": "C",
+    "t": "BUN ve serum kreatinin düzeyleri normaldir"
+   },
+   {
+    "k": "D",
+    "t": "Glomerül kapillerlerinde oklüzyon ve renal arterlerde fibrin trombüsleri gözlenir"
+   },
+   {
+    "k": "E",
+    "t": "Glomerül bazal membranında IgG depolanması vardır"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Lineer IgG birikimi.",
+  "tuzak": "Katarakt+sağırlık → Alport (A yanlış); nefrotik değil nefritik (B yanlış); BUN/kreatinin yüksek — RPGN (C yanlış); fibrin trombüs → HÜS (D yanlış). Doğru: <b>GBM'de lineer IgG depolanması</b>.",
+  "aciklama": "<b>Goodpasture</b>: alveolar ve glomerüler bazal membrandaki tip IV kollajen epitoplarına karşı antikor; immünfloresanda <b>lineer (çizgisel) IgG birikimi</b>; hızlı ilerleyen GN → BUN/kreatinin yüksek; C3 normal; hemoptizi + hematüri + nefritik sendrom. Tedavi: metilprednizolon + siklofosfamid + plazmaferez.",
+  "cue": "🎯 Bazal membranda LİNEER IgG + pulmoner hemoraji.",
+  "ddx": {
+   "baslik": "Goodpasture (anti-GBM)",
+   "ok": "Bazal membranda LİNEER IgG; akciğer + böbrek; C3 normal.",
+   "satirlar": [
+    {
+     "emo": "🫁",
+     "ad": "Pulmoner hemoraji",
+     "bulgu": "Hemoptizi"
+    },
+    {
+     "emo": "🧫",
+     "ad": "Lineer IgG (GBM)",
+     "bulgu": "Karakteristik immünfloresan",
+     "hit": true
+    },
+    {
+     "emo": "📉",
+     "ad": "BUN/kreatinin",
+     "bulgu": "YÜKSEK (nefritik)"
+    },
+    {
+     "emo": "🩸",
+     "ad": "Anti-GBM antikor",
+     "bulgu": "Tanı koydurur"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "İlkbahar 2018"
+  ],
+  "soru": "Aşağıdakilerin hangisinde <mark class=\"cue\">diffüz alveoler hemoraji</mark> görülmesi <b>en olasıdır</b>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Sarkoidoz"
+   },
+   {
+    "k": "B",
+    "t": "Pulmoner alveoler proteinozis"
+   },
+   {
+    "k": "C",
+    "t": "Goodpasture sendromu"
+   },
+   {
+    "k": "D",
+    "t": "Pulmoner mikrolitiyazis"
+   },
+   {
+    "k": "E",
+    "t": "Bronşit"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Pulmorenal sendrom = akciğer + böbrek tutulumu.",
+  "tuzak": "Diğerleri diffüz alveoler hemoraji yapmaz. <b>Goodpasture</b> pulmorenal sendromun en bilineni (hemoptizi + hematüri).",
+  "aciklama": "<b>Pulmorenal sendromlar</b> (eş zamanlı diffüz alveoler hemoraji + glomerülonefrit): en bilineni <b>Goodpasture sendromu</b> (hemoptizi + hematüri). Ayrıca SLE, mikroskopik polianjit, ANCA vaskülitleri. Hemoptizi + böbrek tutulumu (pnömoni/karsinom/bronşiektazi yoksa) → pulmorenal sendrom düşün.",
+  "cue": "🎯 Anti-GBM akciğeri de tutar (diffüz alveoler kanama)."
+ },
+ {
+  "yil": [
+   "Sonbahar 2020 Orijinal"
+  ],
+  "soru": "Çocukluk çağında <b>ortostatik proteinüri</b> ile ilgili aşağıdaki ifadelerden hangisi <mark class=\"cue\">yanlıştır</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Çocuk ayakta olduğunda ortaya çıkan, yatar pozisyonda bulunmayan proteinüridir"
+   },
+   {
+    "k": "B",
+    "t": "Okul çağı çocuklarında ve adolesanlarda persistan proteinürinin en sık sebeplerindendir"
+   },
+   {
+    "k": "C",
+    "t": "Genellikle asemptomatiktir"
+   },
+   {
+    "k": "D",
+    "t": "Ayakta lordotik pozisyonda parsiyel sol renal ven obstrüksiyonuna bağlı geliştiği düşünülmektedir"
+   },
+   {
+    "k": "E",
+    "t": "24 saatlik idrar analizi ile tanı kesinleştirilir"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Tanı için hangi idrar örneği ayrımı gerekir?",
+  "tuzak": "A-D doğru. Tanı 24 saatlik idrarla değil, <b>art arda 3 sabah spot idrarda protein/kreatinin <0,2</b> (yatarken proteinsiz) + ayakta artış ile konur. E yanlıştır.",
+  "aciklama": "<b>Ortostatik (postural) proteinüri</b>: patolojik olmayan; okul çağı/adolesanın en sık persistan proteinüri nedeni; ayakta lordotik pozisyonda parsiyel sol renal ven obstrüksiyonu; asemptomatik. Tanı: <b>art arda 3 sabah spot idrarda protein/kreatinin <0,2</b>, ayakta 10 kat artış. Tedavi gerekmez.",
+  "cue": "🎯 Tanı: yatarken temiz, ayakta artar; hangi ifade yanlış?"
+ },
+ {
+  "yil": [
+   "Sonbahar 2025"
+  ],
+  "soru": "Aşağıdaki hastalıklardan hangisinin çocuklarda <b>glomerüler proteinüriye</b> neden olması <mark class=\"cue\">en az olasıdır</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Membranöz nefropati"
+   },
+   {
+    "k": "B",
+    "t": "Lowe sendromu"
+   },
+   {
+    "k": "C",
+    "t": "Alport sendromu"
+   },
+   {
+    "k": "D",
+    "t": "Henoch-Schönlein purpura nefriti"
+   },
+   {
+    "k": "E",
+    "t": "Amiloidoz"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Proksimal tübül hasarı → tübüler proteinüri.",
+  "tuzak": "Membranöz, Alport, HSP nefriti ve amiloidoz glomerüler proteinüri yapar. <b>Lowe sendromu</b> (okuloserebrorenal) proksimal tübül hasarı → <b>tübüler proteinüri</b>.",
+  "aciklama": "<b>Tübüler proteinüri</b> nedenleri (proksimal tübül hasarı, düşük molekül ağırlıklı protein/β2-mikroglobulin, ödem yok): sistinozis, Fanconi, Wilson, <b>Lowe sendromu</b>, Dent hastalığı, galaktozemi, tübülointerstisyel nefrit, ATN, ilaçlar. <b>Glomerüler proteinüri</b> (albümin, ödem): APSGN, IgA, lupus, Alport, amiloidoz, HSP nefriti, membranöz.",
+  "cue": "🎯 Membranöz/Alport/HSP/amiloid glomerüler; biri tübüler (Fankoni).",
+  "ddx": {
+   "baslik": "Proteinüri: Glomerüler mi Tübüler mi",
+   "ok": "Glomerüler = albümin (nefrotik); Fankoni/Lowe tübüler (düşük molekül).",
+   "satirlar": [
+    {
+     "emo": "🧬",
+     "ad": "Membranöz",
+     "bulgu": "Glomerüler"
+    },
+    {
+     "emo": "👂",
+     "ad": "Alport",
+     "bulgu": "Glomerüler"
+    },
+    {
+     "emo": "🟣",
+     "ad": "HSP nefriti",
+     "bulgu": "Glomerüler"
+    },
+    {
+     "emo": "🔻",
+     "ad": "Lowe sendromu",
+     "bulgu": "TÜBÜLER (Fankoni) · glomerüler en az",
+     "hit": true
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "İlkbahar 1989"
+  ],
+  "soru": "Aşağıdaki hastalıklardan hangisi <b>çocuklardaki nefrotik sendromun en sık nedenidir</b>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Membranöz glomerülonefrit"
+   },
+   {
+    "k": "B",
+    "t": "Lupoid nefroz (minimal lezyon)"
+   },
+   {
+    "k": "C",
+    "t": "Fokal segmental glomeruloskleroz"
+   },
+   {
+    "k": "D",
+    "t": "Berger hastalığı"
+   },
+   {
+    "k": "E",
+    "t": "Poststreptokoksik glomerülonefrit"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "İdiyopatik nefrotik sendromun %85'i.",
+  "tuzak": "FSGS (C) 2. en sık; membranöz (A) erişkin hastalığı. Çocukta en sık <b>minimal lezyon hastalığı (lupoid nefroz)</b>.",
+  "aciklama": "Çocukluk çağı nefrotik sendromunun %90'ı idiyopatik; bunun %85'i <b>minimal lezyon hastalığı</b> (eski adı lupoid nefroz). 2. en sık FSGS. Erişkinde en sık membranöz GN ve FSGS (çocukta membranöz nadir).",
+  "cue": "🎯 Çocuk nefrotiğinin bir numarası."
+ },
+ {
+  "yil": [
+   "Sonbahar 2009"
+  ],
+  "soru": "Çocukluk çağında en sık görülen <b>nefrotik sendrom nedeni</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Fokal segmental glomerüloskleroz"
+   },
+   {
+    "k": "B",
+    "t": "Membranoproliferatif glomerülonefrit"
+   },
+   {
+    "k": "C",
+    "t": "Membranöz nefropati"
+   },
+   {
+    "k": "D",
+    "t": "Minimal değişiklik hastalığı"
+   },
+   {
+    "k": "E",
+    "t": "Akut poststreptokoksik glomerülonefrit"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "İdiyopatik nefrotik sendromun %85'i.",
+  "tuzak": "<b>FSGS (A)</b> 2. en sık, ama <b>steroide dirençli</b> vakalarda en sık neden. Genel en sık <b>minimal değişiklik hastalığıdır</b>.",
+  "aciklama": "Çocukta idiyopatik nefrotik sendromun en sık nedeni <b>minimal değişiklik hastalığı</b>. FSGS 2. en sık ama <b>steroide dirençli vakalarda en sık</b>. Erişkinde en sık membranöz GN ve FSGS.",
+  "cue": "🎯 Minimal değişiklik = en sık.",
+  "ddx": {
+   "baslik": "Çocuk Nefrotik: En Sık",
+   "ok": "Minimal değişiklik (%80) > FSGS > membranöz; steroide yanıt iyi.",
+   "satirlar": [
+    {
+     "emo": "🥇",
+     "ad": "Minimal değişiklik",
+     "bulgu": "EN SIK · steroide yanıtlı · selektif proteinüri",
+     "hit": true
+    },
+    {
+     "emo": "🎯",
+     "ad": "FSGS",
+     "bulgu": "Steroide dirençli · ilerleyici"
+    },
+    {
+     "emo": "🧱",
+     "ad": "Membranöz",
+     "bulgu": "Çocukta nadir · sekonder"
+    },
+    {
+     "emo": "🔗",
+     "ad": "MPGN",
+     "bulgu": "Düşük C3 · nefritik+nefrotik"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 1992"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>nefrotik sendromun çocuklardaki en sık sebebidir</b>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Membranöz glomerülonefrit"
+   },
+   {
+    "k": "B",
+    "t": "Berger hastalığı"
+   },
+   {
+    "k": "C",
+    "t": "Akut glomerülonefrit"
+   },
+   {
+    "k": "D",
+    "t": "Membranoproliferatif glomerülonefrit"
+   },
+   {
+    "k": "E",
+    "t": "Minimal lezyon hastalığı"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "İdiyopatik nefrotik sendromun en sık nedeni.",
+  "tuzak": "Berger (IgA) nefritik yapar; membranöz erişkinde. Çocukta en sık <b>minimal lezyon hastalığı</b>.",
+  "aciklama": "Çocuklarda nefrozun en sık nedeni idiyopatik nefrotik sendrom, onun da en sık nedeni <b>minimal lezyon hastalığı</b>.",
+  "cue": "🎯 Lupoid nefroz = minimal lezyon."
+ },
+ {
+  "yil": [
+   "Sonbahar 2000"
+  ],
+  "soru": "Çocuklarda en sık <b>nefrotik sendrom sebebi</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Poststreptokokal glomerülonefrit"
+   },
+   {
+    "k": "B",
+    "t": "Membranöz glomerülonefrit"
+   },
+   {
+    "k": "C",
+    "t": "IgA nefropatisi"
+   },
+   {
+    "k": "D",
+    "t": "Hyalen membran hastalığı"
+   },
+   {
+    "k": "E",
+    "t": "Lupoid nefroz"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Minimal değişiklik hastalığının eski adı.",
+  "tuzak": "Hyalen membran hastalığı akciğerle (RDS) ilgili tuzaktır. <b>Lupoid nefroz = minimal değişiklik hastalığı</b> → en sık.",
+  "aciklama": "<b>Minimal değişiklik hastalığı (lupoid nefroz)</b> çocuklarda nefrotik sendromun en sık nedenidir.",
+  "cue": "🎯 Yine minimal lezyon (lupoid nefroz)."
+ },
+ {
+  "yil": [
+   "İlkbahar 1995"
+  ],
+  "soru": "Vücudunda jeneralize ödemi olan 5 yaşındaki çocukta <mark class=\"cue\">2 g/m² protein, hipoproteinemi ve hipoalbüminemi</mark> saptanıyor.<br><br>Bu hastanın böbrek histopatolojisinde en olası bulgu aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Minimal lezyon hastalığı"
+   },
+   {
+    "k": "B",
+    "t": "Membranöz nefropati"
+   },
+   {
+    "k": "C",
+    "t": "Mezengial proliferasyon"
+   },
+   {
+    "k": "D",
+    "t": "Membranoproliferatif glomerülonefrit"
+   },
+   {
+    "k": "E",
+    "t": "Fokal glomeruloskleroz"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "2-6 yaş + nefrotik sendrom + ek bulgu yok.",
+  "tuzak": "Ek bulgu (hematüri, HT) verilmemiş; 2-6 yaş nefrotik sendrom → en olası <b>minimal lezyon hastalığı</b>.",
+  "aciklama": "<b>Minimal lezyon hastalığı</b>: çocukta en sık (%80) nefrotik neden; erkekte fazla (2:1), 2-6 yaş; ışık mikroskopisinde glomerül normal, elektron mikroskopisinde <b>ayaksı çıkıntı füzyonu</b>; ilk bulgu ödem; C3/C4 normal, makroskopik hematüri yok.",
+  "cue": "🎯 Klasik yaşta masif proteinüri → minimal lezyon."
+ },
+ {
+  "yil": [
+   "Sonbahar 2005"
+  ],
+  "soru": "Aşağıdakilerden hangisi çocukluk çağı <b>idiyopatik nefrotik sendromun</b> sık görülen bulgusudur?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Makroskopik hematüri"
+   },
+   {
+    "k": "B",
+    "t": "Masif proteinüri"
+   },
+   {
+    "k": "C",
+    "t": "Hipertansiyon"
+   },
+   {
+    "k": "D",
+    "t": "Artrit"
+   },
+   {
+    "k": "E",
+    "t": "Azalmış C3 düzeyi"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Nefrotik sendromun majör komponenti.",
+  "tuzak": "Makroskopik hematüri, HT, artrit ve düşük C3 minimal lezyonda görülmez. Tipik bulgu <b>masif (nefrotik) proteinüri</b>.",
+  "aciklama": "Minimal lezyon hastalığının tipik bulgusu <b>masif (nefrotik) proteinüridir</b>. Makroskopik hematüri, HT, artrit ve düşük C3 görülmez.",
+  "cue": "🎯 Nefrotiğin tanımı: masif (>40 mg/m²/sa) proteinüri."
+ },
+ {
+  "yil": [
+   "İlkbahar 1992"
+  ],
+  "soru": "Çocukluk çağı nefrotik sendromunda aşağıdakilerden hangisinin görülmesi <mark class=\"cue\">beklenmez</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Tekrarlayan enfeksiyon"
+   },
+   {
+    "k": "B",
+    "t": "Plazma onkotik basınç artışı"
+   },
+   {
+    "k": "C",
+    "t": "Hiperviskozite"
+   },
+   {
+    "k": "D",
+    "t": "Hiperkoagülabilite"
+   },
+   {
+    "k": "E",
+    "t": "Hiperlipidemi"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Hipoalbüminemi onkotik basıncı ne yapar?",
+  "tuzak": "Nefrotik sendromda hipoalbüminemi → onkotik basınç <b>AZALIR</b> (artmaz). Diğerleri (enfeksiyon, hiperviskozite, hiperkoagülabilite, hiperlipidemi) beklenir.",
+  "aciklama": "Nefrotik sendrom: proteinüri → hipoalbüminemi → <b>plazma onkotik basıncı AZALIR</b> → intravasküler volüm azalır, ödem. Ayrıca hiperviskozite, hiperkoagülabilite (AT-III kaybı), immün yetmezlik (IgG/faktör B kaybı → enfeksiyon), hiperlipidemi (LCAT kaybı).",
+  "cue": "🎯 Albümin kaybı → onkotik basınç DÜŞER; artışı beklenmez.",
+  "ddx": {
+   "baslik": "Nefrotik Fizyopatoloji",
+   "ok": "Albümin kaybı → onkotik basınç DÜŞER → ödem + hiperkoagülabilite + hiperlipidemi.",
+   "satirlar": [
+    {
+     "emo": "💧",
+     "ad": "Ödem",
+     "bulgu": "Onkotik basınç düşer"
+    },
+    {
+     "emo": "🩸",
+     "ad": "Hiperkoagülabilite",
+     "bulgu": "AT-III kaybı · tromboz"
+    },
+    {
+     "emo": "🧈",
+     "ad": "Hiperlipidemi",
+     "bulgu": "Karaciğer telafi sentezi"
+    },
+    {
+     "emo": "📈",
+     "ad": "Onkotik basınç ARTIŞI",
+     "bulgu": "BEKLENMEZ (düşer)",
+     "hit": true
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "İlkbahar 2019 Orijinal"
+  ],
+  "soru": "Aşağıdakilerden hangisi çocukluk çağı idiyopatik nefrotik sendromu olan hastalarda <b>tromboz riskini artıran</b> nedenlerden biri <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Santral venöz kateter varlığı"
+   },
+   {
+    "k": "B",
+    "t": "Antitrombin III'ün azalması"
+   },
+   {
+    "k": "C",
+    "t": "Trombositoz"
+   },
+   {
+    "k": "D",
+    "t": "Faktör VIII'in azalması"
+   },
+   {
+    "k": "E",
+    "t": "Hipovolemi"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Karaciğerde yapımı artan faktörler idrarla kaybolur mu?",
+  "tuzak": "AT-III kaybı, trombositoz, hipovolemi (hemokonsantrasyon), kateter tromboz yapar. <b>Faktör VIII AZALMAZ, AKSİNE ARTAR</b> (karaciğerde yapım artışı).",
+  "aciklama": "Nefrotik sendromda tromboz: idrarla <b>AT-III, protein C/S, FXI/XII kaybı</b>, trombositoz, hemokonsantrasyon (hipovolemi), kateter. Karaciğerde yapım artışı ile <b>fibrinojen, FV, FVII, FVIII, FX, FXIII ARTAR</b> → FVIII azalması yanlış.",
+  "cue": "🎯 Faktör VIII/fibrinojen ARTAR (protrombotik); azalması yanlış."
+ },
+ {
+  "yil": [
+   "Sonbahar 1997"
+  ],
+  "soru": "<b>Minimal lezyon hastalığında</b> aşağıdakilerden hangisinin görülmesi <mark class=\"cue\">beklenmez</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Makroskopik hematüri"
+   },
+   {
+    "k": "B",
+    "t": "Hiperlipidemi"
+   },
+   {
+    "k": "C",
+    "t": "Normokomplementemi"
+   },
+   {
+    "k": "D",
+    "t": "Selektif proteinüri"
+   },
+   {
+    "k": "E",
+    "t": "Hipoalbüminemi"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Varsa tanıdan şüphe + biyopsi endikasyonu.",
+  "tuzak": "Hiperlipidemi, normokomplementemi, selektif proteinüri ve hipoalbüminemi minimal lezyonda beklenir. <b>Makroskopik hematüri beklenmez</b> (varsa biyopsi endikasyonu).",
+  "aciklama": "Minimal lezyon hastalığı: selektif proteinüri + albüminüri + normal KB, komplemanlar normal, hiperlipidemi. <b>Makroskopik hematüri beklenmez</b> (%20 mikroskopik hematüri olabilir); makroskopik hematüri → tanıdan şüphe + biyopsi.",
+  "cue": "🎯 Selektif proteinüri; makro hematüri MCD'de değil.",
+  "ddx": {
+   "baslik": "Minimal Değişiklik Bulguları",
+   "ok": "Selektif proteinüri + hipoalbüminemi + hiperlipidemi; makro hematüri/HT/C3↓ yok.",
+   "satirlar": [
+    {
+     "emo": "🧪",
+     "ad": "Selektif proteinüri",
+     "bulgu": "Albümin ağırlıklı"
+    },
+    {
+     "emo": "🧈",
+     "ad": "Hiperlipidemi",
+     "bulgu": "Var"
+    },
+    {
+     "emo": "✅",
+     "ad": "Normokomplementemi",
+     "bulgu": "C3 normal"
+    },
+    {
+     "emo": "🚫",
+     "ad": "Makroskopik hematüri",
+     "bulgu": "BEKLENMEZ",
+     "hit": true
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "İlkbahar 1993"
+  ],
+  "soru": "Çocukluk çağındaki <b>idiyopatik nefrotik sendromda</b> aşağıdakilerden hangisinin görülmesi <mark class=\"cue\">beklenmez</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Ödem"
+   },
+   {
+    "k": "B",
+    "t": "Proteinüri"
+   },
+   {
+    "k": "C",
+    "t": "Hiperlipidemi"
+   },
+   {
+    "k": "D",
+    "t": "Kompleman düşüklüğü"
+   },
+   {
+    "k": "E",
+    "t": "Hipoalbüminemi"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Nefrotikte komplemanlar normal mi?",
+  "tuzak": "Ödem, proteinüri, hiperlipidemi ve hipoalbüminemi nefrotik tabloyu tanımlar. <b>Kompleman düşüklüğü beklenmez</b> (nefritlerle karıştırma).",
+  "aciklama": "İdiyopatik (minimal lezyon) nefrotik sendromda <b>kompleman seviyesi normaldir</b>; kompleman düşüklüğü yapan nefritlerle (APSGN, MPGN, SLE, şant) karıştırılmamalı.",
+  "cue": "🎯 MCD'de C3 normal; kompleman düşüklüğü beklenmez."
+ },
+ {
+  "yil": [
+   "Sonbahar 1994"
+  ],
+  "soru": "Çocukluk çağında <b>nefrotik sendroma en sık yol açan malign tümör</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Hodgkin lenfoma"
+   },
+   {
+    "k": "B",
+    "t": "Nöroblastom"
+   },
+   {
+    "k": "C",
+    "t": "Non-Hodgkin lenfoma"
+   },
+   {
+    "k": "D",
+    "t": "Wilms tümörü"
+   },
+   {
+    "k": "E",
+    "t": "Liposarkom"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Lenfokin salgılayarak minimal lezyon yapar.",
+  "tuzak": "Diğer tümörler nefrotik düzey proteinüri yapmaz. <b>Hodgkin lenfoma</b> (lenfokinlerle) minimal lezyon hastalığı → nefrotik sendrom yapar.",
+  "aciklama": "<b>Lenfomalar (özellikle Hodgkin)</b> minimal lezyon hastalığında en sık görülen tümör grubudur; tümörün saldığı lenfokinler glomerüler kapiller geçirgenliği artırarak nefrotik sendroma yol açar.",
+  "cue": "🎯 T-hücreli lenfoma → MCD tarzı nefrotik.",
+  "ddx": {
+   "baslik": "Maligniteye Bağlı Nefrotik",
+   "ok": "Çocukta Hodgkin (T-hücre) → MCD; erişkinde solid tümör → membranöz.",
+   "satirlar": [
+    {
+     "emo": "🦉",
+     "ad": "Hodgkin lenfoma",
+     "bulgu": "T-hücre · MCD tarzı nefrotik",
+     "hit": true
+    },
+    {
+     "emo": "👁️",
+     "ad": "Nöroblastom",
+     "bulgu": "Nefrotik nedeni değil"
+    },
+    {
+     "emo": "🫘",
+     "ad": "Wilms",
+     "bulgu": "Böbrek tümörü · nefrotik değil"
+    },
+    {
+     "emo": "🧱",
+     "ad": "(Erişkin) membranöz",
+     "bulgu": "Solid tümör ilişkili"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 1997"
+  ],
+  "soru": "<mark class=\"cue\">Steroide dramatik ve hızlı cevap veren</mark> böbrek hastalığı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Membranöz nefropati"
+   },
+   {
+    "k": "B",
+    "t": "Fokal glomeruloskleroz"
+   },
+   {
+    "k": "C",
+    "t": "Minimal değişiklik hastalığı"
+   },
+   {
+    "k": "D",
+    "t": "Hemolitik üremik sendrom"
+   },
+   {
+    "k": "E",
+    "t": "Henoch-Schönlein nefropatisi"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "%95+ steroide yanıt.",
+  "tuzak": "<b>FSGS (B)</b> steroide dirençlinin en sık nedenidir. Steroide dramatik yanıt veren <b>minimal değişiklik hastalığıdır</b> (%95+).",
+  "aciklama": "<b>Minimal değişiklik hastalığının %95'ten fazlası steroide yanıt verir</b> (60 mg/m²/gün prednizon; ilk 4 hafta her gün, ikinci 4 hafta gün aşırı). Yanıt alınamaması biyopsi endikasyonu. Çocukta steroide dirençli nefrotiğin en sık nedeni <b>FSGS</b>.",
+  "cue": "🎯 Steroide en dramatik/hızlı yanıt veren."
+ },
+ {
+  "yil": [
+   "İlkbahar 1998"
+  ],
+  "soru": "<b>İdiyopatik nefrotik sendromda</b> aşağıdaki bulgulardan hangisinin görülmesi <mark class=\"cue\">beklenmez</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Hiperlipidemi"
+   },
+   {
+    "k": "B",
+    "t": "Hipoproteinemi"
+   },
+   {
+    "k": "C",
+    "t": "Jeneralize ödem"
+   },
+   {
+    "k": "D",
+    "t": "Osteodistrofi"
+   },
+   {
+    "k": "E",
+    "t": "Proteinüri"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Kronik böbrek yetmezliği bulgusu.",
+  "tuzak": "Hiperlipidemi, hipoproteinemi, ödem ve proteinüri nefrotik tabloyu tanımlar. <b>Osteodistrofi</b> (renal kemik hastalığı) minimal lezyonda beklenmez.",
+  "aciklama": "İdiyopatik nefrotik sendrom: ödem, proteinüri, hiperlipidemi, hipoproteinemi. <b>Osteodistrofi (renal kemik hastalığı)</b> minimal lezyonda beklenmez (KBY bulgusu).",
+  "cue": "🎯 Osteodistrofi KBY işi; nefrotikte beklenmez."
+ },
+ {
+  "yil": [
+   "Sonbahar 2001"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>minimal lezyon hastalığının</b> tipik bir bulgusu <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Yaygın ödem"
+   },
+   {
+    "k": "B",
+    "t": "Hipoalbüminemi"
+   },
+   {
+    "k": "C",
+    "t": "Hiperkolesterolemi"
+   },
+   {
+    "k": "D",
+    "t": "Hipogamaglobulinemi"
+   },
+   {
+    "k": "E",
+    "t": "Hipokomplementemi"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Komplemanlar normal.",
+  "tuzak": "Ödem, hipoalbüminemi, hiperkolesterolemi ve (IgG kaybına bağlı) hipogamaglobulinemi görülür. <b>Hipokomplementemi beklenmez</b> (komplemanlar normal).",
+  "aciklama": "Minimal lezyon hastalığında <b>kompleman düşüklüğü beklenmez</b>; yaygın ödem, hipoalbüminemi, hiperkolesterolemi ve akut safhada hipogamaglobulinemi görülür.",
+  "cue": "🎯 MCD'de C3 normal; hipokomplementemi tipik değil."
+ },
+ {
+  "yil": [
+   "Sonbahar 2001"
+  ],
+  "soru": "Nefrotik sendromlu çocuklarda <b>primer peritonite en sık neden olan bakteri</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Escherichia coli"
+   },
+   {
+    "k": "B",
+    "t": "Staphylococcus aureus"
+   },
+   {
+    "k": "C",
+    "t": "Neisseria gonorrhoeae"
+   },
+   {
+    "k": "D",
+    "t": "Streptococcus pneumoniae"
+   },
+   {
+    "k": "E",
+    "t": "Pseudomonas aeruginosa"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Kapsüllü bakteri (opsonizasyon bozukluğu).",
+  "tuzak": "Nefrotik sendromda IgG + faktör B kaybı → alternatif yol aktive edilemez → <b>kapsüllü bakteri</b> enfeksiyonu artar. Primer peritonitte en sık <b>S. pneumoniae</b>.",
+  "aciklama": "Nefrotik sendromda idrarla immünglobulin + faktör B kaybı → opsonizasyon bozukluğu → kapsüllü bakteri riski. Primer peritonitin en sık etkeni <b>Streptococcus pneumoniae</b>. Bu nedenle pnömokok aşısı önerilir.",
+  "cue": "🎯 Kapsüllü bakteri; opsonizasyon kaybı → hangi bakteri?",
+  "ddx": {
+   "baslik": "Nefrotik + Peritonit",
+   "ok": "Kapsüllü bakteri; opsonizasyon/IgG kaybı → S.pneumoniae (SBP).",
+   "satirlar": [
+    {
+     "emo": "🎯",
+     "ad": "S.pneumoniae",
+     "bulgu": "Kapsüllü · primer peritonit (SBP) en sık",
+     "hit": true
+    },
+    {
+     "emo": "🦠",
+     "ad": "E.coli",
+     "bulgu": "İkinci sıklıkta"
+    },
+    {
+     "emo": "🟡",
+     "ad": "H.influenzae",
+     "bulgu": "Kapsüllü · daha nadir"
+    },
+    {
+     "emo": "💉",
+     "ad": "Aşı/profilaksi",
+     "bulgu": "Kapsüllü bakterilere karşı"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "İlkbahar 2004"
+  ],
+  "soru": "3 yaşında erkek hasta <mark class=\"cue\">ÜSYE sonrası</mark> göz kapaklarında ve bacaklarda (++++) gode bırakan ödem, idrar azalması, karında şişlik ile geliyor. KB normal, minimal asit; idrarda (++++) protein, <b>serum albümini 1,8 g/dl</b>.<br><br>Bu hasta için en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Membranoproliferatif glomerülonefrit"
+   },
+   {
+    "k": "B",
+    "t": "Membranöz glomerülonefrit"
+   },
+   {
+    "k": "C",
+    "t": "Minimal değişiklik hastalığı"
+   },
+   {
+    "k": "D",
+    "t": "Fokal segmental glomerüloskleroz"
+   },
+   {
+    "k": "E",
+    "t": "Akut piyelonefrit"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "2-6 yaş + nefrotik tablo + normal KB + ek bulgu yok.",
+  "tuzak": "Nefrotik tablo (masif proteinüri + hipoalbüminemi + ödem) + normal KB + ek bulgu yok = <b>minimal değişiklik hastalığı</b> (en sık).",
+  "aciklama": "3 yaş + ÜSYE sonrası nefrotik sendrom (masif proteinüri, hipoalbüminemi, ödem) + normal KB, ek patolojik bulgu yok = <b>minimal değişiklik hastalığı</b>.",
+  "cue": "🎯 Normotansif + selektif proteinüri + çocuk → minimal lezyon."
+ },
+ {
+  "yil": [
+   "İlkbahar 2004"
+  ],
+  "soru": "Önceki (minimal değişiklik hastalığı) vakada <b>tedavide ilk yapılacak işlem</b> aşağıdakilerden hangisi olmalıdır?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "60 mg/m²/gün oral prednizolon + tuzsuz diyet"
+   },
+   {
+    "k": "B",
+    "t": "Antibiyotik tedavisi"
+   },
+   {
+    "k": "C",
+    "t": "Bol proteinli diyet"
+   },
+   {
+    "k": "D",
+    "t": "3 g/dl albümin infüzyonu"
+   },
+   {
+    "k": "E",
+    "t": "İzotonik sıvı replasmanı"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Minimal lezyonun ilk tedavisi.",
+  "tuzak": "Minimal değişiklik hastalığında ilk tedavi <b>steroid (60 mg/m²/gün prednizolon) + tuzsuz diyet</b>; %95 yanıt verir.",
+  "aciklama": "Minimal değişiklik hastalığında ilk tedavi <b>oral prednizolon 60 mg/m²/gün + tuzsuz diyet</b> (ilk 4 hafta her gün, ikinci 4 hafta gün aşırı). %95+ yanıt.",
+  "cue": "🎯 Biyopsisiz → yüksek doz oral steroid."
+ },
+ {
+  "yil": [
+   "İlkbahar 2004"
+  ],
+  "soru": "Aynı (minimal değişiklik) vakada başvurudan sonra idrar iyice azalıyor, <mark class=\"cue\">hematürik idrar + karın ağrısı</mark> başlıyor; <b>her iki lomber bölgede palpabl kitle</b>, BUN ve kreatinin artıyor.<br><br>Bu hastada en olası komplikasyon aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Retroperitoneal abse"
+   },
+   {
+    "k": "B",
+    "t": "Bilateral renal ven trombozu"
+   },
+   {
+    "k": "C",
+    "t": "Hidronefroz"
+   },
+   {
+    "k": "D",
+    "t": "Piyelonefrit"
+   },
+   {
+    "k": "E",
+    "t": "Renal hematom"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Nefrotikte hiperkoagülabilite + bilateral lomber kitle + hematüri.",
+  "tuzak": "Nefrotik sendromda hiperkoagülabilite → tromboz eğilimi. Ani hematüri + bilateral lomber palpabl kitle (büyümüş böbrekler) + böbrek fonksiyon bozulması = <b>bilateral renal ven trombozu</b>.",
+  "aciklama": "Nefrotik sendromun tipik komplikasyonu <b>renal ven trombozudur</b> (hiperkoagülabilite: AT-III kaybı, hemokonsantrasyon). Ani makroskopik hematüri + bilateral lomber palpabl kitle (şişmiş böbrekler) + BUN/kreatinin artışı = <b>bilateral renal ven trombozu</b>.",
+  "cue": "🎯 Hiperkoagülabilite + lomber kitle + hematüri → damar trombozu."
+ },
+ {
+  "yil": [
+   "Sonbahar 2009"
+  ],
+  "soru": "Kalp hastalığı olmayan alt ekstremiteleri ödemli bir çocukta <mark class=\"cue\">serum albümin düzeyi normal</mark> bulunuyor.<br><br>Bu çocukta ödemin en olası nedeni aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Lenfatik obstrüksiyon"
+   },
+   {
+    "k": "B",
+    "t": "Kistik fibrozis"
+   },
+   {
+    "k": "C",
+    "t": "Nefrotik sendrom"
+   },
+   {
+    "k": "D",
+    "t": "Malnütrisyon"
+   },
+   {
+    "k": "E",
+    "t": "Siroz"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Normal albümin + lokalize ödem.",
+  "tuzak": "Nefrotik/kistik fibrozis/malnütrisyon/siroz hepsi <b>hipoalbüminemi</b> ile jeneralize ödem yapar. Normal albümin + lokalize (alt ekstremite) ödem → <b>lenfödem (lenfatik obstrüksiyon)</b>.",
+  "aciklama": "Normal albümin + lokalize ödem = <b>lenfödem</b>. Konjenital lenfödem (Turner, Noonan, Milroy hastalığı), tümör/postradyasyon/postinflamatuar obstrüksiyon, filariasis. Nefrotik sendromda hipoalbüminemi → jeneralize ödem (göz kapakları dahil).",
+  "cue": "🎯 Albümin NORMAL ise neden nefrotik değil; venöz/lenfatik ara.",
+  "ddx": {
+   "baslik": "Ödem: Albümin Normal mi?",
+   "ok": "Albümin düşükse nefrotik/malnütrisyon/siroz; NORMAL ise venöz/lenfatik.",
+   "satirlar": [
+    {
+     "emo": "💧",
+     "ad": "Lenfatik obstrüksiyon",
+     "bulgu": "Albümin NORMAL · lenfödem",
+     "hit": true
+    },
+    {
+     "emo": "🧪",
+     "ad": "Nefrotik",
+     "bulgu": "Albümin düşük"
+    },
+    {
+     "emo": "🍽️",
+     "ad": "Malnütrisyon",
+     "bulgu": "Albümin düşük"
+    },
+    {
+     "emo": "🫀",
+     "ad": "Kalp yetmezliği",
+     "bulgu": "Kardiyak (soruda yok)"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "İlkbahar 2011"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>primer nefrotik sendromu</b> olan bir çocuğun tedavisinde <mark class=\"cue\">yer almaz</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Bol proteinli diyet"
+   },
+   {
+    "k": "B",
+    "t": "Kortikosteroidler"
+   },
+   {
+    "k": "C",
+    "t": "Diüretikler"
+   },
+   {
+    "k": "D",
+    "t": "Albümin"
+   },
+   {
+    "k": "E",
+    "t": "Alkilleyici ajanlar"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Diyette hangi kısıtlama yapılır?",
+  "tuzak": "Steroid (ilk ilaç), diüretik, albümin ve alkilleyici ajanlar (dirençli/bağımlı) tedavide yer alır. <b>Bol proteinli diyet verilmez</b>; tuz (sodyum) kısıtlaması yapılır.",
+  "aciklama": "Nefrotik sendrom tedavisi: ilk ilaç <b>steroid</b> (minimal lezyona iyi yanıt); dirençli/bağımlıda pulse metilprednizolon, alkilleyici ajan (siklofosfamid), siklosporin; albümin (ağır asit/efüzyon/hipovolemi); diüretik (dikkatli). Diyette <b>tuz kısıtlaması</b> yapılır; <b>bol proteinli diyet verilmez</b>.",
+  "cue": "🎯 Yüksek proteinli diyet ÖNERİLMEZ; steroid/diüretik/albümin var."
+ },
+ {
+  "yil": [
+   "Sonbahar 2012"
+  ],
+  "soru": "Nefrotik sendrom tanısıyla izlenen 3 yaşında kız çocuk yüksek ateş ve karın ağrısı ile geliyor. Ateş 38,3°C, karında <mark class=\"cue\">distansiyon ve yaygın hassasiyet</mark>. Lökosit 18.300/mm³, %80 PMNL, sola kayma; USG-de <b>periton boşluğunda serbest sıvı</b>.<br><br>Bu hastadaki en olası etken aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Grup B streptokok"
+   },
+   {
+    "k": "B",
+    "t": "Streptococcus pneumoniae"
+   },
+   {
+    "k": "C",
+    "t": "Escherichia coli"
+   },
+   {
+    "k": "D",
+    "t": "Candida albicans"
+   },
+   {
+    "k": "E",
+    "t": "Klebsiella pneumoniae"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Nefrotik + spontan bakteriyel peritonit → kapsüllü bakteri.",
+  "tuzak": "Nefrotik sendromda idrarla properdin + faktör B kaybı → opsonizasyon bozulur → <b>kapsüllü bakteri</b>. Primer peritonitin en sık etkeni <b>S. pneumoniae</b> (>%50); E. coli 1/4.",
+  "aciklama": "Nefrotik sendromda spontan bakteriyel peritonitin en sık etkeni <b>Streptococcus pneumoniae</b> (>%50). İdrarla IgG + faktör B/properdin kaybı → alternan kompleman yolu bozulur → kapsüllü bakteri opsonizasyonu bozulur.",
+  "cue": "🎯 Nefrotikte primer peritonit etkeni kapsüllü bakteri."
+ },
+ {
+  "yil": [
+   "Sonbahar 2000"
+  ],
+  "soru": "Aşağıdakilerden hangisi çocukluk çağında <b>renal ven tromboz gelişiminde</b> rol oynayan hazırlayıcı faktörlerden biri <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Hipovolemi"
+   },
+   {
+    "k": "B",
+    "t": "Anemi"
+   },
+   {
+    "k": "C",
+    "t": "Sepsis"
+   },
+   {
+    "k": "D",
+    "t": "Nefrotik sendrom"
+   },
+   {
+    "k": "E",
+    "t": "Polisitemi"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Viskoziteyi azaltan durum tromboz yapar mı?",
+  "tuzak": "Hipovolemi, sepsis, nefrotik sendrom ve polisitemi (viskozite artışı) tromboz yapar. <b>Anemi</b> viskoziteyi azaltır → renal ven trombozu hazırlayıcı faktörü değil.",
+  "aciklama": "Renal ven trombozu: yenidoğanda asfiksi/dehidratasyon/şok/sepsis/polisitemi/diyabetik anne bebeği/umbilikal kateter; büyük çocukta travma/nefrotik sendrom (membranöz)/siyanotik KKH/kontrast/transplant/hiperkoagülabilite. <b>Anemi hazırlayıcı faktör değildir.</b>",
+  "cue": "🎯 Hipovolemi/sepsis/polisitemi/nefrotik hazırlar; biri değil."
+ },
+ {
+  "yil": [
+   "İlkbahar 2014 Orijinal"
+  ],
+  "soru": "Zamanında doğan, annesi diyabetik olan bebek hematüri ile geliyor. Muayenede <b>hipertansiyon</b> ve karında derin palpasyonda sağda <mark class=\"cue\">7x5 cm'lik kitle</mark>; laboratuvarda <b>trombositopeni</b>.<br><br>Bu bebek için en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Multikistik displastik böbrek"
+   },
+   {
+    "k": "B",
+    "t": "Polikistik böbrek"
+   },
+   {
+    "k": "C",
+    "t": "Hidronefroz"
+   },
+   {
+    "k": "D",
+    "t": "Adrenal hemoraji"
+   },
+   {
+    "k": "E",
+    "t": "Renal ven trombozu"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Diyabetik anne bebeği + böbrek loju kitle + hematüri + trombositopeni.",
+  "tuzak": "Adrenal hemoraji şok/asidoz/anemi ile gelir. Diyabetik anne bebeği + böbrek loju kitle + ani hematüri + trombositopeni = <b>renal ven trombozu</b>.",
+  "aciklama": "<b>Renal ven trombozu</b> yenidoğanda: asfiksi, <b>diyabetik anne bebeği</b>, dehidratasyon, polisitemi. Bulgular: renal ven tıkanması → <b>böbrek lojunda kitle + ani hematüri</b>, eşlik eden <b>mikroanjiopatik hemolitik anemi + trombositopeni</b>.",
+  "cue": "🎯 Diyabetik anne bebeği + böbrek kitlesi + trombositopeni → damar trombozu.",
+  "ddx": {
+   "baslik": "Yenidoğan Böbrek Kitlesi + Hematüri",
+   "ok": "Diyabetik anne + hematüri + trombositopeni + kitle = renal ven trombozu.",
+   "satirlar": [
+    {
+     "emo": "🩸",
+     "ad": "Renal ven trombozu",
+     "bulgu": "Diyabetik anne · hematüri · trombositopeni · kitle",
+     "hit": true
+    },
+    {
+     "emo": "🫘",
+     "ad": "Multikistik displazi",
+     "bulgu": "Nonfonksiyone kistik"
+    },
+    {
+     "emo": "💧",
+     "ad": "Hidronefroz",
+     "bulgu": "Obstrüksiyon"
+    },
+    {
+     "emo": "🔴",
+     "ad": "Adrenal hemoraji",
+     "bulgu": "Suprarenal · anemi"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "İlkbahar 2012"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>renal glomerüler bozukluk</b> oluşturan hastalıklardan biri <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Alport sendromu"
+   },
+   {
+    "k": "B",
+    "t": "Sistemik lupus eritematozus"
+   },
+   {
+    "k": "C",
+    "t": "Henoch-Schönlein purpurası"
+   },
+   {
+    "k": "D",
+    "t": "IgA nefropatisi"
+   },
+   {
+    "k": "E",
+    "t": "Bartter sendromu"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Henle kulpu klor kanalı defekti = tübüler.",
+  "tuzak": "Alport, SLE, HSP ve IgA nefropatisi glomerüler hastalıklardır. <b>Bartter sendromu</b> tübüler hastalıktır (Henle kulpu çıkan kolda bazolateral klor kanalı defekti).",
+  "aciklama": "<b>Tübüler hastalıklar</b>: renal tübüler asidozlar, nefrojenik diabetes insipidus, <b>Bartter</b> (Henle kulpu çıkan kol, bazolateral ClC-Kb defekti) ve Gitelman sendromu, tübülointerstisyel nefrit. Alport/SLE/HSP/IgA glomerülerdir.",
+  "cue": "🎯 Alport/SLE/HSP/IgA glomerüler; biri tübüler (Bartter)."
+ },
+ {
+  "yil": [
+   "Sonbahar 2022 Orijinal"
+  ],
+  "soru": "Aşağıdakilerden hangisinin <b>hepatorenal fibrokistik hastalığa</b> yol açması <mark class=\"cue\">en az olasıdır</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Joubert sendromu"
+   },
+   {
+    "k": "B",
+    "t": "Otozomal resesif polikistik böbrek hastalığı"
+   },
+   {
+    "k": "C",
+    "t": "Meckel-Gruber sendromu"
+   },
+   {
+    "k": "D",
+    "t": "Gitelman sendromu"
+   },
+   {
+    "k": "E",
+    "t": "Nefronofitizi"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Tübüler (NCC) hastalık kistik/fibrotik yapar mı?",
+  "tuzak": "Joubert, OR polikistik böbrek, Meckel-Gruber ve nefronofitizi kistik + hepatik fibrozis yapar. <b>Gitelman</b> renal tübüler hastalık (distal NCC defekti) → hepatorenal fibrokistik hastalık nedeni değil.",
+  "aciklama": "<b>Gitelman sendromu</b>: distal tübül Na-Cl kotransport (NCC) defekti; hipokalemik metabolik alkaloz, idrar kalsiyum atılımı azalır, <b>hipermagneziüri</b>. Tübüler hastalıktır; hepatorenal fibrokistik hastalık nedeni değildir (diğerleri kistik böbrek + hepatik fibrozis).",
+  "cue": "🎯 ARPKD/Joubert/Meckel/nefronoftizi ciliopati; biri tübüler kanalopati."
+ },
+ {
+  "yil": [
+   "İlkbahar 1990"
+  ],
+  "soru": "Aşağıdaki hastalıklardan hangisinde <b>aminoasidüri</b> beklenen bir bulgu <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Rasitizm"
+   },
+   {
+    "k": "B",
+    "t": "Fankoni aplastik anemisi"
+   },
+   {
+    "k": "C",
+    "t": "Wilson sendromu"
+   },
+   {
+    "k": "D",
+    "t": "Renal tübüler asidoz"
+   },
+   {
+    "k": "E",
+    "t": "Hartnup hastalığı"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "İsim tuzağı: Fankoni ANEMİSİ ≠ Fankoni SENDROMU.",
+  "tuzak": "Rasitizm, Wilson, RTA ve Hartnup aminoasidüri yapar. <b>Fankoni APLASTİK ANEMİSİ</b> (kemik iliği yetmezliği, pansitopeni) proksimal tübül bozukluğu DEĞİLDİR → aminoasidüri yapmaz (Fankoni SENDROMU ile karıştırma).",
+  "aciklama": "<b>Fankoni aplastik anemisi</b> = konjenital aplastik anemi (kemik iliği yetmezliği, pansitopeni), aminoasidüri yapmaz. <b>Fankoni SENDROMU</b> (proksimal tübül bozukluğu) aminoasidüri yapar. Wilson/Lowe da Fankoni sendromu yapar; Hartnup nötral aminoasidüri yapar.",
+  "cue": "🎯 Fankoni SENDROMU (renal) aminoasidüri yapar; Fankoni APLASTİK anemisi (ilik) yapmaz."
+ },
+ {
+  "yil": [
+   "Sonbahar 1996"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>proksimal tübülü etkileyerek</b> renal tübüler asidoza (Tip II) yol açar?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Hiperkalsiüri"
+   },
+   {
+    "k": "B",
+    "t": "Hiperoksalüri"
+   },
+   {
+    "k": "C",
+    "t": "Sistinozis"
+   },
+   {
+    "k": "D",
+    "t": "Kriyoglobulinemi"
+   },
+   {
+    "k": "E",
+    "t": "Hartnup hastalığı"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Çocukta Fankoni sendromuna en sık yol açan metabolik hastalık.",
+  "tuzak": "Sistinozis Fankoni sendromu (proksimal tübül) → Tip II (proksimal) RTA yapar. Diğer seçenekler proksimal tübül bozukluğu ile RTA yapmaz.",
+  "aciklama": "<b>Sistinozis</b>: lizozomal sistin transport defekti; sistin kristalleri RES ve parankimatöz organlarda birikir; <b>Fankoni sendromunun en sık nedeni</b> (çocukta) → proksimal tübülden bikarbonat kaybı → <b>Tip II (proksimal) RTA</b>. Diğer proksimal RTA nedenleri: Fankoni, Lowe, galaktozemi, herediter fruktoz intoleransı, tirozinemi, Wilson, ağır metal.",
+  "cue": "🎯 Proksimal tübülü vuran → tip 2 RTA + Fankoni yapan depo hastalığı."
+ },
+ {
+  "yil": [
+   "İlkbahar 1998"
+  ],
+  "soru": "<b>Fankoni sendromunun</b> özelliği <mark class=\"cue\">olmayan</mark> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Jeneralize aminoasidüri"
+   },
+   {
+    "k": "B",
+    "t": "Hiperürisemi"
+   },
+   {
+    "k": "C",
+    "t": "Glukozüri"
+   },
+   {
+    "k": "D",
+    "t": "Fosfatüri"
+   },
+   {
+    "k": "E",
+    "t": "Proksimal tübüler asidoz"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Ürik asit idrarla kaybolursa serum düzeyi ne olur?",
+  "tuzak": "Aminoasidüri, glukozüri, fosfatüri ve proksimal RTA Fankoni bulgusudur. Ürik asit idrarla kaybolduğu için <b>hipoürisemi</b> olur → hiperürisemi Fankoni özelliği değildir.",
+  "aciklama": "<b>Fankoni sendromu</b> (proksimal tübül bozukluğu): jeneralize aminoasidüri, glukozüri (normoglisemik), hipofosfatemi + fosfatüri (→ rikets), proksimal RTA (bikarbonatüri), tübüler proteinüri, hipokalemi, poliüri. Ürik asit kaybına bağlı <b>hipoürisemi</b> (hiperürisemi DEĞİL).",
+  "cue": "🎯 Fankoni'de ürik asit İDRARLA kaybedilir → hipoürisemi (hiperürisemi değil).",
+  "ddx": {
+   "baslik": "Fankoni Sendromu Özellikleri",
+   "ok": "Proksimal genel kayıp: aminoasidüri/glukozüri/fosfatüri/tip2 RTA + HİPOürisemi.",
+   "satirlar": [
+    {
+     "emo": "🧬",
+     "ad": "Aminoasidüri",
+     "bulgu": "Jeneralize"
+    },
+    {
+     "emo": "🍬",
+     "ad": "Glukozüri",
+     "bulgu": "Normoglisemik"
+    },
+    {
+     "emo": "🦴",
+     "ad": "Fosfatüri",
+     "bulgu": "Rikets"
+    },
+    {
+     "emo": "🔻",
+     "ad": "Ürik asit",
+     "bulgu": "İDRARLA kaybedilir → HİPOürisemi (hiperürisemi DEĞİL)",
+     "hit": true
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 2006"
+  ],
+  "soru": "Aşağıdaki hastalıklardan hangisi <b>renal tübüler disfonksiyona (Fankoni sendromu)</b> yol <mark class=\"cue\">açmaz</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Sistinozis"
+   },
+   {
+    "k": "B",
+    "t": "Galaktozemi"
+   },
+   {
+    "k": "C",
+    "t": "Alfa-1-antitripsin eksikliği"
+   },
+   {
+    "k": "D",
+    "t": "Wilson hastalığı"
+   },
+   {
+    "k": "E",
+    "t": "Lowe sendromu"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Karaciğer/akciğer hastalığı ama proksimal tübül bozukluğu yapmaz.",
+  "tuzak": "Sistinozis, galaktozemi, Wilson ve Lowe Fankoni sendromu yapar. <b>Alfa-1-antitripsin eksikliği</b> (karaciğer/akciğer) proksimal tübülü bozmaz → Fankoni yapmaz.",
+  "aciklama": "Fankoni sendromu (proksimal tübül) yapan hastalıklar: sistinozis (en sık), galaktozemi, herediter fruktoz intoleransı, tirozinemi, Wilson, Lowe, glikojen depo hastalığı, ağır metal. <b>Alfa-1-antitripsin eksikliği</b> Fankoni sendromu yapmaz.",
+  "cue": "🎯 Sistinozis/galaktozemi/Wilson/Lowe yapar; biri (akciğer/karaciğer) değil."
+ },
+ {
+  "yil": [
+   "İlkbahar 2000"
+  ],
+  "soru": "6 yaşındaki çocuk büyüme-gelişme geriliği ile geliyor. Laboratuvarda <b>asidoz, hipokalemi, hiperkloremi</b> ve <mark class=\"cue\">anyon gap normal</mark> bulunuyor.<br><br>Bu hastada en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Konjenital nefrotik sendrom"
+   },
+   {
+    "k": "B",
+    "t": "Renal tübüler asidoz"
+   },
+   {
+    "k": "C",
+    "t": "Bartter sendromu"
+   },
+   {
+    "k": "D",
+    "t": "Conn sendromu"
+   },
+   {
+    "k": "E",
+    "t": "Akut glomerülonefrit"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Normal anyon gaplı hiperkloremik metabolik asidoz.",
+  "tuzak": "<b>Bartter (C)</b> ve <b>Conn (D)</b> alkaloz yapar (asidoz değil). Normal anyon gaplı hiperkloremik metabolik asidoz + büyüme geriliği = <b>renal tübüler asidoz</b>.",
+  "aciklama": "<b>Renal tübüler asidoz</b>: bikarbonat kaybı → kronik metabolik asidoz → büyüme-gelişme geriliği; kompansatuar klor emilimi → <b>hiperkloremi + normal anyon gap</b>; dehidratasyona bağlı hipokalemi. Bartter/Conn alkaloz yapar.",
+  "cue": "🎯 Hiperkloremik, normal anyon gap metabolik asidoz = RTA.",
+  "ddx": {
+   "baslik": "RTA Tipleri",
+   "ok": "Hepsi normal AG hiperkloremik asidoz; tip1 distal (pH>5.5), tip2 proksimal, tip4 hiperK.",
+   "satirlar": [
+    {
+     "emo": "1️⃣",
+     "ad": "Tip 1 (distal)",
+     "bulgu": "İdrar pH>5.5 · nefrokalsinozis · hipoK"
+    },
+    {
+     "emo": "2️⃣",
+     "ad": "Tip 2 (proksimal)",
+     "bulgu": "Fankoni · idrar asitleşebilir · hipoK"
+    },
+    {
+     "emo": "4️⃣",
+     "ad": "Tip 4",
+     "bulgu": "HİPERkalemi · aldosteron azlığı"
+    },
+    {
+     "emo": "🧪",
+     "ad": "Genel RTA",
+     "bulgu": "Normal anyon gap · hiperkloremik",
+     "hit": true
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 1988"
+  ],
+  "soru": "Rasitizm bulguları olan bir çocukta laboratuvarda <b>aminoasidüri ve idrar pH 5,5</b> saptanıyor.<br><br>Bu hastada en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Fankoni sendromu"
+   },
+   {
+    "k": "B",
+    "t": "Sistinüri"
+   },
+   {
+    "k": "C",
+    "t": "Distal tübüler asidoz"
+   },
+   {
+    "k": "D",
+    "t": "Kronik böbrek yetmezliği"
+   },
+   {
+    "k": "E",
+    "t": "Tip 4 renal tübüler asidoz"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Rasitizm + aminoasidüri + idrar asidik (distal sağlam).",
+  "tuzak": "Distal RTA'da idrar asidifiye edilemez (pH >5,5). Burada idrar asidik (5,5) → <b>proksimal tübül bozuk, distal sağlam</b>; rasitizm + aminoasidüri = <b>Fankoni sendromu</b> (proksimal RTA).",
+  "aciklama": "Rasitizm + aminoasidüri = <b>Fankoni sendromu</b> (proksimal RTA komponenti). Proksimal tübül bozuk, distal sağlam olduğu için idrar asidifiye edilebilir (pH <5,5). Rasitizmin asıl nedeni idrarla fosfat kaybı. Çocukta proksimal RTA en sık Fankoni sendromuna sekonder (sistinozis).",
+  "cue": "🎯 Proksimal genel defekt (Fankoni); distal asitleşme sağlam (idrar pH düşebilir)."
+ },
+ {
+  "yil": [
+   "İlkbahar 1990"
+  ],
+  "soru": "Patolojik kırıklar ve osteopeni saptanan 2 yaşındaki çocukta laboratuvarda hipokalemi, kan pH 7,1, <mark class=\"cue\">idrar pH 7,0</mark> ve total CO₂ 13 saptanıyor.<br><br>Bu hastada en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Diabetes mellitus"
+   },
+   {
+    "k": "B",
+    "t": "Aspirin intoksikasyonu"
+   },
+   {
+    "k": "C",
+    "t": "Primer hiperaldosteronizm"
+   },
+   {
+    "k": "D",
+    "t": "Kronik böbrek yetersizliği"
+   },
+   {
+    "k": "E",
+    "t": "Distal tübüler asidoz"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Kanda asidoz AMA idrar alkali (pH 7,0) + patolojik kırık.",
+  "tuzak": "Sistemik asidoza rağmen idrar alkali (pH >5,5) → distal tübülden H+ atılamıyor = <b>distal RTA (Tip 1)</b>. Kemik bulgusu (osteopeni, patolojik kırık) ayırt edici.",
+  "aciklama": "<b>Distal RTA (Tip 1)</b>: distal tübül/toplayıcı kanaldan H+ sekresyonu bozuk → sistemik asidoza rağmen <b>idrar pH >5,5 (alkali)</b>. Ağır asidoz → kemikten kalsiyum rezorpsiyonu → hiperkalsiüri, nefrokalsinozis, nefrolitiazis, osteopeni, patolojik kırık.",
+  "cue": "🎯 İdrarı asitleştiremez (pH>5.5) + nefrokalsinozis = distal (tip 1)."
+ },
+ {
+  "yil": [
+   "Sonbahar 1994"
+  ],
+  "soru": "Çok susama-su içme ile gelen çocukta büyüme-gelişme geriliği; laboratuvarda <b>nefrokalsinozis</b>, kan pH 7,29, <mark class=\"cue\">idrar pH 6,80</mark>, potasyum 2,9 mEq/L.<br><br>Bu hastada en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kronik ishal"
+   },
+   {
+    "k": "B",
+    "t": "Distal tübüler renal asidoz"
+   },
+   {
+    "k": "C",
+    "t": "Bartter sendromu"
+   },
+   {
+    "k": "D",
+    "t": "Hipoaldosteronizm"
+   },
+   {
+    "k": "E",
+    "t": "Proksimal tübüler asidoz"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Asidoz + idrar alkali + nefrokalsinozis.",
+  "tuzak": "Nefrokalsinozis + asidoza rağmen idrar alkali (pH 6,8) → distal RTA. <b>Proksimal RTA (E)</b>-da distal sağlam olduğundan idrar asidifiye edilebilir + aminoasidüri/glukozüri eşlik eder.",
+  "aciklama": "<b>Distal RTA</b>: idrar pH >5,8 (alkali), nefrokalsinozis ayırt edici. Proksimal RTA'da idrar asidifiye edilebilir (pH <5,5) + aminoasidüri/fosfatüri/glukozüri. Bartter alkaloz + hipoklor; hipoaldosteronizm hiperkalemi (bu vakada hipokalemi).",
+  "cue": "🎯 Nefrokalsinozis + idrar pH yüksek + hipokalemi = distal RTA."
+ },
+ {
+  "yil": [
+   "İlkbahar 2014 Orijinal"
+  ],
+  "soru": "Kan gazı: pH 7,27, pCO₂ 25, HCO₃ 10, Na 130, K 3,5, <b>Cl 113</b> olan bir çocukta aşağıdaki klinik durumlardan hangisi bu tablodan sorumlu olabilir? <mark class=\"cue\">(normal anyon gaplı metabolik asidoz)</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Böbrek yetmezliği"
+   },
+   {
+    "k": "B",
+    "t": "Diyabetik ketoasidoz"
+   },
+   {
+    "k": "C",
+    "t": "Salisilat zehirlenmesi"
+   },
+   {
+    "k": "D",
+    "t": "Renal tübüler asidoz"
+   },
+   {
+    "k": "E",
+    "t": "Septik şok"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Hiperkloremi (Cl 113) + normal anyon gap.",
+  "tuzak": "Böbrek yetmezliği, DKA, salisilat ve septik şok <b>yüksek anyon gaplı</b> asidoz yapar (KUSSMAL). Hiperkloremik normal anyon gaplı asidoz = <b>renal tübüler asidoz</b>.",
+  "aciklama": "<b>Renal tübüler asidoz</b>: normal anyon gaplı hiperkloremik metabolik asidoz. Yüksek anyon gaplı asidoz nedenleri <b>KUSSMAL</b>: Ketoasidoz, Üremi, Salisilat, Septik şok, Metil alkol, Laktik asidoz. (Distal RTA yüksek anyon gap yapmaz.)",
+  "cue": "🎯 AG normal, hiperkloremik → RTA (DKA/salisilat/böbrek yetm. AG yüksek).",
+  "ddx": {
+   "baslik": "Metabolik Asidoz: AG Normal mi Yüksek mi",
+   "ok": "Yüksek AG = DKA/laktat/salisilat/üremi; normal AG (hiperkloremik) = RTA/ishal.",
+   "satirlar": [
+    {
+     "emo": "🧪",
+     "ad": "RTA",
+     "bulgu": "NORMAL AG · hiperkloremik",
+     "hit": true
+    },
+    {
+     "emo": "🍭",
+     "ad": "DKA",
+     "bulgu": "Yüksek AG (keton)"
+    },
+    {
+     "emo": "💊",
+     "ad": "Salisilat",
+     "bulgu": "Yüksek AG"
+    },
+    {
+     "emo": "🩺",
+     "ad": "Böbrek yetmezliği",
+     "bulgu": "Yüksek AG (üremi)"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 1998"
+  ],
+  "soru": "Aşağıdakilerden hangisi çocuklarda <b>poliüri, polidipsi</b> nedeni <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Hipokloremi"
+   },
+   {
+    "k": "B",
+    "t": "Hiperkalsemi"
+   },
+   {
+    "k": "C",
+    "t": "Diabetes insipidus"
+   },
+   {
+    "k": "D",
+    "t": "Hipokalemi"
+   },
+   {
+    "k": "E",
+    "t": "Anormal sıvı alımı"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Kusmaya bağlı gelişen elektrolit bozukluğu poliüri yapar mı?",
+  "tuzak": "Hiperkalsemi, diabetes insipidus, hipokalemi ve anormal sıvı alımı poliüri yapar. <b>Hipokloremi</b> (en sık kusmaya bağlı, alkaloz) poliüri yapmaz.",
+  "aciklama": "Poliüri nedenleri: santral/nefrojenik diabetes insipidus, diüretik, anormal sıvı alımı, diabetes mellitus, psikojenik polidipsi, <b>hipokalemi ve hiperkalsemi</b>, primer hiperaldosteronizm. <b>Hipokloremi</b> (kusmaya bağlı hipokloremik alkaloz) poliüri yapmaz.",
+  "cue": "🎯 Hiperkalsemi/hipokalemi/Dİ poliüri yapar; biri değil."
+ },
+ {
+  "yil": [
+   "İlkbahar 2020 Orijinal"
+  ],
+  "soru": "Çocuklarda <b>renal tübüler asidozla</b> ilgili aşağıdaki ifadelerden hangisi <mark class=\"cue\">yanlıştır</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "RTA, normal anyon açıklı hiperkloremik metabolik asidozdur"
+   },
+   {
+    "k": "B",
+    "t": "Distal RTA tip 1, proksimal RTA tip 2 renal tübüler asidozdur"
+   },
+   {
+    "k": "C",
+    "t": "Distal renal tübüler asidoz genellikle renal Fanconi sendromu ile birlikte görülür"
+   },
+   {
+    "k": "D",
+    "t": "Sistinozis, renal Fanconi sendromunun sık görülen nedenlerindendir"
+   },
+   {
+    "k": "E",
+    "t": "Hiperkalsiüri ve nefrokalsinozis distal RTA'nın sık bulgularındandır"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Fanconi sendromu proksimal mi distal RTA ile birlikte?",
+  "tuzak": "A, B, D, E doğru. <b>Fanconi sendromu PROKSİMAL RTA (Tip 2) ile birliktedir, distal değil</b> → C yanlış.",
+  "aciklama": "RTA normal anyon gaplı hiperkloremik metabolik asidoz. Distal RTA = Tip 1 (idrar asidifiye edilemez, hiperkalsiüri/nefrokalsinozis); <b>proksimal RTA = Tip 2, genellikle Fanconi sendromunun komponenti</b> (sistinozis en sık neden). C ifadesi yanlış (distal değil proksimal).",
+  "cue": "🎯 Distal RTA idrarı ASİTLEŞTİREMEZ (pH>5.5); hangi ifade yanlış?"
+ },
+ {
+  "yil": [
+   "İlkbahar 2025"
+  ],
+  "soru": "14 yaşında erkek makroskopik hematüri ve yan ağrısı ile geliyor. <mark class=\"cue\">Babasında böbrek fonksiyon bozukluğu</mark> var. KB 135/85. USG-de bilateral böbrek boyutları hafif artmış, sol pelviste 4 mm taş, <b>her iki böbrekte 2-3 kist, pankreasta ve dalakta kist</b>.<br><br>Bu hasta için en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Oksalozis"
+   },
+   {
+    "k": "B",
+    "t": "Polikistik böbrek hastalığı"
+   },
+   {
+    "k": "C",
+    "t": "Nefronofitizis"
+   },
+   {
+    "k": "D",
+    "t": "Medüller sünger böbrek hastalığı"
+   },
+   {
+    "k": "E",
+    "t": "Bardet-Biedl sendromu"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Aile öyküsü + böbrek + ekstrarenal (pankreas/dalak) kistler.",
+  "tuzak": "Nefronofitizis/oksalozis/medüller sünger böbrekte ekstrarenal kist beklenmez. Aile öyküsü (OD) + bilateral böbrek + <b>ekstrarenal (pankreas, dalak) kistler</b> = <b>OD polikistik böbrek hastalığı</b>.",
+  "aciklama": "<b>Otozomal dominant polikistik böbrek hastalığı</b>: en sık kalıtsal böbrek hastalığı; aile öyküsü, polisistin mutasyonu; erişkinde HT + bilateral ağrı/kitle/hematüri; <b>ekstrarenal kistler (karaciğer, dalak, pankreas, over)</b>, intrakraniyal berry anevrizması, mitral prolapsus. Diğerlerinde ekstrarenal kist beklenmez.",
+  "cue": "🎯 Bilateral büyük kistli böbrek + otozomal dominant aile.",
+  "ddx": {
+   "baslik": "Kistik Böbrek Ayrımı",
+   "ok": "ADPKD bilateral+aile+HT (erişkin tip); ARPKD infant; nefronoftizi tübülointerstisyel.",
+   "satirlar": [
+    {
+     "emo": "🧬",
+     "ad": "ADPKD",
+     "bulgu": "Bilateral kist · dominant aile · HT · hematüri",
+     "hit": true
+    },
+    {
+     "emo": "👶",
+     "ad": "ARPKD",
+     "bulgu": "İnfant · hepatik fibroz · resesif"
+    },
+    {
+     "emo": "🧵",
+     "ad": "Nefronoftizi",
+     "bulgu": "Küçük böbrek · poliüri · KBY"
+    },
+    {
+     "emo": "🧽",
+     "ad": "Medüller sünger",
+     "bulgu": "Nefrokalsinozis · genelde benign"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "İlkbahar 2017 Orijinal"
+  ],
+  "soru": "Çocuklarda görülen aşağıdaki akut böbrek yetmezliği nedenlerinden hangisi <mark class=\"cue\">postrenaldir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Posterior üretral valv"
+   },
+   {
+    "k": "B",
+    "t": "Postenfeksiyöz glomerülonefrit"
+   },
+   {
+    "k": "C",
+    "t": "Akut tübüler nekroz"
+   },
+   {
+    "k": "D",
+    "t": "Hemolitik üremik sendrom"
+   },
+   {
+    "k": "E",
+    "t": "Rabdomiyoliz"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Obstrüktif (çıkış yolu) neden.",
+  "tuzak": "Postenfeksiyöz GN, ATN, HÜS ve rabdomiyoliz renal (intrinsik) nedenlerdir. <b>Posterior üretral valv</b> (obstrüksiyon) postrenal ABY nedenidir.",
+  "aciklama": "ABY nedenleri: <b>prerenal</b> (dehidratasyon, hemoraji, sepsis, kalp yetersizliği; en sık), <b>renal/intrinsik</b> (GN'ler — APSGN >5 yaş en sık, HÜS <5 yaş en sık; ATN, kortikal nekroz, RVT, rabdomiyoliz, tümör lizis), <b>postrenal</b> (<b>posterior üretral valv</b>, obstrüksiyon).",
+  "cue": "🎯 Çıkış obstrüksiyonu (valv) = postrenal.",
+  "ddx": {
+   "baslik": "ABY: Pre / Renal / Post",
+   "ok": "Prerenal = perfüzyon; renal = ATN/HÜS/GN; postrenal = obstrüksiyon (valv).",
+   "satirlar": [
+    {
+     "emo": "🚱",
+     "ad": "Postrenal",
+     "bulgu": "Posterior üretral valv (obstrüksiyon)",
+     "hit": true
+    },
+    {
+     "emo": "💧",
+     "ad": "Prerenal",
+     "bulgu": "Hipovolemi/KY · FENa<1"
+    },
+    {
+     "emo": "🔬",
+     "ad": "Renal (ATN/HÜS/GN)",
+     "bulgu": "İntrensek hasar · FENa>2"
+    },
+    {
+     "emo": "🩸",
+     "ad": "HÜS",
+     "bulgu": "İntrensek renal"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 2015 Orijinal"
+  ],
+  "soru": "2,5 yaşında kız hasta 3 gündür <mark class=\"cue\">kanlı ishal sonrası</mark> aniden gelişen halsizlik ile geliyor. Solukluk, hematüri, oligüri; değerlendirmede <b>normovolemik</b>.<br><br>Bu hastada görülen akut böbrek yetmezliği tipi aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Renal akut böbrek yetmezliği"
+   },
+   {
+    "k": "B",
+    "t": "Prerenal başlayıp postrenale dönen ABY"
+   },
+   {
+    "k": "C",
+    "t": "Prerenal akut böbrek yetmezliği"
+   },
+   {
+    "k": "D",
+    "t": "Postrenal akut böbrek yetmezliği"
+   },
+   {
+    "k": "E",
+    "t": "Postrenal başlayıp renale dönen ABY"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Kanlı ishal sonrası HÜS = intrinsik renal.",
+  "tuzak": "Normovolemik olduğu için prerenal değil; obstrüksiyon yok, postrenal değil. Kanlı ishal sonrası HÜS = <b>renal (intrinsik) ABY</b>.",
+  "aciklama": "Kanlı ishal sonrası ABY = <b>HÜS</b> (5 yaş altı renal ABY'nin en sık nedeni). Hasta normovolemik → prerenal değil; obstrüksiyon yok → postrenal değil → <b>renal (intrinsik) ABY</b>.",
+  "cue": "🎯 HÜS intrensek renal hasar; normovolemik → prerenal değil."
+ },
+ {
+  "yil": [
+   "İlkbahar 2014 Orijinal"
+  ],
+  "soru": "11 yaşında kız çocuk 7 yaşından beri VUR'a bağlı KBY ile izleniyor. Tedavi uyumu az; <mark class=\"cue\">kemik ağrıları, bacaklarda eğilme, patolojik kırık</mark> gelişiyor.<br><br>Bu klinik tablonun (renal osteodistrofi) gelişmesinde hangisinin katkısı <mark class=\"cue\">en azdır</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Hiperkalemi"
+   },
+   {
+    "k": "B",
+    "t": "Hipokalsemi"
+   },
+   {
+    "k": "C",
+    "t": "Hiperfosfatemi"
+   },
+   {
+    "k": "D",
+    "t": "Sekonder hiperparatiroidi"
+   },
+   {
+    "k": "E",
+    "t": "Bozulmuş renal 1,25(OH)₂ vitamin D3 yapımı"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Kemik metabolizmasıyla ilgisi olmayan elektrolit.",
+  "tuzak": "Hipokalsemi, hiperfosfatemi, sekonder hiperparatiroidi ve bozuk vitamin D yapımı renal osteodistrofiye katkı sağlar. <b>Hiperkalemi</b> kemik hastalığına katkıda bulunmaz.",
+  "aciklama": "<b>Renal osteodistrofi</b>: KBY'de hiperfosfatemi + hipokalsemi + bozuk 1,25(OH)₂D yapımı → sekonder hiperparatiroidi → osteitis fibroza kistika (yüksek turnover). FGF-23 artışı erken bulgu. <b>Hiperkalemi</b> kemik hastalığına katkı sağlamaz.",
+  "cue": "🎯 Hasarlı böbrek D vitaminini aktive edemez → kemik hastalığı."
+ },
+ {
+  "yil": [
+   "İlkbahar 2023"
+  ],
+  "soru": "<b>Fraksiyonel sodyum ekskresyonu (FENa) >%2</b> olan 4 yaşındaki hastada akut böbrek hasarının en olası nedeni aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Akut tübüler nekroz"
+   },
+   {
+    "k": "B",
+    "t": "Ağır kanama"
+   },
+   {
+    "k": "C",
+    "t": "Dehidratasyon"
+   },
+   {
+    "k": "D",
+    "t": "Hipoalbüminemi"
+   },
+   {
+    "k": "E",
+    "t": "Kalp yetmezliği"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "FENa >%2 = intrinsik renal (tübül tuz tutamıyor).",
+  "tuzak": "Kanama/dehidratasyon/hipoalbüminemi/kalp yetmezliği <b>prerenal</b> (FENa <%1). FENa >%2 → tübül hasarı = <b>akut tübüler nekroz (intrinsik renal)</b>.",
+  "aciklama": "<b>Prerenal</b>: tübül sağlam, sodyum tutar → FENa <%1, idrar Na <20, idrar dansitesi >1020, idrar osm >400. <b>ATN (intrinsik)</b>: tübül tuz tutamaz → <b>FENa >%2</b>, idrar Na >30, idrar dansitesi <1010, idrar osm <350.",
+  "cue": "🎯 FENa yüksek → tübül tuz tutamıyor = intrensek (ATN).",
+  "ddx": {
+   "baslik": "Prerenal ↔ ATN",
+   "ok": "Prerenal: idrar konsantre, Na<20, FENa<1. ATN: idrar dilüe, Na>40, FENa>2.",
+   "satirlar": [
+    {
+     "emo": "🔬",
+     "ad": "ATN",
+     "bulgu": "FENa>2 · idrar Na yüksek · dansite düşük",
+     "hit": true
+    },
+    {
+     "emo": "💧",
+     "ad": "Prerenal",
+     "bulgu": "FENa<1 · idrar Na<20 · osm>500"
+    },
+    {
+     "emo": "🩸",
+     "ad": "Kanama/dehidratasyon",
+     "bulgu": "Prerenal paterni"
+    },
+    {
+     "emo": "🫀",
+     "ad": "Kalp yetmezliği",
+     "bulgu": "Prerenal paterni"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "İlkbahar 2014 Orijinal"
+  ],
+  "soru": "ABY tanısı konulan 3,5 yaşındaki erkek çocuğa sıvı yüklenmesi, aşağıdaki durumların hangisinde <mark class=\"cue\">kalp yetmezliği ve akciğer ödemine</mark> yol açma riski taşır?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "İdrar dansitesi >1020"
+   },
+   {
+    "k": "B",
+    "t": "Fraksiyone sodyum atılımı <%1"
+   },
+   {
+    "k": "C",
+    "t": "Kapiller geri dolum zamanı >3 saniye"
+   },
+   {
+    "k": "D",
+    "t": "İdrar sodyum düzeyi >40 mEq/L"
+   },
+   {
+    "k": "E",
+    "t": "İdrar kreatinin/plazma kreatinin >40"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Sıvı verilmemesi gereken (renal) ABY işareti.",
+  "tuzak": "İdrar dansitesi >1020, FENa <%1, kapiller dolum >3sn, idrar/plazma kreatinin >40 → prerenal (sıvı ver). <b>İdrar Na >40</b> → renal (intrinsik) ABY → sıvı yükü kalp yetmezliği/akciğer ödemi yapar.",
+  "aciklama": "<b>İdrar sodyumu >40 mEq/L</b> intrinsik renal ABY işaretidir → sıvı kısıtlaması gerekir; sıvı yüklenmesi kalp yetmezliği/akciğer ödemi yapar. Diğer seçenekler prerenal ABY (sıvı verilmeli). Renal ABY: idrar osm <350, BUN/kreatinin <20, sıvı yüklemesine idrar çıkışı artmaz.",
+  "cue": "🎯 İdrar Na yüksek/dansite düşük (ATN) → sıvı verince yüklenir."
+ },
+ {
+  "yil": [
+   "Sonbahar 2003"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>prerenal böbrek yetmezliğinde</b> gözlenen üriner parametre değerlerinden biri <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "İdrar ozmolalitesi >500"
+   },
+   {
+    "k": "B",
+    "t": "İdrar sodyumu <20 mEq/L"
+   },
+   {
+    "k": "C",
+    "t": "Fraksiyone sodyum ekskresyonu <%1"
+   },
+   {
+    "k": "D",
+    "t": "Renal yetmezlik indeksi >1"
+   },
+   {
+    "k": "E",
+    "t": "İdrar dansitesi >1020"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Prerenal'de böbrek tuz tutar → RFI düşük.",
+  "tuzak": "İdrar osm >500, idrar Na <20, FENa <%1, idrar dansitesi >1020 prerenal bulgusudur. <b>Renal yetmezlik indeksi (RFI) prerenalde artmaz</b> (<1); >1 renal ABY'de görülür.",
+  "aciklama": "Prerenal ABY: idrar osm >500, idrar Na <20, FENa <%1, idrar dansitesi >1020, <b>RFI <1</b>. Renal (intrinsik) ABY: bunların tersi + RFI >1.",
+  "cue": "🎯 Prerenalde idrar konsantre (osm>500, Na<20, FENa<1); biri ATN göstergesi."
+ },
+ {
+  "yil": [
+   "İlkbahar 2013"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>akut tübüler nekrozda</b> beklenen idrar bulgusudur?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Eritrosit ve eritrosit silendirleri içermesi"
+   },
+   {
+    "k": "B",
+    "t": "Sodyum içeriğinin düşük olması"
+   },
+   {
+    "k": "C",
+    "t": "Dansitenin yüksek olması"
+   },
+   {
+    "k": "D",
+    "t": "Fraksiyone sodyum atılımının artması"
+   },
+   {
+    "k": "E",
+    "t": "Nefrotik düzeyde proteinüri olması"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Tübül hasarı → tuz tutamaz.",
+  "tuzak": "Eritrosit silendiri → glomerülonefrit; düşük Na/yüksek dansite → prerenal. ATN'de tübül tuz tutamaz → <b>FENa artar (>%2)</b>.",
+  "aciklama": "<b>Akut tübüler nekroz (renal ABY)</b>: tübül hasarı → <b>FENa >%2, idrar Na >40 mEq/L</b>, idrar dansitesi <1010, idrar osm <350. Eritrosit silendiri glomerülonefrit bulgusudur.",
+  "cue": "🎯 Tübül hasarı → Na tutamaz → FENa artar."
+ },
+ {
+  "yil": [
+   "İlkbahar 1994"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>yenidoğanda akut böbrek yetmezliği</b> nedenleri arasında <mark class=\"cue\">yer almaz</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Sepsis"
+   },
+   {
+    "k": "B",
+    "t": "Hemoglobinüri"
+   },
+   {
+    "k": "C",
+    "t": "Renal ven trombozu"
+   },
+   {
+    "k": "D",
+    "t": "Prematürite"
+   },
+   {
+    "k": "E",
+    "t": "Hipoksi"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Tek başına ek sorun olmadan ABY yapar mı?",
+  "tuzak": "Sepsis, hemoglobinüri, RVT ve hipoksi yenidoğan ABY nedenidir. <b>Prematürite tek başına (ek problem olmadan) ABY nedeni değildir.</b>",
+  "aciklama": "Yenidoğan ABY: prerenal (dehidratasyon, hipotansiyon, asfiksi, hipoksi), intrinsik (ATN, nefrotoksin, konjenital anomali, DİK, RVT/arter trombozu, hemoglobinüri), postrenal (obstrüksiyon). <b>Prematürite tek başına ABY nedeni değildir.</b>",
+  "cue": "🎯 Sepsis/hipoksi/RVT/hemoglobinüri neden; prematürite tek başına değil."
+ },
+ {
+  "yil": [
+   "Sonbahar 1996"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>küçük çocuklarda akut böbrek yetmezliği</b> nedenlerinden biri <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Dehidratasyon"
+   },
+   {
+    "k": "B",
+    "t": "Non-obstrüktif üropati"
+   },
+   {
+    "k": "C",
+    "t": "Akut tübüler nekroz"
+   },
+   {
+    "k": "D",
+    "t": "Posterior üretral valv"
+   },
+   {
+    "k": "E",
+    "t": "Renal ven trombozu"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Obstrüksiyon yoksa böbrek etkilenir mi?",
+  "tuzak": "Dehidratasyon (prerenal), ATN/RVT (renal) ve posterior üretral valv (postrenal) ABY yapar. <b>Non-obstrüktif üropati</b> (obstrüksiyon yok) ABY yapmaz.",
+  "aciklama": "Obstrüktif üropati/nefropati (idrar akımı engeli) ABY yapabilir. <b>Non-obstrüktif üropati</b> (dilatasyon var ama obstrüksiyon yok) böbreği etkileyip ABY yapmaz.",
+  "cue": "🎯 Dehidratasyon/ATN/PUV/RVT neden; 'non-obstrüktif üropati' değil."
+ },
+ {
+  "yil": [
+   "İlkbahar 2012"
+  ],
+  "soru": "Aşağıdakilerden hangisi, sebep olduğu <b>akut böbrek yetmezliği tipi</b> açısından diğerlerinden <mark class=\"cue\">farklıdır</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Masif kanama"
+   },
+   {
+    "k": "B",
+    "t": "Kalp yetmezliği"
+   },
+   {
+    "k": "C",
+    "t": "Hemolitik üremik sendrom"
+   },
+   {
+    "k": "D",
+    "t": "Yanık"
+   },
+   {
+    "k": "E",
+    "t": "Hipoalbüminemi"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Dördü prerenal, biri renal.",
+  "tuzak": "Masif kanama, kalp yetmezliği, yanık ve hipoalbüminemi <b>prerenal</b> ABY yapar (efektif volüm azalması). <b>HÜS renal (intrinsik)</b> ABY yapar.",
+  "aciklama": "Masif kanama, kalp yetmezliği, yanık, hipoalbüminemi → <b>prerenal</b> ABY (efektif arteriyel kan akımı azalır, direkt renal hasar yok). <b>HÜS renal (intrinsik)</b> ABY yapar — bu yüzden diğerlerinden farklıdır.",
+  "cue": "🎯 Diğerleri prerenal (volüm/perfüzyon); biri intrensek renal."
+ },
+ {
+  "yil": [
+   "Sonbahar 1990"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>periton diyalizi endikasyonları</b> arasında <mark class=\"cue\">yer almaz</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Metabolik asidoz"
+   },
+   {
+    "k": "B",
+    "t": "Hipervolemi"
+   },
+   {
+    "k": "C",
+    "t": "Pulmoner ödem"
+   },
+   {
+    "k": "D",
+    "t": "Hipoalbüminemi"
+   },
+   {
+    "k": "E",
+    "t": "Hiperpotasemi"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Diyalizle düzelmeyen elektrolit.",
+  "tuzak": "Metabolik asidoz, hipervolemi, pulmoner ödem ve hiperpotasemi diyaliz endikasyonudur. <b>Hipoalbüminemi diyaliz endikasyonu değildir.</b>",
+  "aciklama": "Diyaliz endikasyonları: tedaviye yanıtsız hiperpotasemi, sıvı-tuz retansiyonu (HT, pulmoner ödem), üremi komplikasyonları (ensefalopati, perikardit), ciddi metabolik asidoz, kontrol edilemeyen hipokalsemik tetani. <b>Hipoalbüminemi endikasyon değildir.</b>",
+  "cue": "🎯 Asidoz/hipervolemi/ödem/hiperK diyaliz; düşük albümin değil.",
+  "ddx": {
+   "baslik": "Diyaliz Endikasyonları (AEIOU)",
+   "ok": "Asidoz/Elektrolit(hiperK)/İntoksikasyon/Overload(hipervolemi)/Üremi. Düşük albümin DEĞİL.",
+   "satirlar": [
+    {
+     "emo": "🧪",
+     "ad": "Ağır asidoz",
+     "bulgu": "Endikasyon"
+    },
+    {
+     "emo": "💧",
+     "ad": "Hipervolemi/ödem",
+     "bulgu": "Endikasyon"
+    },
+    {
+     "emo": "⚡",
+     "ad": "Hiperkalemi",
+     "bulgu": "Endikasyon"
+    },
+    {
+     "emo": "🚫",
+     "ad": "Hipoalbüminemi",
+     "bulgu": "Endikasyon DEĞİL",
+     "hit": true
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 1996"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>akut böbrek yetmezliğinde diyaliz endikasyonu</b> <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Hipovolemi"
+   },
+   {
+    "k": "B",
+    "t": "Ciddi asidoz"
+   },
+   {
+    "k": "C",
+    "t": "Üremi"
+   },
+   {
+    "k": "D",
+    "t": "Perikardit"
+   },
+   {
+    "k": "E",
+    "t": "Hiperkalemi"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Sıvı azlığı diyaliz gerektirir mi?",
+  "tuzak": "Ciddi asidoz, üremi, perikardit ve hiperkalemi diyaliz endikasyonudur. <b>Hipovolemi</b> (sıvı azlığı, sıvı verilir) diyaliz endikasyonu değildir.",
+  "aciklama": "Diyaliz endikasyonları: yanıtsız hiperkalemi, sıvı-tuz retansiyonu, üremi komplikasyonları (ensefalopati, perikardit), ciddi asidoz. <b>Hipovolemi diyaliz endikasyonu değildir</b> (aksine sıvı replasmanı gerekir).",
+  "cue": "🎯 Asidoz/üremi/perikardit/hiperK diyaliz; hipovolemi tam tersi."
+ },
+ {
+  "yil": [
+   "İlkbahar 1999"
+  ],
+  "soru": "Aşağıdakilerden hangisi akut böbrek yetmezliği olan bir çocukta <b>diyaliz endikasyonu</b> <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Potasyum kısıtlaması/kayekselat tedavisine yanıtsız hiperkalemi"
+   },
+   {
+    "k": "B",
+    "t": "Diüretiklere yanıtsız hipervolemi"
+   },
+   {
+    "k": "C",
+    "t": "Sodyum bikarbonat tedavisine yanıtsız asidoz"
+   },
+   {
+    "k": "D",
+    "t": "Üremiye eşlik eden ensefalopati"
+   },
+   {
+    "k": "E",
+    "t": "BUN değerinin 70 mg/dl'ye çıkması"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Sabit BUN/kreatinin değeri endikasyon mudur?",
+  "tuzak": "Yanıtsız hiperkalemi/hipervolemi/asidoz ve üremik ensefalopati endikasyondur. <b>Belirli bir BUN/kreatinin değeri (70 mg/dl gibi) tek başına diyaliz endikasyonu değildir.</b>",
+  "aciklama": "Diyaliz mutlak endikasyonları: üremik ensefalopati/perikardit, inatçı metabolik asidoz, yanıtsız hipervolemi, hayatı tehdit eden hiperkalemi. <b>Kan BUN/kreatinin değeri ile ilgili sabit bir endikasyon yoktur.</b>",
+  "cue": "🎯 Bunlar medikal tedavi; dirençli hiperK/üremi/ensefalopati diyaliz."
+ },
+ {
+  "yil": [
+   "Sonbahar 2022 Orijinal"
+  ],
+  "soru": "Aşağıdakilerden hangileri çocuklarda <b>hiperkaleminin akut tedavisinde</b> kullanılır?<br><br>I. Spironolakton<br>II. Sodyum bikarbonat<br>III. Kalsiyum glukonat",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Yalnız I"
+   },
+   {
+    "k": "B",
+    "t": "Yalnız II"
+   },
+   {
+    "k": "C",
+    "t": "I, II ve III"
+   },
+   {
+    "k": "D",
+    "t": "I ve III"
+   },
+   {
+    "k": "E",
+    "t": "II ve III"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Potasyum tutucu ajan hiperkalemide kullanılır mı?",
+  "tuzak": "<b>Spironolakton (I)</b> potasyum tutucudur → hiperkalemide kullanılmaz (hipokalemide kullanılır). Akut tedavide <b>sodyum bikarbonat + kalsiyum glukonat</b> (II, III) kullanılır.",
+  "aciklama": "Hiperkalemi akut tedavisi: <b>kalsiyum glukonat</b> (membran stabilizasyonu), <b>sodyum bikarbonat</b>, dekstroz-insülin (K+ hücre içine); kronik: kayekselat (sodyum polistiren sülfonat). <b>Spironolakton potasyum tutucudur</b> → hiperkalemide kullanılmaz.",
+  "cue": "🎯 Spironolakton potasyumu ARTIRIR; akut: membran stabilize + içeri it.",
+  "ddx": {
+   "baslik": "Akut Hiperkalemi Tedavisi",
+   "ok": "Ca glukonat (membran) + NaHCO3/insülin-glukoz (içeri it). Spironolakton K'yı ARTIRIR.",
+   "satirlar": [
+    {
+     "emo": "🫀",
+     "ad": "Ca glukonat",
+     "bulgu": "Membran stabilize"
+    },
+    {
+     "emo": "🧪",
+     "ad": "Na bikarbonat",
+     "bulgu": "K'yı hücre içine iter"
+    },
+    {
+     "emo": "💉",
+     "ad": "İnsülin+glukoz",
+     "bulgu": "K'yı içeri iter"
+    },
+    {
+     "emo": "🚫",
+     "ad": "Spironolakton",
+     "bulgu": "K tutucu → KULLANILMAZ",
+     "hit": true
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 2006"
+  ],
+  "soru": "Şiddetli gastroenterit saptanan 1 yaşındaki kız çocukta KB 95/60 mmHg, <mark class=\"cue\">solukluk, letarji, bifissür ödem</mark>; idrar volümü 0,5 ml/kg/saat.<br><br>Bu çocukta ABY'nin fizyopatolojik nedenini saptamada aşağıdaki laboratuvar testlerinden hangisi <mark class=\"cue\">en önemlidir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "İdrar volümü"
+   },
+   {
+    "k": "B",
+    "t": "İdrar osmolaritesi"
+   },
+   {
+    "k": "C",
+    "t": "İdrar protein-kreatinin oranı"
+   },
+   {
+    "k": "D",
+    "t": "Hemogram"
+   },
+   {
+    "k": "E",
+    "t": "İdrar sedimenti"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Gastroenterit + solukluk → HÜS düşün, anemi/trombositopeni ara.",
+  "tuzak": "KB düşük değil → prerenal değil; gastroenterit + solukluk (anemi) → HÜS. HÜS'te anemi/trombositopeni/ABY anjiyopatiye bağlı → en önemli test <b>hemogram</b> (idrar osm/indeksleri değil).",
+  "aciklama": "Gastroenterit + normal KB + solukluk (anemik) → <b>HÜS (renal ABY)</b>. HÜS'te anemi + trombositopeni + ABY mikroanjiyopatiye bağlı olduğundan fizyopatolojiyi gösterecek en önemli test <b>hemogram (kan sayımı)</b>.",
+  "cue": "🎯 Prerenal↔renal ayrımı için konsantrasyon yeteneği (idrar osmolaritesi)."
+ },
+ {
+  "yil": [
+   "İlkbahar 2001"
+  ],
+  "soru": "Çocuklarda en sık <b>kronik böbrek yetmezliği nedeni</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Vezikoüreteral reflü"
+   },
+   {
+    "k": "B",
+    "t": "Poststreptokoksik glomerülonefrit"
+   },
+   {
+    "k": "C",
+    "t": "Hemolitik üremik sendrom"
+   },
+   {
+    "k": "D",
+    "t": "Alport sendromu"
+   },
+   {
+    "k": "E",
+    "t": "Minimal değişiklik hastalığı"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Ülkemizde KBY etyolojisinde ilk sıra (reflü nefropatisi).",
+  "tuzak": "APSGN ve minimal değişiklik tedaviyle düzelir → KBY yapmaz. Ülkemizde en sık KBY nedeni <b>vezikoüreteral reflü (reflü nefropatisi)</b>.",
+  "aciklama": "Ülkemizde çocuklarda en sık KBY nedeni <b>reflü nefropatisi (VUR)</b> (%30-50). Genel: <5 yaş konjenital anomaliler (renal hipoplazi/displazi); >5 yaş edinsel (GN'ler, VUR) ve kalıtsal (juvenil nefronofitizis, Alport).",
+  "cue": "🎯 Çocukta en sık kronik neden: reflü/obstrüktif üropati.",
+  "ddx": {
+   "baslik": "Çocukta KBY Nedenleri",
+   "ok": "En sık konjenital/ürolojik (VUR, obstrüktif üropati, displazi); GN daha az.",
+   "satirlar": [
+    {
+     "emo": "🔁",
+     "ad": "Vezikoüreteral reflü",
+     "bulgu": "EN SIK · reflü nefropatisi",
+     "hit": true
+    },
+    {
+     "emo": "🚱",
+     "ad": "Obstrüktif üropati",
+     "bulgu": "Valv/displazi"
+    },
+    {
+     "emo": "🧬",
+     "ad": "Kalıtsal (Alport/PKD)",
+     "bulgu": "Bir kısmı"
+    },
+    {
+     "emo": "🩸",
+     "ad": "Glomerülonefrit",
+     "bulgu": "Daha az sıklıkta"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "İlkbahar 1993"
+  ],
+  "soru": "<b>Kronik böbrek yetmezliği</b> olan bir hastada ödem, hipertansiyon ve kalp yetmezliği gelişirse tedavide aşağıdakilerden hangisinin uygulanması <mark class=\"cue\">uygun değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Diyaliz"
+   },
+   {
+    "k": "B",
+    "t": "Diüretik tedavisi"
+   },
+   {
+    "k": "C",
+    "t": "Su-tuz kısıtlaması"
+   },
+   {
+    "k": "D",
+    "t": "Antihipertansif ilaç"
+   },
+   {
+    "k": "E",
+    "t": "Digoksin ile dijitalizasyon"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Böbrekten atılan ilaç KBY'de birikir.",
+  "tuzak": "Diyaliz, diüretik, su-tuz kısıtlaması ve antihipertansif uygundur. <b>Digoksin böbrekten atılır</b> → KBY'de birikir → dijital toksisitesi + böbrek hasarı artar → uygun değildir.",
+  "aciklama": "<b>Digoksin eliminasyonu böbreklerden olduğu için</b> KBY'de dijital toksikasyon riski ve böbrek yetmezliği artar → uygun değildir. KBY tedavisi: su-tuz kısıtlaması, diüretik, antihipertansif (ilk tercih ACE-i/ARB), son dönemde diyaliz/transplantasyon.",
+  "cue": "🎯 Diyaliz/diüretik/kısıtlama/antihipertansif uygun; biri değil (dijitalizasyon)."
+ },
+ {
+  "yil": [
+   "Sonbahar 1994"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>KBY olan bir hastada normokromik-normositik anemi</b> varlığında tedavide en uygun yaklaşımdır?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Demir"
+   },
+   {
+    "k": "B",
+    "t": "Folik asit"
+   },
+   {
+    "k": "C",
+    "t": "Kan transfüzyonu"
+   },
+   {
+    "k": "D",
+    "t": "Vitamin B12"
+   },
+   {
+    "k": "E",
+    "t": "Rekombinant eritropoietin"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "KBY anemisinin en önemli nedeni EPO eksikliği.",
+  "tuzak": "Demir/folat/B12 eksikliği eşlik edebilir ama KBY anemisinin ana nedeni EPO eksikliğidir → en etkili tedavi <b>rekombinant eritropoietin</b>. Kan transfüzyonu ağır anemi dışında kaçınılır.",
+  "aciklama": "KBY anemisinin en önemli nedeni böbrekten <b>EPO üretiminin azalmasıdır</b> → en etkili tedavi <b>rekombinant eritropoietin</b> (hedef Hb 10-11 g/dl). EPO alan hastalara demir replasmanı sürdürülür; ağır anemi dışında transfüzyondan kaçınılır.",
+  "cue": "🎯 EPO yapımı azalmış → yerine koy (rekombinant EPO)."
+ },
+ {
+  "yil": [
+   "İlkbahar 2011"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>KBY olan hastalarda saptanan aneminin</b> nedenlerinden biri <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Folat eksikliği"
+   },
+   {
+    "k": "B",
+    "t": "Eritrosit ömrünün kısalması"
+   },
+   {
+    "k": "C",
+    "t": "Demir eksikliği"
+   },
+   {
+    "k": "D",
+    "t": "Tübüler hasar"
+   },
+   {
+    "k": "E",
+    "t": "Eritropoietin yapımının azalması"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Anemi mekanizmasıyla ilgisi olmayan.",
+  "tuzak": "Folat/demir eksikliği, eritrosit ömrü kısalması ve EPO azalması KBY anemisine katkı sağlar. <b>Tübüler hasar</b> anemi nedeni değildir.",
+  "aciklama": "KBY anemi mekanizmaları: <b>EPO azalması (en önemli)</b>, demir eksikliği, folat eksikliği, B12 eksikliği, eritrosit yaşam süresi azalması. <b>Tübüler hasar anemi nedeni değildir.</b>",
+  "cue": "🎯 EPO↓/eritrosit ömrü kısa/demir-folat eksik neden; biri değil."
+ },
+ {
+  "yil": [
+   "Sonbahar 2000"
+  ],
+  "soru": "Kronik böbrek yetmezliği sonucu gelişen <b>renal osteodistrofide</b> aşağıdakilerden hangisi <mark class=\"cue\">görülmez</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Hipokalsemi"
+   },
+   {
+    "k": "B",
+    "t": "Sekonder hiperparatiroidi"
+   },
+   {
+    "k": "C",
+    "t": "Hiperfosfatemi"
+   },
+   {
+    "k": "D",
+    "t": "Yüksek alkalen fosfataz seviyesi"
+   },
+   {
+    "k": "E",
+    "t": "Serum 1,25 Vitamin D3 seviyesinde artış"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Aktif D vitamini yapımı KBY'de artar mı azalır mı?",
+  "tuzak": "Hipokalsemi, sekonder hiperparatiroidi, hiperfosfatemi ve yüksek ALP görülür. KBY'de aktif D vitamini (1,25 D3) yapımı <b>AZALIR</b> (artmaz).",
+  "aciklama": "Renal osteodistrofi: hiperfosfatemi (böbrek fosfat atamaz) → sekonder hiperparatiroidi → litik kemik lezyonları, yüksek ALP, hipokalsemi. Böbrek fonksiyonu bozuk → <b>1,25 vitamin D3 seviyesi DÜŞER</b> (artmaz).",
+  "cue": "🎯 Aktif D vitamini AZALIR (böbrek aktive edemez); artışı beklenmez.",
+  "ddx": {
+   "baslik": "Renal Osteodistrofi",
+   "ok": "Fosfor↑ + Ca↓ + 1,25-D↓ → sekonder hiperparatiroidi + ALP↑. Aktif D ARTMAZ.",
+   "satirlar": [
+    {
+     "emo": "🦴",
+     "ad": "Hiperfosfatemi",
+     "bulgu": "Atılamaz"
+    },
+    {
+     "emo": "🔻",
+     "ad": "Hipokalsemi",
+     "bulgu": "D↓ nedeniyle"
+    },
+    {
+     "emo": "🅿️",
+     "ad": "Sekonder hiperPTH",
+     "bulgu": "Kompanzasyon · ALP↑"
+    },
+    {
+     "emo": "🚫",
+     "ad": "1,25-D artışı",
+     "bulgu": "GÖRÜLMEZ (azalır)",
+     "hit": true
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 2023"
+  ],
+  "soru": "<b>Böbrek nakli sonrası</b> aşağıdaki hastalıklardan hangisinin <mark class=\"cue\">tekrarlaması en az olasıdır</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Fokal segmental glomerüloskleroz"
+   },
+   {
+    "k": "B",
+    "t": "Atipik hemolitik üremik sendrom"
+   },
+   {
+    "k": "C",
+    "t": "Membranöz nefropati"
+   },
+   {
+    "k": "D",
+    "t": "IgA nefropatisi"
+   },
+   {
+    "k": "E",
+    "t": "Alport sendromu"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Yapısal/kollajen defekti mi, edinsel mi?",
+  "tuzak": "FSGS, atipik HÜS, membranöz ve IgA edinsel/immünolojik → nakledilen böbrekte tekrarlayabilir. <b>Alport</b> kollajen defekti (yapısal); nakil böbrekte kollajen normal → tekrarlamaz.",
+  "aciklama": "<b>Alport sendromu</b> tip IV kollajen (COL4A5) mutasyonu; immünolojik mekanizması yok. Nakil böbrekte kollajen normal olduğu için <b>hastalık tekrarlamaz</b> (nadiren de novo anti-GBM GN gelişebilir). Diğer glomerülopatiler edinsel → tekrarlayabilir.",
+  "cue": "🎯 Alport yapısal (kollajen) → nakille düzelir, en az tekrarlar.",
+  "ddx": {
+   "baslik": "Nakil Sonrası Tekrarlar mı?",
+   "ok": "FSGS/aHUS/membranöz/IgA tekrarlar; Alport (yapısal kollajen) tekrarlamaz.",
+   "satirlar": [
+    {
+     "emo": "🚫",
+     "ad": "Alport",
+     "bulgu": "Yapısal → EN AZ tekrarlar",
+     "hit": true
+    },
+    {
+     "emo": "🎯",
+     "ad": "FSGS",
+     "bulgu": "Sık tekrarlar"
+    },
+    {
+     "emo": "🌀",
+     "ad": "Atipik HÜS",
+     "bulgu": "Kompleman → tekrarlar"
+    },
+    {
+     "emo": "🔵",
+     "ad": "IgA nefropatisi",
+     "bulgu": "Tekrarlayabilir"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 2025"
+  ],
+  "soru": "Aşağıdaki çocukluk çağı son dönem böbrek yetersizliği sebeplerinden hangisinin <b>nakil sonrası tekrar etmesi en olasıdır</b>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Nefronofitizis"
+   },
+   {
+    "k": "B",
+    "t": "Otozomal dominant polikistik böbrek hastalığı"
+   },
+   {
+    "k": "C",
+    "t": "Otozomal resesif polikistik böbrek hastalığı"
+   },
+   {
+    "k": "D",
+    "t": "Bardet-Biedl sendromu"
+   },
+   {
+    "k": "E",
+    "t": "Atipik hemolitik üremik sendrom"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Kompleman regülasyon defekti nakil böbrekte de sürer.",
+  "tuzak": "Nefronofitizis, polikistik böbrek ve Bardet-Biedl yapısal/genetik hastalıklardır; nakil böbrekte tekrarlamaz. <b>Atipik HÜS</b> kompleman regülasyon defekti → nakil sonrası tekrarlayabilir.",
+  "aciklama": "<b>Atipik HÜS</b> (kompleman aracılı TMA): kompleman regülasyonundaki kalıtsal defektler nakil böbrekte de sürdüğünden <b>transplant sonrası tekrarlayabilir</b>. Yapısal hastalıklar (nefronofitizis, polikistik böbrek, Bardet-Biedl) tekrarlamaz. En yüksek rekürrens: MPGN tip II, FSGS (greft kaybı).",
+  "cue": "🎯 Kompleman disregülasyonu → nakil böbrekte de tekrarlar (FSGS gibi)."
+ }
+];
+
+/* ================= STATE ================= */
+let order = QUESTIONS.map(function(_,i){return i;});
+let idx = 0;
+const answered = new Array(QUESTIONS.length).fill(null);
+const starred  = new Array(QUESTIONS.length).fill(false);
+const cueUsed  = new Array(QUESTIONS.length).fill(false);
+let finished = false;
+
+/* ================= PERSISTENCE (localStorage) ================= */
+const STORAGE_KEY = 'tusquiz::' + (document.title || 'quiz') + '::' + QUESTIONS.length;
+function saveState(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      answered:answered, starred:starred, idx:idx, order:order, finished:finished, v:1
+    }));
+  }catch(e){}
+}
+function loadSavedState(){
+  try{ const r=localStorage.getItem(STORAGE_KEY); return r?JSON.parse(r):null; }catch(e){ return null; }
+}
+function clearSavedState(){ try{ localStorage.removeItem(STORAGE_KEY); }catch(e){} }
+function hasProgress(s){
+  if(!s) return false;
+  const a = s.answered && s.answered.some(function(x){return x!==null;});
+  return a || (s.idx>0) || s.finished;
+}
+function applyState(s){
+  for(let i=0;i<QUESTIONS.length;i++){
+    answered[i] = (s.answered && i<s.answered.length && s.answered[i]!==undefined) ? s.answered[i] : null;
+    starred[i]  = (s.starred  && i<s.starred.length)  ? !!s.starred[i] : false;
+  }
+  order = (s.order && s.order.length) ? s.order.slice() : QUESTIONS.map(function(_,i){return i;});
+  idx = (typeof s.idx==='number') ? Math.max(0,Math.min(order.length-1,s.idx)) : 0;
+  finished = !!s.finished;
+}
+
+function qid(){ return order[idx]; }
+function curQ(){ return QUESTIONS[order[idx]]; }
+
+/* ========== HEADER SPACING (JS-measured) ========== */
+const hdr = document.getElementById('hdr');
+const main = document.getElementById('main');
+function syncHeader(){
+  const h = hdr.offsetHeight;
+  main.style.paddingTop = (h + 14) + 'px';
+  document.documentElement.style.setProperty('--hdrH', h + 'px');
+}
+window.addEventListener('load', syncHeader);
+window.addEventListener('resize', syncHeader);
+syncHeader();
+
+/* ================= RENDER ================= */
+const quizEl = document.getElementById('quiz');
+const resultEl = document.getElementById('result');
+const navEl = document.getElementById('nav');
+
+function render(){
+  if(finished){ renderResult(); return; }
+  resultEl.classList.remove('show');
+  quizEl.style.display='block';
+  navEl.style.display='flex';
+
+  const q = curQ();
+  const id = qid();
+  const chosen = answered[id];
+  const isAns = chosen !== null;
+
+  let html = '';
+  html += '<div class="qmeta">';
+  html += '<div class="qnum">SORU '+(idx+1)+' / '+order.length+'</div>';
+  html += '<button class="star-btn '+(starred[id]?'on':'')+'" onclick="toggleStar()" aria-label="Yıldızla">⭐</button>';
+  html += '</div>';
+
+  if(q.yil && q.yil.length){
+    html += '<div class="year-tags">';
+    q.yil.forEach(function(y){ html += '<span class="year-tag">'+y+'</span>'; });
+    html += '</div>';
+  }
+
+  html += '<div class="qcard'+(q.ddx?' has-ddx':'')+'"'+(q.ddx?' onclick="openDdx(event)"':'')+'>'+q.soru
+        + (q.ddx?'<span class="ddx-ok"><svg viewBox="0 0 24 24"><path d="M17 4l3 3-3 3"/><path d="M20 7H8a4 4 0 0 0-4 4"/><path d="M7 20l-3-3 3-3"/><path d="M4 17h12a4 4 0 0 0 4-4"/></svg></span>':'')
+        + '</div>';
+
+  html += '<div class="opts '+(isAns?'locked':'')+'" id="opts">';
+  q.siklar.forEach(function(s,i){
+    let cls='opt';
+    if(isAns){
+      if(i===q.dogru) cls+=' correct';
+      else if(i===chosen) cls+=' wrong';
+      else cls+=' dim';
+    }
+    html += '<button class="'+cls+'" '+(isAns?'':'onclick="answer('+i+')"')+'>'
+          + '<span class="k">'+s.k+'</span><span class="t">'+s.t+'</span><span class="mark"></span></button>';
+  });
+  html += '</div>';
+
+  if(!isAns){
+    html += '<button class="hintbtn" id="preHint" onclick="showPreHint()">💡 İpucu göster</button>';
+    html += '<div id="revealZone"></div>';
+  } else {
+    html += '<div id="revealZone">'+revealHTML(q)+'</div>';
+  }
+
+  quizEl.innerHTML = html;
+
+  document.getElementById('prevBtn').disabled = (idx===0);
+  document.getElementById('nextBtn').textContent = (idx===order.length-1) ? 'Bitir ✓' : 'Sonraki →';
+  document.getElementById('navCounter').textContent = (idx+1)+'/'+order.length;
+
+  updateBars();
+}
+
+function ddxCardHTML(d){
+  if(!d) return '';
+  var rows='';
+  (d.satirlar||[]).forEach(function(r){
+    rows += '<div class="dc'+(r.hit?' hit':'')+'">'
+          + '<div class="emo">'+(r.emo||'🔹')+'</div>'
+          + '<div class="txt"><div class="dn">'+r.ad+'</div><div class="dv">'+r.bulgu+'</div></div></div>';
+  });
+  return '<div class="ddx-card" onclick="closeDdx()">'
+       + '<h3>🩺 '+(d.baslik||'Ayırıcı Tanı')+'</h3>'
+       + (d.ok?'<div class="ddx-key">'+d.ok+'</div>':'')
+       + '<div class="ddx-cards">'+rows+'</div></div>';
+}
+function openDdx(e){
+  if(e){ e.stopPropagation(); }
+  var q=curQ();
+  if(!q.ddx) return;
+  var ov=document.getElementById('ddxOv');
+  if(ov.classList.contains('show')){ closeDdx(); return; }
+  ov.classList.remove('closing');
+  ov.innerHTML = ddxCardHTML(q.ddx);
+  void ov.offsetWidth;
+  ov.classList.add('show');
+}
+function closeDdx(){
+  var ov=document.getElementById('ddxOv');
+  if(!ov.classList.contains('show') || ov.classList.contains('closing')) return;
+  ov.classList.add('closing');
+  setTimeout(function(){ ov.classList.remove('show','closing'); ov.innerHTML=''; }, 430);
+}
+
+function revealHTML(q){
+  return ''
+   + '<div class="box ip"><div class="bt">💡 İPUCU</div><div>'+q.ipucu+'</div></div>'
+   + '<div class="box tz"><div class="bt">⚠️ TUZAK</div><div>'+q.tuzak+'</div></div>'
+   + '<div class="box ac"><div class="bt">📖 AÇIKLAMA</div><div>'+q.aciklama+'</div></div>';
+}
+
+function showPreHint(){
+  const q = curQ();
+  const btn = document.getElementById('preHint');
+  if(btn) btn.style.display='none';
+  document.getElementById('revealZone').innerHTML =
+    '<div class="box ip"><div class="bt">💡 İPUCU</div><div>'+q.ipucu+'</div></div>';
+  scrollToReveal();
+}
+
+/* ================= ACTIONS ================= */
+function answer(i){
+  const id = qid();
+  if(answered[id]!==null) return;
+  const q=curQ();
+
+  // İlk yanlışta: cevabı vermeyen yeşil ipucu + kilit ifade parlaması, tek seferlik → tekrar dene
+  if(i!==q.dogru && q.cue && !cueUsed[id]){
+    cueUsed[id]=true;
+    const m=document.getElementById('cueMsg');
+    m.textContent=q.cue;
+    m.classList.add('show');
+    const qc=document.querySelector('.qcard');
+    if(qc) qc.classList.add('flash');
+    setTimeout(function(){ m.classList.remove('show'); if(qc) qc.classList.remove('flash'); },2400);
+    return; // cevap KİLİTLENMEZ
+  }
+
+  answered[id]=i;
+
+  const opts=document.getElementById('opts');
+  opts.classList.add('locked');
+  const btns=opts.querySelectorAll('.opt');
+  btns.forEach(function(b,k){
+    b.setAttribute('onclick','');
+    if(k===q.dogru) b.classList.add('correct');
+    else if(k===i) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+
+  const pre=document.getElementById('preHint');
+  if(pre) pre.style.display='none';
+
+  document.getElementById('revealZone').innerHTML = revealHTML(q);
+  updateBars();
+  saveState();
+  if(i === q.dogru){ celebrate(btns[q.dogru]); } else { commiserate(); }
+  scrollToReveal();
+}
+
+function scrollToReveal(){
+  requestAnimationFrame(function(){
+    const zone=document.getElementById('revealZone');
+    const first=zone && zone.firstElementChild;
+    if(!first) return;
+    const offset = hdr.offsetHeight + 10;
+    const y = first.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({top:y, behavior:'smooth'});
+  });
+}
+
+function toggleStar(){
+  const id=qid();
+  starred[id]=!starred[id];
+  saveState();
+  render();
+}
+
+function go(dir){
+  if(dir===1 && idx===order.length-1){ finished=true; saveState(); render(); window.scrollTo({top:0,behavior:'smooth'}); return; }
+  idx=Math.max(0,Math.min(order.length-1, idx+dir));
+  saveState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ================= MODAL ================= */
+function openModal(){
+  const grid=document.getElementById('qGrid');
+  let h='';
+  order.forEach(function(id,p){
+    let cls='gbtn';
+    if(answered[id]!==null){ cls += (answered[id]===QUESTIONS[id].dogru)?' ok':' no'; }
+    if(p===idx) cls+=' cur';
+    if(starred[id]) cls+=' star';
+    h += '<button class="'+cls+'" onclick="jump('+p+')">'+(p+1)+'</button>';
+  });
+  grid.innerHTML=h;
+  document.getElementById('modalOv').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('modalOv').classList.remove('show');
+  document.body.style.overflow='';
+}
+function modalBg(e){ if(e.target.id==='modalOv') closeModal(); }
+function jump(p){ idx=p; finished=false; closeModal(); saveState(); render(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+/* ================= COUNTERS / PROGRESS ================= */
+function correctCount(){
+  let c=0;
+  answered.forEach(function(a,i){ if(a!==null && a===QUESTIONS[i].dogru) c++; });
+  return c;
+}
+function starCount(){ return starred.filter(Boolean).length; }
+function updateBars(){
+  document.getElementById('cCount').textContent = correctCount();
+  document.getElementById('sCount').textContent = starCount();
+  const pos = finished ? order.length : (idx+1);
+  document.getElementById('bar').style.width = Math.round((pos/order.length)*100)+'%';
+}
+
+/* ================= RESULT ================= */
+function renderResult(){
+  quizEl.style.display='none';
+  navEl.style.display='none';
+  resultEl.classList.add('show');
+
+  const total=order.length;
+  let correct=0, wrong=0, blank=0, starHere=0;
+  order.forEach(function(id){
+    const a=answered[id];
+    if(a===null) blank++;
+    else if(a===QUESTIONS[id].dogru) correct++;
+    else wrong++;
+    if(starred[id]) starHere++;
+  });
+  const pct=Math.round((correct/total)*100);
+
+  document.getElementById('scoreBig').textContent = correct+'/'+total;
+  document.getElementById('pctLine').textContent = '%'+pct;
+  document.getElementById('ring').style.setProperty('--pct', pct+'%');
+
+  let fb;
+  if(pct>=90) fb='Mükemmel! Bu konulara hâkimsin. 🎯';
+  else if(pct>=70) fb='Çok iyi. Birkaç tuzak dışında sağlamsın. 👏';
+  else if(pct>=50) fb='Fena değil; yanlışları ve tuzakları tekrar et. 📚';
+  else fb='Bu blokları tekrar çalışmakta fayda var. Devam! 💪';
+  document.getElementById('fbText').textContent = fb;
+
+  document.getElementById('rStats').innerHTML =
+      '<div class="rstat g">✓ Doğru '+correct+'</div>'
+    + '<div class="rstat r">✗ Yanlış '+wrong+'</div>'
+    + '<div class="rstat s">⭐ Yıldızlı '+starHere+'</div>';
+
+  let rev='';
+  order.forEach(function(id,p){
+    const q=QUESTIONS[id];
+    const a=answered[id];
+    let badge, cls, label;
+    if(a===null){ badge='–'; cls='blank'; label='Boş'; }
+    else if(a===q.dogru){ badge='✓'; cls='ok'; label='Doğru'; }
+    else { badge='✗'; cls='no'; label='Yanlış'; }
+    const ds=q.siklar[q.dogru];
+    rev += '<div class="rev" onclick="jump('+p+')">'
+         + '<div class="badge '+cls+'">'+badge+'</div>'
+         + '<div style="flex:1">'
+         + '<div class="rq">Soru '+(p+1)+' — '+label+(starred[id]?' ⭐':'')+'</div>'
+         + '<div class="ra">Doğru cevap: <b>'+ds.k+') '+ds.t+'</b></div>'
+         + '</div></div>';
+  });
+  document.getElementById('reviewList').innerHTML = rev;
+
+  document.getElementById('retryWrongBtn').disabled = (wrong===0);
+  document.getElementById('retryStarBtn').disabled = (starCount()===0);
+  setTimeout(function(){ finaleShow(pct); }, 250);
+
+  updateBars();
+}
+
+/* ================= RETRY MODES ================= */
+function startSubset(ids){
+  fxStreak = 0;
+  order = ids.slice();
+  ids.forEach(function(id){ answered[id]=null; });
+  idx=0; finished=false;
+  saveState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function restart(){
+  fxStreak = 0;
+  order = QUESTIONS.map(function(_,i){return i;});
+  for(let i=0;i<QUESTIONS.length;i++){ answered[i]=null; }
+  idx=0; finished=false;
+  clearSavedState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function retryWrong(){
+  const ids = order.filter(function(id){ return answered[id]!==null && answered[id]!==QUESTIONS[id].dogru; });
+  if(!ids.length){ toast('Yanlış soru yok 🎉'); return; }
+  startSubset(ids);
+}
+function retryStar(){
+  const ids = [];
+  starred.forEach(function(s,i){ if(s) ids.push(i); });
+  if(!ids.length){ toast('Yıldızlı soru yok ⭐'); return; }
+  startSubset(ids);
+}
+
+/* ================= TOAST ================= */
+let toastT=null;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(toastT);
+  toastT=setTimeout(function(){ el.classList.remove('show'); },1800);
+}
+
+/* ================= RESUME ================= */
+function showResumePrompt(saved){
+  const ov = document.getElementById('resumeOv');
+  const sub = document.getElementById('resumeSub');
+  const ord = (saved.order && saved.order.length) ? saved.order : QUESTIONS.map(function(_,i){return i;});
+  const total = ord.length;
+  const pos = saved.finished ? total : Math.min((saved.idx||0)+1, total);
+  const ansCount = saved.answered ? saved.answered.filter(function(x){return x!==null;}).length : 0;
+  sub.textContent = saved.finished
+    ? ('Testi bitirmiştin — sonuç ekranına dönebilirsin. (' + ansCount + ' soru işaretlenmiş)')
+    : ('Soru ' + pos + ' / ' + total + ' — ' + ansCount + ' soru cevaplanmış.');
+  window._savedState = saved;
+  ov.classList.add('show');
+}
+function resumeYes(){
+  applyState(window._savedState);
+  document.getElementById('resumeOv').classList.remove('show');
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function resumeNo(){
+  clearSavedState();
+  document.getElementById('resumeOv').classList.remove('show');
+  render();
+}
+
+
+/* ================= EĞLENCE MOTORU ================= */
+const fxCanvas = document.createElement('canvas');
+fxCanvas.id = 'fxCanvas';
+document.body.appendChild(fxCanvas);
+const fxCtx = fxCanvas.getContext('2d');
+let fxParts = [], fxRaf = null;
+
+function fxResize(){
+  fxCanvas.width = window.innerWidth;
+  fxCanvas.height = window.innerHeight;
+}
+window.addEventListener('resize', fxResize);
+fxResize();
+
+const FX_COLORS = ['#4c9aff','#7c5cff','#2ea043','#f5c451','#ff5b5b','#3fb6a8','#ffffff','#ff9de2'];
+
+function confettiBurst(n, originY){
+  const oy = (typeof originY === 'number') ? originY : window.innerHeight * 0.38;
+  for(let i=0;i<n;i++){
+    fxParts.push({
+      x: window.innerWidth/2 + (Math.random()-0.5)*160,
+      y: oy,
+      vx: (Math.random()-0.5)*13,
+      vy: Math.random()*-13 - 4,
+      g: 0.34,
+      w: Math.random()*8 + 5,
+      h: Math.random()*5 + 3,
+      c: FX_COLORS[Math.floor(Math.random()*FX_COLORS.length)],
+      rot: Math.random()*6.28,
+      vr: (Math.random()-0.5)*0.35,
+      life: 130
+    });
+  }
+  if(!fxRaf) fxRaf = requestAnimationFrame(fxTick);
+}
+
+function fxTick(){
+  fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height);
+  fxParts = fxParts.filter(function(p){ return p.life > 0 && p.y < window.innerHeight + 60; });
+  fxParts.forEach(function(p){
+    p.x += p.vx; p.y += p.vy; p.vy += p.g; p.vx *= 0.995;
+    p.rot += p.vr; p.life--;
+    fxCtx.save();
+    fxCtx.translate(p.x, p.y);
+    fxCtx.rotate(p.rot);
+    fxCtx.globalAlpha = Math.max(0, Math.min(1, p.life/45));
+    fxCtx.fillStyle = p.c;
+    fxCtx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+    fxCtx.restore();
+  });
+  if(fxParts.length){ fxRaf = requestAnimationFrame(fxTick); }
+  else { fxRaf = null; fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height); }
+}
+
+function emojiFloat(list, count){
+  for(let i=0;i<count;i++){
+    const e = document.createElement('div');
+    e.className = 'emoji-pop';
+    e.textContent = list[Math.floor(Math.random()*list.length)];
+    e.style.left = (window.innerWidth/2 + (Math.random()-0.5)*240) + 'px';
+    e.style.top  = (window.innerHeight*0.58) + 'px';
+    e.style.setProperty('--dx', ((Math.random()-0.5)*140) + 'px');
+    e.style.setProperty('--rot', ((Math.random()-0.5)*90) + 'deg');
+    e.style.animationDelay = (Math.random()*0.28) + 's';
+    document.body.appendChild(e);
+    setTimeout(function(){ if(e.parentNode) e.remove(); }, 2200);
+  }
+}
+
+function emojiRain(list, count){
+  for(let i=0;i<count;i++){
+    const e = document.createElement('div');
+    e.className = 'emoji-drop';
+    e.textContent = list[Math.floor(Math.random()*list.length)];
+    e.style.left = (window.innerWidth*0.15 + Math.random()*window.innerWidth*0.7) + 'px';
+    e.style.top  = (window.innerHeight*0.30) + 'px';
+    e.style.setProperty('--rot', ((Math.random()-0.5)*70) + 'deg');
+    e.style.animationDelay = (Math.random()*0.25) + 's';
+    document.body.appendChild(e);
+    setTimeout(function(){ if(e.parentNode) e.remove(); }, 2000);
+  }
+}
+
+const GOOD_EMO = ['🎉','🥳','😄','👏','⭐','💪','🔥','✨','🏆','😎','💚','🩺'];
+const BAD_EMO  = ['😢','😞','💔','😵','🙈','😬','🥲'];
+const MASCOTS  = ['🐵','🦉','🐣','🦊','🐼','🚀'];
+
+const GOOD_MSG = ['Harika! 🎉','Bravo! 👏','Tam isabet! 🎯','Süpersin! 🥳','İşte bu! 💪',
+                  'Mükemmel! ⭐','Doğru cevap! 🔥','Efsanesin! 🏆','Aferin doktor! 🩺',
+                  'Nefes kesici! 😮‍💨','Çok iyisin! 💚'];
+const BAD_MSG  = ['Olsun, tekrar bakalım 💪','Tuzağa düştün ⚠️','Yanlış ama öğrendik 📚',
+                  'Boş ver, devam! 🙌','Bir dahakine 😉','Not al, unutma 📝',
+                  'Açıklamayı oku, kaçırma 👀','Nefesini topla, devam 🫁'];
+const STREAK_MSG = {3:'🔥 3 ÜST ÜSTE!',5:'⚡ 5 SERİ! HARİKA!',8:'🏆 8 SERİ! EFSANE!',
+                    10:'👑 10 SERİ! ŞAMPİYON!',15:'🚀 15 SERİ! DURDURULAMAZ!',
+                    20:'🌟 20 SERİ! İNANILMAZ!'};
+
+let fxStreak = 0;
+
+function showStreak(msg){
+  const s = document.createElement('div');
+  s.className = 'streak';
+  s.textContent = msg;
+  document.body.appendChild(s);
+  setTimeout(function(){ if(s.parentNode) s.remove(); }, 1700);
+}
+
+let fxMsgT = null;
+function showInlineMsg(msg, ok){
+  const zone = document.getElementById('revealZone');
+  if(!zone) return;
+  const old = zone.querySelector('.fxfloat');
+  if(old) old.remove();
+  clearTimeout(fxMsgT);
+  const wrap = document.createElement('div');
+  wrap.className = 'fxfloat';
+  const pill = document.createElement('div');
+  pill.className = 'pill ' + (ok ? 'good' : 'bad');
+  pill.textContent = msg;
+  wrap.appendChild(pill);
+  zone.insertBefore(wrap, zone.firstChild);
+  fxMsgT = setTimeout(function(){ if(wrap.parentNode) wrap.remove(); }, 2100);
+}
+
+function celebrate(btn){
+  confettiBurst(95);
+  emojiFloat(GOOD_EMO, 8);
+  showInlineMsg(GOOD_MSG[Math.floor(Math.random()*GOOD_MSG.length)], true);
+  if(btn){
+    const m = document.createElement('span');
+    m.className = 'mascot';
+    m.textContent = MASCOTS[Math.floor(Math.random()*MASCOTS.length)];
+    btn.style.position = 'relative';
+    btn.appendChild(m);
+  }
+  fxStreak++;
+  if(STREAK_MSG[fxStreak]){
+    showStreak(STREAK_MSG[fxStreak]);
+    setTimeout(function(){ confettiBurst(70, window.innerHeight*0.30); }, 220);
+  }
+  try{ if(navigator.vibrate) navigator.vibrate(35); }catch(e){}
+}
+
+function commiserate(){
+  const m = document.getElementById('main');
+  if(m){
+    m.classList.remove('shake');
+    void m.offsetWidth;
+    m.classList.add('shake');
+    setTimeout(function(){ m.classList.remove('shake'); }, 700);
+  }
+  emojiRain(BAD_EMO, 6);
+  showInlineMsg(BAD_MSG[Math.floor(Math.random()*BAD_MSG.length)], false);
+  fxStreak = 0;
+  try{ if(navigator.vibrate) navigator.vibrate([40,60,40]); }catch(e){}
+}
+
+function finaleShow(pct){
+  if(pct >= 90){
+    [0,300,600,900].forEach(function(d){
+      setTimeout(function(){ confettiBurst(110, window.innerHeight*0.30); }, d);
+    });
+    emojiFloat(['🏆','👑','🎉','🥳','⭐'], 12);
+  } else if(pct >= 70){
+    confettiBurst(110, window.innerHeight*0.32);
+    setTimeout(function(){ confettiBurst(80, window.innerHeight*0.30); }, 350);
+    emojiFloat(GOOD_EMO, 8);
+  } else if(pct >= 50){
+    confettiBurst(60, window.innerHeight*0.34);
+    emojiFloat(['💪','📚','✨'], 5);
+  } else {
+    emojiFloat(['📚','💪','🩺'], 4);
+  }
+}
+
+/* ================= INIT ================= */
+render();
+window.addEventListener('pagehide', function(){ try{ saveState(); }catch(e){} });
+window.addEventListener('visibilitychange', function(){ if(document.visibilityState==='hidden'){ try{ saveState(); }catch(e){} } });
+(function(){ const s=loadSavedState(); if(hasProgress(s)) showResumePrompt(s); })();
+window.addEventListener('load', function(){ syncHeader(); updateBars(); });
+
+/* nav focus fix */
+try{['prevBtn','listBtn','nextBtn'].forEach(function(id){var el=document.getElementById(id);if(el){el.addEventListener('mousedown',function(e){e.preventDefault();});el.addEventListener('focus',function(){var s=this;setTimeout(function(){try{s.blur();}catch(e){}},0);});el.addEventListener('click',function(){var s=this;setTimeout(function(){try{s.blur();}catch(e){}},0);});}});}catch(e){}
+</script>
+</body>
+</html>

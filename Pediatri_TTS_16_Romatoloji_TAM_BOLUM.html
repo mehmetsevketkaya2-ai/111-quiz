@@ -1,0 +1,3495 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="pragma" content="no-cache">
+<title>Pediatri TTS — Romatoloji (Tam Bölüm · 63 Soru)</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --line:#2a3444;
+    --text:#e6edf3; --muted:#9aa7b5; --accent:#4c9aff; --accent2:#7c5cff;
+    --green:#2ea043; --green-bg:#12341c; --red:#e5484d; --red-bg:#3a1518;
+    --star:#f5c451; --hint:#3fb6a8; --trap:#ff5b5b; --exp:#b487ff;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;-webkit-text-size-adjust:100%;}
+  mark{background:none;color:var(--trap);font-weight:800;}
+  b{color:#fff;font-weight:700;}
+
+  header{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--panel);
+    border-bottom:1px solid var(--line);padding:env(safe-area-inset-top) 0 0 0;
+    box-shadow:0 4px 18px rgba(0,0,0,.35);}
+  .hbar{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:11px 16px 10px;}
+  .htitle{font-size:15px;font-weight:800;letter-spacing:.3px;}
+  .htitle span{color:var(--accent);}
+  .stats{display:flex;gap:8px;}
+  .chip{display:flex;align-items:center;gap:5px;background:var(--panel2);
+    border:1px solid var(--line);border-radius:999px;padding:5px 11px;
+    font-size:13px;font-weight:700;}
+  .chip.correct{color:var(--green);} .chip.star{color:var(--star);}
+  .progress{height:5px;background:var(--panel2);width:100%;}
+  .progress > i{display:block;height:100%;width:0;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    transition:width .35s ease;}
+
+  main{max-width:720px;margin:0 auto;padding:16px 16px 120px;}
+
+  .qmeta{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .qnum{font-size:13px;font-weight:800;color:var(--muted);letter-spacing:.5px;}
+  .star-btn{background:none;border:none;cursor:pointer;font-size:26px;line-height:1;
+    filter:grayscale(1) opacity(.45);transition:transform .15s,filter .15s;padding:2px 4px;}
+  .star-btn.on{filter:none;transform:scale(1.12);}
+
+  .year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+  .year-tag{font-size:11.5px;font-weight:700;letter-spacing:.3px;color:var(--accent);
+    background:rgba(76,154,255,.1);border:1px solid rgba(76,154,255,.3);
+    border-radius:6px;padding:3px 9px;}
+
+  .qcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:18px 17px;margin-bottom:14px;font-size:16.5px;}
+
+  .opts{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+  .opt{display:flex;align-items:flex-start;gap:12px;background:var(--panel);
+    border:1.5px solid var(--line);border-radius:13px;padding:13px 14px;cursor:pointer;
+    font-size:16px;transition:border-color .15s,background .15s,transform .05s;
+    text-align:left;color:var(--text);width:100%;}
+  .opt:active{transform:scale(.995);}
+  .opt .k{flex:0 0 26px;height:26px;border-radius:50%;background:var(--panel2);
+    border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:14px;color:var(--muted);}
+  .opt .t{flex:1;padding-top:1px;}
+  .opt:not(.locked):hover{border-color:var(--accent);}
+  .opts.locked .opt{cursor:default;}
+  .opt.correct{border-color:var(--green);background:var(--green-bg);}
+  .opt.correct .k{background:var(--green);border-color:var(--green);color:#fff;}
+  .opt.wrong{border-color:var(--red);background:var(--red-bg);}
+  .opt.wrong .k{background:var(--red);border-color:var(--red);color:#fff;}
+  .opt.dim{opacity:.55;}
+  .opt .mark{flex:0 0 24px;height:26px;display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:18px;line-height:1;}
+  .opt.correct .mark::after{content:"✓";color:var(--green);}
+  .opt.wrong .mark::after{content:"✗";color:var(--red);}
+
+  .hintbtn{display:inline-flex;align-items:center;gap:7px;background:var(--panel2);
+    color:var(--hint);border:1px solid var(--line);border-radius:11px;padding:11px 15px;
+    font-size:14.5px;font-weight:700;cursor:pointer;margin-bottom:14px;}
+  .hintbtn:hover{border-color:var(--hint);}
+
+  .box{border-radius:13px;padding:13px 15px;margin-bottom:11px;font-size:15.5px;
+    border:1px solid var(--line);animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .box .bt{display:flex;align-items:center;gap:8px;font-weight:800;margin-bottom:6px;
+    font-size:14px;letter-spacing:.3px;}
+  .box.ip{background:rgba(63,182,168,.08);border-color:rgba(63,182,168,.35);}
+  .box.ip .bt{color:var(--hint);}
+  .box.tz{background:rgba(255,91,91,.07);border-color:rgba(255,91,91,.32);}
+  .box.tz .bt{color:var(--trap);}
+  .box.ac{background:rgba(180,135,255,.08);border-color:rgba(180,135,255,.32);}
+  .box.ac .bt{color:var(--exp);}
+
+  /* ===== AYIRICI TANI: gizli ok + eğlenceli flip + yeşil ipucu ===== */
+  .qcard{position:relative;}
+  .qcard.has-ddx{cursor:pointer;padding-right:46px;}
+  .qcard .cue{transition:all .3s;border-radius:4px;}
+  .qcard.flash .cue{background:rgba(46,160,67,.3);color:#fff;box-shadow:0 0 0 3px rgba(46,160,67,.3);padding:0 2px;}
+  .ddx-ok{position:absolute;top:12px;right:12px;width:28px;height:28px;display:grid;place-items:center;
+    color:var(--accent);cursor:pointer;animation:ddxpulse 2.2s ease-in-out infinite;z-index:3;}
+  .ddx-ok svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  @keyframes ddxpulse{0%,100%{opacity:.5;transform:translateY(0)}50%{opacity:1;transform:translateY(-2px)}}
+
+  .cueMsg{position:fixed;left:0;right:0;top:0;z-index:400;background:#0f2a1e;
+    border-bottom:2px solid var(--green);color:#b6f0d4;font-weight:700;font-size:15.5px;
+    padding:15px 18px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.5);
+    transform:translateY(-110%);transition:transform .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;}
+  .cueMsg.show{transform:translateY(0);animation:cuewiggle .5s ease .35s;}
+  @keyframes cuewiggle{0%,100%{transform:translateY(0)}25%{transform:translateY(0) rotate(-.4deg)}75%{transform:translateY(0) rotate(.4deg)}}
+
+  .ddx-ov{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;
+    padding:20px;background:rgba(6,10,15,.55);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);perspective:1800px;}
+  .ddx-ov.show{display:flex;}
+  .ddx-card{width:100%;max-width:440px;max-height:88vh;overflow-y:auto;
+    background:linear-gradient(160deg,#1a2230 0%,#141a24 100%);
+    border:1px solid rgba(76,154,255,.4);border-radius:22px;padding:22px;
+    box-shadow:0 24px 70px rgba(0,0,0,.6),0 0 40px rgba(76,154,255,.12);
+    cursor:pointer;}
+  .ddx-ov.show .ddx-card{animation:dealIn .5s cubic-bezier(.2,.8,.22,1) both;}
+  @keyframes dealIn{0%{opacity:0;transform:translateY(60vh) rotate(14deg) scale(.8)}100%{opacity:1;transform:none}}
+  .ddx-ov.closing .ddx-card{animation:dealOut .4s cubic-bezier(.5,0,.75,.4) both;}
+  @keyframes dealOut{0%{opacity:1;transform:none}100%{opacity:0;transform:translateY(60vh) rotate(14deg) scale(.8)}}
+  .ddx-card h3{margin:0 0 14px;display:flex;align-items:center;gap:9px;font-size:16px;font-weight:800;
+    background:linear-gradient(90deg,#4c9aff,#7ee7c7);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .ddx-key{font-size:14.5px;color:var(--text);background:rgba(76,154,255,.1);
+    border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:10px 13px;margin-bottom:14px;}
+  .ddx-cards{display:flex;flex-direction:column;gap:10px;}
+  .dc{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;
+    padding:12px 13px;background:rgba(255,255,255,.025);position:relative;overflow:hidden;
+    opacity:0;transform:translateX(-90px) rotate(-7deg);animation:ddxslide .45s cubic-bezier(.2,.85,.28,1.25) forwards;}
+  .dc:nth-child(1){animation-delay:.12s} .dc:nth-child(2){animation-delay:.20s}
+  .dc:nth-child(3){animation-delay:.28s} .dc:nth-child(4){animation-delay:.36s}
+  .dc:nth-child(5){animation-delay:.44s} .dc:nth-child(6){animation-delay:.52s}
+  .ddx-ov.closing .dc{animation:dcOut .28s cubic-bezier(.5,0,.75,.4) forwards;}
+  @keyframes dcOut{to{opacity:0;transform:translateX(-90px) rotate(-7deg)}}
+  .ddx-ov.closing .dc:nth-child(5){animation-delay:.02s}
+  .ddx-ov.closing .dc:nth-child(4){animation-delay:.06s}
+  .ddx-ov.closing .dc:nth-child(3){animation-delay:.10s}
+  .ddx-ov.closing .dc:nth-child(2){animation-delay:.14s}
+  .ddx-ov.closing .dc:nth-child(1){animation-delay:.18s}
+  @keyframes ddxslide{to{opacity:1;transform:none}}
+  .dc .emo{font-size:24px;flex:none;line-height:1.1;}
+  .dc .txt .dn{font-weight:800;font-size:15px;margin-bottom:2px;color:var(--text);}
+  .dc .txt .dv{font-size:13.5px;color:var(--muted);} .dc .txt .dv b{color:var(--text);font-weight:600;}
+  .dc.hit{border-color:var(--green);background:linear-gradient(120deg,rgba(46,160,67,.2),rgba(46,160,67,.06));
+    box-shadow:0 0 20px rgba(46,160,67,.25);}
+  .dc.hit .dn{color:#7ee7a8;}
+  .dc.hit::after{content:"⭐";position:absolute;top:8px;right:10px;font-size:15px;animation:ddxtwinkle 1.4s ease-in-out infinite;}
+  @keyframes ddxtwinkle{0%,100%{opacity:.4;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
+  .nav{position:fixed;bottom:0;left:0;right:0;z-index:40;background:var(--panel);
+    border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+    display:flex;gap:10px;max-width:720px;margin:0 auto;align-items:stretch;}
+  .nav button{border:1px solid var(--line);border-radius:12px;padding:14px;
+    font-size:15.5px;font-weight:800;cursor:pointer;background:var(--panel2);color:var(--text);}
+  .nav .prev,.nav .next{flex:1;}
+  .nav .list{flex:0 0 auto;min-width:66px;color:var(--muted);font-size:13px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.1;}
+  .nav .list .lc{font-size:16px;}
+  .nav .next{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+  .nav button:disabled{opacity:.4;cursor:not-allowed;}
+  /* nav dokunma/focus fix: buton basılı kalıp beyazlaşmaz */
+  .nav button{-webkit-tap-highlight-color:transparent;}
+  .nav button:focus{outline:none;}
+  .nav .prev:focus,.nav .prev:active{background:var(--panel2);color:var(--text);border-color:var(--line);}
+  .nav .list:focus,.nav .list:active{background:var(--panel2);color:var(--muted);border-color:var(--line);}
+  .nav .next:focus,.nav .next:active{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;}
+
+
+  /* Question-list modal (bottom sheet) */
+  .modal-ov{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.55);
+    display:none;align-items:flex-end;justify-content:center;}
+  .modal-ov.show{display:flex;animation:fade .2s ease;}
+  .modal{width:100%;max-width:720px;background:var(--panel);
+    border-top-left-radius:20px;border-top-right-radius:20px;
+    border:1px solid var(--line);border-bottom:none;padding:16px 16px 26px;
+    max-height:72vh;overflow:auto;animation:slideup .28s ease;}
+  @keyframes slideup{from{transform:translateY(30px);opacity:.6;}to{transform:none;opacity:1;}}
+  .modal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .modal-h span{font-size:15px;font-weight:800;letter-spacing:.3px;}
+  .modal-h .close{background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    border-radius:9px;width:34px;height:34px;font-size:16px;cursor:pointer;font-weight:800;}
+  .qgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;}
+  .gbtn{aspect-ratio:1/1;border-radius:10px;border:1.5px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:14px;font-weight:800;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;position:relative;}
+  .gbtn.ok{background:var(--green-bg);border-color:var(--green);color:var(--green);}
+  .gbtn.no{background:var(--red-bg);border-color:var(--red);color:var(--red);}
+  .gbtn.cur{outline:2px solid var(--accent);outline-offset:1px;}
+  .gbtn.star::after{content:"";position:absolute;top:3px;right:3px;width:7px;height:7px;
+    border-radius:50%;background:var(--star);}
+
+  /* Result */
+  .result{display:none;}
+  .result.show{display:block;animation:fade .4s ease;}
+  .score-ring{display:flex;flex-direction:column;align-items:center;justify-content:center;
+    width:170px;height:170px;margin:8px auto 6px;border-radius:50%;
+    background:conic-gradient(var(--accent) var(--pct,0%),var(--panel2) 0);}
+  .score-ring .inner{width:138px;height:138px;border-radius:50%;background:var(--bg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .score-ring .big{font-size:34px;font-weight:900;}
+  .score-ring .sub{font-size:13px;color:var(--muted);font-weight:700;}
+  .pctline{text-align:center;font-size:20px;font-weight:900;margin:2px 0 4px;}
+  .fb{text-align:center;color:var(--muted);font-size:15px;margin-bottom:14px;}
+  .result-stats{display:flex;gap:10px;justify-content:center;margin-bottom:22px;flex-wrap:wrap;}
+  .rstat{background:var(--panel);border:1px solid var(--line);border-radius:11px;
+    padding:9px 15px;font-size:13.5px;font-weight:800;}
+  .rstat.g{color:var(--green);} .rstat.r{color:var(--red);} .rstat.s{color:var(--star);}
+  .review-h{font-size:14px;font-weight:800;color:var(--muted);letter-spacing:.4px;
+    margin:6px 0 10px;}
+  .rev{display:flex;align-items:center;gap:11px;background:var(--panel);
+    border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:9px;
+    cursor:pointer;transition:border-color .15s;}
+  .rev:hover{border-color:var(--accent);}
+  .rev .badge{flex:0 0 auto;width:24px;height:24px;border-radius:6px;font-size:15px;
+    display:flex;align-items:center;justify-content:center;font-weight:900;}
+  .rev .badge.ok{background:var(--green-bg);color:var(--green);}
+  .rev .badge.no{background:var(--red-bg);color:var(--red);}
+  .rev .badge.blank{background:var(--panel2);color:var(--muted);}
+  .rev .rq{flex:1;font-size:14px;}
+  .rev .ra{font-size:12.5px;color:var(--muted);margin-top:2px;}
+  .rev .ra b{color:var(--green);}
+  .result-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+  .ract{width:100%;padding:15px;border-radius:13px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:15px;font-weight:800;cursor:pointer;}
+  .ract:hover{border-color:var(--accent);}
+  .ract.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+  .ract:disabled{opacity:.4;cursor:not-allowed;}
+
+  /* Resume prompt */
+  .resume-ov{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.6);
+    display:none;align-items:center;justify-content:center;padding:20px;}
+  .resume-ov.show{display:flex;animation:fade .2s ease;}
+  .resume-box{width:100%;max-width:420px;background:var(--panel);border:1px solid var(--line);
+    border-radius:18px;padding:22px 20px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.5);}
+  .resume-t{font-size:18px;font-weight:900;margin-bottom:8px;}
+  .resume-s{font-size:14px;color:var(--muted);margin-bottom:18px;line-height:1.5;}
+  .resume-btns{display:flex;flex-direction:column;gap:10px;}
+  .resume-btn{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:15px;font-weight:800;cursor:pointer;}
+  .resume-btn:hover{border-color:var(--accent);}
+  .resume-btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+
+
+  /* ================= EĞLENCE KATMANI ================= */
+  #fxCanvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:90;}
+  .emoji-pop{position:fixed;font-size:36px;pointer-events:none;z-index:95;
+    will-change:transform,opacity;animation:floatUp 1.7s cubic-bezier(.2,.7,.3,1) forwards;}
+  @keyframes floatUp{
+    0%{opacity:0;transform:translate(0,0) scale(.4) rotate(0deg);}
+    12%{opacity:1;transform:translate(0,-14px) scale(1.25) rotate(0deg);}
+    100%{opacity:0;transform:translate(var(--dx,0px),-190px) scale(1.05) rotate(var(--rot,25deg));}
+  }
+  .emoji-drop{position:fixed;font-size:30px;pointer-events:none;z-index:95;
+    animation:dropDown 1.5s ease-in forwards;}
+  @keyframes dropDown{
+    0%{opacity:0;transform:translateY(-30px) scale(.6) rotate(0deg);}
+    15%{opacity:1;}
+    100%{opacity:0;transform:translateY(150px) scale(1) rotate(var(--rot,-20deg));}
+  }
+  .shake{animation:shakeX .55s cubic-bezier(.36,.07,.19,.97) both;}
+  @keyframes shakeX{
+    10%,90%{transform:translateX(-2px);} 20%,80%{transform:translateX(4px);}
+    30%,50%,70%{transform:translateX(-8px);} 40%,60%{transform:translateX(8px);}
+  }
+  .opt.correct{animation:popOk .55s cubic-bezier(.2,1.4,.4,1);
+    box-shadow:0 0 22px rgba(46,160,67,.45);}
+  @keyframes popOk{0%{transform:scale(1);}35%{transform:scale(1.035);}100%{transform:scale(1);}}
+  .opt.wrong{animation:wobbleNo .5s;}
+  @keyframes wobbleNo{
+    0%,100%{transform:translateX(0);}20%{transform:translateX(-6px);}
+    40%{transform:translateX(6px);}60%{transform:translateX(-4px);}80%{transform:translateX(4px);}
+  }
+  .mascot{position:absolute;right:12px;top:50%;font-size:26px;line-height:1;
+    transform:translateY(-50%);animation:mascotDance .7s ease-in-out infinite alternate;
+    pointer-events:none;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4));}
+  @keyframes mascotDance{
+    from{transform:translateY(-42%) rotate(-12deg) scale(1);}
+    to{transform:translateY(-62%) rotate(12deg) scale(1.18);}
+  }
+  .streak{position:fixed;left:50%;top:22%;transform:translateX(-50%) scale(.6);
+    font-size:22px;font-weight:900;color:var(--star);z-index:96;opacity:0;
+    text-shadow:0 3px 14px rgba(0,0,0,.6);pointer-events:none;
+    animation:streakPop 1.5s ease-out forwards;white-space:nowrap;}
+  @keyframes streakPop{
+    0%{opacity:0;transform:translateX(-50%) scale(.5);}
+    20%{opacity:1;transform:translateX(-50%) scale(1.15);}
+    75%{opacity:1;transform:translateX(-50%) scale(1);}
+    100%{opacity:0;transform:translateX(-50%) scale(1) translateY(-24px);}
+  }
+  .score-ring{animation:ringIn .8s cubic-bezier(.2,1.2,.3,1);}
+  @keyframes ringIn{from{transform:scale(.75) rotate(-12deg);opacity:0;}to{transform:none;opacity:1;}}
+
+
+  /* Cevap mesaji: son sik ile ipucu kutusu arasinda YUZEN baloncuk.
+     Yuksekligi 0 -> icerigi itmez; birkac saniyede kaybolur. */
+  .fxfloat{position:relative;height:0;overflow:visible;}
+  .fxfloat .pill{position:absolute;left:50%;top:-4px;
+    transform:translateX(-50%);
+    background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    padding:11px 18px;border-radius:11px;font-size:14px;font-weight:700;
+    white-space:nowrap;z-index:80;pointer-events:none;
+    box-shadow:0 6px 20px rgba(0,0,0,.45);
+    animation:pillIn .25s ease both, pillOut .45s ease 1.55s forwards;}
+  @keyframes pillIn{
+    from{opacity:0;transform:translateX(-50%) translateY(12px);}
+    to{opacity:1;transform:translateX(-50%) translateY(0);}
+  }
+  @keyframes pillOut{
+    to{opacity:0;transform:translateX(-50%) translateY(-8px);}
+  }
+
+  /* Toast */
+  .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);
+    background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    padding:11px 18px;border-radius:11px;font-size:14px;font-weight:700;z-index:80;
+    opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 6px 20px rgba(0,0,0,.4);}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<header id="hdr">
+  <div class="hbar">
+    <div class="htitle">Pediatri · Romatoloji (TAM BÖLÜM) <span>TTS</span></div>
+    <div class="stats">
+      <div class="chip correct">✓ <span id="cCount">0</span></div>
+      <div class="chip star">⭐ <span id="sCount">0</span></div>
+    </div>
+  </div>
+  <div class="progress"><i id="bar"></i></div>
+</header>
+
+<main id="main">
+  <div id="quiz"></div>
+  <div class="cueMsg" id="cueMsg"></div>
+  <div class="ddx-ov" id="ddxOv" onclick="closeDdx()"></div>
+
+  <div class="result" id="result">
+    <div class="score-ring" id="ring">
+      <div class="inner">
+        <div class="big" id="scoreBig">0/0</div>
+        <div class="sub">DOĞRU</div>
+      </div>
+    </div>
+    <div class="pctline" id="pctLine">%0</div>
+    <div class="fb" id="fbText"></div>
+    <div class="result-stats" id="rStats"></div>
+    <div class="result-actions">
+      <button class="ract primary" onclick="restart()">↺ Tüm Soruları Yeniden Çöz</button>
+      <button class="ract" id="retryWrongBtn" onclick="retryWrong()">✗ Yanlışları Tekrar Çöz</button>
+      <button class="ract" id="retryStarBtn" onclick="retryStar()">⭐ Yıldızlıları Tekrar Çöz</button>
+    </div>
+    <div class="review-h">SORU İNCELEMESİ</div>
+    <div id="reviewList"></div>
+    
+  </div>
+</main>
+
+<div class="nav" id="nav">
+  <button class="prev" id="prevBtn" onclick="go(-1)">← Önceki</button>
+  <button class="list" id="listBtn" onclick="openModal()"><span class="lc">☰</span><span id="navCounter">0/0</span></button>
+  <button class="next" id="nextBtn" onclick="go(1)">Sonraki →</button>
+</div>
+
+<div class="modal-ov" id="modalOv" onclick="modalBg(event)">
+  <div class="modal">
+    <div class="modal-h"><span>Sorular</span><button class="close" onclick="closeModal()">✕</button></div>
+    <div class="qgrid" id="qGrid"></div>
+  </div>
+</div>
+
+<div class="resume-ov" id="resumeOv">
+  <div class="resume-box">
+    <div class="resume-t">↩ Kaldığın yerden devam?</div>
+    <div class="resume-s" id="resumeSub"></div>
+    <div class="resume-btns">
+      <button class="resume-btn primary" onclick="resumeYes()">Kaldığım yerden devam et</button>
+      <button class="resume-btn" onclick="resumeNo()">Baştan başla</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   QUESTIONS — SADECE BU DİZİ DEĞİŞİR.
+   Her obje: { yil?, soru, siklar[5], dogru(0-4), ipucu, tuzak, aciklama }
+   ========================================================= */
+const QUESTIONS = [
+ {
+  "yil": [
+   "İlkbahar 2009"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>sistemik tip juvenil idiyopatik artritte</b> sık görülen bulgulardan biri <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "İridosiklit"
+   },
+   {
+    "k": "B",
+    "t": "Yüksek ateş"
+   },
+   {
+    "k": "C",
+    "t": "Deride döküntü"
+   },
+   {
+    "k": "D",
+    "t": "Hepatosplenomegali"
+   },
+   {
+    "k": "E",
+    "t": "Perikardiyal efüzyon"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Göz tutulumu hangi JİA tipinde beklenir?",
+  "tuzak": "Yüksek ateş, döküntü, hepatosplenomegali ve perikardit sistemik JİA (Still) bulgusudur. <b>İridosiklit (üveit)</b> oligoartiküler tipte beklenir, sistemik tipte değil.",
+  "aciklama": "<b>Sistemik JİA (Still hastalığı)</b>: kız-erkek eşit; günde 1-2 kez ≥39°C intermitan ateş + eritematöz somon renkli geçici döküntü; artralji/miyalji, LAP, hepatosplenomegali, perikardit/plevrit; anemi, lökositoz, trombositoz. IL-1/IL-18 artışı. <b>RF ve ANA negatif; iridosiklit (üveit) beklenmez.</b>",
+  "cue": "🎯 Ateş/döküntü/HSM/perikardit sistemik; göz (iridosiklit) oligo ANA+ tarafı.",
+  "ddx": {
+   "baslik": "Sistemik JİA Bulgusu mu?",
+   "ok": "Sistemik: ateş/döküntü/serözit/HSM. Kronik üveit oligoartiküler ANA+ tipin işi.",
+   "satirlar": [
+    {
+     "emo": "🌡️",
+     "ad": "Yüksek intermittan ateş",
+     "bulgu": "Sistemik · quotidian"
+    },
+    {
+     "emo": "🩹",
+     "ad": "Somon rengi döküntü",
+     "bulgu": "Ateşle birlikte"
+    },
+    {
+     "emo": "🫀",
+     "ad": "Perikardit/serözit",
+     "bulgu": "Sistemik"
+    },
+    {
+     "emo": "👁️",
+     "ad": "İridosiklit/üveit",
+     "bulgu": "SİSTEMİKTE DEĞİL (oligo ANA+)",
+     "hit": true
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 1997"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>sistemik tip juvenil idiyopatik artrit</b> bulgularından biri <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Yüksek intermittan ateş"
+   },
+   {
+    "k": "B",
+    "t": "Cilt döküntüsü"
+   },
+   {
+    "k": "C",
+    "t": "Hepatosplenomegali"
+   },
+   {
+    "k": "D",
+    "t": "İridosiklit"
+   },
+   {
+    "k": "E",
+    "t": "Lökositoz"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Üveit oligoartiküler tipe özgü.",
+  "tuzak": "İntermitan ateş, döküntü, hepatosplenomegali ve lökositoz sistemik JİA bulgusudur. <b>İridosiklit</b> beklenmez (oligoartiküler tipte olur).",
+  "aciklama": "Sistemik JİA'da iridosiklit (üveit) beklenmez; üveit oligoartiküler JİA'ya özgüdür.",
+  "cue": "🎯 Sistemik tipte üveit beklenmez; o ANA+ oligoartiküler."
+ },
+ {
+  "yil": [
+   "İlkbahar 2005"
+  ],
+  "soru": "Aşağıdaki hastalıkların hangisinde <b>ANA (antinükleer antikor) yüksekliği</b> <mark class=\"cue\">gözlenmez</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Sistemik lupus eritematozus"
+   },
+   {
+    "k": "B",
+    "t": "Sjögren sendromu"
+   },
+   {
+    "k": "C",
+    "t": "Skleroderma"
+   },
+   {
+    "k": "D",
+    "t": "Kronik aktif hepatit"
+   },
+   {
+    "k": "E",
+    "t": "Behçet hastalığı"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Hangi vaskülitte ANA negatiftir?",
+  "tuzak": "SLE, Sjögren, skleroderma ve kronik aktif hepatit ANA pozitif yapar. <b>Behçet hastalığında ANA pozitifliği görülmez.</b>",
+  "aciklama": "<b>ANA pozitifliği</b>: SLE, ilaca bağlı lupus, JİA, juvenil dermatomiyozit, skleroderma, Sjögren, enfeksiyöz mononükleoz, kronik aktif hepatit. <b>Behçet hastalığında ANA pozitifliği görülmez.</b>",
+  "cue": "🎯 SLE/Sjögren/skleroderma/KAH ANA+; biri ANA negatif."
+ },
+ {
+  "yil": [
+   "Sonbahar 2016 Orijinal"
+  ],
+  "soru": "2 yaşında kız çocuk sabahları yürümekte güçlük ve sağ ayak bileğinde şişlik ile geliyor. Son 2 aydır sabah tutukluğu ve eklem şişliği var; FM'de <mark class=\"cue\">belirgin artrit dışında bulgu yok</mark>.<br><br>Bu hastada aşağıdaki laboratuvar incelemelerinden hangisi <b>tanıya en fazla katkıda bulunur</b>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Eritrosit sedimentasyon hızı"
+   },
+   {
+    "k": "B",
+    "t": "Antinükleer antikor"
+   },
+   {
+    "k": "C",
+    "t": "C-reaktif protein düzeyi"
+   },
+   {
+    "k": "D",
+    "t": "Antistreptolizin O"
+   },
+   {
+    "k": "E",
+    "t": "Romatoid faktör"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Oligoartiküler JİA + üveit riski için önemli test.",
+  "tuzak": "ESR/CRP her artritte artar (spesifik değil). <b>ANA</b> oligoartiküler JİA'da erken başlangıç + kronik üveit riskiyle ilişkili → taniya en çok yardımcı.",
+  "aciklama": "<b>Oligoartiküler JİA</b>: 4 yaş altı kızlarda sık, asimetrik alt ekstremite büyük eklemleri (izole kalça tutulumu beklenmez). <b>ANA pozitifliği asemptomatik anterior üveit riski oluşturur</b> → tanıya en çok katkı. Sistemik JİA'da ANA/RF negatif.",
+  "cue": "🎯 Üveit riskini belirleyen antikor hangisi?"
+ },
+ {
+  "yil": [
+   "İlkbahar 2005"
+  ],
+  "soru": "Aşağıdaki <b>juvenil idiyopatik artrit tiplerinin</b> hangisinde <mark class=\"cue\">kronik üveit gelişme riski en yüksektir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Sistemik tip"
+   },
+   {
+    "k": "B",
+    "t": "Romatoid faktör pozitif poliartiküler tip"
+   },
+   {
+    "k": "C",
+    "t": "ANA pozitif oligoartiküler tip"
+   },
+   {
+    "k": "D",
+    "t": "HLA B27 pozitif tip"
+   },
+   {
+    "k": "E",
+    "t": "Seronegatif poliartiküler tip"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "ANA + oligoartiküler = üveit.",
+  "tuzak": "Sistemik/poliartiküler tiplerde kronik üveit riski düşük; HLA-B27 pozitifte akut üveit olur. Kronik üveit riski en yüksek <b>ANA pozitif oligoartiküler tip</b>.",
+  "aciklama": "<b>ANA pozitif oligoartiküler JİA</b> kronik anterior üveit riski en yüksek tiptir (kontrol edilemeyen üveit körlüğe yol açabilir). Artritin şiddeti ile üveit arasında ilişki yoktur. HLA-B27 → akut üveit.",
+  "cue": "🎯 Küçük kız + ANA+ + oligo → sessiz kronik üveit riski en yüksek.",
+  "ddx": {
+   "baslik": "JİA'da Üveit Riski",
+   "ok": "Küçük yaş + ANA+ + oligoartiküler = en yüksek sessiz kronik üveit riski.",
+   "satirlar": [
+    {
+     "emo": "👁️",
+     "ad": "ANA+ oligoartiküler",
+     "bulgu": "EN YÜKSEK üveit riski",
+     "hit": true
+    },
+    {
+     "emo": "🌡️",
+     "ad": "Sistemik tip",
+     "bulgu": "Üveit nadir"
+    },
+    {
+     "emo": "🧬",
+     "ad": "RF+ poliartiküler",
+     "bulgu": "Erozif · üveit az"
+    },
+    {
+     "emo": "🔗",
+     "ad": "HLA-B27/entezit",
+     "bulgu": "Akut ağrılı üveit (farklı)"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 2017 Orijinal"
+  ],
+  "soru": "Sistemik JİA tanısıyla izlenen 4 yaşında kızda enfeksiyon sonrası genel durum bozukluğu; <b>makrofaj aktivasyon sendromu</b> düşünülüyor.<br><br>Bu hastada aşağıdaki değerlendirmelerden hangisinin tanıya yardımcı olma olasılığı <mark class=\"cue\">en azdır</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Ferritin düzeyi"
+   },
+   {
+    "k": "B",
+    "t": "Trigliserit düzeyi"
+   },
+   {
+    "k": "C",
+    "t": "Kemik iliği aspirasyon biyopsisi"
+   },
+   {
+    "k": "D",
+    "t": "Kan şekeri düzeyi"
+   },
+   {
+    "k": "E",
+    "t": "Fibrinojen düzeyi"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "MAS kriterlerinde yer almayan test.",
+  "tuzak": "Ferritin, trigliserit, kemik iliği (hemofagositoz) ve fibrinojen MAS tanı kriterleridir. <b>Kan şekeri</b> MAS'ta belirli değişiklik göstermez → tanıya en az katkı.",
+  "aciklama": "<b>Makrofaj aktivasyon sendromu (MAS)</b>: sistemik JİA'nın nadir/fatal komplikasyonu. Kriterler: <b>ferritin↑, trigliserit↑, fibrinojen↓, sedimentasyon↓, sitopeni, KC enzim↑, kemik iliğinde hemofagositoz</b>. <b>Kan şekeri değişmez</b> (tanıda yeri yok).",
+  "cue": "🎯 Ferritin↑/trigliserit↑/fibrinojen↓/ilikte hemofagositoz; kan şekeri değil."
+ },
+ {
+  "yil": [
+   "İlkbahar 2022 Orijinal"
+  ],
+  "soru": "Önceden sağlıklı 10 yaşında erkek çocuk 2 gündür 39°C ateş, eritematöz döküntü, karın ağrısı, kusma ve dolaşım bozukluğu ile geliyor. <b>Troponin ve ferritin yüksek</b>; <mark class=\"cue\">babası 1 ay önce COVID-19 geçirmiş</mark>; COVID RT-PCR negatif, anti-SARS-CoV-2 antikoru pozitif.<br><br>Bu çocuk için en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Stevens-Johnson sendromu"
+   },
+   {
+    "k": "B",
+    "t": "Pulmoner emboli"
+   },
+   {
+    "k": "C",
+    "t": "Çocuklarda çoklu sistemik inflamatuvar sendrom (MIS-C)"
+   },
+   {
+    "k": "D",
+    "t": "Meningokoksemi"
+   },
+   {
+    "k": "E",
+    "t": "Ağır pnömoni"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "COVID temas + antikor pozitif + çoklu organ + kardiyak tutulum.",
+  "tuzak": "PCR negatif + antikor pozitif (postenfeksiyöz) + ateş + çoklu organ (kardiyak/GİS/cilt) + akut faz artışı = <b>MIS-C</b>.",
+  "aciklama": "<b>MIS-C (Çocuklarda çoklu sistemik inflamatuvar sendrom)</b>: SARS-CoV-2 sonrası postenfeksiyöz hiperenflamasyon. Son 4-6 haftada COVID temas/enfeksiyon + ateş + ≥2 organ tutulumu (cilt, GİS, kardiyak, hepatik, nörolojik) + akut faz artışı. Çoğunda PCR negatif, <b>antikor pozitif</b>.",
+  "cue": "🎯 COVID sonrası çoklu sistem inflamatuar (şok + troponin/ferritin)."
+ },
+ {
+  "yil": [
+   "İlkbahar 2019 Orijinal"
+  ],
+  "soru": "Çocukluk çağında <b>Raynaud fenomeni</b> aşağıdaki hastalıkların hangisinde <mark class=\"cue\">en az oranda görülür</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Juvenil dermatomiyozit"
+   },
+   {
+    "k": "B",
+    "t": "Mikst bağ dokusu hastalığı"
+   },
+   {
+    "k": "C",
+    "t": "Juvenil sistemik skleroz"
+   },
+   {
+    "k": "D",
+    "t": "Sistemik lupus eritematozus"
+   },
+   {
+    "k": "E",
+    "t": "Entezit ilişkili artrit"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Raynaud bağ dokusu hastalıklarında görülür; spondiloartropati değil.",
+  "tuzak": "Juvenil dermatomiyozit, MBDH, sistemik skleroz ve SLE'de Raynaud görülür. <b>Entezit ilişkili artrit</b> (spondiloartropati) Raynaud yapmaz.",
+  "aciklama": "<b>Raynaud fenomeni</b> (soğuk/stres → parmakta solukluk→morarma→eritem) sistemik skleroz (en sık başlangıç bulgusu), SLE, juvenil dermatomiyozit, MBDH, Sjögren'de görülür. <b>Entezit ilişkili artrit</b>-te (spondiloartropati) beklenmez.",
+  "cue": "🎯 Skleroderma/MBDH/JDM/SLE Raynaud yapar; biri (entezit-artrit) en az."
+ },
+ {
+  "yil": [
+   "Sonbahar 2022 Orijinal"
+  ],
+  "soru": "12 yaşında kız hasta ellerinde soğukta morarma-solukluk ile geliyor. FM'de <b>parmak uçlarında nekroz, ciltte sertleşme</b>; interstisyel akciğer hastalığı (sistemik skleroderma).<br><br>Bu hastada hastalık seyrini öngörmede aşağıdaki otoantikorlardan hangisinin değerlendirilmesine <mark class=\"cue\">gerek yoktur</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Antisentromer antikoru"
+   },
+   {
+    "k": "B",
+    "t": "Anti-PM/Scl antikoru"
+   },
+   {
+    "k": "C",
+    "t": "Anti-Smith antikoru"
+   },
+   {
+    "k": "D",
+    "t": "Anti Scl-70 antikoru"
+   },
+   {
+    "k": "E",
+    "t": "Antifibrillarin antikoru"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "SLE'ye en spesifik antikor sklerodermada işe yaramaz.",
+  "tuzak": "Antisentromer, anti-PM/Scl, anti-Scl-70 ve antifibrillarin skleroderma kriterlerindedir. <b>Anti-Smith SLE'ye spesifiktir</b> → sklerodermada değerlendirilmesi gereksiz.",
+  "aciklama": "Juvenil sistemik sklerodermada otoantikorlar: anti-sentromer, anti-Scl-70 (topoizomeraz I), anti-fibrillarin, anti-PM/Scl, anti-RNA polimeraz. <b>Anti-Smith SLE'ye en spesifik antikordur</b> (anti-dsDNA ile birlikte); sklerodermada seyir öngörmede yeri yoktur.",
+  "cue": "🎯 Diffüz cilt sertliği + ILD + dijital nekroz → topoizomeraz antikoru.",
+  "ddx": {
+   "baslik": "Skleroderma Antikorları",
+   "ok": "Diffüz+ILD → Scl-70; sınırlı/CREST → antisentromer.",
+   "satirlar": [
+    {
+     "emo": "🧬",
+     "ad": "Anti-Scl-70",
+     "bulgu": "Diffüz · ILD · dijital ülser",
+     "hit": true
+    },
+    {
+     "emo": "⭕",
+     "ad": "Antisentromer",
+     "bulgu": "Sınırlı (CREST)"
+    },
+    {
+     "emo": "🔀",
+     "ad": "Anti-PM/Scl",
+     "bulgu": "Overlap miyozit"
+    },
+    {
+     "emo": "🧪",
+     "ad": "Anti-Sm",
+     "bulgu": "SLE (skleroderma değil)"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 2023"
+  ],
+  "soru": "12 yaşında kız hasta nöbet ile geliyor. FM'de <mark class=\"cue\">alından saçlı deriye uzanan \"kılıç yarası\"na benzeyen cilt/cilt altı atrofi ve hiperpigmentasyon</mark>; beyin görüntülemesinde kalsifikasyonlar.<br><br>Bu hastada en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Sistemik lupus eritematozus"
+   },
+   {
+    "k": "B",
+    "t": "Multipl sklerozis"
+   },
+   {
+    "k": "C",
+    "t": "Lokalize skleroderma"
+   },
+   {
+    "k": "D",
+    "t": "Behçet hastalığı"
+   },
+   {
+    "k": "E",
+    "t": "Mikst bağ dokusu hastalığı"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Kılıç yarası (en coup de sabre) lezyonu.",
+  "tuzak": "Kılıç yarasına benzeyen alın-saçlı deri lezyonu = <b>en coup de sabre</b> → lineer lokalize skleroderma. SSS'ye ilerleyerek nöbet/kalsifikasyon yapar.",
+  "aciklama": "<b>Lokalize skleroderma (en coup de sabre)</b>: yüz/saçlı deriyi tutan kılıç yarası benzeri lineer lezyon; SSS'ye ilerleyerek nöbet, baş ağrısı, hemifasiyal atrofi, tek taraflı üveit yapabilir; beyinde kalsifikasyon. Çocukta lokalize skleroderma sistemikten daha yaygın (10/1).",
+  "cue": "🎯 Alında 'kılıç yarası' lineer atrofi = lokalize/lineer morfea."
+ },
+ {
+  "yil": [
+   "Sonbahar 2021 Orijinal"
+  ],
+  "soru": "Çocukluk çağında, <mark class=\"cue\">parmak uçlarından nekroz ile başlayan dijital ülser</mark> aşağıdaki hastalıkların hangisinde görülmesi <b>en olasıdır</b>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Progresif sistemik skleroz"
+   },
+   {
+    "k": "B",
+    "t": "Mevalonat kinaz eksikliği"
+   },
+   {
+    "k": "C",
+    "t": "TNF reseptörü ile ilişkili sendrom"
+   },
+   {
+    "k": "D",
+    "t": "Kriyoprinopatiler"
+   },
+   {
+    "k": "E",
+    "t": "Blau sendromu"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Raynaud + sklerodaktili + dijital ülser.",
+  "tuzak": "Otoinflamatuar sendromlar (mevalonat kinaz, TRAPS, kriyoprinopati) ateş atakları/döküntü yapar, dijital ülser değil. <b>Progresif sistemik skleroz</b> Raynaud → dijital ülser/nekroz yapar.",
+  "aciklama": "<b>Progresif sistemik skleroz</b>: Raynaud fenomeni ciddi ise parmak uçlarında nekroz ile başlayan <b>dijital ülser</b>; sklerodaktili, akroosteoliz. Pulmoner tutulum en sık iç organ tutulumu. Mevalonat kinaz eksikliği → hiperIgD sendromu; TRAPS → ateş atakları; kriyoprinopati → ürtiker benzeri; Blau → sarkoidoz benzeri (artrit+üveit+döküntü).",
+  "cue": "🎯 Parmak ucundan başlayan dijital ülser → sistemik skleroz vaskülopatisi."
+ },
+ {
+  "yil": [
+   "İlkbahar 2021 Orijinal"
+  ],
+  "soru": "11 yaşındaki kız hasta parmaklarında yaygın şişlik, sol diz ve ayak bileğinde ağrı ile geliyor. FM'de <mark class=\"cue\">daktilit, tırnaklarda distrofi ve noktalanma (pitting)</mark>, sol diz-ayak bileğinde artrit.<br><br>Bu hastada <b>aile öyküsünde</b> bulunması <mark class=\"cue\">en olası</mark> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Ailevi Akdeniz ateşi"
+   },
+   {
+    "k": "B",
+    "t": "Ankilozan spondilit"
+   },
+   {
+    "k": "C",
+    "t": "Psöriazis"
+   },
+   {
+    "k": "D",
+    "t": "Akut romatizmal ateş"
+   },
+   {
+    "k": "E",
+    "t": "Juvenil oligoartiküler idiyopatik artrit"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Daktilit + tırnak pitting = psöriatik artrit.",
+  "tuzak": "Daktilit + tırnak pitting/distrofi → psöriatik artrit. Tanı kriteri: 1. derece akrabada <b>psöriazis</b> öyküsü.",
+  "aciklama": "<b>Psöriatik artrit</b> tanı kriterleri: artrit + psöriazis VEYA artrit + [en az 2: <b>daktilit, tırnak pitting/onikolizis, 1. derece akrabada psöriazis</b>]. En sık patern asimetrik oligoartrit. Aile öyküsünde <b>psöriazis</b> beklenir.",
+  "cue": "🎯 Tırnak noktalanması (pitting) + daktilit = psöriatik."
+ },
+ {
+  "yil": [
+   "İlkbahar 1993"
+  ],
+  "soru": "12 yaşındaki çocuğun FM'de <mark class=\"cue\">üretrit, artrit ve konjonktivit</mark> saptanıyor.<br><br>Bu hastada en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Reiter sendromu (reaktif artrit)"
+   },
+   {
+    "k": "B",
+    "t": "Juvenil romatoid artrit"
+   },
+   {
+    "k": "C",
+    "t": "Sistemik lupus eritematozus"
+   },
+   {
+    "k": "D",
+    "t": "Lyme hastalığı"
+   },
+   {
+    "k": "E",
+    "t": "Juvenil polimiyozitis"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Üretrit + artrit + konjonktivit triadı.",
+  "tuzak": "Bu triad (üretrit + artrit + göz inflamasyonu) klasik <b>reaktif artrit (Reiter)</b>-tir. Lyme → eritema migrans; SLE → malar raş.",
+  "aciklama": "<b>Reaktif artrit (Reiter)</b>: üretrit + artrit + oküler inflamasyon (üveit/konjonktivit) triadı. HLA-B27 pozitif; çocukta Shigella/Yersinia/Campylobacter/Chlamydia sonrası. Pauciartiküler, büyük eklem, aşil tendiniti; tedavi NSAİİ.",
+  "cue": "🎯 'Göremem-işeyemem-dizime çıkamam': üretrit+artrit+konjonktivit.",
+  "ddx": {
+   "baslik": "Reaktif Artrit (Reiter)",
+   "ok": "Üretrit + artrit + konjonktivit; enterik/genital enfeksiyon sonrası, HLA-B27.",
+   "satirlar": [
+    {
+     "emo": "🎯",
+     "ad": "Reaktif artrit",
+     "bulgu": "Üretrit+artrit+konjonktivit üçlüsü",
+     "hit": true
+    },
+    {
+     "emo": "🌡️",
+     "ad": "Sistemik JİA",
+     "bulgu": "Ateş/döküntü"
+    },
+    {
+     "emo": "🦋",
+     "ad": "SLE",
+     "bulgu": "Malar/ANA"
+    },
+    {
+     "emo": "🕷️",
+     "ad": "Lyme",
+     "bulgu": "Kene/eritema migrans"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 2002"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>sistemik lupus eritematozusta</b> tanı koydurucu kriterlerden biri <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Fotosensitivite"
+   },
+   {
+    "k": "B",
+    "t": "Perikardit"
+   },
+   {
+    "k": "C",
+    "t": "Nefrit"
+   },
+   {
+    "k": "D",
+    "t": "Miyokardit"
+   },
+   {
+    "k": "E",
+    "t": "Sitopeni"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Serozit (perikardit) kriter; kas tutulumu değil.",
+  "tuzak": "Fotosensitivite, serozit (perikardit), nefrit ve sitopeni SLE kriterleridir. <b>Miyokardit</b> tanı kriteri değildir (serozit = plörezi/perikardit).",
+  "aciklama": "SLE kriterleri: malar raş, fotosensitivite, diskoid döküntü, oral ülser, artrit, serozit (plörezi/perikardit), renal, nörolojik, hematolojik (sitopeni), immünolojik (anti-DNA/anti-Sm), ANA. <b>Miyokardit kriter değildir.</b> Ölüm nedeni sıklıkla nefrit, SSS, MI.",
+  "cue": "🎯 Perikardit(serözit)/nefrit/sitopeni/fotosensitivite kriter; biri değil.",
+  "ddx": {
+   "baslik": "SLE Tanı Kriteri mi?",
+   "ok": "Serözit=perikardit kriterdir; miyokardit tanı kriteri değildir.",
+   "satirlar": [
+    {
+     "emo": "☀️",
+     "ad": "Fotosensitivite",
+     "bulgu": "Kriter"
+    },
+    {
+     "emo": "🫀",
+     "ad": "Perikardit (serözit)",
+     "bulgu": "Kriter"
+    },
+    {
+     "emo": "🫘",
+     "ad": "Nefrit",
+     "bulgu": "Kriter"
+    },
+    {
+     "emo": "🩸",
+     "ad": "Sitopeni",
+     "bulgu": "Kriter"
+    },
+    {
+     "emo": "🚫",
+     "ad": "Miyokardit",
+     "bulgu": "KRİTER DEĞİL",
+     "hit": true
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 2023"
+  ],
+  "soru": "Aşağıdaki <b>kompleman sistem komponentlerinden</b> hangisinin eksikliğinde <mark class=\"cue\">sistemik lupus eritematozus</mark> görülmesi en olasıdır?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "C4"
+   },
+   {
+    "k": "B",
+    "t": "Faktör B"
+   },
+   {
+    "k": "C",
+    "t": "Faktör D"
+   },
+   {
+    "k": "D",
+    "t": "Faktör H"
+   },
+   {
+    "k": "E",
+    "t": "C9"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Klasik yol erken komponenti eksikliği → SLE.",
+  "tuzak": "Faktör B/D/H (alternatif yol) ve C9 (MAC) eksikliği SLE ile ilişkili değildir. <b>C4 (erken klasik yol) eksikliği</b> → SLE riski.",
+  "aciklama": "<b>Erken klasik yol komponent eksiklikleri (C1q, C2, C4)</b> immün kompleks temizlenmesini bozar → SLE riski. Aktif SLE'de CH50, C3, C4 düşer. Faktör B/D/H (alternatif yol), C9 eksikliği SLE ile ilişkili değildir.",
+  "cue": "🎯 Erken klasik yol eksikliği (C1q/C4/C2) → SLE."
+ },
+ {
+  "yil": [
+   "İlkbahar 2022 Orijinal"
+  ],
+  "soru": "13 yaşında kız hasta yanaklarında döküntü, ağız içi yaralar, sağ diz ve el eklemlerinde şişlik ile geliyor. FM'de KB 140/90, oral ülser, <b>malar döküntü</b>, artrit; laboratuvarda anemi, trombositopeni, yüksek ESR, normal CRP.<br><br>Bu hastada tanı koymak için aşağıdaki testlerden hangisinin istenmesi <mark class=\"cue\">öncelikli değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Antinükleer antikor düzeyi"
+   },
+   {
+    "k": "B",
+    "t": "Anti-dsDNA düzeyi"
+   },
+   {
+    "k": "C",
+    "t": "İmmünoglobulinlerin düzeyi"
+   },
+   {
+    "k": "D",
+    "t": "C3 ve C4 düzeyi"
+   },
+   {
+    "k": "E",
+    "t": "Direkt Coombs testi"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "İmmünoglobulin düzeyi SLE tanı kriteri mi?",
+  "tuzak": "ANA, anti-dsDNA, C3/C4 ve direkt Coombs SLE laboratuvar kriterleridir. <b>İmmünoglobulin düzeyi</b> (hipergamaglobulinemi görülse de) tanı kriteri değildir → öncelikli değil.",
+  "aciklama": "SLE laboratuvar kriterleri: ANA, anti-dsDNA/anti-Smith, kompleman (C3/C4/CH50) düşüklüğü, direkt Coombs pozitifliği, antifosfolipid antikorlar. <b>İmmünoglobulin düzeyi artışı SLE'de görülse de tanı kriteri değildir.</b>",
+  "cue": "🎯 Aktivite/nefrit takibi için hangi düzey düşer?"
+ },
+ {
+  "yil": [
+   "İlkbahar 2015 Orijinal"
+  ],
+  "soru": "11 yaşında kız hasta iştahsızlık, halsizlik, <mark class=\"cue\">saç dökülmesi</mark>, ağız içi yaralar ve idrar renginde koyulaşma ile geliyor. FM'de sert damakta ağrısız ülserler.<br><br>SLE ön tanısı düşünülen bu hastada <b>ANA pozitifliğine ek olarak kesin tanı</b> için aşağıdaki incelemelerden hangisi gereklidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Yüksek sedimentasyon, anti-Smith antikorları"
+   },
+   {
+    "k": "B",
+    "t": "İdrar bulguları (hematüri, silendirüri), RF pozitifliği"
+   },
+   {
+    "k": "C",
+    "t": "Yüksek CRP, idrar bulguları (hematüri, silendirüri)"
+   },
+   {
+    "k": "D",
+    "t": "Lupus antikoagülan pozitifliği, hiperimmünoglobulinemi"
+   },
+   {
+    "k": "E",
+    "t": "Lupus antikoagülan pozitifliği, idrar bulguları (hematüri, silendirüri)"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "4 kriter gerekir: mevcut (oral ülser, alopesi, ANA) + 2 daha.",
+  "tuzak": "RF, sedim, CRP, hipergamaglobulinemi SLE kriteri DEĞİLDİR. Kesin tanı için (4 kriter) → <b>lupus antikoagülan + idrar bulguları (renal kriter)</b> eklenmeli.",
+  "aciklama": "SLE tanısı için 4 kriter (en az 1 klinik + 1 laboratuvar) gerekir. Vakada oral ülser + alopesi + ANA mevcut → 2 kriter daha gerek: <b>lupus antikoagülan (immünolojik) + idrar bulguları (renal)</b>. RF/sedim/CRP/hipergamaglobulinemi kriter değildir.",
+  "cue": "🎯 Damak ülseri + koyu idrar + saç dökülmesi → lupus nefriti bulguları."
+ },
+ {
+  "yil": [
+   "İlkbahar 2017 Orijinal"
+  ],
+  "soru": "Kalp hızının yavaşlaması nedeniyle 35. gebelik haftasında doğurtulan yenidoğanda kalp hızı 58/dk. Özellikle yüzde belirgin <mark class=\"cue\">anüler eritematöz lezyonlar</mark>; EKG'de <b>atriyoventriküler tam blok</b>.<br><br>Bu bebekte AV tam bloğa yol açan en olası maternal antikor aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "ANA"
+   },
+   {
+    "k": "B",
+    "t": "Anti-dsDNA"
+   },
+   {
+    "k": "C",
+    "t": "Anti-Ro"
+   },
+   {
+    "k": "D",
+    "t": "Anti-Sm"
+   },
+   {
+    "k": "E",
+    "t": "Anti-fosfolipid antikor"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Neonatal lupus → konjenital AV tam blok.",
+  "tuzak": "AV tam blok + yüzde anüler eritem = neonatal lupus. Sorumlu maternal antikor <b>anti-Ro (SSA)</b> (ve anti-La).",
+  "aciklama": "<b>Neonatal lupus sendromu</b>: intrauterin <b>anti-Ro (SSA, en spesifik)</b>, anti-La (SSB), anti-RNP antikorlarının 12-16. haftada fetusa geçmesiyle. En sık bulgu kutanöz eritema annulare (UV sonrası); en önemli morbidite/mortalite <b>konjenital AV tam blok</b> (kalıcı olabilir, pacemaker). Ayrıca trombositopeni, nötropeni, hepatit.",
+  "cue": "🎯 Fetal bradikardi + anüler eritem = neonatal lupus → anne antikoru.",
+  "ddx": {
+   "baslik": "Neonatal Lupus",
+   "ok": "Konjenital kalp bloğu + anüler eritem = anne anti-Ro/SSA (± anti-La).",
+   "satirlar": [
+    {
+     "emo": "💓",
+     "ad": "Anti-Ro/SSA",
+     "bulgu": "Konjenital tam kalp bloğu",
+     "hit": true
+    },
+    {
+     "emo": "🩹",
+     "ad": "Anüler eritem",
+     "bulgu": "Geçici cilt"
+    },
+    {
+     "emo": "🩸",
+     "ad": "Anti-La/SSB",
+     "bulgu": "Eşlik edebilir"
+    },
+    {
+     "emo": "🧪",
+     "ad": "Anti-dsDNA",
+     "bulgu": "Aktif lupus (annede)"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 2025"
+  ],
+  "soru": "Çocuklarda aşağıdakilerden hangisinin sistemik lupus eritematozusun <mark class=\"cue\">ilaç ilişkili</mark> olduğunu desteklemesi <b>en olasıdır</b>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Antihiston antikor varlığı"
+   },
+   {
+    "k": "B",
+    "t": "C-reaktif protein yüksekliği"
+   },
+   {
+    "k": "C",
+    "t": "Eritrosit sedimentasyon hızının aşırı yüksekliği"
+   },
+   {
+    "k": "D",
+    "t": "Kompleman-3 düzeyinin yüksekliği"
+   },
+   {
+    "k": "E",
+    "t": "Kompleman-2 düzeyinin yüksekliği"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "İlaca bağlı lupusun karakteristik antikoru.",
+  "tuzak": "İlaca bağlı lupusun karakteristik antikoru <b>anti-histon antikordur</b>. CRP/ESR/kompleman değerleri bu ayrımı yapmaz.",
+  "aciklama": "<b>İlaca bağlı lupus</b> ile ilişkili karakteristik antikor <b>anti-histon antikordur</b>. (Anti-dsDNA/anti-Sm → idiyopatik SLE'ye spesifik; anti-Ro/La → neonatal lupus/Sjögren; anti-Scl70 → skleroderma; anti-Jo1 → dermatomiyozit.)",
+  "cue": "🎯 İlaç ilişkili lupusun imzası: anti-histon."
+ },
+ {
+  "yil": [
+   "İlkbahar 2006"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>sistemik lupus eritematozusun hematolojik bulgularından</b> biri <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kronik hastalık anemisi"
+   },
+   {
+    "k": "B",
+    "t": "Lökositoz"
+   },
+   {
+    "k": "C",
+    "t": "Trombositopeni"
+   },
+   {
+    "k": "D",
+    "t": "Dolaşan antikoagülanlara bağlı PTT uzaması"
+   },
+   {
+    "k": "E",
+    "t": "Coombs pozitif hemolitik anemi"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "SLE'de pansitopeni beklenir.",
+  "tuzak": "SLE'de anemi, lökopeni, trombositopeni (pansitopeni) olur. <b>Lökositoz</b> SLE hematolojik bulgusu değildir (lökopeni olur).",
+  "aciklama": "SLE hematolojik bulguları: Coombs pozitif hemolitik anemi, kronik hastalık anemisi, <b>lökopeni/lenfopeni</b>, trombositopeni, antifosfolipid antikora bağlı PTT uzaması. <b>Lökositoz beklenmez</b> (lökopeni olur).",
+  "cue": "🎯 SLE'de lökoPENİ olur; biri (lökositoz) hematolojik bulgu değil.",
+  "ddx": {
+   "baslik": "SLE Hematolojik Bulgu",
+   "ok": "Lökopeni/trombositopeni/hemolitik anemi olur; lökositoz DEĞİL.",
+   "satirlar": [
+    {
+     "emo": "🩸",
+     "ad": "Kronik hastalık anemisi",
+     "bulgu": "Var"
+    },
+    {
+     "emo": "💜",
+     "ad": "Trombositopeni",
+     "bulgu": "Var"
+    },
+    {
+     "emo": "🔴",
+     "ad": "Coombs+ hemolitik anemi",
+     "bulgu": "Var"
+    },
+    {
+     "emo": "🚫",
+     "ad": "Lökositoz",
+     "bulgu": "BEKLENMEZ (lökopeni olur)",
+     "hit": true
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "İlkbahar 2018"
+  ],
+  "soru": "14 yaşında kız çocuk ani depresif durum, yazı yazmada bozulma, halsizlik ile geliyor. FM'de <b>alopesi, makülopapüler döküntü</b>; laboratuvarda <mark class=\"cue\">nefrotik düzeyde proteinüri</mark>.<br><br>Bu hastada (SLE ön tanı) tanı koymada <mark class=\"cue\">en az yardımcı</mark> aşağıdaki testlerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "ANA ve anti-dsDNA düzeyi"
+   },
+   {
+    "k": "B",
+    "t": "Kompleman düzeyleri"
+   },
+   {
+    "k": "C",
+    "t": "Romatoid faktör düzeyi"
+   },
+   {
+    "k": "D",
+    "t": "Antikardiyolipin antikor düzeyi"
+   },
+   {
+    "k": "E",
+    "t": "Lupus antikoagülanı"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "SLE tanısında yeri olmayan test.",
+  "tuzak": "ANA/anti-dsDNA, kompleman, antikardiyolipin ve lupus antikoagülan SLE laboratuvar tetkikleridir. <b>Romatoid faktör</b> SLE tanısında yeri yoktur (poliartiküler JİA'da).",
+  "aciklama": "SLE tanısında ANA, anti-dsDNA/anti-Sm, antifosfolipid antikorlar (antikardiyolipin, lupus antikoagülan), direkt Coombs, kompleman (C3/C4) kullanılır. <b>Romatoid faktör SLE tanısında yeri yoktur</b> (poliartiküler JİA'da saptanır).",
+  "cue": "🎯 Lupus için ANA/dsDNA/kompleman/APL; biri (RF) ilgisiz."
+ },
+ {
+  "yil": [
+   "Sonbahar 2008"
+  ],
+  "soru": "Aşağıdakilerin hangisinde bir hastalık, eşlik ettiği klinik bulguyla birlikte <mark class=\"cue\">yanlış verilmiştir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Sistemik lupus eritematozus — Malar döküntü"
+   },
+   {
+    "k": "B",
+    "t": "Henoch-Schönlein sendromu — Palpabl purpura"
+   },
+   {
+    "k": "C",
+    "t": "Kawasaki hastalığı — Koroner arter anevrizması"
+   },
+   {
+    "k": "D",
+    "t": "Ailevi Akdeniz ateşi — Peritonit"
+   },
+   {
+    "k": "E",
+    "t": "Sjögren sendromu — Heliotropik raş"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Heliotropik raş hangi hastalığın bulgusu?",
+  "tuzak": "SLE-malar, HSP-palpabl purpura, Kawasaki-koroner anevrizma, FMF-peritonit doğru. <b>Heliotropik raş Sjögren'in değil, juvenil dermatomiyozitin bulgusudur</b>.",
+  "aciklama": "<b>Heliotropik raş juvenil dermatomiyozitin karakteristik cilt bulgusudur</b> (göz kapaklarında mavi-mor), Sjögren'in değil. Diğer eşleştirmeler doğrudur.",
+  "cue": "🎯 Heliotrop döküntü dermatomiyozitin; hangi eşleşme yanlış?"
+ },
+ {
+  "yil": [
+   "İlkbahar 2012"
+  ],
+  "soru": "<b>Sistemik lupus eritematozusta</b> görülen <b>nefrit</b> ile ilgili aşağıdaki ifadelerden hangisi <mark class=\"cue\">yanlıştır</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "İmmün kompleks nefritidir"
+   },
+   {
+    "k": "B",
+    "t": "Kompleman düzeyleri genellikle normaldir"
+   },
+   {
+    "k": "C",
+    "t": "ANA pozitifliği vardır"
+   },
+   {
+    "k": "D",
+    "t": "İmmünosupresif tedavi verilir"
+   },
+   {
+    "k": "E",
+    "t": "Lupus hastasının ilk başvurusu böbrek hastalığı ile olabilir"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Lupus nefritinde komplemanlar düşer mi?",
+  "tuzak": "A, C, D, E doğru. Lupus nefriti hipokomplementemiktir → <b>kompleman düzeyleri genellikle DÜŞÜKTÜR</b> (normal değil) → B yanlış.",
+  "aciklama": "<b>Lupus nefriti</b>: immün kompleks nefriti, ANA pozitif, immünosupresif tedavi, ilk başvuru böbrek olabilir. <b>Kompleman (C3/C4) düşüktür</b> (hipokomplementemik nefrit); 2015 kriterlerine de dahil edildi. B ifadesi yanlış.",
+  "cue": "🎯 Lupus nefritinde kompleman DÜŞER; 'normal' ifadesi yanlış."
+ },
+ {
+  "yil": [
+   "Sonbahar 1994"
+  ],
+  "soru": "8 yaşında kız çocukta <mark class=\"cue\">göz kapaklarında kızarıklık (heliotrop)</mark>, proksimal kaslarda güçsüzlük; laboratuvarda ALT, AST ve <b>kreatin kinaz yüksek</b>.<br><br>Bu hastada en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Sistemik lupus eritematozus"
+   },
+   {
+    "k": "B",
+    "t": "Juvenil dermatomiyozit"
+   },
+   {
+    "k": "C",
+    "t": "Guillain-Barré sendromu"
+   },
+   {
+    "k": "D",
+    "t": "Poliomiyelit"
+   },
+   {
+    "k": "E",
+    "t": "Skleroderma"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Heliotrop + proksimal kas güçsüzlüğü + CK yüksek.",
+  "tuzak": "GBS/polio kas enzimi yükseltmez (nörojen). Heliotrop döküntü + proksimal kas güçsüzlüğü + CK yüksek = <b>juvenil dermatomiyozit</b>.",
+  "aciklama": "<b>Juvenil dermatomiyozit</b>: çocukta en sık inflamatuar miyopati; <b>heliotropik döküntü</b> (göz kapağı mavi-mor) + <b>Gottron papülleri</b> + simetrik proksimal kas güçsüzlüğü (Gowers) + kas enzimleri (CK, LDH, AST, aldolaz) yüksek. Şal/atkı tarzı döküntü, tırnak dibi telenjiektazi.",
+  "cue": "🎯 Göz kapağı heliotropu + proksimal güçsüzlük + kas enzimi (CK↑).",
+  "ddx": {
+   "baslik": "Juvenil Dermatomiyozit",
+   "ok": "Heliotrop + Gottron + proksimal güçsüzlük + kas enzimi (CK/AST/ALT)↑.",
+   "satirlar": [
+    {
+     "emo": "🟣",
+     "ad": "Heliotrop döküntü",
+     "bulgu": "Göz kapağı",
+     "hit": true
+    },
+    {
+     "emo": "✋",
+     "ad": "Gottron papülleri",
+     "bulgu": "Eklem sırtı"
+    },
+    {
+     "emo": "💪",
+     "ad": "Proksimal güçsüzlük",
+     "bulgu": "Gowers +"
+    },
+    {
+     "emo": "🧪",
+     "ad": "CK/aldolaz↑",
+     "bulgu": "Kas enzimleri"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 2019 Orijinal"
+  ],
+  "soru": "7 yaşında kız hasta 4 aydır halsizlik, merdiven çıkarken çabuk yorulma, göz kapaklarında kızarıklık ile geliyor. FM'de periorbital ve filtrum üzerinde kızarıklık, <b>PİF eklemler ve dirseklerde kabarık döküntüler (Gottron)</b>, proksimal kas gücü 4/5; CK-LDH hafif yüksek, ANA 1/320 pozitif.<br><br>Bu hastada en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Sistemik başlangıçlı juvenil idiyopatik artrit"
+   },
+   {
+    "k": "B",
+    "t": "Henoch-Schönlein vasküliti"
+   },
+   {
+    "k": "C",
+    "t": "Granülomatöz polianjiit"
+   },
+   {
+    "k": "D",
+    "t": "Viral miyozit"
+   },
+   {
+    "k": "E",
+    "t": "Juvenil dermatomiyozit"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Gottron + periorbital döküntü + proksimal güçsüzlük + CK yüksek.",
+  "tuzak": "Viral miyozitte lökositoz/yüksek sedim ve akut seyir olur. Gottron + heliotrop + kronik proksimal güçsüzlük + CK yüksek + ANA(+) = <b>juvenil dermatomiyozit</b>.",
+  "aciklama": "<b>Juvenil dermatomiyozit</b>: Gottron papülleri (PİF/dirsek), heliotrop döküntü, simetrik proksimal kas güçsüzlüğü, kas enzimleri yüksek, ANA >%80 pozitif (diğer antikorlar negatif), sedim normal. Viral miyozitten normal sedim + lökositoz olmaması ile ayrılır.",
+  "cue": "🎯 Periorbital/filtrum döküntü + proksimal kas → dermatomiyozit."
+ },
+ {
+  "yil": [
+   "İlkbahar 2013"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>juvenil dermatomiyozit</b> ile <mark class=\"cue\">ilişkili değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Eritema marginatum"
+   },
+   {
+    "k": "B",
+    "t": "Kalsinozis"
+   },
+   {
+    "k": "C",
+    "t": "Gowers belirtisi"
+   },
+   {
+    "k": "D",
+    "t": "Vaskülit"
+   },
+   {
+    "k": "E",
+    "t": "Lipodistrofi"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Akut romatizmal ateş bulgusu hangisi?",
+  "tuzak": "Kalsinozis, Gowers, vaskülit ve lipodistrofi JDM ile ilişkilidir. <b>Eritema marginatum akut romatizmal ateş kriteridir</b>, JDM'de görülmez.",
+  "aciklama": "Juvenil dermatomiyozit: heliotrop, Gottron, Gowers belirtisi, vaskülit (tırnak yatağı), geç dönemde kalsinozis ve lipodistrofi. <b>Eritema marginatum akut romatizmal ateş tanı kriteridir</b>, JDM ile ilişkili değildir.",
+  "cue": "🎯 Kalsinozis/Gowers/vaskülit JDM; eritema marginatum ARA (romatizmal ateş)."
+ },
+ {
+  "yil": [
+   "İlkbahar 1997"
+  ],
+  "soru": "Çocukluk çağındaki <b>sarkoidozda</b> en sık tutulan organ aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Karaciğer"
+   },
+   {
+    "k": "B",
+    "t": "Eklem"
+   },
+   {
+    "k": "C",
+    "t": "Göz"
+   },
+   {
+    "k": "D",
+    "t": "Deri"
+   },
+   {
+    "k": "E",
+    "t": "Akciğer"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Nonkazeifiye granülom + hiler LAP.",
+  "tuzak": "Göz, deri, eklem tutulumu olur ama en sık tutulan <b>akciğerdir</b> (hastaların tamamına yakınında).",
+  "aciklama": "<b>Sarkoidoz</b>: nonkazeifiye granülomlarla karakterize; <b>akciğerler en sık tutulan organdır</b> (hemen hepsinde). Bilateral hiler LAP en sık bulgu. 4 yaş altı erken form: döküntü + üveit + poliartrit triadı (Blau sendromuna benzer).",
+  "cue": "🎯 Sarkoidozun bir numaralı tutulumu (hiler/akciğer)."
+ },
+ {
+  "yil": [
+   "Sonbahar 2023"
+  ],
+  "soru": "13 yaşında erkek çocuk 1 aydır aralıklı ateş, iştahsızlık, kabızlık ve eklem ağrıları ile geliyor. <b>Kalsiyum 14 mg/dL (yüksek), fosfor 6,7, PTH <5 (düşük), 25-OH-D normal, idrar kalsiyum/kreatinin yüksek</b>; akciğer grafisinde <mark class=\"cue\">bilateral hiler lenfadenopati</mark>.<br><br>Bu hastada kalsiyum yüksekliğinin en olası nedeni aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Primer hiperparatiroidi"
+   },
+   {
+    "k": "B",
+    "t": "Hipokalsiürik hiperkalsemi"
+   },
+   {
+    "k": "C",
+    "t": "D vitamini intoksikasyonu"
+   },
+   {
+    "k": "D",
+    "t": "McCune-Albright sendromu"
+   },
+   {
+    "k": "E",
+    "t": "Sarkoidoz"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Hiperkalsemi + PTH baskılı + bilateral hiler LAP.",
+  "tuzak": "Primer hiperparatiroidide PTH yüksek; hipokalsiürik hiperkalsemide idrar Ca düşük; D vit intoksikasyonunda D vit çok yüksek. PTH baskılı hiperkalsemi + hiler LAP = <b>sarkoidoz</b>.",
+  "aciklama": "<b>Sarkoidoz</b>: granülomlardaki makrofajlar aktif D vitamini sentezini artırır → bağırsaktan kalsiyum emilimi artar → hiperkalsemi + <b>PTH baskılanır</b> + idrar kalsiyum atılımı artar. Bilateral hiler LAP tipik. ACE düzeyi yükselebilir (spesifik değil).",
+  "cue": "🎯 Granülomlar 1,25-D yapar → hiperkalsemi + akciğer."
+ },
+ {
+  "yil": [
+   "İlkbahar 1993"
+  ],
+  "soru": "Aşağıdaki hastalıklardan hangisinde <b>vaskülit görülmesi beklenmez</b>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Henoch-Schönlein purpurası"
+   },
+   {
+    "k": "B",
+    "t": "Poliarteritis nodosa"
+   },
+   {
+    "k": "C",
+    "t": "Tüberoskleroz"
+   },
+   {
+    "k": "D",
+    "t": "Wegener granülomatozisi"
+   },
+   {
+    "k": "E",
+    "t": "Takayasu hastalığı"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Nörokutanöz hastalık, vaskülit değil.",
+  "tuzak": "HSP, PAN, Wegener ve Takayasu vaskülittir. <b>Tüberoskleroz</b> nörokutanöz hastalık grubundadır, vaskülit değildir.",
+  "aciklama": "<b>Tüberoskleroz</b> nörokutanöz (fakomatoz) hastalıktır, vaskülit değildir. HSP (küçük damar), PAN (orta damar), Wegener (küçük damar granülomatöz), Takayasu (büyük damar) vaskülitlerdir.",
+  "cue": "🎯 HSP/PAN/Wegener/Takayasu vaskülit; biri nörokütanöz (vaskülit değil)."
+ },
+ {
+  "yil": [
+   "Sonbahar 2022 Orijinal"
+  ],
+  "soru": "Aşağıdaki vaskülitlerden hangisi genellikle <mark class=\"cue\">orta çaplı damarları</mark> etkiler?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Poliarteritis nodosa"
+   },
+   {
+    "k": "B",
+    "t": "Henoch-Schönlein purpurası"
+   },
+   {
+    "k": "C",
+    "t": "Granülomatöz polianjiitis"
+   },
+   {
+    "k": "D",
+    "t": "Takayasu arteriti"
+   },
+   {
+    "k": "E",
+    "t": "Hipokomplemantemik ürtikeryal vaskülit"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Damar çapı sınıflaması.",
+  "tuzak": "HSP/granülomatöz polianjit/ürtikeryal vaskülit → küçük damar; Takayasu → büyük damar. <b>Poliarteritis nodosa</b> → orta damar.",
+  "aciklama": "Vaskülit sınıflaması (damar çapı): <b>Büyük</b> = Takayasu; <b>Orta</b> = <b>poliarteritis nodosa</b>, kutanöz PAN, Kawasaki; <b>Küçük</b> = granülomatöz polianjit (Wegener), Churg-Strauss, mikroskopik polianjit, HSP, ürtikeryal vaskülit.",
+  "cue": "🎯 Orta çap = PAN; HSP küçük, Takayasu büyük damar.",
+  "ddx": {
+   "baslik": "Vaskülit Damar Çapı",
+   "ok": "Küçük: HSP/ANCA. Orta: PAN/Kawasaki. Büyük: Takayasu.",
+   "satirlar": [
+    {
+     "emo": "🔴",
+     "ad": "PAN",
+     "bulgu": "ORTA çap",
+     "hit": true
+    },
+    {
+     "emo": "🟣",
+     "ad": "HSP",
+     "bulgu": "Küçük damar (IgA)"
+    },
+    {
+     "emo": "🫁",
+     "ad": "Wegener/MPA",
+     "bulgu": "Küçük (ANCA)"
+    },
+    {
+     "emo": "🩸",
+     "ad": "Takayasu",
+     "bulgu": "Büyük damar (aort)"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "İlkbahar 2017 Orijinal"
+  ],
+  "soru": "<b>Henoch-Schönlein purpurası</b> tanısı koyabilmek için aşağıdakilerden hangisinin bulunması <mark class=\"cue\">şarttır</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Cilt veya böbrek biyopsisinde IgA depolanması"
+   },
+   {
+    "k": "B",
+    "t": "Artrit veya artralji"
+   },
+   {
+    "k": "C",
+    "t": "Böbrek tutulumu"
+   },
+   {
+    "k": "D",
+    "t": "Nörolojik tutulum"
+   },
+   {
+    "k": "E",
+    "t": "Non-trombositopenik palpabl purpura"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "HSP'nin olmazsa olmaz bulgusu.",
+  "tuzak": "Artrit, böbrek, nörolojik tutulum ve IgA (destekleyici) değişken bulgulardır. Şart olan (olmazsa olmaz) <b>non-trombositopenik palpabl purpuradır</b>.",
+  "aciklama": "<b>HSP'nin olmazsa olmaz bulgusu non-trombositopenik palpabl purpuradır</b> (trombositopeniye bağlı değil, vaskülite bağlı). En sık klinik bulgu deri tutulumu; en sık iç organ GİS, en ciddi böbrek tutulumu.",
+  "cue": "🎯 HSP için ZORUNLU: trombosit normal + palpabl purpura."
+ },
+ {
+  "yil": [
+   "İlkbahar 2015 Orijinal"
+  ],
+  "soru": "2 yaşında erkek hasta yüksek ateş, <b>bacaklarda belirgin döküntü</b>, aralıklı kolik tarzında karın ağrısı ile geliyor. FM'de koyu renkli, değişik boyutlarda <mark class=\"cue\">palpabl döküntüler</mark>; idrarda bol eritrosit ve hafif proteinüri.<br><br>Bu hastada en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "İdiyopatik trombositopenik purpura"
+   },
+   {
+    "k": "B",
+    "t": "Sepsis"
+   },
+   {
+    "k": "C",
+    "t": "Kawasaki hastalığı"
+   },
+   {
+    "k": "D",
+    "t": "Henoch-Schönlein purpurası"
+   },
+   {
+    "k": "E",
+    "t": "Poliarteritis nodosa"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Palpabl purpura + karın ağrısı + hematüri.",
+  "tuzak": "ITP'de böbrek/barsak tutulumu olmaz. Palpabl purpura (bacakta) + karın ağrısı + hematüri = <b>HSP</b>.",
+  "aciklama": "<b>Henoch-Schönlein purpurası</b>: çocukta en sık vaskülit; trombositopenik olmayan palpabl purpura (gluteal/ekstansör) + artrit/artralji + karın ağrısı/GİS kanama + glomerülonefrit (mikroskopik hematüri). ANA/ANCA/RF negatif; %40-50 IgA yüksek.",
+  "cue": "🎯 Palpabl purpura + kolik karın + artrit."
+ },
+ {
+  "yil": [
+   "İlkbahar 2024"
+  ],
+  "soru": "3 yaşında kız çocuk karın ağrısı ile geliyor. <mark class=\"cue\">10 gün önce burun akıntısı-öksürük</mark> öyküsü var. Genel durum iyi, ateşsiz; <b>kalça üzeri ve bacaklarda 3-5 mm çapında basmakla solmayan kabarık döküntüler</b>. Karın muayenesi normal; laboratuvarda trombosit 554.000, ESR 42, CRP normal-hafif yüksek.<br><br>Bu hasta için en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Akut apandisit"
+   },
+   {
+    "k": "B",
+    "t": "Meningokoksemi"
+   },
+   {
+    "k": "C",
+    "t": "Henoch-Schönlein purpurası"
+   },
+   {
+    "k": "D",
+    "t": "Ailevi Akdeniz ateşi"
+   },
+   {
+    "k": "E",
+    "t": "Hemolitik üremik sendrom"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "ÜSYE sonrası + palpabl purpura + normal trombosit.",
+  "tuzak": "Meningokoksemide genel durum kötü + hipotansiyon; HÜS'te trombositopeni. ÜSYE sonrası + gluteal/bacak palpabl purpura + normal/yüksek trombosit = <b>HSP</b>.",
+  "aciklama": "<b>HSP</b>: 3-10 yaş, kış-ilkbahar, viral ÜSYE sonrası; trombositopenik olmayan palpabl purpura (gluteal/ekstansör) + karın ağrısı; akut faz artışı, trombosit normal/yüksek. Meningokoksemi genel durum kötü; HÜS trombositopeni.",
+  "cue": "🎯 ÜSYE sonrası simetrik palpabl purpura + karın."
+ },
+ {
+  "yil": [
+   "Sonbahar 2020 Orijinal"
+  ],
+  "soru": "10 yaşında kız hasta 5 gün önce başlayan, deriden kabarık, basmakla solmayan deri lezyonları (palpabl purpura) ile geliyor.<br><br>Bu hastanın değerlendirilmesinde aşağıdaki incelemelerden hangisi <mark class=\"cue\">öncelikli değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kan basıncı ölçümü"
+   },
+   {
+    "k": "B",
+    "t": "Eklemlerin ayrıntılı muayenesi"
+   },
+   {
+    "k": "C",
+    "t": "Dışkıda gizli kan"
+   },
+   {
+    "k": "D",
+    "t": "Serum lipaz ve amilaz ölçümü"
+   },
+   {
+    "k": "E",
+    "t": "İdrarda protein ölçümü ve mikroskopi"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Pankreatit HSP'nin sık komplikasyonu mu?",
+  "tuzak": "KB (renal), eklem, dışkıda gizli kan (GİS) ve idrar (renal) HSP'de öncelikli. <b>Pankreatit HSP'de sık değil</b> → lipaz/amilaz öncelikli değil.",
+  "aciklama": "HSP değerlendirmesinde öncelikli: KB + idrar (renal), eklem muayenesi, dışkıda gizli kan (GİS). <b>Pankreatit HSP'de sık komplikasyon değildir</b> → serum lipaz/amilaz öncelikli değildir.",
+  "cue": "🎯 HSP'de böbrek tutulumunu ne ile tararsın?"
+ },
+ {
+  "yil": [
+   "İlkbahar 1989"
+  ],
+  "soru": "Karın ağrısı ile gelen çocukta alt ekstremitede <mark class=\"cue\">petesyal döküntü</mark> ve <b>trombosit sayımı normal</b>.<br><br>Bu hastada en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Akut eklem romatizması"
+   },
+   {
+    "k": "B",
+    "t": "Streptokok enfeksiyonu"
+   },
+   {
+    "k": "C",
+    "t": "Hemofili A"
+   },
+   {
+    "k": "D",
+    "t": "Hemofili B"
+   },
+   {
+    "k": "E",
+    "t": "Henoch-Schönlein purpurası"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Normal trombosit + purpura + karın ağrısı.",
+  "tuzak": "Hemofilide PTT uzar, eklem kanaması olur (purpura değil). Normal trombositle purpura + karın ağrısı = <b>HSP</b> (vaskülite bağlı).",
+  "aciklama": "<b>HSP</b>: deri, GİS ve böbreğin küçük damar vasküliti. Petesi/purpura trombosit sayı/fonksiyonundan değil, <b>vaskülite bağlıdır</b> (trombosit normal). Alt ekstremitede belirgin; 2/3'ünde poliartralji, yarısında karın ağrısı, %20-50 renal tutulum.",
+  "cue": "🎯 Trombosit NORMAL + purpura → HSP (koagülopati değil)."
+ },
+ {
+  "yil": [
+   "İlkbahar 1993"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>Henoch-Schönlein purpurasında</b> beklenen bulgular arasında <mark class=\"cue\">yer almaz</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Trombositopeni"
+   },
+   {
+    "k": "B",
+    "t": "IgA depolanması"
+   },
+   {
+    "k": "C",
+    "t": "Hematüri"
+   },
+   {
+    "k": "D",
+    "t": "Döküntü"
+   },
+   {
+    "k": "E",
+    "t": "Artrit"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "HSP purpurası trombositopeniye bağlı mı?",
+  "tuzak": "IgA depolanması, hematüri, döküntü ve artrit HSP bulgularıdır. <b>Trombositopeni beklenmez</b> (trombosit sayısı normal; purpura vaskülite bağlı).",
+  "aciklama": "HSP'de trombosit sayı/fonksiyonu normaldir; purpura vaskülite bağlıdır → <b>trombositopeni beklenmez</b>. Kan damarı/böbrek/barsak/deride IgA depozitleri, hematüri, döküntü, artrit görülür.",
+  "cue": "🎯 HSP trombosit NORMALdir; biri (trombositopeni) beklenmez.",
+  "ddx": {
+   "baslik": "HSP Bulguları",
+   "ok": "Palpabl purpura + artrit + karın ağrısı + nefrit; IgA; trombosit NORMAL.",
+   "satirlar": [
+    {
+     "emo": "🟣",
+     "ad": "Palpabl purpura",
+     "bulgu": "Alt ekstremite · IgA"
+    },
+    {
+     "emo": "🦵",
+     "ad": "Artrit/artralji",
+     "bulgu": "Var"
+    },
+    {
+     "emo": "🤕",
+     "ad": "Karın ağrısı",
+     "bulgu": "İnvajinasyon riski"
+    },
+    {
+     "emo": "🚫",
+     "ad": "Trombositopeni",
+     "bulgu": "BEKLENMEZ (trombosit normal)",
+     "hit": true
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 2015"
+  ],
+  "soru": "7 yaşındaki kız hastada bacak-kollarda deri döküntüleri, bacak ağrıları ve kolik tarzında karın ağrısı; FM'de kalça-kolların dış yüzünde <b>simetrik palpabl döküntüler</b>. HSP tanısı konan bu hasta için aşağıdakilerden hangisi <mark class=\"cue\">yanlıştır</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kolik tarzda abdominal ağrı görülür"
+   },
+   {
+    "k": "B",
+    "t": "Gastrointestinal kanama varsa anemi olabilir"
+   },
+   {
+    "k": "C",
+    "t": "Geçici K vitamini eksikliği olabilir"
+   },
+   {
+    "k": "D",
+    "t": "Trombosit sayısı düşüktür"
+   },
+   {
+    "k": "E",
+    "t": "Faktör XIII aktivitesinde geçici azalma olabilir"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "HSP'de trombosit sayısı normal.",
+  "tuzak": "A, B, C, E doğru. HSP'de <b>trombosit sayısı normaldir</b> (purpura vaskülite bağlı) → D yanlış.",
+  "aciklama": "HSP: <b>trombosit sayısı normaldir</b> (non-trombositopenik). Hedef organlarda kanama Faktör XIII azalmasına bağlıdır. GİS kanaması ile anemi, K vitamini eksikliği olabilir. Sedim/CRP yüksek, %40-50 IgA yüksek, ANA/RF negatif.",
+  "cue": "🎯 HSP'de trombosit NORMAL; 'düşüktür' ifadesi yanlış."
+ },
+ {
+  "yil": [
+   "İlkbahar 2002"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>Henoch-Schönlein purpurasının</b> bulgularından biri <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Artrit"
+   },
+   {
+    "k": "B",
+    "t": "Lökopeni"
+   },
+   {
+    "k": "C",
+    "t": "Döküntü"
+   },
+   {
+    "k": "D",
+    "t": "Karın ağrısı"
+   },
+   {
+    "k": "E",
+    "t": "Hematemez"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "HSP'de lökosit ne olur?",
+  "tuzak": "Artrit, döküntü, karın ağrısı ve hematemez HSP bulgularıdır. <b>Lökopeni HSP bulgusu değildir</b> (aksine lökositoz olabilir).",
+  "aciklama": "HSP küçük damar vasküliti: purpura, artrit, karın ağrısı, GİS kanama (hematemez/melena), renal tutulum. Laboratuvarda sedim artışı, <b>lökositoz</b>, eozinofili olabilir. <b>Lökopeni beklenmez.</b>",
+  "cue": "🎯 Artrit/döküntü/karın/kanama HSP; biri (lökopeni) değil."
+ },
+ {
+  "yil": [
+   "Sonbahar 2006"
+  ],
+  "soru": "Henoch-Schönlein purpurası olan bir hastada lezyonlu bölgeden alınan cilt ve böbrek biyopsisinde <b>immünofloresan incelemede</b> aşağıdakilerden hangisinin depolandığı gözlenir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "IgA"
+   },
+   {
+    "k": "B",
+    "t": "IgG"
+   },
+   {
+    "k": "C",
+    "t": "C4"
+   },
+   {
+    "k": "D",
+    "t": "C1q"
+   },
+   {
+    "k": "E",
+    "t": "IgD"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "HSP = lökositoklastik vaskülit, IgA aracılı.",
+  "tuzak": "HSP lökositoklastik vaskülittir; damar duvarında <b>IgA</b> depolanır (IgA vasküliti).",
+  "aciklama": "<b>HSP (IgA vasküliti)</b>: lökositoklastik vaskülit; purpurik cilt lezyonu biyopsisinde damar duvarında fibrinoid nekroz, lökoklazis ve <b>immünofloresanda IgA depolanması</b> görülür.",
+  "cue": "🎯 Damar duvarında birikim = IgA."
+ },
+ {
+  "yil": [
+   "İlkbahar 2021 Orijinal"
+  ],
+  "soru": "14 yaşındaki kız hasta yaklaşık 1 yıldır devam eden sırt ve baş ağrısı ile geliyor. FM'de <mark class=\"cue\">sağ üst ekstremitede nabız alınamıyor</mark> ve KB yüksek. Laboratuvarda ESR ve CRP yüksek.<br><br>Bu hastada en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Takayasu arteriti"
+   },
+   {
+    "k": "B",
+    "t": "Poliarteritis nodoza"
+   },
+   {
+    "k": "C",
+    "t": "Granülomatöz polianjiitis"
+   },
+   {
+    "k": "D",
+    "t": "Eozinofilik granülomatöz polianjiitis"
+   },
+   {
+    "k": "E",
+    "t": "Mikroskopik polianjiitis"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Nabızsızlık hastalığı + HT + baş ağrısı + kızda.",
+  "tuzak": "Nabız alınamaması (nabızsızlık hastalığı) + HT + ESR/CRP yüksek + genç kız = <b>Takayasu arteriti</b> (büyük damar, aort ve dalları).",
+  "aciklama": "<b>Takayasu arteriti (nabızsızlık hastalığı)</b>: aort ve dallarını tutan dev hücreli granülomatöz vaskülit; ortalama 13 yaş, kızlarda sık. Nonspesifik başlangıç + HT + baş ağrısı + nabız azalması + kol-bacak KB farkı >10 mmHg + üfürüm + ESR/CRP yüksek.",
+  "cue": "🎯 Nabızsızlık + HT + genç kız → büyük damar vasküliti."
+ },
+ {
+  "yil": [
+   "Sonbahar 2018"
+  ],
+  "soru": "4 yaşındaki kız çocuk süt çocukluğundan beri <mark class=\"cue\">yineleyen ateş ve döküntü</mark> ile geliyor. 6 ay önce <b>serebral enfarkt</b> geçirmiş; FM'de nörolojik bulgular + alt ekstremitede <mark class=\"cue\">yaygın livedoid deri lezyonları</mark>. <b>Hipogamaglobulinemi, lenfopeni, hepatosplenomegali</b>, CRP yüksek; trombofili testleri normal.<br><br>Bu hasta için en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Adenozin deaminaz-2 eksikliği"
+   },
+   {
+    "k": "B",
+    "t": "Ailesel Akdeniz ateşi"
+   },
+   {
+    "k": "C",
+    "t": "Otoimmün lenfoproliferatif sendrom"
+   },
+   {
+    "k": "D",
+    "t": "Henoch-Schönlein purpurası"
+   },
+   {
+    "k": "E",
+    "t": "Trombotik trombositopenik purpura"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Livedo retikülaris + tekrarlayan stroke + ateş + immün yetmezlik.",
+  "tuzak": "FMF'de stroke/livedo yok; ALPS'te hipergamaglobulinemi + stroke yok. Livedo retikülaris + tekrarlayan stroke + ateş + hipogamaglobulinemi = <b>ADA-2 eksikliği</b> (çocukluk PAN).",
+  "aciklama": "<b>Adenozin deaminaz-2 (ADA-2) eksikliği</b> (çocukluk PAN/Sneddon sendromu): OR geçişli ADA2 mutasyonu; damarlarda kontrolsüz inflamasyon. <b>Livedo retikülaris + tekrarlayan stroke + intermitan ateş + hepatosplenomegali + hipogamaglobulinemi + lenfopeni</b>. Cilt, GİS, böbrek, SSS tutulumu.",
+  "cue": "🎯 Erken inme + livedo + tekrarlayan ateş, süt çocuğu = DADA2."
+ },
+ {
+  "yil": [
+   "İlkbahar 2023"
+  ],
+  "soru": "13 aylık erkek çocuk 2 gündür ateş, huzursuzluk ve 1 gün önce başlayan el, ayak, kol-bacaklarda <mark class=\"cue\">ödemli görünümde, basmakla solmayan yaygın purpurik ve ekimotik döküntüler</mark> ile geliyor. Her iki yanakta <b>madalyon şeklinde ağrılı döküntüler</b>; akut faz yüksek. <b>Trombosit sayısı ve idrar normal</b>.<br><br>Bu hastada en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Majeed sendromu"
+   },
+   {
+    "k": "B",
+    "t": "Akut infantil hemorajik ödem"
+   },
+   {
+    "k": "C",
+    "t": "Sistemik lupus eritematozus"
+   },
+   {
+    "k": "D",
+    "t": "Kawasaki hastalığı"
+   },
+   {
+    "k": "E",
+    "t": "Çocuklarda çoklu sistemik inflamatuvar sendrom (MIS-C)"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "2 yaş altı erkek + ödem + ateş + madalyon/hedef purpura + deriye sınırlı.",
+  "tuzak": "Triad (ödem + ateş + purpurik lezyon) + <2 yaş + madalyon/hedef tarzı + deriye sınırlı + selim = <b>akut infantil hemorajik ödem</b> (lökositoklastik vaskülitin nadir alt tipi).",
+  "aciklama": "<b>Akut infantil hemorajik ödem</b>: lökositoklastik vaskülitin nadir alt tipi; <2 yaş erkek, selim, deriye sınırlı. Klinik triad: <b>ödem + ateş + purpurik deri lezyonları</b> (yüz/kalça/kulak/ekstremite; anüler/hedef/madalyon). 1-3 haftada kendiliğinden geriler.",
+  "cue": "🎯 <2 yaş + kokard/ödemli purpura + genel durum iyi = infantil hemorajik ödem."
+ },
+ {
+  "yil": [
+   "İlkbahar 2016 Orijinal"
+  ],
+  "soru": "18 aylık erkek bebek huzursuzluk, ateş, bulantı-kusma ile geliyor. <b>1 haftadır yüksek ateş</b>; FM'de makülopapüler döküntüler, oral mukozada kızarıklık ve konjonktivit; USG'de <mark class=\"cue\">safra kesesinde hidrops</mark>.<br><br>Bu hastada en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kawasaki hastalığı"
+   },
+   {
+    "k": "B",
+    "t": "Henoch-Schönlein purpurası"
+   },
+   {
+    "k": "C",
+    "t": "Akut hepatit A"
+   },
+   {
+    "k": "D",
+    "t": "Takayasu arteriti"
+   },
+   {
+    "k": "E",
+    "t": "Langerhans hücreli histiyositoz"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Uzamış ateş + konjonktivit + oral mukoza + döküntü + safra hidrops.",
+  "tuzak": "Uzamış ateş + konjonktivit + oral mukoza değişikliği + döküntü = Kawasaki. Safra kesesi hidropsu subakut dönem komplikasyonu (tuzak değil).",
+  "aciklama": "<b>Kawasaki hastalığı</b> (mukokutanöz lenf nodu sendromu, infantil PAN): koroner arterleri tutan vaskülit; HSP'den sonra çocukta 2. en sık vaskülit; <5 yaş, ortalama 3 yaş. Ateş ilk-en sık bulgu. <b>Safra kesesi hidropsu subakut dönem komplikasyonu</b>.",
+  "cue": "🎯 5+ gün ateş + mukokütanöz bulgular, süt çocuğu."
+ },
+ {
+  "yil": [
+   "Sonbahar 2020 Orijinal"
+  ],
+  "soru": "2,5 yaşında erkek çocuk 7 gündür ateş ve gözlerde kızarıklık ile geliyor. FM'de bilateral bulber konjonktivit, tek taraflı servikal LAP, el-ayaklarda ödem, <mark class=\"cue\">BCG skarında endürasyon artışı ve kızarıklık</mark>; albümin düşük, trombositoz, KC enzimleri artmış.<br><br>Bu hastadaki en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "BCG lenfadenit"
+   },
+   {
+    "k": "B",
+    "t": "Enfeksiyöz mononükleoz"
+   },
+   {
+    "k": "C",
+    "t": "Kawasaki hastalığı"
+   },
+   {
+    "k": "D",
+    "t": "Stafilokoksik soyulmuş deri sendromu"
+   },
+   {
+    "k": "E",
+    "t": "Bakteriyel servikal lenfadenit"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Uzamış ateş + konjonktivit + servikal LAP + BCG skarında reaksiyon.",
+  "tuzak": "Uzamış ateş + bulber konjonktivit + servikal LAP + el-ayak ödemi + <b>BCG skarında reaksiyon</b> + trombositoz = <b>Kawasaki</b>.",
+  "aciklama": "<b>Kawasaki hastalığı</b>: ≥5 gün ateş + 4 kriter. BCG aşı yerinde endürasyon karakteristik ipucu. Laboratuvar: lökositoz, nötrofili, 1. haftadan sonra trombositoz, CRP/sedim artışı, KC enzim artışı, hiponatremi, hipoalbüminemi.",
+  "cue": "🎯 Non-pürülan konjonktivit + tek taraflı LAP + el-ayak."
+ },
+ {
+  "yil": [
+   "İlkbahar 2015 Orijinal"
+  ],
+  "soru": "Ellerde ödem, gözlerde kızarıklık, servikal lenfadenopati, <b>çilek dili</b> görünümü ve 6 gündür yüksek ateşi olan 3 yaşındaki hastada en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kızıl"
+   },
+   {
+    "k": "B",
+    "t": "Kızamıkçık"
+   },
+   {
+    "k": "C",
+    "t": "Kızamık"
+   },
+   {
+    "k": "D",
+    "t": "Kawasaki hastalığı"
+   },
+   {
+    "k": "E",
+    "t": "Poliarteritis nodosa"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Uzamış ateş + konjonktivit + çilek dili + el ödemi + servikal LAP.",
+  "tuzak": "≥5 gün ateş + konjonktivit + çilek dili + el ödemi + servikal LAP = <b>Kawasaki</b> (5 gün + 4 kriter).",
+  "aciklama": "Kawasaki tanı: ≥5 gün ateş + [en az 4: bilateral nonpürülan konjonktivit, orofarinks değişikliği (çilek dili, çatlamış dudak), ekstremite değişikliği (ödem/deskuamasyon), polimorfik döküntü, tek taraflı servikal LAP >1,5 cm].",
+  "cue": "🎯 Çilek dili + mukokütanöz + koroner risk."
+ },
+ {
+  "yil": [
+   "Sonbahar 2000"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>Kawasaki hastalığının</b> diagnostik kriterleri arasında <mark class=\"cue\">yer almaz</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "5 günden uzun süren ateş"
+   },
+   {
+    "k": "B",
+    "t": "Özellikle gövdede belirgin polimorfik döküntü"
+   },
+   {
+    "k": "C",
+    "t": "Servikal lenfadenopati"
+   },
+   {
+    "k": "D",
+    "t": "Splenomegali"
+   },
+   {
+    "k": "E",
+    "t": "Belirtilerin başka bir hastalıkla açıklanamaması"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Kriter olan LAP servikal; organomegali kriter değil.",
+  "tuzak": "Ateş, polimorfik döküntü, servikal LAP ve açıklanamama kriterlerdir. <b>Splenomegali</b> Kawasaki tanı kriteri değildir.",
+  "aciklama": "Kawasaki tanı kriterlerinde <b>splenomegali (ve hepatomegali) yer almaz</b>. Kriterler: ≥5 gün ateş, konjonktivit, oral mukoza değişikliği, ekstremite değişikliği, polimorfik döküntü, servikal LAP.",
+  "cue": "🎯 CREAM kriterleri; biri (splenomegali) kriter değil.",
+  "ddx": {
+   "baslik": "Kawasaki Kriterleri (CREAM)",
+   "ok": "5+ gün ateş + Konjonktivit/Döküntü/Ekstremite/tek taraflı LAP/Mukozit. Splenomegali yok.",
+   "satirlar": [
+    {
+     "emo": "👁️",
+     "ad": "Non-pürülan konjonktivit",
+     "bulgu": "Bilateral bulber"
+    },
+    {
+     "emo": "👅",
+     "ad": "Mukozit",
+     "bulgu": "Çilek dili · çatlak dudak"
+    },
+    {
+     "emo": "✋",
+     "ad": "Ekstremite",
+     "bulgu": "Ödem/soyulma"
+    },
+    {
+     "emo": "🔵",
+     "ad": "Tek taraflı servikal LAP",
+     "bulgu": "Kriter"
+    },
+    {
+     "emo": "🚫",
+     "ad": "Splenomegali",
+     "bulgu": "KRİTER DEĞİL",
+     "hit": true
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "İlkbahar 2003"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>Kawasaki hastalığının</b> tanı kriterlerinden biri <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "En az 5 gün süren ateş"
+   },
+   {
+    "k": "B",
+    "t": "Yaygın lenfadenopati"
+   },
+   {
+    "k": "C",
+    "t": "Ekstremite uçlarında ödem ve deskuamasyon"
+   },
+   {
+    "k": "D",
+    "t": "Konjonktival enjeksiyon"
+   },
+   {
+    "k": "E",
+    "t": "Polimorf döküntü"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "LAP kriteri sadece servikal.",
+  "tuzak": "Kriter olan LAP sadece <b>servikaldir</b>. <b>Yaygın (jeneralize) lenfadenopati</b> kriter değildir.",
+  "aciklama": "Kawasaki tanı kriteri olan lenfadenopati <b>sadece servikaldir</b> (tek taraflı >1,5 cm); yaygın lenfadenopati kriter değildir.",
+  "cue": "🎯 LAP TEK TARAFLI servikaldir; yaygın değil."
+ },
+ {
+  "yil": [
+   "Sonbahar 2004"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>Kawasaki hastalığının</b> tanı kriterlerinden biri <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Çilek dili"
+   },
+   {
+    "k": "B",
+    "t": "Pürülan konjonktivit"
+   },
+   {
+    "k": "C",
+    "t": "Servikal lenfadenopati"
+   },
+   {
+    "k": "D",
+    "t": "El ve ayaklarda ödem"
+   },
+   {
+    "k": "E",
+    "t": "Deri döküntüsü"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Konjonktivit nasıl olmalı?",
+  "tuzak": "Kawasaki konjonktiviti <b>bilateral ve nonpürülandır</b>. <b>Pürülan konjonktivit</b> kriter değildir.",
+  "aciklama": "Kawasaki'de konjonktivit <b>bilateral nonpürülan (nonpürülan konjonktival konjesyon)</b> olmalıdır; <b>pürülan konjonktivit tanı kriteri değildir</b>.",
+  "cue": "🎯 Kawasaki konjonktiviti NON-pürülandır."
+ },
+ {
+  "yil": [
+   "İlkbahar 2009"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>Kawasaki hastalığının</b> tanı kriterlerinden biri <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Polimorfik ekzantem"
+   },
+   {
+    "k": "B",
+    "t": "Servikal lenfadenopati"
+   },
+   {
+    "k": "C",
+    "t": "Parmak uçlarında ödem ve soyulma"
+   },
+   {
+    "k": "D",
+    "t": "Hepatosplenomegali"
+   },
+   {
+    "k": "E",
+    "t": "Ateş"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Organomegali kriter değil.",
+  "tuzak": "Polimorfik ekzantem, servikal LAP, ekstremite değişikliği ve ateş kriterlerdir. <b>Hepatosplenomegali</b> kriter değildir.",
+  "aciklama": "Kawasaki tanı kriterleri arasında <b>hepatomegali ve splenomegali yer almaz</b>.",
+  "cue": "🎯 HSM Kawasaki kriteri değil."
+ },
+ {
+  "yil": [
+   "Aralık 2010"
+  ],
+  "soru": "Aşağıdakilerden hangisi çocuklarda <b>eritema nodozumun</b> nedeni <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Tüberküloz"
+   },
+   {
+    "k": "B",
+    "t": "Lenfoma"
+   },
+   {
+    "k": "C",
+    "t": "Sarkoidoz"
+   },
+   {
+    "k": "D",
+    "t": "Fenitoin kullanımı"
+   },
+   {
+    "k": "E",
+    "t": "Wilms tümörü"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Hangi tümör eritema nodozum yapmaz?",
+  "tuzak": "Tüberküloz, lenfoma, sarkoidoz ve fenitoin eritema nodozum yapar. <b>Wilms tümörü</b> eritema nodozum nedeni değildir.",
+  "aciklama": "<b>Eritema nodozum</b> (pretibial ağrılı eritematöz nodüller, hipersensitivite reaksiyonu) nedenleri: enfeksiyonlar (streptokok, TBC, Yersinia, EBV), sarkoidoz, IBD, lenfoma/Hodgkin, ilaçlar (sülfonamid, fenitoin, OKS), Behçet, SLE. <b>Wilms tümörü neden değildir.</b>",
+  "cue": "🎯 TBC/sarkoidoz/lenfoma/ilaç/strep neden; biri (Wilms) değil.",
+  "ddx": {
+   "baslik": "Eritema Nodozum Nedeni",
+   "ok": "TBC/strep/sarkoidoz/lenfoma/İBH/ilaç; Wilms tümörü değil.",
+   "satirlar": [
+    {
+     "emo": "🫁",
+     "ad": "Tüberküloz/strep",
+     "bulgu": "Enfeksiyöz"
+    },
+    {
+     "emo": "🔬",
+     "ad": "Sarkoidoz",
+     "bulgu": "Löfgren"
+    },
+    {
+     "emo": "⚡",
+     "ad": "Lenfoma",
+     "bulgu": "Malign"
+    },
+    {
+     "emo": "💊",
+     "ad": "İlaç (fenitoin/OKS)",
+     "bulgu": "İlaç"
+    },
+    {
+     "emo": "🚫",
+     "ad": "Wilms tümörü",
+     "bulgu": "NEDEN DEĞİL",
+     "hit": true
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 2013 Orijinal"
+  ],
+  "soru": "Aşağıdakilerden hangisi <b>ANCA (Anti-Nötrofil sitoplazmik antikor) ile ilişkili değildir</b>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Alport sendromu"
+   },
+   {
+    "k": "B",
+    "t": "Böbreğe sınırlı ANCA-ilişkili vaskülit"
+   },
+   {
+    "k": "C",
+    "t": "Churg-Strauss sendromu"
+   },
+   {
+    "k": "D",
+    "t": "Wegener granülomatozu"
+   },
+   {
+    "k": "E",
+    "t": "Mikroskobik polianjitis"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Kollajen defekti mi vaskülit mi?",
+  "tuzak": "Wegener, Churg-Strauss, mikroskopik polianjit ve böbreğe sınırlı vaskülit ANCA ile ilişkilidir. <b>Alport sendromu</b> tip IV kollajen bozukluğu (vaskülit değil) → ANCA ile ilişkili değil.",
+  "aciklama": "ANCA ilişkili vaskülitler: <b>Wegener (granülomatöz polianjit, c-ANCA/PR3), Churg-Strauss (eozinofilik, p-ANCA/MPO), mikroskopik polianjit (p-ANCA)</b>, böbreğe sınırlı vaskülit. <b>Alport sendromu</b> tip IV kollajen bozukluğudur, vaskülit değildir.",
+  "cue": "🎯 Wegener/Churg-Strauss/MPA ANCA+; biri (Alport) kollajen hastalığı.",
+  "ddx": {
+   "baslik": "ANCA İlişkili mi?",
+   "ok": "Wegener(c-ANCA)/Churg-Strauss/MPA ANCA+; Alport kollajen (ANCA değil).",
+   "satirlar": [
+    {
+     "emo": "👃",
+     "ad": "Wegener (GPA)",
+     "bulgu": "c-ANCA/PR3"
+    },
+    {
+     "emo": "🌬️",
+     "ad": "Churg-Strauss",
+     "bulgu": "p-ANCA · astım/eozinofili"
+    },
+    {
+     "emo": "🫘",
+     "ad": "Mikroskopik polianjit",
+     "bulgu": "p-ANCA/MPO"
+    },
+    {
+     "emo": "🚫",
+     "ad": "Alport sendromu",
+     "bulgu": "ANCA İLİŞKİLİ DEĞİL",
+     "hit": true
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "İlkbahar 2025"
+  ],
+  "soru": "9 yaşında erkek hasta ateş, şiddetli karın ağrısı, ellerde-ayaklarda uyuşukluk ile geliyor. 3 hafta önce ÜSYE geçirmiş. FM'de KB 150/95, karında hassasiyet, <mark class=\"cue\">kol-bacaklarda ağrılı nodüller ve livedo retikülaris</mark>; EMG <b>mononöritis multipleks</b> ile uyumlu.<br><br>Bu hasta için en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Poliarteritis nodoza"
+   },
+   {
+    "k": "B",
+    "t": "İmmünglobulin A vasküliti"
+   },
+   {
+    "k": "C",
+    "t": "Kawasaki hastalığı"
+   },
+   {
+    "k": "D",
+    "t": "Granülomatöz polianjiitis"
+   },
+   {
+    "k": "E",
+    "t": "Eozinofilik granülomatöz polianjiitis"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Livedo retikülaris + cilt altı nodül + HT + periferik nöropati.",
+  "tuzak": "Livedo retikülaris + ağrılı cilt altı nodül + HT + mononöritis multipleks (periferik nöropati) = <b>poliarteritis nodoza</b> (orta damar).",
+  "aciklama": "<b>Poliarteritis nodoza (PAN)</b>: küçük-orta arter nekrotizan vasküliti; segmental (bifurkasyon) tutulum. <b>Livedo retikülaris + ağrılı cilt altı nodül + HT + periferik nöropati (mononöritis multipleks) + renal tutulum</b>. HBsAg pozitif olabilir, anjiyografide anevrizma.",
+  "cue": "🎯 Şiddetli karın + mononöropati + HT + ÜSYE sonrası → orta çap vaskülit."
+ },
+ {
+  "yil": [
+   "İlkbahar 2011"
+  ],
+  "soru": "<b>Ailevi Akdeniz ateşi</b> hastalığında sentez bozukluğu gösterilmiş moleküler yapı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "TNFRSF1-A proteini"
+   },
+   {
+    "k": "B",
+    "t": "Mevalonat kinaz"
+   },
+   {
+    "k": "C",
+    "t": "İnterlökin-10 mutasyonu"
+   },
+   {
+    "k": "D",
+    "t": "Pyrin"
+   },
+   {
+    "k": "E",
+    "t": "Cryopyrin"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "MEFV geni → hangi protein?",
+  "tuzak": "TNFRSF1-A → TRAPS; mevalonat kinaz → hiper IgD; cryopyrin → CAPS. FMF'de defektif protein <b>pyrin (marenostin)</b>.",
+  "aciklama": "<b>Ailevi Akdeniz ateşi</b>: 16. kromozom kısa kolunda MEFV geni <b>pyrin (marenostin)</b> proteinini kodlar. En sık mutasyon M694V (ciddi hastalık + amiloidoz riski). Pyrin disfonksiyonu → C5a inhibitör eksikliği → kontrolsüz IL-1 cevabı.",
+  "cue": "🎯 MEFV geni → hangi protein?",
+  "ddx": {
+   "baslik": "FMF Molekülü",
+   "ok": "MEFV geni → pyrin proteini; otozomal resesif; kolşisin + amiloidoz önlenir.",
+   "satirlar": [
+    {
+     "emo": "🧬",
+     "ad": "Pyrin (MEFV)",
+     "bulgu": "FMF · resesif",
+     "hit": true
+    },
+    {
+     "emo": "🔥",
+     "ad": "Cryopyrin (NLRP3)",
+     "bulgu": "CAPS"
+    },
+    {
+     "emo": "🧪",
+     "ad": "Mevalonat kinaz",
+     "bulgu": "HIDS"
+    },
+    {
+     "emo": "🌡️",
+     "ad": "TNFRSF1A",
+     "bulgu": "TRAPS"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 2024"
+  ],
+  "soru": "7 yaşındaki kız çocuk 3 yaşında başlayan, yaklaşık 1-2 gün süren, tekrarlayan ateş ve göğüs ağrısı atakları ile geliyor. Akut faz belirteçleri ataklarda yükseliyor, ataklar arasında normal; atakta kardiyolojik değerlendirme normal, <mark class=\"cue\">plörezi</mark> saptanıyor.<br><br>Bu hastada aşağıdaki genlerden hangisinde patojenik mutasyon saptanması en olasıdır?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "NOD2/CARD15"
+   },
+   {
+    "k": "B",
+    "t": "MEFV"
+   },
+   {
+    "k": "C",
+    "t": "TNFRSF1A"
+   },
+   {
+    "k": "D",
+    "t": "MVK"
+   },
+   {
+    "k": "E",
+    "t": "NLRP1"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Tekrarlayan ateş + serozit (plörezi) atakları → FMF.",
+  "tuzak": "NOD2 → Blau; TNFRSF1A → TRAPS; MVK → hiper IgD. Tekrarlayan ateş + serozit (plörezi) atakları = FMF → <b>MEFV</b> geni.",
+  "aciklama": "<b>Ailevi Akdeniz ateşi</b> (OR): tekrarlayan kendini sınırlayan ateş + serozit atakları (en sık peritonit, plörezi/perikardit). <b>MEFV geni</b> (pyrin). Ataklar 12 saat-3 gün. NOD2/CARD15 → Blau; TNFRSF1A → TRAPS; MVK → hiper IgD.",
+  "cue": "🎯 Kısa ateş+serözit atakları + ataklar arası normal → MEFV."
+ },
+ {
+  "yil": [
+   "Sonbahar 2015 Orijinal"
+  ],
+  "soru": "15 yaşında kız hasta vücudunda-göz kapaklarında yaygın şişlik ile geliyor; <b>nefrotik düzeyde proteinüri</b>. Küçük yaşlardan beri yılda 4-5 kez ateş-karın ağrısı ile acile başvurmuş, 12 yaşında apendektomi olmuş, <mark class=\"cue\">anne-baba akraba</mark>.<br><br>Renal biyopsi kararı verilen bu hastanın patolojisinde aşağıdakilerden hangisinin saptanması beklenir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Mezangial proliferasyon"
+   },
+   {
+    "k": "B",
+    "t": "IgA depolanması"
+   },
+   {
+    "k": "C",
+    "t": "Membranöz glomerülonefrit"
+   },
+   {
+    "k": "D",
+    "t": "Hücresel kresentler"
+   },
+   {
+    "k": "E",
+    "t": "Amiloid depolanması"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "FMF + proteinüri → AA amiloidoz.",
+  "tuzak": "Tekrarlayan ateş-karın ağrısı + apendektomi + akraba evliliği = FMF. Proteinüri + böbrek tutulumu → <b>AA tipi amiloidoz</b> (renal biyopside amiloid depolanması).",
+  "aciklama": "FMF'nin en önemli komplikasyonu <b>AA tipi amiloidoz</b>; proteinüri ile başlar, nefrotik sendrom + KBY'ye ilerler → renal biyopside <b>amiloid depolanması</b>. Risk: M694V homozigot, ailede amiloid öyküsü, kolşisin uyumsuzluğu, erkek cinsiyet.",
+  "cue": "🎯 Kontrolsüz FMF → AA amiloidoz → nefrotik."
+ },
+ {
+  "yil": [
+   "İlkbahar 2007"
+  ],
+  "soru": "Ayaklarda ve periorbital bölgede ödem ile başvuran 16 yaşındaki kızda <b>4+ proteinüri</b> saptanıyor. Öyküsünde 6-7 yaşından beri zaman zaman eklem-karın ağrıları, <mark class=\"cue\">3-4 gün sonra geçen ağrılara ateşin eşlik etmesi</mark>.<br><br>Bu hastada en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Otoimmün hepatite sekonder nefropati"
+   },
+   {
+    "k": "B",
+    "t": "Membranöz glomerülonefrit"
+   },
+   {
+    "k": "C",
+    "t": "Sistemik lupus eritematozus"
+   },
+   {
+    "k": "D",
+    "t": "AA tipte amiloidoz"
+   },
+   {
+    "k": "E",
+    "t": "Sjögren sendromu"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Tekrarlayan ateşli ataklar + nefrotik proteinüri → FMF amiloidozu.",
+  "tuzak": "Tekrarlayan ateşli karın-eklem ağrısı atakları = FMF; böbrek tutulumu (4+ proteinüri) → <b>AA tipi amiloidoz</b>.",
+  "aciklama": "FMF: tekrarlayan ateş-karın ağrısı-eklem ağrısı atakları. Böbrek tutulumu (proteinüri) → <b>AA tipi (sekonder) amiloidoz</b>; nefrotik sendrom + böbrek yetmezliğine ilerler.",
+  "cue": "🎯 FMF öyküsü + 4+ proteinüri → AA amiloidoz."
+ },
+ {
+  "yil": [
+   "Sonbahar 2012"
+  ],
+  "soru": "<b>Ailevi Akdeniz Ateşi</b> ile ilgili aşağıdaki ifadelerden hangisi <mark class=\"cue\">doğrudur</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Otozomal dominant geçişlidir"
+   },
+   {
+    "k": "B",
+    "t": "Klinik bulgular genellikle 15 yaşından sonra başlar"
+   },
+   {
+    "k": "C",
+    "t": "Hastalar artrit ile başvurabilir"
+   },
+   {
+    "k": "D",
+    "t": "Kolşisin 15 yaşına kadar verilir"
+   },
+   {
+    "k": "E",
+    "t": "Kolşisin, amiloidoz gelişme riskini etkilemez"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "FMF başvuru bulgularından biri artrit.",
+  "tuzak": "FMF otozomal RESESİF (A yanlış); %90 20 yaş altında başlar (B yanlış); kolşisin ömür boyu (D yanlış); kolşisin amiloidozu ÖNLER (E yanlış). Doğru: <b>artrit ile başvurabilir</b>.",
+  "aciklama": "FMF: otozomal <b>resesif</b>, %90 20 yaş altında bulgu; başvuru bulguları karın ağrısı > artrit/artralji > göğüs ağrısı. Artrit alt ekstremitede noneroziv monoartrit. Kolşisin <b>ömür boyu</b>, amiloidozu <b>önler</b>.",
+  "cue": "🎯 Otozomal resesif; kolşisin ömür boyu + amiloidozu önler; artrit olabilir."
+ },
+ {
+  "yil": [
+   "Sonbahar 2021 Orijinal"
+  ],
+  "soru": "Aşağıdaki hastalıklardan hangisinde çocukluk çağında <b>kemik tutulumu</b> görülmesi <mark class=\"cue\">en az olasıdır</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Majeed sendromu"
+   },
+   {
+    "k": "B",
+    "t": "Kronik rekürren multifokal osteomiyelit"
+   },
+   {
+    "k": "C",
+    "t": "Ailesel Akdeniz ateşi"
+   },
+   {
+    "k": "D",
+    "t": "Cherubism"
+   },
+   {
+    "k": "E",
+    "t": "IL-1 reseptör antagonist eksikliği"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "FMF'de kemik tutulumu beklenir mi?",
+  "tuzak": "Majeed, CRMO, cherubism ve DIRA kemik tutulumu yapar. <b>FMF'de kemik tutulumu beklenmez</b> (serozit + artrit ama kemik değil).",
+  "aciklama": "<b>Ailevi Akdeniz ateşinde kemik tutulumu beklenmez</b> (seröz zar, eklem, deri tutulur). Majeed (CRMO + anemi + dermatoz), CRMO, cherubism (çene kemikleri), DIRA (IL-1 reseptör antagonist eksikliği; litik lezyon/osteomiyelit) kemik tutulumu yapar.",
+  "cue": "🎯 Majeed/CRMO/cherubism/DIRA kemik tutar; biri (FMF) serözal."
+ },
+ {
+  "yil": [
+   "İlkbahar 2015 Orijinal"
+  ],
+  "soru": "Aşağıdakilerden hangisinde <b>mevalonat kinaz enzim aktivitesi yeterli değildir</b>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Muckle-Wells sendromu"
+   },
+   {
+    "k": "B",
+    "t": "Kronik infantil nörolojik, kutanöz ve artiküler sendrom"
+   },
+   {
+    "k": "C",
+    "t": "Hiperimmünoglobulin D ilişkili periyodik ateş sendromu"
+   },
+   {
+    "k": "D",
+    "t": "Ailevi akdeniz ateşi"
+   },
+   {
+    "k": "E",
+    "t": "Tümör nekroz faktörü reseptörü ilişkili periyodik sendrom"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Mevalonat kinaz defekti → hangi sendrom?",
+  "tuzak": "Muckle-Wells/CINCA → cryopyrin; FMF → pyrin; TRAPS → TNF reseptör. Mevalonat kinaz eksikliği → <b>hiper IgD sendromu</b>.",
+  "aciklama": "<b>Hiperimmünoglobulin D sendromu</b>: mevalonat kinaz (kolesterol biyosentezi) geni mutasyonu (%5 aktivite kalır). Enzim hiç kalmazsa → mevalonik asidüri. Tekrarlayan ateş, servikal LAP, karın ağrısı, döküntü; IgD >100 mg/dL, idrarda mevalonik asit artışı.",
+  "cue": "🎯 Mevalonat kinaz eksikliği = hangi sendrom?"
+ },
+ {
+  "yil": [
+   "İlkbahar 2014 Orijinal"
+  ],
+  "soru": "6 yaşında erkek çocuk son birkaç yıldır 4-8 haftada bir tekrarlayan, 3-5 gün süren ateş, karın ağrısı, kusma ile geliyor. <b>Servikal lenfadenopati</b> var; idrarda <mark class=\"cue\">mevalonik asidüri</mark> tespit ediliyor.<br><br>Bu hasta için en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Ailevi Akdeniz ateşi"
+   },
+   {
+    "k": "B",
+    "t": "Hiper IgD sendromu"
+   },
+   {
+    "k": "C",
+    "t": "PFAPA sendromu"
+   },
+   {
+    "k": "D",
+    "t": "Majeed Sendromu"
+   },
+   {
+    "k": "E",
+    "t": "TNF reseptör ilişkili periyodik ateş sendromu (TRAPS)"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "Mevalonik asidüri + servikal LAP = anahtar.",
+  "tuzak": "Mevalonik asidüri + servikal LAP + tekrarlayan ateş = <b>hiper IgD sendromu</b> (mevalonat kinaz eksikliği).",
+  "aciklama": "<b>Hiper IgD sendromu</b>: mevalonat kinaz mutasyonu; tekrarlayan ateş + servikal LAP + karın ağrısı + döküntü; IgD/IgA yüksek, <b>idrarda mevalonik asit artışı</b>. İlk ataklar sıklıkla aşı sonrası; en sık bulgu servikal LAP.",
+  "cue": "🎯 Aşı/stres tetikli ateş + servikal LAP + IgD yüksek → HIDS.",
+  "ddx": {
+   "baslik": "Periyodik Ateş Sendromları",
+   "ok": "FMF kısa/serözit; HIDS aşı+IgD; PFAPA aft/farenjit/adenit; TRAPS uzun.",
+   "satirlar": [
+    {
+     "emo": "🧪",
+     "ad": "HIDS",
+     "bulgu": "Aşı tetikli · servikal LAP · IgD↑ · mevalonat kinaz",
+     "hit": true
+    },
+    {
+     "emo": "🔥",
+     "ad": "FMF",
+     "bulgu": "1-3 gün · serözit · MEFV"
+    },
+    {
+     "emo": "🦷",
+     "ad": "PFAPA",
+     "bulgu": "Periyodik · aft/farenjit/adenit · steroide yanıt"
+    },
+    {
+     "emo": "🌡️",
+     "ad": "TRAPS",
+     "bulgu": "Uzun ataklar (>1 hafta) · TNFRSF1A"
+    }
+   ]
+  }
+ },
+ {
+  "yil": [
+   "Sonbahar 2021 Orijinal"
+  ],
+  "soru": "<b>PFAPA sendromu</b> ile ilgili aşağıdaki ifadelerden hangisi <mark class=\"cue\">yanlıştır</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Atakların çoğu tek doz steroid uygulamasına yanıt verir"
+   },
+   {
+    "k": "B",
+    "t": "Ataklar çoğu hastada büyüme-gelişmeyi etkilemez"
+   },
+   {
+    "k": "C",
+    "t": "Düzenli kullanılan metotreksat atak sıklığı ve şiddetini azaltır"
+   },
+   {
+    "k": "D",
+    "t": "Ataklar ortalama 5 gün sürer"
+   },
+   {
+    "k": "E",
+    "t": "Hastaların çoğunda tonsilloadenoidektomi sonrası ataklar kontrol altına alınır"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "PFAPA tedavisinde metotreksatın yeri var mı?",
+  "tuzak": "A, B, D, E doğru. <b>Metotreksat PFAPA tedavisinde kullanılmaz</b> → C yanlış.",
+  "aciklama": "<b>PFAPA</b> (periyodik ateş, aftöz stomatit, farenjit, adenit): çocukta en sık otoinflamatuar hastalık. Tek doz oral prednizolona dramatik yanıt; büyümeyi etkilemez; ataklar ~5 gün; tonsillektomi/simetidin/kolşisin denenebilir. <b>Metotreksat kullanılmaz.</b>",
+  "cue": "🎯 PFAPA tedavisi tek doz steroid/tonsillektomi; düzenli metotreksat yanlış."
+ },
+ {
+  "yil": [
+   "Sonbahar 2018 Orijinal"
+  ],
+  "soru": "<b>PFAPA sendromunda</b> aşağıdakilerden hangisinin görülmesi <mark class=\"cue\">en az olasıdır</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Aftöz stomatit"
+   },
+   {
+    "k": "B",
+    "t": "Tekrarlayan ateş"
+   },
+   {
+    "k": "C",
+    "t": "Servikal lenfadenopati"
+   },
+   {
+    "k": "D",
+    "t": "Farenjit"
+   },
+   {
+    "k": "E",
+    "t": "Diyare"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "PFAPA açılımında olmayan.",
+  "tuzak": "Aftöz stomatit, ateş, servikal adenit ve farenjit PFAPA'nın tanımlayıcı bulgularıdır. <b>Diyare</b> PFAPA'da beklenmez.",
+  "aciklama": "<b>PFAPA</b>: Periyodik ateş + Aftöz stomatit + Farenjit + servikal Adenit. Ataklar 3-6 haftada bir, ~5 gün; boğaz kültürü negatif; tek doz prednizolona yanıt. <b>Diyare tipik bulgu değildir.</b>",
+  "cue": "🎯 PFAPA = ateş/aft/farenjit/adenit; ishal beklenmez."
+ },
+ {
+  "yil": [
+   "İlkbahar 2020 Orijinal"
+  ],
+  "soru": "Aşağıdakilerden hangisi çocukluk çağı <b>interlökin-1 ilişkili monogenik otoinflamatuvar</b> bir hastalık <mark class=\"cue\">değildir</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Ailesel Akdeniz ateşi"
+   },
+   {
+    "k": "B",
+    "t": "Hiperimmünoglobulin D sendromu"
+   },
+   {
+    "k": "C",
+    "t": "Muckle-Wells sendromu"
+   },
+   {
+    "k": "D",
+    "t": "Cogan sendromu"
+   },
+   {
+    "k": "E",
+    "t": "NOMID/CINCA"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Vaskülit + göz + işitme kaybı olan hangisi?",
+  "tuzak": "FMF, hiper IgD, Muckle-Wells ve NOMID/CINCA IL-1 ilişkili otoinflamatuar sendromlardır. <b>Cogan sendromu</b> bir vaskülit tipidir (otoinflamatuar değil).",
+  "aciklama": "IL-1 ilişkili otoinflamatuar sendromlar: FMF, kriyoprin ilişkili (FCAS, Muckle-Wells, CINCA/NOMID), TRAPS, hiper IgD. <b>Cogan sendromu</b> nadir vaskülit (inflamatuar göz hastalığı + vertigo + işitme kaybı + artrit); otoinflamatuar sendrom değildir.",
+  "cue": "🎯 FMF/HIDS/Muckle-Wells/NOMID IL-1 ilişkili; biri (Cogan) değil.",
+  "ddx": {
+   "baslik": "IL-1 İlişkili Otoinflamatuar",
+   "ok": "FMF/HIDS/CAPS(Muckle-Wells/NOMID) IL-1; Cogan (göz-kulak) değil.",
+   "satirlar": [
+    {
+     "emo": "🔥",
+     "ad": "FMF",
+     "bulgu": "IL-1"
+    },
+    {
+     "emo": "🧪",
+     "ad": "HIDS",
+     "bulgu": "IL-1"
+    },
+    {
+     "emo": "❄️",
+     "ad": "Muckle-Wells/NOMID",
+     "bulgu": "CAPS · IL-1"
+    },
+    {
+     "emo": "🚫",
+     "ad": "Cogan sendromu",
+     "bulgu": "IL-1 İLİŞKİLİ DEĞİL",
+     "hit": true
+    }
+   ]
+  }
+ }
+];
+
+/* ================= STATE ================= */
+let order = QUESTIONS.map(function(_,i){return i;});
+let idx = 0;
+const answered = new Array(QUESTIONS.length).fill(null);
+const starred  = new Array(QUESTIONS.length).fill(false);
+const cueUsed  = new Array(QUESTIONS.length).fill(false);
+let finished = false;
+
+/* ================= PERSISTENCE (localStorage) ================= */
+const STORAGE_KEY = 'tusquiz::' + (document.title || 'quiz') + '::' + QUESTIONS.length;
+function saveState(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      answered:answered, starred:starred, idx:idx, order:order, finished:finished, v:1
+    }));
+  }catch(e){}
+}
+function loadSavedState(){
+  try{ const r=localStorage.getItem(STORAGE_KEY); return r?JSON.parse(r):null; }catch(e){ return null; }
+}
+function clearSavedState(){ try{ localStorage.removeItem(STORAGE_KEY); }catch(e){} }
+function hasProgress(s){
+  if(!s) return false;
+  const a = s.answered && s.answered.some(function(x){return x!==null;});
+  return a || (s.idx>0) || s.finished;
+}
+function applyState(s){
+  for(let i=0;i<QUESTIONS.length;i++){
+    answered[i] = (s.answered && i<s.answered.length && s.answered[i]!==undefined) ? s.answered[i] : null;
+    starred[i]  = (s.starred  && i<s.starred.length)  ? !!s.starred[i] : false;
+  }
+  order = (s.order && s.order.length) ? s.order.slice() : QUESTIONS.map(function(_,i){return i;});
+  idx = (typeof s.idx==='number') ? Math.max(0,Math.min(order.length-1,s.idx)) : 0;
+  finished = !!s.finished;
+}
+
+function qid(){ return order[idx]; }
+function curQ(){ return QUESTIONS[order[idx]]; }
+
+/* ========== HEADER SPACING (JS-measured) ========== */
+const hdr = document.getElementById('hdr');
+const main = document.getElementById('main');
+function syncHeader(){
+  const h = hdr.offsetHeight;
+  main.style.paddingTop = (h + 14) + 'px';
+  document.documentElement.style.setProperty('--hdrH', h + 'px');
+}
+window.addEventListener('load', syncHeader);
+window.addEventListener('resize', syncHeader);
+syncHeader();
+
+/* ================= RENDER ================= */
+const quizEl = document.getElementById('quiz');
+const resultEl = document.getElementById('result');
+const navEl = document.getElementById('nav');
+
+function render(){
+  if(finished){ renderResult(); return; }
+  resultEl.classList.remove('show');
+  quizEl.style.display='block';
+  navEl.style.display='flex';
+
+  const q = curQ();
+  const id = qid();
+  const chosen = answered[id];
+  const isAns = chosen !== null;
+
+  let html = '';
+  html += '<div class="qmeta">';
+  html += '<div class="qnum">SORU '+(idx+1)+' / '+order.length+'</div>';
+  html += '<button class="star-btn '+(starred[id]?'on':'')+'" onclick="toggleStar()" aria-label="Yıldızla">⭐</button>';
+  html += '</div>';
+
+  if(q.yil && q.yil.length){
+    html += '<div class="year-tags">';
+    q.yil.forEach(function(y){ html += '<span class="year-tag">'+y+'</span>'; });
+    html += '</div>';
+  }
+
+  html += '<div class="qcard'+(q.ddx?' has-ddx':'')+'"'+(q.ddx?' onclick="openDdx(event)"':'')+'>'+q.soru
+        + (q.ddx?'<span class="ddx-ok"><svg viewBox="0 0 24 24"><path d="M17 4l3 3-3 3"/><path d="M20 7H8a4 4 0 0 0-4 4"/><path d="M7 20l-3-3 3-3"/><path d="M4 17h12a4 4 0 0 0 4-4"/></svg></span>':'')
+        + '</div>';
+
+  html += '<div class="opts '+(isAns?'locked':'')+'" id="opts">';
+  q.siklar.forEach(function(s,i){
+    let cls='opt';
+    if(isAns){
+      if(i===q.dogru) cls+=' correct';
+      else if(i===chosen) cls+=' wrong';
+      else cls+=' dim';
+    }
+    html += '<button class="'+cls+'" '+(isAns?'':'onclick="answer('+i+')"')+'>'
+          + '<span class="k">'+s.k+'</span><span class="t">'+s.t+'</span><span class="mark"></span></button>';
+  });
+  html += '</div>';
+
+  if(!isAns){
+    html += '<button class="hintbtn" id="preHint" onclick="showPreHint()">💡 İpucu göster</button>';
+    html += '<div id="revealZone"></div>';
+  } else {
+    html += '<div id="revealZone">'+revealHTML(q)+'</div>';
+  }
+
+  quizEl.innerHTML = html;
+
+  document.getElementById('prevBtn').disabled = (idx===0);
+  document.getElementById('nextBtn').textContent = (idx===order.length-1) ? 'Bitir ✓' : 'Sonraki →';
+  document.getElementById('navCounter').textContent = (idx+1)+'/'+order.length;
+
+  updateBars();
+}
+
+function ddxCardHTML(d){
+  if(!d) return '';
+  var rows='';
+  (d.satirlar||[]).forEach(function(r){
+    rows += '<div class="dc'+(r.hit?' hit':'')+'">'
+          + '<div class="emo">'+(r.emo||'🔹')+'</div>'
+          + '<div class="txt"><div class="dn">'+r.ad+'</div><div class="dv">'+r.bulgu+'</div></div></div>';
+  });
+  return '<div class="ddx-card" onclick="closeDdx()">'
+       + '<h3>🩺 '+(d.baslik||'Ayırıcı Tanı')+'</h3>'
+       + (d.ok?'<div class="ddx-key">'+d.ok+'</div>':'')
+       + '<div class="ddx-cards">'+rows+'</div></div>';
+}
+function openDdx(e){
+  if(e){ e.stopPropagation(); }
+  var q=curQ();
+  if(!q.ddx) return;
+  var ov=document.getElementById('ddxOv');
+  if(ov.classList.contains('show')){ closeDdx(); return; }
+  ov.classList.remove('closing');
+  ov.innerHTML = ddxCardHTML(q.ddx);
+  void ov.offsetWidth;
+  ov.classList.add('show');
+}
+function closeDdx(){
+  var ov=document.getElementById('ddxOv');
+  if(!ov.classList.contains('show') || ov.classList.contains('closing')) return;
+  ov.classList.add('closing');
+  setTimeout(function(){ ov.classList.remove('show','closing'); ov.innerHTML=''; }, 430);
+}
+
+function revealHTML(q){
+  return ''
+   + '<div class="box ip"><div class="bt">💡 İPUCU</div><div>'+q.ipucu+'</div></div>'
+   + '<div class="box tz"><div class="bt">⚠️ TUZAK</div><div>'+q.tuzak+'</div></div>'
+   + '<div class="box ac"><div class="bt">📖 AÇIKLAMA</div><div>'+q.aciklama+'</div></div>';
+}
+
+function showPreHint(){
+  const q = curQ();
+  const btn = document.getElementById('preHint');
+  if(btn) btn.style.display='none';
+  document.getElementById('revealZone').innerHTML =
+    '<div class="box ip"><div class="bt">💡 İPUCU</div><div>'+q.ipucu+'</div></div>';
+  scrollToReveal();
+}
+
+/* ================= ACTIONS ================= */
+function answer(i){
+  const id = qid();
+  if(answered[id]!==null) return;
+  const q=curQ();
+
+  // İlk yanlışta: cevabı vermeyen yeşil ipucu + kilit ifade parlaması, tek seferlik → tekrar dene
+  if(i!==q.dogru && q.cue && !cueUsed[id]){
+    cueUsed[id]=true;
+    const m=document.getElementById('cueMsg');
+    m.textContent=q.cue;
+    m.classList.add('show');
+    const qc=document.querySelector('.qcard');
+    if(qc) qc.classList.add('flash');
+    setTimeout(function(){ m.classList.remove('show'); if(qc) qc.classList.remove('flash'); },2400);
+    return; // cevap KİLİTLENMEZ
+  }
+
+  answered[id]=i;
+
+  const opts=document.getElementById('opts');
+  opts.classList.add('locked');
+  const btns=opts.querySelectorAll('.opt');
+  btns.forEach(function(b,k){
+    b.setAttribute('onclick','');
+    if(k===q.dogru) b.classList.add('correct');
+    else if(k===i) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+
+  const pre=document.getElementById('preHint');
+  if(pre) pre.style.display='none';
+
+  document.getElementById('revealZone').innerHTML = revealHTML(q);
+  updateBars();
+  saveState();
+  if(i === q.dogru){ celebrate(btns[q.dogru]); } else { commiserate(); }
+  scrollToReveal();
+}
+
+function scrollToReveal(){
+  requestAnimationFrame(function(){
+    const zone=document.getElementById('revealZone');
+    const first=zone && zone.firstElementChild;
+    if(!first) return;
+    const offset = hdr.offsetHeight + 10;
+    const y = first.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({top:y, behavior:'smooth'});
+  });
+}
+
+function toggleStar(){
+  const id=qid();
+  starred[id]=!starred[id];
+  saveState();
+  render();
+}
+
+function go(dir){
+  if(dir===1 && idx===order.length-1){ finished=true; saveState(); render(); window.scrollTo({top:0,behavior:'smooth'}); return; }
+  idx=Math.max(0,Math.min(order.length-1, idx+dir));
+  saveState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ================= MODAL ================= */
+function openModal(){
+  const grid=document.getElementById('qGrid');
+  let h='';
+  order.forEach(function(id,p){
+    let cls='gbtn';
+    if(answered[id]!==null){ cls += (answered[id]===QUESTIONS[id].dogru)?' ok':' no'; }
+    if(p===idx) cls+=' cur';
+    if(starred[id]) cls+=' star';
+    h += '<button class="'+cls+'" onclick="jump('+p+')">'+(p+1)+'</button>';
+  });
+  grid.innerHTML=h;
+  document.getElementById('modalOv').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('modalOv').classList.remove('show');
+  document.body.style.overflow='';
+}
+function modalBg(e){ if(e.target.id==='modalOv') closeModal(); }
+function jump(p){ idx=p; finished=false; closeModal(); saveState(); render(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+/* ================= COUNTERS / PROGRESS ================= */
+function correctCount(){
+  let c=0;
+  answered.forEach(function(a,i){ if(a!==null && a===QUESTIONS[i].dogru) c++; });
+  return c;
+}
+function starCount(){ return starred.filter(Boolean).length; }
+function updateBars(){
+  document.getElementById('cCount').textContent = correctCount();
+  document.getElementById('sCount').textContent = starCount();
+  const pos = finished ? order.length : (idx+1);
+  document.getElementById('bar').style.width = Math.round((pos/order.length)*100)+'%';
+}
+
+/* ================= RESULT ================= */
+function renderResult(){
+  quizEl.style.display='none';
+  navEl.style.display='none';
+  resultEl.classList.add('show');
+
+  const total=order.length;
+  let correct=0, wrong=0, blank=0, starHere=0;
+  order.forEach(function(id){
+    const a=answered[id];
+    if(a===null) blank++;
+    else if(a===QUESTIONS[id].dogru) correct++;
+    else wrong++;
+    if(starred[id]) starHere++;
+  });
+  const pct=Math.round((correct/total)*100);
+
+  document.getElementById('scoreBig').textContent = correct+'/'+total;
+  document.getElementById('pctLine').textContent = '%'+pct;
+  document.getElementById('ring').style.setProperty('--pct', pct+'%');
+
+  let fb;
+  if(pct>=90) fb='Mükemmel! Bu konulara hâkimsin. 🎯';
+  else if(pct>=70) fb='Çok iyi. Birkaç tuzak dışında sağlamsın. 👏';
+  else if(pct>=50) fb='Fena değil; yanlışları ve tuzakları tekrar et. 📚';
+  else fb='Bu blokları tekrar çalışmakta fayda var. Devam! 💪';
+  document.getElementById('fbText').textContent = fb;
+
+  document.getElementById('rStats').innerHTML =
+      '<div class="rstat g">✓ Doğru '+correct+'</div>'
+    + '<div class="rstat r">✗ Yanlış '+wrong+'</div>'
+    + '<div class="rstat s">⭐ Yıldızlı '+starHere+'</div>';
+
+  let rev='';
+  order.forEach(function(id,p){
+    const q=QUESTIONS[id];
+    const a=answered[id];
+    let badge, cls, label;
+    if(a===null){ badge='–'; cls='blank'; label='Boş'; }
+    else if(a===q.dogru){ badge='✓'; cls='ok'; label='Doğru'; }
+    else { badge='✗'; cls='no'; label='Yanlış'; }
+    const ds=q.siklar[q.dogru];
+    rev += '<div class="rev" onclick="jump('+p+')">'
+         + '<div class="badge '+cls+'">'+badge+'</div>'
+         + '<div style="flex:1">'
+         + '<div class="rq">Soru '+(p+1)+' — '+label+(starred[id]?' ⭐':'')+'</div>'
+         + '<div class="ra">Doğru cevap: <b>'+ds.k+') '+ds.t+'</b></div>'
+         + '</div></div>';
+  });
+  document.getElementById('reviewList').innerHTML = rev;
+
+  document.getElementById('retryWrongBtn').disabled = (wrong===0);
+  document.getElementById('retryStarBtn').disabled = (starCount()===0);
+  setTimeout(function(){ finaleShow(pct); }, 250);
+
+  updateBars();
+}
+
+/* ================= RETRY MODES ================= */
+function startSubset(ids){
+  fxStreak = 0;
+  order = ids.slice();
+  ids.forEach(function(id){ answered[id]=null; });
+  idx=0; finished=false;
+  saveState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function restart(){
+  fxStreak = 0;
+  order = QUESTIONS.map(function(_,i){return i;});
+  for(let i=0;i<QUESTIONS.length;i++){ answered[i]=null; }
+  idx=0; finished=false;
+  clearSavedState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function retryWrong(){
+  const ids = order.filter(function(id){ return answered[id]!==null && answered[id]!==QUESTIONS[id].dogru; });
+  if(!ids.length){ toast('Yanlış soru yok 🎉'); return; }
+  startSubset(ids);
+}
+function retryStar(){
+  const ids = [];
+  starred.forEach(function(s,i){ if(s) ids.push(i); });
+  if(!ids.length){ toast('Yıldızlı soru yok ⭐'); return; }
+  startSubset(ids);
+}
+
+/* ================= TOAST ================= */
+let toastT=null;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(toastT);
+  toastT=setTimeout(function(){ el.classList.remove('show'); },1800);
+}
+
+/* ================= RESUME ================= */
+function showResumePrompt(saved){
+  const ov = document.getElementById('resumeOv');
+  const sub = document.getElementById('resumeSub');
+  const ord = (saved.order && saved.order.length) ? saved.order : QUESTIONS.map(function(_,i){return i;});
+  const total = ord.length;
+  const pos = saved.finished ? total : Math.min((saved.idx||0)+1, total);
+  const ansCount = saved.answered ? saved.answered.filter(function(x){return x!==null;}).length : 0;
+  sub.textContent = saved.finished
+    ? ('Testi bitirmiştin — sonuç ekranına dönebilirsin. (' + ansCount + ' soru işaretlenmiş)')
+    : ('Soru ' + pos + ' / ' + total + ' — ' + ansCount + ' soru cevaplanmış.');
+  window._savedState = saved;
+  ov.classList.add('show');
+}
+function resumeYes(){
+  applyState(window._savedState);
+  document.getElementById('resumeOv').classList.remove('show');
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function resumeNo(){
+  clearSavedState();
+  document.getElementById('resumeOv').classList.remove('show');
+  render();
+}
+
+
+/* ================= EĞLENCE MOTORU ================= */
+const fxCanvas = document.createElement('canvas');
+fxCanvas.id = 'fxCanvas';
+document.body.appendChild(fxCanvas);
+const fxCtx = fxCanvas.getContext('2d');
+let fxParts = [], fxRaf = null;
+
+function fxResize(){
+  fxCanvas.width = window.innerWidth;
+  fxCanvas.height = window.innerHeight;
+}
+window.addEventListener('resize', fxResize);
+fxResize();
+
+const FX_COLORS = ['#4c9aff','#7c5cff','#2ea043','#f5c451','#ff5b5b','#3fb6a8','#ffffff','#ff9de2'];
+
+function confettiBurst(n, originY){
+  const oy = (typeof originY === 'number') ? originY : window.innerHeight * 0.38;
+  for(let i=0;i<n;i++){
+    fxParts.push({
+      x: window.innerWidth/2 + (Math.random()-0.5)*160,
+      y: oy,
+      vx: (Math.random()-0.5)*13,
+      vy: Math.random()*-13 - 4,
+      g: 0.34,
+      w: Math.random()*8 + 5,
+      h: Math.random()*5 + 3,
+      c: FX_COLORS[Math.floor(Math.random()*FX_COLORS.length)],
+      rot: Math.random()*6.28,
+      vr: (Math.random()-0.5)*0.35,
+      life: 130
+    });
+  }
+  if(!fxRaf) fxRaf = requestAnimationFrame(fxTick);
+}
+
+function fxTick(){
+  fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height);
+  fxParts = fxParts.filter(function(p){ return p.life > 0 && p.y < window.innerHeight + 60; });
+  fxParts.forEach(function(p){
+    p.x += p.vx; p.y += p.vy; p.vy += p.g; p.vx *= 0.995;
+    p.rot += p.vr; p.life--;
+    fxCtx.save();
+    fxCtx.translate(p.x, p.y);
+    fxCtx.rotate(p.rot);
+    fxCtx.globalAlpha = Math.max(0, Math.min(1, p.life/45));
+    fxCtx.fillStyle = p.c;
+    fxCtx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+    fxCtx.restore();
+  });
+  if(fxParts.length){ fxRaf = requestAnimationFrame(fxTick); }
+  else { fxRaf = null; fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height); }
+}
+
+function emojiFloat(list, count){
+  for(let i=0;i<count;i++){
+    const e = document.createElement('div');
+    e.className = 'emoji-pop';
+    e.textContent = list[Math.floor(Math.random()*list.length)];
+    e.style.left = (window.innerWidth/2 + (Math.random()-0.5)*240) + 'px';
+    e.style.top  = (window.innerHeight*0.58) + 'px';
+    e.style.setProperty('--dx', ((Math.random()-0.5)*140) + 'px');
+    e.style.setProperty('--rot', ((Math.random()-0.5)*90) + 'deg');
+    e.style.animationDelay = (Math.random()*0.28) + 's';
+    document.body.appendChild(e);
+    setTimeout(function(){ if(e.parentNode) e.remove(); }, 2200);
+  }
+}
+
+function emojiRain(list, count){
+  for(let i=0;i<count;i++){
+    const e = document.createElement('div');
+    e.className = 'emoji-drop';
+    e.textContent = list[Math.floor(Math.random()*list.length)];
+    e.style.left = (window.innerWidth*0.15 + Math.random()*window.innerWidth*0.7) + 'px';
+    e.style.top  = (window.innerHeight*0.30) + 'px';
+    e.style.setProperty('--rot', ((Math.random()-0.5)*70) + 'deg');
+    e.style.animationDelay = (Math.random()*0.25) + 's';
+    document.body.appendChild(e);
+    setTimeout(function(){ if(e.parentNode) e.remove(); }, 2000);
+  }
+}
+
+const GOOD_EMO = ['🎉','🥳','😄','👏','⭐','💪','🔥','✨','🏆','😎','💚','🩺'];
+const BAD_EMO  = ['😢','😞','💔','😵','🙈','😬','🥲'];
+const MASCOTS  = ['🐵','🦉','🐣','🦊','🐼','🚀'];
+
+const GOOD_MSG = ['Harika! 🎉','Bravo! 👏','Tam isabet! 🎯','Süpersin! 🥳','İşte bu! 💪',
+                  'Mükemmel! ⭐','Doğru cevap! 🔥','Efsanesin! 🏆','Aferin doktor! 🩺',
+                  'Nefes kesici! 😮‍💨','Çok iyisin! 💚'];
+const BAD_MSG  = ['Olsun, tekrar bakalım 💪','Tuzağa düştün ⚠️','Yanlış ama öğrendik 📚',
+                  'Boş ver, devam! 🙌','Bir dahakine 😉','Not al, unutma 📝',
+                  'Açıklamayı oku, kaçırma 👀','Nefesini topla, devam 🫁'];
+const STREAK_MSG = {3:'🔥 3 ÜST ÜSTE!',5:'⚡ 5 SERİ! HARİKA!',8:'🏆 8 SERİ! EFSANE!',
+                    10:'👑 10 SERİ! ŞAMPİYON!',15:'🚀 15 SERİ! DURDURULAMAZ!',
+                    20:'🌟 20 SERİ! İNANILMAZ!'};
+
+let fxStreak = 0;
+
+function showStreak(msg){
+  const s = document.createElement('div');
+  s.className = 'streak';
+  s.textContent = msg;
+  document.body.appendChild(s);
+  setTimeout(function(){ if(s.parentNode) s.remove(); }, 1700);
+}
+
+let fxMsgT = null;
+function showInlineMsg(msg, ok){
+  const zone = document.getElementById('revealZone');
+  if(!zone) return;
+  const old = zone.querySelector('.fxfloat');
+  if(old) old.remove();
+  clearTimeout(fxMsgT);
+  const wrap = document.createElement('div');
+  wrap.className = 'fxfloat';
+  const pill = document.createElement('div');
+  pill.className = 'pill ' + (ok ? 'good' : 'bad');
+  pill.textContent = msg;
+  wrap.appendChild(pill);
+  zone.insertBefore(wrap, zone.firstChild);
+  fxMsgT = setTimeout(function(){ if(wrap.parentNode) wrap.remove(); }, 2100);
+}
+
+function celebrate(btn){
+  confettiBurst(95);
+  emojiFloat(GOOD_EMO, 8);
+  showInlineMsg(GOOD_MSG[Math.floor(Math.random()*GOOD_MSG.length)], true);
+  if(btn){
+    const m = document.createElement('span');
+    m.className = 'mascot';
+    m.textContent = MASCOTS[Math.floor(Math.random()*MASCOTS.length)];
+    btn.style.position = 'relative';
+    btn.appendChild(m);
+  }
+  fxStreak++;
+  if(STREAK_MSG[fxStreak]){
+    showStreak(STREAK_MSG[fxStreak]);
+    setTimeout(function(){ confettiBurst(70, window.innerHeight*0.30); }, 220);
+  }
+  try{ if(navigator.vibrate) navigator.vibrate(35); }catch(e){}
+}
+
+function commiserate(){
+  const m = document.getElementById('main');
+  if(m){
+    m.classList.remove('shake');
+    void m.offsetWidth;
+    m.classList.add('shake');
+    setTimeout(function(){ m.classList.remove('shake'); }, 700);
+  }
+  emojiRain(BAD_EMO, 6);
+  showInlineMsg(BAD_MSG[Math.floor(Math.random()*BAD_MSG.length)], false);
+  fxStreak = 0;
+  try{ if(navigator.vibrate) navigator.vibrate([40,60,40]); }catch(e){}
+}
+
+function finaleShow(pct){
+  if(pct >= 90){
+    [0,300,600,900].forEach(function(d){
+      setTimeout(function(){ confettiBurst(110, window.innerHeight*0.30); }, d);
+    });
+    emojiFloat(['🏆','👑','🎉','🥳','⭐'], 12);
+  } else if(pct >= 70){
+    confettiBurst(110, window.innerHeight*0.32);
+    setTimeout(function(){ confettiBurst(80, window.innerHeight*0.30); }, 350);
+    emojiFloat(GOOD_EMO, 8);
+  } else if(pct >= 50){
+    confettiBurst(60, window.innerHeight*0.34);
+    emojiFloat(['💪','📚','✨'], 5);
+  } else {
+    emojiFloat(['📚','💪','🩺'], 4);
+  }
+}
+
+/* ================= INIT ================= */
+render();
+window.addEventListener('pagehide', function(){ try{ saveState(); }catch(e){} });
+window.addEventListener('visibilitychange', function(){ if(document.visibilityState==='hidden'){ try{ saveState(); }catch(e){} } });
+(function(){ const s=loadSavedState(); if(hasProgress(s)) showResumePrompt(s); })();
+window.addEventListener('load', function(){ syncHeader(); updateBars(); });
+
+/* nav focus fix */
+try{['prevBtn','listBtn','nextBtn'].forEach(function(id){var el=document.getElementById(id);if(el){el.addEventListener('mousedown',function(e){e.preventDefault();});el.addEventListener('focus',function(){var s=this;setTimeout(function(){try{s.blur();}catch(e){}},0);});el.addEventListener('click',function(){var s=this;setTimeout(function(){try{s.blur();}catch(e){}},0);});}});}catch(e){}
+</script>
+</body>
+</html>

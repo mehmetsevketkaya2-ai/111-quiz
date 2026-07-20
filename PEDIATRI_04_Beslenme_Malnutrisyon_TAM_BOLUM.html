@@ -1502,7 +1502,9 @@ let finished = false;
 
 /* ================= PERSISTENCE (localStorage) ================= */
 const STORAGE_KEY = 'tusquiz::' + (document.title || 'quiz') + '::' + QUESTIONS.length;
+let resumeBekliyor = false;
 function saveState(){
+  if(resumeBekliyor) return; /* devam karari verilmeden ustune yazma */
   try{
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
       answered:answered, starred:starred, idx:idx, order:order, finished:finished, v:1
@@ -1863,15 +1865,18 @@ function showResumePrompt(saved){
     ? ('Testi bitirmiştin — sonuç ekranına dönebilirsin. (' + ansCount + ' soru işaretlenmiş)')
     : ('Soru ' + pos + ' / ' + total + ' — ' + ansCount + ' soru cevaplanmış.');
   window._savedState = saved;
+  resumeBekliyor = true;
   ov.classList.add('show');
 }
 function resumeYes(){
+  resumeBekliyor = false;
   applyState(window._savedState);
   document.getElementById('resumeOv').classList.remove('show');
   render();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function resumeNo(){
+  resumeBekliyor = false;
   clearSavedState();
   document.getElementById('resumeOv').classList.remove('show');
   render();

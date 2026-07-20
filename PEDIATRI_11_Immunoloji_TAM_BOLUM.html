@@ -1,0 +1,3099 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="pragma" content="no-cache">
+<title>MEDITUS — Immunoloji</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --line:#2a3444;
+    --text:#e6edf3; --muted:#9aa7b5; --accent:#4c9aff; --accent2:#7c5cff;
+    --green:#2ea043; --green-bg:#12341c; --red:#e5484d; --red-bg:#3a1518;
+    --star:#f5c451; --hint:#3fb6a8; --trap:#ff5b5b; --exp:#b487ff;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;-webkit-text-size-adjust:100%;}
+  mark{background:none;color:var(--trap);font-weight:800;}
+  b{color:#fff;font-weight:700;}
+
+  header{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--panel);
+    border-bottom:1px solid var(--line);padding:env(safe-area-inset-top) 0 0 0;
+    box-shadow:0 4px 18px rgba(0,0,0,.35);}
+  .hbar{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:11px 16px 10px;}
+  .htitle{font-size:15px;font-weight:800;letter-spacing:.3px;}
+  .htitle span{color:var(--accent);}
+  .stats{display:flex;gap:8px;}
+  .chip{display:flex;align-items:center;gap:5px;background:var(--panel2);
+    border:1px solid var(--line);border-radius:999px;padding:5px 11px;
+    font-size:13px;font-weight:700;}
+  .chip.correct{color:var(--green);} .chip.star{color:var(--star);}
+  .progress{height:5px;background:var(--panel2);width:100%;}
+  .progress > i{display:block;height:100%;width:0;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    transition:width .35s ease;}
+
+  main{max-width:720px;margin:0 auto;padding:16px 16px 120px;}
+
+  .qmeta{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .qnum{font-size:13px;font-weight:800;color:var(--muted);letter-spacing:.5px;}
+  .star-btn{background:none;border:none;cursor:pointer;font-size:26px;line-height:1;
+    filter:grayscale(1) opacity(.45);transition:transform .15s,filter .15s;padding:2px 4px;}
+  .star-btn.on{filter:none;transform:scale(1.12);}
+
+  .year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+  .year-tag{font-size:11.5px;font-weight:700;letter-spacing:.3px;color:var(--accent);
+    background:rgba(76,154,255,.1);border:1px solid rgba(76,154,255,.3);
+    border-radius:6px;padding:3px 9px;}
+
+  .qcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:18px 17px;margin-bottom:14px;font-size:16.5px;}
+
+  .opts{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+  .opt{display:flex;align-items:flex-start;gap:12px;background:var(--panel);
+    border:1.5px solid var(--line);border-radius:13px;padding:13px 14px;cursor:pointer;
+    font-size:16px;transition:border-color .15s,background .15s,transform .05s;
+    text-align:left;color:var(--text);width:100%;}
+  .opt:active{transform:scale(.995);}
+  .opt .k{flex:0 0 26px;height:26px;border-radius:50%;background:var(--panel2);
+    border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:14px;color:var(--muted);}
+  .opt .t{flex:1;padding-top:1px;}
+  .opt:not(.locked):hover{border-color:var(--accent);}
+  .opts.locked .opt{cursor:default;}
+  .opt.correct{border-color:var(--green);background:var(--green-bg);}
+  .opt.correct .k{background:var(--green);border-color:var(--green);color:#fff;}
+  .opt.wrong{border-color:var(--red);background:var(--red-bg);}
+  .opt.wrong .k{background:var(--red);border-color:var(--red);color:#fff;}
+  .opt.dim{opacity:.55;}
+  .opt .mark{flex:0 0 24px;height:26px;display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:18px;line-height:1;}
+  .opt.correct .mark::after{content:"✓";color:var(--green);}
+  .opt.wrong .mark::after{content:"✗";color:var(--red);}
+
+  .hintbtn{display:inline-flex;align-items:center;gap:7px;background:var(--panel2);
+    color:var(--hint);border:1px solid var(--line);border-radius:11px;padding:11px 15px;
+    font-size:14.5px;font-weight:700;cursor:pointer;margin-bottom:14px;}
+  .hintbtn:hover{border-color:var(--hint);}
+
+  .box{border-radius:13px;padding:13px 15px;margin-bottom:11px;font-size:15.5px;
+    border:1px solid var(--line);animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .box .bt{display:flex;align-items:center;gap:8px;font-weight:800;margin-bottom:6px;
+    font-size:14px;letter-spacing:.3px;}
+  .box.ip{background:rgba(63,182,168,.08);border-color:rgba(63,182,168,.35);}
+  .box.ip .bt{color:var(--hint);}
+  .box.tz{background:rgba(255,91,91,.07);border-color:rgba(255,91,91,.32);}
+  .box.tz .bt{color:var(--trap);}
+  .box.ac{background:rgba(180,135,255,.08);border-color:rgba(180,135,255,.32);}
+  .box.ac .bt{color:var(--exp);}
+
+  /* ===== AYIRICI TANI: gizli ok + eğlenceli flip + yeşil ipucu ===== */
+  .qcard{position:relative;}
+  .qcard.has-ddx{cursor:pointer;padding-right:46px;}
+  .qcard .cue{transition:all .3s;border-radius:4px;}
+  .qcard.flash .cue{background:rgba(46,160,67,.3);color:#fff;box-shadow:0 0 0 3px rgba(46,160,67,.3);padding:0 2px;}
+  .ddx-ok{position:absolute;top:12px;right:12px;width:28px;height:28px;display:grid;place-items:center;
+    color:var(--accent);cursor:pointer;animation:ddxpulse 2.2s ease-in-out infinite;z-index:3;}
+  .ddx-ok svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  @keyframes ddxpulse{0%,100%{opacity:.5;transform:translateY(0)}50%{opacity:1;transform:translateY(-2px)}}
+
+  .cueMsg{position:fixed;left:0;right:0;top:0;z-index:400;background:#0f2a1e;
+    border-bottom:2px solid var(--green);color:#b6f0d4;font-weight:700;font-size:15.5px;
+    padding:15px 18px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.5);
+    transform:translateY(-110%);transition:transform .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;}
+  .cueMsg.show{transform:translateY(0);animation:cuewiggle .5s ease .35s;}
+  @keyframes cuewiggle{0%,100%{transform:translateY(0)}25%{transform:translateY(0) rotate(-.4deg)}75%{transform:translateY(0) rotate(.4deg)}}
+
+  .ddx-ov{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;
+    padding:20px;background:rgba(6,10,15,.55);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);perspective:1800px;}
+  .ddx-ov.show{display:flex;}
+  .ddx-card{width:100%;max-width:440px;max-height:88vh;overflow-y:auto;
+    background:linear-gradient(160deg,#1a2230 0%,#141a24 100%);
+    border:1px solid rgba(76,154,255,.4);border-radius:22px;padding:22px;
+    box-shadow:0 24px 70px rgba(0,0,0,.6),0 0 40px rgba(76,154,255,.12);
+    cursor:pointer;}
+  .ddx-ov.show .ddx-card{animation:dealIn .5s cubic-bezier(.2,.8,.22,1) both;}
+  @keyframes dealIn{0%{opacity:0;transform:translateY(60vh) rotate(14deg) scale(.8)}100%{opacity:1;transform:none}}
+  .ddx-ov.closing .ddx-card{animation:dealOut .4s cubic-bezier(.5,0,.75,.4) both;}
+  @keyframes dealOut{0%{opacity:1;transform:none}100%{opacity:0;transform:translateY(60vh) rotate(14deg) scale(.8)}}
+  .ddx-card h3{margin:0 0 14px;display:flex;align-items:center;gap:9px;font-size:16px;font-weight:800;
+    background:linear-gradient(90deg,#4c9aff,#7ee7c7);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .ddx-key{font-size:14.5px;color:var(--text);background:rgba(76,154,255,.1);
+    border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:10px 13px;margin-bottom:14px;}
+  .ddx-cards{display:flex;flex-direction:column;gap:10px;}
+  .dc{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;
+    padding:12px 13px;background:rgba(255,255,255,.025);position:relative;overflow:hidden;
+    opacity:0;transform:translateX(-90px) rotate(-7deg);animation:ddxslide .45s cubic-bezier(.2,.85,.28,1.25) forwards;}
+  .dc:nth-child(1){animation-delay:.12s} .dc:nth-child(2){animation-delay:.20s}
+  .dc:nth-child(3){animation-delay:.28s} .dc:nth-child(4){animation-delay:.36s}
+  .dc:nth-child(5){animation-delay:.44s} .dc:nth-child(6){animation-delay:.52s}
+  .ddx-ov.closing .dc{animation:dcOut .28s cubic-bezier(.5,0,.75,.4) forwards;}
+  @keyframes dcOut{to{opacity:0;transform:translateX(-90px) rotate(-7deg)}}
+  .ddx-ov.closing .dc:nth-child(5){animation-delay:.02s}
+  .ddx-ov.closing .dc:nth-child(4){animation-delay:.06s}
+  .ddx-ov.closing .dc:nth-child(3){animation-delay:.10s}
+  .ddx-ov.closing .dc:nth-child(2){animation-delay:.14s}
+  .ddx-ov.closing .dc:nth-child(1){animation-delay:.18s}
+  @keyframes ddxslide{to{opacity:1;transform:none}}
+  .dc .emo{font-size:24px;flex:none;line-height:1.1;}
+  .dc .txt .dn{font-weight:800;font-size:15px;margin-bottom:2px;color:var(--text);}
+  .dc .txt .dv{font-size:13.5px;color:var(--muted);} .dc .txt .dv b{color:var(--text);font-weight:600;}
+  .dc.hit{border-color:var(--green);background:linear-gradient(120deg,rgba(46,160,67,.2),rgba(46,160,67,.06));
+    box-shadow:0 0 20px rgba(46,160,67,.25);}
+  .dc.hit .dn{color:#7ee7a8;}
+  .dc.hit::after{content:"⭐";position:absolute;top:8px;right:10px;font-size:15px;animation:ddxtwinkle 1.4s ease-in-out infinite;}
+  @keyframes ddxtwinkle{0%,100%{opacity:.4;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
+  .nav{position:fixed;bottom:0;left:0;right:0;z-index:40;background:var(--panel);
+    border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+    display:flex;gap:10px;max-width:720px;margin:0 auto;align-items:stretch;}
+  .nav button{border:1px solid var(--line);border-radius:12px;padding:14px;
+    font-size:15.5px;font-weight:800;cursor:pointer;background:var(--panel2);color:var(--text);}
+  .nav .prev,.nav .next{flex:1;}
+  .nav .list{flex:0 0 auto;min-width:66px;color:var(--muted);font-size:13px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.1;}
+  .nav .list .lc{font-size:16px;}
+  .nav .next{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+  .nav button:disabled{opacity:.4;cursor:not-allowed;}
+  /* nav dokunma/focus fix: buton basılı kalıp beyazlaşmaz */
+  .nav button{-webkit-tap-highlight-color:transparent;}
+  .nav button:focus{outline:none;}
+  .nav .prev:focus,.nav .prev:active{background:var(--panel2);color:var(--text);border-color:var(--line);}
+  .nav .list:focus,.nav .list:active{background:var(--panel2);color:var(--muted);border-color:var(--line);}
+  .nav .next:focus,.nav .next:active{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;}
+
+
+  /* Question-list modal (bottom sheet) */
+  .modal-ov{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.55);
+    display:none;align-items:flex-end;justify-content:center;}
+  .modal-ov.show{display:flex;animation:fade .2s ease;}
+  .modal{width:100%;max-width:720px;background:var(--panel);
+    border-top-left-radius:20px;border-top-right-radius:20px;
+    border:1px solid var(--line);border-bottom:none;padding:16px 16px 26px;
+    max-height:72vh;overflow:auto;animation:slideup .28s ease;}
+  @keyframes slideup{from{transform:translateY(30px);opacity:.6;}to{transform:none;opacity:1;}}
+  .modal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .modal-h span{font-size:15px;font-weight:800;letter-spacing:.3px;}
+  .modal-h .close{background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    border-radius:9px;width:34px;height:34px;font-size:16px;cursor:pointer;font-weight:800;}
+  .qgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;}
+  .gbtn{aspect-ratio:1/1;border-radius:10px;border:1.5px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:14px;font-weight:800;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;position:relative;}
+  .gbtn.ok{background:var(--green-bg);border-color:var(--green);color:var(--green);}
+  .gbtn.no{background:var(--red-bg);border-color:var(--red);color:var(--red);}
+  .gbtn.cur{outline:2px solid var(--accent);outline-offset:1px;}
+  .gbtn.star::after{content:"";position:absolute;top:3px;right:3px;width:7px;height:7px;
+    border-radius:50%;background:var(--star);}
+
+  /* Result */
+  .result{display:none;}
+  .result.show{display:block;animation:fade .4s ease;}
+  .score-ring{display:flex;flex-direction:column;align-items:center;justify-content:center;
+    width:170px;height:170px;margin:8px auto 6px;border-radius:50%;
+    background:conic-gradient(var(--accent) var(--pct,0%),var(--panel2) 0);}
+  .score-ring .inner{width:138px;height:138px;border-radius:50%;background:var(--bg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .score-ring .big{font-size:34px;font-weight:900;}
+  .score-ring .sub{font-size:13px;color:var(--muted);font-weight:700;}
+  .pctline{text-align:center;font-size:20px;font-weight:900;margin:2px 0 4px;}
+  .fb{text-align:center;color:var(--muted);font-size:15px;margin-bottom:14px;}
+  .result-stats{display:flex;gap:10px;justify-content:center;margin-bottom:22px;flex-wrap:wrap;}
+  .rstat{background:var(--panel);border:1px solid var(--line);border-radius:11px;
+    padding:9px 15px;font-size:13.5px;font-weight:800;}
+  .rstat.g{color:var(--green);} .rstat.r{color:var(--red);} .rstat.s{color:var(--star);}
+  .review-h{font-size:14px;font-weight:800;color:var(--muted);letter-spacing:.4px;
+    margin:6px 0 10px;}
+  .rev{display:flex;align-items:center;gap:11px;background:var(--panel);
+    border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:9px;
+    cursor:pointer;transition:border-color .15s;}
+  .rev:hover{border-color:var(--accent);}
+  .rev .badge{flex:0 0 auto;width:24px;height:24px;border-radius:6px;font-size:15px;
+    display:flex;align-items:center;justify-content:center;font-weight:900;}
+  .rev .badge.ok{background:var(--green-bg);color:var(--green);}
+  .rev .badge.no{background:var(--red-bg);color:var(--red);}
+  .rev .badge.blank{background:var(--panel2);color:var(--muted);}
+  .rev .rq{flex:1;font-size:14px;}
+  .rev .ra{font-size:12.5px;color:var(--muted);margin-top:2px;}
+  .rev .ra b{color:var(--green);}
+  .result-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+  .ract{width:100%;padding:15px;border-radius:13px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:15px;font-weight:800;cursor:pointer;}
+  .ract:hover{border-color:var(--accent);}
+  .ract.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+  .ract:disabled{opacity:.4;cursor:not-allowed;}
+
+  /* Resume prompt */
+  .resume-ov{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.6);
+    display:none;align-items:center;justify-content:center;padding:20px;}
+  .resume-ov.show{display:flex;animation:fade .2s ease;}
+  .resume-box{width:100%;max-width:420px;background:var(--panel);border:1px solid var(--line);
+    border-radius:18px;padding:22px 20px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.5);}
+  .resume-t{font-size:18px;font-weight:900;margin-bottom:8px;}
+  .resume-s{font-size:14px;color:var(--muted);margin-bottom:18px;line-height:1.5;}
+  .resume-btns{display:flex;flex-direction:column;gap:10px;}
+  .resume-btn{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:15px;font-weight:800;cursor:pointer;}
+  .resume-btn:hover{border-color:var(--accent);}
+  .resume-btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+
+
+  /* ================= EĞLENCE KATMANI ================= */
+  #fxCanvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:90;}
+  .emoji-pop{position:fixed;font-size:36px;pointer-events:none;z-index:95;
+    will-change:transform,opacity;animation:floatUp 1.7s cubic-bezier(.2,.7,.3,1) forwards;}
+  @keyframes floatUp{
+    0%{opacity:0;transform:translate(0,0) scale(.4) rotate(0deg);}
+    12%{opacity:1;transform:translate(0,-14px) scale(1.25) rotate(0deg);}
+    100%{opacity:0;transform:translate(var(--dx,0px),-190px) scale(1.05) rotate(var(--rot,25deg));}
+  }
+  .emoji-drop{position:fixed;font-size:30px;pointer-events:none;z-index:95;
+    animation:dropDown 1.5s ease-in forwards;}
+  @keyframes dropDown{
+    0%{opacity:0;transform:translateY(-30px) scale(.6) rotate(0deg);}
+    15%{opacity:1;}
+    100%{opacity:0;transform:translateY(150px) scale(1) rotate(var(--rot,-20deg));}
+  }
+  .shake{animation:shakeX .55s cubic-bezier(.36,.07,.19,.97) both;}
+  @keyframes shakeX{
+    10%,90%{transform:translateX(-2px);} 20%,80%{transform:translateX(4px);}
+    30%,50%,70%{transform:translateX(-8px);} 40%,60%{transform:translateX(8px);}
+  }
+  .opt.correct{animation:popOk .55s cubic-bezier(.2,1.4,.4,1);
+    box-shadow:0 0 22px rgba(46,160,67,.45);}
+  @keyframes popOk{0%{transform:scale(1);}35%{transform:scale(1.035);}100%{transform:scale(1);}}
+  .opt.wrong{animation:wobbleNo .5s;}
+  @keyframes wobbleNo{
+    0%,100%{transform:translateX(0);}20%{transform:translateX(-6px);}
+    40%{transform:translateX(6px);}60%{transform:translateX(-4px);}80%{transform:translateX(4px);}
+  }
+  .mascot{position:absolute;right:12px;top:50%;font-size:26px;line-height:1;
+    transform:translateY(-50%);animation:mascotDance .7s ease-in-out infinite alternate;
+    pointer-events:none;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4));}
+  @keyframes mascotDance{
+    from{transform:translateY(-42%) rotate(-12deg) scale(1);}
+    to{transform:translateY(-62%) rotate(12deg) scale(1.18);}
+  }
+  .streak{position:fixed;left:50%;top:22%;transform:translateX(-50%) scale(.6);
+    font-size:22px;font-weight:900;color:var(--star);z-index:96;opacity:0;
+    text-shadow:0 3px 14px rgba(0,0,0,.6);pointer-events:none;
+    animation:streakPop 1.5s ease-out forwards;white-space:nowrap;}
+  @keyframes streakPop{
+    0%{opacity:0;transform:translateX(-50%) scale(.5);}
+    20%{opacity:1;transform:translateX(-50%) scale(1.15);}
+    75%{opacity:1;transform:translateX(-50%) scale(1);}
+    100%{opacity:0;transform:translateX(-50%) scale(1) translateY(-24px);}
+  }
+  .score-ring{animation:ringIn .8s cubic-bezier(.2,1.2,.3,1);}
+  @keyframes ringIn{from{transform:scale(.75) rotate(-12deg);opacity:0;}to{transform:none;opacity:1;}}
+
+
+  /* Cevap mesaji: son sik ile ipucu kutusu arasinda YUZEN baloncuk.
+     Yuksekligi 0 -> icerigi itmez; birkac saniyede kaybolur. */
+  .fxfloat{position:relative;height:0;overflow:visible;}
+  .fxfloat .pill{position:absolute;left:50%;top:-4px;
+    transform:translateX(-50%);
+    background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    padding:11px 18px;border-radius:11px;font-size:14px;font-weight:700;
+    white-space:nowrap;z-index:80;pointer-events:none;
+    box-shadow:0 6px 20px rgba(0,0,0,.45);
+    animation:pillIn .25s ease both, pillOut .45s ease 1.55s forwards;}
+  @keyframes pillIn{
+    from{opacity:0;transform:translateX(-50%) translateY(12px);}
+    to{opacity:1;transform:translateX(-50%) translateY(0);}
+  }
+  @keyframes pillOut{
+    to{opacity:0;transform:translateX(-50%) translateY(-8px);}
+  }
+
+  /* Toast */
+  .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);
+    background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    padding:11px 18px;border-radius:11px;font-size:14px;font-weight:700;z-index:80;
+    opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 6px 20px rgba(0,0,0,.4);}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<header id="hdr">
+  <div class="hbar">
+    <div class="htitle">MEDITUS <span>PEDİATRİ · İMMÜNOLOJİ</span></div>
+    <div class="stats">
+      <div class="chip correct">✓ <span id="cCount">0</span></div>
+      <div class="chip star">⭐ <span id="sCount">0</span></div>
+    </div>
+  </div>
+  <div class="progress"><i id="bar"></i></div>
+</header>
+
+<main id="main">
+  <div id="quiz"></div>
+  <div class="cueMsg" id="cueMsg"></div>
+  <div class="ddx-ov" id="ddxOv" onclick="closeDdx()"></div>
+
+  <div class="result" id="result">
+    <div class="score-ring" id="ring">
+      <div class="inner">
+        <div class="big" id="scoreBig">0/0</div>
+        <div class="sub">DOĞRU</div>
+      </div>
+    </div>
+    <div class="pctline" id="pctLine">%0</div>
+    <div class="fb" id="fbText"></div>
+    <div class="result-stats" id="rStats"></div>
+    <div class="result-actions">
+      <button class="ract primary" onclick="restart()">↺ Tüm Soruları Yeniden Çöz</button>
+      <button class="ract" id="retryWrongBtn" onclick="retryWrong()">✗ Yanlışları Tekrar Çöz</button>
+      <button class="ract" id="retryStarBtn" onclick="retryStar()">⭐ Yıldızlıları Tekrar Çöz</button>
+    </div>
+    <div class="review-h">SORU İNCELEMESİ</div>
+    <div id="reviewList"></div>
+    
+  </div>
+</main>
+
+<div class="nav" id="nav">
+  <button class="prev" id="prevBtn" onclick="go(-1)">← Önceki</button>
+  <button class="list" id="listBtn" onclick="openModal()"><span class="lc">☰</span><span id="navCounter">0/0</span></button>
+  <button class="next" id="nextBtn" onclick="go(1)">Sonraki →</button>
+</div>
+
+<div class="modal-ov" id="modalOv" onclick="modalBg(event)">
+  <div class="modal">
+    <div class="modal-h"><span>Sorular</span><button class="close" onclick="closeModal()">✕</button></div>
+    <div class="qgrid" id="qGrid"></div>
+  </div>
+</div>
+
+<div class="resume-ov" id="resumeOv">
+  <div class="resume-box">
+    <div class="resume-t">↩ Kaldığın yerden devam?</div>
+    <div class="resume-s" id="resumeSub"></div>
+    <div class="resume-btns">
+      <button class="resume-btn primary" onclick="resumeYes()">Kaldığım yerden devam et</button>
+      <button class="resume-btn" onclick="resumeNo()">Baştan başla</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   QUESTIONS — SADECE BU DİZİ DEĞİŞİR.
+   Her obje: { yil?, soru, siklar[5], dogru(0-4), ipucu, tuzak, aciklama }
+   ========================================================= */
+const QUESTIONS = [
+ {
+  "soru": "<b>En sık görülen immün yetmezlik</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Bruton hastalığı"
+   },
+   {
+    "k": "B",
+    "t": "Selektif IgA eksikliği"
+   },
+   {
+    "k": "C",
+    "t": "IgG subgrup eksikliği"
+   },
+   {
+    "k": "D",
+    "t": "Geçici hipogammaglobulinemi"
+   },
+   {
+    "k": "E",
+    "t": "DiGeorge sendromu"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 En sık immün yetmezlik grubu humoral; bunun içinde en sık hangisi?",
+  "ipucu": "En sık immün yetmezlik <b>selektif IgA eksikliğidir</b> (humoral grup içinde).",
+  "tuzak": "En sık immün yetmezlik grubu humoraldir (~%40); bunların da en sık görüleni <mark>selektif IgA eksikliğidir</mark>.",
+  "aciklama": "<b>En sık görülen immün yetmezlikler humoral (B-hücre) yetmezliklerdir (~%40)</b>; bunların da en sık görüleni <b>selektif IgA eksikliğidir</b>. Çoğu asemptomatiktir; ancak tekrarlayan sinopulmoner/GİS enfeksiyonu, atopi, otoimmünite ve (IgA'lı kan ürünlerine) anafilaksi riski olabilir."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>X'e bağlı kalıtım gösteren immün yetmezliklerden</b> biri <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Properdin eksikliği"
+   },
+   {
+    "k": "B",
+    "t": "Ağır kombine immün yetmezlik (bir formu)"
+   },
+   {
+    "k": "C",
+    "t": "Wiskott-Aldrich sendromu"
+   },
+   {
+    "k": "D",
+    "t": "Kronik granülomatöz hastalık"
+   },
+   {
+    "k": "E",
+    "t": "Hiper IgE sendromu"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Job (hiper IgE) sendromu X'e bağlı mı yoksa OD/OR mu geçer?",
+  "ipucu": "<b>Hiper IgE sendromu</b> otozomal dominant/resesif geçer; X'e bağlı değildir.",
+  "tuzak": "Properdin eksikliği, X-SCID, Wiskott-Aldrich ve KGH (X'e bağlı formu) X-linked'dir. <mark>Hiper IgE sendromu</mark> ise OD (STAT3) veya OR geçer.",
+  "aciklama": "<b>X'e bağlı immün yetmezlikler</b>: Bruton agammaglobulinemi, Wiskott-Aldrich sendromu, X-linked SCID, X-linked kronik granülomatöz hastalık, properdin eksikliği, X-linked hiper IgM (CD40L). <b>Hiper IgE sendromu (Job)</b> ise otozomal dominant (STAT3) veya resesif geçer; X'e bağlı değildir."
+ },
+ {
+  "soru": "<b>DiGeorge sendromu</b> ile ilgili aşağıdakilerden hangisi <mark>yanlıştır?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Neonatal hipokalsemi vardır."
+   },
+   {
+    "k": "B",
+    "t": "Büyük arter transpozisyonu görülebilir."
+   },
+   {
+    "k": "C",
+    "t": "Kan transfüzyonu sonrası graft-versus-host hastalığı gelişebilir."
+   },
+   {
+    "k": "D",
+    "t": "Kromozom patolojisi 22q11'de lokalizedir."
+   },
+   {
+    "k": "E",
+    "t": "Enfeksiyonlar 12. aydan sonra başlar."
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 DiGeorge'de bulgular doğumdan mı sonra mı yoksa erken mi başlar?",
+  "ipucu": "DiGeorge'de bulgular <b>1 yaşından önce (erken) başlar</b>; \"12. aydan sonra\" ifadesi yanlıştır.",
+  "tuzak": "Neonatal hipokalsemi, konotrunkal kalp anomalileri, transfüzyon sonrası GVHD ve 22q11 delesyonu doğrudur. <mark>Enfeksiyonların 12. aydan sonra başlaması</mark> yanlıştır — erken başlar.",
+  "aciklama": "<b>DiGeorge sendromu (22q11.2 delesyonu)</b>: timus aplazisi (T-hücre defekti), neonatal hipokalsemi (paratiroid aplazisi), konotrunkal kalp anomalileri (trunkus, transpozisyon, Fallot), yüz anomalileri. Timus defekti nedeniyle transfüzyon sonrası GVHD gelişebilir. Bulgular <b>1 yaşından önce (erken)</b> başlar; \"12. aydan sonra başlar\" ifadesi yanlıştır."
+ },
+ {
+  "soru": "<b>Ataksi-telenjiektazide</b> aşağıdakilerden hangisi <mark>görülmez?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Tekrarlayan sinopulmoner enfeksiyonlar"
+   },
+   {
+    "k": "B",
+    "t": "IgA eksikliği"
+   },
+   {
+    "k": "C",
+    "t": "Trombositopeni"
+   },
+   {
+    "k": "D",
+    "t": "Malignite gelişme riski"
+   },
+   {
+    "k": "E",
+    "t": "Nörolojik bulgular (serebellar ataksi)"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Trombositopeni hangi sendromun bulgusu — ataksi-telenjiektazi mi Wiskott-Aldrich mi?",
+  "ipucu": "<b>Trombositopeni</b> ataksi-telenjiektazide beklenmez; Wiskott-Aldrich'in özelliğidir.",
+  "tuzak": "Serebellar ataksi, telenjiektazi, IgA eksikliği, sinopulmoner enfeksiyon ve malignite riski görülür. <mark>Trombositopeni</mark> ise Wiskott-Aldrich bulgusudur.",
+  "aciklama": "<b>Ataksi-telenjiektazi (ATM gen defekti)</b>: progresif serebellar ataksi, okülokutanöz telenjiektaziler, IgA/IgG2 eksikliği, tekrarlayan sinopulmoner enfeksiyonlar, radyasyon duyarlılığı ve artmış malignite (lenfoma/lösemi) riski. <b>Trombositopeni</b> beklenen bir bulgu değildir (bu Wiskott-Aldrich'in özelliğidir)."
+ },
+ {
+  "soru": "<b>Dört aydır süregelen cilt lezyonları</b> ile getirilen 18 aylık çocukta yenidoğan döneminde <b>göbekten kanama</b> öyküsü var; tetkiklerde Hct %35, lökosit 5000/mm³, <b>trombosit 90.000/mm³ (küçük trombositler)</b>.<br><br>En olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Bruton hastalığı"
+   },
+   {
+    "k": "B",
+    "t": "Wiskott-Aldrich sendromu"
+   },
+   {
+    "k": "C",
+    "t": "Nezelof sendromu"
+   },
+   {
+    "k": "D",
+    "t": "DiGeorge sendromu"
+   },
+   {
+    "k": "E",
+    "t": "Kronik granülomatöz hastalık"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Egzema + trombositopeni (küçük trombosit) + enfeksiyon triadı hangi sendrom?",
+  "ipucu": "Egzema + trombositopeni (küçük trombosit) + tekrarlayan enfeksiyon → <b>Wiskott-Aldrich sendromu</b>.",
+  "tuzak": "Bruton'da trombositopeni/egzema olmaz. <mark>Egzema + trombositopeni + enfeksiyon triadı</mark> Wiskott-Aldrich'i gösterir.",
+  "aciklama": "<b>Wiskott-Aldrich sendromu (X'e bağlı, WASP defekti)</b> triadı: <b>egzema, trombositopeni (küçük trombositler) ve tekrarlayan enfeksiyonlar</b>. Yenidoğanda göbek/sünnet kanaması ilk bulgu olabilir. Başlangıçta kapsüllü bakteri, sonra P. jirovecii ve herpes enfeksiyonları görülür; lenfoma riski artar."
+ },
+ {
+  "soru": "<b>Kronik granülomatöz hastalık</b> tanısı için hangi test kullanılmalıdır?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "CH50 testi"
+   },
+   {
+    "k": "B",
+    "t": "Ig düzeyleri"
+   },
+   {
+    "k": "C",
+    "t": "Antijene antikor yanıtı"
+   },
+   {
+    "k": "D",
+    "t": "Dihidrorodamin (DHR) testi"
+   },
+   {
+    "k": "E",
+    "t": "Kandidin deri testi"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Nötrofil oksidatif patlamasını ölçen flow-sitometri testi hangisi?",
+  "ipucu": "Kronik granülomatöz hastalık tanısında <b>dihidrorodamin (DHR) testi</b> (veya NBT) kullanılır.",
+  "tuzak": "CH50 kompleman, Ig düzeyi/antikor yanıtı humoral testtir. <mark>DHR testi</mark> nötrofil oksidatif patlamasını (NADPH oksidaz) ölçer.",
+  "aciklama": "<b>Kronik granülomatöz hastalık</b> NADPH oksidaz defektidir; nötrofiller katalaz-pozitif organizmaları öldüremez. Tanıda <b>dihidrorodamin (DHR) flow-sitometri testi</b> (oksidatif patlamayı ölçer) kullanılır; eskiden NBT (nitroblue tetrazolium) testi kullanılırdı. Tedavide profilaksi + gama interferon verilir."
+ },
+ {
+  "soru": "<b>Job sendromu (hiper IgE)</b> için aşağıdakilerden hangisi doğrudur?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "X'e bağlı kalıtım gösterir."
+   },
+   {
+    "k": "B",
+    "t": "B hücresi sayısında artma vardır."
+   },
+   {
+    "k": "C",
+    "t": "Bozulmuş kemotaksis görülür."
+   },
+   {
+    "k": "D",
+    "t": "Tekrarlayan E. coli enfeksiyonları görülür."
+   },
+   {
+    "k": "E",
+    "t": "Tekrarlayan stafilokoksik enfeksiyonlar görülür."
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Hiper IgE sendromunda hangi bakteriyle soğuk apseler oluşur?",
+  "ipucu": "Job sendromunda <b>tekrarlayan stafilokoksik (soğuk) apseler</b> görülür.",
+  "tuzak": "OD (STAT3) geçer, E. coli değil stafilokok baskındır. <mark>Tekrarlayan stafilokoksik enfeksiyonlar</mark> (soğuk apse, pnömatosel) tipiktir.",
+  "aciklama": "<b>Job sendromu (hiper IgE, STAT3 defekti, otozomal dominant)</b>: çok yüksek IgE, kaba yüz görünümü, pruritik dermatit, tekrarlayan <b>stafilokoksik soğuk apseler</b>, akciğerde pnömatosel, süt dişlerinin dökülmemesi, iskelet anomalileri. Kemotaksis defekti klasik olarak eski tanımlarda vurgulanır ancak baskın bulgu stafilokoksik enfeksiyonlardır."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>Wiskott-Aldrich sendromunda</b> görülen immün sistem bozukluklarından biri <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "IgM düşüklüğü"
+   },
+   {
+    "k": "B",
+    "t": "IgA düşüklüğü"
+   },
+   {
+    "k": "C",
+    "t": "Kemotaksis defekti"
+   },
+   {
+    "k": "D",
+    "t": "Polisakkarit antijenlere antikor yanıtında azalma"
+   },
+   {
+    "k": "E",
+    "t": "T hücre fonksiyonlarında bozulma"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Wiskott-Aldrich'te IgA yüksek mi düşük mü?",
+  "ipucu": "Wiskott-Aldrich'te <b>IgA (ve IgE) yüksektir</b>, düşük değildir; asıl düşen IgM'dir.",
+  "tuzak": "IgM düşüklüğü, kemotaksis defekti, polisakkarite yanıtsızlık ve T-hücre bozukluğu görülür. <mark>IgA düşüklüğü</mark> yanlıştır — IgA yüksektir.",
+  "aciklama": "<b>Wiskott-Aldrich sendromunda</b> immünglobulin paterni tipiktir: <b>IgM düşük, IgA ve IgE yüksek</b>, IgG normal. Polisakkarit antijenlere (kapsüllü bakteri) antikor yanıtı zayıftır, T-hücre fonksiyonları progresif bozulur, kemotaksis defekti vardır. <b>IgA düşüklüğü</b> beklenmez (IgA yüksektir)."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>primer immün yetmezlik uyarı işaretlerinden</b> biri <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Bir yılda dörtten fazla otitis media"
+   },
+   {
+    "k": "B",
+    "t": "Bir yılda bir kez basit üst solunum yolu enfeksiyonu"
+   },
+   {
+    "k": "C",
+    "t": "Olağan dışı patojenlerle (Aspergillus, Nocardia) enfeksiyon"
+   },
+   {
+    "k": "D",
+    "t": "Ailede primer immün yetmezlik öyküsü"
+   },
+   {
+    "k": "E",
+    "t": "Antibiyotik tedavisine rağmen yanıt alınamaması"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Yılda tek bir basit ÜSYE normal mi yoksa uyarı işareti mi?",
+  "ipucu": "<b>Yılda 1 basit ÜSYE</b> normaldir; primer immün yetmezlik uyarı işareti değildir.",
+  "tuzak": "Sık otit, olağan dışı patojen, aile öyküsü ve tedaviye yanıtsızlık uyarı işaretidir. <mark>Yılda 1 basit ÜSYE</mark> ise normaldir.",
+  "aciklama": "<b>Primer immün yetmezlik uyarı işaretleri</b>: yılda ≥4 otit, ≥2 ağır sinüzit veya pnömoni, olağan dışı lokalizasyonda (karaciğer/beyin apsesi) veya olağan dışı patojenlerle (Aspergillus, Serratia, Nocardia) enfeksiyon, uzun antibiyotiğe yanıtsızlık, büyüme geriliği, ailede immün yetmezlik öyküsü. <b>Yılda 1 basit ÜSYE</b> normaldir, uyarı işareti değildir."
+ },
+ {
+  "soru": "Aşağıdaki immün yetmezliklerden hangisinde <b>büyüme hormonu eksikliği</b> de görülür?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Bruton agammaglobulinemisi"
+   },
+   {
+    "k": "B",
+    "t": "DiGeorge sendromu"
+   },
+   {
+    "k": "C",
+    "t": "Mukokutanöz kandidiyazis"
+   },
+   {
+    "k": "D",
+    "t": "Omenn sendromu"
+   },
+   {
+    "k": "E",
+    "t": "Chediak-Higashi sendromu"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 X'e bağlı agammaglobulinemiye eşlik edebilen endokrin defekt hangisi?",
+  "ipucu": "<b>Bruton (X'e bağlı) agammaglobulinemiye</b> büyüme hormonu eksikliği eşlik edebilir.",
+  "tuzak": "Mukokutanöz kandidiyazis otoimmün endokrinopati (paratiroid/adrenal, gonadal disgenezi) yapar. <mark>Büyüme hormonu eksikliği</mark> ise Bruton ile ilişkilendirilir.",
+  "aciklama": "<b>X'e bağlı agammaglobulinemi (Bruton)</b> bazı olgularda <b>büyüme hormonu eksikliği</b> ile birlikte görülebilir. Kronik mukokutanöz kandidiyaziste ise otoimmün endokrinopati (hipoparatiroidi, adrenal yetmezlik, gonadal disgenezi) görülür."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>B hücre eksikliğini göstermek için</b> uygulanabilecek testlerden biri <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "IgG ölçümü"
+   },
+   {
+    "k": "B",
+    "t": "İzohemaglütinin titresi"
+   },
+   {
+    "k": "C",
+    "t": "Aşılara antikor yanıtı"
+   },
+   {
+    "k": "D",
+    "t": "Akciğer (timus) grafisi"
+   },
+   {
+    "k": "E",
+    "t": "CD19, CD20 ölçümü"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Timus gölgesini gösteren grafi B-hücre mi T-hücre defektini araştırır?",
+  "ipucu": "<b>Akciğer (timus) grafisi</b> T-hücre (DiGeorge) defektini araştırır, B hücre testi değildir.",
+  "tuzak": "Ig düzeyi, izohemaglütinin, aşı yanıtı ve CD19/20 B-hücre testidir. <mark>Timus grafisi</mark> ise T-hücre yetmezliği (DiGeorge) için kullanılır.",
+  "aciklama": "<b>B hücre eksikliği testleri</b>: immünglobulin düzeyleri (IgG/A/M), izohemaglütinin titresi, aşılara (tetanoz, difteri, Hib, pnömokok) antikor yanıtı, akım sitometride CD19/CD20 (B hücre sayımı). <b>Akciğer/timus grafisi</b> ise timus gölgesini değerlendirerek T-hücre yetmezliğini (özellikle DiGeorge) araştırır."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>humoral immün yetmezliklerden</b> <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Bruton hastalığı"
+   },
+   {
+    "k": "B",
+    "t": "Sık değişken immün yetmezlik (CVID)"
+   },
+   {
+    "k": "C",
+    "t": "Selektif IgA eksikliği"
+   },
+   {
+    "k": "D",
+    "t": "X'e bağlı lenfoproliferatif sendrom"
+   },
+   {
+    "k": "E",
+    "t": "Hiper IgE sendromu"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Hiper IgE bir antikor defekti mi yoksa fagosit/kombine defekt mi?",
+  "ipucu": "<b>Hiper IgE sendromu</b> humoral (antikor) yetmezlik değildir.",
+  "tuzak": "Bruton, CVID, selektif IgA eksikliği ve X'e bağlı lenfoproliferatif sendrom humoraldir. <mark>Hiper IgE sendromu</mark> ise fagositer/kombine defektlerle giden ayrı bir tablodur.",
+  "aciklama": "<b>Humoral (B-hücre/antikor) immün yetmezlikler</b>: X'e bağlı agammaglobulinemi (Bruton), CVID, selektif IgA eksikliği, IgG subgrup eksikliği, hiper IgM sendromu, X'e bağlı lenfoproliferatif sendrom. <b>Hiper IgE sendromu (Job)</b> ise humoral yetmezlik grubunda yer almaz (fagosit/kombine defekt özellikleri taşır)."
+ },
+ {
+  "soru": "<b>Gümüş rengi saçlarla</b> karakterize immün yetmezlik aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kronik granülomatöz hastalık"
+   },
+   {
+    "k": "B",
+    "t": "Griscelli sendromu"
+   },
+   {
+    "k": "C",
+    "t": "Bruton agammaglobulinemisi"
+   },
+   {
+    "k": "D",
+    "t": "Properdin eksikliği"
+   },
+   {
+    "k": "E",
+    "t": "Job sendromu"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Saç ve ciltte hipopigmentasyonla giden immün yetmezlik hangisi?",
+  "ipucu": "<b>Griscelli sendromu</b> gümüş rengi saç ve hipopigmentasyonla karakterizedir.",
+  "tuzak": "Chediak-Higashi de hipopigmentasyon yapar ama <mark>gümüş rengi saç</mark> Griscelli sendromunun tipik tanımıdır.",
+  "aciklama": "<b>Griscelli sendromu</b>: saç ve ciltte hipopigmentasyon (<b>gümüş-gri renkli saç</b>), immün yetmezlik ve hemofagositik sendrom (akselere faz) ile giden otozomal resesif hastalıktır. Chediak-Higashi sendromunda da parsiyel albinizm görülür ancak dev granüller tipiktir."
+ },
+ {
+  "soru": "<b>Graft-versus-host hastalığının (GVHD)</b> evrelemesinde hangi parametreler kullanılır?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Döküntü, PT zamanı, nörolojik semptomlar"
+   },
+   {
+    "k": "B",
+    "t": "Döküntü, bilirubin düzeyi, PT zamanı"
+   },
+   {
+    "k": "C",
+    "t": "Bilirubin düzeyi, diyarenin şiddeti, nörolojik semptomlar"
+   },
+   {
+    "k": "D",
+    "t": "PT zamanı, bilirubin, nörolojik semptomlar"
+   },
+   {
+    "k": "E",
+    "t": "Döküntü, bilirubin düzeyi, diyarenin şiddeti"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 GVHD hangi üç organı tutar — bunların göstergeleri neler?",
+  "ipucu": "GVHD evrelemesi <b>deri (döküntü), karaciğer (bilirubin) ve GİS (diyare)</b> tutulumuna dayanır.",
+  "tuzak": "Nörolojik semptom ve PT GVHD evreleme parametresi değildir. <mark>Deri, karaciğer, bağırsak</mark> üçlüsü kullanılır.",
+  "aciklama": "<b>Akut GVHD</b> üç organı tutar ve evreleme bunlara dayanır: <b>deri (döküntünün yaygınlığı), karaciğer (bilirubin düzeyi) ve gastrointestinal sistem (diyarenin şiddeti/hacmi)</b>. Nörolojik semptomlar ve PT zamanı evreleme parametresi değildir."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>otozomal dominant hiper IgE (Job) sendromunda</b> <mark>görülmez?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Eozinofili"
+   },
+   {
+    "k": "B",
+    "t": "IgE yüksekliği"
+   },
+   {
+    "k": "C",
+    "t": "Egzema"
+   },
+   {
+    "k": "D",
+    "t": "Solunum yolu alerjileri"
+   },
+   {
+    "k": "E",
+    "t": "Mukokutanöz kandidiyaz"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 IgE çok yüksek olmasına rağmen astım/alerjik rinit artar mı?",
+  "ipucu": "Job sendromunda IgE çok yüksek olmasına rağmen <b>solunum yolu alerjileri artmamıştır</b>.",
+  "tuzak": "Eozinofili (%90), IgE yüksekliği (%97), egzema (%95) ve mukokutanöz kandidiyaz görülür. <mark>Solunum yolu alerjileri</mark> ise artmamıştır (paradoks).",
+  "aciklama": "<b>Otozomal dominant hiper IgE (Job) sendromunda</b> IgE yüksekliği (~%97, en sık immünolojik bulgu), egzema/pruritik dermatit (~%95, en sık fizik muayene bulgusu), eozinofili (~%90), tekrarlayan stafilokoksik apseler, pnömatosel ve mukokutanöz kandidiyaz görülür. <b>IgE çok yüksek olmasına rağmen solunum yolu alerjileri (astım/alerjik rinit) artmamıştır</b>."
+ },
+ {
+  "soru": "Aşağıdaki immün yetmezliklerden hangilerinde <b>IgE yüksekliği</b> görülür?<br><br>I. Wiskott-Aldrich sendromu<br>II. Hiper IgM sendromu<br>III. Geçici hipogammaglobulinemi<br>IV. Job sendromu",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "I ve II"
+   },
+   {
+    "k": "B",
+    "t": "I ve III"
+   },
+   {
+    "k": "C",
+    "t": "II ve IV"
+   },
+   {
+    "k": "D",
+    "t": "I, II ve III"
+   },
+   {
+    "k": "E",
+    "t": "I ve IV"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Egzemayla giden iki immün yetmezlikte IgE ne olur?",
+  "ipucu": "<b>Wiskott-Aldrich (I) ve Job sendromunda (IV)</b> IgE yüksektir.",
+  "tuzak": "Hiper IgM ve geçici hipogammaglobulinemide IgE düşüktür/normaldir. <mark>Wiskott-Aldrich ve Job</mark> ise yüksek IgE ile gider.",
+  "aciklama": "<b>IgE yüksekliği görülen immün yetmezlikler</b>: <b>Wiskott-Aldrich sendromu</b> (IgM düşük, IgA-IgE yüksek) ve <b>Job/hiper IgE sendromu</b>. <b>IgE düşük olanlar</b>: ataksi-telenjiektazi, Bruton agammaglobulinemi, hiper IgM sendromu."
+ },
+ {
+  "soru": "<i>(Vaka: 3 yaşındaki erkek çocuk 1 haftadır ateş, öksürük, takipne ile getiriliyor. Muayenede tonsiller çok küçük, palpe edilen lenf nodu yok. Grafide sağ lob pnömonisi, lökosit 2500, kan kültüründe pnömokok üremesi.)</i><br><br>Bu hastada <b>en olası tanı</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Bruton agammaglobulinemisi"
+   },
+   {
+    "k": "B",
+    "t": "Siklik nötropeni"
+   },
+   {
+    "k": "C",
+    "t": "Selektif IgA eksikliği"
+   },
+   {
+    "k": "D",
+    "t": "DiGeorge sendromu"
+   },
+   {
+    "k": "E",
+    "t": "AIDS"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Tonsil ve lenf nodu yokluğu hangi hücre serisinin yokluğunu gösterir?",
+  "ipucu": "Küçük/yok tonsil + palpe edilemeyen lenf nodu + kapsüllü bakteri enfeksiyonu → <b>Bruton agammaglobulinemi</b>.",
+  "tuzak": "Lenfoid doku hipoplazisi (tonsil/LAP yok) B-hücre yokluğunu gösterir. <mark>Bruton (X'e bağlı agammaglobulinemi)</mark> tipik tablodur.",
+  "aciklama": "<b>Bruton (X'e bağlı) agammaglobulinemide</b> B hücreleri gelişemediğinden <b>lenfoid dokular hipoplaziktir</b> (tonsiller çok küçük, lenf nodu palpe edilmez). 6. aydan sonra (maternal antikorlar azalınca) kapsüllü bakterilerle (pnömokok, H. influenzae) tekrarlayan sinopulmoner enfeksiyonlar başlar."
+ },
+ {
+  "soru": "<i>(Vaka: 3 yaşındaki erkek çocuk 1 haftadır ateş, öksürük, takipne ile getiriliyor. Muayenede tonsiller çok küçük, palpe edilen lenf nodu yok. Grafide sağ lob pnömonisi, lökosit 2500, kan kültüründe pnömokok üremesi.)</i><br><br>Bu çocukta aşağıdaki durumlardan hangisinin bu tabloya <b>eşlik etmesi beklenmez?</b>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Otoimmün hastalıklar"
+   },
+   {
+    "k": "B",
+    "t": "Kronik giardia ishalleri"
+   },
+   {
+    "k": "C",
+    "t": "Enfeksiyon sırasında nötropeni"
+   },
+   {
+    "k": "D",
+    "t": "Gluten enteropatisi"
+   },
+   {
+    "k": "E",
+    "t": "Trombositopeni"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Trombositopeni hangi immün yetmezliğin özelliği — Bruton mu Wiskott-Aldrich mi?",
+  "ipucu": "<b>Trombositopeni</b> Bruton'da beklenmez (Wiskott-Aldrich özelliğidir).",
+  "tuzak": "Otoimmünite, kronik giardiyaz, enfeksiyonda nötropeni ve gluten enteropatisi Bruton'a eşlik edebilir. <mark>Trombositopeni</mark> ise beklenmez.",
+  "aciklama": "<b>Bruton agammaglobulinemide</b> otoimmün hastalıklar, <b>kronik giardia ishalleri</b>, enfeksiyon sırasında nötropeni ve malabsorpsiyon/gluten enteropatisi görülebilir. <b>Trombositopeni</b> beklenen bir bulgu değildir (bu Wiskott-Aldrich sendromunun özelliğidir)."
+ },
+ {
+  "soru": "<i>(Vaka: 3 yaşındaki erkek çocuk 1 haftadır ateş, öksürük, takipne ile getiriliyor. Muayenede tonsiller çok küçük, palpe edilen lenf nodu yok. Grafide sağ lob pnömonisi, lökosit 2500, kan kültüründe pnömokok üremesi.)</i><br><br>Bu hastada aşağıdakilerden hangisinin saptanması <b>kesin tanı koydurur?</b>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "IgG <100 mg/dL"
+   },
+   {
+    "k": "B",
+    "t": "Tüm immünglobulinlerin düşük olması"
+   },
+   {
+    "k": "C",
+    "t": "CD19(+) B lenfosit sayısının <%2 olması"
+   },
+   {
+    "k": "D",
+    "t": "Lenfoid hipoplazi olması"
+   },
+   {
+    "k": "E",
+    "t": "Hafıza B hücrelerinin azalmış olması"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Bruton'ın patognomonik laboratuvar bulgusu hangi hücrenin yokluğu?",
+  "ipucu": "<b>CD19(+) B lenfosit sayısının <%2 olması</b> Bruton için kesin tanı koydurur.",
+  "tuzak": "Düşük Ig düzeyleri ve lenfoid hipoplazi destekleyicidir ama <mark>periferik B hücrelerinin (CD19) yokluğu (<%2)</mark> kesin tanı koydurur.",
+  "aciklama": "<b>Bruton agammaglobulinemide</b> BTK gen defekti nedeniyle B hücre olgunlaşması durur; <b>periferik kanda CD19(+) B lenfosit oranının <%2 olması</b> tanı koydurucudur (tüm immünglobulinlerin düşüklüğüne ek olarak). Kesin tanı BTK gen analizi ile konur."
+ },
+ {
+  "soru": "<i>(Vaka: 3 yaşındaki erkek çocuk 1 haftadır ateş, öksürük, takipne ile getiriliyor. Muayenede tonsiller çok küçük, palpe edilen lenf nodu yok. Grafide sağ lob pnömonisi, lökosit 2500, kan kültüründe pnömokok üremesi.)</i><br><br><b>Bruton agammaglobulinemi</b> için aşağıdakilerden hangisi <mark>yanlıştır?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Bulgular doğumdan sonra 6. aydan itibaren başlar."
+   },
+   {
+    "k": "B",
+    "t": "Echovirüs ensefalitleri nadirdir."
+   },
+   {
+    "k": "C",
+    "t": "Lenfoid dokular hipoplaziktir."
+   },
+   {
+    "k": "D",
+    "t": "Beş immünglobulin de düşüktür."
+   },
+   {
+    "k": "E",
+    "t": "Kronik giardia ishalleri sıktır."
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Enteroviral (echovirüs) ensefalit Bruton'da nadir mi yoksa karakteristik mi?",
+  "ipucu": "Bruton'da <b>echovirüs (enteroviral) ensefalitleri karakteristiktir</b>, nadir değildir.",
+  "tuzak": "6. aydan sonra başlama, lenfoid hipoplazi, tüm Ig'lerin düşüklüğü ve kronik giardiyaz doğrudur. <mark>Echovirüs ensefalitinin nadir olması</mark> yanlıştır — kronik enteroviral ensefalit Bruton'un tipik komplikasyonudur.",
+  "aciklama": "<b>Bruton agammaglobulinemide</b> maternal antikorlar azaldıktan sonra (~6. ay) bulgular başlar; lenfoid dokular hipoplaziktir, tüm immünglobulinler düşüktür, kronik giardiyaz sıktır. <b>Kronik enteroviral (echovirüs) ensefalit</b> ise Bruton'un karakteristik ve ciddi komplikasyonudur; \"nadirdir\" ifadesi yanlıştır."
+ },
+ {
+  "soru": "<i>(Vaka: 6 yaşındaki erkek çocuk sık solunum yolu enfeksiyonu nedeniyle getiriliyor. Muayenede tonsiller iri, dalak kot altında 2 cm ele geliyor. Serum IgA+IgG+IgM toplamı 400 mg/dL bulunuyor.)</i><br><br>Bu hastada <b>en olası tanı</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Bruton agammaglobulinemisi"
+   },
+   {
+    "k": "B",
+    "t": "Değişken (sık değişken) immün yetmezlik (CVID)"
+   },
+   {
+    "k": "C",
+    "t": "Selektif IgA eksikliği"
+   },
+   {
+    "k": "D",
+    "t": "DiGeorge sendromu"
+   },
+   {
+    "k": "E",
+    "t": "Hiper IgM sendromu"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Lenfoid doku BÜYÜK ama immünglobulinler düşük — hangi tanı?",
+  "ipucu": "İri tonsiller + splenomegali + düşük toplam Ig → <b>CVID (değişken immün yetmezlik)</b>.",
+  "tuzak": "Bruton'da lenfoid doku hipoplaziktir. <mark>CVID'de ise lenfoid hiperplazi (iri tonsil, splenomegali)</mark> görülür; Ig'ler düşüktür.",
+  "aciklama": "<b>Sık değişken immün yetmezlik (CVID)</b>: hipogammaglobulinemi (toplam Ig <400-500 mg/dL) olmasına rağmen <b>lenfoid doku hiperplazisi</b> (iri tonsiller, lenfadenopati, splenomegali) vardır. Genellikle ileri yaşlarda (2. dekad) başlar; otoimmünite ve malignite riski yüksektir."
+ },
+ {
+  "soru": "<i>(Vaka: 6 yaşındaki erkek çocuk sık solunum yolu enfeksiyonu nedeniyle getiriliyor. Muayenede tonsiller iri, dalak kot altında 2 cm ele geliyor. Serum IgA+IgG+IgM toplamı 400 mg/dL bulunuyor.)</i><br><br>Bu hastalık <b>en sık</b> aşağıdaki immün yetmezliklerden hangisi ile <b>karışır?</b>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Bruton agammaglobulinemisi"
+   },
+   {
+    "k": "B",
+    "t": "Süt çocuğunun geçici hipogammaglobulinemisi"
+   },
+   {
+    "k": "C",
+    "t": "Selektif IgA eksikliği"
+   },
+   {
+    "k": "D",
+    "t": "DiGeorge sendromu"
+   },
+   {
+    "k": "E",
+    "t": "Hiper IgM sendromu"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Hangi hastalık da panhipogammaglobulinemiyle gider?",
+  "ipucu": "CVID en sık <b>Bruton agammaglobulinemi</b> ile karışır (her ikisinde de Ig'ler düşüktür).",
+  "tuzak": "Ayrım lenfoid dokuya ve B hücre sayısına bakılarak yapılır. <mark>Bruton</mark> ile karışır: ikisinde de panhipogammaglobulinemi vardır.",
+  "aciklama": "<b>CVID en sık Bruton (X'e bağlı) agammaglobulinemi ile karışır</b>; her ikisinde de tüm immünglobulinler düşüktür. Ayrım: CVID'de <b>periferik B hücre sayısı normal, lenfoid doku hiperplazik ve başlangıç geç</b>; Bruton'da ise B hücre yok (<%2), lenfoid doku hipoplazik ve başlangıç erken (6. ay)."
+ },
+ {
+  "soru": "<i>(Vaka: 6 yaşındaki erkek çocuk sık solunum yolu enfeksiyonu nedeniyle getiriliyor. Muayenede tonsiller iri, dalak kot altında 2 cm ele geliyor. Serum IgA+IgG+IgM toplamı 400 mg/dL bulunuyor.)</i><br><br>Bu immün yetmezliği <b>Bruton hastalığından ayıran</b> bulgulardan <mark>olmayan</mark> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Bulguların ileri yaşlarda başlaması"
+   },
+   {
+    "k": "B",
+    "t": "Periferdeki B hücre sayısının normal olması"
+   },
+   {
+    "k": "C",
+    "t": "Echovirüs ensefalitlerinin nadir görülmesi"
+   },
+   {
+    "k": "D",
+    "t": "Lenfoid dokularda hipoplazi olmaması"
+   },
+   {
+    "k": "E",
+    "t": "Otoimmün hastalıkların sık olması"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Otoimmünite sadece birinde mi yoksa her ikisinde de mi sık?",
+  "ipucu": "<b>Otoimmün hastalıklar her iki tabloda da sıktır</b>; bu nedenle ayırt edici değildir.",
+  "tuzak": "Geç başlangıç, normal B hücre sayısı, echovirüs ensefalitinin nadirliği ve lenfoid hipoplazi olmaması CVID'i Bruton'dan ayırır. <mark>Otoimmünite</mark> ise ikisinde de görülür, ayırt edici değildir.",
+  "aciklama": "<b>CVID'i Bruton'dan ayıran bulgular</b>: bulguların ileri yaşta başlaması, periferik B hücre sayısının normal olması, lenfoid dokuların hipoplazik olmaması (aksine hiperplazik) ve enteroviral (echovirüs) ensefalitin nadir görülmesi. <b>Otoimmün hastalıklar her iki hastalıkta da sık görüldüğünden</b> ayırt edici bir bulgu değildir."
+ },
+ {
+  "soru": "<i>(Vaka: 6 yaşındaki erkek çocuk sık solunum yolu enfeksiyonu nedeniyle getiriliyor. Muayenede tonsiller iri, dalak kot altında 2 cm ele geliyor. Serum IgA+IgG+IgM toplamı 400 mg/dL bulunuyor.)</i><br><br>Bu hastanın laboratuvar incelemelerinde aşağıdakilerden hangisinin bulunması <mark>beklenmez?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "CD27+ hafıza B hücre sayısı azalmıştır."
+   },
+   {
+    "k": "B",
+    "t": "Periferik kanda CD4+ T hücre sayısı azalmıştır."
+   },
+   {
+    "k": "C",
+    "t": "CD4/CD8 oranı azalmıştır."
+   },
+   {
+    "k": "D",
+    "t": "CD19+ B lenfositler azalmıştır."
+   },
+   {
+    "k": "E",
+    "t": "Serum immünglobulinleri azalmıştır."
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 CVID'de B hücre SAYISI mı yoksa FONKSİYONU mu bozuk?",
+  "ipucu": "CVID'de <b>CD19+ B hücre sayısı normaldir</b> (azalmaz); bozukluk fonksiyoneldir.",
+  "tuzak": "Hafıza B hücre azalması, CD4 azalması, CD4/CD8 düşüklüğü ve düşük Ig CVID'de görülür. <mark>CD19+ B hücre azalması</mark> ise Bruton'un bulgusudur, CVID'de beklenmez.",
+  "aciklama": "<b>CVID'de periferik CD19+ B lenfosit sayısı normaldir</b>; sorun B hücrelerinin plazma hücresine farklılaşamaması (fonksiyonel defekt) ve <b>CD27+ hafıza B hücrelerinin azalmasıdır</b>. Ayrıca CD4+ T hücre azalması ve CD4/CD8 oranında düşme görülebilir. B hücre yokluğu (<%2) ise Bruton'a aittir."
+ },
+ {
+  "soru": "<i>(Vaka: Tekrarlayan hışıltı atağı ile getirilen 3 yaşındaki erkek çocuk; her solunum yolu enfeksiyonunda hışıltı başlıyor, sık tonsillit ve 2 kez pnömoni öyküsü var. Annede mite alerjisi ve astım; çocukta deri prick testinde mite duyarlılığı saptanıyor.)</i><br><br>Bu hastada <b>ek olarak</b> aşağıdaki immün yetmezliklerden hangisi düşünülmelidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Hiper IgM sendromu"
+   },
+   {
+    "k": "B",
+    "t": "IgG subgrup eksikliği"
+   },
+   {
+    "k": "C",
+    "t": "Değişken immün yetmezlik"
+   },
+   {
+    "k": "D",
+    "t": "Selektif IgA eksikliği"
+   },
+   {
+    "k": "E",
+    "t": "Bruton hastalığı"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Atopi + tekrarlayan sinopulmoner enfeksiyon birlikteliği hangi eksikliği düşündürür?",
+  "ipucu": "Atopi + tekrarlayan solunum yolu enfeksiyonu → <b>selektif IgA eksikliği</b> araştırılmalıdır.",
+  "tuzak": "Bruton/CVID'de atopi öne çıkmaz ve Ig'ler ileri derecede düşüktür. <mark>Selektif IgA eksikliği</mark> alerjik hastalıkların en sık eşlik ettiği immün yetmezliktir.",
+  "aciklama": "<b>Selektif IgA eksikliği</b> en sık görülen immün yetmezliktir ve <b>alerjik hastalıkların en sık görüldüğü immün yetmezliktir</b>. Tekrarlayan sinopulmoner enfeksiyon + atopi birlikteliğinde akla gelmelidir (mukozal IgA koruması eksiktir)."
+ },
+ {
+  "soru": "<i>(Vaka: Tekrarlayan hışıltı atağı ile getirilen 3 yaşındaki erkek çocuk; her solunum yolu enfeksiyonunda hışıltı başlıyor, sık tonsillit ve 2 kez pnömoni öyküsü var. Annede mite alerjisi ve astım; çocukta deri prick testinde mite duyarlılığı saptanıyor.)</i><br><br>Bu hastada IgA düzeyi <b>5 mg/dL</b> bulunuyor ve <b>selektif IgA eksikliği</b> tanısı konuyor. Bu hastalıkla ilgili aşağıdakilerden hangisi <mark>yanlıştır?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "En sık görülen immün yetmezliktir."
+   },
+   {
+    "k": "B",
+    "t": "Alerjik hastalıkların en sık görüldüğü immün yetmezliktir."
+   },
+   {
+    "k": "C",
+    "t": "Çölyak hastalığı çok sık görülür."
+   },
+   {
+    "k": "D",
+    "t": "Ek olarak IgG2 eksikliği de eşlik edebilir."
+   },
+   {
+    "k": "E",
+    "t": "Vakaların çoğu erken yaşlarda tanı alır ve semptomludur."
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Selektif IgA eksikliği olanların çoğu semptomlu mu asemptomatik mi?",
+  "ipucu": "Selektif IgA eksikliğinde <b>vakaların çoğu asemptomatiktir</b> (erken yaşta tanı almaz).",
+  "tuzak": "En sık immün yetmezlik olması, atopi/çölyak birlikteliği ve IgG2 eksikliği doğrudur. <mark>Vakaların çoğunun erken yaşta semptomlu olması</mark> yanlıştır — çoğu asemptomatiktir.",
+  "aciklama": "<b>Selektif IgA eksikliği</b> en sık immün yetmezliktir; <b>vakaların çoğu asemptomatiktir</b> ve tesadüfen saptanır. Semptomatik olanlarda tekrarlayan sinopulmoner enfeksiyon, atopi (alerjik hastalıkların en sık eşlik ettiği immün yetmezlik), <b>çölyak hastalığı</b>, otoimmünite ve eşlik eden IgG2 eksikliği görülebilir. IgA içeren kan ürünlerine anafilaksi riski vardır."
+ },
+ {
+  "soru": "<i>(Vaka: Tekrarlayan hışıltı, sık tonsillit ve 2 kez pnömoni öyküsü olan, atopik aile öyküsü bulunan 3 yaşındaki çocukta selektif IgA eksikliği saptanıyor.)</i><br><br>Bu hastanın izlemi sırasında <b>IgG düzeyleri düşmeye başlarsa</b> öncelikle aşağıdakilerden hangisi düşünülmelidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Graft-versus-host hastalığı"
+   },
+   {
+    "k": "B",
+    "t": "İzole IgG eksikliği"
+   },
+   {
+    "k": "C",
+    "t": "Değişken immün yetmezlik (CVID)"
+   },
+   {
+    "k": "D",
+    "t": "Kombine immün yetmezlik"
+   },
+   {
+    "k": "E",
+    "t": "Bruton hastalığı"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Selektif IgA eksikliği zamanla hangi tabloya dönüşebilir?",
+  "ipucu": "Selektif IgA eksikliği olan hastada IgG de düşmeye başlarsa <b>CVID'e dönüşüm</b> düşünülür.",
+  "tuzak": "Bruton'da B hücre yoktur ve erken başlar. <mark>Selektif IgA eksikliğinden CVID'e progresyon</mark> bilinen bir seyirdir.",
+  "aciklama": "<b>Selektif IgA eksikliği olan hastaların bir kısmı zamanla sık değişken immün yetmezliğe (CVID) ilerleyebilir</b>. Bu nedenle izlemde IgG düzeylerinin de düşmeye başlaması öncelikle <b>CVID gelişimini</b> düşündürür."
+ },
+ {
+  "soru": "<i>(Vaka: Tekrarlayan hışıltı, sık tonsillit ve 2 kez pnömoni öyküsü olan, atopik aile öyküsü bulunan 3 yaşındaki çocukta selektif IgA eksikliği saptanıyor.)</i><br><br>Bu hasta taburcu olurken aşağıdakilerden hangisi <mark>önerilmemelidir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Aylık gammaglobulin (IVIG) tedavisi"
+   },
+   {
+    "k": "B",
+    "t": "Kan verilmesi gerekirse yıkanmış eritrosit verilmesi"
+   },
+   {
+    "k": "C",
+    "t": "Tam kan transfüzyonu yapılmaması"
+   },
+   {
+    "k": "D",
+    "t": "İmmünglobulin tedavisi yapılmaması"
+   },
+   {
+    "k": "E",
+    "t": "Gerektiğinde antibiyotik tedavisi verilmesi"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Selektif IgA eksikliğinde IVIG güvenli mi yoksa anafilaksi riski mi var?",
+  "ipucu": "Selektif IgA eksikliğinde <b>rutin IVIG (gammaglobulin) önerilmez</b> (anti-IgA antikorları → anafilaksi).",
+  "tuzak": "Yıkanmış eritrosit, tam kandan kaçınma ve antibiyotik uygundur. <mark>Aylık gammaglobulin tedavisi</mark> ise anafilaksi riski nedeniyle önerilmez.",
+  "aciklama": "<b>Selektif IgA eksikliğinde anti-IgA antikorları</b> sıklıkla pozitiftir; IgA içeren kan ürünleri veya <b>IVIG verilmesi anafilaksiye yol açabilir</b>. Bu nedenle rutin gammaglobulin tedavisi önerilmez; transfüzyon gerekirse <b>yıkanmış eritrosit</b> kullanılır ve tam kan verilmez."
+ },
+ {
+  "soru": "<i>(Vaka: Tekrarlayan hışıltı, sık tonsillit ve 2 kez pnömoni öyküsü olan, atopik aile öyküsü bulunan 3 yaşındaki çocukta selektif IgA eksikliği saptanıyor.)</i><br><br>Bu hastaların izleminde aşağıdakilerden hangisinin <b>gelişme olasılığı diğerlerine göre daha azdır?</b>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Çölyak hastalığı"
+   },
+   {
+    "k": "B",
+    "t": "Wilms tümörü"
+   },
+   {
+    "k": "C",
+    "t": "Otoimmün hepatit"
+   },
+   {
+    "k": "D",
+    "t": "Lenfoma"
+   },
+   {
+    "k": "E",
+    "t": "Değişken immün yetmezlik (CVID) gelişimi"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Selektif IgA eksikliğinde artan malignite tipi lenfoid mi solid mi?",
+  "ipucu": "<b>Wilms tümörü</b> selektif IgA eksikliği ile ilişkili değildir (en az olası).",
+  "tuzak": "Çölyak, otoimmün hastalıklar, lenfoma ve CVID'e dönüşüm sıktır. <mark>Wilms tümörü</mark> ise ilişkisizdir.",
+  "aciklama": "<b>Selektif IgA eksikliğinde</b> otoimmün hastalıklar (en sık <b>çölyak</b>, otoimmün hepatit, tiroidit), <b>lenfoma</b> ve diğer maligniteler ile <b>CVID'e progresyon</b> riski artar. <b>Wilms tümörü</b> ile ilişkisi yoktur (en az olası)."
+ },
+ {
+  "soru": "<i>(Vaka: 5 yaşındaki erkek çocuk sık enfeksiyon nedeniyle getiriliyor; 3 kez pnömokok pnömonisi ile hospitalize edilmiş. Muayenede lenf nodları küçük. Kan sayımında nötropeni; IgG, IgA, IgE belirgin düşük, IgM düzeyi normal/yüksek.)</i><br><br>Bu hastada <b>en olası tanı</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Graft-versus-host hastalığı"
+   },
+   {
+    "k": "B",
+    "t": "Kostmann sendromu"
+   },
+   {
+    "k": "C",
+    "t": "Değişken immün yetmezlik"
+   },
+   {
+    "k": "D",
+    "t": "Edinsel nötropeni"
+   },
+   {
+    "k": "E",
+    "t": "Hiper IgM sendromu"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 IgM normal/yüksek ama diğer Ig'ler düşükse hangi sınıf değişimi bozuk?",
+  "ipucu": "IgG-IgA-IgE düşük + IgM normal/yüksek + nötropeni → <b>hiper IgM sendromu</b>.",
+  "tuzak": "CVID'de tüm Ig'ler düşer. <mark>Hiper IgM sendromunda</mark> sınıf değiştirme (class switch) bozuk olduğundan IgM korunur/artar, diğerleri düşer.",
+  "aciklama": "<b>Hiper IgM sendromunda</b> B hücreleri immünglobulin <b>sınıf değişimi (class switching)</b> yapamaz; bu nedenle <b>IgM normal veya yüksek, IgG-IgA-IgE düşüktür</b>. Nötropeni sıktır; kapsüllü bakteri ve fırsatçı enfeksiyonlar görülür."
+ },
+ {
+  "soru": "<i>(Vaka: 5 yaşındaki erkek çocuk sık enfeksiyon nedeniyle getiriliyor; 3 kez pnömokok pnömonisi ile hospitalize edilmiş. Muayenede lenf nodları küçük. Kan sayımında nötropeni; IgG, IgA, IgE belirgin düşük, IgM düzeyi normal/yüksek.)</i><br><br>Bu hastalığın <b>en sık nedeni</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "CD40L (CD154) mutasyonu"
+   },
+   {
+    "k": "B",
+    "t": "CD40 mutasyonu"
+   },
+   {
+    "k": "C",
+    "t": "Aktivasyon-tetiklenen sitidin deaminaz (AICDA) mutasyonu"
+   },
+   {
+    "k": "D",
+    "t": "NEMO mutasyonu"
+   },
+   {
+    "k": "E",
+    "t": "Ürasil DNA glikozilaz (UNG) defekti"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 T hücresi üzerindeki hangi ligandın defekti X'e bağlı hiper IgM yapar?",
+  "ipucu": "Hiper IgM sendromunun en sık nedeni <b>CD40 ligand (CD40L/CD154) mutasyonudur</b> (X'e bağlı).",
+  "tuzak": "CD40, AICDA, UNG ve NEMO daha nadir nedenlerdir. <mark>CD40L mutasyonu</mark> en sık (X'e bağlı) formdur.",
+  "aciklama": "<b>Hiper IgM sendromunun en sık nedeni X'e bağlı CD40 ligand (CD40L/CD154) mutasyonudur</b>; T hücresi üzerindeki CD40L, B hücresindeki CD40'a bağlanamaz ve sınıf değişimi gerçekleşmez. Bu formda hem antikor hem T-hücre yardımı bozulduğundan fırsatçı enfeksiyonlar (P. jirovecii, Cryptosporidium) görülür."
+ },
+ {
+  "soru": "<i>(Vaka: 5 yaşındaki erkek çocuk sık enfeksiyon nedeniyle getiriliyor; 3 kez pnömokok pnömonisi ile hospitalize edilmiş. Muayenede lenf nodları küçük. Kan sayımında nötropeni; IgG, IgA, IgE belirgin düşük, IgM düzeyi normal/yüksek.)</i><br><br>Bu hastalarda kapsüllü bakteriler yanında aşağıdaki hangi ajanla <b>pnömoni sık görülür?</b>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Cryptosporidium parvum"
+   },
+   {
+    "k": "B",
+    "t": "Pneumocystis jirovecii"
+   },
+   {
+    "k": "C",
+    "t": "Cryptosporidium oocysts"
+   },
+   {
+    "k": "D",
+    "t": "Cytomegalovirus"
+   },
+   {
+    "k": "E",
+    "t": "Histoplasma türleri"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 T-hücre yardımı bozuk olduğunda hangi fırsatçı pnömoni etkeni öne çıkar?",
+  "ipucu": "Hiper IgM sendromunda <b>Pneumocystis jirovecii</b> pnömonisi sıktır.",
+  "tuzak": "Cryptosporidium GİS/safra yolu tutulumu yapar. <mark>P. jirovecii</mark> ise pnömoni etkenidir (T-hücre yardımı bozukluğu nedeniyle).",
+  "aciklama": "<b>X'e bağlı hiper IgM sendromunda</b> CD40L defekti T-hücre yardımını da bozduğundan, kapsüllü bakteriler yanında <b>Pneumocystis jirovecii pnömonisi</b> sık görülür. Ayrıca <b>Cryptosporidium</b> enteriti ve sklerozan kolanjit gelişebilir."
+ },
+ {
+  "soru": "<i>(Vaka: 5 yaşındaki erkek çocuk sık enfeksiyon nedeniyle getiriliyor; 3 kez pnömokok pnömonisi ile hospitalize edilmiş. Muayenede lenf nodları küçük. Kan sayımında nötropeni; IgG, IgA, IgE belirgin düşük, IgM düzeyi normal/yüksek.)</i><br><br>Bu hastalıkla ilgili olarak aşağıdakilerden hangisi <mark>yanlıştır?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Bozukluk (X'e bağlı formda) T hücre yardımındadır."
+   },
+   {
+    "k": "B",
+    "t": "Hafıza B hücreleri (CD27+) azalmıştır."
+   },
+   {
+    "k": "C",
+    "t": "Lenfoid hiperplazi vardır."
+   },
+   {
+    "k": "D",
+    "t": "Nötropeni sık görülür."
+   },
+   {
+    "k": "E",
+    "t": "Cryptosporidium enteritleri çok sıktır."
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Hiper IgM'de lenf nodları büyük mü küçük mü?",
+  "ipucu": "Hiper IgM sendromunda <b>lenfoid hiperplazi yoktur</b>; lenf nodları küçüktür (germinal merkez oluşmaz).",
+  "tuzak": "T-hücre yardımı defekti, CD27+ hafıza B azalması, nötropeni ve Cryptosporidium enteriti doğrudur. <mark>Lenfoid hiperplazi</mark> yanlıştır — germinal merkez oluşmadığından lenf nodları küçüktür.",
+  "aciklama": "<b>Hiper IgM sendromunda</b> CD40-CD40L etkileşimi olmadığından <b>germinal merkez oluşmaz</b>; lenf nodları küçüktür ve <b>lenfoid hiperplazi görülmez</b> (CVID'den farkı). Hafıza B hücreleri (CD27+) azalmıştır, nötropeni ve Cryptosporidium enteriti sıktır."
+ },
+ {
+  "soru": "<i>(Vaka: 5 aylık erkek bebek ağır pnömoni ile yatırılıyor. 1 aylıktan beri süren yaygın oral moniliyaz var; boy ve kilo 3 persentilin altında. Anne-baba akraba; ilk erkek çocukları 3 aylıkken enfeksiyondan ölmüş. Muayenede karaciğer-dalak palpe edilemiyor, tonsil ve lenf nodları saptanamıyor.)</i><br><br>Bu bebek için <b>en olası tanı</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kistik fibrozis"
+   },
+   {
+    "k": "B",
+    "t": "Kompleman eksikliği"
+   },
+   {
+    "k": "C",
+    "t": "Ağır kombine immün yetmezlik (SCID)"
+   },
+   {
+    "k": "D",
+    "t": "Kronik granülomatöz hastalık"
+   },
+   {
+    "k": "E",
+    "t": "Selektif IgA eksikliği"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Erken başlangıç + persistan kandidiyaz + lenfoid doku yokluğu + kardeş ölümü hangi tanı?",
+  "ipucu": "Erken ağır enfeksiyon + persistan moniliyaz + lenfoid doku yokluğu + akrabalık → <b>SCID</b>.",
+  "tuzak": "KGH'de lenfoid doku vardır; kistik fibrozis immün yetmezlik değildir. <mark>SCID</mark>: hem T hem B hücre defekti, lenfoid doku yok, büyüme geriliği, fırsatçı enfeksiyonlar.",
+  "aciklama": "<b>Ağır kombine immün yetmezlik (SCID)</b>: ilk aylarda başlayan ağır/fırsatçı enfeksiyonlar (persistan mukokutanöz kandidiyaz, P. jirovecii pnömonisi), büyüme geriliği, <b>lenfoid doku yokluğu</b> (tonsil/LAP saptanamaz, timus gölgesi yok), lenfopeni. Akraba evliliği ve kardeş ölümü öyküsü tipiktir. Acil KİT gerektirir."
+ },
+ {
+  "soru": "<i>(Vaka: 5 aylık erkek bebek ağır pnömoni ile yatırılıyor. 1 aylıktan beri süren yaygın oral moniliyaz var; boy ve kilo 3 persentilin altında. Anne-baba akraba; ilk erkek çocukları 3 aylıkken enfeksiyondan ölmüş. Muayenede karaciğer-dalak palpe edilemiyor, tonsil ve lenf nodları saptanamıyor.)</i><br><br>Bu bebekte <b>en sık beklenen ağır kombine immün yetmezlik tipi</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "γc (gama zincir) defekti"
+   },
+   {
+    "k": "B",
+    "t": "Adenozin deaminaz (ADA) eksikliği"
+   },
+   {
+    "k": "C",
+    "t": "Pürin nükleotid fosforilaz (PNP) eksikliği"
+   },
+   {
+    "k": "D",
+    "t": "Omenn sendromu"
+   },
+   {
+    "k": "E",
+    "t": "Artemis defekti"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 SCID'in en sık formu hangi zincirin defektidir (X'e bağlı)?",
+  "ipucu": "SCID'in en sık tipi <b>X'e bağlı ortak gama zinciri (γc) defektidir</b>.",
+  "tuzak": "ADA eksikliği en sık otozomal resesif formdur ama genel olarak <mark>X'e bağlı γc defekti</mark> en sık SCID tipidir.",
+  "aciklama": "<b>SCID'in en sık formu X'e bağlı ortak gama zinciri (γc, IL2RG) defektidir</b> (~%50); T(−) B(+) NK(−) fenotip gösterir. İkinci sıklıkta <b>ADA eksikliği</b> (otozomal resesif, T− B− NK−) gelir."
+ },
+ {
+  "soru": "<i>(Vaka: 5 aylık erkek bebek ağır pnömoni ile yatırılıyor. 1 aylıktan beri süren yaygın oral moniliyaz var; boy ve kilo 3 persentilin altında. Anne-baba akraba; ilk erkek çocukları 3 aylıkken enfeksiyondan ölmüş. Muayenede karaciğer-dalak palpe edilemiyor, tonsil ve lenf nodları saptanamıyor.)</i><br><br>Bu hastanın laboratuvar tetkiklerinde hangisinin bulunması <mark>beklenmez?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Hipogammaglobulinemi"
+   },
+   {
+    "k": "B",
+    "t": "PPD negatifliği"
+   },
+   {
+    "k": "C",
+    "t": "Lenfopeni"
+   },
+   {
+    "k": "D",
+    "t": "Periferik lenfositlerin fitohemaglütinine yanıtsızlığı"
+   },
+   {
+    "k": "E",
+    "t": "Nitroblue tetrazolium (NBT) testinde negatiflik"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 NBT testi hangi hücre defektini gösterir — lenfosit mi nötrofil mi?",
+  "ipucu": "<b>NBT testi negatifliği</b> kronik granülomatöz hastalığa (nötrofil defekti) aittir, SCID'de beklenmez.",
+  "tuzak": "Hipogammaglobulinemi, PPD negatifliği, lenfopeni ve mitojen yanıtsızlığı SCID bulgusudur. <mark>NBT negatifliği</mark> ise KGH'ye özgüdür.",
+  "aciklama": "<b>SCID'de</b> hipogammaglobulinemi, belirgin lenfopeni, PPD ve kandida deri testlerinde negatiflik, <b>periferik lenfositlerin fitohemaglütinine (mitojen) yanıtsızlığı</b> ve timus gölgesi yokluğu görülür. <b>NBT testi negatifliği</b> ise nötrofil oksidatif patlama defektini (kronik granülomatöz hastalık) gösterir, SCID'de beklenmez."
+ },
+ {
+  "soru": "<i>(Vaka: 5 aylık erkek bebek ağır pnömoni ile yatırılıyor. 1 aylıktan beri süren yaygın oral moniliyaz var; boy ve kilo 3 persentilin altında. Anne-baba akraba; ilk erkek çocukları 3 aylıkken enfeksiyondan ölmüş. Muayenede karaciğer-dalak palpe edilemiyor, tonsil ve lenf nodları saptanamıyor.)</i><br><br>Hastada <b>raşitizm benzeri kemik değişiklikleri ve iskelet anomalileri</b> saptandığında en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "γc (gama zincir) defekti"
+   },
+   {
+    "k": "B",
+    "t": "Adenozin deaminaz (ADA) eksikliği"
+   },
+   {
+    "k": "C",
+    "t": "Pürin nükleotid fosforilaz (PNP) eksikliği"
+   },
+   {
+    "k": "D",
+    "t": "Omenn sendromu"
+   },
+   {
+    "k": "E",
+    "t": "Artemis defekti"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Hangi SCID tipinde kostokondral bileşke/kemik anomalileri görülür?",
+  "ipucu": "<b>ADA eksikliğinde</b> raşitizm benzeri kemik ve iskelet anomalileri görülür.",
+  "tuzak": "PNP eksikliğinde nörolojik bulgular olur, kemik bulgusu yoktur. <mark>ADA eksikliği</mark> ise kostokondral bileşke düzensizliği/kemik displazisi yapar.",
+  "aciklama": "<b>Adenozin deaminaz (ADA) eksikliğinde</b> toksik metabolit birikimi nedeniyle SCID'e ek olarak <b>raşitizm benzeri kemik değişiklikleri, kostokondral bileşke anomalileri ve iskelet displazisi</b> görülür. PNP eksikliğinde ise nörolojik bulgular ve hipoürisemi olur, kemik bulgusu yoktur."
+ },
+ {
+  "soru": "<i>(Vaka: 5 aylık erkek bebek ağır pnömoni ile yatırılıyor. 1 aylıktan beri süren yaygın oral moniliyaz var; boy ve kilo 3 persentilin altında. Anne-baba akraba; ilk erkek çocukları 3 aylıkken enfeksiyondan ölmüş. Muayenede karaciğer-dalak palpe edilemiyor, tonsil ve lenf nodları saptanamıyor.)</i><br><br>Yapılan tetkiklerde <b>nörolojik bulgular ve hipoürisemi</b> saptanırsa öncelikle aşağıdakilerden hangisi düşünülür?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "γc (gama zincir) defekti"
+   },
+   {
+    "k": "B",
+    "t": "Adenozin deaminaz (ADA) eksikliği"
+   },
+   {
+    "k": "C",
+    "t": "Pürin nükleotid fosforilaz (PNP) eksikliği"
+   },
+   {
+    "k": "D",
+    "t": "Omenn sendromu"
+   },
+   {
+    "k": "E",
+    "t": "Artemis defekti"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Ürik asit DÜŞÜKLÜĞÜ hangi pürin yolu enzim defektine işaret eder?",
+  "ipucu": "<b>PNP (pürin nükleotid fosforilaz) eksikliğinde</b> nörolojik bulgular ve hipoürisemi görülür.",
+  "tuzak": "ADA eksikliğinde kemik bulguları vardır, ürik asit düşüklüğü tipik değildir. <mark>PNP eksikliği</mark>: nörolojik bulgu + hipoürisemi (ürik asit düşük), kemik bulgusu yok.",
+  "aciklama": "<b>Pürin nükleotid fosforilaz (PNP) eksikliğinde</b> pürin yıkımı bozulduğundan <b>ürik asit düşer (hipoürisemi)</b> ve <b>nörolojik bulgular</b> (spastisite, ataksi, gelişme geriliği) eşlik eder; ADA eksikliğinden farklı olarak kemik bulguları yoktur ve immünglobulin düzeyleri başlangıçta normal olabilir."
+ },
+ {
+  "soru": "<i>(Vaka: SCID tanılı 5 aylık bebek.)</i> Pnömoniye yönelik geniş spektrumlu antibiyotik başlanıyor; destek amacıyla <b>tam kan transfüzyonu ve taze donmuş plazma</b> veriliyor. 2 hafta sonra <b>yaygın makülopapüler döküntü, hepatosplenomegali</b>, total bilirubin 10 mg/dL, AST 250, ALT 500 saptanıyor.<br><br>Öncelikle aşağıdakilerden hangisi düşünülmelidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Transfüzyon yan etkisi"
+   },
+   {
+    "k": "B",
+    "t": "Transfüzyon reaksiyonu"
+   },
+   {
+    "k": "C",
+    "t": "Sitomegalovirüs enfeksiyonu"
+   },
+   {
+    "k": "D",
+    "t": "Graft-versus-host hastalığı"
+   },
+   {
+    "k": "E",
+    "t": "Omenn sendromu"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 T hücresi olmayan bebeğe canlı lenfosit içeren kan verilirse ne olur?",
+  "ipucu": "SCID'li bebeğe ışınlanmamış kan verilmesi → <b>transfüzyon ilişkili GVHD</b>.",
+  "tuzak": "Döküntü + karaciğer tutulumu + zamanlama (2 hafta) GVHD'yi gösterir. <mark>SCID'de kan ürünleri mutlaka ışınlanmalıdır</mark>; aksi halde donör lenfositleri konağa saldırır.",
+  "aciklama": "<b>SCID'li hastalarda T hücre yokluğu</b> nedeniyle transfüze edilen kandaki canlı donör lenfositleri reddedilemez ve konağa saldırarak <b>transfüzyon ilişkili graft-versus-host hastalığı (GVHD)</b> yapar: döküntü (deri), hiperbilirubinemi/transaminaz artışı (karaciğer) ve diyare (GİS). Bu nedenle immün yetmezlikli hastalara verilecek kan ürünleri <b>ışınlanmış (irradiye)</b> olmalıdır."
+ },
+ {
+  "soru": "<i>(Vaka: 1 aylık kız bebek ishal ve 1 haftadır fark edilen yaygın döküntü ile getiriliyor. Anne-baba akraba; bir çocukları benzer tabloyla ölmüş. Muayenede büyümesi normal, vücutta yaygın eritematöz, yer yer soyulan döküntüler var.)</i><br><br>Bu bebek için <b>en olası tanı</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Hiper IgE sendromu"
+   },
+   {
+    "k": "B",
+    "t": "Otozomal resesif agammaglobulinemi"
+   },
+   {
+    "k": "C",
+    "t": "Omenn sendromu"
+   },
+   {
+    "k": "D",
+    "t": "Histiyositoz"
+   },
+   {
+    "k": "E",
+    "t": "MHC sınıf II eksikliği"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Eritrodermi + ishal + hepatosplenomegali ile giden SCID varyantı hangisi?",
+  "ipucu": "Yenidoğanda eritrodermi/eksfoliatif dermatit + ishal + akrabalık → <b>Omenn sendromu</b>.",
+  "tuzak": "Histiyositoz da döküntü yapar ama <mark>Omenn sendromu</mark> (SCID varyantı) eritrodermi, ishal, lenfadenopati, hepatosplenomegali ve eozinofili ile gider.",
+  "aciklama": "<b>Omenn sendromu</b>, RAG1/RAG2 gen mutasyonlarına bağlı bir SCID varyantıdır; oligoklonal otoreaktif T hücreleri nedeniyle <b>yaygın eritrodermi/eksfoliatif dermatit, ishal, hepatosplenomegali, lenfadenopati, eozinofili ve yüksek IgE</b> ile seyreder. Otozomal resesiftir (akraba evliliği tipik)."
+ },
+ {
+  "soru": "<i>(Vaka: 1 aylık kız bebek ishal ve 1 haftadır fark edilen yaygın döküntü ile getiriliyor. Anne-baba akraba; bir çocukları benzer tabloyla ölmüş. Muayenede büyümesi normal, vücutta yaygın eritematöz, yer yer soyulan döküntüler var.)</i><br><br>Bu hastada <b>en sık saptanan mutasyon</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "RAG1-RAG2 mutasyonları"
+   },
+   {
+    "k": "B",
+    "t": "Artemis mutasyonu"
+   },
+   {
+    "k": "C",
+    "t": "NEMO mutasyonu"
+   },
+   {
+    "k": "D",
+    "t": "IL2 mutasyonu"
+   },
+   {
+    "k": "E",
+    "t": "IL7R mutasyonu"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 V(D)J rekombinasyonunu sağlayan hangi genler Omenn'de kısmi defektlidir?",
+  "ipucu": "Omenn sendromunda en sık <b>RAG1/RAG2 mutasyonları</b> saptanır.",
+  "tuzak": "Artemis ve IL7R diğer SCID formlarına aittir. <mark>RAG1-2 (kısmi/hipomorfik) mutasyonu</mark> Omenn sendromunun en sık nedenidir.",
+  "aciklama": "<b>Omenn sendromunun en sık nedeni RAG1/RAG2 genlerindeki hipomorfik (kısmi) mutasyonlardır</b>; V(D)J rekombinasyonu kısmen çalıştığından sınırlı sayıda oligoklonal, otoreaktif T hücresi üretilir ve bunlar GVHD benzeri tablo (eritrodermi, ishal, organomegali) oluşturur."
+ },
+ {
+  "soru": "<i>(Vaka: 1 aylık kız bebek ishal ve 1 haftadır fark edilen yaygın döküntü ile getiriliyor. Anne-baba akraba; bir çocukları benzer tabloyla ölmüş. Muayenede büyümesi normal, vücutta yaygın eritematöz, yer yer soyulan döküntüler var.)</i><br><br>Bu immün yetmezlikte hangi laboratuvar bulgusu <b>Job (hiper IgE) sendromundan ayırıcı tanıda</b> kullanılır?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Eozinofili olması"
+   },
+   {
+    "k": "B",
+    "t": "Eksfoliatif dermatit olması"
+   },
+   {
+    "k": "C",
+    "t": "IgE yüksekliği olması"
+   },
+   {
+    "k": "D",
+    "t": "Erken bulgu vermesi"
+   },
+   {
+    "k": "E",
+    "t": "IgE dışındaki immünglobulinlerin düşük olması"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 İki hastalıkta da IgE ve eozinofil yüksek — peki diğer Ig'ler?",
+  "ipucu": "Omenn'de <b>IgE dışındaki immünglobulinler düşüktür</b>; Job sendromunda ise normaldir.",
+  "tuzak": "Eozinofili, dermatit ve yüksek IgE her ikisinde de olur. <mark>IgG/IgA/IgM'in düşük olması</mark> Omenn'i (SCID varyantı) ayırır.",
+  "aciklama": "Hem <b>Omenn sendromu</b> hem <b>Job (hiper IgE) sendromunda</b> eozinofili, dermatit ve yüksek IgE görülür. Ayırt edici bulgu: <b>Omenn sendromunda IgE dışındaki immünglobulinler (IgG, IgA, IgM) düşüktür</b> (kombine immün yetmezlik), Job sendromunda ise normaldir."
+ },
+ {
+  "soru": "<i>(Vaka: 1 aylık kız bebek ishal ve 1 haftadır fark edilen yaygın döküntü ile getiriliyor. Anne-baba akraba; bir çocukları benzer tabloyla ölmüş. Muayenede büyümesi normal, vücutta yaygın eritematöz, yer yer soyulan döküntüler var.)</i><br><br>Bu hastada laboratuvarda aşağıdakilerden hangisi <mark>beklenmez?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "IgE yüksekliği"
+   },
+   {
+    "k": "B",
+    "t": "Lenfopeni"
+   },
+   {
+    "k": "C",
+    "t": "IgG düşüklüğü"
+   },
+   {
+    "k": "D",
+    "t": "Periferik lenfositlerin fitohemaglütinine yanıtının yetersiz olması"
+   },
+   {
+    "k": "E",
+    "t": "B hücrelerinin azalmış olması"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Omenn'de lenfosit sayısı düşük mü yoksa (oligoklonal T ile) normal/yüksek mi?",
+  "ipucu": "Omenn sendromunda <b>lenfopeni beklenmez</b>; oligoklonal T hücre ekspansiyonu nedeniyle lenfosit sayısı normal/yüksek olabilir.",
+  "tuzak": "Klasik SCID'de lenfopeni vardır ama <mark>Omenn sendromunda</mark> otoreaktif T hücreleri çoğaldığından lenfosit sayısı düşük değildir.",
+  "aciklama": "<b>Omenn sendromunda</b> yüksek IgE, düşük IgG/IgA/IgM, azalmış B hücreleri ve mitojenlere (fitohemaglütinin) yetersiz yanıt görülür. Klasik SCID'den farklı olarak <b>lenfopeni beklenmez</b>; oligoklonal otoreaktif T hücrelerinin ekspansiyonu nedeniyle lenfosit sayısı normal veya artmış olabilir."
+ },
+ {
+  "soru": "<i>(Vaka: Erkek bebek; yenidoğan döneminde kanlı ishal ile başlayan, ardından egzema ve tekrarlayan enfeksiyonlar eklenen klinik tablo.)</i><br><br>Bu hastada <b>en olası tanı</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Bruton agammaglobulinemisi"
+   },
+   {
+    "k": "B",
+    "t": "Hiper IgM sendromu"
+   },
+   {
+    "k": "C",
+    "t": "Omenn sendromu"
+   },
+   {
+    "k": "D",
+    "t": "Wiskott-Aldrich sendromu"
+   },
+   {
+    "k": "E",
+    "t": "Ağır kombine immün yetmezlik"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Kanlı ishal (trombositopeni) + egzema + enfeksiyon triadı hangi sendrom?",
+  "ipucu": "Kanlı ishal (trombositopeniye bağlı) + egzema + enfeksiyon → <b>Wiskott-Aldrich sendromu</b>.",
+  "tuzak": "Bruton'da trombositopeni/egzema yoktur. <mark>Wiskott-Aldrich</mark>: trombositopeni (kanlı ishal ilk bulgu), egzema, tekrarlayan enfeksiyon.",
+  "aciklama": "<b>Wiskott-Aldrich sendromu (X'e bağlı, WASP defekti)</b>: trombositopeni (küçük trombositler), egzema ve tekrarlayan enfeksiyon triadı. <b>Kanlı ishal/peteşi gibi kanama bulguları genellikle ilk ortaya çıkan bulgudur</b>."
+ },
+ {
+  "soru": "<i>(Vaka: Erkek bebek; yenidoğan döneminde kanlı ishal ile başlayan, ardından egzema ve tekrarlayan enfeksiyonlar eklenen klinik tablo.)</i><br><br>Bu hastalığın <b>ilk bulgusu</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kanlı ishal"
+   },
+   {
+    "k": "B",
+    "t": "Egzema"
+   },
+   {
+    "k": "C",
+    "t": "Pnömoni"
+   },
+   {
+    "k": "D",
+    "t": "Büyüme geriliği"
+   },
+   {
+    "k": "E",
+    "t": "Otitis media"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Wiskott-Aldrich'te önce kanama mı egzema mı enfeksiyon mu görülür?",
+  "ipucu": "Wiskott-Aldrich'te ilk bulgu genellikle <b>kanama (kanlı ishal, peteşi, sünnet/göbek kanaması)</b>dır.",
+  "tuzak": "Egzema ve enfeksiyonlar daha sonra eklenir. <mark>Trombositopeniye bağlı kanama</mark> ilk bulgudur.",
+  "aciklama": "<b>Wiskott-Aldrich sendromunda ilk bulgu trombositopeniye bağlı kanamadır</b>: yenidoğanda uzamış göbek/sünnet kanaması, peteşi, purpura ve <b>kanlı ishal</b>. Egzema ve tekrarlayan enfeksiyonlar sonraki aylarda ortaya çıkar."
+ },
+ {
+  "soru": "<i>(Vaka: Erkek bebek; yenidoğan döneminde kanlı ishal ile başlayan, ardından egzema ve tekrarlayan enfeksiyonlar eklenen klinik tablo.)</i><br><br>Bu hastada laboratuvar bulguları ile ilgili olarak aşağıdakilerden hangisi <mark>yanlıştır?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "IgG normal"
+   },
+   {
+    "k": "B",
+    "t": "IgA yüksek"
+   },
+   {
+    "k": "C",
+    "t": "IgE düşük"
+   },
+   {
+    "k": "D",
+    "t": "Trombositopeni"
+   },
+   {
+    "k": "E",
+    "t": "Coombs (+) anemi"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Wiskott-Aldrich'te IgE yüksek mi düşük mü?",
+  "ipucu": "Wiskott-Aldrich'te <b>IgE YÜKSEKTİR</b>, düşük değil.",
+  "tuzak": "IgG normal, IgA yüksek, trombositopeni ve otoimmün (Coombs+) anemi doğrudur. <mark>IgE düşüklüğü</mark> yanlıştır — IgE yüksektir.",
+  "aciklama": "<b>Wiskott-Aldrich sendromunda</b> tipik immünglobulin paterni: <b>IgM düşük, IgA ve IgE yüksek, IgG normal</b>. Ayrıca trombositopeni (küçük trombositler) ve otoimmün sitopeniler (Coombs pozitif hemolitik anemi) görülür. \"IgE düşük\" ifadesi yanlıştır."
+ },
+ {
+  "soru": "<i>(Vaka: Erkek bebek; yenidoğan döneminde kanlı ishal ile başlayan, ardından egzema ve tekrarlayan enfeksiyonlar eklenen klinik tablo.)</i><br><br>Bu hastalarda aşağıdakilerden hangisi <b>sık enfeksiyon yapan ajanlardan</b> <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "S. pneumoniae"
+   },
+   {
+    "k": "B",
+    "t": "H. influenzae"
+   },
+   {
+    "k": "C",
+    "t": "Pneumocystis jirovecii"
+   },
+   {
+    "k": "D",
+    "t": "Herpes virüsler"
+   },
+   {
+    "k": "E",
+    "t": "Aspergillus türleri"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Wiskott-Aldrich fagosit defekti mi yoksa T/B hücre defekti mi?",
+  "ipucu": "<b>Aspergillus</b> Wiskott-Aldrich'te sık değildir (fagosit defektlerinde görülür).",
+  "tuzak": "Kapsüllü bakteriler (pnömokok, Hib), P. jirovecii ve herpes virüsler WAS'ta sıktır. <mark>Aspergillus</mark> ise kronik granülomatöz hastalık gibi fagosit defektlerinde görülür.",
+  "aciklama": "<b>Wiskott-Aldrich sendromunda</b> başlangıçta <b>kapsüllü bakteriler (S. pneumoniae, H. influenzae)</b>, ilerleyen dönemde T-hücre fonksiyonu bozuldukça <b>P. jirovecii ve herpes virüs</b> enfeksiyonları görülür. <b>Aspergillus</b> ise fagositer defektlerde (kronik granülomatöz hastalık) tipiktir, WAS'ta sık değildir."
+ },
+ {
+  "soru": "<i>(Vaka: 24 aylık erkek bebek boyunda 3 gündür süren şişlik ve ateşle getiriliyor. Muayenede boyunda belirgin lenf nodu apsesi var; öyküsünde 2 kez daha boyun apsesi, 7 kez akciğer apsesi tedavisi ve 1 kez düşme sonrası femur kırığı nedeniyle opere olma var. Muayenede yüz hatları kaba.)</i><br><br>Bu hastada <b>en olası tanı</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Otozomal resesif hiper IgE sendromu"
+   },
+   {
+    "k": "B",
+    "t": "Kronik granülomatöz hastalık"
+   },
+   {
+    "k": "C",
+    "t": "Otozomal dominant hiper IgE (Job) sendromu"
+   },
+   {
+    "k": "D",
+    "t": "Kostmann hastalığı"
+   },
+   {
+    "k": "E",
+    "t": "Bruton agammaglobulinemisi"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Tekrarlayan apse + kaba yüz + kemik kırığı hangi sendromun triadı?",
+  "ipucu": "Tekrarlayan apse + kaba yüz + patolojik kırık → <b>otozomal dominant hiper IgE (Job) sendromu</b>.",
+  "tuzak": "KGH'de kaba yüz ve kemik kırığı olmaz. <mark>OD hiper IgE (STAT3)</mark>: iskelet/bağ dokusu tutulumu da vardır (kaba yüz, kırık, skolyoz, dişlerin dökülmemesi).",
+  "aciklama": "<b>Otozomal dominant hiper IgE (Job) sendromu (STAT3 defekti)</b>: tekrarlayan stafilokoksik soğuk apseler (deri, lenf nodu, akciğer/pnömatosel), <b>kaba yüz görünümü</b>, <b>patolojik kemik kırıkları</b>, skolyoz, hiperekstansibilite ve süt dişlerinin dökülmemesi. OR formda (DOCK8) ise iskelet bulguları yoktur, viral enfeksiyonlar öne çıkar."
+ },
+ {
+  "soru": "<i>(Vaka: 24 aylık erkek bebek boyunda 3 gündür süren şişlik ve ateşle getiriliyor. Muayenede boyunda belirgin lenf nodu apsesi var; öyküsünde 2 kez daha boyun apsesi, 7 kez akciğer apsesi tedavisi ve 1 kez düşme sonrası femur kırığı nedeniyle opere olma var. Muayenede yüz hatları kaba.)</i><br><br>Bu hastada <b>hangi proteinin sentezinde defekt</b> vardır?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "STAT3"
+   },
+   {
+    "k": "B",
+    "t": "DOCK8"
+   },
+   {
+    "k": "C",
+    "t": "ARTEMIS"
+   },
+   {
+    "k": "D",
+    "t": "Filaggrin"
+   },
+   {
+    "k": "E",
+    "t": "Pyrin"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Otozomal dominant hiper IgE hangi sinyal proteininin defektidir?",
+  "ipucu": "OD hiper IgE (Job) sendromunda <b>STAT3</b> defekti vardır.",
+  "tuzak": "DOCK8 otozomal resesif hiper IgE'ye aittir. <mark>STAT3</mark> ise otozomal dominant (klasik Job) formun nedenidir.",
+  "aciklama": "<b>Otozomal dominant hiper IgE (Job) sendromunda STAT3 gen defekti</b> vardır; TH17 hücre gelişimi bozulur, bu da stafilokok ve kandidaya karşı savunmayı zayıflatır. İskelet/bağ dokusu bulguları da STAT3'ün geniş rolü nedeniyle görülür. Otozomal resesif formda ise <b>DOCK8</b> defekti vardır (ağır viral deri enfeksiyonları, iskelet bulgusu yok)."
+ },
+ {
+  "soru": "<i>(Vaka: 24 aylık erkek bebek boyunda 3 gündür süren şişlik ve ateşle getiriliyor. Muayenede boyunda belirgin lenf nodu apsesi var; öyküsünde 2 kez daha boyun apsesi, 7 kez akciğer apsesi tedavisi ve 1 kez düşme sonrası femur kırığı nedeniyle opere olma var. Muayenede yüz hatları kaba.)</i><br><br>Bu hastada aşağıdaki bulgulardan hangisi <mark>beklenmez?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Tekrarlayan kemik kırıkları"
+   },
+   {
+    "k": "B",
+    "t": "Astım"
+   },
+   {
+    "k": "C",
+    "t": "Kaba yüz görünümü"
+   },
+   {
+    "k": "D",
+    "t": "Egzema"
+   },
+   {
+    "k": "E",
+    "t": "Kalıcı dişlerin geç çıkması (süt dişlerinin dökülmemesi)"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 IgE çok yüksek olmasına rağmen astım artar mı?",
+  "ipucu": "Job sendromunda IgE çok yüksek olmasına rağmen <b>astım/solunum yolu alerjisi beklenmez</b>.",
+  "tuzak": "Kemik kırıkları, kaba yüz, egzema ve diş anomalileri Job sendromunun bulgularıdır. <mark>Astım</mark> ise (yüksek IgE'ye rağmen) beklenmez.",
+  "aciklama": "<b>Job (OD hiper IgE) sendromunda</b> IgE düzeyi çok yüksek olmasına rağmen <b>solunum yolu alerjileri (astım, alerjik rinit) artmamıştır</b>. Beklenen bulgular: pruritik egzema, tekrarlayan stafilokoksik apseler, pnömatosel, kaba yüz, patolojik kırıklar, skolyoz ve süt dişlerinin zamanında dökülmemesi."
+ },
+ {
+  "soru": "<i>(Vaka: 24 aylık erkek bebek boyunda 3 gündür süren şişlik ve ateşle getiriliyor. Muayenede boyunda belirgin lenf nodu apsesi var; öyküsünde 2 kez daha boyun apsesi, 7 kez akciğer apsesi tedavisi ve 1 kez düşme sonrası femur kırığı nedeniyle opere olma var. Muayenede yüz hatları kaba.)</i><br><br>Bu hastanın laboratuvarında aşağıdakilerden hangisi <mark>beklenmez?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "IgE yüksekliği"
+   },
+   {
+    "k": "B",
+    "t": "Eozinofili"
+   },
+   {
+    "k": "C",
+    "t": "Normal IgG düzeyi"
+   },
+   {
+    "k": "D",
+    "t": "Normal lenfosit sayısı"
+   },
+   {
+    "k": "E",
+    "t": "Belirgin lenfopeni ve panhipogammaglobulinemi"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Job sendromu kombine immün yetmezlik mi yoksa izole bir defekt mi?",
+  "ipucu": "Job sendromunda <b>lenfopeni ve panhipogammaglobulinemi beklenmez</b>; diğer Ig'ler normaldir.",
+  "tuzak": "Yüksek IgE, eozinofili, normal IgG ve normal lenfosit sayısı beklenir. <mark>Lenfopeni + tüm Ig'lerin düşüklüğü</mark> ise SCID'e aittir, Job'da beklenmez.",
+  "aciklama": "<b>Job (hiper IgE) sendromunda</b> çok yüksek IgE (>2000 IU/mL), <b>eozinofili</b>, normal IgG/IgA/IgM ve normal lenfosit sayısı görülür. <b>Belirgin lenfopeni ve panhipogammaglobulinemi</b> ise kombine immün yetmezliklere (SCID) aittir, Job sendromunda beklenmez."
+ },
+ {
+  "soru": "<i>(Vaka: 24 aylık erkek bebek boyunda 3 gündür süren şişlik ve ateşle getiriliyor. Muayenede boyunda belirgin lenf nodu apsesi var; öyküsünde 2 kez daha boyun apsesi, 7 kez akciğer apsesi tedavisi ve 1 kez düşme sonrası femur kırığı nedeniyle opere olma var. Muayenede yüz hatları kaba.)</i><br><br>Bu hastalarda <b>akciğerde apse sonrası gelişen ve karakteristik olan</b> yapı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Bronşiektazi"
+   },
+   {
+    "k": "B",
+    "t": "Plevral kalınlaşma"
+   },
+   {
+    "k": "C",
+    "t": "Kaviter tüberküloz lezyonu"
+   },
+   {
+    "k": "D",
+    "t": "Pnömatosel"
+   },
+   {
+    "k": "E",
+    "t": "Atelektazi"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Stafilokoksik pnömoni sonrası akciğerde kalan hava kesesine ne denir?",
+  "ipucu": "Job sendromunda stafilokoksik pnömoni sonrası <b>pnömatosel</b> gelişir.",
+  "tuzak": "Bronşiektazi kistik fibroz/siliyer diskinezide öne çıkar. <mark>Pnömatosel</mark> ise Job sendromundaki stafilokoksik pnömoninin karakteristik sekelidir.",
+  "aciklama": "<b>Job (hiper IgE) sendromunda</b> tekrarlayan <b>stafilokoksik pnömoniler</b> iyileşme sürecinde <b>pnömatosel</b> (ince duvarlı hava kistleri) bırakır; bu kistler sekonder olarak Aspergillus veya Pseudomonas ile enfekte olabilir ve önemli morbidite nedenidir."
+ },
+ {
+  "soru": "<i>(Vaka: 15 yaşındaki erkek hasta 3 gündür artan nefes darlığı, öksürük ve göğüs ağrısıyla başvuruyor. Grafide her iki akciğerde \"atılmış pamuk\" görünümü; trakeal aspirat kültüründe Aspergillus fumigatus üremesi. Lökosit 11.900/mm³; IgG, IgA, IgM normal.)</i><br><br>Bu hasta için <b>en olası tanı</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kronik granülomatöz hastalık"
+   },
+   {
+    "k": "B",
+    "t": "Miyeloperoksidaz eksikliği"
+   },
+   {
+    "k": "C",
+    "t": "MASP-2 eksikliği"
+   },
+   {
+    "k": "D",
+    "t": "MHC sınıf II eksikliği"
+   },
+   {
+    "k": "E",
+    "t": "Sık değişken immün yetmezlik"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Normal immünglobulinlerle giden, Aspergillus pnömonisi yapan defekt hangisi?",
+  "ipucu": "Normal Ig düzeyleri + Aspergillus pnömonisi + tekrarlayan apse → <b>kronik granülomatöz hastalık</b>.",
+  "tuzak": "CVID'de Ig'ler düşüktür. <mark>KGH</mark>'de Ig'ler normal (hatta reaktif olarak yüksek); katalaz-pozitif organizmalar ve Aspergillus enfeksiyonu tipiktir.",
+  "aciklama": "<b>Kronik granülomatöz hastalık (KGH)</b>: NADPH oksidaz defekti nedeniyle fagositoz normal olsa da bakteri öldürülemez. Katalaz-pozitif organizmalar (S. aureus, Serratia, Nocardia, Burkholderia) ve <b>Aspergillus</b> ile ağır enfeksiyonlar olur. İmmünglobulinler normal/reaktif yüksektir. <b>Aspergillus pnömonisi en sık ölüm nedenidir</b>."
+ },
+ {
+  "soru": "<i>(Vaka: 15 yaşındaki erkek hasta 3 gündür artan nefes darlığı, öksürük ve göğüs ağrısıyla başvuruyor. Grafide her iki akciğerde \"atılmış pamuk\" görünümü; trakeal aspirat kültüründe Aspergillus fumigatus üremesi. Lökosit 11.900/mm³; IgG, IgA, IgM normal.)</i><br><br>Bu hastalıkta <b>nötrofillerdeki temel bozukluk</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kemotaksis"
+   },
+   {
+    "k": "B",
+    "t": "Bakterisidal aktivite"
+   },
+   {
+    "k": "C",
+    "t": "Opsonizasyon"
+   },
+   {
+    "k": "D",
+    "t": "Adezyon"
+   },
+   {
+    "k": "E",
+    "t": "Fagositoz"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 KGH'de bakteri yutulabiliyor mu, yoksa yutulup öldürülemiyor mu?",
+  "ipucu": "KGH'de <b>bakterisidal aktivite bozuktur</b>; fagositoz, kemotaksis ve opsonizasyon normaldir.",
+  "tuzak": "Adezyon defekti LAD'ye, kemotaksis defekti Job/Chediak'a aittir. <mark>KGH'de bakteri fagosite edilir ama öldürülemez</mark> (bakterisidal defekt).",
+  "aciklama": "<b>Kronik granülomatöz hastalıkta</b> NADPH oksidaz eksikliği nedeniyle oksidatif patlama (süperoksit üretimi) gerçekleşmez. <b>Kemotaksis, opsonizasyon ve fagositoz normaldir</b>; bakteriler normal şekilde fagosite edilir ancak fagozom içinde <b>öldürülemez (bakterisidal aktivite bozuktur)</b>."
+ },
+ {
+  "soru": "<i>(Vaka: 15 yaşındaki erkek hasta 3 gündür artan nefes darlığı, öksürük ve göğüs ağrısıyla başvuruyor. Grafide her iki akciğerde \"atılmış pamuk\" görünümü; trakeal aspirat kültüründe Aspergillus fumigatus üremesi. Lökosit 11.900/mm³; IgG, IgA, IgM normal.)</i><br><br>Bu hastalıktaki <b>en sık klinik bulgu</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Aspergillus pnömonisi"
+   },
+   {
+    "k": "B",
+    "t": "Psödomonas enfeksiyonları"
+   },
+   {
+    "k": "C",
+    "t": "Mantar enfeksiyonları"
+   },
+   {
+    "k": "D",
+    "t": "Stafilokoksik boyun apseleri"
+   },
+   {
+    "k": "E",
+    "t": "E. coli sepsisi"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 KGH'de en sık ölüm nedeni ile en sık klinik bulgu aynı mı?",
+  "ipucu": "KGH'de en sık klinik bulgu <b>geç iyileşen tekrarlayan stafilokoksik boyun apseleridir</b>.",
+  "tuzak": "<mark>Aspergillus pnömonisi en sık ÖLÜM nedenidir</mark>, ama en sık klinik BULGU stafilokoksik lenfadenit/boyun apseleridir. İkisini karıştırma.",
+  "aciklama": "<b>Kronik granülomatöz hastalıkta en sık klinik bulgu, geç iyileşen tekrarlayan stafilokoksik boyun (lenf nodu) apseleridir</b>. Ayrıca akciğer apsesi, karaciğer apsesi, osteomiyelit ve granülomatöz obstrüksiyonlar görülür. <b>En sık ölüm nedeni ise Aspergillus pnömonisidir</b>."
+ },
+ {
+  "soru": "<i>(Vaka: 15 yaşındaki erkek hasta 3 gündür artan nefes darlığı, öksürük ve göğüs ağrısıyla başvuruyor. Grafide her iki akciğerde \"atılmış pamuk\" görünümü; trakeal aspirat kültüründe Aspergillus fumigatus üremesi. Lökosit 11.900/mm³; IgG, IgA, IgM normal.)</i><br><br>Bu hastada <b>tanı için</b> aşağıdaki testlerden hangisi yapılmalıdır?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Adezyon testi"
+   },
+   {
+    "k": "B",
+    "t": "Dihidrorodamin (DHR) testi"
+   },
+   {
+    "k": "C",
+    "t": "Nötrofil sayısı"
+   },
+   {
+    "k": "D",
+    "t": "NADPH oksidaz ölçümü"
+   },
+   {
+    "k": "E",
+    "t": "Miyeloperoksidaz ölçümü"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Oksidatif patlamayı flow sitometriyle ölçen test hangisi?",
+  "ipucu": "KGH tanısında <b>dihidrorodamin (DHR) testi</b> kullanılır.",
+  "tuzak": "NADPH oksidaz doğrudan ölçülmez; fonksiyonu DHR/NBT ile değerlendirilir. <mark>DHR testi</mark> günümüzde tercih edilen tanı testidir.",
+  "aciklama": "<b>Kronik granülomatöz hastalık tanısında dihidrorodamin (DHR) flow-sitometri testi</b> kullanılır; nötrofillerin oksidatif patlama kapasitesini gösterir. Eskiden NBT (nitroblue tetrazolium) testi kullanılırdı. Kesin tanı gen analiziyle konur."
+ },
+ {
+  "soru": "<i>(Vaka: 15 yaşındaki erkek hasta 3 gündür artan nefes darlığı, öksürük ve göğüs ağrısıyla başvuruyor. Grafide her iki akciğerde \"atılmış pamuk\" görünümü; trakeal aspirat kültüründe Aspergillus fumigatus üremesi. Lökosit 11.900/mm³; IgG, IgA, IgM normal.)</i><br><br>Bu hastanın izleminde <b>ateş, hepatosplenomegali, yaygın lenfadenopati, trombositopeni ve sedimantasyon düşüklüğü</b> saptanırsa öncelikle aşağıdakilerden hangisi düşünülmelidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Sepsis"
+   },
+   {
+    "k": "B",
+    "t": "Lösemi"
+   },
+   {
+    "k": "C",
+    "t": "Makrofaj aktivasyon sendromu"
+   },
+   {
+    "k": "D",
+    "t": "Lenfoma"
+   },
+   {
+    "k": "E",
+    "t": "Graft-versus-host reaksiyonu"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Sedimantasyonun DÜŞMESİ (fibrinojen tüketimi) hangi tabloya işaret eder?",
+  "ipucu": "Ateş + organomegali + sitopeni + <b>düşük sedimantasyon</b> → <b>makrofaj aktivasyon sendromu (MAS/HLH)</b>.",
+  "tuzak": "Enfeksiyonda sedim yükselir. <mark>Sedimantasyonun paradoks olarak düşmesi</mark> (hipofibrinojenemi) MAS'ın anahtar bulgusudur.",
+  "aciklama": "<b>Makrofaj aktivasyon sendromu (MAS/hemofagositik lenfohistiyositoz)</b>: yüksek ateş, hepatosplenomegali, lenfadenopati, sitopeniler, hipertrigliseridemi, hiperferritinemi ve <b>hipofibrinojenemiye bağlı paradoks sedimantasyon düşüklüğü</b>. Bu düşüş, aktif enfeksiyondan ayırt eden anahtar bulgudur."
+ },
+ {
+  "soru": "<i>(Vaka: 15 yaşındaki erkek hasta 3 gündür artan nefes darlığı, öksürük ve göğüs ağrısıyla başvuruyor. Grafide her iki akciğerde \"atılmış pamuk\" görünümü; trakeal aspirat kültüründe Aspergillus fumigatus üremesi. Lökosit 11.900/mm³; IgG, IgA, IgM normal.)</i><br><br>Bu hastalarda <b>makrofaj aktivasyon sendromuna en sık neden olan mikroorganizma</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "S. aureus"
+   },
+   {
+    "k": "B",
+    "t": "Sitomegalovirüs"
+   },
+   {
+    "k": "C",
+    "t": "Herpes simpleks virüs"
+   },
+   {
+    "k": "D",
+    "t": "Pseudomonas"
+   },
+   {
+    "k": "E",
+    "t": "Epstein-Barr virüs (EBV)"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 HLH/MAS tetikleyicisi olarak klasik virüs hangisi?",
+  "ipucu": "MAS/HLH'yi en sık tetikleyen ajan <b>Epstein-Barr virüsüdür (EBV)</b>.",
+  "tuzak": "CMV ve diğer virüsler de tetikleyebilir ama <mark>EBV</mark> en sık nedendir.",
+  "aciklama": "<b>Makrofaj aktivasyon sendromu / hemofagositik lenfohistiyositozu en sık tetikleyen enfeksiyöz ajan Epstein-Barr virüsüdür (EBV)</b>. Ayrıca CMV, diğer herpes virüsler, leishmania ve romatolojik hastalıklar (sistemik JIA) tetikleyici olabilir."
+ },
+ {
+  "soru": "<i>(Vaka: 3.5 aylık kız hasta solukluk ve ateşle yatırılıyor. 6 aylık kız kardeşi hepatosplenomegali ile kaybedilmiş. Muayenede soluk, saç rengi gümüşe yakın gri, yüz ve gövdede kısmi albinizm; karaciğer 6-7 cm, dalak 4-5 cm ele geliyor.)</i><br><br>Bu hastada <b>en olası tanı</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Chediak-Higashi sendromu"
+   },
+   {
+    "k": "B",
+    "t": "Kronik granülomatöz hastalık"
+   },
+   {
+    "k": "C",
+    "t": "Nötrofil azurofil granül eksikliği"
+   },
+   {
+    "k": "D",
+    "t": "Lökosit adezyon defekti"
+   },
+   {
+    "k": "E",
+    "t": "Miyeloperoksidaz eksikliği"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Parsiyel albinizm + dev granüller + hemofagositoz hangi sendrom?",
+  "ipucu": "Parsiyel albinizm + gümüş-gri saç + organomegali → <b>Chediak-Higashi sendromu</b>.",
+  "tuzak": "Griscelli de gümüş saç yapar ama <mark>Chediak-Higashi</mark>'de nötrofil sitoplazmasında <b>dev granüller</b> ve periferik nöropati de vardır.",
+  "aciklama": "<b>Chediak-Higashi sendromu (LYST gen defekti, otozomal resesif)</b>: parsiyel okülokutanöz albinizm (gümüş-gri saç), <b>nötrofil sitoplazmasında dev lizozomal granüller</b>, tekrarlayan piyojenik enfeksiyonlar, kanama diyatezi (trombosit granül defekti), periferik nöropati ve akselere faz (hemofagositik sendrom)."
+ },
+ {
+  "soru": "<i>(Vaka: 3.5 aylık kız hasta solukluk ve ateşle yatırılıyor. 6 aylık kız kardeşi hepatosplenomegali ile kaybedilmiş. Muayenede soluk, saç rengi gümüşe yakın gri, yüz ve gövdede kısmi albinizm; karaciğer 6-7 cm, dalak 4-5 cm ele geliyor.)</i><br><br>Bu hastalığın <b>kardinal özelliklerinden olmayan</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Albinizm"
+   },
+   {
+    "k": "B",
+    "t": "Periferik yaymada nötrofil sitoplazmasında dev granüller"
+   },
+   {
+    "k": "C",
+    "t": "Periferik nöropati"
+   },
+   {
+    "k": "D",
+    "t": "Kanama diyatezi"
+   },
+   {
+    "k": "E",
+    "t": "Trombositopeni"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Chediak'ta kanama trombosit SAYISINDAN mı FONKSİYONUNDAN mı kaynaklanır?",
+  "ipucu": "Chediak-Higashi'de kanama <b>trombosit fonksiyon bozukluğundandır</b>; trombositopeni kardinal özellik değildir.",
+  "tuzak": "Albinizm, dev granüller, nöropati ve kanama diyatezi kardinal bulgulardır. <mark>Trombositopeni</mark> ise (akselere faz dışında) kardinal özellik değildir — kanama trombosit yoğun granül eksikliğine bağlıdır.",
+  "aciklama": "<b>Chediak-Higashi sendromunun kardinal özellikleri</b>: parsiyel albinizm, nötrofillerde dev granüller, tekrarlayan enfeksiyonlar, periferik nöropati ve <b>trombosit yoğun granül (dense body) eksikliğine bağlı kanama diyatezi</b>. <b>Trombositopeni</b> kardinal bir özellik değildir (akselere fazda pansitopeni gelişebilir)."
+ },
+ {
+  "soru": "<i>(Vaka: 3.5 aylık kız hasta solukluk ve ateşle yatırılıyor. 6 aylık kız kardeşi hepatosplenomegali ile kaybedilmiş. Muayenede soluk, saç rengi gümüşe yakın gri, yüz ve gövdede kısmi albinizm; karaciğer 6-7 cm, dalak 4-5 cm ele geliyor.)</i><br><br>Bu hastada izlemde <b>pansitopeni, hepatosplenomegali ve yaygın lenfadenopati</b> geliştiğinde öncelikle aşağıdakilerden hangisi düşünülmelidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Sepsis"
+   },
+   {
+    "k": "B",
+    "t": "Makrofaj aktivasyon sendromu (akselere faz)"
+   },
+   {
+    "k": "C",
+    "t": "Yaygın damar içi pıhtılaşma"
+   },
+   {
+    "k": "D",
+    "t": "Lösemi"
+   },
+   {
+    "k": "E",
+    "t": "Lenfoma"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Chediak-Higashi'nin \"akselere faz\"ı hangi tabloya karşılık gelir?",
+  "ipucu": "Chediak-Higashi'de <b>akselere faz = makrofaj aktivasyon sendromu (hemofagositoz)</b>dur.",
+  "tuzak": "Pansitopeni + organomegali + LAP kombinasyonu <mark>akselere faz (MAS/HLH)</mark>'ı gösterir; bu hastalığın en sık ölüm nedenidir.",
+  "aciklama": "<b>Chediak-Higashi sendromunun akselere fazı</b> lenfohistiyositik infiltrasyon ve hemofagositozla giden bir <b>makrofaj aktivasyon sendromudur</b>: pansitopeni, hepatosplenomegali, yaygın lenfadenopati, ateş. Genellikle EBV ile tetiklenir ve mortalitenin başlıca nedenidir."
+ },
+ {
+  "soru": "<i>(Vaka: 3.5 aylık kız hasta solukluk ve ateşle yatırılıyor. 6 aylık kız kardeşi hepatosplenomegali ile kaybedilmiş. Muayenede soluk, saç rengi gümüşe yakın gri, yüz ve gövdede kısmi albinizm; karaciğer 6-7 cm, dalak 4-5 cm ele geliyor.)</i><br><br>Bu hastaya tedavide aşağıdakilerden hangisi başlanmalıdır?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "E vitamini"
+   },
+   {
+    "k": "B",
+    "t": "Taze donmuş plazma"
+   },
+   {
+    "k": "C",
+    "t": "İntravenöz immünglobulin"
+   },
+   {
+    "k": "D",
+    "t": "C vitamini"
+   },
+   {
+    "k": "E",
+    "t": "Antibiyotik tedavisi"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Chediak-Higashi'de nötrofil fonksiyonunu düzelttiği gösterilen vitamin hangisi?",
+  "ipucu": "Chediak-Higashi'de <b>C vitamini (askorbik asit)</b> nötrofil fonksiyonlarını kısmen düzeltir.",
+  "tuzak": "IVIG ve TDP bu hastalıkta tedavi değildir. <mark>Yüksek doz C vitamini</mark> kemotaksis ve bakterisidal aktiviteyi iyileştirebilir; küratif tedavi kök hücre naklidir.",
+  "aciklama": "<b>Chediak-Higashi sendromunda yüksek doz C vitamini (askorbik asit)</b> nötrofil kemotaksisini ve bakterisidal aktivitesini kısmen düzeltebilir; profilaktik antibiyotik de verilir. <b>Küratif tedavi hematopoetik kök hücre naklidir</b> (nörolojik bulguları durdurmaz)."
+ },
+ {
+  "soru": "<i>(Vaka: 3.5 aylık kız hasta solukluk ve ateşle yatırılıyor. 6 aylık kız kardeşi hepatosplenomegali ile kaybedilmiş. Muayenede soluk, saç rengi gümüşe yakın gri, yüz ve gövdede kısmi albinizm; karaciğer 6-7 cm, dalak 4-5 cm ele geliyor.)</i><br><br>Bu hastalarda <b>ölümün en sık nedeni</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Lösemi"
+   },
+   {
+    "k": "B",
+    "t": "Lenfoma"
+   },
+   {
+    "k": "C",
+    "t": "Makrofaj aktivasyon sendromu (akselere faz)"
+   },
+   {
+    "k": "D",
+    "t": "Sepsis"
+   },
+   {
+    "k": "E",
+    "t": "Beyin apsesi"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Chediak'ta ölüm enfeksiyondan mı yoksa akselere fazdan mı olur?",
+  "ipucu": "Chediak-Higashi'de en sık ölüm nedeni <b>akselere faz (makrofaj aktivasyon sendromu)</b>dur.",
+  "tuzak": "Enfeksiyonlar sık olsa da <mark>akselere faz (hemofagositik sendrom)</mark> mortalitenin başlıca nedenidir.",
+  "aciklama": "<b>Chediak-Higashi sendromunda ölümün en sık nedeni akselere faz (makrofaj aktivasyon sendromu / hemofagositik lenfohistiyositoz)</b>dur; genellikle EBV ile tetiklenir, pansitopeni ve çoklu organ yetmezliğiyle seyreder. Erken kök hücre nakli mortaliteyi azaltır."
+ },
+ {
+  "soru": "<i>(Vaka: 1.5 aylık, zamanında doğmuş, önceden sağlıklı bebek 12 saattir ateş, letarji ve emmede azalma ile getiriliyor. Solunum 70/dk, kalp hızı 185/dk, ortalama kan basıncı 25 mmHg, ateş 39.5°C, periferik perfüzyon bozuk, ekstremiteler soğuk ve <b>umbilikal kord henüz düşmemiş</b>.)</i><br><br>Bu hastada <b>en olası tanı</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kronik granülomatöz hastalık"
+   },
+   {
+    "k": "B",
+    "t": "Konjenital lösemi"
+   },
+   {
+    "k": "C",
+    "t": "Kostmann sendromu"
+   },
+   {
+    "k": "D",
+    "t": "Lökosit adezyon defekti Tip I"
+   },
+   {
+    "k": "E",
+    "t": "Nötrofil miyeloperoksidaz eksikliği"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Göbek kordonunun geç düşmesi hangi nötrofil fonksiyon defektine özgü?",
+  "ipucu": "<b>Göbek kordonunun geç düşmesi + sepsis + lökositoz</b> → lökosit adezyon defekti Tip I.",
+  "tuzak": "KGH ve Kostmann'da göbek düşmesi gecikmez. <mark>Geç düşen göbek kordonu</mark> LAD Tip I'in klasik ipucudur (nötrofiller dokuya göç edemez).",
+  "aciklama": "<b>Lökosit adezyon defekti (LAD) Tip I</b>: CD18 (β2-integrin) eksikliği nedeniyle nötrofiller endotele yapışıp dokuya göç edemez. <b>Göbek kordonunun geç düşmesi (>30 gün)</b>, omfalit, yara iyileşmesinde gecikme, püy oluşmayan enfeksiyonlar ve belirgin <b>lökositoz (>30.000)</b> tipiktir."
+ },
+ {
+  "soru": "<i>(Vaka: 1.5 aylık, zamanında doğmuş, önceden sağlıklı bebek 12 saattir ateş, letarji ve emmede azalma ile getiriliyor. Solunum 70/dk, kalp hızı 185/dk, ortalama kan basıncı 25 mmHg, ateş 39.5°C, periferik perfüzyon bozuk, ekstremiteler soğuk ve <b>umbilikal kord henüz düşmemiş</b>.)</i><br><br>Bu hastadaki <b>tanısal bulgulardan olmayan</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Adezyon defekti"
+   },
+   {
+    "k": "B",
+    "t": "Yara iyileşmesinde gecikme"
+   },
+   {
+    "k": "C",
+    "t": "Göbeğin geç düşmesi"
+   },
+   {
+    "k": "D",
+    "t": "Lökositoz"
+   },
+   {
+    "k": "E",
+    "t": "Trombositopeni"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 LAD'de akyuvar sayısı artar — peki trombositler?",
+  "ipucu": "LAD'de <b>trombositopeni beklenmez</b>; belirgin lökositoz vardır.",
+  "tuzak": "Adezyon defekti, geç yara iyileşmesi, geç düşen göbek ve lökositoz LAD bulgularıdır. <mark>Trombositopeni</mark> ise tanısal bulgu değildir.",
+  "aciklama": "<b>Lökosit adezyon defektinde</b> nötrofiller dokuya göç edemediğinden periferik kanda birikir: <b>belirgin lökositoz (30.000-100.000/mm³)</b>. Adezyon defekti, yara iyileşmesinde gecikme ve göbeğin geç düşmesi tanısal bulgulardır. <b>Trombositopeni</b> LAD'nin bulgusu değildir."
+ },
+ {
+  "soru": "<i>(Vaka: 1.5 aylık, zamanında doğmuş, önceden sağlıklı bebek 12 saattir ateş, letarji ve emmede azalma ile getiriliyor. Solunum 70/dk, kalp hızı 185/dk, ortalama kan basıncı 25 mmHg, ateş 39.5°C, periferik perfüzyon bozuk, ekstremiteler soğuk ve <b>umbilikal kord henüz düşmemiş</b>.)</i><br><br>Bu hastada <b>tanı için</b> aşağıdakilerden hangisi istenmelidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "CD15"
+   },
+   {
+    "k": "B",
+    "t": "CD18"
+   },
+   {
+    "k": "C",
+    "t": "CD40"
+   },
+   {
+    "k": "D",
+    "t": "CD3"
+   },
+   {
+    "k": "E",
+    "t": "CD11"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 LAD Tip I'de eksik olan β2-integrin alt birimi hangisi?",
+  "ipucu": "LAD Tip I tanısında <b>CD18</b> ekspresyonu ölçülür.",
+  "tuzak": "CD15 LAD Tip II'ye aittir. <mark>CD18 (β2-integrin)</mark> ise LAD Tip I'de eksiktir; akım sitometriyle bakılır.",
+  "aciklama": "<b>LAD Tip I'de CD18 (β2-integrin zinciri) eksikliği</b> vardır; β2 integrinler α zincirlerinin (CD11a, b, c, d) CD18 ile birleşmesiyle oluşur. Tanı akım sitometride <b>CD18 (ve CD11b) ekspresyonunun azalmış/yok</b> olmasıyla konur. LAD Tip II'de ise CD15 (sialil-Lewis X) eksiktir."
+ },
+ {
+  "soru": "<i>(Vaka: 1.5 aylık, zamanında doğmuş, önceden sağlıklı bebek 12 saattir ateş, letarji ve emmede azalma ile getiriliyor. Solunum 70/dk, kalp hızı 185/dk, ortalama kan basıncı 25 mmHg, ateş 39.5°C, periferik perfüzyon bozuk, ekstremiteler soğuk ve <b>umbilikal kord henüz düşmemiş</b>.)</i><br><br>Bu hastalarda <b>kanamaya belirgin yatkınlık</b> varsa öncelikle aşağıdakilerden hangisi düşünülmelidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Lökosit adezyon defekti Tip III"
+   },
+   {
+    "k": "B",
+    "t": "Lökosit adezyon defekti Tip II"
+   },
+   {
+    "k": "C",
+    "t": "Lökosit adezyon defekti Tip I"
+   },
+   {
+    "k": "D",
+    "t": "Trombositopeni"
+   },
+   {
+    "k": "E",
+    "t": "Glanzmann trombastenisi"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Hangi LAD tipi trombosit integrin aktivasyonunu da bozar?",
+  "ipucu": "<b>LAD Tip III</b> trombasteni benzeri kanamaya yatkınlıkla seyreder.",
+  "tuzak": "Tip I ve II'de kanama diyatezi belirgin değildir. <mark>LAD Tip III</mark>'te integrin aktivasyon defekti trombositleri de etkiler (Glanzmann benzeri kanama).",
+  "aciklama": "<b>Lökosit adezyon defekti Tip III</b> (kindlin-3/FERMT3 defekti) integrin \"inside-out\" aktivasyonunu bozar; hem lökositleri hem <b>trombositleri</b> etkilediğinden <b>Glanzmann trombastenisi benzeri kanamaya yatkınlık</b> görülür. Otozomal resesif geçer."
+ },
+ {
+  "soru": "<i>(Vaka: 2 yaşındaki erkek çocuk tekrarlayan otit nedeniyle getiriliyor. Öyküsünde 1 kez pnömokok bakteriyemisi nedeniyle yatış var. Muayenede yanaklarda malar raş ve yüzde belirgin yağ dokusu kaybı saptanıyor. İmmünglobulin düzeyleri normal.)</i><br><br>Bu hastada <b>en olası tanı</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Erken kompleman eksikliği"
+   },
+   {
+    "k": "B",
+    "t": "Geç kompleman eksikliği"
+   },
+   {
+    "k": "C",
+    "t": "Alternatif kompleman yolu eksikliği"
+   },
+   {
+    "k": "D",
+    "t": "Hümoral immün yetmezlik"
+   },
+   {
+    "k": "E",
+    "t": "IgG subgrup eksikliği"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Lupus benzeri bulgu + kapsüllü bakteri enfeksiyonu + normal Ig hangi kompleman grubunu işaret eder?",
+  "ipucu": "Malar raş (lupus benzeri) + kapsüllü bakteri enfeksiyonu + normal Ig → <b>erken kompleman eksikliği</b>.",
+  "tuzak": "Geç kompleman (C5-9) eksikliği Neisseria enfeksiyonlarına yatkınlık yapar, lupus benzeri tablo yapmaz. <mark>Erken kompleman (C1, C2, C4)</mark> eksikliği ise otoimmünite (SLE benzeri) + kapsüllü bakteri enfeksiyonu yapar.",
+  "aciklama": "<b>Erken kompleman komponent eksiklikleri (C1q, C1r, C1s, C2, C4)</b>: immün kompleks temizliği bozulduğundan <b>SLE benzeri tablo (malar raş)</b>, glomerülonefrit, vaskülit ve <b>kapsüllü bakteri (pnömokok) enfeksiyonlarına</b> yatkınlık görülür. İmmünglobulin düzeyleri normaldir."
+ },
+ {
+  "soru": "<i>(Vaka: 2 yaşındaki erkek çocuk tekrarlayan otit nedeniyle getiriliyor. Öyküsünde 1 kez pnömokok bakteriyemisi nedeniyle yatış var. Muayenede yanaklarda malar raş ve yüzde belirgin yağ dokusu kaybı saptanıyor. İmmünglobulin düzeyleri normal.)</i><br><br>Bu hastada <b>tanı için öncelikle</b> aşağıdakilerden hangisi istenmelidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "AH50"
+   },
+   {
+    "k": "B",
+    "t": "AP50"
+   },
+   {
+    "k": "C",
+    "t": "CH50"
+   },
+   {
+    "k": "D",
+    "t": "IgG subgrupları"
+   },
+   {
+    "k": "E",
+    "t": "Properdin düzeyi"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Klasik kompleman yolunun bütünlüğünü gösteren tarama testi hangisi?",
+  "ipucu": "Klasik yol taraması için <b>CH50</b> istenir.",
+  "tuzak": "AP50 alternatif yolu tarar. <mark>CH50</mark> ise klasik yolun (C1-C9) bütünlüğünü gösterir; erken kompleman eksikliğinde düşük/sıfırdır.",
+  "aciklama": "<b>CH50 (total hemolitik kompleman)</b> klasik kompleman yolunun (C1-C9) bütünlüğünü gösteren tarama testidir; erken veya geç komponent eksikliğinde belirgin düşük veya sıfırdır. <b>AP50</b> ise alternatif yolu (properdin, faktör B/D) değerlendirir."
+ },
+ {
+  "soru": "<i>(Vaka: 2 yaşındaki erkek çocuk tekrarlayan otit nedeniyle getiriliyor. Öyküsünde 1 kez pnömokok bakteriyemisi nedeniyle yatış var. Muayenede yanaklarda malar raş ve yüzde belirgin yağ dokusu kaybı saptanıyor. İmmünglobulin düzeyleri normal.)</i><br><br>Bu hastalıkta aşağıdakilerden hangisi <b>diğerlerine göre daha nadir</b> görülür?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Parsiyel lipodistrofi"
+   },
+   {
+    "k": "B",
+    "t": "Glomerülonefrit"
+   },
+   {
+    "k": "C",
+    "t": "Kapsüllü bakteri enfeksiyonları"
+   },
+   {
+    "k": "D",
+    "t": "Otoimmün hastalıklar"
+   },
+   {
+    "k": "E",
+    "t": "Malignite"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Kompleman eksikliğinde kanser riski belirgin artar mı?",
+  "ipucu": "Kompleman eksikliğinde <b>malignite</b> diğer bulgulara göre daha nadirdir.",
+  "tuzak": "Parsiyel lipodistrofi, MPGN, kapsüllü bakteri enfeksiyonu ve otoimmünite kompleman eksikliğinde sıktır. <mark>Malignite</mark> ise nadirdir.",
+  "aciklama": "<b>Kompleman eksikliklerinde</b> otoimmün hastalıklar (SLE benzeri), vaskülit, <b>membranoproliferatif glomerülonefrit (MPGN)</b>, <b>parsiyel lipodistrofi</b> ve kapsüllü bakteri (pnömokok, meningokok) enfeksiyonları görülür. <b>Malignite riski</b> diğer immün yetmezliklerin aksine belirgin artmaz (en nadir)."
+ },
+ {
+  "soru": "<i>(Vaka: 2 yaşındaki erkek çocuk tekrarlayan otit nedeniyle getiriliyor. Öyküsünde 1 kez pnömokok bakteriyemisi nedeniyle yatış var. Muayenede yanaklarda malar raş ve yüzde belirgin yağ dokusu kaybı saptanıyor. İmmünglobulin düzeyleri normal.)</i><br><br>Bu hastada <b>en sık beklenen kompleman eksikliği</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "C1"
+   },
+   {
+    "k": "B",
+    "t": "C2"
+   },
+   {
+    "k": "C",
+    "t": "C3"
+   },
+   {
+    "k": "D",
+    "t": "C4"
+   },
+   {
+    "k": "E",
+    "t": "C5"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 En sık görülen kompleman komponent eksikliği hangisi?",
+  "ipucu": "En sık kompleman komponent eksikliği <b>C2 eksikliğidir</b>.",
+  "tuzak": "C1, C3, C4 eksiklikleri daha nadirdir. <mark>C2 eksikliği</mark> en sık görülen kompleman eksikliğidir ve SLE benzeri tabloyla gider.",
+  "aciklama": "<b>C2 eksikliği en sık görülen kompleman komponent eksikliğidir</b>; SLE benzeri tablo, diskoid lupus, vaskülit ve kapsüllü bakteri (pnömokok) enfeksiyonlarına yatkınlık yapar. C3 eksikliği ise en ağır seyreden formdur (hem opsonizasyon hem lizis bozulur)."
+ }
+];
+
+/* ================= STATE ================= */
+let order = QUESTIONS.map(function(_,i){return i;});
+let idx = 0;
+const answered = new Array(QUESTIONS.length).fill(null);
+const starred  = new Array(QUESTIONS.length).fill(false);
+const cueUsed  = new Array(QUESTIONS.length).fill(false);
+let finished = false;
+
+/* ================= PERSISTENCE (localStorage) ================= */
+const STORAGE_KEY = 'tusquiz::' + (document.title || 'quiz') + '::' + QUESTIONS.length;
+function saveState(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      answered:answered, starred:starred, idx:idx, order:order, finished:finished, v:1
+    }));
+  }catch(e){}
+}
+function loadSavedState(){
+  try{ const r=localStorage.getItem(STORAGE_KEY); return r?JSON.parse(r):null; }catch(e){ return null; }
+}
+function clearSavedState(){ try{ localStorage.removeItem(STORAGE_KEY); }catch(e){} }
+function hasProgress(s){
+  if(!s) return false;
+  const a = s.answered && s.answered.some(function(x){return x!==null;});
+  return a || (s.idx>0) || s.finished;
+}
+function applyState(s){
+  for(let i=0;i<QUESTIONS.length;i++){
+    answered[i] = (s.answered && i<s.answered.length && s.answered[i]!==undefined) ? s.answered[i] : null;
+    starred[i]  = (s.starred  && i<s.starred.length)  ? !!s.starred[i] : false;
+  }
+  order = (s.order && s.order.length) ? s.order.slice() : QUESTIONS.map(function(_,i){return i;});
+  idx = (typeof s.idx==='number') ? Math.max(0,Math.min(order.length-1,s.idx)) : 0;
+  finished = !!s.finished;
+}
+
+function qid(){ return order[idx]; }
+function curQ(){ return QUESTIONS[order[idx]]; }
+
+/* ========== HEADER SPACING (JS-measured) ========== */
+const hdr = document.getElementById('hdr');
+const main = document.getElementById('main');
+function syncHeader(){
+  const h = hdr.offsetHeight;
+  main.style.paddingTop = (h + 14) + 'px';
+  document.documentElement.style.setProperty('--hdrH', h + 'px');
+}
+window.addEventListener('load', syncHeader);
+window.addEventListener('resize', syncHeader);
+syncHeader();
+
+/* ================= RENDER ================= */
+const quizEl = document.getElementById('quiz');
+const resultEl = document.getElementById('result');
+const navEl = document.getElementById('nav');
+
+function render(){
+  if(finished){ renderResult(); return; }
+  resultEl.classList.remove('show');
+  quizEl.style.display='block';
+  navEl.style.display='flex';
+
+  const q = curQ();
+  const id = qid();
+  const chosen = answered[id];
+  const isAns = chosen !== null;
+
+  let html = '';
+  html += '<div class="qmeta">';
+  html += '<div class="qnum">SORU '+(idx+1)+' / '+order.length+'</div>';
+  html += '<button class="star-btn '+(starred[id]?'on':'')+'" onclick="toggleStar()" aria-label="Yıldızla">⭐</button>';
+  html += '</div>';
+
+  if(q.yil && q.yil.length){
+    html += '<div class="year-tags">';
+    q.yil.forEach(function(y){ html += '<span class="year-tag">'+y+'</span>'; });
+    html += '</div>';
+  }
+
+  html += '<div class="qcard'+(q.ddx?' has-ddx':'')+'"'+(q.ddx?' onclick="openDdx(event)"':'')+'>'+q.soru
+        + (q.ddx?'<span class="ddx-ok"><svg viewBox="0 0 24 24"><path d="M17 4l3 3-3 3"/><path d="M20 7H8a4 4 0 0 0-4 4"/><path d="M7 20l-3-3 3-3"/><path d="M4 17h12a4 4 0 0 0 4-4"/></svg></span>':'')
+        + '</div>';
+
+  html += '<div class="opts '+(isAns?'locked':'')+'" id="opts">';
+  q.siklar.forEach(function(s,i){
+    let cls='opt';
+    if(isAns){
+      if(i===q.dogru) cls+=' correct';
+      else if(i===chosen) cls+=' wrong';
+      else cls+=' dim';
+    }
+    html += '<button class="'+cls+'" '+(isAns?'':'onclick="answer('+i+')"')+'>'
+          + '<span class="k">'+s.k+'</span><span class="t">'+s.t+'</span><span class="mark"></span></button>';
+  });
+  html += '</div>';
+
+  if(!isAns){
+    html += '<button class="hintbtn" id="preHint" onclick="showPreHint()">💡 İpucu göster</button>';
+    html += '<div id="revealZone"></div>';
+  } else {
+    html += '<div id="revealZone">'+revealHTML(q)+'</div>';
+  }
+
+  quizEl.innerHTML = html;
+
+  document.getElementById('prevBtn').disabled = (idx===0);
+  document.getElementById('nextBtn').textContent = (idx===order.length-1) ? 'Bitir ✓' : 'Sonraki →';
+  document.getElementById('navCounter').textContent = (idx+1)+'/'+order.length;
+
+  updateBars();
+}
+
+function ddxCardHTML(d){
+  if(!d) return '';
+  var rows='';
+  (d.satirlar||[]).forEach(function(r){
+    rows += '<div class="dc'+(r.hit?' hit':'')+'">'
+          + '<div class="emo">'+(r.emo||'🔹')+'</div>'
+          + '<div class="txt"><div class="dn">'+r.ad+'</div><div class="dv">'+r.bulgu+'</div></div></div>';
+  });
+  return '<div class="ddx-card" onclick="closeDdx()">'
+       + '<h3>🩺 '+(d.baslik||'Ayırıcı Tanı')+'</h3>'
+       + (d.ok?'<div class="ddx-key">'+d.ok+'</div>':'')
+       + '<div class="ddx-cards">'+rows+'</div></div>';
+}
+function openDdx(e){
+  if(e){ e.stopPropagation(); }
+  var q=curQ();
+  if(!q.ddx) return;
+  var ov=document.getElementById('ddxOv');
+  if(ov.classList.contains('show')){ closeDdx(); return; }
+  ov.classList.remove('closing');
+  ov.innerHTML = ddxCardHTML(q.ddx);
+  void ov.offsetWidth;
+  ov.classList.add('show');
+}
+function closeDdx(){
+  var ov=document.getElementById('ddxOv');
+  if(!ov.classList.contains('show') || ov.classList.contains('closing')) return;
+  ov.classList.add('closing');
+  setTimeout(function(){ ov.classList.remove('show','closing'); ov.innerHTML=''; }, 430);
+}
+
+function revealHTML(q){
+  return ''
+   + '<div class="box ip"><div class="bt">💡 İPUCU</div><div>'+q.ipucu+'</div></div>'
+   + '<div class="box tz"><div class="bt">⚠️ TUZAK</div><div>'+q.tuzak+'</div></div>'
+   + '<div class="box ac"><div class="bt">📖 AÇIKLAMA</div><div>'+q.aciklama+'</div></div>';
+}
+
+function showPreHint(){
+  const q = curQ();
+  const btn = document.getElementById('preHint');
+  if(btn) btn.style.display='none';
+  document.getElementById('revealZone').innerHTML =
+    '<div class="box ip"><div class="bt">💡 İPUCU</div><div>'+q.ipucu+'</div></div>';
+  scrollToReveal();
+}
+
+/* ================= ACTIONS ================= */
+function answer(i){
+  const id = qid();
+  if(answered[id]!==null) return;
+  const q=curQ();
+
+  // İlk yanlışta: cevabı vermeyen yeşil ipucu + kilit ifade parlaması, tek seferlik → tekrar dene
+  if(i!==q.dogru && q.cue && !cueUsed[id]){
+    cueUsed[id]=true;
+    const m=document.getElementById('cueMsg');
+    m.textContent=q.cue;
+    m.classList.add('show');
+    const qc=document.querySelector('.qcard');
+    if(qc) qc.classList.add('flash');
+    setTimeout(function(){ m.classList.remove('show'); if(qc) qc.classList.remove('flash'); },2400);
+    return; // cevap KİLİTLENMEZ
+  }
+
+  answered[id]=i;
+
+  const opts=document.getElementById('opts');
+  opts.classList.add('locked');
+  const btns=opts.querySelectorAll('.opt');
+  btns.forEach(function(b,k){
+    b.setAttribute('onclick','');
+    if(k===q.dogru) b.classList.add('correct');
+    else if(k===i) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+
+  const pre=document.getElementById('preHint');
+  if(pre) pre.style.display='none';
+
+  document.getElementById('revealZone').innerHTML = revealHTML(q);
+  updateBars();
+  saveState();
+  if(i === q.dogru){ celebrate(btns[q.dogru]); } else { commiserate(); }
+  scrollToReveal();
+}
+
+function scrollToReveal(){
+  requestAnimationFrame(function(){
+    const zone=document.getElementById('revealZone');
+    const first=zone && zone.firstElementChild;
+    if(!first) return;
+    const offset = hdr.offsetHeight + 10;
+    const y = first.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({top:y, behavior:'smooth'});
+  });
+}
+
+function toggleStar(){
+  const id=qid();
+  starred[id]=!starred[id];
+  saveState();
+  render();
+}
+
+function go(dir){
+  if(dir===1 && idx===order.length-1){ finished=true; saveState(); render(); window.scrollTo({top:0,behavior:'smooth'}); return; }
+  idx=Math.max(0,Math.min(order.length-1, idx+dir));
+  saveState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ================= MODAL ================= */
+function openModal(){
+  const grid=document.getElementById('qGrid');
+  let h='';
+  order.forEach(function(id,p){
+    let cls='gbtn';
+    if(answered[id]!==null){ cls += (answered[id]===QUESTIONS[id].dogru)?' ok':' no'; }
+    if(p===idx) cls+=' cur';
+    if(starred[id]) cls+=' star';
+    h += '<button class="'+cls+'" onclick="jump('+p+')">'+(p+1)+'</button>';
+  });
+  grid.innerHTML=h;
+  document.getElementById('modalOv').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('modalOv').classList.remove('show');
+  document.body.style.overflow='';
+}
+function modalBg(e){ if(e.target.id==='modalOv') closeModal(); }
+function jump(p){ idx=p; finished=false; closeModal(); saveState(); render(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+/* ================= COUNTERS / PROGRESS ================= */
+function correctCount(){
+  let c=0;
+  answered.forEach(function(a,i){ if(a!==null && a===QUESTIONS[i].dogru) c++; });
+  return c;
+}
+function starCount(){ return starred.filter(Boolean).length; }
+function updateBars(){
+  document.getElementById('cCount').textContent = correctCount();
+  document.getElementById('sCount').textContent = starCount();
+  const pos = finished ? order.length : (idx+1);
+  document.getElementById('bar').style.width = Math.round((pos/order.length)*100)+'%';
+}
+
+/* ================= RESULT ================= */
+function renderResult(){
+  quizEl.style.display='none';
+  navEl.style.display='none';
+  resultEl.classList.add('show');
+
+  const total=order.length;
+  let correct=0, wrong=0, blank=0, starHere=0;
+  order.forEach(function(id){
+    const a=answered[id];
+    if(a===null) blank++;
+    else if(a===QUESTIONS[id].dogru) correct++;
+    else wrong++;
+    if(starred[id]) starHere++;
+  });
+  const pct=Math.round((correct/total)*100);
+
+  document.getElementById('scoreBig').textContent = correct+'/'+total;
+  document.getElementById('pctLine').textContent = '%'+pct;
+  document.getElementById('ring').style.setProperty('--pct', pct+'%');
+
+  let fb;
+  if(pct>=90) fb='Mükemmel! Bu konulara hâkimsin. 🎯';
+  else if(pct>=70) fb='Çok iyi. Birkaç tuzak dışında sağlamsın. 👏';
+  else if(pct>=50) fb='Fena değil; yanlışları ve tuzakları tekrar et. 📚';
+  else fb='Bu blokları tekrar çalışmakta fayda var. Devam! 💪';
+  document.getElementById('fbText').textContent = fb;
+
+  document.getElementById('rStats').innerHTML =
+      '<div class="rstat g">✓ Doğru '+correct+'</div>'
+    + '<div class="rstat r">✗ Yanlış '+wrong+'</div>'
+    + '<div class="rstat s">⭐ Yıldızlı '+starHere+'</div>';
+
+  let rev='';
+  order.forEach(function(id,p){
+    const q=QUESTIONS[id];
+    const a=answered[id];
+    let badge, cls, label;
+    if(a===null){ badge='–'; cls='blank'; label='Boş'; }
+    else if(a===q.dogru){ badge='✓'; cls='ok'; label='Doğru'; }
+    else { badge='✗'; cls='no'; label='Yanlış'; }
+    const ds=q.siklar[q.dogru];
+    rev += '<div class="rev" onclick="jump('+p+')">'
+         + '<div class="badge '+cls+'">'+badge+'</div>'
+         + '<div style="flex:1">'
+         + '<div class="rq">Soru '+(p+1)+' — '+label+(starred[id]?' ⭐':'')+'</div>'
+         + '<div class="ra">Doğru cevap: <b>'+ds.k+') '+ds.t+'</b></div>'
+         + '</div></div>';
+  });
+  document.getElementById('reviewList').innerHTML = rev;
+
+  document.getElementById('retryWrongBtn').disabled = (wrong===0);
+  document.getElementById('retryStarBtn').disabled = (starCount()===0);
+  setTimeout(function(){ finaleShow(pct); }, 250);
+
+  updateBars();
+}
+
+/* ================= RETRY MODES ================= */
+function startSubset(ids){
+  fxStreak = 0;
+  order = ids.slice();
+  ids.forEach(function(id){ answered[id]=null; });
+  idx=0; finished=false;
+  saveState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function restart(){
+  fxStreak = 0;
+  order = QUESTIONS.map(function(_,i){return i;});
+  for(let i=0;i<QUESTIONS.length;i++){ answered[i]=null; }
+  idx=0; finished=false;
+  clearSavedState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function retryWrong(){
+  const ids = order.filter(function(id){ return answered[id]!==null && answered[id]!==QUESTIONS[id].dogru; });
+  if(!ids.length){ toast('Yanlış soru yok 🎉'); return; }
+  startSubset(ids);
+}
+function retryStar(){
+  const ids = [];
+  starred.forEach(function(s,i){ if(s) ids.push(i); });
+  if(!ids.length){ toast('Yıldızlı soru yok ⭐'); return; }
+  startSubset(ids);
+}
+
+/* ================= TOAST ================= */
+let toastT=null;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(toastT);
+  toastT=setTimeout(function(){ el.classList.remove('show'); },1800);
+}
+
+/* ================= RESUME ================= */
+function showResumePrompt(saved){
+  const ov = document.getElementById('resumeOv');
+  const sub = document.getElementById('resumeSub');
+  const ord = (saved.order && saved.order.length) ? saved.order : QUESTIONS.map(function(_,i){return i;});
+  const total = ord.length;
+  const pos = saved.finished ? total : Math.min((saved.idx||0)+1, total);
+  const ansCount = saved.answered ? saved.answered.filter(function(x){return x!==null;}).length : 0;
+  sub.textContent = saved.finished
+    ? ('Testi bitirmiştin — sonuç ekranına dönebilirsin. (' + ansCount + ' soru işaretlenmiş)')
+    : ('Soru ' + pos + ' / ' + total + ' — ' + ansCount + ' soru cevaplanmış.');
+  window._savedState = saved;
+  ov.classList.add('show');
+}
+function resumeYes(){
+  applyState(window._savedState);
+  document.getElementById('resumeOv').classList.remove('show');
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function resumeNo(){
+  clearSavedState();
+  document.getElementById('resumeOv').classList.remove('show');
+  render();
+}
+
+
+/* ================= EĞLENCE MOTORU ================= */
+const fxCanvas = document.createElement('canvas');
+fxCanvas.id = 'fxCanvas';
+document.body.appendChild(fxCanvas);
+const fxCtx = fxCanvas.getContext('2d');
+let fxParts = [], fxRaf = null;
+
+function fxResize(){
+  fxCanvas.width = window.innerWidth;
+  fxCanvas.height = window.innerHeight;
+}
+window.addEventListener('resize', fxResize);
+fxResize();
+
+const FX_COLORS = ['#4c9aff','#7c5cff','#2ea043','#f5c451','#ff5b5b','#3fb6a8','#ffffff','#ff9de2'];
+
+function confettiBurst(n, originY){
+  const oy = (typeof originY === 'number') ? originY : window.innerHeight * 0.38;
+  for(let i=0;i<n;i++){
+    fxParts.push({
+      x: window.innerWidth/2 + (Math.random()-0.5)*160,
+      y: oy,
+      vx: (Math.random()-0.5)*13,
+      vy: Math.random()*-13 - 4,
+      g: 0.34,
+      w: Math.random()*8 + 5,
+      h: Math.random()*5 + 3,
+      c: FX_COLORS[Math.floor(Math.random()*FX_COLORS.length)],
+      rot: Math.random()*6.28,
+      vr: (Math.random()-0.5)*0.35,
+      life: 130
+    });
+  }
+  if(!fxRaf) fxRaf = requestAnimationFrame(fxTick);
+}
+
+function fxTick(){
+  fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height);
+  fxParts = fxParts.filter(function(p){ return p.life > 0 && p.y < window.innerHeight + 60; });
+  fxParts.forEach(function(p){
+    p.x += p.vx; p.y += p.vy; p.vy += p.g; p.vx *= 0.995;
+    p.rot += p.vr; p.life--;
+    fxCtx.save();
+    fxCtx.translate(p.x, p.y);
+    fxCtx.rotate(p.rot);
+    fxCtx.globalAlpha = Math.max(0, Math.min(1, p.life/45));
+    fxCtx.fillStyle = p.c;
+    fxCtx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+    fxCtx.restore();
+  });
+  if(fxParts.length){ fxRaf = requestAnimationFrame(fxTick); }
+  else { fxRaf = null; fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height); }
+}
+
+function emojiFloat(list, count){
+  for(let i=0;i<count;i++){
+    const e = document.createElement('div');
+    e.className = 'emoji-pop';
+    e.textContent = list[Math.floor(Math.random()*list.length)];
+    e.style.left = (window.innerWidth/2 + (Math.random()-0.5)*240) + 'px';
+    e.style.top  = (window.innerHeight*0.58) + 'px';
+    e.style.setProperty('--dx', ((Math.random()-0.5)*140) + 'px');
+    e.style.setProperty('--rot', ((Math.random()-0.5)*90) + 'deg');
+    e.style.animationDelay = (Math.random()*0.28) + 's';
+    document.body.appendChild(e);
+    setTimeout(function(){ if(e.parentNode) e.remove(); }, 2200);
+  }
+}
+
+function emojiRain(list, count){
+  for(let i=0;i<count;i++){
+    const e = document.createElement('div');
+    e.className = 'emoji-drop';
+    e.textContent = list[Math.floor(Math.random()*list.length)];
+    e.style.left = (window.innerWidth*0.15 + Math.random()*window.innerWidth*0.7) + 'px';
+    e.style.top  = (window.innerHeight*0.30) + 'px';
+    e.style.setProperty('--rot', ((Math.random()-0.5)*70) + 'deg');
+    e.style.animationDelay = (Math.random()*0.25) + 's';
+    document.body.appendChild(e);
+    setTimeout(function(){ if(e.parentNode) e.remove(); }, 2000);
+  }
+}
+
+const GOOD_EMO = ['🎉','🥳','😄','👏','⭐','💪','🔥','✨','🏆','😎','💚','🩺'];
+const BAD_EMO  = ['😢','😞','💔','😵','🙈','😬','🥲'];
+const MASCOTS  = ['🐵','🦉','🐣','🦊','🐼','🚀'];
+
+const GOOD_MSG = ['Harika! 🎉','Bravo! 👏','Tam isabet! 🎯','Süpersin! 🥳','İşte bu! 💪',
+                  'Mükemmel! ⭐','Doğru cevap! 🔥','Efsanesin! 🏆','Aferin doktor! 🩺',
+                  'Nefes kesici! 😮‍💨','Çok iyisin! 💚'];
+const BAD_MSG  = ['Olsun, tekrar bakalım 💪','Tuzağa düştün ⚠️','Yanlış ama öğrendik 📚',
+                  'Boş ver, devam! 🙌','Bir dahakine 😉','Not al, unutma 📝',
+                  'Açıklamayı oku, kaçırma 👀','Nefesini topla, devam 🫁'];
+const STREAK_MSG = {3:'🔥 3 ÜST ÜSTE!',5:'⚡ 5 SERİ! HARİKA!',8:'🏆 8 SERİ! EFSANE!',
+                    10:'👑 10 SERİ! ŞAMPİYON!',15:'🚀 15 SERİ! DURDURULAMAZ!',
+                    20:'🌟 20 SERİ! İNANILMAZ!'};
+
+let fxStreak = 0;
+
+function showStreak(msg){
+  const s = document.createElement('div');
+  s.className = 'streak';
+  s.textContent = msg;
+  document.body.appendChild(s);
+  setTimeout(function(){ if(s.parentNode) s.remove(); }, 1700);
+}
+
+let fxMsgT = null;
+function showInlineMsg(msg, ok){
+  const zone = document.getElementById('revealZone');
+  if(!zone) return;
+  const old = zone.querySelector('.fxfloat');
+  if(old) old.remove();
+  clearTimeout(fxMsgT);
+  const wrap = document.createElement('div');
+  wrap.className = 'fxfloat';
+  const pill = document.createElement('div');
+  pill.className = 'pill ' + (ok ? 'good' : 'bad');
+  pill.textContent = msg;
+  wrap.appendChild(pill);
+  zone.insertBefore(wrap, zone.firstChild);
+  fxMsgT = setTimeout(function(){ if(wrap.parentNode) wrap.remove(); }, 2100);
+}
+
+function celebrate(btn){
+  confettiBurst(95);
+  emojiFloat(GOOD_EMO, 8);
+  showInlineMsg(GOOD_MSG[Math.floor(Math.random()*GOOD_MSG.length)], true);
+  if(btn){
+    const m = document.createElement('span');
+    m.className = 'mascot';
+    m.textContent = MASCOTS[Math.floor(Math.random()*MASCOTS.length)];
+    btn.style.position = 'relative';
+    btn.appendChild(m);
+  }
+  fxStreak++;
+  if(STREAK_MSG[fxStreak]){
+    showStreak(STREAK_MSG[fxStreak]);
+    setTimeout(function(){ confettiBurst(70, window.innerHeight*0.30); }, 220);
+  }
+  try{ if(navigator.vibrate) navigator.vibrate(35); }catch(e){}
+}
+
+function commiserate(){
+  const m = document.getElementById('main');
+  if(m){
+    m.classList.remove('shake');
+    void m.offsetWidth;
+    m.classList.add('shake');
+    setTimeout(function(){ m.classList.remove('shake'); }, 700);
+  }
+  emojiRain(BAD_EMO, 6);
+  showInlineMsg(BAD_MSG[Math.floor(Math.random()*BAD_MSG.length)], false);
+  fxStreak = 0;
+  try{ if(navigator.vibrate) navigator.vibrate([60,50,60,50,50]); }catch(e){}
+}
+
+function finaleShow(pct){
+  if(pct >= 90){
+    [0,300,600,900].forEach(function(d){
+      setTimeout(function(){ confettiBurst(110, window.innerHeight*0.30); }, d);
+    });
+    emojiFloat(['🏆','👑','🎉','🥳','⭐'], 12);
+  } else if(pct >= 70){
+    confettiBurst(110, window.innerHeight*0.32);
+    setTimeout(function(){ confettiBurst(80, window.innerHeight*0.30); }, 350);
+    emojiFloat(GOOD_EMO, 8);
+  } else if(pct >= 50){
+    confettiBurst(60, window.innerHeight*0.34);
+    emojiFloat(['💪','📚','✨'], 5);
+  } else {
+    emojiFloat(['📚','💪','🩺'], 4);
+  }
+}
+
+/* ================= INIT ================= */
+render();
+window.addEventListener('pagehide', function(){ try{ saveState(); }catch(e){} });
+window.addEventListener('visibilitychange', function(){ if(document.visibilityState==='hidden'){ try{ saveState(); }catch(e){} } });
+(function(){ const s=loadSavedState(); if(hasProgress(s)) showResumePrompt(s); })();
+window.addEventListener('load', function(){ syncHeader(); updateBars(); });
+
+/* nav focus fix */
+try{['prevBtn','listBtn','nextBtn'].forEach(function(id){var el=document.getElementById(id);if(el){el.addEventListener('mousedown',function(e){e.preventDefault();});el.addEventListener('focus',function(){var s=this;setTimeout(function(){try{s.blur();}catch(e){}},0);});el.addEventListener('click',function(){var s=this;setTimeout(function(){try{s.blur();}catch(e){}},0);});}});}catch(e){}
+</script>
+</body>
+</html>

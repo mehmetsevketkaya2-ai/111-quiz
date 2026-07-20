@@ -1,0 +1,1959 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="pragma" content="no-cache">
+<title>MEDITUS — Alerji</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --line:#2a3444;
+    --text:#e6edf3; --muted:#9aa7b5; --accent:#4c9aff; --accent2:#7c5cff;
+    --green:#2ea043; --green-bg:#12341c; --red:#e5484d; --red-bg:#3a1518;
+    --star:#f5c451; --hint:#3fb6a8; --trap:#ff5b5b; --exp:#b487ff;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;-webkit-text-size-adjust:100%;}
+  mark{background:none;color:var(--trap);font-weight:800;}
+  b{color:#fff;font-weight:700;}
+
+  header{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--panel);
+    border-bottom:1px solid var(--line);padding:env(safe-area-inset-top) 0 0 0;
+    box-shadow:0 4px 18px rgba(0,0,0,.35);}
+  .hbar{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:11px 16px 10px;}
+  .htitle{font-size:15px;font-weight:800;letter-spacing:.3px;}
+  .htitle span{color:var(--accent);}
+  .stats{display:flex;gap:8px;}
+  .chip{display:flex;align-items:center;gap:5px;background:var(--panel2);
+    border:1px solid var(--line);border-radius:999px;padding:5px 11px;
+    font-size:13px;font-weight:700;}
+  .chip.correct{color:var(--green);} .chip.star{color:var(--star);}
+  .progress{height:5px;background:var(--panel2);width:100%;}
+  .progress > i{display:block;height:100%;width:0;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    transition:width .35s ease;}
+
+  main{max-width:720px;margin:0 auto;padding:16px 16px 120px;}
+
+  .qmeta{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .qnum{font-size:13px;font-weight:800;color:var(--muted);letter-spacing:.5px;}
+  .star-btn{background:none;border:none;cursor:pointer;font-size:26px;line-height:1;
+    filter:grayscale(1) opacity(.45);transition:transform .15s,filter .15s;padding:2px 4px;}
+  .star-btn.on{filter:none;transform:scale(1.12);}
+
+  .year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+  .year-tag{font-size:11.5px;font-weight:700;letter-spacing:.3px;color:var(--accent);
+    background:rgba(76,154,255,.1);border:1px solid rgba(76,154,255,.3);
+    border-radius:6px;padding:3px 9px;}
+
+  .qcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:18px 17px;margin-bottom:14px;font-size:16.5px;}
+
+  .opts{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+  .opt{display:flex;align-items:flex-start;gap:12px;background:var(--panel);
+    border:1.5px solid var(--line);border-radius:13px;padding:13px 14px;cursor:pointer;
+    font-size:16px;transition:border-color .15s,background .15s,transform .05s;
+    text-align:left;color:var(--text);width:100%;}
+  .opt:active{transform:scale(.995);}
+  .opt .k{flex:0 0 26px;height:26px;border-radius:50%;background:var(--panel2);
+    border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:14px;color:var(--muted);}
+  .opt .t{flex:1;padding-top:1px;}
+  .opt:not(.locked):hover{border-color:var(--accent);}
+  .opts.locked .opt{cursor:default;}
+  .opt.correct{border-color:var(--green);background:var(--green-bg);}
+  .opt.correct .k{background:var(--green);border-color:var(--green);color:#fff;}
+  .opt.wrong{border-color:var(--red);background:var(--red-bg);}
+  .opt.wrong .k{background:var(--red);border-color:var(--red);color:#fff;}
+  .opt.dim{opacity:.55;}
+  .opt .mark{flex:0 0 24px;height:26px;display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:18px;line-height:1;}
+  .opt.correct .mark::after{content:"✓";color:var(--green);}
+  .opt.wrong .mark::after{content:"✗";color:var(--red);}
+
+  .hintbtn{display:inline-flex;align-items:center;gap:7px;background:var(--panel2);
+    color:var(--hint);border:1px solid var(--line);border-radius:11px;padding:11px 15px;
+    font-size:14.5px;font-weight:700;cursor:pointer;margin-bottom:14px;}
+  .hintbtn:hover{border-color:var(--hint);}
+
+  .box{border-radius:13px;padding:13px 15px;margin-bottom:11px;font-size:15.5px;
+    border:1px solid var(--line);animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .box .bt{display:flex;align-items:center;gap:8px;font-weight:800;margin-bottom:6px;
+    font-size:14px;letter-spacing:.3px;}
+  .box.ip{background:rgba(63,182,168,.08);border-color:rgba(63,182,168,.35);}
+  .box.ip .bt{color:var(--hint);}
+  .box.tz{background:rgba(255,91,91,.07);border-color:rgba(255,91,91,.32);}
+  .box.tz .bt{color:var(--trap);}
+  .box.ac{background:rgba(180,135,255,.08);border-color:rgba(180,135,255,.32);}
+  .box.ac .bt{color:var(--exp);}
+
+  /* ===== AYIRICI TANI: gizli ok + eğlenceli flip + yeşil ipucu ===== */
+  .qcard{position:relative;}
+  .qcard.has-ddx{cursor:pointer;padding-right:46px;}
+  .qcard .cue{transition:all .3s;border-radius:4px;}
+  .qcard.flash .cue{background:rgba(46,160,67,.3);color:#fff;box-shadow:0 0 0 3px rgba(46,160,67,.3);padding:0 2px;}
+  .ddx-ok{position:absolute;top:12px;right:12px;width:28px;height:28px;display:grid;place-items:center;
+    color:var(--accent);cursor:pointer;animation:ddxpulse 2.2s ease-in-out infinite;z-index:3;}
+  .ddx-ok svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  @keyframes ddxpulse{0%,100%{opacity:.5;transform:translateY(0)}50%{opacity:1;transform:translateY(-2px)}}
+
+  .cueMsg{position:fixed;left:0;right:0;top:0;z-index:400;background:#0f2a1e;
+    border-bottom:2px solid var(--green);color:#b6f0d4;font-weight:700;font-size:15.5px;
+    padding:15px 18px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.5);
+    transform:translateY(-110%);transition:transform .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;}
+  .cueMsg.show{transform:translateY(0);animation:cuewiggle .5s ease .35s;}
+  @keyframes cuewiggle{0%,100%{transform:translateY(0)}25%{transform:translateY(0) rotate(-.4deg)}75%{transform:translateY(0) rotate(.4deg)}}
+
+  .ddx-ov{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;
+    padding:20px;background:rgba(6,10,15,.55);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);perspective:1800px;}
+  .ddx-ov.show{display:flex;}
+  .ddx-card{width:100%;max-width:440px;max-height:88vh;overflow-y:auto;
+    background:linear-gradient(160deg,#1a2230 0%,#141a24 100%);
+    border:1px solid rgba(76,154,255,.4);border-radius:22px;padding:22px;
+    box-shadow:0 24px 70px rgba(0,0,0,.6),0 0 40px rgba(76,154,255,.12);
+    cursor:pointer;}
+  .ddx-ov.show .ddx-card{animation:dealIn .5s cubic-bezier(.2,.8,.22,1) both;}
+  @keyframes dealIn{0%{opacity:0;transform:translateY(60vh) rotate(14deg) scale(.8)}100%{opacity:1;transform:none}}
+  .ddx-ov.closing .ddx-card{animation:dealOut .4s cubic-bezier(.5,0,.75,.4) both;}
+  @keyframes dealOut{0%{opacity:1;transform:none}100%{opacity:0;transform:translateY(60vh) rotate(14deg) scale(.8)}}
+  .ddx-card h3{margin:0 0 14px;display:flex;align-items:center;gap:9px;font-size:16px;font-weight:800;
+    background:linear-gradient(90deg,#4c9aff,#7ee7c7);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .ddx-key{font-size:14.5px;color:var(--text);background:rgba(76,154,255,.1);
+    border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:10px 13px;margin-bottom:14px;}
+  .ddx-cards{display:flex;flex-direction:column;gap:10px;}
+  .dc{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;
+    padding:12px 13px;background:rgba(255,255,255,.025);position:relative;overflow:hidden;
+    opacity:0;transform:translateX(-90px) rotate(-7deg);animation:ddxslide .45s cubic-bezier(.2,.85,.28,1.25) forwards;}
+  .dc:nth-child(1){animation-delay:.12s} .dc:nth-child(2){animation-delay:.20s}
+  .dc:nth-child(3){animation-delay:.28s} .dc:nth-child(4){animation-delay:.36s}
+  .dc:nth-child(5){animation-delay:.44s} .dc:nth-child(6){animation-delay:.52s}
+  .ddx-ov.closing .dc{animation:dcOut .28s cubic-bezier(.5,0,.75,.4) forwards;}
+  @keyframes dcOut{to{opacity:0;transform:translateX(-90px) rotate(-7deg)}}
+  .ddx-ov.closing .dc:nth-child(5){animation-delay:.02s}
+  .ddx-ov.closing .dc:nth-child(4){animation-delay:.06s}
+  .ddx-ov.closing .dc:nth-child(3){animation-delay:.10s}
+  .ddx-ov.closing .dc:nth-child(2){animation-delay:.14s}
+  .ddx-ov.closing .dc:nth-child(1){animation-delay:.18s}
+  @keyframes ddxslide{to{opacity:1;transform:none}}
+  .dc .emo{font-size:24px;flex:none;line-height:1.1;}
+  .dc .txt .dn{font-weight:800;font-size:15px;margin-bottom:2px;color:var(--text);}
+  .dc .txt .dv{font-size:13.5px;color:var(--muted);} .dc .txt .dv b{color:var(--text);font-weight:600;}
+  .dc.hit{border-color:var(--green);background:linear-gradient(120deg,rgba(46,160,67,.2),rgba(46,160,67,.06));
+    box-shadow:0 0 20px rgba(46,160,67,.25);}
+  .dc.hit .dn{color:#7ee7a8;}
+  .dc.hit::after{content:"⭐";position:absolute;top:8px;right:10px;font-size:15px;animation:ddxtwinkle 1.4s ease-in-out infinite;}
+  @keyframes ddxtwinkle{0%,100%{opacity:.4;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
+  .nav{position:fixed;bottom:0;left:0;right:0;z-index:40;background:var(--panel);
+    border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+    display:flex;gap:10px;max-width:720px;margin:0 auto;align-items:stretch;}
+  .nav button{border:1px solid var(--line);border-radius:12px;padding:14px;
+    font-size:15.5px;font-weight:800;cursor:pointer;background:var(--panel2);color:var(--text);}
+  .nav .prev,.nav .next{flex:1;}
+  .nav .list{flex:0 0 auto;min-width:66px;color:var(--muted);font-size:13px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.1;}
+  .nav .list .lc{font-size:16px;}
+  .nav .next{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+  .nav button:disabled{opacity:.4;cursor:not-allowed;}
+  /* nav dokunma/focus fix: buton basılı kalıp beyazlaşmaz */
+  .nav button{-webkit-tap-highlight-color:transparent;}
+  .nav button:focus{outline:none;}
+  .nav .prev:focus,.nav .prev:active{background:var(--panel2);color:var(--text);border-color:var(--line);}
+  .nav .list:focus,.nav .list:active{background:var(--panel2);color:var(--muted);border-color:var(--line);}
+  .nav .next:focus,.nav .next:active{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;}
+
+
+  /* Question-list modal (bottom sheet) */
+  .modal-ov{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.55);
+    display:none;align-items:flex-end;justify-content:center;}
+  .modal-ov.show{display:flex;animation:fade .2s ease;}
+  .modal{width:100%;max-width:720px;background:var(--panel);
+    border-top-left-radius:20px;border-top-right-radius:20px;
+    border:1px solid var(--line);border-bottom:none;padding:16px 16px 26px;
+    max-height:72vh;overflow:auto;animation:slideup .28s ease;}
+  @keyframes slideup{from{transform:translateY(30px);opacity:.6;}to{transform:none;opacity:1;}}
+  .modal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .modal-h span{font-size:15px;font-weight:800;letter-spacing:.3px;}
+  .modal-h .close{background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    border-radius:9px;width:34px;height:34px;font-size:16px;cursor:pointer;font-weight:800;}
+  .qgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;}
+  .gbtn{aspect-ratio:1/1;border-radius:10px;border:1.5px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:14px;font-weight:800;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;position:relative;}
+  .gbtn.ok{background:var(--green-bg);border-color:var(--green);color:var(--green);}
+  .gbtn.no{background:var(--red-bg);border-color:var(--red);color:var(--red);}
+  .gbtn.cur{outline:2px solid var(--accent);outline-offset:1px;}
+  .gbtn.star::after{content:"";position:absolute;top:3px;right:3px;width:7px;height:7px;
+    border-radius:50%;background:var(--star);}
+
+  /* Result */
+  .result{display:none;}
+  .result.show{display:block;animation:fade .4s ease;}
+  .score-ring{display:flex;flex-direction:column;align-items:center;justify-content:center;
+    width:170px;height:170px;margin:8px auto 6px;border-radius:50%;
+    background:conic-gradient(var(--accent) var(--pct,0%),var(--panel2) 0);}
+  .score-ring .inner{width:138px;height:138px;border-radius:50%;background:var(--bg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .score-ring .big{font-size:34px;font-weight:900;}
+  .score-ring .sub{font-size:13px;color:var(--muted);font-weight:700;}
+  .pctline{text-align:center;font-size:20px;font-weight:900;margin:2px 0 4px;}
+  .fb{text-align:center;color:var(--muted);font-size:15px;margin-bottom:14px;}
+  .result-stats{display:flex;gap:10px;justify-content:center;margin-bottom:22px;flex-wrap:wrap;}
+  .rstat{background:var(--panel);border:1px solid var(--line);border-radius:11px;
+    padding:9px 15px;font-size:13.5px;font-weight:800;}
+  .rstat.g{color:var(--green);} .rstat.r{color:var(--red);} .rstat.s{color:var(--star);}
+  .review-h{font-size:14px;font-weight:800;color:var(--muted);letter-spacing:.4px;
+    margin:6px 0 10px;}
+  .rev{display:flex;align-items:center;gap:11px;background:var(--panel);
+    border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:9px;
+    cursor:pointer;transition:border-color .15s;}
+  .rev:hover{border-color:var(--accent);}
+  .rev .badge{flex:0 0 auto;width:24px;height:24px;border-radius:6px;font-size:15px;
+    display:flex;align-items:center;justify-content:center;font-weight:900;}
+  .rev .badge.ok{background:var(--green-bg);color:var(--green);}
+  .rev .badge.no{background:var(--red-bg);color:var(--red);}
+  .rev .badge.blank{background:var(--panel2);color:var(--muted);}
+  .rev .rq{flex:1;font-size:14px;}
+  .rev .ra{font-size:12.5px;color:var(--muted);margin-top:2px;}
+  .rev .ra b{color:var(--green);}
+  .result-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+  .ract{width:100%;padding:15px;border-radius:13px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:15px;font-weight:800;cursor:pointer;}
+  .ract:hover{border-color:var(--accent);}
+  .ract.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+  .ract:disabled{opacity:.4;cursor:not-allowed;}
+
+  /* Resume prompt */
+  .resume-ov{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.6);
+    display:none;align-items:center;justify-content:center;padding:20px;}
+  .resume-ov.show{display:flex;animation:fade .2s ease;}
+  .resume-box{width:100%;max-width:420px;background:var(--panel);border:1px solid var(--line);
+    border-radius:18px;padding:22px 20px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.5);}
+  .resume-t{font-size:18px;font-weight:900;margin-bottom:8px;}
+  .resume-s{font-size:14px;color:var(--muted);margin-bottom:18px;line-height:1.5;}
+  .resume-btns{display:flex;flex-direction:column;gap:10px;}
+  .resume-btn{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:15px;font-weight:800;cursor:pointer;}
+  .resume-btn:hover{border-color:var(--accent);}
+  .resume-btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+
+
+  /* ================= EĞLENCE KATMANI ================= */
+  #fxCanvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:90;}
+  .emoji-pop{position:fixed;font-size:36px;pointer-events:none;z-index:95;
+    will-change:transform,opacity;animation:floatUp 1.7s cubic-bezier(.2,.7,.3,1) forwards;}
+  @keyframes floatUp{
+    0%{opacity:0;transform:translate(0,0) scale(.4) rotate(0deg);}
+    12%{opacity:1;transform:translate(0,-14px) scale(1.25) rotate(0deg);}
+    100%{opacity:0;transform:translate(var(--dx,0px),-190px) scale(1.05) rotate(var(--rot,25deg));}
+  }
+  .emoji-drop{position:fixed;font-size:30px;pointer-events:none;z-index:95;
+    animation:dropDown 1.5s ease-in forwards;}
+  @keyframes dropDown{
+    0%{opacity:0;transform:translateY(-30px) scale(.6) rotate(0deg);}
+    15%{opacity:1;}
+    100%{opacity:0;transform:translateY(150px) scale(1) rotate(var(--rot,-20deg));}
+  }
+  .shake{animation:shakeX .55s cubic-bezier(.36,.07,.19,.97) both;}
+  @keyframes shakeX{
+    10%,90%{transform:translateX(-2px);} 20%,80%{transform:translateX(4px);}
+    30%,50%,70%{transform:translateX(-8px);} 40%,60%{transform:translateX(8px);}
+  }
+  .opt.correct{animation:popOk .55s cubic-bezier(.2,1.4,.4,1);
+    box-shadow:0 0 22px rgba(46,160,67,.45);}
+  @keyframes popOk{0%{transform:scale(1);}35%{transform:scale(1.035);}100%{transform:scale(1);}}
+  .opt.wrong{animation:wobbleNo .5s;}
+  @keyframes wobbleNo{
+    0%,100%{transform:translateX(0);}20%{transform:translateX(-6px);}
+    40%{transform:translateX(6px);}60%{transform:translateX(-4px);}80%{transform:translateX(4px);}
+  }
+  .mascot{position:absolute;right:12px;top:50%;font-size:26px;line-height:1;
+    transform:translateY(-50%);animation:mascotDance .7s ease-in-out infinite alternate;
+    pointer-events:none;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4));}
+  @keyframes mascotDance{
+    from{transform:translateY(-42%) rotate(-12deg) scale(1);}
+    to{transform:translateY(-62%) rotate(12deg) scale(1.18);}
+  }
+  .streak{position:fixed;left:50%;top:22%;transform:translateX(-50%) scale(.6);
+    font-size:22px;font-weight:900;color:var(--star);z-index:96;opacity:0;
+    text-shadow:0 3px 14px rgba(0,0,0,.6);pointer-events:none;
+    animation:streakPop 1.5s ease-out forwards;white-space:nowrap;}
+  @keyframes streakPop{
+    0%{opacity:0;transform:translateX(-50%) scale(.5);}
+    20%{opacity:1;transform:translateX(-50%) scale(1.15);}
+    75%{opacity:1;transform:translateX(-50%) scale(1);}
+    100%{opacity:0;transform:translateX(-50%) scale(1) translateY(-24px);}
+  }
+  .score-ring{animation:ringIn .8s cubic-bezier(.2,1.2,.3,1);}
+  @keyframes ringIn{from{transform:scale(.75) rotate(-12deg);opacity:0;}to{transform:none;opacity:1;}}
+
+
+  /* Cevap mesaji: son sik ile ipucu kutusu arasinda YUZEN baloncuk.
+     Yuksekligi 0 -> icerigi itmez; birkac saniyede kaybolur. */
+  .fxfloat{position:relative;height:0;overflow:visible;}
+  .fxfloat .pill{position:absolute;left:50%;top:-4px;
+    transform:translateX(-50%);
+    background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    padding:11px 18px;border-radius:11px;font-size:14px;font-weight:700;
+    white-space:nowrap;z-index:80;pointer-events:none;
+    box-shadow:0 6px 20px rgba(0,0,0,.45);
+    animation:pillIn .25s ease both, pillOut .45s ease 1.55s forwards;}
+  @keyframes pillIn{
+    from{opacity:0;transform:translateX(-50%) translateY(12px);}
+    to{opacity:1;transform:translateX(-50%) translateY(0);}
+  }
+  @keyframes pillOut{
+    to{opacity:0;transform:translateX(-50%) translateY(-8px);}
+  }
+
+  /* Toast */
+  .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);
+    background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    padding:11px 18px;border-radius:11px;font-size:14px;font-weight:700;z-index:80;
+    opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 6px 20px rgba(0,0,0,.4);}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<header id="hdr">
+  <div class="hbar">
+    <div class="htitle">MEDITUS <span>PEDİATRİ · ALERJİ</span></div>
+    <div class="stats">
+      <div class="chip correct">✓ <span id="cCount">0</span></div>
+      <div class="chip star">⭐ <span id="sCount">0</span></div>
+    </div>
+  </div>
+  <div class="progress"><i id="bar"></i></div>
+</header>
+
+<main id="main">
+  <div id="quiz"></div>
+  <div class="cueMsg" id="cueMsg"></div>
+  <div class="ddx-ov" id="ddxOv" onclick="closeDdx()"></div>
+
+  <div class="result" id="result">
+    <div class="score-ring" id="ring">
+      <div class="inner">
+        <div class="big" id="scoreBig">0/0</div>
+        <div class="sub">DOĞRU</div>
+      </div>
+    </div>
+    <div class="pctline" id="pctLine">%0</div>
+    <div class="fb" id="fbText"></div>
+    <div class="result-stats" id="rStats"></div>
+    <div class="result-actions">
+      <button class="ract primary" onclick="restart()">↺ Tüm Soruları Yeniden Çöz</button>
+      <button class="ract" id="retryWrongBtn" onclick="retryWrong()">✗ Yanlışları Tekrar Çöz</button>
+      <button class="ract" id="retryStarBtn" onclick="retryStar()">⭐ Yıldızlıları Tekrar Çöz</button>
+    </div>
+    <div class="review-h">SORU İNCELEMESİ</div>
+    <div id="reviewList"></div>
+    
+  </div>
+</main>
+
+<div class="nav" id="nav">
+  <button class="prev" id="prevBtn" onclick="go(-1)">← Önceki</button>
+  <button class="list" id="listBtn" onclick="openModal()"><span class="lc">☰</span><span id="navCounter">0/0</span></button>
+  <button class="next" id="nextBtn" onclick="go(1)">Sonraki →</button>
+</div>
+
+<div class="modal-ov" id="modalOv" onclick="modalBg(event)">
+  <div class="modal">
+    <div class="modal-h"><span>Sorular</span><button class="close" onclick="closeModal()">✕</button></div>
+    <div class="qgrid" id="qGrid"></div>
+  </div>
+</div>
+
+<div class="resume-ov" id="resumeOv">
+  <div class="resume-box">
+    <div class="resume-t">↩ Kaldığın yerden devam?</div>
+    <div class="resume-s" id="resumeSub"></div>
+    <div class="resume-btns">
+      <button class="resume-btn primary" onclick="resumeYes()">Kaldığım yerden devam et</button>
+      <button class="resume-btn" onclick="resumeNo()">Baştan başla</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   QUESTIONS — SADECE BU DİZİ DEĞİŞİR.
+   Her obje: { yil?, soru, siklar[5], dogru(0-4), ipucu, tuzak, aciklama }
+   ========================================================= */
+const QUESTIONS = [
+ {
+  "soru": "Aşağıdaki klinik bulgulardan hangisi <b>astım atağının ağırlığını</b> gösterir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Taşikardi"
+   },
+   {
+    "k": "B",
+    "t": "Takipne"
+   },
+   {
+    "k": "C",
+    "t": "Transkutanöz O₂ satürasyonunun %95 olması"
+   },
+   {
+    "k": "D",
+    "t": "Akciğerlerde yaygın sibilan raller"
+   },
+   {
+    "k": "E",
+    "t": "Akciğerde solunum seslerinin belirgin azalması (sessiz akciğer)"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Hışıltının duyulmaması iyi mi yoksa çok kötü bir işaret mi?",
+  "ipucu": "<b>Sessiz akciğer (solunum seslerinin azalması)</b> ağır/hayatı tehdit eden atağın göstergesidir.",
+  "tuzak": "Taşikardi/takipne nonspesifiktir; sibilan raller hava akımının olduğunu gösterir. <mark>Sessiz akciğer</mark> ise hava akımının kritik derecede azaldığını (ağır atak) gösterir.",
+  "aciklama": "<b>Astım atağında sessiz akciğer (solunum seslerinin ve wheezing'in belirgin azalması)</b>, hava akımının kritik düzeyde azaldığını gösteren, hayatı tehdit eden ağır atak bulgusudur. Siyanoz, bilinç değişikliği, paradoks solunum ve SpO₂ <%90 da ağır atak göstergeleridir."
+ },
+ {
+  "soru": "Aşağıdaki alerjik hastalıklardan hangisinde <b>IgE artışı en fazla olmasına rağmen major değil minör bir tanı kriteridir?</b>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Astım bronşiale"
+   },
+   {
+    "k": "B",
+    "t": "Atopik dermatit"
+   },
+   {
+    "k": "C",
+    "t": "Alerjik bronkopulmoner aspergilloz"
+   },
+   {
+    "k": "D",
+    "t": "Alerjik rinit"
+   },
+   {
+    "k": "E",
+    "t": "Besin alerjisi"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 IgE'yi en çok yükselten atopik hastalık hangisi — ama IgE tanıda majör mi minör mü?",
+  "ipucu": "<b>Atopik dermatitte</b> IgE en çok artar ancak yüksek IgE bir minör (major değil) tanı kriteridir.",
+  "tuzak": "ABPA'da IgE tanısaldır. <mark>Atopik dermatitte</mark> IgE en çok artmasına rağmen tanı majör kriterlere (kaşıntı, morfoloji, kroniklik, atopi) dayanır; yüksek IgE minör kriterdir.",
+  "aciklama": "<b>Atopik dermatit</b> alerjik hastalıklar içinde <b>IgE'yi en çok artıran</b> hastalıktır; ancak tanı majör kriterlere (kaşıntı, tipik morfoloji/dağılım, kronik-tekrarlayıcı seyir, kişisel/ailesel atopi) dayanır. <b>Yüksek IgE düzeyi minör tanı kriteridir</b> (majör değil)."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>alerjik rinit gelişimi için risk faktörü değildir?</b>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Annenin sigara içmesi"
+   },
+   {
+    "k": "B",
+    "t": "Düşük sosyoekonomik düzey"
+   },
+   {
+    "k": "C",
+    "t": "Formula ve ek gıdalara erken başlama"
+   },
+   {
+    "k": "D",
+    "t": "Sezaryenle doğum"
+   },
+   {
+    "k": "E",
+    "t": "Ailede atopi öyküsü"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Hijyen hipotezine göre yüksek mi düşük mü sosyoekonomik düzey atopi riski artırır?",
+  "ipucu": "<b>Düşük sosyoekonomik düzey</b> alerjik rinit için risk faktörü değildir (hijyen hipotezi: yüksek SE düzey risk artırır).",
+  "tuzak": "Maternal sigara, erken formula/ek gıda, sezaryen ve ailede atopi risk faktörüdür. <mark>Düşük sosyoekonomik düzey</mark> ise (hijyen hipotezine göre) koruyucu yöndedir.",
+  "aciklama": "<b>Alerjik rinit risk faktörleri</b>: ailede atopi öyküsü, maternal sigara, sezaryen doğum, formula/ek gıdalara erken başlama, yüksek sosyoekonomik düzey (hijyen hipotezi). <b>Düşük sosyoekonomik düzey</b> risk faktörü değildir (erken mikrobiyal maruziyet koruyucudur)."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>alerjik rinitle beraber görülme ihtimali yüksek</b> olan durumlardan biri <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kronik rinosinüzit"
+   },
+   {
+    "k": "B",
+    "t": "Astım bronşiale"
+   },
+   {
+    "k": "C",
+    "t": "Nazal polip"
+   },
+   {
+    "k": "D",
+    "t": "Adenotonsiller hipertrofi"
+   },
+   {
+    "k": "E",
+    "t": "Kistik fibrozis"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Alerjik rinitle klasik birlikteliği olmayan, ayrı bir genetik hastalık hangisi?",
+  "ipucu": "<b>Kistik fibrozis</b> alerjik rinitle özel birliktelik göstermez.",
+  "tuzak": "Kronik rinosinüzit, astım, nazal polip, seröz otit ve adenotonsiller hipertrofi alerjik rinitle sık birliktedir. <mark>Kistik fibrozis</mark> ise ayrı bir genetik hastalıktır.",
+  "aciklama": "<b>Alerjik rinitle sık birlikte görülen durumlar</b>: astım bronşiale, kronik rinosinüzit, nazal polip, seröz otitis media (AOM), adenotonsiller hipertrofi, uyku apnesi. <b>Kistik fibrozis</b> alerjik rinitin klasik birlikteliklerinden değildir (nazal polip yaparsa da farklı bir mekanizmayladır)."
+ },
+ {
+  "soru": "<b>Alerjik rinit tedavisinde</b> kullanılan ilaçlardan hangisi <b>kaşıntıya en fazla, tıkanıklığa en az</b> etkili olan gruptur?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Alfa-1 agonistler"
+   },
+   {
+    "k": "B",
+    "t": "Antihistaminikler"
+   },
+   {
+    "k": "C",
+    "t": "Nazal steroid"
+   },
+   {
+    "k": "D",
+    "t": "Montelukast"
+   },
+   {
+    "k": "E",
+    "t": "Teofilin"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Histamin bloke edilince en çok hangi semptom düzelir?",
+  "ipucu": "<b>Antihistaminikler</b> kaşıntı/hapşırık/akıntıya en etkili, burun tıkanıklığına en az etkilidir.",
+  "tuzak": "Nazal steroid tüm semptomlara (tıkanıklık dahil) etkilidir. <mark>Antihistaminikler</mark> ise kaşıntıya en etkili, tıkanıklığa en az etkilidir.",
+  "aciklama": "<b>Antihistaminikler</b> alerjik rinitte kaşıntı, hapşırık ve burun akıntısına en etkili, <b>burun tıkanıklığına en az etkili</b> gruptur. <b>Nazal steroidler</b> tüm semptomlara (tıkanıklık dahil) etkili olup uzun süreli kullanımda en etkili ilaçtır; kısa süreli tıkanıklıkta nazal dekonjestanlar (alfa-1 agonistler) kullanılır."
+ },
+ {
+  "soru": "<b>Atopik dermatit</b> için aşağıdakilerden hangisi <mark>doğru değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Çocukluk çağının en sık kronik deri hastalığıdır."
+   },
+   {
+    "k": "B",
+    "t": "Yoğun kaşıntı ve kutanöz reaktivite önemli özellikleridir."
+   },
+   {
+    "k": "C",
+    "t": "Genelde ailede atopik hastalık öyküsü vardır."
+   },
+   {
+    "k": "D",
+    "t": "Kaşıntı geceleri azalır."
+   },
+   {
+    "k": "E",
+    "t": "En erken yaşta çıkan atopik hastalıktır."
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Atopik dermatitte kaşıntı gece artar mı azalır mı?",
+  "ipucu": "Atopik dermatitte <b>kaşıntı geceleri KÖTÜLEŞİR</b> (azalmaz).",
+  "tuzak": "En sık kronik deri hastalığı, kutanöz reaktivite, ailesel atopi ve en erken atopik hastalık olması doğrudur. <mark>Kaşıntının gece azalması</mark> yanlıştır — gece artar.",
+  "aciklama": "<b>Atopik dermatit</b> çocukluğun en sık kronik deri hastalığıdır; yoğun kaşıntı ve kutanöz reaktivite kardinal özellikleridir. <b>Kaşıntı geceleri kötüleşir</b> (azalmaz). En erken çıkan atopik hastalıktır ve \"atopik marş\"ın (AD → alerjik rinit/astım) başlangıcıdır."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>atopik dermatitin majör bulgularından</b> biri <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kaşıntı"
+   },
+   {
+    "k": "B",
+    "t": "Süt çocuğu döneminde yüzde dermatit"
+   },
+   {
+    "k": "C",
+    "t": "Adölesanda ekstansör yüzeylerde dermatit"
+   },
+   {
+    "k": "D",
+    "t": "Kronik veya tekrarlayıcı dermatit"
+   },
+   {
+    "k": "E",
+    "t": "Kişisel veya ailesel atopi öyküsü"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Ergende atopik dermatit ekstansör mü fleksör yüzeyleri tutar?",
+  "ipucu": "Adölesanda dermatit <b>fleksör (ekstansör değil)</b> yüzeyleri tutar; bu ifade yanlıştır.",
+  "tuzak": "Süt çocuğunda yüz/ekstansör, adölesanda ise <mark>fleksör</mark> tutulum olur. \"Adölesanda ekstansör\" ifadesi yanlıştır.",
+  "aciklama": "<b>Atopik dermatit majör bulguları</b>: kaşıntı, tipik morfoloji ve dağılım (<b>süt çocuğunda yüz ve ekstansör yüzeyler, adölesanda fleksör yüzeyler</b>), kronik/tekrarlayıcı seyir, kişisel veya ailesel atopi. \"Adölesanda ekstansör yüzeylerde dermatit\" ifadesi yanlıştır (fleksör olmalı)."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>atopik dermatit ayırıcı tanısına giren kronik dermatozlardan</b> <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Seboreik dermatit"
+   },
+   {
+    "k": "B",
+    "t": "Skleroderma"
+   },
+   {
+    "k": "C",
+    "t": "İktiyoz"
+   },
+   {
+    "k": "D",
+    "t": "Numüler egzema"
+   },
+   {
+    "k": "E",
+    "t": "Psoriyazis"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Hangisi bir bağ dokusu hastalığı, kronik dermatoz değil?",
+  "ipucu": "<b>Skleroderma</b> atopik dermatit ayırıcı tanısına giren bir kronik dermatoz değildir.",
+  "tuzak": "Seboreik/kontakt dermatit, iktiyoz, numüler egzema ve psoriyazis ayırıcı tanıdadır. <mark>Skleroderma</mark> ise bağ dokusu hastalığıdır.",
+  "aciklama": "<b>Atopik dermatit ayırıcı tanısına giren kronik dermatozlar</b>: seboreik dermatit, kontakt dermatit, numüler egzema, psoriyazis, iktiyoz. <b>Skleroderma</b> bir bağ dokusu (romatolojik) hastalığıdır ve bu ayırıcı tanı grubunda yer almaz."
+ },
+ {
+  "soru": "Aşağıdaki metabolik hastalıklardan hangilerinde <b>atopik dermatit benzeri deri bulguları</b> görülür?<br><br>I. Fenilketonüri<br>II. Multipl karboksilaz eksikliği<br>III. Tirozinemi tip 1<br>IV. Glikojen depo hastalığı tip 7",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Yalnız I"
+   },
+   {
+    "k": "B",
+    "t": "Yalnız II"
+   },
+   {
+    "k": "C",
+    "t": "I ve II"
+   },
+   {
+    "k": "D",
+    "t": "I ve III"
+   },
+   {
+    "k": "E",
+    "t": "I, II ve III"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Hangi iki metabolik hastalık egzama benzeri döküntü yapar?",
+  "ipucu": "<b>Fenilketonüri ve multipl karboksilaz eksikliğinde</b> atopik dermatit benzeri deri bulguları görülür (I ve II).",
+  "tuzak": "Tirozinemi tip 1 ve GDH tip 7'de bu bulgu beklenmez. <mark>Fenilketonüri (I) ve multipl karboksilaz eksikliği (II)</mark> egzama benzeri döküntü yapar.",
+  "aciklama": "<b>Fenilketonüri ve multipl karboksilaz eksikliğinde</b> atopik dermatit benzeri deri bulguları görülebilir. Ayrıca çinko eksikliği (akrodermatit enteropatika), B6 ve niasin eksikliğinde de benzer döküntüler ortaya çıkabilir. Tirozinemi tip 1 ve GDH tip 7'de bu bulgu beklenmez."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisinin <b>atopik dermatitte görülen enfeksiyöz komplikasyonların etkeni</b> olması <mark>beklenmez?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "S. aureus"
+   },
+   {
+    "k": "B",
+    "t": "HSV"
+   },
+   {
+    "k": "C",
+    "t": "Molluscum contagiosum"
+   },
+   {
+    "k": "D",
+    "t": "S. pneumoniae"
+   },
+   {
+    "k": "E",
+    "t": "Malassezia furfur"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Atopik dermatitte deri enfeksiyonu yapan etkenler arasında pnömokok var mı?",
+  "ipucu": "<b>S. pneumoniae</b> atopik dermatitin deri enfeksiyonu etkeni değildir.",
+  "tuzak": "S. aureus (en sık), HSV (egzema herpetikum), molluscum ve Malassezia atopik dermatitte görülür. <mark>S. pneumoniae</mark> ise deri komplikasyonu etkeni değildir.",
+  "aciklama": "<b>Atopik dermatitin enfeksiyöz komplikasyonları</b>: en sık <b>S. aureus</b>; en ciddi viral enfeksiyon HSV'ye bağlı <b>egzema herpetikum</b>; ayrıca molluscum contagiosum, siğil ve mantar (Trichophyton rubrum, <b>Malassezia furfur</b> — özellikle baş-boyun). <b>S. pneumoniae</b> deri komplikasyonu etkeni değildir."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>atopik dermatitte kötü prognoz göstergelerinden</b> biri <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Erken başlangıçlı hastalık"
+   },
+   {
+    "k": "B",
+    "t": "Eşlik eden alerjik rinit veya astım varlığı"
+   },
+   {
+    "k": "C",
+    "t": "Ailede atopik dermatit olması"
+   },
+   {
+    "k": "D",
+    "t": "Çok yüksek IgE düzeyi"
+   },
+   {
+    "k": "E",
+    "t": "Kardeş sayısının fazla olması"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Çok çocuklu ailede olmak (hijyen hipotezi) prognozu kötüleştirir mi?",
+  "ipucu": "<b>Kardeş sayısının fazla olması</b> kötü prognoz göstergesi değildir (tersine tek çocuk olmak risktir).",
+  "tuzak": "Erken başlangıç, eşlik eden astım/rinit, ailesel AD ve çok yüksek IgE kötü prognoz göstergesidir. <mark>Kardeş sayısının fazla olması</mark> ise değildir (tek çocuk olmak kötü göstergedir).",
+  "aciklama": "<b>Atopik dermatitte kötü prognoz göstergeleri</b>: erken başlangıç, eşlik eden alerjik rinit/astım, ailede AD, çok yüksek IgE, geniş tutulum, filaggrin gen mutasyonu, <b>tek çocuk olmak</b>. <b>Kardeş sayısının fazla olması</b> kötü prognoz göstergesi değildir (hijyen hipotezi)."
+ },
+ {
+  "soru": "Aşağıdaki kriterlerden hangisi <b>küçük çocuklarda astımın persistan olması</b> için belirlenen risk faktörlerinden (astım prediktif indeks) biri <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Anne veya babada astım"
+   },
+   {
+    "k": "B",
+    "t": "Çocukta atopik egzema"
+   },
+   {
+    "k": "C",
+    "t": "Serum total IgE düzeyi"
+   },
+   {
+    "k": "D",
+    "t": "Ağır alt solunum yolu enfeksiyonu"
+   },
+   {
+    "k": "E",
+    "t": "Formül mamayla beslenmek"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Astım prediktif indekste total IgE mi yoksa spesifik atopi mi kriter?",
+  "ipucu": "<b>Serum total IgE düzeyi</b> astım prediktif indeksin (persistan astım risk) kriterlerinden değildir.",
+  "tuzak": "Ailede astım, atopik egzema, ağır ASYE ve beslenme paterni ilişkilidir. <mark>Serum total IgE düzeyi</mark> ise prediktif indeks kriteri değildir (spesifik duyarlılık/eozinofili kullanılır).",
+  "aciklama": "<b>Astım Prediktif İndeks (API)</b> majör kriterler: ebeveynde astım, çocukta atopik dermatit, aeroalerjen duyarlılığı; minör kriterler: hışıltı (enfeksiyon dışı), eozinofili, besin alerjisi. <b>Serum total IgE düzeyi</b> bu indeksin bir kriteri değildir."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>ağır status astmatikus</b> tedavisinde <mark>kullanılamaz?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "İnhale albuterol"
+   },
+   {
+    "k": "B",
+    "t": "Sistemik prednizolon"
+   },
+   {
+    "k": "C",
+    "t": "Sistemik depomedrol (metilprednizolon)"
+   },
+   {
+    "k": "D",
+    "t": "İnhale salmeterol"
+   },
+   {
+    "k": "E",
+    "t": "İnhale ipratropium"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Salmeterol uzun mu kısa mı etkili — akut atakta yeri var mı?",
+  "ipucu": "<b>Salmeterol uzun etkili beta-2 agonisttir</b>; akut atak/status astmatikusta kullanılmaz.",
+  "tuzak": "Albuterol (kısa etkili), sistemik steroid ve ipratropium akut atakta kullanılır. <mark>Salmeterol (LABA)</mark> ise idame tedavisi içindir, akut atakta kullanılmaz.",
+  "aciklama": "<b>Status astmatikus (ağır akut atak)</b> tedavisinde kısa etkili beta-2 agonist (albuterol), sistemik kortikosteroid (prednizolon/metilprednizolon), ipratropium ve gerekirse magnezyum kullanılır. <b>Salmeterol uzun etkili beta-2 agonisttir (LABA)</b> ve akut atakta değil, idame tedavisinde kullanılır."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi çocuklarda <b>persistan astım</b> için bir risk faktörü <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Ebeveynlerde astım"
+   },
+   {
+    "k": "B",
+    "t": "Besin alerjisi"
+   },
+   {
+    "k": "C",
+    "t": "Düşük doğum ağırlığı"
+   },
+   {
+    "k": "D",
+    "t": "Sigara dumanına maruziyet"
+   },
+   {
+    "k": "E",
+    "t": "Kız cinsiyet"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Çocukta astım açısından hangi cinsiyet daha risklidir?",
+  "ipucu": "<b>Kız değil, erkek cinsiyet</b> çocukluk astımı için risk faktörüdür.",
+  "tuzak": "Ebeveynde astım, besin alerjisi, düşük doğum ağırlığı ve sigara maruziyeti risk faktörüdür. <mark>Kız cinsiyet</mark> ise değildir (erkek olmak risktir).",
+  "aciklama": "<b>Çocukluk çağı persistan astım risk faktörleri</b>: ebeveynde astım/atopi, besin alerjisi, atopik dermatit, düşük doğum ağırlığı, sigara dumanı maruziyeti ve <b>erkek cinsiyet</b>. <b>Kız cinsiyet</b> risk faktörü değildir (prepubertal dönemde erkeklerde astım daha sık)."
+ },
+ {
+  "soru": "<b>Astım krizi</b> olan bir çocukta <b>yan etkiler göz önüne alınarak</b> ilk olarak aşağıdakilerden hangisi kullanılır?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kromolin sodyum"
+   },
+   {
+    "k": "B",
+    "t": "Oral beta-2 mimetik"
+   },
+   {
+    "k": "C",
+    "t": "İnhale beta-2 mimetik"
+   },
+   {
+    "k": "D",
+    "t": "1/1000'lik adrenalin (subkutan)"
+   },
+   {
+    "k": "E",
+    "t": "Teofilin infüzyonu"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 En az sistemik yan etkiyle bronkodilatasyon sağlayan yol hangisi?",
+  "ipucu": "Astım krizinde ilk seçenek <b>inhale beta-2 mimetiktir</b> (en az yan etki, hızlı etki).",
+  "tuzak": "Oral/subkutan yol ve teofilin daha fazla sistemik yan etki yapar; kromolin akut atakta kullanılmaz. <mark>İnhale beta-2 mimetik</mark> ilk seçenektir.",
+  "aciklama": "<b>Astım krizinde ilk seçenek inhale (kısa etkili) beta-2 agonisttir (albuterol/salbutamol)</b>; inhalasyon yoluyla düşük sistemik yan etki ve hızlı bronkodilatasyon sağlar. Oral/subkutan beta-agonistler ve teofilin daha fazla sistemik yan etki yapar; kromolin akut atakta kullanılmaz."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>astım atağı sırasında beklenen</b> bir komplikasyon <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Atelektazi"
+   },
+   {
+    "k": "B",
+    "t": "Solunum yetmezliği"
+   },
+   {
+    "k": "C",
+    "t": "Pnömotoraks"
+   },
+   {
+    "k": "D",
+    "t": "Pnömoni"
+   },
+   {
+    "k": "E",
+    "t": "Kalp yetersizliği"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Astım atağı doğrudan kalbi mi yoksa akciğeri mi etkiler?",
+  "ipucu": "<b>Kalp yetersizliği</b> astım atağının beklenen komplikasyonu değildir.",
+  "tuzak": "Atelektazi, solunum yetmezliği, pnömotoraks/pnömomediastinum ve pnömoni astım atağı komplikasyonudur. <mark>Kalp yetersizliği</mark> ise değildir.",
+  "aciklama": "<b>Astım atağı komplikasyonları</b>: hava kaçağı sendromları (<b>pnömotoraks, pnömomediastinum</b> — çocukta spontan pnömomediastinumun en sık nedeni), <b>atelektazi</b>, mukus tıkacı, <b>solunum yetmezliği</b> ve sekonder <b>pnömoni</b>. <b>Kalp yetersizliği</b> astım atağının beklenen komplikasyonu değildir."
+ },
+ {
+  "soru": "Çocuklarda özellikle <b>gece yatınca gelen kronik öksürüğün</b> nedenleri içerisinde aşağıdakilerden hangisi <mark>yer almaz?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Gastroözofageal reflü"
+   },
+   {
+    "k": "B",
+    "t": "Kronik sinüzit"
+   },
+   {
+    "k": "C",
+    "t": "Adenoid vejetasyon"
+   },
+   {
+    "k": "D",
+    "t": "Astım bronşiale"
+   },
+   {
+    "k": "E",
+    "t": "ACE inhibitörü kullanımı"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Hangisi bir erişkin ilaç yan etkisi, çocukta nadir?",
+  "ipucu": "<b>ACE inhibitörü kullanımı</b> çocuklarda kronik öksürüğün tipik nedenleri arasında yer almaz.",
+  "tuzak": "GÖR, kronik sinüzit, adenoid vejetasyon ve astım çocukta kronik öksürük nedenidir. <mark>ACE inhibitörü</mark> ise erişkin ilacıdır, çocukta nadiren kullanılır.",
+  "aciklama": "<b>Çocukta kronik (>3 hafta) öksürüğün en sık nedenleri</b>: gastroözofageal reflü, sinüzit/postnazal akıntı (adenoid vejetasyon), astım, solunum yolu enfeksiyonları, kronik aspirasyon, konjenital kalp hastalıkları ve kistik fibrozis. <b>ACE inhibitörü kullanımı</b> (öksürük yapsa da) çocuklarda nadir kullanıldığından bu grupta yer almaz."
+ },
+ {
+  "soru": "Astımlı bir hastanın <b>bronş biyopsisinde</b> aşağıdaki bulgulardan hangisinin görülmesi <mark>beklenmez?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Mukus hipersekresyonu"
+   },
+   {
+    "k": "B",
+    "t": "Mukozal ödem"
+   },
+   {
+    "k": "C",
+    "t": "Düz kas hipertrofisi"
+   },
+   {
+    "k": "D",
+    "t": "Eozinofil infiltrasyonu"
+   },
+   {
+    "k": "E",
+    "t": "Epitel metaplazisi (skuamöz metaplazi)"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Astımda epitelde metaplazi mi yoksa deskuamasyon/hasar mı olur?",
+  "ipucu": "Astımda <b>epitel deskuamasyonu/hasarı</b> olur; skuamöz metaplazi beklenmez.",
+  "tuzak": "Mukus hipersekresyonu, mukozal ödem, düz kas hipertrofisi ve eozinofil infiltrasyonu astım bulgusudur. <mark>Epitel metaplazisi</mark> ise (kronik bronşit/sigara bulgusu) astımda beklenmez.",
+  "aciklama": "<b>Astımda bronş biyopsisi</b>: mukus hipersekresyonu, mukozal ödem, düz kas hipertrofisi/hiperplazisi, bazal membran kalınlaşması, eozinofilik infiltrasyon ve epitel deskuamasyonu (hasarı) görülür. <b>Skuamöz epitel metaplazisi</b> ise kronik bronşit/sigara ile ilişkilidir, astımda beklenmez."
+ },
+ {
+  "soru": "<b>Alerji gelişiminde en önemli rolü oynayan hücre</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Doğal öldürücü (NK) lenfosit"
+   },
+   {
+    "k": "B",
+    "t": "Supresör T lenfosit"
+   },
+   {
+    "k": "C",
+    "t": "Sitotoksik T lenfosit"
+   },
+   {
+    "k": "D",
+    "t": "TH2 lenfosit"
+   },
+   {
+    "k": "E",
+    "t": "TH1 lenfosit"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 IgE ve eozinofil yanıtını yönlendiren yardımcı T hücre alt tipi hangisi?",
+  "ipucu": "Alerji gelişiminde en önemli hücre <b>TH2 lenfositleridir</b> (IL-4, 5, 9, 13).",
+  "tuzak": "TH1 hücreler hücresel/enfeksiyon yanıtını yönetir. <mark>TH2 hücreler</mark> ise alerjik (IgE, eozinofil) yanıtı yönlendirir.",
+  "aciklama": "<b>Alerji gelişiminde TH2 lenfositleri</b> en önemli rolü oynar; salgıladıkları <b>IL-4, IL-5, IL-9 ve IL-13</b> sitokinleri IgE sınıf değişimi, eozinofil aktivasyonu ve mast hücre yanıtını uyarır. TH1/TH2 dengesizliği (TH2 baskınlığı) atopinin temelidir."
+ },
+ {
+  "soru": "Aşağıdaki ilaç gruplarından hangisi <b>astımın kontrolü için uzun süreli tedavide tek başına kullanılamaz?</b>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Lökotrien reseptör antagonistleri"
+   },
+   {
+    "k": "B",
+    "t": "Uzun etkili inhale beta-2 agonistler (LABA)"
+   },
+   {
+    "k": "C",
+    "t": "İnhale kortikosteroidler"
+   },
+   {
+    "k": "D",
+    "t": "Metilksantinler"
+   },
+   {
+    "k": "E",
+    "t": "Lökotrien sentez inhibitörleri"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Hangi kontrol edici tek başına kullanılınca ölüm riskini artırır?",
+  "ipucu": "<b>Uzun etkili beta-2 agonistler (LABA) tek başına kullanılamaz</b>; mutlaka inhale kortikosteroidle kombine edilir.",
+  "tuzak": "LTRA, inhale steroid ve metilksantinler tek başına kullanılabilir. <mark>LABA</mark> ise tek başına mortaliteyi artırdığından her zaman inhale steroidle birlikte verilir.",
+  "aciklama": "<b>Uzun etkili beta-2 agonistler (LABA, salmeterol/formoterol) astım idamesinde tek başına kullanılamaz</b>; tek başına kullanımda astım ilişkili ölüm riskini artırdığından mutlaka <b>inhale kortikosteroidle kombine</b> edilir. İnhale steroid, LTRA ve metilksantinler tek başına kontrol edici olarak kullanılabilir."
+ },
+ {
+  "soru": "Aşağıdaki ilaçlardan hangisi <b>astımın koruyucu (idame) tedavisinde kullanılmaz?</b>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Budesonid"
+   },
+   {
+    "k": "B",
+    "t": "Formoterol"
+   },
+   {
+    "k": "C",
+    "t": "Omalizumab"
+   },
+   {
+    "k": "D",
+    "t": "Magnezyum"
+   },
+   {
+    "k": "E",
+    "t": "Zileuton"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Hangisi sadece akut ağır atakta kullanılan bir ajan?",
+  "ipucu": "<b>Magnezyum</b> idame değil, ağır akut astım krizinde kullanılır.",
+  "tuzak": "Budesonid (İKS), formoterol (LABA), omalizumab (anti-IgE) ve zileuton (LTRA) idame tedavisidir. <mark>Magnezyum</mark> ise sadece akut ağır atakta kullanılır.",
+  "aciklama": "<b>Astım koruyucu (idame) tedavisi</b>: inhale kortikosteroidler (budesonid — ilk seçenek), LABA (formoterol), lökotrien modifiye ediciler (zileuton/montelukast), anti-IgE (omalizumab). <b>Magnezyum sülfat</b> ise idame değil, <b>ağır akut astım krizinde</b> kullanılır."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>anafilaktoid (IgE aracılı olmayan) reaksiyon</b> nedeni olabilir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Sigara dumanı"
+   },
+   {
+    "k": "B",
+    "t": "Arı sokması"
+   },
+   {
+    "k": "C",
+    "t": "Polen"
+   },
+   {
+    "k": "D",
+    "t": "Gıda"
+   },
+   {
+    "k": "E",
+    "t": "Morfin"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Hangisi önceden duyarlılık gerekmeden doğrudan mast hücresini uyarır?",
+  "ipucu": "<b>Morfin (opioidler)</b> IgE aracılı olmayan (anafilaktoid) reaksiyon yapar.",
+  "tuzak": "Arı sokması, polen ve gıda IgE aracılı (gerçek anafilaksi) yapar. <mark>Morfin</mark> ise doğrudan mast hücre degranülasyonuyla anafilaktoid reaksiyon yapar.",
+  "aciklama": "<b>Anafilaktoid (IgE aracılı olmayan) reaksiyonlar</b> önceden duyarlılık gerektirmeden doğrudan mast hücre degranülasyonuyla oluşur; en sık nedenler <b>NSAİİ/aspirin, radyokontrast maddeler, IVIG ve opioidler (morfin)</b>. Arı, polen ve gıda ise IgE aracılı (gerçek anafilaksi) yapar."
+ },
+ {
+  "soru": "<b>Atopik dermatiti olan süt çocuğunun tedavisinde</b> aşağıdakilerden hangisi <mark>önerilmez?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Yüksek potentli topikal steroidlerin uzun süreli uygulanması"
+   },
+   {
+    "k": "B",
+    "t": "Nemlendiricilerin uzun süre uygulanması"
+   },
+   {
+    "k": "C",
+    "t": "Topikal immünmodülatörlerin uygulanması"
+   },
+   {
+    "k": "D",
+    "t": "Tetikleyicilerden kaçınılması"
+   },
+   {
+    "k": "E",
+    "t": "Düşük potentli topikal steroidlerin kısa süreli kullanımı"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Süt çocuğunun ince derisinde güçlü steroidi uzun süre kullanmak güvenli mi?",
+  "ipucu": "Süt çocuğunda <b>yüksek potentli topikal steroidin uzun süreli kullanımı önerilmez</b> (atrofi/sistemik emilim).",
+  "tuzak": "Nemlendirici, topikal immünmodülatör, tetikleyicilerden kaçınma ve düşük potentli steroid uygundur. <mark>Yüksek potentli steroidin uzun süreli kullanımı</mark> ise sakıncalıdır.",
+  "aciklama": "<b>Süt çocuğunda atopik dermatit tedavisinde yüksek potentli topikal steroidlerin uzun süreli uygulanması önerilmez</b> (deri atrofisi, striae, sistemik emilim, HPA aksı baskılanması). Yüz ve kıvrım bölgelerinde düşük potentli steroid kısa süreli, nemlendirici bol, gerekirse topikal kalsinörin inhibitörü (immünmodülatör) kullanılır."
+ },
+ {
+  "soru": "<b>Anafilaksi</b> için aşağıdakilerden hangisi <mark>yanlıştır?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Hayatı tehdit eden sistemik aşırı duyarlılık reaksiyonudur."
+   },
+   {
+    "k": "B",
+    "t": "Kişinin atopik olması anafilaksi gelişme ihtimalini artırır."
+   },
+   {
+    "k": "C",
+    "t": "Önceden duyarlaşılan alerjenle temasta mast hücre ve bazofil degranülasyonu olur."
+   },
+   {
+    "k": "D",
+    "t": "Sık gıda alerjileri fındık/fıstık, süt, yumurta ve balıktır."
+   },
+   {
+    "k": "E",
+    "t": "Ölüme en fazla yol açan besin alerjisi fıstık alerjisidir."
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Atopi anafilaksi GELİŞME ihtimalini mi yoksa ŞİDDETİNİ mi artırır?",
+  "ipucu": "Atopik olmak anafilaksi <b>gelişme ihtimalini artırmaz</b>; sadece geliştiğinde şiddetli olma olasılığını artırır.",
+  "tuzak": "Diğer ifadeler doğrudur. <mark>Atopinin anafilaksi gelişme ihtimalini artırması</mark> yanlıştır — atopi gelişme riskini değil, gelişirse şiddetini artırır.",
+  "aciklama": "<b>Anafilaksi</b> hayatı tehdit eden, genellikle IgE aracılı (mast hücre/bazofil degranülasyonu) sistemik aşırı duyarlılık reaksiyonudur. <b>Atopik olmak anafilaksi gelişme ihtimalini artırmaz</b>; ancak anafilaksi gelişirse daha şiddetli seyretme olasılığını artırır. En sık gıda alerjenleri fındık/fıstık, süt, yumurta, balık; ölüme en çok yol açan ise fıstık (peanut) alerjisidir."
+ },
+ {
+  "soru": "<b>Anafilaksinin acil tedavisinde</b> aşağıdaki ilaçlardan hangisi <mark>kullanılmaz?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "H2 antihistaminikler"
+   },
+   {
+    "k": "B",
+    "t": "Adrenalin (epinefrin)"
+   },
+   {
+    "k": "C",
+    "t": "Beta-agonistler"
+   },
+   {
+    "k": "D",
+    "t": "Kortikosteroidler"
+   },
+   {
+    "k": "E",
+    "t": "Lökotrien antagonisti"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Akut anafilakside lökotrien antagonistinin yeri var mı?",
+  "ipucu": "<b>Lökotrien antagonisti</b> anafilaksinin acil tedavisinde kullanılmaz.",
+  "tuzak": "Adrenalin (ilk seçenek), antihistaminikler, beta-agonist ve kortikosteroid kullanılır. <mark>Lökotrien antagonisti</mark> ise akut anafilakside yeri yoktur.",
+  "aciklama": "<b>Anafilaksi acil tedavisinde ilk ve en önemli ilaç adrenalindir (IM)</b>; ek olarak H1/H2 antihistaminikler, kortikosteroidler, bronkospazm için beta-2 agonistler ve sıvı resüsitasyonu kullanılır. <b>Lökotrien antagonisti</b> anafilaksinin akut tedavisinde kullanılmaz."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>astım prediktif indeksinde</b> kullanılan parametrelerden <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Ailede astım öyküsü"
+   },
+   {
+    "k": "B",
+    "t": "Serum eozinofil sayısının >%4 olması"
+   },
+   {
+    "k": "C",
+    "t": "Serum IgE düzeyinin normalin 4 katından yüksek olması"
+   },
+   {
+    "k": "D",
+    "t": "Deri testi (aeroalerjen) pozitifliği"
+   },
+   {
+    "k": "E",
+    "t": "Tanı konulmuş egzema varlığı"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Prediktif indekste total IgE düzeyi mi yoksa spesifik duyarlılık mı kullanılır?",
+  "ipucu": "<b>Serum IgE düzeyinin yüksekliği</b> astım prediktif indeksinin parametresi değildir.",
+  "tuzak": "Ailede astım, eozinofili, deri testi pozitifliği ve egzema indekste yer alır. <mark>Total IgE düzeyi</mark> ise indeks parametresi değildir.",
+  "aciklama": "<b>Astım Prediktif İndeksi (API)</b> majör kriterler: ebeveynde astım, çocukta atopik dermatit (egzema), aeroalerjen duyarlılığı; minör kriterler: kan eozinofilisi (≥%4), besin alerjisine duyarlılık, hışıltı (enfeksiyon dışı). <b>Serum total IgE düzeyi</b> bu indeksin parametresi değildir."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>astımlı bir hastanın solunum fonksiyon testinde</b> beklenen sonuçlardan biri <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "FEV1 <%80"
+   },
+   {
+    "k": "B",
+    "t": "FEV1/FVC <%80"
+   },
+   {
+    "k": "C",
+    "t": "Beta-2 uygulama sonrası FEV1'de %12'den fazla artış"
+   },
+   {
+    "k": "D",
+    "t": "Egzersiz sonrası FEV1'de %15'ten fazla artış (iyileşme)"
+   },
+   {
+    "k": "E",
+    "t": "PEF/FEV1'de gün içinde %20'den fazla değişkenlik"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Egzersiz astımda FEV1'i düşürür mü yükseltir mi?",
+  "ipucu": "Astımda <b>egzersiz sonrası FEV1 DÜŞER (artmaz)</b>; \"%15'ten fazla artış\" ifadesi yanlıştır.",
+  "tuzak": "Obstrüksiyon (FEV1, FEV1/FVC düşük), bronkodilatör reversibilitesi ve PEF değişkenliği doğrudur. <mark>Egzersiz sonrası FEV1 artışı</mark> yanlıştır — egzersiz bronkokonstrüksiyon yapar (FEV1 düşer).",
+  "aciklama": "<b>Astımda solunum fonksiyon testi</b>: obstrüktif patern (FEV1 <%80, FEV1/FVC düşük), bronkodilatör sonrası <b>FEV1'de ≥%12 reversibilite</b>, PEF gün içi değişkenliği >%20. <b>Egzersiz astımı olan hastada egzersiz sonrası FEV1 DÜŞER (bronkokonstrüksiyon)</b>; artması beklenmez, dolayısıyla bu ifade yanlıştır."
+ },
+ {
+  "soru": "Aşağıdakilerden hangileri astımda <b>nonspesifik provokasyon testi</b> amacıyla kullanılabilir?<br><br>I. Metakolin<br>II. Histamin<br>III. Soğuk hava",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Yalnız I"
+   },
+   {
+    "k": "B",
+    "t": "Yalnız II"
+   },
+   {
+    "k": "C",
+    "t": "I ve II"
+   },
+   {
+    "k": "D",
+    "t": "II ve III"
+   },
+   {
+    "k": "E",
+    "t": "I, II ve III"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Bronş aşırı duyarlılığını gösteren nonspesifik uyaranlar hangileri?",
+  "ipucu": "Metakolin, histamin ve soğuk hava (I, II, III) astımda <b>nonspesifik provokasyon</b> için kullanılır.",
+  "tuzak": "Üçü de bronş hiperreaktivitesini gösteren nonspesifik uyaranlardır. Spesifik provokasyon ise alerjenle yapılır.",
+  "aciklama": "<b>Astımda nonspesifik bronş provokasyon testleri</b>: metakolin, histamin, soğuk hava, egzersiz ve hipertonik salin. Bunlar bronş aşırı duyarlılığını (hiperreaktivite) gösterir. Spesifik provokasyon ise şüpheli alerjenle yapılır."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>astım atak tedavisinde</b> kullanılan ilaçlardan <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Magnezyum sülfat"
+   },
+   {
+    "k": "B",
+    "t": "Helyum-oksijen karışımı (heliox)"
+   },
+   {
+    "k": "C",
+    "t": "Sistemik steroid"
+   },
+   {
+    "k": "D",
+    "t": "Adrenalin"
+   },
+   {
+    "k": "E",
+    "t": "Mast hücre stabilizatörleri (kromolin)"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Kromolin akut atakta mı yoksa koruyucu tedavide mi kullanılır?",
+  "ipucu": "<b>Mast hücre stabilizatörleri (kromolin)</b> akut atakta değil, koruyucu tedavide kullanılır.",
+  "tuzak": "Magnezyum, heliox, sistemik steroid ve adrenalin ağır atakta kullanılır. <mark>Kromolin (mast hücre stabilizatörü)</mark> ise idame/koruyucu tedavidir, akut atakta etkisizdir.",
+  "aciklama": "<b>Astım atak (akut) tedavisi</b>: oksijen, inhale kısa etkili beta-2 agonist, ipratropium, sistemik kortikosteroid, ağır atakta magnezyum sülfat, heliox ve adrenalin. <b>Mast hücre stabilizatörleri (kromolin/nedokromil)</b> koruyucu (idame) tedavide kullanılır, akut atakta etkisizdir."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>astım atağında hastaneye yatış endikasyonlarından</b> biri <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Atak sırasında PEF >%60 olan hastalar"
+   },
+   {
+    "k": "B",
+    "t": "Tedaviye rağmen düzelme olmaması veya kötüleşme"
+   },
+   {
+    "k": "C",
+    "t": "Sessiz akciğer veya uzaktan hışıltı duyulması"
+   },
+   {
+    "k": "D",
+    "t": "Yardımcı solunum kaslarının kullanılması"
+   },
+   {
+    "k": "E",
+    "t": "Taşikardi ve takipne"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 PEF %60'ın üstünde mi altında mı ağır atak/yatış göstergesi?",
+  "ipucu": "<b>PEF >%60</b> daha hafif atağı gösterir; yatış endikasyonu değildir (yatış için PEF <%60).",
+  "tuzak": "Tedaviye yanıtsızlık, sessiz akciğer, yardımcı kas kullanımı, taşikardi/takipne yatış endikasyonudur. <mark>PEF >%60</mark> ise değildir (ağır atakta PEF <%60'tır).",
+  "aciklama": "<b>Astım atağında hastaneye yatış endikasyonları</b>: mortalite riski yüksek hastalar, ağır atak (<b>PEF <%60</b>), tedaviye rağmen düzelmeme/kötüleşme, sessiz akciğer/uzaktan hışıltı, yardımcı solunum kası kullanımı, taşikardi-takipne, PaO₂ <60 mmHg/PaCO₂ >45 mmHg/SaO₂ <%91. <b>PEF >%60</b> yatış endikasyonu değildir."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>astım atak şiddetinin belirlenmesinde</b> kullanılan parametrelerden biri <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Bilinç durumu"
+   },
+   {
+    "k": "B",
+    "t": "Yardımcı kasların kullanılması"
+   },
+   {
+    "k": "C",
+    "t": "Hışıltı"
+   },
+   {
+    "k": "D",
+    "t": "Pulsus paradoksus"
+   },
+   {
+    "k": "E",
+    "t": "Dakikadaki solunum sayısı"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Bu listede yer almayan, ölçülmeyen bir parametre hangisi?",
+  "ipucu": "Bu soruda <b>dakikadaki solunum sayısı</b> sıralanan atak şiddeti parametreleri arasında yer almamıştır.",
+  "tuzak": "Bilinç, yardımcı kas kullanımı, hışıltı, nabız, pulsus paradoksus, PEF ve kan gazları şiddet parametresidir. <mark>Dakikadaki solunum sayısı</mark> bu spesifik listede yer almaz.",
+  "aciklama": "Bu kaynakta <b>astım atak şiddeti parametreleri</b> olarak yardımcı kasların kullanılması, hışıltı, nabız, pulsus paradoksus, PEF, PaO₂, PaCO₂, SaO₂ ve bilinç durumu sıralanmıştır. <b>Dakikadaki solunum sayısı</b> bu listede yer almamıştır (bu nedenle \"değildir\" cevabıdır)."
+ },
+ {
+  "soru": "<b>Herediter anjiyoödem</b> için aşağıdakilerden hangisi doğrudur?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Otozomal resesif kalıtım gösterir."
+   },
+   {
+    "k": "B",
+    "t": "En nadir görülen tip, tip I herediter anjiyoödemdir."
+   },
+   {
+    "k": "C",
+    "t": "Tip III'te C1 esteraz inhibitör düzeyleri çok azalmıştır."
+   },
+   {
+    "k": "D",
+    "t": "C4 düzeyi ataklar arasında da düşüktür."
+   },
+   {
+    "k": "E",
+    "t": "Ataklar antihistaminik ve steroide iyi yanıt verir."
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Herediter anjiyoödemde en güvenilir tarama testi hangi kompleman değeri?",
+  "ipucu": "Herediter anjiyoödemde <b>C4 düzeyi ataklar arasında bile sürekli düşüktür</b> (en iyi tarama testi).",
+  "tuzak": "Otozomal dominanttır; tip I en sık görülendir; tip III'te C1-INH normaldir; antihistaminik/steroide yanıt vermez. <mark>C4'ün sürekli düşük olması</mark> doğrudur.",
+  "aciklama": "<b>Herediter anjiyoödem</b> otozomal <b>dominant</b> geçer; en sık tip I'dir (C1-INH düzey ve fonksiyon düşük), tip II'de düzey normal-fonksiyon düşük, tip III'te C1-INH normaldir. <b>C4 düzeyi ataklar arasında bile sürekli düşüktür</b> (en iyi tarama testi). Bradikinin aracılı olduğundan antihistaminik/steroid/adrenaline yanıt vermez."
+ },
+ {
+  "soru": "<b>Herediter anjiyoödem atak tedavisinde</b> aşağıdakilerden hangisi <mark>verilmez?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "C1 esteraz inhibitör konsantresi"
+   },
+   {
+    "k": "B",
+    "t": "Traneksamik asit"
+   },
+   {
+    "k": "C",
+    "t": "Ecallantide"
+   },
+   {
+    "k": "D",
+    "t": "İkatibant"
+   },
+   {
+    "k": "E",
+    "t": "Taze donmuş plazma"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Traneksamik asit akut atak tedavisi mi yoksa profilaksi mi?",
+  "ipucu": "<b>Traneksamik asit</b> akut atak tedavisinde verilmez (profilakside kullanılır).",
+  "tuzak": "C1-INH konsantresi, ecallantide, ikatibant ve taze donmuş plazma akut atakta kullanılır. <mark>Traneksamik asit</mark> ise uzun süreli profilakside kullanılır, akut atakta değil.",
+  "aciklama": "<b>Herediter anjiyoödem akut atak tedavisi</b>: C1 esteraz inhibitör konsantresi, <b>ecallantide</b> (kallikrein inhibitörü), <b>ikatibant</b> (bradikinin B2 reseptör antagonisti) ve taze donmuş plazma. <b>Traneksamik asit (antifibrinolitik)</b> ve androjenler (danazol) ise <b>uzun süreli profilakside</b> kullanılır, akut atak tedavisinde verilmez."
+ }
+];
+
+/* ================= STATE ================= */
+let order = QUESTIONS.map(function(_,i){return i;});
+let idx = 0;
+const answered = new Array(QUESTIONS.length).fill(null);
+const starred  = new Array(QUESTIONS.length).fill(false);
+const cueUsed  = new Array(QUESTIONS.length).fill(false);
+let finished = false;
+
+/* ================= PERSISTENCE (localStorage) ================= */
+const STORAGE_KEY = 'tusquiz::' + (document.title || 'quiz') + '::' + QUESTIONS.length;
+function saveState(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      answered:answered, starred:starred, idx:idx, order:order, finished:finished, v:1
+    }));
+  }catch(e){}
+}
+function loadSavedState(){
+  try{ const r=localStorage.getItem(STORAGE_KEY); return r?JSON.parse(r):null; }catch(e){ return null; }
+}
+function clearSavedState(){ try{ localStorage.removeItem(STORAGE_KEY); }catch(e){} }
+function hasProgress(s){
+  if(!s) return false;
+  const a = s.answered && s.answered.some(function(x){return x!==null;});
+  return a || (s.idx>0) || s.finished;
+}
+function applyState(s){
+  for(let i=0;i<QUESTIONS.length;i++){
+    answered[i] = (s.answered && i<s.answered.length && s.answered[i]!==undefined) ? s.answered[i] : null;
+    starred[i]  = (s.starred  && i<s.starred.length)  ? !!s.starred[i] : false;
+  }
+  order = (s.order && s.order.length) ? s.order.slice() : QUESTIONS.map(function(_,i){return i;});
+  idx = (typeof s.idx==='number') ? Math.max(0,Math.min(order.length-1,s.idx)) : 0;
+  finished = !!s.finished;
+}
+
+function qid(){ return order[idx]; }
+function curQ(){ return QUESTIONS[order[idx]]; }
+
+/* ========== HEADER SPACING (JS-measured) ========== */
+const hdr = document.getElementById('hdr');
+const main = document.getElementById('main');
+function syncHeader(){
+  const h = hdr.offsetHeight;
+  main.style.paddingTop = (h + 14) + 'px';
+  document.documentElement.style.setProperty('--hdrH', h + 'px');
+}
+window.addEventListener('load', syncHeader);
+window.addEventListener('resize', syncHeader);
+syncHeader();
+
+/* ================= RENDER ================= */
+const quizEl = document.getElementById('quiz');
+const resultEl = document.getElementById('result');
+const navEl = document.getElementById('nav');
+
+function render(){
+  if(finished){ renderResult(); return; }
+  resultEl.classList.remove('show');
+  quizEl.style.display='block';
+  navEl.style.display='flex';
+
+  const q = curQ();
+  const id = qid();
+  const chosen = answered[id];
+  const isAns = chosen !== null;
+
+  let html = '';
+  html += '<div class="qmeta">';
+  html += '<div class="qnum">SORU '+(idx+1)+' / '+order.length+'</div>';
+  html += '<button class="star-btn '+(starred[id]?'on':'')+'" onclick="toggleStar()" aria-label="Yıldızla">⭐</button>';
+  html += '</div>';
+
+  if(q.yil && q.yil.length){
+    html += '<div class="year-tags">';
+    q.yil.forEach(function(y){ html += '<span class="year-tag">'+y+'</span>'; });
+    html += '</div>';
+  }
+
+  html += '<div class="qcard'+(q.ddx?' has-ddx':'')+'"'+(q.ddx?' onclick="openDdx(event)"':'')+'>'+q.soru
+        + (q.ddx?'<span class="ddx-ok"><svg viewBox="0 0 24 24"><path d="M17 4l3 3-3 3"/><path d="M20 7H8a4 4 0 0 0-4 4"/><path d="M7 20l-3-3 3-3"/><path d="M4 17h12a4 4 0 0 0 4-4"/></svg></span>':'')
+        + '</div>';
+
+  html += '<div class="opts '+(isAns?'locked':'')+'" id="opts">';
+  q.siklar.forEach(function(s,i){
+    let cls='opt';
+    if(isAns){
+      if(i===q.dogru) cls+=' correct';
+      else if(i===chosen) cls+=' wrong';
+      else cls+=' dim';
+    }
+    html += '<button class="'+cls+'" '+(isAns?'':'onclick="answer('+i+')"')+'>'
+          + '<span class="k">'+s.k+'</span><span class="t">'+s.t+'</span><span class="mark"></span></button>';
+  });
+  html += '</div>';
+
+  if(!isAns){
+    html += '<button class="hintbtn" id="preHint" onclick="showPreHint()">💡 İpucu göster</button>';
+    html += '<div id="revealZone"></div>';
+  } else {
+    html += '<div id="revealZone">'+revealHTML(q)+'</div>';
+  }
+
+  quizEl.innerHTML = html;
+
+  document.getElementById('prevBtn').disabled = (idx===0);
+  document.getElementById('nextBtn').textContent = (idx===order.length-1) ? 'Bitir ✓' : 'Sonraki →';
+  document.getElementById('navCounter').textContent = (idx+1)+'/'+order.length;
+
+  updateBars();
+}
+
+function ddxCardHTML(d){
+  if(!d) return '';
+  var rows='';
+  (d.satirlar||[]).forEach(function(r){
+    rows += '<div class="dc'+(r.hit?' hit':'')+'">'
+          + '<div class="emo">'+(r.emo||'🔹')+'</div>'
+          + '<div class="txt"><div class="dn">'+r.ad+'</div><div class="dv">'+r.bulgu+'</div></div></div>';
+  });
+  return '<div class="ddx-card" onclick="closeDdx()">'
+       + '<h3>🩺 '+(d.baslik||'Ayırıcı Tanı')+'</h3>'
+       + (d.ok?'<div class="ddx-key">'+d.ok+'</div>':'')
+       + '<div class="ddx-cards">'+rows+'</div></div>';
+}
+function openDdx(e){
+  if(e){ e.stopPropagation(); }
+  var q=curQ();
+  if(!q.ddx) return;
+  var ov=document.getElementById('ddxOv');
+  if(ov.classList.contains('show')){ closeDdx(); return; }
+  ov.classList.remove('closing');
+  ov.innerHTML = ddxCardHTML(q.ddx);
+  void ov.offsetWidth;
+  ov.classList.add('show');
+}
+function closeDdx(){
+  var ov=document.getElementById('ddxOv');
+  if(!ov.classList.contains('show') || ov.classList.contains('closing')) return;
+  ov.classList.add('closing');
+  setTimeout(function(){ ov.classList.remove('show','closing'); ov.innerHTML=''; }, 430);
+}
+
+function revealHTML(q){
+  return ''
+   + '<div class="box ip"><div class="bt">💡 İPUCU</div><div>'+q.ipucu+'</div></div>'
+   + '<div class="box tz"><div class="bt">⚠️ TUZAK</div><div>'+q.tuzak+'</div></div>'
+   + '<div class="box ac"><div class="bt">📖 AÇIKLAMA</div><div>'+q.aciklama+'</div></div>';
+}
+
+function showPreHint(){
+  const q = curQ();
+  const btn = document.getElementById('preHint');
+  if(btn) btn.style.display='none';
+  document.getElementById('revealZone').innerHTML =
+    '<div class="box ip"><div class="bt">💡 İPUCU</div><div>'+q.ipucu+'</div></div>';
+  scrollToReveal();
+}
+
+/* ================= ACTIONS ================= */
+function answer(i){
+  const id = qid();
+  if(answered[id]!==null) return;
+  const q=curQ();
+
+  // İlk yanlışta: cevabı vermeyen yeşil ipucu + kilit ifade parlaması, tek seferlik → tekrar dene
+  if(i!==q.dogru && q.cue && !cueUsed[id]){
+    cueUsed[id]=true;
+    const m=document.getElementById('cueMsg');
+    m.textContent=q.cue;
+    m.classList.add('show');
+    const qc=document.querySelector('.qcard');
+    if(qc) qc.classList.add('flash');
+    setTimeout(function(){ m.classList.remove('show'); if(qc) qc.classList.remove('flash'); },2400);
+    return; // cevap KİLİTLENMEZ
+  }
+
+  answered[id]=i;
+
+  const opts=document.getElementById('opts');
+  opts.classList.add('locked');
+  const btns=opts.querySelectorAll('.opt');
+  btns.forEach(function(b,k){
+    b.setAttribute('onclick','');
+    if(k===q.dogru) b.classList.add('correct');
+    else if(k===i) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+
+  const pre=document.getElementById('preHint');
+  if(pre) pre.style.display='none';
+
+  document.getElementById('revealZone').innerHTML = revealHTML(q);
+  updateBars();
+  saveState();
+  if(i === q.dogru){ celebrate(btns[q.dogru]); } else { commiserate(); }
+  scrollToReveal();
+}
+
+function scrollToReveal(){
+  requestAnimationFrame(function(){
+    const zone=document.getElementById('revealZone');
+    const first=zone && zone.firstElementChild;
+    if(!first) return;
+    const offset = hdr.offsetHeight + 10;
+    const y = first.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({top:y, behavior:'smooth'});
+  });
+}
+
+function toggleStar(){
+  const id=qid();
+  starred[id]=!starred[id];
+  saveState();
+  render();
+}
+
+function go(dir){
+  if(dir===1 && idx===order.length-1){ finished=true; saveState(); render(); window.scrollTo({top:0,behavior:'smooth'}); return; }
+  idx=Math.max(0,Math.min(order.length-1, idx+dir));
+  saveState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ================= MODAL ================= */
+function openModal(){
+  const grid=document.getElementById('qGrid');
+  let h='';
+  order.forEach(function(id,p){
+    let cls='gbtn';
+    if(answered[id]!==null){ cls += (answered[id]===QUESTIONS[id].dogru)?' ok':' no'; }
+    if(p===idx) cls+=' cur';
+    if(starred[id]) cls+=' star';
+    h += '<button class="'+cls+'" onclick="jump('+p+')">'+(p+1)+'</button>';
+  });
+  grid.innerHTML=h;
+  document.getElementById('modalOv').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('modalOv').classList.remove('show');
+  document.body.style.overflow='';
+}
+function modalBg(e){ if(e.target.id==='modalOv') closeModal(); }
+function jump(p){ idx=p; finished=false; closeModal(); saveState(); render(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+/* ================= COUNTERS / PROGRESS ================= */
+function correctCount(){
+  let c=0;
+  answered.forEach(function(a,i){ if(a!==null && a===QUESTIONS[i].dogru) c++; });
+  return c;
+}
+function starCount(){ return starred.filter(Boolean).length; }
+function updateBars(){
+  document.getElementById('cCount').textContent = correctCount();
+  document.getElementById('sCount').textContent = starCount();
+  const pos = finished ? order.length : (idx+1);
+  document.getElementById('bar').style.width = Math.round((pos/order.length)*100)+'%';
+}
+
+/* ================= RESULT ================= */
+function renderResult(){
+  quizEl.style.display='none';
+  navEl.style.display='none';
+  resultEl.classList.add('show');
+
+  const total=order.length;
+  let correct=0, wrong=0, blank=0, starHere=0;
+  order.forEach(function(id){
+    const a=answered[id];
+    if(a===null) blank++;
+    else if(a===QUESTIONS[id].dogru) correct++;
+    else wrong++;
+    if(starred[id]) starHere++;
+  });
+  const pct=Math.round((correct/total)*100);
+
+  document.getElementById('scoreBig').textContent = correct+'/'+total;
+  document.getElementById('pctLine').textContent = '%'+pct;
+  document.getElementById('ring').style.setProperty('--pct', pct+'%');
+
+  let fb;
+  if(pct>=90) fb='Mükemmel! Bu konulara hâkimsin. 🎯';
+  else if(pct>=70) fb='Çok iyi. Birkaç tuzak dışında sağlamsın. 👏';
+  else if(pct>=50) fb='Fena değil; yanlışları ve tuzakları tekrar et. 📚';
+  else fb='Bu blokları tekrar çalışmakta fayda var. Devam! 💪';
+  document.getElementById('fbText').textContent = fb;
+
+  document.getElementById('rStats').innerHTML =
+      '<div class="rstat g">✓ Doğru '+correct+'</div>'
+    + '<div class="rstat r">✗ Yanlış '+wrong+'</div>'
+    + '<div class="rstat s">⭐ Yıldızlı '+starHere+'</div>';
+
+  let rev='';
+  order.forEach(function(id,p){
+    const q=QUESTIONS[id];
+    const a=answered[id];
+    let badge, cls, label;
+    if(a===null){ badge='–'; cls='blank'; label='Boş'; }
+    else if(a===q.dogru){ badge='✓'; cls='ok'; label='Doğru'; }
+    else { badge='✗'; cls='no'; label='Yanlış'; }
+    const ds=q.siklar[q.dogru];
+    rev += '<div class="rev" onclick="jump('+p+')">'
+         + '<div class="badge '+cls+'">'+badge+'</div>'
+         + '<div style="flex:1">'
+         + '<div class="rq">Soru '+(p+1)+' — '+label+(starred[id]?' ⭐':'')+'</div>'
+         + '<div class="ra">Doğru cevap: <b>'+ds.k+') '+ds.t+'</b></div>'
+         + '</div></div>';
+  });
+  document.getElementById('reviewList').innerHTML = rev;
+
+  document.getElementById('retryWrongBtn').disabled = (wrong===0);
+  document.getElementById('retryStarBtn').disabled = (starCount()===0);
+  setTimeout(function(){ finaleShow(pct); }, 250);
+
+  updateBars();
+}
+
+/* ================= RETRY MODES ================= */
+function startSubset(ids){
+  fxStreak = 0;
+  order = ids.slice();
+  ids.forEach(function(id){ answered[id]=null; });
+  idx=0; finished=false;
+  saveState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function restart(){
+  fxStreak = 0;
+  order = QUESTIONS.map(function(_,i){return i;});
+  for(let i=0;i<QUESTIONS.length;i++){ answered[i]=null; }
+  idx=0; finished=false;
+  clearSavedState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function retryWrong(){
+  const ids = order.filter(function(id){ return answered[id]!==null && answered[id]!==QUESTIONS[id].dogru; });
+  if(!ids.length){ toast('Yanlış soru yok 🎉'); return; }
+  startSubset(ids);
+}
+function retryStar(){
+  const ids = [];
+  starred.forEach(function(s,i){ if(s) ids.push(i); });
+  if(!ids.length){ toast('Yıldızlı soru yok ⭐'); return; }
+  startSubset(ids);
+}
+
+/* ================= TOAST ================= */
+let toastT=null;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(toastT);
+  toastT=setTimeout(function(){ el.classList.remove('show'); },1800);
+}
+
+/* ================= RESUME ================= */
+function showResumePrompt(saved){
+  const ov = document.getElementById('resumeOv');
+  const sub = document.getElementById('resumeSub');
+  const ord = (saved.order && saved.order.length) ? saved.order : QUESTIONS.map(function(_,i){return i;});
+  const total = ord.length;
+  const pos = saved.finished ? total : Math.min((saved.idx||0)+1, total);
+  const ansCount = saved.answered ? saved.answered.filter(function(x){return x!==null;}).length : 0;
+  sub.textContent = saved.finished
+    ? ('Testi bitirmiştin — sonuç ekranına dönebilirsin. (' + ansCount + ' soru işaretlenmiş)')
+    : ('Soru ' + pos + ' / ' + total + ' — ' + ansCount + ' soru cevaplanmış.');
+  window._savedState = saved;
+  ov.classList.add('show');
+}
+function resumeYes(){
+  applyState(window._savedState);
+  document.getElementById('resumeOv').classList.remove('show');
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function resumeNo(){
+  clearSavedState();
+  document.getElementById('resumeOv').classList.remove('show');
+  render();
+}
+
+
+/* ================= EĞLENCE MOTORU ================= */
+const fxCanvas = document.createElement('canvas');
+fxCanvas.id = 'fxCanvas';
+document.body.appendChild(fxCanvas);
+const fxCtx = fxCanvas.getContext('2d');
+let fxParts = [], fxRaf = null;
+
+function fxResize(){
+  fxCanvas.width = window.innerWidth;
+  fxCanvas.height = window.innerHeight;
+}
+window.addEventListener('resize', fxResize);
+fxResize();
+
+const FX_COLORS = ['#4c9aff','#7c5cff','#2ea043','#f5c451','#ff5b5b','#3fb6a8','#ffffff','#ff9de2'];
+
+function confettiBurst(n, originY){
+  const oy = (typeof originY === 'number') ? originY : window.innerHeight * 0.38;
+  for(let i=0;i<n;i++){
+    fxParts.push({
+      x: window.innerWidth/2 + (Math.random()-0.5)*160,
+      y: oy,
+      vx: (Math.random()-0.5)*13,
+      vy: Math.random()*-13 - 4,
+      g: 0.34,
+      w: Math.random()*8 + 5,
+      h: Math.random()*5 + 3,
+      c: FX_COLORS[Math.floor(Math.random()*FX_COLORS.length)],
+      rot: Math.random()*6.28,
+      vr: (Math.random()-0.5)*0.35,
+      life: 130
+    });
+  }
+  if(!fxRaf) fxRaf = requestAnimationFrame(fxTick);
+}
+
+function fxTick(){
+  fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height);
+  fxParts = fxParts.filter(function(p){ return p.life > 0 && p.y < window.innerHeight + 60; });
+  fxParts.forEach(function(p){
+    p.x += p.vx; p.y += p.vy; p.vy += p.g; p.vx *= 0.995;
+    p.rot += p.vr; p.life--;
+    fxCtx.save();
+    fxCtx.translate(p.x, p.y);
+    fxCtx.rotate(p.rot);
+    fxCtx.globalAlpha = Math.max(0, Math.min(1, p.life/45));
+    fxCtx.fillStyle = p.c;
+    fxCtx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+    fxCtx.restore();
+  });
+  if(fxParts.length){ fxRaf = requestAnimationFrame(fxTick); }
+  else { fxRaf = null; fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height); }
+}
+
+function emojiFloat(list, count){
+  for(let i=0;i<count;i++){
+    const e = document.createElement('div');
+    e.className = 'emoji-pop';
+    e.textContent = list[Math.floor(Math.random()*list.length)];
+    e.style.left = (window.innerWidth/2 + (Math.random()-0.5)*240) + 'px';
+    e.style.top  = (window.innerHeight*0.58) + 'px';
+    e.style.setProperty('--dx', ((Math.random()-0.5)*140) + 'px');
+    e.style.setProperty('--rot', ((Math.random()-0.5)*90) + 'deg');
+    e.style.animationDelay = (Math.random()*0.28) + 's';
+    document.body.appendChild(e);
+    setTimeout(function(){ if(e.parentNode) e.remove(); }, 2200);
+  }
+}
+
+function emojiRain(list, count){
+  for(let i=0;i<count;i++){
+    const e = document.createElement('div');
+    e.className = 'emoji-drop';
+    e.textContent = list[Math.floor(Math.random()*list.length)];
+    e.style.left = (window.innerWidth*0.15 + Math.random()*window.innerWidth*0.7) + 'px';
+    e.style.top  = (window.innerHeight*0.30) + 'px';
+    e.style.setProperty('--rot', ((Math.random()-0.5)*70) + 'deg');
+    e.style.animationDelay = (Math.random()*0.25) + 's';
+    document.body.appendChild(e);
+    setTimeout(function(){ if(e.parentNode) e.remove(); }, 2000);
+  }
+}
+
+const GOOD_EMO = ['🎉','🥳','😄','👏','⭐','💪','🔥','✨','🏆','😎','💚','🩺'];
+const BAD_EMO  = ['😢','😞','💔','😵','🙈','😬','🥲'];
+const MASCOTS  = ['🐵','🦉','🐣','🦊','🐼','🚀'];
+
+const GOOD_MSG = ['Harika! 🎉','Bravo! 👏','Tam isabet! 🎯','Süpersin! 🥳','İşte bu! 💪',
+                  'Mükemmel! ⭐','Doğru cevap! 🔥','Efsanesin! 🏆','Aferin doktor! 🩺',
+                  'Nefes kesici! 😮‍💨','Çok iyisin! 💚'];
+const BAD_MSG  = ['Olsun, tekrar bakalım 💪','Tuzağa düştün ⚠️','Yanlış ama öğrendik 📚',
+                  'Boş ver, devam! 🙌','Bir dahakine 😉','Not al, unutma 📝',
+                  'Açıklamayı oku, kaçırma 👀','Nefesini topla, devam 🫁'];
+const STREAK_MSG = {3:'🔥 3 ÜST ÜSTE!',5:'⚡ 5 SERİ! HARİKA!',8:'🏆 8 SERİ! EFSANE!',
+                    10:'👑 10 SERİ! ŞAMPİYON!',15:'🚀 15 SERİ! DURDURULAMAZ!',
+                    20:'🌟 20 SERİ! İNANILMAZ!'};
+
+let fxStreak = 0;
+
+function showStreak(msg){
+  const s = document.createElement('div');
+  s.className = 'streak';
+  s.textContent = msg;
+  document.body.appendChild(s);
+  setTimeout(function(){ if(s.parentNode) s.remove(); }, 1700);
+}
+
+let fxMsgT = null;
+function showInlineMsg(msg, ok){
+  const zone = document.getElementById('revealZone');
+  if(!zone) return;
+  const old = zone.querySelector('.fxfloat');
+  if(old) old.remove();
+  clearTimeout(fxMsgT);
+  const wrap = document.createElement('div');
+  wrap.className = 'fxfloat';
+  const pill = document.createElement('div');
+  pill.className = 'pill ' + (ok ? 'good' : 'bad');
+  pill.textContent = msg;
+  wrap.appendChild(pill);
+  zone.insertBefore(wrap, zone.firstChild);
+  fxMsgT = setTimeout(function(){ if(wrap.parentNode) wrap.remove(); }, 2100);
+}
+
+function celebrate(btn){
+  confettiBurst(95);
+  emojiFloat(GOOD_EMO, 8);
+  showInlineMsg(GOOD_MSG[Math.floor(Math.random()*GOOD_MSG.length)], true);
+  if(btn){
+    const m = document.createElement('span');
+    m.className = 'mascot';
+    m.textContent = MASCOTS[Math.floor(Math.random()*MASCOTS.length)];
+    btn.style.position = 'relative';
+    btn.appendChild(m);
+  }
+  fxStreak++;
+  if(STREAK_MSG[fxStreak]){
+    showStreak(STREAK_MSG[fxStreak]);
+    setTimeout(function(){ confettiBurst(70, window.innerHeight*0.30); }, 220);
+  }
+  try{ if(navigator.vibrate) navigator.vibrate(35); }catch(e){}
+}
+
+function commiserate(){
+  const m = document.getElementById('main');
+  if(m){
+    m.classList.remove('shake');
+    void m.offsetWidth;
+    m.classList.add('shake');
+    setTimeout(function(){ m.classList.remove('shake'); }, 700);
+  }
+  emojiRain(BAD_EMO, 6);
+  showInlineMsg(BAD_MSG[Math.floor(Math.random()*BAD_MSG.length)], false);
+  fxStreak = 0;
+  try{ if(navigator.vibrate) navigator.vibrate([60,50,60,50,50]); }catch(e){}
+}
+
+function finaleShow(pct){
+  if(pct >= 90){
+    [0,300,600,900].forEach(function(d){
+      setTimeout(function(){ confettiBurst(110, window.innerHeight*0.30); }, d);
+    });
+    emojiFloat(['🏆','👑','🎉','🥳','⭐'], 12);
+  } else if(pct >= 70){
+    confettiBurst(110, window.innerHeight*0.32);
+    setTimeout(function(){ confettiBurst(80, window.innerHeight*0.30); }, 350);
+    emojiFloat(GOOD_EMO, 8);
+  } else if(pct >= 50){
+    confettiBurst(60, window.innerHeight*0.34);
+    emojiFloat(['💪','📚','✨'], 5);
+  } else {
+    emojiFloat(['📚','💪','🩺'], 4);
+  }
+}
+
+/* ================= INIT ================= */
+render();
+window.addEventListener('pagehide', function(){ try{ saveState(); }catch(e){} });
+window.addEventListener('visibilitychange', function(){ if(document.visibilityState==='hidden'){ try{ saveState(); }catch(e){} } });
+(function(){ const s=loadSavedState(); if(hasProgress(s)) showResumePrompt(s); })();
+window.addEventListener('load', function(){ syncHeader(); updateBars(); });
+
+/* nav focus fix */
+try{['prevBtn','listBtn','nextBtn'].forEach(function(id){var el=document.getElementById(id);if(el){el.addEventListener('mousedown',function(e){e.preventDefault();});el.addEventListener('focus',function(){var s=this;setTimeout(function(){try{s.blur();}catch(e){}},0);});el.addEventListener('click',function(){var s=this;setTimeout(function(){try{s.blur();}catch(e){}},0);});}});}catch(e){}
+</script>
+</body>
+</html>

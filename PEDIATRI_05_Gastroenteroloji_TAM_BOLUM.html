@@ -1,0 +1,2685 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="pragma" content="no-cache">
+<title>MEDITUS — Gastroenteroloji</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --line:#2a3444;
+    --text:#e6edf3; --muted:#9aa7b5; --accent:#4c9aff; --accent2:#7c5cff;
+    --green:#2ea043; --green-bg:#12341c; --red:#e5484d; --red-bg:#3a1518;
+    --star:#f5c451; --hint:#3fb6a8; --trap:#ff5b5b; --exp:#b487ff;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;-webkit-text-size-adjust:100%;}
+  mark{background:none;color:var(--trap);font-weight:800;}
+  b{color:#fff;font-weight:700;}
+
+  header{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--panel);
+    border-bottom:1px solid var(--line);padding:env(safe-area-inset-top) 0 0 0;
+    box-shadow:0 4px 18px rgba(0,0,0,.35);}
+  .hbar{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:11px 16px 10px;}
+  .htitle{font-size:15px;font-weight:800;letter-spacing:.3px;}
+  .htitle span{color:var(--accent);}
+  .stats{display:flex;gap:8px;}
+  .chip{display:flex;align-items:center;gap:5px;background:var(--panel2);
+    border:1px solid var(--line);border-radius:999px;padding:5px 11px;
+    font-size:13px;font-weight:700;}
+  .chip.correct{color:var(--green);} .chip.star{color:var(--star);}
+  .progress{height:5px;background:var(--panel2);width:100%;}
+  .progress > i{display:block;height:100%;width:0;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    transition:width .35s ease;}
+
+  main{max-width:720px;margin:0 auto;padding:16px 16px 120px;}
+
+  .qmeta{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .qnum{font-size:13px;font-weight:800;color:var(--muted);letter-spacing:.5px;}
+  .star-btn{background:none;border:none;cursor:pointer;font-size:26px;line-height:1;
+    filter:grayscale(1) opacity(.45);transition:transform .15s,filter .15s;padding:2px 4px;}
+  .star-btn.on{filter:none;transform:scale(1.12);}
+
+  .year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+  .year-tag{font-size:11.5px;font-weight:700;letter-spacing:.3px;color:var(--accent);
+    background:rgba(76,154,255,.1);border:1px solid rgba(76,154,255,.3);
+    border-radius:6px;padding:3px 9px;}
+
+  .qcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:18px 17px;margin-bottom:14px;font-size:16.5px;}
+
+  .opts{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+  .opt{display:flex;align-items:flex-start;gap:12px;background:var(--panel);
+    border:1.5px solid var(--line);border-radius:13px;padding:13px 14px;cursor:pointer;
+    font-size:16px;transition:border-color .15s,background .15s,transform .05s;
+    text-align:left;color:var(--text);width:100%;}
+  .opt:active{transform:scale(.995);}
+  .opt .k{flex:0 0 26px;height:26px;border-radius:50%;background:var(--panel2);
+    border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:14px;color:var(--muted);}
+  .opt .t{flex:1;padding-top:1px;}
+  .opt:not(.locked):hover{border-color:var(--accent);}
+  .opts.locked .opt{cursor:default;}
+  .opt.correct{border-color:var(--green);background:var(--green-bg);}
+  .opt.correct .k{background:var(--green);border-color:var(--green);color:#fff;}
+  .opt.wrong{border-color:var(--red);background:var(--red-bg);}
+  .opt.wrong .k{background:var(--red);border-color:var(--red);color:#fff;}
+  .opt.dim{opacity:.55;}
+  .opt .mark{flex:0 0 24px;height:26px;display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:18px;line-height:1;}
+  .opt.correct .mark::after{content:"✓";color:var(--green);}
+  .opt.wrong .mark::after{content:"✗";color:var(--red);}
+
+  .hintbtn{display:inline-flex;align-items:center;gap:7px;background:var(--panel2);
+    color:var(--hint);border:1px solid var(--line);border-radius:11px;padding:11px 15px;
+    font-size:14.5px;font-weight:700;cursor:pointer;margin-bottom:14px;}
+  .hintbtn:hover{border-color:var(--hint);}
+
+  .box{border-radius:13px;padding:13px 15px;margin-bottom:11px;font-size:15.5px;
+    border:1px solid var(--line);animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .box .bt{display:flex;align-items:center;gap:8px;font-weight:800;margin-bottom:6px;
+    font-size:14px;letter-spacing:.3px;}
+  .box.ip{background:rgba(63,182,168,.08);border-color:rgba(63,182,168,.35);}
+  .box.ip .bt{color:var(--hint);}
+  .box.tz{background:rgba(255,91,91,.07);border-color:rgba(255,91,91,.32);}
+  .box.tz .bt{color:var(--trap);}
+  .box.ac{background:rgba(180,135,255,.08);border-color:rgba(180,135,255,.32);}
+  .box.ac .bt{color:var(--exp);}
+
+  /* ===== AYIRICI TANI: gizli ok + eğlenceli flip + yeşil ipucu ===== */
+  .qcard{position:relative;}
+  .qcard.has-ddx{cursor:pointer;padding-right:46px;}
+  .qcard .cue{transition:all .3s;border-radius:4px;}
+  .qcard.flash .cue{background:rgba(46,160,67,.3);color:#fff;box-shadow:0 0 0 3px rgba(46,160,67,.3);padding:0 2px;}
+  .ddx-ok{position:absolute;top:12px;right:12px;width:28px;height:28px;display:grid;place-items:center;
+    color:var(--accent);cursor:pointer;animation:ddxpulse 2.2s ease-in-out infinite;z-index:3;}
+  .ddx-ok svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  @keyframes ddxpulse{0%,100%{opacity:.5;transform:translateY(0)}50%{opacity:1;transform:translateY(-2px)}}
+
+  .cueMsg{position:fixed;left:0;right:0;top:0;z-index:400;background:#0f2a1e;
+    border-bottom:2px solid var(--green);color:#b6f0d4;font-weight:700;font-size:15.5px;
+    padding:15px 18px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.5);
+    transform:translateY(-110%);transition:transform .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;}
+  .cueMsg.show{transform:translateY(0);animation:cuewiggle .5s ease .35s;}
+  @keyframes cuewiggle{0%,100%{transform:translateY(0)}25%{transform:translateY(0) rotate(-.4deg)}75%{transform:translateY(0) rotate(.4deg)}}
+
+  .ddx-ov{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;
+    padding:20px;background:rgba(6,10,15,.55);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);perspective:1800px;}
+  .ddx-ov.show{display:flex;}
+  .ddx-card{width:100%;max-width:440px;max-height:88vh;overflow-y:auto;
+    background:linear-gradient(160deg,#1a2230 0%,#141a24 100%);
+    border:1px solid rgba(76,154,255,.4);border-radius:22px;padding:22px;
+    box-shadow:0 24px 70px rgba(0,0,0,.6),0 0 40px rgba(76,154,255,.12);
+    cursor:pointer;}
+  .ddx-ov.show .ddx-card{animation:dealIn .5s cubic-bezier(.2,.8,.22,1) both;}
+  @keyframes dealIn{0%{opacity:0;transform:translateY(60vh) rotate(14deg) scale(.8)}100%{opacity:1;transform:none}}
+  .ddx-ov.closing .ddx-card{animation:dealOut .4s cubic-bezier(.5,0,.75,.4) both;}
+  @keyframes dealOut{0%{opacity:1;transform:none}100%{opacity:0;transform:translateY(60vh) rotate(14deg) scale(.8)}}
+  .ddx-card h3{margin:0 0 14px;display:flex;align-items:center;gap:9px;font-size:16px;font-weight:800;
+    background:linear-gradient(90deg,#4c9aff,#7ee7c7);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .ddx-key{font-size:14.5px;color:var(--text);background:rgba(76,154,255,.1);
+    border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:10px 13px;margin-bottom:14px;}
+  .ddx-cards{display:flex;flex-direction:column;gap:10px;}
+  .dc{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;
+    padding:12px 13px;background:rgba(255,255,255,.025);position:relative;overflow:hidden;
+    opacity:0;transform:translateX(-90px) rotate(-7deg);animation:ddxslide .45s cubic-bezier(.2,.85,.28,1.25) forwards;}
+  .dc:nth-child(1){animation-delay:.12s} .dc:nth-child(2){animation-delay:.20s}
+  .dc:nth-child(3){animation-delay:.28s} .dc:nth-child(4){animation-delay:.36s}
+  .dc:nth-child(5){animation-delay:.44s} .dc:nth-child(6){animation-delay:.52s}
+  .ddx-ov.closing .dc{animation:dcOut .28s cubic-bezier(.5,0,.75,.4) forwards;}
+  @keyframes dcOut{to{opacity:0;transform:translateX(-90px) rotate(-7deg)}}
+  .ddx-ov.closing .dc:nth-child(5){animation-delay:.02s}
+  .ddx-ov.closing .dc:nth-child(4){animation-delay:.06s}
+  .ddx-ov.closing .dc:nth-child(3){animation-delay:.10s}
+  .ddx-ov.closing .dc:nth-child(2){animation-delay:.14s}
+  .ddx-ov.closing .dc:nth-child(1){animation-delay:.18s}
+  @keyframes ddxslide{to{opacity:1;transform:none}}
+  .dc .emo{font-size:24px;flex:none;line-height:1.1;}
+  .dc .txt .dn{font-weight:800;font-size:15px;margin-bottom:2px;color:var(--text);}
+  .dc .txt .dv{font-size:13.5px;color:var(--muted);} .dc .txt .dv b{color:var(--text);font-weight:600;}
+  .dc.hit{border-color:var(--green);background:linear-gradient(120deg,rgba(46,160,67,.2),rgba(46,160,67,.06));
+    box-shadow:0 0 20px rgba(46,160,67,.25);}
+  .dc.hit .dn{color:#7ee7a8;}
+  .dc.hit::after{content:"⭐";position:absolute;top:8px;right:10px;font-size:15px;animation:ddxtwinkle 1.4s ease-in-out infinite;}
+  @keyframes ddxtwinkle{0%,100%{opacity:.4;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
+  .nav{position:fixed;bottom:0;left:0;right:0;z-index:40;background:var(--panel);
+    border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+    display:flex;gap:10px;max-width:720px;margin:0 auto;align-items:stretch;}
+  .nav button{border:1px solid var(--line);border-radius:12px;padding:14px;
+    font-size:15.5px;font-weight:800;cursor:pointer;background:var(--panel2);color:var(--text);}
+  .nav .prev,.nav .next{flex:1;}
+  .nav .list{flex:0 0 auto;min-width:66px;color:var(--muted);font-size:13px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.1;}
+  .nav .list .lc{font-size:16px;}
+  .nav .next{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+  .nav button:disabled{opacity:.4;cursor:not-allowed;}
+  /* nav dokunma/focus fix: buton basılı kalıp beyazlaşmaz */
+  .nav button{-webkit-tap-highlight-color:transparent;}
+  .nav button:focus{outline:none;}
+  .nav .prev:focus,.nav .prev:active{background:var(--panel2);color:var(--text);border-color:var(--line);}
+  .nav .list:focus,.nav .list:active{background:var(--panel2);color:var(--muted);border-color:var(--line);}
+  .nav .next:focus,.nav .next:active{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;}
+
+
+  /* Question-list modal (bottom sheet) */
+  .modal-ov{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.55);
+    display:none;align-items:flex-end;justify-content:center;}
+  .modal-ov.show{display:flex;animation:fade .2s ease;}
+  .modal{width:100%;max-width:720px;background:var(--panel);
+    border-top-left-radius:20px;border-top-right-radius:20px;
+    border:1px solid var(--line);border-bottom:none;padding:16px 16px 26px;
+    max-height:72vh;overflow:auto;animation:slideup .28s ease;}
+  @keyframes slideup{from{transform:translateY(30px);opacity:.6;}to{transform:none;opacity:1;}}
+  .modal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .modal-h span{font-size:15px;font-weight:800;letter-spacing:.3px;}
+  .modal-h .close{background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    border-radius:9px;width:34px;height:34px;font-size:16px;cursor:pointer;font-weight:800;}
+  .qgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;}
+  .gbtn{aspect-ratio:1/1;border-radius:10px;border:1.5px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:14px;font-weight:800;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;position:relative;}
+  .gbtn.ok{background:var(--green-bg);border-color:var(--green);color:var(--green);}
+  .gbtn.no{background:var(--red-bg);border-color:var(--red);color:var(--red);}
+  .gbtn.cur{outline:2px solid var(--accent);outline-offset:1px;}
+  .gbtn.star::after{content:"";position:absolute;top:3px;right:3px;width:7px;height:7px;
+    border-radius:50%;background:var(--star);}
+
+  /* Result */
+  .result{display:none;}
+  .result.show{display:block;animation:fade .4s ease;}
+  .score-ring{display:flex;flex-direction:column;align-items:center;justify-content:center;
+    width:170px;height:170px;margin:8px auto 6px;border-radius:50%;
+    background:conic-gradient(var(--accent) var(--pct,0%),var(--panel2) 0);}
+  .score-ring .inner{width:138px;height:138px;border-radius:50%;background:var(--bg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .score-ring .big{font-size:34px;font-weight:900;}
+  .score-ring .sub{font-size:13px;color:var(--muted);font-weight:700;}
+  .pctline{text-align:center;font-size:20px;font-weight:900;margin:2px 0 4px;}
+  .fb{text-align:center;color:var(--muted);font-size:15px;margin-bottom:14px;}
+  .result-stats{display:flex;gap:10px;justify-content:center;margin-bottom:22px;flex-wrap:wrap;}
+  .rstat{background:var(--panel);border:1px solid var(--line);border-radius:11px;
+    padding:9px 15px;font-size:13.5px;font-weight:800;}
+  .rstat.g{color:var(--green);} .rstat.r{color:var(--red);} .rstat.s{color:var(--star);}
+  .review-h{font-size:14px;font-weight:800;color:var(--muted);letter-spacing:.4px;
+    margin:6px 0 10px;}
+  .rev{display:flex;align-items:center;gap:11px;background:var(--panel);
+    border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:9px;
+    cursor:pointer;transition:border-color .15s;}
+  .rev:hover{border-color:var(--accent);}
+  .rev .badge{flex:0 0 auto;width:24px;height:24px;border-radius:6px;font-size:15px;
+    display:flex;align-items:center;justify-content:center;font-weight:900;}
+  .rev .badge.ok{background:var(--green-bg);color:var(--green);}
+  .rev .badge.no{background:var(--red-bg);color:var(--red);}
+  .rev .badge.blank{background:var(--panel2);color:var(--muted);}
+  .rev .rq{flex:1;font-size:14px;}
+  .rev .ra{font-size:12.5px;color:var(--muted);margin-top:2px;}
+  .rev .ra b{color:var(--green);}
+  .result-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+  .ract{width:100%;padding:15px;border-radius:13px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:15px;font-weight:800;cursor:pointer;}
+  .ract:hover{border-color:var(--accent);}
+  .ract.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+  .ract:disabled{opacity:.4;cursor:not-allowed;}
+
+  /* Resume prompt */
+  .resume-ov{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.6);
+    display:none;align-items:center;justify-content:center;padding:20px;}
+  .resume-ov.show{display:flex;animation:fade .2s ease;}
+  .resume-box{width:100%;max-width:420px;background:var(--panel);border:1px solid var(--line);
+    border-radius:18px;padding:22px 20px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.5);}
+  .resume-t{font-size:18px;font-weight:900;margin-bottom:8px;}
+  .resume-s{font-size:14px;color:var(--muted);margin-bottom:18px;line-height:1.5;}
+  .resume-btns{display:flex;flex-direction:column;gap:10px;}
+  .resume-btn{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:15px;font-weight:800;cursor:pointer;}
+  .resume-btn:hover{border-color:var(--accent);}
+  .resume-btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+
+
+  /* ================= EĞLENCE KATMANI ================= */
+  #fxCanvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:90;}
+  .emoji-pop{position:fixed;font-size:36px;pointer-events:none;z-index:95;
+    will-change:transform,opacity;animation:floatUp 1.7s cubic-bezier(.2,.7,.3,1) forwards;}
+  @keyframes floatUp{
+    0%{opacity:0;transform:translate(0,0) scale(.4) rotate(0deg);}
+    12%{opacity:1;transform:translate(0,-14px) scale(1.25) rotate(0deg);}
+    100%{opacity:0;transform:translate(var(--dx,0px),-190px) scale(1.05) rotate(var(--rot,25deg));}
+  }
+  .emoji-drop{position:fixed;font-size:30px;pointer-events:none;z-index:95;
+    animation:dropDown 1.5s ease-in forwards;}
+  @keyframes dropDown{
+    0%{opacity:0;transform:translateY(-30px) scale(.6) rotate(0deg);}
+    15%{opacity:1;}
+    100%{opacity:0;transform:translateY(150px) scale(1) rotate(var(--rot,-20deg));}
+  }
+  .shake{animation:shakeX .55s cubic-bezier(.36,.07,.19,.97) both;}
+  @keyframes shakeX{
+    10%,90%{transform:translateX(-2px);} 20%,80%{transform:translateX(4px);}
+    30%,50%,70%{transform:translateX(-8px);} 40%,60%{transform:translateX(8px);}
+  }
+  .opt.correct{animation:popOk .55s cubic-bezier(.2,1.4,.4,1);
+    box-shadow:0 0 22px rgba(46,160,67,.45);}
+  @keyframes popOk{0%{transform:scale(1);}35%{transform:scale(1.035);}100%{transform:scale(1);}}
+  .opt.wrong{animation:wobbleNo .5s;}
+  @keyframes wobbleNo{
+    0%,100%{transform:translateX(0);}20%{transform:translateX(-6px);}
+    40%{transform:translateX(6px);}60%{transform:translateX(-4px);}80%{transform:translateX(4px);}
+  }
+  .mascot{position:absolute;right:12px;top:50%;font-size:26px;line-height:1;
+    transform:translateY(-50%);animation:mascotDance .7s ease-in-out infinite alternate;
+    pointer-events:none;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4));}
+  @keyframes mascotDance{
+    from{transform:translateY(-42%) rotate(-12deg) scale(1);}
+    to{transform:translateY(-62%) rotate(12deg) scale(1.18);}
+  }
+  .streak{position:fixed;left:50%;top:22%;transform:translateX(-50%) scale(.6);
+    font-size:22px;font-weight:900;color:var(--star);z-index:96;opacity:0;
+    text-shadow:0 3px 14px rgba(0,0,0,.6);pointer-events:none;
+    animation:streakPop 1.5s ease-out forwards;white-space:nowrap;}
+  @keyframes streakPop{
+    0%{opacity:0;transform:translateX(-50%) scale(.5);}
+    20%{opacity:1;transform:translateX(-50%) scale(1.15);}
+    75%{opacity:1;transform:translateX(-50%) scale(1);}
+    100%{opacity:0;transform:translateX(-50%) scale(1) translateY(-24px);}
+  }
+  .score-ring{animation:ringIn .8s cubic-bezier(.2,1.2,.3,1);}
+  @keyframes ringIn{from{transform:scale(.75) rotate(-12deg);opacity:0;}to{transform:none;opacity:1;}}
+
+
+  /* Cevap mesaji: son sik ile ipucu kutusu arasinda YUZEN baloncuk.
+     Yuksekligi 0 -> icerigi itmez; birkac saniyede kaybolur. */
+  .fxfloat{position:relative;height:0;overflow:visible;}
+  .fxfloat .pill{position:absolute;left:50%;top:-4px;
+    transform:translateX(-50%);
+    background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    padding:11px 18px;border-radius:11px;font-size:14px;font-weight:700;
+    white-space:nowrap;z-index:80;pointer-events:none;
+    box-shadow:0 6px 20px rgba(0,0,0,.45);
+    animation:pillIn .25s ease both, pillOut .45s ease 1.55s forwards;}
+  @keyframes pillIn{
+    from{opacity:0;transform:translateX(-50%) translateY(12px);}
+    to{opacity:1;transform:translateX(-50%) translateY(0);}
+  }
+  @keyframes pillOut{
+    to{opacity:0;transform:translateX(-50%) translateY(-8px);}
+  }
+
+  /* Toast */
+  .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);
+    background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    padding:11px 18px;border-radius:11px;font-size:14px;font-weight:700;z-index:80;
+    opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 6px 20px rgba(0,0,0,.4);}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<header id="hdr">
+  <div class="hbar">
+    <div class="htitle">MEDITUS <span>PEDİATRİ · GASTROENTEROLOJİ</span></div>
+    <div class="stats">
+      <div class="chip correct">✓ <span id="cCount">0</span></div>
+      <div class="chip star">⭐ <span id="sCount">0</span></div>
+    </div>
+  </div>
+  <div class="progress"><i id="bar"></i></div>
+</header>
+
+<main id="main">
+  <div id="quiz"></div>
+  <div class="cueMsg" id="cueMsg"></div>
+  <div class="ddx-ov" id="ddxOv" onclick="closeDdx()"></div>
+
+  <div class="result" id="result">
+    <div class="score-ring" id="ring">
+      <div class="inner">
+        <div class="big" id="scoreBig">0/0</div>
+        <div class="sub">DOĞRU</div>
+      </div>
+    </div>
+    <div class="pctline" id="pctLine">%0</div>
+    <div class="fb" id="fbText"></div>
+    <div class="result-stats" id="rStats"></div>
+    <div class="result-actions">
+      <button class="ract primary" onclick="restart()">↺ Tüm Soruları Yeniden Çöz</button>
+      <button class="ract" id="retryWrongBtn" onclick="retryWrong()">✗ Yanlışları Tekrar Çöz</button>
+      <button class="ract" id="retryStarBtn" onclick="retryStar()">⭐ Yıldızlıları Tekrar Çöz</button>
+    </div>
+    <div class="review-h">SORU İNCELEMESİ</div>
+    <div id="reviewList"></div>
+    
+  </div>
+</main>
+
+<div class="nav" id="nav">
+  <button class="prev" id="prevBtn" onclick="go(-1)">← Önceki</button>
+  <button class="list" id="listBtn" onclick="openModal()"><span class="lc">☰</span><span id="navCounter">0/0</span></button>
+  <button class="next" id="nextBtn" onclick="go(1)">Sonraki →</button>
+</div>
+
+<div class="modal-ov" id="modalOv" onclick="modalBg(event)">
+  <div class="modal">
+    <div class="modal-h"><span>Sorular</span><button class="close" onclick="closeModal()">✕</button></div>
+    <div class="qgrid" id="qGrid"></div>
+  </div>
+</div>
+
+<div class="resume-ov" id="resumeOv">
+  <div class="resume-box">
+    <div class="resume-t">↩ Kaldığın yerden devam?</div>
+    <div class="resume-s" id="resumeSub"></div>
+    <div class="resume-btns">
+      <button class="resume-btn primary" onclick="resumeYes()">Kaldığım yerden devam et</button>
+      <button class="resume-btn" onclick="resumeNo()">Baştan başla</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   QUESTIONS — SADECE BU DİZİ DEĞİŞİR.
+   Her obje: { yil?, soru, siklar[5], dogru(0-4), ipucu, tuzak, aciklama }
+   ========================================================= */
+const QUESTIONS = [
+ {
+  "soru": "Aşağıdakilerden hangisi <b>orofaringeal disfaji</b> yapar?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Amiloidoz"
+   },
+   {
+    "k": "B",
+    "t": "SLE"
+   },
+   {
+    "k": "C",
+    "t": "Akalazya"
+   },
+   {
+    "k": "D",
+    "t": "Sarkoidoz"
+   },
+   {
+    "k": "E",
+    "t": "Hipertiroidi"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Alt özofagus sfinkter gevşemesinin bozulduğu tabloyu ara.",
+  "ipucu": "<b>Akalazya</b> alt özofagus sfinkterinin gevşeyememesiyle disfaji yapar.",
+  "tuzak": "Amiloidoz, SLE, sarkoidoz ve hipertiroidi sistemik motilite/ösofagus tutulumu yapabilse de klasik disfaji nedeni olarak sorulan <b>akalazyadır</b>.",
+  "aciklama": "<b>Akalazya</b>, alt özofagus sfinkterinin yutmayla gevşeyememesi ve özofagus peristaltizminin kaybıyla giden bir motilite bozukluğudur; disfaji (hem katı hem sıvıya), regürjitasyon ve kilo kaybı yapar."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>siklik kusmanın</b> tanı kriterlerinden biri <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Herhangi bir sürede en az 5 atak olması"
+   },
+   {
+    "k": "B",
+    "t": "Atakların en az 1 hafta arayla olması"
+   },
+   {
+    "k": "C",
+    "t": "Stereotipik patern ve semptomların olması"
+   },
+   {
+    "k": "D",
+    "t": "Ataklar sırasında kusmanın saatte 4 kez veya daha fazla olması"
+   },
+   {
+    "k": "E",
+    "t": "En sık adölesan dönemde görülmesi"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Siklik kusma en sık hangi yaş grubunda görülür?",
+  "ipucu": "Siklik kusma en sık <b>okul öncesi/erken çocukluk</b> döneminde görülür; adölesan değil.",
+  "tuzak": "Diğer maddeler (≥5 atak, ≥1 hafta ara, stereotipik patern, saatte ≥4 kusma, ataklar arası normal olma) tanı kriteridir. \"En sık adölesan\" ifadesi yanlıştır.",
+  "aciklama": "<b>Siklik kusma sendromu kriterleri</b>: herhangi bir sürede ≥5 atak veya 6 ayda ≥3 atak; aralarında ≥1 hafta bulunan, 1 saat-10 gün süren ataklar; <b>stereotipik patern</b>; atakta <b>saatte ≥4 kusma</b>; ataklar arası normal sağlık; bulguların başka hastalığa ait olmaması. En sık <b>okul öncesi-erken çocukluk</b> döneminde görülür."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>süt çocukluğu</b> döneminde kusma nedeni <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Akut otitis media"
+   },
+   {
+    "k": "B",
+    "t": "Malrotasyon"
+   },
+   {
+    "k": "C",
+    "t": "Pilor stenozu"
+   },
+   {
+    "k": "D",
+    "t": "Siklik kusma"
+   },
+   {
+    "k": "E",
+    "t": "İntussepsiyon"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Hangi kusma tipi süt çocuğunun değil daha büyük çocuğun sorunu?",
+  "ipucu": "<b>Siklik kusma</b> daha çok okul öncesi ve büyük çocuklarda görülür; süt çocukluğu nedeni değildir.",
+  "tuzak": "AOM, malrotasyon, pilor stenozu ve intussepsiyon süt çocuğunda tipik kusma nedenleridir. Siklik kusma bu yaşta beklenmez.",
+  "aciklama": "Süt çocukluğunda kusma nedenleri arasında <b>akut otitis media</b>, <b>malrotasyon (volvulus)</b>, <b>pilor stenozu</b> ve <b>intussepsiyon</b> sayılır. <b>Siklik kusma</b> ise daha çok okul öncesi ve büyük çocuklarda görülen bir tablodur."
+ },
+ {
+  "soru": "<b>Osmotik tipteki ishaller</b> için doğru olan ifade hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Açlıkla ishal durmaz."
+   },
+   {
+    "k": "B",
+    "t": "Dışkı iyon açığı 100'ün altındadır."
+   },
+   {
+    "k": "C",
+    "t": "Enterotoksinlerle oluşur."
+   },
+   {
+    "k": "D",
+    "t": "Açlıkla ishal durur."
+   },
+   {
+    "k": "E",
+    "t": "En sık görülen akut ishal mekanizmasıdır."
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Emilmeyen madde barsakta kalınca açlıkta ishal ne olur?",
+  "ipucu": "<b>Osmotik ishal açlıkla durur</b> (emilmeyen madde alınmayınca); sekretuar ishal durmaz.",
+  "tuzak": "<mark>Sekretuar</mark> ishal açlıkla durmaz, iyon açığı <100, enterotoksin kaynaklıdır. Osmotik ishalde iyon açığı >100'dür ve açlıkla durur.",
+  "aciklama": "<b>Osmotik ishal</b>: emilemeyen ozmotik aktif madde barsakta su tutar; <b>açlıkla durur</b>, dışkı iyon açığı <b>>100</b> mOsm/L'dir. <b>Sekretuar ishal</b>: enterotoksinlerle (cGMP/cAMP artışı) su-elektrolit sekresyonu; <b>açlıkla durmaz</b>, iyon açığı <100'dür, sıvı kaybı fazladır.",
+  "ddx": {
+   "baslik": "Osmotik vs Sekretuar İshal",
+   "ok": "Açlık testi ve iyon açığı ayırt eder.",
+   "satirlar": [
+    {
+     "emo": "🍽️",
+     "ad": "Osmotik",
+     "bulgu": "Açlıkla DURUR · iyon açığı >100 · emilmeyen madde",
+     "hit": true
+    },
+    {
+     "emo": "💦",
+     "ad": "Sekretuar",
+     "bulgu": "Açlıkla DURMAZ · iyon açığı <100 · enterotoksin (kolera, ETEC)",
+     "hit": false
+    }
+   ]
+  }
+ },
+ {
+  "soru": "<b>Sekretuar ishallerle</b> ilgili olarak hangisi <mark>yanlıştır?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Enterotoksinleri ile ishal yapan etkenler patogenezden sorumludur."
+   },
+   {
+    "k": "B",
+    "t": "Oral replasman sıvısı (ORS) tedavisine iyi yanıt verirler."
+   },
+   {
+    "k": "C",
+    "t": "Dışkıda kan ve mukus yoktur."
+   },
+   {
+    "k": "D",
+    "t": "Rotavirüsler sekretuar mekanizma ile ishale neden olurlar."
+   },
+   {
+    "k": "E",
+    "t": "Kript hücrelerinden aşırı su ve elektrolit barsak lümenine salgılanır."
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Rotavirüs epiteli harabederek mi yoksa saf sekresyonla mı ishal yapar?",
+  "ipucu": "Rotavirüs villus hücrelerini hasarlar → <b>ozmotik (malabsorbtif) mekanizma</b> baskındır, saf sekretuar değildir.",
+  "tuzak": "Sekretuar ishal enterotoksin kaynaklıdır (kolera, ETEC), ORS'ye iyi yanıt verir, kansız-mukussuzdur. <mark>Rotavirüs</mark> ise villus hasarıyla ozmotik ishal yapar; \"sekretuar\" ifadesi yanlıştır.",
+  "aciklama": "<b>Sekretuar ishal</b> enterotoksinlerle (V. cholerae, ETEC) kript hücrelerinden su-elektrolit sekresyonuyla oluşur; mukoza harabiyeti yoktur, dışkı kansız-mukussuzdur ve ORS'ye iyi yanıt verir. <b>Rotavirüs</b> ise ince barsak villus epitelini hasarlayarak <b>ozmotik/malabsorbtif</b> ishal yapar; saf sekretuar değildir."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>hem ishal hem de kabızlık</b> yapabilen hastalıklardan biri <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kistik fibroz"
+   },
+   {
+    "k": "B",
+    "t": "Çölyak hastalığı"
+   },
+   {
+    "k": "C",
+    "t": "Hirschsprung hastalığı"
+   },
+   {
+    "k": "D",
+    "t": "İnek sütü alerjisi"
+   },
+   {
+    "k": "E",
+    "t": "Down sendromu"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Down sendromunda beklenen barsak sorunu ishal mi kabızlık mı?",
+  "ipucu": "<b>Down sendromunda kabızlık</b> beklenir (hipotoni); \"hem ishal hem kabızlık\" grubu değildir.",
+  "tuzak": "Kistik fibroz, çölyak, Hirschsprung ve inek sütü alerjisi hem ishal hem kabızlık yapabilir. Down sendromu ise ağırlıklı olarak <b>kabızlık</b> yapar.",
+  "aciklama": "<b>Hem ishal hem kabızlık</b> yapabilenler: <b>kistik fibroz</b> (koyu salgı-kabızlık; malabsorbsiyon-ishal), <b>çölyak</b> (malabsorbsiyon-ishal; kas zayıflığı-kabızlık), <b>Hirschsprung</b> (toksik megakolon-ishal; obstrüksiyon-kabızlık), <b>inek sütü alerjisi</b>, inflamatuar barsak hastalığı ve psödoobstrüksiyon. <b>Down sendromunda</b> hipotoniye bağlı ağırlıklı olarak <b>kabızlık</b> görülür."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi çocuklarda <b>kronik abdominal ağrının ciddi bir patolojiye bağlı olması</b> açısından <mark>uyarıcı değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Hastanın 5 yaşından küçük olması"
+   },
+   {
+    "k": "B",
+    "t": "Kanlı ya da safralı kusmanın eşlik etmesi"
+   },
+   {
+    "k": "C",
+    "t": "Uykudan uyandıran ağrı"
+   },
+   {
+    "k": "D",
+    "t": "Periumbilikal ağrı"
+   },
+   {
+    "k": "E",
+    "t": "Kronik diare varlığı"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Fonksiyonel ağrı genellikle karnın neresinde hissedilir?",
+  "ipucu": "<b>Periumbilikal (göbek çevresi) ağrı</b> genellikle fonksiyoneldir; uyarıcı (kırmızı bayrak) değildir.",
+  "tuzak": "Uyarıcı bulgular ağrının <b>periumbilikal OLMAMASI</b>, lokalize/yansıyan olması, kanlı-safralı kusma, gece uyandırması, sistemik bulgular, anormal labdır. Periumbilikal ağrı ise fonksiyonel karın ağrısını düşündürür.",
+  "aciklama": "<b>Kırmızı bayrak (uyarıcı) bulgular</b>: 5 yaş altı, kanlı/safralı kusma, ateş-kilo kaybı, sarılık-hepatosplenomegali, <b>uykudan uyandıran ağrı</b>, periumbilikal <b>olmayan</b> (sırt/böğür) ağrı, lokalize ya da yansıyan ağrı, anormal lab (CRP/ESR artışı, lökositoz, anemi), ailede İBH/çölyak öyküsü. <b>Periumbilikal ağrı</b> ise fonksiyoneldir, uyarıcı değildir."
+ },
+ {
+  "soru": "<b>Sekonder laktoz intoleransı</b> ile ilgili olarak aşağıdakilerden hangisi <mark>yanlıştır?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Dışkı pH'sı genellikle 6'dan büyüktür."
+   },
+   {
+    "k": "B",
+    "t": "Özellikle rotavirüs ishallerinden sonra görülür."
+   },
+   {
+    "k": "C",
+    "t": "Laktaz ishalden en çok etkilenen disakkaridazdır."
+   },
+   {
+    "k": "D",
+    "t": "Çoğunlukla sekonder formu görülür."
+   },
+   {
+    "k": "E",
+    "t": "Dışkıda redüktan madde pozitiftir."
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Sindirilemeyen laktoz dışkı pH'sını asidik mi bazik mi yapar?",
+  "ipucu": "Laktaz eksikliğinde dışkı pH'sı <b>6'nın altındadır (asidik)</b>; 6'dan büyük değildir.",
+  "tuzak": "\"pH >6\" yanlıştır: fermente olmamış laktoz dışkıyı <b>asidik (pH<6)</b> yapar. Rotavirüs sonrası sekonder form, laktazın en etkilenen disakkaridaz olması ve redüktan madde pozitifliği doğrudur.",
+  "aciklama": "<b>Sekonder laktoz intoleransı</b> en sık <b>rotavirüs</b> gibi ishallerden sonra villus hasarıyla gelişir; laktaz villus ucunda yerleştiğinden <b>en çok etkilenen disakkaridazdır</b>. Sindirilemeyen laktoz osmotik ishal yapar, <b>dışkı pH'sı <6 (asidik)</b> ve <b>redüktan madde pozitiftir</b>."
+ },
+ {
+  "soru": "On beş aylık bebek <b>kış mevsiminde sulu, kansız ishal, hafif ateş ve kusma</b> şikayetleriyle getiriliyor.<br><br>Bu hastada en olası etken aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "E. coli"
+   },
+   {
+    "k": "B",
+    "t": "Salmonella"
+   },
+   {
+    "k": "C",
+    "t": "Rotavirus"
+   },
+   {
+    "k": "D",
+    "t": "Norwalk virus"
+   },
+   {
+    "k": "E",
+    "t": "Entamoeba histolytica"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Kış + süt çocuğu + sulu kansız ishal → en sık viral etken?",
+  "ipucu": "Kış aylarında süt çocuğunda sulu kansız ishalin en sık nedeni <b>Rotavirus (Grup A)</b>'dır.",
+  "tuzak": "Kanlı ishal olsaydı invaziv bakteriler (Salmonella, Shigella) düşünülürdü. <mark>Sulu, kansız, kış, süt çocuğu</mark> paterni Rotavirüs'ü işaret eder.",
+  "aciklama": "<b>Rotavirus (Grup A)</b>, kış aylarında süt çocuklarında sulu-kansız ishal, kusma ve hafif ateşle giden, 5-7 günde düzelen akut gastroenteritin en sık nedenidir. Hastane kaynaklı ishallerin de en sık etkenidir."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>yenidoğan döneminde ishal</b> ile birlikte <mark>görülmez?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Konjenital mikrovillus atrofisi"
+   },
+   {
+    "k": "B",
+    "t": "Konjenital glukoz-galaktoz malabsorpsiyonu"
+   },
+   {
+    "k": "C",
+    "t": "Konjenital laktaz eksikliği"
+   },
+   {
+    "k": "D",
+    "t": "Glukoz-6-fosfat dehidrogenaz eksikliği"
+   },
+   {
+    "k": "E",
+    "t": "Konjenital enterokinaz eksikliği"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Hangi enzim eritrosit içinde olup barsakla ilgisiz?",
+  "ipucu": "<b>G6PD</b> eritrosit enzimidir (hemoliz yapar), kronik ishal nedeni değildir.",
+  "tuzak": "Mikrovillus atrofisi, glukoz-galaktoz malabsorbsiyonu, laktaz ve enterokinaz eksiklikleri yenidoğan ishali yapar. <mark>G6PD</mark> ise hemolitik anemiyle ilgilidir, ishalle değil.",
+  "aciklama": "Yenidoğan döneminde kronik ishal nadirdir; nedenleri arasında konjenital <b>mikrovillus atrofisi/inklüzyon hastalığı</b>, <b>glukoz-galaktoz malabsorpsiyonu</b>, <b>laktaz</b> ve <b>enterokinaz</b> eksiklikleri, konjenital klorür diyaresi yer alır. <b>G6PD eksikliği</b> eritrosit içi bir enzim defektidir ve kronik ishal yapmaz."
+ },
+ {
+  "soru": "Anne sütüyle beslenen <b>9 günlük</b> bebek 3 gün sonra <b>köpüklü sulu ishal</b> nedeniyle getiriliyor. <b>Dışkıda redüktan madde (+), dışkı pH'sı düşük</b>; başka bulgu yok.<br><br>Bu hastada en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Laktaz eksikliği"
+   },
+   {
+    "k": "B",
+    "t": "Abetalipoproteinemi"
+   },
+   {
+    "k": "C",
+    "t": "Sükraz-izomaltaz eksikliği"
+   },
+   {
+    "k": "D",
+    "t": "Akrodermatitis enteropatika"
+   },
+   {
+    "k": "E",
+    "t": "Konjenital aklorhidrik diyare"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Redüktan madde pozitifliği hangi şekerin sindirilemediğini gösterir?",
+  "ipucu": "Anne sütü (laktoz) + <b>redüktan madde (+)</b> + asidik dışkı → <b>laktaz eksikliği</b>.",
+  "tuzak": "<mark>Sükraz-izomaltaz eksikliğinde redüktan madde POZİTİF DEĞİLDİR</mark> (sükroz redükleyici değil). Laktoz redükleyici bir şeker olduğundan laktaz eksikliğinde pozitiftir.",
+  "aciklama": "Anne sütüyle beslenen bebekte laktoz sindirilemezse osmotik ishal olur; laktoz <b>redükleyici bir şeker</b> olduğundan <b>dışkıda redüktan madde pozitif</b> ve fermantasyonla <b>dışkı asidik</b> olur → <b>primer laktaz eksikliği</b>. <b>Sükraz-izomaltaz eksikliğinde</b> sükroz redükleyici olmadığından redüktan madde pozitifliği saptanmaz."
+ },
+ {
+  "soru": "Aşağıdaki hastalık çiftlerinden hangisinde <b>yenidoğan döneminde ishal görülebilir ve dışkı asidik olabilir?</b>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Konjenital klorür diyaresi - Kistik fibrozis"
+   },
+   {
+    "k": "B",
+    "t": "Konjenital klorür diyaresi - Konjenital laktaz eksikliği"
+   },
+   {
+    "k": "C",
+    "t": "Konjenital laktaz eksikliği - Konjenital sükraz-izomaltaz eksikliği"
+   },
+   {
+    "k": "D",
+    "t": "Konjenital laktaz eksikliği - Kistik fibrozis"
+   },
+   {
+    "k": "E",
+    "t": "Kistik fibrozis - Hirschsprung hastalığı"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Hangi ikili hem yenidoğanda ishal yapar hem de dışkıyı asidik bırakır?",
+  "ipucu": "<b>Konjenital laktaz eksikliği + konjenital klorür diyaresi</b>: her ikisi de yenidoğanda ishal yapar ve dışkı asidik olur.",
+  "tuzak": "<mark>Kistik fibrozis yenidoğan döneminde ishale neden olmaz</mark>. Sükraz-izomaltaz eksikliğinde redüktan madde/asidik dışkı beklenmez. Bu yüzden içinde KF veya sükraz-izomaltaz olan çiftler elenir.",
+  "aciklama": "<b>Konjenital laktaz eksikliği</b> ve <b>konjenital klorür diyaresi</b> yenidoğan döneminde ishal yapar ve dışkı <b>asidik</b> olur. <b>Kistik fibrozis yenidoğanda ishale neden olmaz</b>; <b>konjenital sükraz-izomaltaz eksikliğinde</b> redüktan madde pozitifliği/asidik dışkı saptanmaz; Hirschsprung her yaşta ishal veya kabızlıkla gelebilir."
+ },
+ {
+  "soru": "Aşağıdaki hastalıklardan hangisi <b>yenidoğan döneminde ishale neden olmaz?</b>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Mikrovillus inklüzyon hastalığı"
+   },
+   {
+    "k": "B",
+    "t": "Safra asidi malabsorpsiyonu"
+   },
+   {
+    "k": "C",
+    "t": "Konjenital klorür diyaresi"
+   },
+   {
+    "k": "D",
+    "t": "Konjenital enterokinaz eksikliği"
+   },
+   {
+    "k": "E",
+    "t": "Kistik fibrozis"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Yenidoğanda ishal yapmayan ama ileride malabsorbsiyon yapan hastalık?",
+  "ipucu": "<b>Kistik fibrozis</b> yenidoğan döneminde ishale neden olmaz (mekonyum ileusu yapar).",
+  "tuzak": "Mikrovillus inklüzyon, safra asidi malabsorbsiyonu, klorür diyaresi ve enterokinaz eksikliği yenidoğan ishali yapar. <mark>Kistik fibrozis</mark> ise bu dönemde ishal değil, mekonyum ileusuyla karşımıza çıkar.",
+  "aciklama": "Yenidoğan döneminde ishal yapan durumlar: <b>mikrovillus inklüzyon hastalığı</b>, <b>safra asidi malabsorpsiyonu</b> (steatore eşlik eder), <b>konjenital klorür diyaresi</b>, konjenital pankreatik enzim (tripsin/lipaz/kolipaz) ve <b>enterokinaz eksikliği</b>, tufting enteropati. <b>Kistik fibrozis</b> yenidoğanda ishale değil, <b>mekonyum ileusuna</b> yol açar."
+ },
+ {
+  "soru": "<b>Dört yaşında, gelişimi normal</b> olan çocukta <b>iki haftadan uzun süren ishalin</b> en olası nedeni aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kronik nonspesifik ishal (toddler diyaresi)"
+   },
+   {
+    "k": "B",
+    "t": "Çölyak hastalığı"
+   },
+   {
+    "k": "C",
+    "t": "Kistik fibrozis"
+   },
+   {
+    "k": "D",
+    "t": "İnflamatuar barsak hastalığı"
+   },
+   {
+    "k": "E",
+    "t": "Laktaz eksikliği"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Gelişimi ve kilosu normal olan çocukta uzamış ishal genellikle ne?",
+  "ipucu": "<b>Kronik nonspesifik ishal (toddler diyaresi)</b>: gelişim normal, tartı kaybı yok.",
+  "tuzak": "Çölyak, KF ve İBH'de büyüme geriliği/kilo kaybı beklenir. Bu çocuğun <mark>gelişimi normal</mark> olduğundan en olası tanı selim toddler diyaresidir.",
+  "aciklama": "<b>Kronik nonspesifik ishal (toddler diyaresi)</b> 6 ay-5 yaş arası, <b>gelişimi normal</b> çocuklarda görülür; aşırı sıvı/meyve suyu alımı ve hızlı barsak geçişiyle ilişkilidir, kilo kaybı yoktur ve kendiliğinden düzelir. Çölyak, kistik fibrozis ve İBH'de büyüme geriliği/sistemik bulgular beklenir."
+ },
+ {
+  "soru": "<b>Sekiz aylık ishali olan</b> çocukta <b>dehidratasyonun en erken/duyarlı bulgusu</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Taşikardi"
+   },
+   {
+    "k": "B",
+    "t": "İdrar miktarında azalma"
+   },
+   {
+    "k": "C",
+    "t": "Cilt turgorunda azalma"
+   },
+   {
+    "k": "D",
+    "t": "Deri ve mukoza kuruluğu"
+   },
+   {
+    "k": "E",
+    "t": "Fontanel çöküklüğü"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Dolaşım hangi bulguyla en erken kompanse etmeye çalışır?",
+  "ipucu": "Dehidratasyonda en erken bulgu <b>taşikardidir</b> (dolaşımın kompansatuar yanıtı).",
+  "tuzak": "İdrar azalması, cilt turgoru, mukoza kuruluğu ve fontanel çöküklüğü daha geç/orta-ağır bulgulardır. En erken ve duyarlı olan <b>taşikardidir</b>.",
+  "aciklama": "Dehidratasyonda vücut önce <b>taşikardi</b> ile kompanse eder; bu en erken ve duyarlı bulgudur. İdrar çıkışının azalması, mukoza kuruluğu, cilt turgorunda azalma ve fontanel çöküklüğü sıvı kaybı arttıkça (orta-ağır dehidratasyon) ortaya çıkar."
+ },
+ {
+  "soru": "<b>Gastroözofageal reflüde akciğer aspirasyonunu</b> göstermede en uygun yöntem hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Endoskopi"
+   },
+   {
+    "k": "B",
+    "t": "Baryumlu grafi"
+   },
+   {
+    "k": "C",
+    "t": "24 saatlik pH monitörizasyonu"
+   },
+   {
+    "k": "D",
+    "t": "Manometri"
+   },
+   {
+    "k": "E",
+    "t": "Sintigrafik tetkik"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Aspire olan içeriği akciğerde görüntülemek için hangi yöntem?",
+  "ipucu": "<b>Sintigrafi (milk scan)</b> reflü içeriğinin akciğere aspirasyonunu gösterebilir.",
+  "tuzak": "Endoskopi özofajiti, pH-metri asit reflüyü gösterir; ancak <mark>pulmoner aspirasyonu</mark> gösteren yöntem <b>sintigrafidir</b>.",
+  "aciklama": "<b>Gastroözofageal sintigrafi (milk scan)</b>, işaretli sıvının reflü ile özofagusa ve oradan akciğere <b>aspirasyonunu</b> gösterebilir. 24 saatlik pH monitörizasyonu asit reflüyü, endoskopi özofajit/komplikasyonları, baryumlu grafi anatomiyi değerlendirir."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>gastroözofageal reflü</b> ile ilgili <mark>yanlıştır?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "1 aydan küçük süt çocuklarında yüksek oranda görülür."
+   },
+   {
+    "k": "B",
+    "t": "Regürjitasyonun derecesi tükürür tarzdan projektil kusmaya kadar değişir."
+   },
+   {
+    "k": "C",
+    "t": "Çoğu süt çocuğunda 12-18 aya kadar kendiliğinden düzelir."
+   },
+   {
+    "k": "D",
+    "t": "Komplikasyon olarak özofajit ve büyüme geriliği gelişebilir."
+   },
+   {
+    "k": "E",
+    "t": "GÖR, kayma (sliding) tipi hiatal hernide nadir görülen bir bulgudur."
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Kayma tipi hiatal herni reflüyü kolaylaştırır mı zorlaştırır mı?",
+  "ipucu": "Kayma (sliding) tipi hiatal herni GÖR'ü <b>kolaylaştırır ve sık eşlik eder</b>; \"nadir\" ifadesi yanlıştır.",
+  "tuzak": "GÖR süt çocuklarında çok sık, genellikle kendiliğinden düzelen fizyolojik bir durumdur. <mark>Sliding hiatal herni</mark> reflüye sık eşlik eder, nadir değildir.",
+  "aciklama": "<b>Gastroözofageal reflü</b> süt çocuklarında sıktır ve çoğunlukla 12-18 aya kadar kendiliğinden düzelir; regürjitasyon tükürmeden projektil kusmaya kadar değişebilir; özofajit ve büyüme geriliği yapabilir. <b>Kayma tipi hiatal herni</b> GÖR'e sık eşlik eder, nadir değildir."
+ },
+ {
+  "soru": "On üç yaşında bir erkek çocuk <b>1 yıldır devam eden retrosternal yanma ve disfaji</b> ile başvuruyor.<br><br>Bu hastada <b>en uygun tanı yöntemi</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Baryumlu özofagus-mide-duodenum grafisi"
+   },
+   {
+    "k": "B",
+    "t": "Abdominal ultrasonografi"
+   },
+   {
+    "k": "C",
+    "t": "24 saatlik özofagus pH monitörizasyonu"
+   },
+   {
+    "k": "D",
+    "t": "Gastroözofageal reflü sintigrafisi"
+   },
+   {
+    "k": "E",
+    "t": "Üst gastrointestinal sistem endoskopisi"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Kronik reflü + disfajide mukozayı doğrudan görmek için hangi yöntem?",
+  "ipucu": "Uzun süreli reflü + disfaji → özofajit/darlık/Barrett açısından <b>üst GİS endoskopisi</b>.",
+  "tuzak": "pH-metri asit reflüyü ölçse de, <mark>disfaji ve uzun öykü</mark> varlığında mukozal hasarı (özofajit, striktür, Barrett) görmek için endoskopi gerekir.",
+  "aciklama": "Uzun süreli reflü semptomları ve <b>disfaji</b> olan hastada mukozal hasar (özofajit, peptik darlık, Barrett özofagusu, eozinofilik özofajit) açısından değerlendirme için en uygun yöntem <b>üst gastrointestinal endoskopi ve biyopsidir</b>."
+ },
+ {
+  "soru": "Bir bebekte <b>ilk çıkması beklenen süt dişi</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Üst santral kesici diş"
+   },
+   {
+    "k": "B",
+    "t": "Alt lateral kesici diş"
+   },
+   {
+    "k": "C",
+    "t": "Alt köpek dişi"
+   },
+   {
+    "k": "D",
+    "t": "Üst lateral kesici diş"
+   },
+   {
+    "k": "E",
+    "t": "Alt santral kesici diş"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Alt mı üst mü, santral mı lateral mı — ilk çıkan hangisi?",
+  "ipucu": "İlk çıkan süt dişi <b>alt santral kesici</b>dir (~6-7. ayda).",
+  "tuzak": "Diş çıkma sırası alttan başlar: önce <b>alt santral kesiciler</b>, sonra üst santraller. Üst santral ilk sanmak hatadır.",
+  "aciklama": "Süt dişleri genellikle <b>6-7. ayda alt santral kesicilerle</b> başlar; ardından üst santral kesiciler, üst-alt lateral kesiciler, birinci azılar, köpek dişleri ve ikinci azılar çıkar. 13 aya kadar hiç diş yoksa gecikme kabul edilir."
+ },
+ {
+  "soru": "<b>En sık görülen özofagus atrezisi tipi</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Proksimal atrezi + distal trakeoözofageal fistül"
+   },
+   {
+    "k": "B",
+    "t": "Her iki ucu künt, fistülsüz"
+   },
+   {
+    "k": "C",
+    "t": "İzole trakeoözofageal fistül (H tipi)"
+   },
+   {
+    "k": "D",
+    "t": "Proksimalde trakeoözofageal fistül"
+   },
+   {
+    "k": "E",
+    "t": "Hem distal hem proksimal fistüllü"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 En sık tipte fistül hangi uçta — mideye hava gider mi?",
+  "ipucu": "En sık tip (~%85): <b>proksimal atrezi + distal TÖF</b> (mideye hava gider).",
+  "tuzak": "İzole atrezi (fistülsüz) ve H-tipi fistül nadirdir. En sık, distal fistüllü tiptir (grafide mide havası vardır).",
+  "aciklama": "En sık özofagus atrezisi tipi (~%85) <b>proksimal atrezi + distal trakeoözofageal fistüldür (Tip C)</b>; distal fistül nedeniyle grafide mide-barsak havası görülür. Prenatal polihidramnios, doğumdan sonra ağızdan köpüklü sekresyon, beslenmeyle öksürük-siyanoz ve NG sondanın ilerletilememesi görülür; VACTERL ile birlikteliği sıktır."
+ },
+ {
+  "soru": "<b>İki yaş altında alt gastrointestinal kanamanın</b> en sık nedeni aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Rektal polip"
+   },
+   {
+    "k": "B",
+    "t": "Ülseratif kolit"
+   },
+   {
+    "k": "C",
+    "t": "İnfeksiyöz kolit / anal fissür"
+   },
+   {
+    "k": "D",
+    "t": "Akut gastroenterit"
+   },
+   {
+    "k": "E",
+    "t": "İnvaginasyon"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Süt çocuğunda taze rektal kanamanın en sık iyi huylu nedeni?",
+  "ipucu": "İki yaş altında alt GİS kanamanın en sık nedeni <b>infeksiyöz kolit ve anal fissürdür</b>.",
+  "tuzak": "Meckel, invaginasyon ve polip önemli nedenlerdir ama <mark>en sık</mark> olan enfeksiyöz kolit/anal fissürdür (özellikle inek sütü proteini ilişkili proktokolit).",
+  "aciklama": "İki yaş altında alt GİS kanamasının en sık nedenleri <b>enfeksiyöz/alerjik kolit (inek sütü proteini proktokoliti) ve anal fissürdür</b>. Meckel divertikülü (ağrısız masif kanama), invaginasyon (çilek jölesi gaita) ve juvenil polipler diğer önemli nedenlerdir."
+ },
+ {
+  "soru": "<b>Masif, ağrısız, taze rektal kanamanın</b> en sık nedeni aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Meckel divertikülü"
+   },
+   {
+    "k": "B",
+    "t": "Juvenil kolonik polip"
+   },
+   {
+    "k": "C",
+    "t": "Anal fissür"
+   },
+   {
+    "k": "D",
+    "t": "Ülseratif kolit"
+   },
+   {
+    "k": "E",
+    "t": "İnvaginasyon"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Ağrısız + masif taze kanama hangi konjenital anomaliyi düşündürür?",
+  "ipucu": "<b>Meckel divertikülü</b> ektopik mide mukozası nedeniyle ağrısız masif kanama yapar.",
+  "tuzak": "Juvenil polip genellikle az miktarda kanama yapar; invaginasyon ağrılıdır. <mark>Ağrısız masif kanama</mark> Meckel'i işaret eder.",
+  "aciklama": "<b>Meckel divertikülü</b> (2 kuralı: %2, 2 fit proksimal, 2 yaş, 2 inç) içerdiği <b>ektopik mide mukozasının</b> asit salgısıyla komşu ileum mukozasını ülsere ederek <b>ağrısız, masif, taze rektal kanamaya</b> yol açar. Tanıda Meckel sintigrafisi (Tc-99m perteknetat) kullanılır."
+ },
+ {
+  "soru": "<b>İki yaş altındaki çocuklarda akut batının en sık nedeni</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Mekonyum ileusu"
+   },
+   {
+    "k": "B",
+    "t": "Meckel divertikülü"
+   },
+   {
+    "k": "C",
+    "t": "Hirschsprung hastalığı"
+   },
+   {
+    "k": "D",
+    "t": "İnvaginasyon"
+   },
+   {
+    "k": "E",
+    "t": "Konjenital pilor stenozu"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Süt çocuğunda kramp tarzı ağrı + çilek jölesi gaita hangi tablo?",
+  "ipucu": "<b>İnvajinasyon</b> 2 yaş altı akut batının en sık cerrahi nedenidir.",
+  "tuzak": "Pilor stenozu 2-8. haftada kusma yapar (akut batın değil); Meckel ve Hirschsprung daha az sıktır. En sık akut batın nedeni <b>invajinasyondur</b>.",
+  "aciklama": "<b>İnvajinasyon (intussepsiyon)</b> 2 yaş altı çocuklarda akut batının en sık nedenidir; en sık ileokolik tiptedir. Kramp tarzı aralıklı ağrı, kusma, <b>çilek jölesi (currant jelly) gaita</b> ve sağ üst kadranda sosis şeklinde kitle görülür. Tanı ve tedavide baryum/hava enema kullanılır."
+ },
+ {
+  "soru": "<b>İnvajinasyonda</b> aşağıdakilerden hangisi <mark>beklenmez?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kanlı gaita (çilek jölesi)"
+   },
+   {
+    "k": "B",
+    "t": "Fekaloid kusma"
+   },
+   {
+    "k": "C",
+    "t": "Kramp tarzı aralıklı ağrı"
+   },
+   {
+    "k": "D",
+    "t": "Sağ üst kadranda sosis şeklinde kitle"
+   },
+   {
+    "k": "E",
+    "t": "Dans currant jelly gaita"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Fekaloid kusma yüksek mi alçak mı obstrüksiyonu gösterir?",
+  "ipucu": "<b>Fekaloid (dışkı benzeri) kusma</b> distal/geç obstrüksiyonda olur; invajinasyonun tipik erken bulgusu değildir.",
+  "tuzak": "Çilek jölesi gaita, kramp ağrı ve sosis kitle invajinasyonun klasik bulgularıdır. <mark>Fekaloid kusma</mark> ise ileri distal obstrüksiyon bulgusudur.",
+  "aciklama": "<b>İnvajinasyonda</b> kramp tarzı aralıklı ağrı, safralı kusma, <b>çilek jölesi gaita</b> ve sağ üst kadranda sosis şeklinde kitle görülür. <b>Fekaloid (dışkımsı) kusma</b> ise ileri, distal barsak obstrüksiyonunun bulgusudur ve invajinasyonun tipik erken bulgusu değildir."
+ },
+ {
+  "soru": "Çocukluk çağında <b>en sık görülen kolon polibi</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Adenomatöz polip"
+   },
+   {
+    "k": "B",
+    "t": "Psödopolip"
+   },
+   {
+    "k": "C",
+    "t": "Villöz polip"
+   },
+   {
+    "k": "D",
+    "t": "Retansiyon (juvenil) polip"
+   },
+   {
+    "k": "E",
+    "t": "Hamartomatöz polip"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Çocukta en sık polip malign potansiyeli olan mı olmayan mı?",
+  "ipucu": "Çocukta en sık <b>juvenil (retansiyon) poliptir</b>; genellikle selimdir.",
+  "tuzak": "Adenomatöz ve villöz polipler malign potansiyellidir ama çocukta nadirdir. <mark>Juvenil (retansiyon) polip</mark> en sıktır ve ağrısız rektal kanama yapar.",
+  "aciklama": "Çocuklarda en sık kolon polibi <b>juvenil (retansiyon) poliptir</b>; genellikle rektosigmoid yerleşimli, selim, hamartomatöz bir poliptir ve ağrısız rektal kanamanın sık nedenidir. Adenomatöz/villöz polipler malign potansiyellidir ancak çocukta nadirdir."
+ },
+ {
+  "soru": "<b>Pilor stenozunda</b> aşağıdakilerden hangisi <mark>beklenmez?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Paradoksal asidüri"
+   },
+   {
+    "k": "B",
+    "t": "Hipokloremik metabolik alkaloz"
+   },
+   {
+    "k": "C",
+    "t": "Projektil (safrasız) kusma"
+   },
+   {
+    "k": "D",
+    "t": "Çökük karın ve gözle görülen peristaltizm"
+   },
+   {
+    "k": "E",
+    "t": "Hiperkloremi"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Sürekli asit kusan bebekte klor artar mı azalır mı?",
+  "ipucu": "Pilor stenozunda HCl kaybıyla <b>hipokloremi</b> olur; hiperkloremi beklenmez.",
+  "tuzak": "Mide asidi kaybı → hipokloremik, hipokalemik <b>metabolik alkaloz</b> ve <b>paradoksal asidüri</b>. <mark>Hiperkloremi</mark> tam tersidir.",
+  "aciklama": "<b>Konjenital hipertrofik pilor stenozu</b>: 2-8. haftada <b>projektil, safrasız kusma</b>, gözle görülen peristaltizm, zeytin şeklinde kitle. Mide asidi (HCl) kaybı nedeniyle <b>hipokloremik, hipokalemik metabolik alkaloz</b> ve geç dönemde <b>paradoksal asidüri</b> gelişir. <b>Hiperkloremi beklenmez</b> (hipokloremi olur)."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>Hirschsprung hastalığı</b> ile ilgili <mark>yanlıştır?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Kolon mukoza ve submukozasında ganglion hücreleri artmıştır."
+   },
+   {
+    "k": "B",
+    "t": "Yenidoğan döneminde kusma, abdominal distansiyon ve mekonyum çıkışında gecikme görülür."
+   },
+   {
+    "k": "C",
+    "t": "Rektumdan proksimale doğru uzanan aganglionik segment vardır."
+   },
+   {
+    "k": "D",
+    "t": "İnatçı kabızlık ve büyüme geriliği görülebilir."
+   },
+   {
+    "k": "E",
+    "t": "Total kolon aganglionozisinde ailesel özellik belirgindir."
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Hirschsprung'da ganglion hücreleri artmış mı yok mu?",
+  "ipucu": "Hirschsprung'da submukozal ve myenterik <b>ganglion hücreleri YOKTUR (aganglionoz)</b>, artmış değil.",
+  "tuzak": "\"Ganglion hücreleri artmıştır\" tam tersidir: hastalığın özü <b>aganglionozdur</b>. Diğer ifadeler doğrudur.",
+  "aciklama": "<b>Hirschsprung hastalığında</b> distal kolonda (rektumdan proksimale doğru) <b>ganglion hücreleri yoktur (aganglionoz)</b>; bu segment kasılı kalır, proksimali genişler. Yenidoğanda mekonyum çıkışında gecikme (>48 saat), abdominal distansiyon, safralı kusma; ileride inatçı kabızlık ve büyüme geriliği görülür. Kesin tanı <b>rektal biyopsidir</b>."
+ },
+ {
+  "soru": "<b>Hirschsprung hastalığını fonksiyonel kabızlıktan ayıran</b> özellik aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Malnütrisyon olması"
+   },
+   {
+    "k": "B",
+    "t": "Doğumdan sonraki ilk haftadan itibaren kabızlık olması"
+   },
+   {
+    "k": "C",
+    "t": "Enkoprezis (kaçırma) olması"
+   },
+   {
+    "k": "D",
+    "t": "Ampulla rektinin dolu olması"
+   },
+   {
+    "k": "E",
+    "t": "İştahsızlık olmaması"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Kabızlık ne zaman başlamış — doğumdan mı sonra mı?",
+  "ipucu": "Hirschsprung'da kabızlık <b>doğumdan/ilk haftadan itibaren</b> başlar; fonksiyonel kabızlık daha geç (tuvalet eğitimi dönemi) başlar.",
+  "tuzak": "Fonksiyonel kabızlıkta enkoprezis olur ve ampulla rekti doludur; <mark>Hirschsprung'da ampulla boştur, enkoprezis nadirdir ve kabızlık doğuştandır</mark>.",
+  "aciklama": "<b>Hirschsprung hastalığında</b> kabızlık <b>doğumdan/yaşamın ilk haftasından itibaren</b> başlar, mekonyum çıkışı gecikir, rektal tuşede <b>ampulla rekti daima boştur</b> ve enkoprezis (kaçırma) nadirdir. Fonksiyonel kabızlık ise genellikle tuvalet eğitimi döneminde başlar, ampulla doludur ve enkoprezis sıktır."
+ },
+ {
+  "soru": "<b>Crohn hastalığının ilk semptomu</b> genellikle aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Hematokezya"
+   },
+   {
+    "k": "B",
+    "t": "Artrit"
+   },
+   {
+    "k": "C",
+    "t": "Karın ağrısı ve ishal"
+   },
+   {
+    "k": "D",
+    "t": "Üveit"
+   },
+   {
+    "k": "E",
+    "t": "Eritema nodosum"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Crohn ağırlıklı olarak hangi bölgeyi tutar — ilk şikayet ne olur?",
+  "ipucu": "Crohn genellikle <b>karın ağrısı ve ishal (kilo kaybı ile)</b> ile başlar.",
+  "tuzak": "Kanlı ishal (hematokezya) ülseratif kolitin tipik bulgusudur. <mark>Crohn</mark> transmural ve segmenter tutulumla, sıklıkla <b>karın ağrısı-ishal-kilo kaybıyla</b> başlar; ekstraintestinal bulgular (artrit, üveit, eritema nodosum) sonradır.",
+  "aciklama": "<b>Crohn hastalığı</b> ağızdan anüse tüm GİS'i (en sık terminal ileum) segmenter ve transmural tutar; genellikle <b>karın ağrısı, ishal, kilo kaybı ve büyüme geriliğiyle</b> başlar. Perianal hastalık, fistül ve granülomlar tipiktir. Kanlı ishal daha çok ülseratif kolitte ön plandadır."
+ },
+ {
+  "soru": "<b>Ülseratif kolit</b> ile ilgili doğru olan ifade hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Tüm barsak katmanları (transmural) tutulur."
+   },
+   {
+    "k": "B",
+    "t": "İnflamatuar değişiklikler barsağın mukoza ve submukozasıyla sınırlıdır."
+   },
+   {
+    "k": "C",
+    "t": "Ağızdan anüse tüm GİS'i tutar, özellikle ileoçekal bölge."
+   },
+   {
+    "k": "D",
+    "t": "Uzun sürede kolon kanseri gelişme riski normal populasyonla aynıdır."
+   },
+   {
+    "k": "E",
+    "t": "Fistül ve granülom oluşumu tipiktir."
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Ülseratif kolit mukozal mı transmural mı tutulum yapar?",
+  "ipucu": "Ülseratif kolit <b>mukoza-submukoza</b> ile sınırlıdır (yüzeyel); transmural değildir.",
+  "tuzak": "Transmural tutulum, granülom, fistül ve segmenter yayılım <b>Crohn</b>'un özellikleridir. <mark>ÜK</mark> ise kolonu rektumdan başlayarak devamlı ve yüzeyel (mukozal) tutar; kolon kanseri riski artar.",
+  "aciklama": "<b>Ülseratif kolit</b> yalnızca kolonu tutar; <b>rektumdan başlayarak devamlı (kontinü)</b> ve <b>mukoza-submukozayla sınırlı (yüzeyel)</b> inflamasyon yapar. Kanlı-mukuslu ishal tipiktir. Uzun sürede <b>kolon kanseri riski artar</b>. Transmural tutulum, granülom, fistül ve segmenter yayılım ise Crohn'a aittir.",
+  "ddx": {
+   "baslik": "Crohn vs Ülseratif Kolit",
+   "ok": "Tutulum derinliği ve dağılımı ayırt eder.",
+   "satirlar": [
+    {
+     "emo": "🍩",
+     "ad": "Crohn",
+     "bulgu": "Transmural, segmenter (skip), tüm GİS, granülom, fistül",
+     "hit": false
+    },
+    {
+     "emo": "🎯",
+     "ad": "Ülseratif kolit",
+     "bulgu": "Mukozal, devamlı, sadece kolon (rektumdan), kanlı ishal",
+     "hit": true
+    }
+   ]
+  }
+ },
+ {
+  "soru": "<b>Dubin-Johnson sendromu</b> için aşağıdakilerden hangisi <mark>doğrudur?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Bilirubin yapımı artmıştır."
+   },
+   {
+    "k": "B",
+    "t": "İndirekt hiperbilirubinemi vardır."
+   },
+   {
+    "k": "C",
+    "t": "UDP-glukuronil transferaz aktivitesi çok düşüktür."
+   },
+   {
+    "k": "D",
+    "t": "Bilirubinin karaciğer hücresinden safraya atılımı bozuktur."
+   },
+   {
+    "k": "E",
+    "t": "Kernikterus riski yüksektir."
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Konjugasyon mu atılım mı bozuk — direkt mi indirekt mi bilirubin?",
+  "ipucu": "Dubin-Johnson'da konjuge bilirubinin <b>hepatositten safraya atılımı (MRP2) bozuktur</b> → direkt hiperbilirubinemi.",
+  "tuzak": "<mark>İndirekt hiperbilirubinemi ve UGT eksikliği Crigler-Najjar/Gilbert</mark>'a aittir. Dubin-Johnson'da <b>direkt (konjuge)</b> bilirubin artar; karaciğer siyah-koyu görünür.",
+  "aciklama": "<b>Dubin-Johnson sendromu</b>: konjuge bilirubinin hepatositten safra kanaliküllerine atılımını sağlayan <b>MRP2 taşıyıcısının</b> defekti → <b>direkt (konjuge) hiperbilirubinemi</b>. Karaciğer koyu-siyah pigmentedir, prognoz iyidir, kernikterus riski yoktur (konjuge bilirubin BOS'a geçmez). İndirekt hiperbilirubinemi ve UGT eksikliği Crigler-Najjar/Gilbert sendromlarına aittir."
+ },
+ {
+  "soru": "<b>Rotor sendromu</b> için aşağıdakilerden hangisi <mark>yanlıştır?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Direkt (konjuge) hiperbilirubinemi vardır."
+   },
+   {
+    "k": "B",
+    "t": "Karaciğer histolojisi normaldir (pigment birikimi yoktur)."
+   },
+   {
+    "k": "C",
+    "t": "Prognoz iyidir."
+   },
+   {
+    "k": "D",
+    "t": "Otozomal resesif kalıtılır."
+   },
+   {
+    "k": "E",
+    "t": "Karaciğerde siyah pigment birikimi vardır."
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Rotor mu Dubin-Johnson mu — karaciğer pigmentli mi?",
+  "ipucu": "Rotor sendromunda karaciğer <b>normaldir, pigment birikmez</b>; siyah karaciğer Dubin-Johnson'a aittir.",
+  "tuzak": "<mark>Siyah pigment birikimi Dubin-Johnson'un</mark> özelliğidir. Rotor'da direkt hiperbilirubinemi vardır ama karaciğer normaldir.",
+  "aciklama": "<b>Rotor sendromu</b>: konjuge bilirubinin hepatik depolanma/taşınma defektine bağlı <b>direkt hiperbilirubinemi</b>; <b>karaciğer histolojisi normaldir, pigment birikmez</b>, otozomal resesif kalıtılır, prognozu iyidir. <b>Siyah pigmentli karaciğer</b> ise Dubin-Johnson'un özelliğidir."
+ },
+ {
+  "soru": "<b>Alagille sendromunda</b> aşağıdakilerden hangisi <mark>beklenmez?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Üçgen yüz görünümü"
+   },
+   {
+    "k": "B",
+    "t": "İndirekt hiperbilirubinemi"
+   },
+   {
+    "k": "C",
+    "t": "Kelebek vertebra"
+   },
+   {
+    "k": "D",
+    "t": "Posterior embriyotokson (göz)"
+   },
+   {
+    "k": "E",
+    "t": "Periferik tipte pulmoner arter stenozu"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 İntrahepatik kolestazda bilirubin direkt mi indirekt mi artar?",
+  "ipucu": "Alagille kolestatik bir hastalıktır → <b>direkt (konjuge) hiperbilirubinemi</b>; indirekt değil.",
+  "tuzak": "Kolestaz = direkt bilirubin ve GGT yüksekliği. <mark>İndirekt hiperbilirubinemi</mark> hemoliz/konjugasyon defektine aittir, Alagille'ye değil.",
+  "aciklama": "<b>Alagille sendromu</b> (safra kanalikül azlığı - intrahepatik kolestaz): <b>üçgen yüz</b>, kelebek (butterfly) vertebra, <b>posterior embriyotokson</b>, <b>periferik pulmoner arter stenozu</b>, böbrek anomalileri ve <b>direkt (konjuge) hiperbilirubinemi + yüksek GGT</b> ile gider. <b>İndirekt hiperbilirubinemi beklenmez.</b>"
+ },
+ {
+  "soru": "<b>Süt çocuklarında bilier sirozun en sık nedeni</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Alagille sendromu"
+   },
+   {
+    "k": "B",
+    "t": "Kistik fibrozis"
+   },
+   {
+    "k": "C",
+    "t": "Konjenital hepatik fibrozis"
+   },
+   {
+    "k": "D",
+    "t": "Neonatal hepatit"
+   },
+   {
+    "k": "E",
+    "t": "Ekstrahepatik bilier atrezi"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Süt çocuğunda ilerleyici kolestaz + siroz — en sık cerrahi neden?",
+  "ipucu": "<b>Ekstrahepatik bilier atrezi</b> süt çocuğunda bilier sirozun ve karaciğer naklinin en sık nedenidir.",
+  "tuzak": "Alagille ve neonatal hepatit kolestaz yapar ama <mark>en sık bilier siroz nedeni bilier atrezidir</mark>; tedavi edilmezse hızla siroza gider (Kasai portoenterostomi).",
+  "aciklama": "<b>Ekstrahepatik bilier atrezi</b> safra yollarının progresif obliterasyonudur; süt çocuğunda <b>bilier sirozun ve karaciğer transplantasyonunun en sık nedenidir</b>. Doğumdan sonraki haftalarda sarılık, akolik gaita ve koyu idrarla başlar; erken <b>Kasai portoenterostomi</b> yapılmazsa siroza ilerler."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>intrahepatik portal hipertansiyon</b> nedenidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Konjenital hepatik fibrozis"
+   },
+   {
+    "k": "B",
+    "t": "Siroz"
+   },
+   {
+    "k": "C",
+    "t": "Portal ven trombozu"
+   },
+   {
+    "k": "D",
+    "t": "Venooklüzif hastalık"
+   },
+   {
+    "k": "E",
+    "t": "Şistozomiazis"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Tıkanıklık karaciğerin içinde mi öncesinde (prehepatik) mi?",
+  "ipucu": "<b>Portal ven trombozu prehepatiktir</b>; diğerleri intrahepatik portal hipertansiyon nedenidir.",
+  "tuzak": "Soru muhtemelen 'intrahepatik OLMAYAN'ı sorar. Konjenital hepatik fibrozis, siroz, VOD ve şistozomiazis <b>intrahepatiktir</b>; <mark>portal ven trombozu prehepatiktir</mark>.",
+  "aciklama": "Portal hipertansiyon nedenleri: <b>prehepatik</b> (portal ven trombozu), <b>intrahepatik</b> (siroz, konjenital hepatik fibrozis, şistozomiazis - presinüzoidal; venooklüzif hastalık - postsinüzoidal) ve <b>posthepatik</b> (Budd-Chiari). <b>Portal ven trombozu prehepatik</b> bir nedendir; diğer seçenekler intrahepatiktir."
+ },
+ {
+  "soru": "<b>Çocuklarda akut viral hepatitin en sık nedeni</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "HBV"
+   },
+   {
+    "k": "B",
+    "t": "HAV"
+   },
+   {
+    "k": "C",
+    "t": "HDV"
+   },
+   {
+    "k": "D",
+    "t": "HEV"
+   },
+   {
+    "k": "E",
+    "t": "HCV"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Fekal-oral bulaşan, çocukta en sık hepatit etkeni hangisi?",
+  "ipucu": "Çocukta akut viral hepatitin en sık nedeni <b>HAV</b>'dir (fekal-oral).",
+  "tuzak": "HBV ve HCV kronikleşir ama akut çocukluk hepatitinin en sık nedeni <b>HAV</b>'dir; genellikle self-limitedir, kronikleşmez.",
+  "aciklama": "<b>Hepatit A virüsü (HAV)</b> fekal-oral yolla bulaşır ve çocuklarda akut viral hepatitin en sık nedenidir; genellikle self-limited seyreder, kronikleşmez ve fulminan hepatit nadirdir. HBV ve HCV kronik hepatit/siroz açısından önemlidir."
+ },
+ {
+  "soru": "<b>Karaciğer sentez fonksiyonunu</b> en iyi gösteren parametre aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "GGT düzeyi"
+   },
+   {
+    "k": "B",
+    "t": "ALT/AST oranı"
+   },
+   {
+    "k": "C",
+    "t": "Bilirubin düzeyi"
+   },
+   {
+    "k": "D",
+    "t": "ALP düzeyi"
+   },
+   {
+    "k": "E",
+    "t": "Faktör V aktivitesi / protrombin zamanı"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Karaciğerin ürettiği ve yarı ömrü kısa olan proteini düşün.",
+  "ipucu": "<b>Protrombin zamanı / Faktör V</b> karaciğer sentez fonksiyonunu en iyi ve en erken yansıtır.",
+  "tuzak": "GGT, ALP kolestaz; ALT/AST hepatosellüler hasar göstergesidir. <mark>Sentez fonksiyonu</mark> için pıhtılaşma faktörleri (PT, Faktör V) ve albümin kullanılır.",
+  "aciklama": "Karaciğer <b>sentez fonksiyonu</b> pıhtılaşma faktörleri (özellikle <b>Faktör V ve protrombin zamanı</b>) ve albümin ile değerlendirilir; K vitaminine bağımlı olmayan Faktör V, akut karaciğer yetmezliğinde erken ve duyarlı bir göstergedir. ALT/AST hepatosellüler hasarı, GGT/ALP kolestazı yansıtır."
+ },
+ {
+  "soru": "<b>Tekrarlayan kusmalar, özellikle yatınca artan retrosternal yanma</b> ve uzun süreli öksürüğü olan çocukta en olası tanı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Konjenital kalp hastalığı"
+   },
+   {
+    "k": "B",
+    "t": "Bronş adenomu"
+   },
+   {
+    "k": "C",
+    "t": "Gastroözofageal reflü"
+   },
+   {
+    "k": "D",
+    "t": "Peptik ülser"
+   },
+   {
+    "k": "E",
+    "t": "Kistik fibrozis"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Yatınca artan yanma + kronik öksürük hangi mekanizmayı düşündürür?",
+  "ipucu": "Yatınca artan retrosternal yanma + tekrarlayan kusma + kronik öksürük = <b>gastroözofageal reflü</b>.",
+  "tuzak": "Pozisyonla (yatınca) artan yanma reflü için tipiktir; kronik öksürük mikroaspirasyona bağlıdır. Diğer tanılar bu pozisyonel örüntüyü açıklamaz.",
+  "aciklama": "<b>Gastroözofageal reflü</b>: retrosternal yanma (<b>yatınca artar</b>), tekrarlayan kusma/regürjitasyon ve mikroaspirasyona bağlı <b>kronik öksürük, hışıltı ve tekrarlayan solunum yolu enfeksiyonu</b> yapabilir. Tanıda pH-metri/impedans ve gerekirse endoskopi kullanılır."
+ },
+ {
+  "soru": "Aşağıdakilerden hangileri <b>konjenital pilor stenozunun</b> özelliğidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Safralı kusma"
+   },
+   {
+    "k": "B",
+    "t": "Hipokloremik metabolik alkaloz"
+   },
+   {
+    "k": "C",
+    "t": "Hiperkalemi"
+   },
+   {
+    "k": "D",
+    "t": "Hiperkloremi"
+   },
+   {
+    "k": "E",
+    "t": "Otozomal resesif geçiş"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Asit kaybı hangi asit-baz bozukluğunu yapar?",
+  "ipucu": "Pilor stenozunda mide asidi kaybıyla <b>hipokloremik, hipokalemik metabolik alkaloz</b> olur.",
+  "tuzak": "Kusma <b>safrasızdır</b> (obstrüksiyon pilorda, ampulla Vateri öncesinde). Hiperkalemi/hiperkloremi yanlıştır (hipoK, hipoCl olur). Kalıtım poligeniktir, klasik OR değildir.",
+  "aciklama": "<b>Konjenital hipertrofik pilor stenozunda</b> projektil, <b>safrasız kusma</b> (tıkanıklık ampulla Vateri'nin proksimalinde) ve HCl kaybına bağlı <b>hipokloremik, hipokalemik metabolik alkaloz</b> ile paradoksal asidüri görülür. Erkeklerde ve ilk çocukta daha sıktır; kalıtım multifaktöriyeldir."
+ },
+ {
+  "soru": "<b>Glutene duyarlı enteropati (çölyak)</b> tanısı için <b>en değerli/kesin</b> yöntem hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "İnce bağırsak (duodenum) biyopsisi"
+   },
+   {
+    "k": "B",
+    "t": "Serum IgA düzeyi tayini"
+   },
+   {
+    "k": "C",
+    "t": "Anti-gliadin antikoru"
+   },
+   {
+    "k": "D",
+    "t": "İnce bağırsak grafisi"
+   },
+   {
+    "k": "E",
+    "t": "Serum kompleman düzeyi tayini"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Villus atrofisini doğrudan göstermek için ne gerekir?",
+  "ipucu": "Çölyakta altın standart <b>ince barsak (duodenum) biyopsisidir</b> (villus atrofisi).",
+  "tuzak": "Serolojik testler (anti-tTG, anti-endomisyum) taramada kullanılır ama <mark>kesin tanı</mark> için <b>biyopsi</b> gerekir (villöz atrofi, kript hiperplazisi, intraepitelyal lenfosit artışı).",
+  "aciklama": "<b>Çölyak hastalığında</b> tanı, glutenli diyet altında <b>ince barsak (duodenum) biyopsisiyle</b> konur: <b>villöz atrofi, kript hiperplazisi ve intraepitelyal lenfosit artışı</b> (Marsh sınıflaması). Serolojik testler (<b>anti-doku transglutaminaz (anti-tTG), anti-endomisyum</b>, total IgA ile birlikte) taramada kullanılır."
+ },
+ {
+  "soru": "<b>Çölyak hastalığının en sık ekstraintestinal manifestasyonu</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "İdiyopatik pulmoner hemosideroz"
+   },
+   {
+    "k": "B",
+    "t": "Oksipital kalsifikasyonla birlikte epilepsi"
+   },
+   {
+    "k": "C",
+    "t": "İzole transaminaz yüksekliği"
+   },
+   {
+    "k": "D",
+    "t": "Demir eksikliği anemisi"
+   },
+   {
+    "k": "E",
+    "t": "Enamel (diş minesi) hipoplazisi"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Villus atrofisi hangi minerali en çok etkiler?",
+  "ipucu": "Çölyakta en sık ekstraintestinal bulgu <b>demir eksikliği anemisidir</b> (proksimal barsakta demir emilim bozukluğu).",
+  "tuzak": "Enamel hipoplazisi, epilepsi ve transaminaz yüksekliği de görülür ama <mark>en sık</mark> ekstraintestinal bulgu <b>demir eksikliği anemisidir</b>.",
+  "aciklama": "<b>Çölyakta</b> proksimal ince barsak tutulumu nedeniyle en sık ekstraintestinal bulgu <b>tedaviye dirençli demir eksikliği anemisidir</b>. Ayrıca boy kısalığı, diş minesi hipoplazisi, dermatitis herpetiformis, transaminaz yüksekliği, osteopeni ve nörolojik bulgular görülebilir."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>çölyak hastalığı ile ilişkili değildir?</b>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Otoimmün tiroidit"
+   },
+   {
+    "k": "B",
+    "t": "Down sendromu"
+   },
+   {
+    "k": "C",
+    "t": "Tip 1 diabetes mellitus"
+   },
+   {
+    "k": "D",
+    "t": "Selektif IgA eksikliği"
+   },
+   {
+    "k": "E",
+    "t": "Kistik fibrozis"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Çölyak otoimmün/genetik zeminle ilişkili; hangisi bu gruba girmez?",
+  "ipucu": "<b>Kistik fibrozis</b> çölyakla ilişkili değildir (farklı bir malabsorbsiyon nedenidir).",
+  "tuzak": "Otoimmün tiroidit, tip 1 DM, Down sendromu ve selektif IgA eksikliği çölyakla birliktelik gösterir. <mark>Kistik fibrozis</mark> ise ayrı bir hastalıktır.",
+  "aciklama": "<b>Çölyak hastalığı</b> ile ilişkili durumlar: <b>tip 1 diabetes mellitus, otoimmün tiroidit, Down sendromu, Turner ve Williams sendromları, selektif IgA eksikliği</b> ve dermatitis herpetiformis. <b>Kistik fibrozis</b> çölyakla ilişkili değildir."
+ },
+ {
+  "soru": "<b>Çölyak spektrumuna</b> ait <mark>olmayan</mark> klinik tablo aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Semptomatik çölyak hastalığı"
+   },
+   {
+    "k": "B",
+    "t": "Whipple hastalığı"
+   },
+   {
+    "k": "C",
+    "t": "Sessiz (silent) çölyak hastalığı"
+   },
+   {
+    "k": "D",
+    "t": "Potansiyel çölyak hastalığı"
+   },
+   {
+    "k": "E",
+    "t": "Dermatitis herpetiformis"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Bakteriyel bir malabsorbsiyon hastalığı çölyak spektrumuna girer mi?",
+  "ipucu": "<b>Whipple hastalığı</b> (Tropheryma whipplei enfeksiyonu) çölyak spektrumuna ait değildir.",
+  "tuzak": "Semptomatik, sessiz, latent/potansiyel çölyak ve dermatitis herpetiformis çölyak spektrumundadır. <mark>Whipple</mark> ise bakteriyel bir malabsorbsiyon hastalığıdır.",
+  "aciklama": "<b>Çölyak spektrumu</b>: klasik/semptomatik çölyak, <b>sessiz (silent)</b> çölyak, <b>latent/potansiyel</b> çölyak ve deri tutulumu olan <b>dermatitis herpetiformis</b>. <b>Whipple hastalığı</b> ise Tropheryma whipplei'ye bağlı ayrı bir malabsorbsiyon hastalığıdır ve çölyak spektrumuna girmez."
+ },
+ {
+  "soru": "<b>Özofagus atrezisiyle en sık birlikte görülen</b> gastrointestinal anomali aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Duodenal atrezi"
+   },
+   {
+    "k": "B",
+    "t": "İmperfore anüs (anorektal malformasyon)"
+   },
+   {
+    "k": "C",
+    "t": "İleal atrezi"
+   },
+   {
+    "k": "D",
+    "t": "Pilor stenozu"
+   },
+   {
+    "k": "E",
+    "t": "Malrotasyon"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 VACTERL birlikteliğini düşün — hangi anomali sık eşlik eder?",
+  "ipucu": "Özofagus atrezisi <b>VACTERL</b> ilişkisi kapsamında en sık <b>anorektal malformasyonla (imperfore anüs)</b> birliktedir.",
+  "tuzak": "Duodenal atrezi Down ile ilişkilidir. Özofagus atrezisine <mark>VACTERL</mark> anomalileri (vertebral, anal, kardiyak, TÖF, renal, limb) eşlik eder; GİS'te en sık imperfore anüstür.",
+  "aciklama": "<b>Özofagus atrezisi/TÖF</b> sıklıkla <b>VACTERL</b> ilişkisi içinde görülür: <b>V</b>ertebral, <b>A</b>norektal (imperfore anüs), <b>C</b>ardiac, <b>T</b>racheo<b>E</b>sophageal, <b>R</b>enal, <b>L</b>imb anomalileri. GİS anomalileri içinde en sık eşlik eden <b>anorektal malformasyondur</b>."
+ },
+ {
+  "soru": "<b>Anorektal malformasyonlara en sık eşlik eden</b> anomali aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Üriner trakt anomalileri"
+   },
+   {
+    "k": "B",
+    "t": "MSS anomalileri"
+   },
+   {
+    "k": "C",
+    "t": "Kardiyak anomaliler"
+   },
+   {
+    "k": "D",
+    "t": "İskelet anomalileri"
+   },
+   {
+    "k": "E",
+    "t": "Trakeoözofageal fistül"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 VACTERL'de anal anomaliye en sık hangi sistem eşlik eder?",
+  "ipucu": "Anorektal malformasyonlara en sık <b>üriner (genitoüriner) sistem anomalileri</b> eşlik eder.",
+  "tuzak": "VACTERL kapsamında kardiyak, vertebral ve TÖF de eşlik edebilir; ancak <mark>en sık</mark> eşlik eden <b>üriner trakt anomalileridir</b> (özellikle yüksek tip malformasyonlarda).",
+  "aciklama": "<b>Anorektal malformasyonlara</b> en sık eşlik eden anomali <b>üriner (genitoüriner) trakt anomalileridir</b> (vezikoüreteral reflü, renal agenezi/displazi); özellikle yüksek (supralevator) tiplerde sıklık artar. Fistüller sıklıkla üriner sistem veya vajene açılır."
+ },
+ {
+  "soru": "<b>Çocuklarda karaciğer transplantasyonunun en sık nedeni</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Wilson hastalığı"
+   },
+   {
+    "k": "B",
+    "t": "Otoimmün hepatit"
+   },
+   {
+    "k": "C",
+    "t": "Hepatit B enfeksiyonu"
+   },
+   {
+    "k": "D",
+    "t": "Toksik hepatitler"
+   },
+   {
+    "k": "E",
+    "t": "Ekstrahepatik bilier atrezi"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Süt çocuğunda en sık ilerleyici kolestatik hastalık hangisi?",
+  "ipucu": "Çocukta karaciğer naklinin en sık nedeni <b>ekstrahepatik bilier atrezidir</b>.",
+  "tuzak": "Wilson, otoimmün hepatit ve metabolik hastalıklar da nakil nedeni olabilir; ancak <mark>en sık</mark> neden <b>bilier atrezidir</b> (Kasai başarısızlığı sonrası).",
+  "aciklama": "<b>Ekstrahepatik bilier atrezi</b>, çocukluk çağında <b>karaciğer transplantasyonunun en sık nedenidir</b>; Kasai portoenterostomiye rağmen ilerleyen olgularda son çare transplantasyondur. Metabolik hastalıklar, Wilson ve otoimmün hepatit diğer nedenlerdir."
+ },
+ {
+  "soru": "<b>Çölyak hastalığı tanısında altın standart</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Anti-gliadin antikoru ölçümü"
+   },
+   {
+    "k": "B",
+    "t": "Anti-transglutaminaz antikor ölçümü"
+   },
+   {
+    "k": "C",
+    "t": "Hidrojen soluk testi"
+   },
+   {
+    "k": "D",
+    "t": "HLA-DQ2/DQ8 tiplemesi"
+   },
+   {
+    "k": "E",
+    "t": "Standart jejunokolik (duodenal) histoloji"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Serolojiyi değil, dokuyu doğrudan gösteren yöntemi seç.",
+  "ipucu": "Çölyakta altın standart <b>ince barsak (jejunum/duodenum) histolojisidir</b> (villöz atrofi).",
+  "tuzak": "Anti-tTG duyarlı bir tarama testidir ama <mark>altın standart</mark> <b>biyopsi/histolojidir</b>. HLA tiplemesi hastalığı dışlamada değerlidir, tanı koydurmaz.",
+  "aciklama": "<b>Çölyak tanısında altın standart</b>, glutenli diyet altında alınan <b>ince barsak (duodenum/jejunum) biyopsisinin histolojik incelemesidir</b>: villöz atrofi, kript hiperplazisi, intraepitelyal lenfosit artışı. Anti-tTG/anti-endomisyum serolojisi tarama, HLA-DQ2/DQ8 ise dışlama amaçlıdır."
+ },
+ {
+  "soru": "<b>Protein kaybettiren enteropatinin</b> tanısında kullanılan test aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Dışkıda redüktan madde varlığı"
+   },
+   {
+    "k": "B",
+    "t": "Dışkıda elastaz konsantrasyonu"
+   },
+   {
+    "k": "C",
+    "t": "Hidrojen soluk testi"
+   },
+   {
+    "k": "D",
+    "t": "Steatokrit"
+   },
+   {
+    "k": "E",
+    "t": "Dışkıda alfa-1 antitripsin varlığı"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Barsaktan protein kaybını dışkıda hangi endojen protein gösterir?",
+  "ipucu": "Protein kaybettiren enteropatide <b>dışkıda alfa-1 antitripsin</b> klerensi kullanılır.",
+  "tuzak": "Redüktan madde karbonhidrat malabsorbsiyonu, elastaz pankreas yetmezliği, steatokrit yağ malabsorbsiyonu içindir. <mark>Protein kaybı</mark> için <b>dışkı alfa-1 antitripsini</b> ölçülür (barsakta sindirilmeyen endojen protein).",
+  "aciklama": "<b>Protein kaybettiren enteropatide</b> tanı, <b>dışkıda alfa-1 antitripsin</b> varlığı/klerensi ile konur; alfa-1 antitripsin barsakta proteolize dirençli olduğundan mukozadan protein kaybının güvenilir bir belirtecidir. Redüktan madde (karbonhidrat), elastaz (pankreas), steatokrit (yağ) farklı amaçlar içindir."
+ },
+ {
+  "soru": "<b>Henoch-Schönlein purpurasında</b> gastrointestinal tutuluma eşlik eden tipik cilt bulgusu aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Hemolitik anemi"
+   },
+   {
+    "k": "B",
+    "t": "Palpabl purpura"
+   },
+   {
+    "k": "C",
+    "t": "Guillain-Barré sendromu"
+   },
+   {
+    "k": "D",
+    "t": "Hemolitik üremik sendrom"
+   },
+   {
+    "k": "E",
+    "t": "Glomerülonefrit"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Alt ekstremitede ele gelen döküntü HSP için tipik mi?",
+  "ipucu": "HSP'de <b>palpabl purpura</b> (alt ekstremite ve kalçalarda) tipiktir; GİS'te kanama/karın ağrısı eşlik eder.",
+  "tuzak": "Glomerülonefrit HSP'nin renal tutulumudur ama <mark>cilt bulgusu palpabl purpuradır</mark>. Eritema marginatum akut romatizmal ateşe aittir.",
+  "aciklama": "<b>Henoch-Schönlein purpurası (IgA vasküliti)</b>: alt ekstremite ve kalçalarda <b>palpabl purpura</b>, artralji/artrit, karın ağrısı-GİS kanaması (invajinasyon riski) ve IgA nefropatisi (glomerülonefrit) ile gider. GİS tutulumuna eşlik eden karakteristik cilt bulgusu <b>palpabl purpuradır</b>."
+ },
+ {
+  "soru": "<b>Karaciğer hücresinin ve böbrek tübülüslerinin birlikte hasarına</b> yol açan, redüktan madde pozitifliğiyle giden metabolik hastalık aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Akrodermatitis enteropatika"
+   },
+   {
+    "k": "B",
+    "t": "Kistik fibrozis"
+   },
+   {
+    "k": "C",
+    "t": "Galaktozemi"
+   },
+   {
+    "k": "D",
+    "t": "Çölyak hastalığı"
+   },
+   {
+    "k": "E",
+    "t": "Alfa-1 antitripsin eksikliği"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Süt (laktoz→galaktoz) alan bebekte KC + böbrek + katarakt hangisi?",
+  "ipucu": "<b>Galaktozemi</b>: karaciğer hasarı, renal tübülopati (Fanconi), katarakt ve E. coli sepsisi.",
+  "tuzak": "Alfa-1 antitripsin sadece karaciğeri (ve akciğeri) tutar; galaktozemi hem karaciğer hem böbrek tübülüslerini tutar ve idrarda redüktan madde (galaktoz) pozitiftir.",
+  "aciklama": "<b>Galaktozemi</b> (GALT eksikliği): süt aldıktan sonra kusma, sarılık, hepatomegali-karaciğer yetmezliği, <b>renal tübülopati (Fanconi sendromu)</b>, <b>katarakt</b> ve <b>E. coli sepsisi</b> ile gider. İdrarda <b>redüktan madde (galaktoz) pozitiftir</b> ancak glukoz oksidaz testi negatiftir."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisinde <b>karaciğer histolojisi normaldir?</b>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Portal ven trombozu"
+   },
+   {
+    "k": "B",
+    "t": "Siroz"
+   },
+   {
+    "k": "C",
+    "t": "Konjenital hepatik fibrozis"
+   },
+   {
+    "k": "D",
+    "t": "Wilson hastalığı"
+   },
+   {
+    "k": "E",
+    "t": "Alfa-1 antitripsin eksikliği"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Prehepatik bir sorunda karaciğerin kendisi hasta olur mu?",
+  "ipucu": "<b>Portal ven trombozu prehepatiktir</b>; karaciğer parankimi ve histolojisi normaldir.",
+  "tuzak": "Siroz, konjenital hepatik fibrozis, Wilson ve alfa-1 antitripsin eksikliği <b>parankimal (intrahepatik)</b> hasar yapar. <mark>Portal ven trombozu</mark> karaciğer dışı olduğundan histoloji normaldir.",
+  "aciklama": "<b>Portal ven trombozu</b> prehepatik portal hipertansiyon nedenidir; karaciğer parankimi etkilenmez, <b>histoloji normaldir</b>. Siroz, konjenital hepatik fibrozis, Wilson hastalığı ve alfa-1 antitripsin eksikliği ise doğrudan karaciğer dokusunu tutar ve histolojik değişiklik yapar."
+ },
+ {
+  "soru": "Aşağıdaki <b>hepatotoksik ilaç-histoloji</b> eşleştirmelerinden hangisi <mark>yanlıştır?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Sentrilobüler nekroz - Asetaminofen"
+   },
+   {
+    "k": "B",
+    "t": "Kolestaz - Anabolik steroid"
+   },
+   {
+    "k": "C",
+    "t": "Venooklüzif hastalık - Siklofosfamid"
+   },
+   {
+    "k": "D",
+    "t": "Steatohepatit - Metotreksat"
+   },
+   {
+    "k": "E",
+    "t": "Mikroveziküler yağlanma - İzoniazid"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 İzoniazid hangi tip karaciğer hasarı yapar — mikroveziküler mi masif nekroz mu?",
+  "ipucu": "İzoniazid <b>hepatosellüler nekroz/hepatit</b> yapar; mikroveziküler yağlanma valproat/tetrasiklin/Reye ile ilişkilidir.",
+  "tuzak": "Asetaminofen-sentrilobüler nekroz, siklofosfamid-VOD doğrudur. <mark>Mikroveziküler yağlanma</mark> valproik asit, tetrasiklin ve Reye sendromunda görülür; izoniazid ise hepatosellüler hepatit yapar.",
+  "aciklama": "<b>İzoniazid</b> tipik olarak <b>hepatosellüler hasar/hepatit ve nekroz</b> yapar; <b>mikroveziküler yağlanma</b> ise <b>valproik asit, tetrasiklin ve Reye sendromunda</b> görülür. Asetaminofen sentrilobüler nekroz, anabolik steroidler kolestaz, siklofosfamid venooklüzif hastalık, metotreksat steatohepatit/fibrozis yapar."
+ },
+ {
+  "soru": "Aşağıdaki metabolik hastalıklardan hangisinde <b>karaciğer tutulumu beklenmez?</b>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Sistemik lupus eritematozus"
+   },
+   {
+    "k": "B",
+    "t": "Kistik fibrozis"
+   },
+   {
+    "k": "C",
+    "t": "Çölyak hastalığı"
+   },
+   {
+    "k": "D",
+    "t": "Primer sklerozan kolanjit"
+   },
+   {
+    "k": "E",
+    "t": "Anti-aktin antikor pozitifliği (otoimmün hepatit)"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Kistik fibrozis karaciğeri tutar mı — bu soru istisnayı arıyor.",
+  "ipucu": "Bu soruda beklenen cevap, verilen bağlamda <b>kistik fibrozis</b> olarak işaretlenmiştir.",
+  "tuzak": "KF fokal bilier siroz yapabilse de, soru kalıbında istisna olarak KF işaretlenmiştir. SLE, çölyak, PSK ve otoimmün hepatit belirgin karaciğer tutulumu yapar.",
+  "aciklama": "Otoimmün hepatit (anti-aktin/anti-düz kas antikoru), primer sklerozan kolanjit, çölyak (transaminaz yüksekliği) ve SLE karaciğer tutulumuyla ilişkilidir. Bu soru bağlamında <b>kistik fibrozis</b> istisna olarak işaretlenmiştir (KF'de karaciğer tutulumu fokal bilier siroz şeklinde daha geç ve değişkendir)."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>klinik veya patolojik olarak akut karaciğer yetmezliğine</b> yol açan metabolik hastalıklardan biri <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Organik asidemiler"
+   },
+   {
+    "k": "B",
+    "t": "Üre siklus defektleri"
+   },
+   {
+    "k": "C",
+    "t": "Galaktozemi"
+   },
+   {
+    "k": "D",
+    "t": "Yağ asidi oksidasyon defekti"
+   },
+   {
+    "k": "E",
+    "t": "Karnitin eksikliği"
+   }
+  ],
+  "dogru": 2,
+  "cue": "🎯 Hangisi klasik olarak karaciğer yetmezliği değil, farklı bir tabloyla gelir?",
+  "ipucu": "Bu soru kalıbında <b>galaktozemi</b> istisna olarak işaretlenmiştir.",
+  "tuzak": "Galaktozemi karaciğer yetmezliği yapabilse de, verilen soru bağlamında istisna olarak galaktozemi işaretlenmiştir; diğerleri metabolik dekompansasyonla akut tablo yapar.",
+  "aciklama": "Organik asidemiler, üre siklus defektleri, yağ asidi oksidasyon defektleri ve karnitin eksikliği metabolik kriz/ensefalopati ve karaciğer disfonksiyonuyla giden metabolik hastalıklardır. Bu soru bağlamında <b>galaktozemi</b> istisna olarak işaretlenmiştir."
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>Reye sendromunun</b> tipik özelliğidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Sarılık belirgindir"
+   },
+   {
+    "k": "B",
+    "t": "Direkt hiperbilirubinemi vardır"
+   },
+   {
+    "k": "C",
+    "t": "Fokal nörolojik bulgu ön plandadır"
+   },
+   {
+    "k": "D",
+    "t": "Hemoliz görülür"
+   },
+   {
+    "k": "E",
+    "t": "Karaciğer fonksiyon testlerinde bozulma ve hiperamonyemi vardır"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Reye'de sarılık olur mu — asıl bozukluk hangi testlerde?",
+  "ipucu": "Reye'de <b>transaminaz yüksekliği ve hiperamonyemi</b> vardır ama <b>sarılık genellikle YOKTUR</b>.",
+  "tuzak": "\"Sarılık belirgindir\" yanlıştır: Reye'de bilirubin genellikle normaldir. Ana bulgu <b>ensefalopati + karaciğer disfonksiyonu (transaminaz↑, amonyak↑, PT↑) mikroveziküler yağlanma</b>dır.",
+  "aciklama": "<b>Reye sendromu</b>: viral enfeksiyon (influenza, varisella) sırasında <b>asetilsalisilik asit (aspirin)</b> kullanımıyla ilişkili; <b>akut ensefalopati + karaciğerde mikroveziküler yağlanma</b>. Transaminazlar ve <b>amonyak yükselir</b>, PT uzar, hipoglisemi olur; ancak <b>sarılık genellikle yoktur (bilirubin normaldir)</b>."
+ },
+ {
+  "soru": "<b>Alfa-1 antitripsin eksikliği</b> ile ilgili aşağıdakilerden hangisi <mark>yanlıştır?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Doğumdan sonraki ilk haftalarda sarılık ve akolik gaita görülebilir."
+   },
+   {
+    "k": "B",
+    "t": "Alfa-1 antitripsin proteininde katlanma (folding) defekti vardır."
+   },
+   {
+    "k": "C",
+    "t": "Karaciğerde hepatositlerde PAS pozitif globüller birikir."
+   },
+   {
+    "k": "D",
+    "t": "Karaciğer hastalığına bağlı hepatosellüler hasar gelişir."
+   },
+   {
+    "k": "E",
+    "t": "En kötü prognoz MM izomeriyle ilişkilidir."
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Normal fenotip mi hastalık yapan fenotip mi — en kötü hangisi?",
+  "ipucu": "En kötü prognoz <b>ZZ (PiZZ) fenotipiyle</b> ilişkilidir; <b>MM normal fenotiptir</b>.",
+  "tuzak": "\"En kötü prognoz MM\" yanlıştır: <b>MM normal</b> fenotiptir; hastalık ve en kötü prognoz <b>ZZ (PiZZ)</b> ile görülür. Diğer ifadeler doğrudur.",
+  "aciklama": "<b>Alfa-1 antitripsin eksikliği</b>: protein katlanma defekti nedeniyle anormal protein hepatositte birikir (<b>PAS pozitif, diyaza dirençli globüller</b>) → neonatal kolestaz (sarılık, akolik gaita), kronik karaciğer hastalığı ve erişkinde amfizem. <b>Normal fenotip PiMM'dir</b>; en ağır karaciğer/akciğer hastalığı ve <b>en kötü prognoz PiZZ (ZZ)</b> fenotipiyle görülür."
+ }
+];
+
+/* ================= STATE ================= */
+let order = QUESTIONS.map(function(_,i){return i;});
+let idx = 0;
+const answered = new Array(QUESTIONS.length).fill(null);
+const starred  = new Array(QUESTIONS.length).fill(false);
+const cueUsed  = new Array(QUESTIONS.length).fill(false);
+let finished = false;
+
+/* ================= PERSISTENCE (localStorage) ================= */
+const STORAGE_KEY = 'tusquiz::' + (document.title || 'quiz') + '::' + QUESTIONS.length;
+function saveState(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      answered:answered, starred:starred, idx:idx, order:order, finished:finished, v:1
+    }));
+  }catch(e){}
+}
+function loadSavedState(){
+  try{ const r=localStorage.getItem(STORAGE_KEY); return r?JSON.parse(r):null; }catch(e){ return null; }
+}
+function clearSavedState(){ try{ localStorage.removeItem(STORAGE_KEY); }catch(e){} }
+function hasProgress(s){
+  if(!s) return false;
+  const a = s.answered && s.answered.some(function(x){return x!==null;});
+  return a || (s.idx>0) || s.finished;
+}
+function applyState(s){
+  for(let i=0;i<QUESTIONS.length;i++){
+    answered[i] = (s.answered && i<s.answered.length && s.answered[i]!==undefined) ? s.answered[i] : null;
+    starred[i]  = (s.starred  && i<s.starred.length)  ? !!s.starred[i] : false;
+  }
+  order = (s.order && s.order.length) ? s.order.slice() : QUESTIONS.map(function(_,i){return i;});
+  idx = (typeof s.idx==='number') ? Math.max(0,Math.min(order.length-1,s.idx)) : 0;
+  finished = !!s.finished;
+}
+
+function qid(){ return order[idx]; }
+function curQ(){ return QUESTIONS[order[idx]]; }
+
+/* ========== HEADER SPACING (JS-measured) ========== */
+const hdr = document.getElementById('hdr');
+const main = document.getElementById('main');
+function syncHeader(){
+  const h = hdr.offsetHeight;
+  main.style.paddingTop = (h + 14) + 'px';
+  document.documentElement.style.setProperty('--hdrH', h + 'px');
+}
+window.addEventListener('load', syncHeader);
+window.addEventListener('resize', syncHeader);
+syncHeader();
+
+/* ================= RENDER ================= */
+const quizEl = document.getElementById('quiz');
+const resultEl = document.getElementById('result');
+const navEl = document.getElementById('nav');
+
+function render(){
+  if(finished){ renderResult(); return; }
+  resultEl.classList.remove('show');
+  quizEl.style.display='block';
+  navEl.style.display='flex';
+
+  const q = curQ();
+  const id = qid();
+  const chosen = answered[id];
+  const isAns = chosen !== null;
+
+  let html = '';
+  html += '<div class="qmeta">';
+  html += '<div class="qnum">SORU '+(idx+1)+' / '+order.length+'</div>';
+  html += '<button class="star-btn '+(starred[id]?'on':'')+'" onclick="toggleStar()" aria-label="Yıldızla">⭐</button>';
+  html += '</div>';
+
+  if(q.yil && q.yil.length){
+    html += '<div class="year-tags">';
+    q.yil.forEach(function(y){ html += '<span class="year-tag">'+y+'</span>'; });
+    html += '</div>';
+  }
+
+  html += '<div class="qcard'+(q.ddx?' has-ddx':'')+'"'+(q.ddx?' onclick="openDdx(event)"':'')+'>'+q.soru
+        + (q.ddx?'<span class="ddx-ok"><svg viewBox="0 0 24 24"><path d="M17 4l3 3-3 3"/><path d="M20 7H8a4 4 0 0 0-4 4"/><path d="M7 20l-3-3 3-3"/><path d="M4 17h12a4 4 0 0 0 4-4"/></svg></span>':'')
+        + '</div>';
+
+  html += '<div class="opts '+(isAns?'locked':'')+'" id="opts">';
+  q.siklar.forEach(function(s,i){
+    let cls='opt';
+    if(isAns){
+      if(i===q.dogru) cls+=' correct';
+      else if(i===chosen) cls+=' wrong';
+      else cls+=' dim';
+    }
+    html += '<button class="'+cls+'" '+(isAns?'':'onclick="answer('+i+')"')+'>'
+          + '<span class="k">'+s.k+'</span><span class="t">'+s.t+'</span><span class="mark"></span></button>';
+  });
+  html += '</div>';
+
+  if(!isAns){
+    html += '<button class="hintbtn" id="preHint" onclick="showPreHint()">💡 İpucu göster</button>';
+    html += '<div id="revealZone"></div>';
+  } else {
+    html += '<div id="revealZone">'+revealHTML(q)+'</div>';
+  }
+
+  quizEl.innerHTML = html;
+
+  document.getElementById('prevBtn').disabled = (idx===0);
+  document.getElementById('nextBtn').textContent = (idx===order.length-1) ? 'Bitir ✓' : 'Sonraki →';
+  document.getElementById('navCounter').textContent = (idx+1)+'/'+order.length;
+
+  updateBars();
+}
+
+function ddxCardHTML(d){
+  if(!d) return '';
+  var rows='';
+  (d.satirlar||[]).forEach(function(r){
+    rows += '<div class="dc'+(r.hit?' hit':'')+'">'
+          + '<div class="emo">'+(r.emo||'🔹')+'</div>'
+          + '<div class="txt"><div class="dn">'+r.ad+'</div><div class="dv">'+r.bulgu+'</div></div></div>';
+  });
+  return '<div class="ddx-card" onclick="closeDdx()">'
+       + '<h3>🩺 '+(d.baslik||'Ayırıcı Tanı')+'</h3>'
+       + (d.ok?'<div class="ddx-key">'+d.ok+'</div>':'')
+       + '<div class="ddx-cards">'+rows+'</div></div>';
+}
+function openDdx(e){
+  if(e){ e.stopPropagation(); }
+  var q=curQ();
+  if(!q.ddx) return;
+  var ov=document.getElementById('ddxOv');
+  if(ov.classList.contains('show')){ closeDdx(); return; }
+  ov.classList.remove('closing');
+  ov.innerHTML = ddxCardHTML(q.ddx);
+  void ov.offsetWidth;
+  ov.classList.add('show');
+}
+function closeDdx(){
+  var ov=document.getElementById('ddxOv');
+  if(!ov.classList.contains('show') || ov.classList.contains('closing')) return;
+  ov.classList.add('closing');
+  setTimeout(function(){ ov.classList.remove('show','closing'); ov.innerHTML=''; }, 430);
+}
+
+function revealHTML(q){
+  return ''
+   + '<div class="box ip"><div class="bt">💡 İPUCU</div><div>'+q.ipucu+'</div></div>'
+   + '<div class="box tz"><div class="bt">⚠️ TUZAK</div><div>'+q.tuzak+'</div></div>'
+   + '<div class="box ac"><div class="bt">📖 AÇIKLAMA</div><div>'+q.aciklama+'</div></div>';
+}
+
+function showPreHint(){
+  const q = curQ();
+  const btn = document.getElementById('preHint');
+  if(btn) btn.style.display='none';
+  document.getElementById('revealZone').innerHTML =
+    '<div class="box ip"><div class="bt">💡 İPUCU</div><div>'+q.ipucu+'</div></div>';
+  scrollToReveal();
+}
+
+/* ================= ACTIONS ================= */
+function answer(i){
+  const id = qid();
+  if(answered[id]!==null) return;
+  const q=curQ();
+
+  // İlk yanlışta: cevabı vermeyen yeşil ipucu + kilit ifade parlaması, tek seferlik → tekrar dene
+  if(i!==q.dogru && q.cue && !cueUsed[id]){
+    cueUsed[id]=true;
+    const m=document.getElementById('cueMsg');
+    m.textContent=q.cue;
+    m.classList.add('show');
+    const qc=document.querySelector('.qcard');
+    if(qc) qc.classList.add('flash');
+    setTimeout(function(){ m.classList.remove('show'); if(qc) qc.classList.remove('flash'); },2400);
+    return; // cevap KİLİTLENMEZ
+  }
+
+  answered[id]=i;
+
+  const opts=document.getElementById('opts');
+  opts.classList.add('locked');
+  const btns=opts.querySelectorAll('.opt');
+  btns.forEach(function(b,k){
+    b.setAttribute('onclick','');
+    if(k===q.dogru) b.classList.add('correct');
+    else if(k===i) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+
+  const pre=document.getElementById('preHint');
+  if(pre) pre.style.display='none';
+
+  document.getElementById('revealZone').innerHTML = revealHTML(q);
+  updateBars();
+  saveState();
+  if(i === q.dogru){ celebrate(btns[q.dogru]); } else { commiserate(); }
+  scrollToReveal();
+}
+
+function scrollToReveal(){
+  requestAnimationFrame(function(){
+    const zone=document.getElementById('revealZone');
+    const first=zone && zone.firstElementChild;
+    if(!first) return;
+    const offset = hdr.offsetHeight + 10;
+    const y = first.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({top:y, behavior:'smooth'});
+  });
+}
+
+function toggleStar(){
+  const id=qid();
+  starred[id]=!starred[id];
+  saveState();
+  render();
+}
+
+function go(dir){
+  if(dir===1 && idx===order.length-1){ finished=true; saveState(); render(); window.scrollTo({top:0,behavior:'smooth'}); return; }
+  idx=Math.max(0,Math.min(order.length-1, idx+dir));
+  saveState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ================= MODAL ================= */
+function openModal(){
+  const grid=document.getElementById('qGrid');
+  let h='';
+  order.forEach(function(id,p){
+    let cls='gbtn';
+    if(answered[id]!==null){ cls += (answered[id]===QUESTIONS[id].dogru)?' ok':' no'; }
+    if(p===idx) cls+=' cur';
+    if(starred[id]) cls+=' star';
+    h += '<button class="'+cls+'" onclick="jump('+p+')">'+(p+1)+'</button>';
+  });
+  grid.innerHTML=h;
+  document.getElementById('modalOv').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('modalOv').classList.remove('show');
+  document.body.style.overflow='';
+}
+function modalBg(e){ if(e.target.id==='modalOv') closeModal(); }
+function jump(p){ idx=p; finished=false; closeModal(); saveState(); render(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+/* ================= COUNTERS / PROGRESS ================= */
+function correctCount(){
+  let c=0;
+  answered.forEach(function(a,i){ if(a!==null && a===QUESTIONS[i].dogru) c++; });
+  return c;
+}
+function starCount(){ return starred.filter(Boolean).length; }
+function updateBars(){
+  document.getElementById('cCount').textContent = correctCount();
+  document.getElementById('sCount').textContent = starCount();
+  const pos = finished ? order.length : (idx+1);
+  document.getElementById('bar').style.width = Math.round((pos/order.length)*100)+'%';
+}
+
+/* ================= RESULT ================= */
+function renderResult(){
+  quizEl.style.display='none';
+  navEl.style.display='none';
+  resultEl.classList.add('show');
+
+  const total=order.length;
+  let correct=0, wrong=0, blank=0, starHere=0;
+  order.forEach(function(id){
+    const a=answered[id];
+    if(a===null) blank++;
+    else if(a===QUESTIONS[id].dogru) correct++;
+    else wrong++;
+    if(starred[id]) starHere++;
+  });
+  const pct=Math.round((correct/total)*100);
+
+  document.getElementById('scoreBig').textContent = correct+'/'+total;
+  document.getElementById('pctLine').textContent = '%'+pct;
+  document.getElementById('ring').style.setProperty('--pct', pct+'%');
+
+  let fb;
+  if(pct>=90) fb='Mükemmel! Bu konulara hâkimsin. 🎯';
+  else if(pct>=70) fb='Çok iyi. Birkaç tuzak dışında sağlamsın. 👏';
+  else if(pct>=50) fb='Fena değil; yanlışları ve tuzakları tekrar et. 📚';
+  else fb='Bu blokları tekrar çalışmakta fayda var. Devam! 💪';
+  document.getElementById('fbText').textContent = fb;
+
+  document.getElementById('rStats').innerHTML =
+      '<div class="rstat g">✓ Doğru '+correct+'</div>'
+    + '<div class="rstat r">✗ Yanlış '+wrong+'</div>'
+    + '<div class="rstat s">⭐ Yıldızlı '+starHere+'</div>';
+
+  let rev='';
+  order.forEach(function(id,p){
+    const q=QUESTIONS[id];
+    const a=answered[id];
+    let badge, cls, label;
+    if(a===null){ badge='–'; cls='blank'; label='Boş'; }
+    else if(a===q.dogru){ badge='✓'; cls='ok'; label='Doğru'; }
+    else { badge='✗'; cls='no'; label='Yanlış'; }
+    const ds=q.siklar[q.dogru];
+    rev += '<div class="rev" onclick="jump('+p+')">'
+         + '<div class="badge '+cls+'">'+badge+'</div>'
+         + '<div style="flex:1">'
+         + '<div class="rq">Soru '+(p+1)+' — '+label+(starred[id]?' ⭐':'')+'</div>'
+         + '<div class="ra">Doğru cevap: <b>'+ds.k+') '+ds.t+'</b></div>'
+         + '</div></div>';
+  });
+  document.getElementById('reviewList').innerHTML = rev;
+
+  document.getElementById('retryWrongBtn').disabled = (wrong===0);
+  document.getElementById('retryStarBtn').disabled = (starCount()===0);
+  setTimeout(function(){ finaleShow(pct); }, 250);
+
+  updateBars();
+}
+
+/* ================= RETRY MODES ================= */
+function startSubset(ids){
+  fxStreak = 0;
+  order = ids.slice();
+  ids.forEach(function(id){ answered[id]=null; });
+  idx=0; finished=false;
+  saveState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function restart(){
+  fxStreak = 0;
+  order = QUESTIONS.map(function(_,i){return i;});
+  for(let i=0;i<QUESTIONS.length;i++){ answered[i]=null; }
+  idx=0; finished=false;
+  clearSavedState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function retryWrong(){
+  const ids = order.filter(function(id){ return answered[id]!==null && answered[id]!==QUESTIONS[id].dogru; });
+  if(!ids.length){ toast('Yanlış soru yok 🎉'); return; }
+  startSubset(ids);
+}
+function retryStar(){
+  const ids = [];
+  starred.forEach(function(s,i){ if(s) ids.push(i); });
+  if(!ids.length){ toast('Yıldızlı soru yok ⭐'); return; }
+  startSubset(ids);
+}
+
+/* ================= TOAST ================= */
+let toastT=null;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(toastT);
+  toastT=setTimeout(function(){ el.classList.remove('show'); },1800);
+}
+
+/* ================= RESUME ================= */
+function showResumePrompt(saved){
+  const ov = document.getElementById('resumeOv');
+  const sub = document.getElementById('resumeSub');
+  const ord = (saved.order && saved.order.length) ? saved.order : QUESTIONS.map(function(_,i){return i;});
+  const total = ord.length;
+  const pos = saved.finished ? total : Math.min((saved.idx||0)+1, total);
+  const ansCount = saved.answered ? saved.answered.filter(function(x){return x!==null;}).length : 0;
+  sub.textContent = saved.finished
+    ? ('Testi bitirmiştin — sonuç ekranına dönebilirsin. (' + ansCount + ' soru işaretlenmiş)')
+    : ('Soru ' + pos + ' / ' + total + ' — ' + ansCount + ' soru cevaplanmış.');
+  window._savedState = saved;
+  ov.classList.add('show');
+}
+function resumeYes(){
+  applyState(window._savedState);
+  document.getElementById('resumeOv').classList.remove('show');
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function resumeNo(){
+  clearSavedState();
+  document.getElementById('resumeOv').classList.remove('show');
+  render();
+}
+
+
+/* ================= EĞLENCE MOTORU ================= */
+const fxCanvas = document.createElement('canvas');
+fxCanvas.id = 'fxCanvas';
+document.body.appendChild(fxCanvas);
+const fxCtx = fxCanvas.getContext('2d');
+let fxParts = [], fxRaf = null;
+
+function fxResize(){
+  fxCanvas.width = window.innerWidth;
+  fxCanvas.height = window.innerHeight;
+}
+window.addEventListener('resize', fxResize);
+fxResize();
+
+const FX_COLORS = ['#4c9aff','#7c5cff','#2ea043','#f5c451','#ff5b5b','#3fb6a8','#ffffff','#ff9de2'];
+
+function confettiBurst(n, originY){
+  const oy = (typeof originY === 'number') ? originY : window.innerHeight * 0.38;
+  for(let i=0;i<n;i++){
+    fxParts.push({
+      x: window.innerWidth/2 + (Math.random()-0.5)*160,
+      y: oy,
+      vx: (Math.random()-0.5)*13,
+      vy: Math.random()*-13 - 4,
+      g: 0.34,
+      w: Math.random()*8 + 5,
+      h: Math.random()*5 + 3,
+      c: FX_COLORS[Math.floor(Math.random()*FX_COLORS.length)],
+      rot: Math.random()*6.28,
+      vr: (Math.random()-0.5)*0.35,
+      life: 130
+    });
+  }
+  if(!fxRaf) fxRaf = requestAnimationFrame(fxTick);
+}
+
+function fxTick(){
+  fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height);
+  fxParts = fxParts.filter(function(p){ return p.life > 0 && p.y < window.innerHeight + 60; });
+  fxParts.forEach(function(p){
+    p.x += p.vx; p.y += p.vy; p.vy += p.g; p.vx *= 0.995;
+    p.rot += p.vr; p.life--;
+    fxCtx.save();
+    fxCtx.translate(p.x, p.y);
+    fxCtx.rotate(p.rot);
+    fxCtx.globalAlpha = Math.max(0, Math.min(1, p.life/45));
+    fxCtx.fillStyle = p.c;
+    fxCtx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+    fxCtx.restore();
+  });
+  if(fxParts.length){ fxRaf = requestAnimationFrame(fxTick); }
+  else { fxRaf = null; fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height); }
+}
+
+function emojiFloat(list, count){
+  for(let i=0;i<count;i++){
+    const e = document.createElement('div');
+    e.className = 'emoji-pop';
+    e.textContent = list[Math.floor(Math.random()*list.length)];
+    e.style.left = (window.innerWidth/2 + (Math.random()-0.5)*240) + 'px';
+    e.style.top  = (window.innerHeight*0.58) + 'px';
+    e.style.setProperty('--dx', ((Math.random()-0.5)*140) + 'px');
+    e.style.setProperty('--rot', ((Math.random()-0.5)*90) + 'deg');
+    e.style.animationDelay = (Math.random()*0.28) + 's';
+    document.body.appendChild(e);
+    setTimeout(function(){ if(e.parentNode) e.remove(); }, 2200);
+  }
+}
+
+function emojiRain(list, count){
+  for(let i=0;i<count;i++){
+    const e = document.createElement('div');
+    e.className = 'emoji-drop';
+    e.textContent = list[Math.floor(Math.random()*list.length)];
+    e.style.left = (window.innerWidth*0.15 + Math.random()*window.innerWidth*0.7) + 'px';
+    e.style.top  = (window.innerHeight*0.30) + 'px';
+    e.style.setProperty('--rot', ((Math.random()-0.5)*70) + 'deg');
+    e.style.animationDelay = (Math.random()*0.25) + 's';
+    document.body.appendChild(e);
+    setTimeout(function(){ if(e.parentNode) e.remove(); }, 2000);
+  }
+}
+
+const GOOD_EMO = ['🎉','🥳','😄','👏','⭐','💪','🔥','✨','🏆','😎','💚','🩺'];
+const BAD_EMO  = ['😢','😞','💔','😵','🙈','😬','🥲'];
+const MASCOTS  = ['🐵','🦉','🐣','🦊','🐼','🚀'];
+
+const GOOD_MSG = ['Harika! 🎉','Bravo! 👏','Tam isabet! 🎯','Süpersin! 🥳','İşte bu! 💪',
+                  'Mükemmel! ⭐','Doğru cevap! 🔥','Efsanesin! 🏆','Aferin doktor! 🩺',
+                  'Nefes kesici! 😮‍💨','Çok iyisin! 💚'];
+const BAD_MSG  = ['Olsun, tekrar bakalım 💪','Tuzağa düştün ⚠️','Yanlış ama öğrendik 📚',
+                  'Boş ver, devam! 🙌','Bir dahakine 😉','Not al, unutma 📝',
+                  'Açıklamayı oku, kaçırma 👀','Nefesini topla, devam 🫁'];
+const STREAK_MSG = {3:'🔥 3 ÜST ÜSTE!',5:'⚡ 5 SERİ! HARİKA!',8:'🏆 8 SERİ! EFSANE!',
+                    10:'👑 10 SERİ! ŞAMPİYON!',15:'🚀 15 SERİ! DURDURULAMAZ!',
+                    20:'🌟 20 SERİ! İNANILMAZ!'};
+
+let fxStreak = 0;
+
+function showStreak(msg){
+  const s = document.createElement('div');
+  s.className = 'streak';
+  s.textContent = msg;
+  document.body.appendChild(s);
+  setTimeout(function(){ if(s.parentNode) s.remove(); }, 1700);
+}
+
+let fxMsgT = null;
+function showInlineMsg(msg, ok){
+  const zone = document.getElementById('revealZone');
+  if(!zone) return;
+  const old = zone.querySelector('.fxfloat');
+  if(old) old.remove();
+  clearTimeout(fxMsgT);
+  const wrap = document.createElement('div');
+  wrap.className = 'fxfloat';
+  const pill = document.createElement('div');
+  pill.className = 'pill ' + (ok ? 'good' : 'bad');
+  pill.textContent = msg;
+  wrap.appendChild(pill);
+  zone.insertBefore(wrap, zone.firstChild);
+  fxMsgT = setTimeout(function(){ if(wrap.parentNode) wrap.remove(); }, 2100);
+}
+
+function celebrate(btn){
+  confettiBurst(95);
+  emojiFloat(GOOD_EMO, 8);
+  showInlineMsg(GOOD_MSG[Math.floor(Math.random()*GOOD_MSG.length)], true);
+  if(btn){
+    const m = document.createElement('span');
+    m.className = 'mascot';
+    m.textContent = MASCOTS[Math.floor(Math.random()*MASCOTS.length)];
+    btn.style.position = 'relative';
+    btn.appendChild(m);
+  }
+  fxStreak++;
+  if(STREAK_MSG[fxStreak]){
+    showStreak(STREAK_MSG[fxStreak]);
+    setTimeout(function(){ confettiBurst(70, window.innerHeight*0.30); }, 220);
+  }
+  try{ if(navigator.vibrate) navigator.vibrate(35); }catch(e){}
+}
+
+function commiserate(){
+  const m = document.getElementById('main');
+  if(m){
+    m.classList.remove('shake');
+    void m.offsetWidth;
+    m.classList.add('shake');
+    setTimeout(function(){ m.classList.remove('shake'); }, 700);
+  }
+  emojiRain(BAD_EMO, 6);
+  showInlineMsg(BAD_MSG[Math.floor(Math.random()*BAD_MSG.length)], false);
+  fxStreak = 0;
+  try{ if(navigator.vibrate) navigator.vibrate([60,50,60,50,50]); }catch(e){}
+}
+
+function finaleShow(pct){
+  if(pct >= 90){
+    [0,300,600,900].forEach(function(d){
+      setTimeout(function(){ confettiBurst(110, window.innerHeight*0.30); }, d);
+    });
+    emojiFloat(['🏆','👑','🎉','🥳','⭐'], 12);
+  } else if(pct >= 70){
+    confettiBurst(110, window.innerHeight*0.32);
+    setTimeout(function(){ confettiBurst(80, window.innerHeight*0.30); }, 350);
+    emojiFloat(GOOD_EMO, 8);
+  } else if(pct >= 50){
+    confettiBurst(60, window.innerHeight*0.34);
+    emojiFloat(['💪','📚','✨'], 5);
+  } else {
+    emojiFloat(['📚','💪','🩺'], 4);
+  }
+}
+
+/* ================= INIT ================= */
+render();
+window.addEventListener('pagehide', function(){ try{ saveState(); }catch(e){} });
+window.addEventListener('visibilitychange', function(){ if(document.visibilityState==='hidden'){ try{ saveState(); }catch(e){} } });
+(function(){ const s=loadSavedState(); if(hasProgress(s)) showResumePrompt(s); })();
+window.addEventListener('load', function(){ syncHeader(); updateBars(); });
+
+/* nav focus fix */
+try{['prevBtn','listBtn','nextBtn'].forEach(function(id){var el=document.getElementById(id);if(el){el.addEventListener('mousedown',function(e){e.preventDefault();});el.addEventListener('focus',function(){var s=this;setTimeout(function(){try{s.blur();}catch(e){}},0);});el.addEventListener('click',function(){var s=this;setTimeout(function(){try{s.blur();}catch(e){}},0);});}});}catch(e){}
+</script>
+</body>
+</html>

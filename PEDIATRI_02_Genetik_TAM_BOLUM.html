@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="pragma" content="no-cache">
+<title>MEDITUS — Pediatri Genetik</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --line:#2a3444;
+    --text:#e6edf3; --muted:#9aa7b5; --accent:#4c9aff; --accent2:#7c5cff;
+    --green:#2ea043; --green-bg:#12341c; --red:#e5484d; --red-bg:#3a1518;
+    --star:#f5c451; --hint:#3fb6a8; --trap:#ff5b5b; --exp:#b487ff;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;-webkit-text-size-adjust:100%;}
+  mark{background:none;color:var(--trap);font-weight:800;}
+  b{color:#fff;font-weight:700;}
+
+  header{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--panel);
+    border-bottom:1px solid var(--line);padding:env(safe-area-inset-top) 0 0 0;
+    box-shadow:0 4px 18px rgba(0,0,0,.35);}
+  .hbar{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:11px 16px 10px;}
+  .htitle{font-size:15px;font-weight:800;letter-spacing:.3px;}
+  .htitle span{color:var(--accent);}
+  .stats{display:flex;gap:8px;}
+  .chip{display:flex;align-items:center;gap:5px;background:var(--panel2);
+    border:1px solid var(--line);border-radius:999px;padding:5px 11px;
+    font-size:13px;font-weight:700;}
+  .chip.correct{color:var(--green);} .chip.star{color:var(--star);}
+  .progress{height:5px;background:var(--panel2);width:100%;}
+  .progress > i{display:block;height:100%;width:0;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    transition:width .35s ease;}
+
+  main{max-width:720px;margin:0 auto;padding:16px 16px 120px;}
+
+  .qmeta{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .qnum{font-size:13px;font-weight:800;color:var(--muted);letter-spacing:.5px;}
+  .star-btn{background:none;border:none;cursor:pointer;font-size:26px;line-height:1;
+    filter:grayscale(1) opacity(.45);transition:transform .15s,filter .15s;padding:2px 4px;}
+  .star-btn.on{filter:none;transform:scale(1.12);}
+
+  .year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+  .year-tag{font-size:11.5px;font-weight:700;letter-spacing:.3px;color:var(--accent);
+    background:rgba(76,154,255,.1);border:1px solid rgba(76,154,255,.3);
+    border-radius:6px;padding:3px 9px;}
+
+  .qcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:18px 17px;margin-bottom:14px;font-size:16.5px;}
+
+  .opts{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+  .opt{display:flex;align-items:flex-start;gap:12px;background:var(--panel);
+    border:1.5px solid var(--line);border-radius:13px;padding:13px 14px;cursor:pointer;
+    font-size:16px;transition:border-color .15s,background .15s,transform .05s;
+    text-align:left;color:var(--text);width:100%;}
+  .opt:active{transform:scale(.995);}
+  .opt .k{flex:0 0 26px;height:26px;border-radius:50%;background:var(--panel2);
+    border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:14px;color:var(--muted);}
+  .opt .t{flex:1;padding-top:1px;}
+  .opt:not(.locked):hover{border-color:var(--accent);}
+  .opts.locked .opt{cursor:default;}
+  .opt.correct{border-color:var(--green);background:var(--green-bg);}
+  .opt.correct .k{background:var(--green);border-color:var(--green);color:#fff;}
+  .opt.wrong{border-color:var(--red);background:var(--red-bg);}
+  .opt.wrong .k{background:var(--red);border-color:var(--red);color:#fff;}
+  .opt.dim{opacity:.55;}
+  .opt .mark{flex:0 0 24px;height:26px;display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:18px;line-height:1;}
+  .opt.correct .mark::after{content:"✓";color:var(--green);}
+  .opt.wrong .mark::after{content:"✗";color:var(--red);}
+
+  .hintbtn{display:inline-flex;align-items:center;gap:7px;background:var(--panel2);
+    color:var(--hint);border:1px solid var(--line);border-radius:11px;padding:11px 15px;
+    font-size:14.5px;font-weight:700;cursor:pointer;margin-bottom:14px;}
+  .hintbtn:hover{border-color:var(--hint);}
+
+  .box{border-radius:13px;padding:13px 15px;margin-bottom:11px;font-size:15.5px;
+    border:1px solid var(--line);animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .box .bt{display:flex;align-items:center;gap:8px;font-weight:800;margin-bottom:6px;
+    font-size:14px;letter-spacing:.3px;}
+  .box.ip{background:rgba(63,182,168,.08);border-color:rgba(63,182,168,.35);}
+  .box.ip .bt{color:var(--hint);}
+  .box.tz{background:rgba(255,91,91,.07);border-color:rgba(255,91,91,.32);}
+  .box.tz .bt{color:var(--trap);}
+  .box.ac{background:rgba(180,135,255,.08);border-color:rgba(180,135,255,.32);}
+  .box.ac .bt{color:var(--exp);}
+
+  /* ===== AYIRICI TANI: gizli ok + eğlenceli flip + yeşil ipucu ===== */
+  .qcard{position:relative;}
+  .qcard.has-ddx{cursor:pointer;padding-right:46px;}
+  .qcard .cue{transition:all .3s;border-radius:4px;}
+  .qcard.flash .cue{background:rgba(46,160,67,.3);color:#fff;box-shadow:0 0 0 3px rgba(46,160,67,.3);padding:0 2px;}
+  .ddx-ok{position:absolute;top:12px;right:12px;width:28px;height:28px;display:grid;place-items:center;
+    color:var(--accent);cursor:pointer;animation:ddxpulse 2.2s ease-in-out infinite;z-index:3;}
+  .ddx-ok svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  @keyframes ddxpulse{0%,100%{opacity:.5;transform:translateY(0)}50%{opacity:1;transform:translateY(-2px)}}
+
+  .cueMsg{position:fixed;left:0;right:0;top:0;z-index:400;background:#0f2a1e;
+    border-bottom:2px solid var(--green);color:#b6f0d4;font-weight:700;font-size:15.5px;
+    padding:15px 18px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.5);
+    transform:translateY(-110%);transition:transform .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;}
+  .cueMsg.show{transform:translateY(0);animation:cuewiggle .5s ease .35s;}
+  @keyframes cuewiggle{0%,100%{transform:translateY(0)}25%{transform:translateY(0) rotate(-.4deg)}75%{transform:translateY(0) rotate(.4deg)}}
+
+  .ddx-ov{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;
+    padding:20px;background:rgba(6,10,15,.55);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);perspective:1800px;}
+  .ddx-ov.show{display:flex;}
+  .ddx-card{width:100%;max-width:440px;max-height:88vh;overflow-y:auto;
+    background:linear-gradient(160deg,#1a2230 0%,#141a24 100%);
+    border:1px solid rgba(76,154,255,.4);border-radius:22px;padding:22px;
+    box-shadow:0 24px 70px rgba(0,0,0,.6),0 0 40px rgba(76,154,255,.12);
+    cursor:pointer;}
+  .ddx-ov.show .ddx-card{animation:dealIn .5s cubic-bezier(.2,.8,.22,1) both;}
+  @keyframes dealIn{0%{opacity:0;transform:translateY(60vh) rotate(14deg) scale(.8)}100%{opacity:1;transform:none}}
+  .ddx-ov.closing .ddx-card{animation:dealOut .4s cubic-bezier(.5,0,.75,.4) both;}
+  @keyframes dealOut{0%{opacity:1;transform:none}100%{opacity:0;transform:translateY(60vh) rotate(14deg) scale(.8)}}
+  .ddx-card h3{margin:0 0 14px;display:flex;align-items:center;gap:9px;font-size:16px;font-weight:800;
+    background:linear-gradient(90deg,#4c9aff,#7ee7c7);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .ddx-key{font-size:14.5px;color:var(--text);background:rgba(76,154,255,.1);
+    border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:10px 13px;margin-bottom:14px;}
+  .ddx-cards{display:flex;flex-direction:column;gap:10px;}
+  .dc{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;
+    padding:12px 13px;background:rgba(255,255,255,.025);position:relative;overflow:hidden;
+    opacity:0;transform:translateX(-90px) rotate(-7deg);animation:ddxslide .45s cubic-bezier(.2,.85,.28,1.25) forwards;}
+  .dc:nth-child(1){animation-delay:.12s} .dc:nth-child(2){animation-delay:.20s}
+  .dc:nth-child(3){animation-delay:.28s} .dc:nth-child(4){animation-delay:.36s}
+  .dc:nth-child(5){animation-delay:.44s} .dc:nth-child(6){animation-delay:.52s}
+  .ddx-ov.closing .dc{animation:dcOut .28s cubic-bezier(.5,0,.75,.4) forwards;}
+  @keyframes dcOut{to{opacity:0;transform:translateX(-90px) rotate(-7deg)}}
+  .ddx-ov.closing .dc:nth-child(5){animation-delay:.02s}
+  .ddx-ov.closing .dc:nth-child(4){animation-delay:.06s}
+  .ddx-ov.closing .dc:nth-child(3){animation-delay:.10s}
+  .ddx-ov.closing .dc:nth-child(2){animation-delay:.14s}
+  .ddx-ov.closing .dc:nth-child(1){animation-delay:.18s}
+  @keyframes ddxslide{to{opacity:1;transform:none}}
+  .dc .emo{font-size:24px;flex:none;line-height:1.1;}
+  .dc .txt .dn{font-weight:800;font-size:15px;margin-bottom:2px;color:var(--text);}
+  .dc .txt .dv{font-size:13.5px;color:var(--muted);} .dc .txt .dv b{color:var(--text);font-weight:600;}
+  .dc.hit{border-color:var(--green);background:linear-gradient(120deg,rgba(46,160,67,.2),rgba(46,160,67,.06));
+    box-shadow:0 0 20px rgba(46,160,67,.25);}
+  .dc.hit .dn{color:#7ee7a8;}
+  .dc.hit::after{content:"⭐";position:absolute;top:8px;right:10px;font-size:15px;animation:ddxtwinkle 1.4s ease-in-out infinite;}
+  @keyframes ddxtwinkle{0%,100%{opacity:.4;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
+  .nav{position:fixed;bottom:0;left:0;right:0;z-index:40;background:var(--panel);
+    border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+    display:flex;gap:10px;max-width:720px;margin:0 auto;align-items:stretch;}
+  .nav button{border:1px solid var(--line);border-radius:12px;padding:14px;
+    font-size:15.5px;font-weight:800;cursor:pointer;background:var(--panel2);color:var(--text);}
+  .nav .prev,.nav .next{flex:1;}
+  .nav .list{flex:0 0 auto;min-width:66px;color:var(--muted);font-size:13px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.1;}
+  .nav .list .lc{font-size:16px;}
+  .nav .next{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+  .nav button:disabled{opacity:.4;cursor:not-allowed;}
+  /* nav dokunma/focus fix: buton basılı kalıp beyazlaşmaz */
+  .nav button{-webkit-tap-highlight-color:transparent;}
+  .nav button:focus{outline:none;}
+  .nav .prev:focus,.nav .prev:active{background:var(--panel2);color:var(--text);border-color:var(--line);}
+  .nav .list:focus,.nav .list:active{background:var(--panel2);color:var(--muted);border-color:var(--line);}
+  .nav .next:focus,.nav .next:active{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;}
+
+
+  /* Question-list modal (bottom sheet) */
+  .modal-ov{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.55);
+    display:none;align-items:flex-end;justify-content:center;}
+  .modal-ov.show{display:flex;animation:fade .2s ease;}
+  .modal{width:100%;max-width:720px;background:var(--panel);
+    border-top-left-radius:20px;border-top-right-radius:20px;
+    border:1px solid var(--line);border-bottom:none;padding:16px 16px 26px;
+    max-height:72vh;overflow:auto;animation:slideup .28s ease;}
+  @keyframes slideup{from{transform:translateY(30px);opacity:.6;}to{transform:none;opacity:1;}}
+  .modal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .modal-h span{font-size:15px;font-weight:800;letter-spacing:.3px;}
+  .modal-h .close{background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    border-radius:9px;width:34px;height:34px;font-size:16px;cursor:pointer;font-weight:800;}
+  .qgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;}
+  .gbtn{aspect-ratio:1/1;border-radius:10px;border:1.5px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:14px;font-weight:800;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;position:relative;}
+  .gbtn.ok{background:var(--green-bg);border-color:var(--green);color:var(--green);}
+  .gbtn.no{background:var(--red-bg);border-color:var(--red);color:var(--red);}
+  .gbtn.cur{outline:2px solid var(--accent);outline-offset:1px;}
+  .gbtn.star::after{content:"";position:absolute;top:3px;right:3px;width:7px;height:7px;
+    border-radius:50%;background:var(--star);}
+
+  /* Result */
+  .result{display:none;}
+  .result.show{display:block;animation:fade .4s ease;}
+  .score-ring{display:flex;flex-direction:column;align-items:center;justify-content:center;
+    width:170px;height:170px;margin:8px auto 6px;border-radius:50%;
+    background:conic-gradient(var(--accent) var(--pct,0%),var(--panel2) 0);}
+  .score-ring .inner{width:138px;height:138px;border-radius:50%;background:var(--bg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .score-ring .big{font-size:34px;font-weight:900;}
+  .score-ring .sub{font-size:13px;color:var(--muted);font-weight:700;}
+  .pctline{text-align:center;font-size:20px;font-weight:900;margin:2px 0 4px;}
+  .fb{text-align:center;color:var(--muted);font-size:15px;margin-bottom:14px;}
+  .result-stats{display:flex;gap:10px;justify-content:center;margin-bottom:22px;flex-wrap:wrap;}
+  .rstat{background:var(--panel);border:1px solid var(--line);border-radius:11px;
+    padding:9px 15px;font-size:13.5px;font-weight:800;}
+  .rstat.g{color:var(--green);} .rstat.r{color:var(--red);} .rstat.s{color:var(--star);}
+  .review-h{font-size:14px;font-weight:800;color:var(--muted);letter-spacing:.4px;
+    margin:6px 0 10px;}
+  .rev{display:flex;align-items:center;gap:11px;background:var(--panel);
+    border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:9px;
+    cursor:pointer;transition:border-color .15s;}
+  .rev:hover{border-color:var(--accent);}
+  .rev .badge{flex:0 0 auto;width:24px;height:24px;border-radius:6px;font-size:15px;
+    display:flex;align-items:center;justify-content:center;font-weight:900;}
+  .rev .badge.ok{background:var(--green-bg);color:var(--green);}
+  .rev .badge.no{background:var(--red-bg);color:var(--red);}
+  .rev .badge.blank{background:var(--panel2);color:var(--muted);}
+  .rev .rq{flex:1;font-size:14px;}
+  .rev .ra{font-size:12.5px;color:var(--muted);margin-top:2px;}
+  .rev .ra b{color:var(--green);}
+  .result-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+  .ract{width:100%;padding:15px;border-radius:13px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:15px;font-weight:800;cursor:pointer;}
+  .ract:hover{border-color:var(--accent);}
+  .ract.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+  .ract:disabled{opacity:.4;cursor:not-allowed;}
+
+  /* Resume prompt */
+  .resume-ov{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.6);
+    display:none;align-items:center;justify-content:center;padding:20px;}
+  .resume-ov.show{display:flex;animation:fade .2s ease;}
+  .resume-box{width:100%;max-width:420px;background:var(--panel);border:1px solid var(--line);
+    border-radius:18px;padding:22px 20px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.5);}
+  .resume-t{font-size:18px;font-weight:900;margin-bottom:8px;}
+  .resume-s{font-size:14px;color:var(--muted);margin-bottom:18px;line-height:1.5;}
+  .resume-btns{display:flex;flex-direction:column;gap:10px;}
+  .resume-btn{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:15px;font-weight:800;cursor:pointer;}
+  .resume-btn:hover{border-color:var(--accent);}
+  .resume-btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;border-color:transparent;}
+
+
+  /* ================= EĞLENCE KATMANI ================= */
+  #fxCanvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:90;}
+  .emoji-pop{position:fixed;font-size:36px;pointer-events:none;z-index:95;
+    will-change:transform,opacity;animation:floatUp 1.7s cubic-bezier(.2,.7,.3,1) forwards;}
+  @keyframes floatUp{
+    0%{opacity:0;transform:translate(0,0) scale(.4) rotate(0deg);}
+    12%{opacity:1;transform:translate(0,-14px) scale(1.25) rotate(0deg);}
+    100%{opacity:0;transform:translate(var(--dx,0px),-190px) scale(1.05) rotate(var(--rot,25deg));}
+  }
+  .emoji-drop{position:fixed;font-size:30px;pointer-events:none;z-index:95;
+    animation:dropDown 1.5s ease-in forwards;}
+  @keyframes dropDown{
+    0%{opacity:0;transform:translateY(-30px) scale(.6) rotate(0deg);}
+    15%{opacity:1;}
+    100%{opacity:0;transform:translateY(150px) scale(1) rotate(var(--rot,-20deg));}
+  }
+  .shake{animation:shakeX .55s cubic-bezier(.36,.07,.19,.97) both;}
+  @keyframes shakeX{
+    10%,90%{transform:translateX(-2px);} 20%,80%{transform:translateX(4px);}
+    30%,50%,70%{transform:translateX(-8px);} 40%,60%{transform:translateX(8px);}
+  }
+  .opt.correct{animation:popOk .55s cubic-bezier(.2,1.4,.4,1);
+    box-shadow:0 0 22px rgba(46,160,67,.45);}
+  @keyframes popOk{0%{transform:scale(1);}35%{transform:scale(1.035);}100%{transform:scale(1);}}
+  .opt.wrong{animation:wobbleNo .5s;}
+  @keyframes wobbleNo{
+    0%,100%{transform:translateX(0);}20%{transform:translateX(-6px);}
+    40%{transform:translateX(6px);}60%{transform:translateX(-4px);}80%{transform:translateX(4px);}
+  }
+  .mascot{position:absolute;right:12px;top:50%;font-size:26px;line-height:1;
+    transform:translateY(-50%);animation:mascotDance .7s ease-in-out infinite alternate;
+    pointer-events:none;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4));}
+  @keyframes mascotDance{
+    from{transform:translateY(-42%) rotate(-12deg) scale(1);}
+    to{transform:translateY(-62%) rotate(12deg) scale(1.18);}
+  }
+  .streak{position:fixed;left:50%;top:22%;transform:translateX(-50%) scale(.6);
+    font-size:22px;font-weight:900;color:var(--star);z-index:96;opacity:0;
+    text-shadow:0 3px 14px rgba(0,0,0,.6);pointer-events:none;
+    animation:streakPop 1.5s ease-out forwards;white-space:nowrap;}
+  @keyframes streakPop{
+    0%{opacity:0;transform:translateX(-50%) scale(.5);}
+    20%{opacity:1;transform:translateX(-50%) scale(1.15);}
+    75%{opacity:1;transform:translateX(-50%) scale(1);}
+    100%{opacity:0;transform:translateX(-50%) scale(1) translateY(-24px);}
+  }
+  .score-ring{animation:ringIn .8s cubic-bezier(.2,1.2,.3,1);}
+  @keyframes ringIn{from{transform:scale(.75) rotate(-12deg);opacity:0;}to{transform:none;opacity:1;}}
+
+
+  /* Cevap mesaji: son sik ile ipucu kutusu arasinda YUZEN baloncuk.
+     Yuksekligi 0 -> icerigi itmez; birkac saniyede kaybolur. */
+  .fxfloat{position:relative;height:0;overflow:visible;}
+  .fxfloat .pill{position:absolute;left:50%;top:-4px;
+    transform:translateX(-50%);
+    background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    padding:11px 18px;border-radius:11px;font-size:14px;font-weight:700;
+    white-space:nowrap;z-index:80;pointer-events:none;
+    box-shadow:0 6px 20px rgba(0,0,0,.45);
+    animation:pillIn .25s ease both, pillOut .45s ease 1.55s forwards;}
+  @keyframes pillIn{
+    from{opacity:0;transform:translateX(-50%) translateY(12px);}
+    to{opacity:1;transform:translateX(-50%) translateY(0);}
+  }
+  @keyframes pillOut{
+    to{opacity:0;transform:translateX(-50%) translateY(-8px);}
+  }
+
+  /* Toast */
+  .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);
+    background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    padding:11px 18px;border-radius:11px;font-size:14px;font-weight:700;z-index:80;
+    opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 6px 20px rgba(0,0,0,.4);}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<header id="hdr">
+  <div class="hbar">
+    <div class="htitle">MEDITUS <span>PEDİATRİ · GENETİK</span></div>
+    <div class="stats">
+      <div class="chip correct">✓ <span id="cCount">0</span></div>
+      <div class="chip star">⭐ <span id="sCount">0</span></div>
+    </div>
+  </div>
+  <div class="progress"><i id="bar"></i></div>
+</header>
+
+<main id="main">
+  <div id="quiz"></div>
+  <div class="cueMsg" id="cueMsg"></div>
+  <div class="ddx-ov" id="ddxOv" onclick="closeDdx()"></div>
+
+  <div class="result" id="result">
+    <div class="score-ring" id="ring">
+      <div class="inner">
+        <div class="big" id="scoreBig">0/0</div>
+        <div class="sub">DOĞRU</div>
+      </div>
+    </div>
+    <div class="pctline" id="pctLine">%0</div>
+    <div class="fb" id="fbText"></div>
+    <div class="result-stats" id="rStats"></div>
+    <div class="result-actions">
+      <button class="ract primary" onclick="restart()">↺ Tüm Soruları Yeniden Çöz</button>
+      <button class="ract" id="retryWrongBtn" onclick="retryWrong()">✗ Yanlışları Tekrar Çöz</button>
+      <button class="ract" id="retryStarBtn" onclick="retryStar()">⭐ Yıldızlıları Tekrar Çöz</button>
+    </div>
+    <div class="review-h">SORU İNCELEMESİ</div>
+    <div id="reviewList"></div>
+    
+  </div>
+</main>
+
+<div class="nav" id="nav">
+  <button class="prev" id="prevBtn" onclick="go(-1)">← Önceki</button>
+  <button class="list" id="listBtn" onclick="openModal()"><span class="lc">☰</span><span id="navCounter">0/0</span></button>
+  <button class="next" id="nextBtn" onclick="go(1)">Sonraki →</button>
+</div>
+
+<div class="modal-ov" id="modalOv" onclick="modalBg(event)">
+  <div class="modal">
+    <div class="modal-h"><span>Sorular</span><button class="close" onclick="closeModal()">✕</button></div>
+    <div class="qgrid" id="qGrid"></div>
+  </div>
+</div>
+
+<div class="resume-ov" id="resumeOv">
+  <div class="resume-box">
+    <div class="resume-t">↩ Kaldığın yerden devam?</div>
+    <div class="resume-s" id="resumeSub"></div>
+    <div class="resume-btns">
+      <button class="resume-btn primary" onclick="resumeYes()">Kaldığım yerden devam et</button>
+      <button class="resume-btn" onclick="resumeNo()">Baştan başla</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   QUESTIONS — SADECE BU DİZİ DEĞİŞİR.
+   Her obje: { yil?, soru, siklar[5], dogru(0-4), ipucu, tuzak, aciklama }
+   ========================================================= */
+const QUESTIONS = [
+ {
+  "soru": "Aşağıdakilerden hangisi <b>digenik kalıtım</b> gösterir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Vitamin D bağımlı rikets"
+   },
+   {
+    "k": "B",
+    "t": "Retinitis pigmentoza"
+   },
+   {
+    "k": "C",
+    "t": "Biyotinidaz eksikliği"
+   },
+   {
+    "k": "D",
+    "t": "Konjenital laktik asidoz"
+   },
+   {
+    "k": "E",
+    "t": "Tip IV glikojen depo hastalığı"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "<b>Digenik kalıtım</b>: hastalık ancak <b>iki farklı gende</b> aynı anda mutasyon olduğunda ortaya çıkar. Klasik örnek <b>retinitis pigmentoza</b>.",
+  "tuzak": "Diğer şıklar tek gen defektidir: <mark>Vitamin D bağımlı rikets, biyotinidaz eksikliği ve tip IV glikojenoz otozomal resesif</mark>; <mark>konjenital laktik asidoz mitokondriyeldir</mark>.",
+  "aciklama": "<b>Digenik kalıtımda</b> hastalık, her biri farklı bir gende mutasyon taşıyan iki lokusun birlikte etkilenmesiyle oluşur; ebeveynler tek mutasyon taşıdığından sağlıklıdır, ancak <b>çift heterozigot</b> çocukta hastalık gelişir. <b>Retinitis pigmentoza</b> bunun klasik örneğidir. Vitamin D bağımlı rikets, biyotinidaz eksikliği ve tip IV glikojen depo hastalığı <b>otozomal resesif</b>; konjenital laktik asidoz ise <b>mitokondriyel</b> kalıtılır.",
+  "cue": "🎯 Tek gen mi, yoksa iki ayrı gende birlikte mutasyon mu gerekiyor, ona odaklan."
+ },
+ {
+  "soru": "Hastalığın şiddetinin giderek artması ve <b>sonraki jenerasyonlarda daha erken yaşlarda başlaması</b> durumu nasıl adlandırılır?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Genetik imprinting"
+   },
+   {
+    "k": "B",
+    "t": "Genetik antisipasyon"
+   },
+   {
+    "k": "C",
+    "t": "Uniparental dizomi"
+   },
+   {
+    "k": "D",
+    "t": "Non-ekspresyon"
+   },
+   {
+    "k": "E",
+    "t": "Non-penetrans"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "<b>Antisipasyon</b>: her nesilde daha erken ve daha şiddetli. Klasik zemin: <b>üçlü (triplet) tekrar hastalıkları</b>.",
+  "tuzak": "<mark>İmprinting</mark> gen ifadesinin ebeveyn kökenine bağlı olmasıdır; <mark>uniparental dizomi</mark> her iki gen kopyasının aynı ebeveynden gelmesidir; <mark>non-penetrans</mark> genotipi olan bireyde bulgu olmamasıdır. Bunları antisipasyonla karıştırma.",
+  "aciklama": "<b>Genetik antisipasyon</b>, bir hastalığın sonraki nesillere giderek daha erken yaşta ve daha şiddetli aktarılmasıdır; birçok <b>üçlü tekrar (triplet repeat) hastalığının</b> (Huntington, Frajil X, miyotonik distrofi) tanımlayıcı özelliğidir. <b>İmprinting</b> gen ifadesinin kromozomun ebeveyn kökenine bağlı olması, <b>uniparental dizomi</b> her iki kopyanın tek ebeveynden gelmesi, <b>non-penetrans</b> ise risk genotipi olan bireyde klinik ekspresyon olmamasıdır.",
+  "cue": "🎯 Her nesilde daha erken ve daha ağır mı oluyor — mekanizmanın adını düşün."
+ },
+ {
+  "soru": "Aşağıdaki genetik senaryolardan hangisi <b>Angelman sendromunu</b> <mark>açıklamaz?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Her iki 15. kromozomun babadan gelmesi"
+   },
+   {
+    "k": "B",
+    "t": "Maternal 15q12 delesyonu"
+   },
+   {
+    "k": "C",
+    "t": "İmprinted bir gende mutasyon"
+   },
+   {
+    "k": "D",
+    "t": "İmprinting merkezinde bir mutasyon"
+   },
+   {
+    "k": "E",
+    "t": "Genetik antisipasyon"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Angelman = <b>anneden gelen 15q12 bölgesinin kaybı/susması</b>. Antisipasyon triplet tekrar mekanizmasıdır, Angelman ile ilgisi yoktur.",
+  "tuzak": "<mark>Her iki 15. kromozomun babadan gelmesi (paternal uniparental dizomi)</mark> = anneden sağlam bölge yok = Angelman. Prader-Willi ile karıştırma: PW'de <b>babadan</b> gelen bölge kaybolur.",
+  "aciklama": "<b>Angelman sendromu</b>, <b>maternal 15q11-q13 bölgesinin</b> delesyonu, <b>paternal uniparental dizomi</b> (her iki kromozom babadan), imprinted gen (UBE3A/E6-AP) mutasyonu veya imprinting merkezi defekti ile oluşur. Ortak nokta annenin sağlıklı 15q11-13 bölgesinin işlevsiz olmasıdır. <b>Genetik antisipasyon</b> ise üçlü tekrar hastalıklarının özelliğidir ve Angelman'ı açıklamaz.",
+  "cue": "🎯 Annenin mi babanın mı katkısının kaybı Angelman yapar, onu ayır."
+ },
+ {
+  "soru": "<b>Prader-Willi sendromunun</b> en sık genetik nedeni aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Her iki 15. kromozomun anneden gelmesi"
+   },
+   {
+    "k": "B",
+    "t": "Maternal 15q12 mikrodelesyonu"
+   },
+   {
+    "k": "C",
+    "t": "Paternal 15q12 mikrodelesyonu"
+   },
+   {
+    "k": "D",
+    "t": "İmprinted bir gende mutasyon"
+   },
+   {
+    "k": "E",
+    "t": "İmprinting merkezinde bir mutasyon"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Prader-Willi = <b>babadan gelen 15q12 bölgesinin kaybı</b> (paternal delesyon, ~%70).",
+  "tuzak": "<mark>Her iki 15. kromozomun anneden gelmesi (maternal UPD)</mark> de aynı kliniği yapar ama en sık neden <b>paternal mikrodelesyondur</b>. Angelman'ın aynası: orada maternal, burada paternal kayıp.",
+  "aciklama": "<b>Prader-Willi sendromu</b> vakalarının yaklaşık <b>%70'i paternal 15q11-q13 mikrodelesyonuna</b> bağlıdır (imprinting ile babadan gelen bölge normalde aktiftir). <b>Maternal uniparental dizomi</b> (%25-29) ile babadan sağlam bölge alınamaması da aynı kliniğe yol açar. Klinikte neonatal hipotoni-beslenme güçlüğü, sonra hiperfaji-obezite, boy kısalığı, hipogonadizm, badem göz ve mental retardasyon görülür.",
+  "cue": "🎯 Prader-Willi'de kaybolan bölge hangi ebeveynden gelir?"
+ },
+ {
+  "soru": "Genetik hastalık düşünülen <b>5 yaşındaki</b> kız çocuğunun öyküsünde <mark>sürekli ve durdurulamayan gülme</mark>, zeka geriliği, bebeklik döneminde <b>beslenme güçlüğü ve hipotoni</b> saptanıyor.<br><br>Bu hastanın en olası tanısı aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Prader-Willi sendromu"
+   },
+   {
+    "k": "B",
+    "t": "Angelman sendromu"
+   },
+   {
+    "k": "C",
+    "t": "Cri-du-Chat sendromu"
+   },
+   {
+    "k": "D",
+    "t": "Alagille sendromu"
+   },
+   {
+    "k": "E",
+    "t": "DiGeorge sendromu"
+   }
+  ],
+  "dogru": 1,
+  "ipucu": "<b>Durdurulamayan gülme atakları + ataksi + ağır MR</b> = <b>Angelman (\"mutlu kukla\") sendromu</b>.",
+  "tuzak": "<mark>Prader-Willi</mark> aynı gen bölgesindendir ama kliniği tam tersidir (obezite, hiperfaji, hipogonadizm). <mark>Cri-du-chat</mark> kedi miyavlaması gibi ağlama (5p delesyonu); <mark>DiGeorge</mark> hipokalsemi + kalp hastalığı (22q11).",
+  "aciklama": "<b>Angelman sendromunda</b> engellenemeyen <b>gülme atakları</b>, ataksik-jerkli hareketler, ağır mental retardasyon, nöbetler, erken bebeklikte <b>hipotoni ve beslenme güçlüğü</b> görülür; nedeni anneden gelen sağlam 15q11-13 bölgesinin olmamasıdır. <b>Prader-Willi</b> aynı bölge kaynaklı olsa da babadan gelen bölgenin kaybıyla tümüyle farklı bulgular verir. <b>Cri-du-chat</b> 5p delesyonu (kedi ağlaması), <b>Alagille</b> intrahepatik kolestaz + kelebek vertebra + üçgen yüz, <b>DiGeorge</b> hipokalsemi + konjenital kalp hastalığı (22q11) ile gider.",
+  "cue": "🎯 Durdurulamayan gülme + ataksi + hipotoni hangi sendroma özgü?",
+  "ddx": {
+   "baslik": "15q11-13 Sendromları",
+   "ok": "Aynı bölge, farklı ebeveyn kökeni: kaybın anneden mi babadan mı olduğu kliniği belirler.",
+   "satirlar": [
+    {
+     "emo": "😄",
+     "ad": "Angelman",
+     "bulgu": "<b>Maternal</b> kayıp · durdurulamayan gülme, ataksi, nöbet, ağır MR",
+     "hit": true
+    },
+    {
+     "emo": "🍽️",
+     "ad": "Prader-Willi",
+     "bulgu": "<b>Paternal</b> kayıp · hipotoni→hiperfaji/obezite, badem göz, hipogonadizm",
+     "hit": false
+    },
+    {
+     "emo": "🐱",
+     "ad": "Cri-du-chat",
+     "bulgu": "5p delesyonu · kedi miyavlaması gibi ağlama",
+     "hit": false
+    },
+    {
+     "emo": "❤️",
+     "ad": "DiGeorge",
+     "bulgu": "22q11 · hipokalsemi + konjenital kalp hastalığı",
+     "hit": false
+    }
+   ]
+  }
+ },
+ {
+  "soru": "Aşağıdakilerden hangisinde <b>kromozom analizi endikasyonu</b> <mark>yoktur?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Rekürren prematür doğumlar"
+   },
+   {
+    "k": "B",
+    "t": "Büyüme ve gelişmede postnatal problemler"
+   },
+   {
+    "k": "C",
+    "t": "Açıklanamayan zihinsel engellilik"
+   },
+   {
+    "k": "D",
+    "t": "Primer amenore"
+   },
+   {
+    "k": "E",
+    "t": "Rekürren düşükler (≥3)"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "<b>Tekrarlayan prematür doğum</b> tek başına kromozom analizi endikasyonu değildir.",
+  "tuzak": "Diğer dördü klasik endikasyonlardır: <mark>postnatal büyüme-gelişme problemi, açıklanamayan MR, primer amenore/infertilite, ≥3 düşük</mark>. Prematürite obstetrik/enfeksiyöz bir sorundur.",
+  "aciklama": "<b>Kromozom analizi endikasyonları</b>: ileri anne yaşı (≥35), fetal USG'de multipl anomali, <b>multipl konjenital anomali</b>, açıklanamayan büyüme geriliği veya <b>postnatal büyüme-gelişme problemleri</b>, ambigüs genitalya, <b>açıklanamayan zihinsel engellilik</b>, <b>primer amenore/infertilite</b>, <b>tekrarlayan düşük (≥3)</b>/ölü doğum/neonatal ölüm öyküsü, birinci derece akrabada yapısal kromozom anomalisi, bazı maligniteler ve kromozom kırılma sendromları (Bloom, Fanconi). <b>Rekürren prematür doğum</b> bir endikasyon değildir.",
+  "cue": "🎯 Bu durumların hangisi kromozom analizi gerektirmez, obstetrik bir sorun mu?"
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>mikrodelesyon sendromlarından</b> biri <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Williams sendromu"
+   },
+   {
+    "k": "B",
+    "t": "Prader-Willi sendromu"
+   },
+   {
+    "k": "C",
+    "t": "Angelman sendromu"
+   },
+   {
+    "k": "D",
+    "t": "DiGeorge sendromu"
+   },
+   {
+    "k": "E",
+    "t": "Wolf-Hirschhorn sendromu"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "<b>Wolf-Hirschhorn</b> (4p delesyonu) bir <b>makrodelesyon/kromozomal delesyon</b> sendromudur, mikrodelesyon değil.",
+  "tuzak": "<mark>Cri-du-chat (5p) ve Wolf-Hirschhorn (4p)</mark> gözle/klasik karyotiple görülebilen makrodelesyonlardır; mikrodelesyonlar ise FISH/mikroarray gerektirir (Williams 7q11, PW/Angelman 15q11, DiGeorge 22q11).",
+  "aciklama": "<b>Mikrodelesyon (bitişik gen) sendromları</b>: Williams (7q11.23), <b>Prader-Willi ve Angelman (15q11-13)</b>, DiGeorge/velokardiyofasiyal (22q11), Smith-Magenis, Miller-Dieker, Rubinstein-Taybi, Kallmann, Alagille, Langer-Giedion, Potocki-Shaffer vb. <b>Wolf-Hirschhorn sendromu</b> ise <b>4p16.3 delesyonuna</b> bağlı bir kromozomal (makro) delesyon sendromudur.",
+  "cue": "🎯 Mikrodelesyon mu yoksa gözle görülür büyük delesyon mu, ayır."
+ },
+ {
+  "soru": "Aşağıda verilen <b>genetik hastalık-bulgu</b> eşleştirmelerden hangisi <mark>yanlıştır?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Down sendromu — Klinodaktili"
+   },
+   {
+    "k": "B",
+    "t": "Edwards sendromu — Mahmuz topuk"
+   },
+   {
+    "k": "C",
+    "t": "Patau sendromu — Aplasia cutis"
+   },
+   {
+    "k": "D",
+    "t": "Angelman sendromu — Engellenemeyen gülme atakları"
+   },
+   {
+    "k": "E",
+    "t": "Williams sendromu — Subvalvüler pulmoner stenoz"
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Williams'ta <b>supravalvüler</b> aort ve <b>supravalvüler</b> pulmoner stenoz görülür; \"subvalvüler\" yanlıştır.",
+  "tuzak": "Diğer eşleştirmeler doğrudur: <mark>Down-klinodaktili, Edwards (T18)-mahmuz topuk + çaprazlaşan parmaklar, Patau (T13)-aplasia cutis, Angelman-gülme atakları</mark>. Williams'ta darlık \"supravalvülerdir\".",
+  "aciklama": "<b>Down (T21)</b>: klinodaktili, tek çizgi (simian), mongoloid yüz, AVSD. <b>Edwards (T18)</b>: mahmuz (rocker-bottom) topuk, parmakların çaprazlaşması, dolikosefali, serebellar hipoplazi. <b>Patau (T13)</b>: aplasia cutis, holoprozensefali, yarık dudak-damak, omfalosel, polidaktili. <b>Angelman</b>: engellenemeyen gülme atakları. <b>Williams</b>: peri yüzü, iriste stellat patern, \"arkadaş canlısı\" kişilik ve <b>supravalvüler aort/pulmoner stenoz</b> (subvalvüler değil).",
+  "cue": "🎯 Williams'taki darlık valvüler seviyenin altında mı üstünde mi?"
+ },
+ {
+  "soru": "<b>Down sendromuna</b> neden olan en sık <b>translokasyon</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "t(14q;21q)"
+   },
+   {
+    "k": "B",
+    "t": "t(13q;21q)"
+   },
+   {
+    "k": "C",
+    "t": "t(12q;21q)"
+   },
+   {
+    "k": "D",
+    "t": "t(21q;21q)"
+   },
+   {
+    "k": "E",
+    "t": "t(15q;21q)"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "En sık Robertsonian translokasyon: <b>t(14q;21q)</b>.",
+  "tuzak": "<mark>t(21q;21q)</mark> önemli bir çeldiricidir: annede varsa tüm çocuklar Down olur; ancak \"en sık\" olan <b>14;21</b>'dir. Translokasyon Down, özellikle <b>genç annelerde</b> düşünülmelidir.",
+  "aciklama": "Down sendromu çoğunlukla <b>serbest trizomi 21</b>'dir (ileri anne yaşı ile ilişkili). Ancak özellikle <b>genç annelerin</b> çocuklarında <b>Robertsonian translokasyonlar</b> (13, 14, 15, 21, 22. kromozomları içerir) neden olabilir; en sık olanı <b>t(14q;21q)</b>'dir. Annede <b>21/21 translokasyonu</b> varsa tüm çocukları Down sendromlu olur.",
+  "cue": "🎯 Robertsonian translokasyonlarda en sık hangi kromozom çifti birleşir?"
+ },
+ {
+  "soru": "<b>Spontan abortuslarda</b> en sık görülen <b>anöploidi</b> aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Trizomi 8"
+   },
+   {
+    "k": "B",
+    "t": "Trizomi 13"
+   },
+   {
+    "k": "C",
+    "t": "Trizomi 16"
+   },
+   {
+    "k": "D",
+    "t": "Trizomi 18"
+   },
+   {
+    "k": "E",
+    "t": "Trizomi 21"
+   }
+  ],
+  "dogru": 2,
+  "ipucu": "Spontan düşüklerin en sık anöploidisi: <b>Trizomi 16</b> (canlı doğumda görülmez, letaldir).",
+  "tuzak": "<mark>Trizomi 21</mark> canlı doğumdaki en sık trizomidir ama <b>abortustaki en sık anöploidi trizomi 16'dır</b>. Bu ikisini karıştırmak klasik tuzaktır.",
+  "aciklama": "<b>Spontan abortuslardaki en sık anöploidi Trizomi 16'dır</b>; canlı doğumla uyumsuz olduğundan yalnızca düşük materyalinde görülür. Canlı doğan trizomiler arasında en sık görüleni ise <b>Trizomi 21 (Down)</b>'dir. Trizomi 8 genellikle mozaiktir ve değişken klinik gösterir.",
+  "cue": "🎯 Canlı doğumdaki değil, düşük materyalindeki en sık trizomiyi düşün."
+ },
+ {
+  "soru": "I. Kubitus varus<br>II. Klinodaktili<br>III. Aort stenozu<br>IV. Yele boyun<br><br>Yukarıda verilenlerden hangisi/hangileri <b>Turner sendromunun</b> bulguları arasında <mark>yer almaz?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "I ve II"
+   },
+   {
+    "k": "B",
+    "t": "I ve III"
+   },
+   {
+    "k": "C",
+    "t": "II ve IV"
+   },
+   {
+    "k": "D",
+    "t": "I, II ve III"
+   },
+   {
+    "k": "E",
+    "t": "II, III ve IV"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Turner'da <b>kubitus valgus</b> (varus değil) vardır; <b>klinodaktili Down'ın</b> özelliğidir.",
+  "tuzak": "III (<mark>aort stenozu/koarktasyonu</mark>) ve IV (<mark>yele/pterygium boyun</mark>) Turner bulgusudur. I ve II tuzaktır: kubitus <b>valgus</b> doğru, <b>varus</b> yanlış; klinodaktili Turner değil Down bulgusu.",
+  "aciklama": "<b>Turner sendromu (45,X)</b> kızlarda görülen cinsiyet kromozomu eksikliğidir. Bulgular: <b>kubitus valgus</b>, <b>yele (pterygium) boyun</b>, <b>aort koarktasyonu/darlığı</b>, biküspit aort, meme başlarının ayrık olması, düşük ense saç çizgisi, el-ayakta lenfödem (yenidoğan), otoimmün tiroidit, işitme kusuru, boy kısalığı ve gonadal disgenezi. <b>Kubitus varus ve klinodaktili Turner bulgusu değildir</b> (klinodaktili Down'da görülür).",
+  "cue": "🎯 Turner'da dirsek valgusta mı varusta mı; klinodaktili kimin bulgusu?",
+  "ddx": {
+   "baslik": "Turner Sendromu Bulguları",
+   "ok": "Kubitus valgus (varus değil) ve klinodaktili (Down'a ait) ayrımı sınanır.",
+   "satirlar": [
+    {
+     "emo": "💪",
+     "ad": "Kubitus valgus",
+     "bulgu": "Turner'da VAR (varus değil)",
+     "hit": false
+    },
+    {
+     "emo": "🖐️",
+     "ad": "Klinodaktili",
+     "bulgu": "Turner değil, <b>Down</b> bulgusu",
+     "hit": true
+    },
+    {
+     "emo": "🫀",
+     "ad": "Aort koarktasyonu",
+     "bulgu": "Turner (kalbin solu)",
+     "hit": false
+    },
+    {
+     "emo": "🦒",
+     "ad": "Yele boyun",
+     "bulgu": "Turner'da tipik",
+     "hit": false
+    }
+   ]
+  }
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>Noonan sendromunda görülürken</b> <b>Turner sendromunda</b> görülmesi <mark>beklenmez?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Pulmoner stenoz"
+   },
+   {
+    "k": "B",
+    "t": "Yele boyun"
+   },
+   {
+    "k": "C",
+    "t": "Meme başlarının ayrık olması"
+   },
+   {
+    "k": "D",
+    "t": "Düşük saç çizgisi"
+   },
+   {
+    "k": "E",
+    "t": "Boy kısalığı"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "<b>Noonan → kalbin sağı → pulmoner stenoz</b>. <b>Turner → kalbin solu → aort stenozu/koarktasyon</b>.",
+  "tuzak": "Noonan ve Turner stigmatları çok benzer (yele boyun, düşük saç çizgisi, ayrık meme başları, boy kısalığı). Ayırt edici: <mark>kardiyak lezyonun yeri</mark> ve <mark>Noonan'da zeka geriliği olması</mark>.",
+  "aciklama": "<b>Noonan sendromu</b> otozomal dominant kalıtılır (en sık PTPN11 mutasyonu) ve Turner stigmatlarını taşır (kısa boy, yele boyun, düşük saç çizgisi, ayrık meme başları). Ancak <b>Noonan kalbin sağını tutarak pulmoner stenoz</b> yaparken <b>Turner kalbin solunu tutarak aort stenozu/koarktasyonu</b> yapar. Ek olarak Noonan'da zeka geriliği görülürken Turner'da beklenmez.",
+  "cue": "🎯 Noonan kalbin hangi tarafını tutar — pulmoner mi aort mu?",
+  "ddx": {
+   "baslik": "Turner vs Noonan",
+   "ok": "Stigmatlar benzer; ayrım kardiyak lezyonun tarafı ve zeka geriliği.",
+   "satirlar": [
+    {
+     "emo": "🫁",
+     "ad": "Noonan",
+     "bulgu": "Kalbin SAĞI → <b>pulmoner stenoz</b>; zeka geriliği VAR; OD kalıtım",
+     "hit": true
+    },
+    {
+     "emo": "🫀",
+     "ad": "Turner",
+     "bulgu": "Kalbin SOLU → aort stenozu/koarktasyon; zeka normal; 45,X",
+     "hit": false
+    }
+   ]
+  }
+ },
+ {
+  "soru": "Aşağıdakilerden hangisi <b>Klinefelter sendromunun</b> özelliklerinden biri <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "49,XXYYY kromozom analizi de Klinefelter olarak sınıflandırılır."
+   },
+   {
+    "k": "B",
+    "t": "Spermatogenezde bozukluk vardır."
+   },
+   {
+    "k": "C",
+    "t": "Genellikle toplum ortalamasına göre uzundurlar."
+   },
+   {
+    "k": "D",
+    "t": "Erişkinde dişi tipi yağlanma olur."
+   },
+   {
+    "k": "E",
+    "t": "Makroorşidizm görülür."
+   }
+  ],
+  "dogru": 4,
+  "ipucu": "Klinefelter'de <b>küçük testis (mikroorşidizm)</b> olur; <b>makroorşidizm Frajil X'in</b> özelliğidir.",
+  "tuzak": "<mark>En az 2 X + 1 Y</mark> içeren tüm karyotipler Klinefelter sayılır (A doğru). Uzun boy, dişi tipi yağlanma, kısırlık ve spermatogenez bozukluğu Klinefelter özellikleridir; \"makroorşidizm\" yanlıştır.",
+  "aciklama": "<b>Klinefelter sendromu</b> en sık <b>47,XXY</b> olmakla birlikte, <b>en az iki X ve en az bir Y</b> içeren tüm karyotipler (49,XXYYY dahil) bu grupta sınıflandırılır. <b>Küçük testis ve penis, spermatogenez bozukluğu (infertilite), jinekomasti, dişi tipi yağlanma</b> ve genellikle toplum ortalamasından <b>uzun boy</b> görülür. <b>Makroorşidizm</b> ise <b>Frajil X sendromunun</b> özelliğidir, Klinefelter'de görülmez.",
+  "cue": "🎯 Klinefelter'de testis büyük mü küçük mü; makroorşidizm kimin?"
+ },
+ {
+  "soru": "Aşağıdaki eşleştirmelerden hangisi <mark>yanlıştır?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Akondroplazi — Tüberin mutasyonu"
+   },
+   {
+    "k": "B",
+    "t": "Frajil X sendromu — CGG tekrar sayısında artış"
+   },
+   {
+    "k": "C",
+    "t": "Noonan sendromu — PTPN11 mutasyonu"
+   },
+   {
+    "k": "D",
+    "t": "Cri-du-chat sendromu — 5p delesyonu"
+   },
+   {
+    "k": "E",
+    "t": "CHARGE sendromu — CHD7 mutasyonu"
+   }
+  ],
+  "dogru": 0,
+  "ipucu": "Akondroplazi = <b>FGFR3</b> mutasyonu. <b>Tüberin mutasyonu tüberoskleroza</b> aittir.",
+  "tuzak": "Diğer eşleştirmeler doğrudur: <mark>Frajil X-CGG tekrarı, Noonan-PTPN11, Cri-du-chat-5p delesyonu, CHARGE-CHD7</mark>. Yalnızca akondroplazi-tüberin yanlıştır.",
+  "aciklama": "<b>Akondroplazide FGFR3</b> mutasyonu görülür; <b>tüberin (TSC2) mutasyonu tüberoskleroza</b> aittir. <b>Frajil X</b>: FMR1 geninde CGG üçlü tekrar artışı (erkekte MR'nin sık nedeni, makroorşidizm). <b>Noonan</b>: en sık PTPN11. <b>Cri-du-chat</b>: 5p delesyonu (kedi ağlaması). <b>CHARGE</b>: CHD7 mutasyonu — Kolobom, Kalp (Heart) anomalileri, koanal Atrezi, Retardasyon, Genital ve kulak (Ear) anomalileri.",
+  "cue": "🎯 Akondroplazinin geni hangisi — tüberin başka bir hastalığa ait."
+ },
+ {
+  "soru": "I. Anne yaşının 30'un üzerinde olması<br>II. Baba yaşının 50'nin üzerinde olması<br>III. Akraba evliliği olan çift<br>IV. İnfertilite tedavisi sonrası gebe kalan anne<br><br>Yukarıdakilerden hangisi/hangileri <b>genetik danışmanlık</b> endikasyonu <mark>değildir?</mark>",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "I ve II"
+   },
+   {
+    "k": "B",
+    "t": "II ve III"
+   },
+   {
+    "k": "C",
+    "t": "III ve IV"
+   },
+   {
+    "k": "D",
+    "t": "I, II ve IV"
+   },
+   {
+    "k": "E",
+    "t": "I, II ve IV"
+   }
+  ],
+  "dogru": 3,
+  "ipucu": "Endikasyon eşikleri: <b>anne ≥35, baba ≥40</b>. \"Anne &gt;30\" ve \"baba &gt;50\" yanlış eşiklerdir; infertilite tedavisi de tek başına endikasyon değildir.",
+  "tuzak": "<mark>Akraba evliliği (III)</mark> gerçek bir endikasyondur → III içeren şıklar elenir. Sayısal eşikleri (35/40) tam bilmek gerekir; \"30\" ve \"50\" çeldirici sayılardır.",
+  "aciklama": "<b>Genetik danışmanlık endikasyonları</b>: ileri ebeveyn yaşı (<b>anne ≥35, baba ≥40</b>), önceki çocukta/ailede konjenital anomali, MR, metabolik/tek gen hastalığı, dismorfoloji veya kromozom anomalisi, erişkin başlangıçlı genetik hastalık (kanser, Huntington), <b>akrabalık (akraba evliliği)</b>, teratojen maruziyeti, tekrarlayan abortus/infertilite, gebelik tarama testlerinde anormallik ve etnik riskle ilişkili taşıyıcılık. Buna göre <b>anne &gt;30, baba &gt;50 ve infertilite tedavisi sonrası gebelik (I, II, IV)</b> bu tanımlı endikasyonlara girmez.",
+  "cue": "🎯 Yaş eşiklerine dikkat: anne ve baba için sınır kaç?"
+ }
+];
+
+/* ================= STATE ================= */
+let order = QUESTIONS.map(function(_,i){return i;});
+let idx = 0;
+const answered = new Array(QUESTIONS.length).fill(null);
+const starred  = new Array(QUESTIONS.length).fill(false);
+const cueUsed  = new Array(QUESTIONS.length).fill(false);
+let finished = false;
+
+/* ================= PERSISTENCE (localStorage) ================= */
+const STORAGE_KEY = 'tusquiz::' + (document.title || 'quiz') + '::' + QUESTIONS.length;
+function saveState(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      answered:answered, starred:starred, idx:idx, order:order, finished:finished, v:1
+    }));
+  }catch(e){}
+}
+function loadSavedState(){
+  try{ const r=localStorage.getItem(STORAGE_KEY); return r?JSON.parse(r):null; }catch(e){ return null; }
+}
+function clearSavedState(){ try{ localStorage.removeItem(STORAGE_KEY); }catch(e){} }
+function hasProgress(s){
+  if(!s) return false;
+  const a = s.answered && s.answered.some(function(x){return x!==null;});
+  return a || (s.idx>0) || s.finished;
+}
+function applyState(s){
+  for(let i=0;i<QUESTIONS.length;i++){
+    answered[i] = (s.answered && i<s.answered.length && s.answered[i]!==undefined) ? s.answered[i] : null;
+    starred[i]  = (s.starred  && i<s.starred.length)  ? !!s.starred[i] : false;
+  }
+  order = (s.order && s.order.length) ? s.order.slice() : QUESTIONS.map(function(_,i){return i;});
+  idx = (typeof s.idx==='number') ? Math.max(0,Math.min(order.length-1,s.idx)) : 0;
+  finished = !!s.finished;
+}
+
+function qid(){ return order[idx]; }
+function curQ(){ return QUESTIONS[order[idx]]; }
+
+/* ========== HEADER SPACING (JS-measured) ========== */
+const hdr = document.getElementById('hdr');
+const main = document.getElementById('main');
+function syncHeader(){
+  const h = hdr.offsetHeight;
+  main.style.paddingTop = (h + 14) + 'px';
+  document.documentElement.style.setProperty('--hdrH', h + 'px');
+}
+window.addEventListener('load', syncHeader);
+window.addEventListener('resize', syncHeader);
+syncHeader();
+
+/* ================= RENDER ================= */
+const quizEl = document.getElementById('quiz');
+const resultEl = document.getElementById('result');
+const navEl = document.getElementById('nav');
+
+function render(){
+  if(finished){ renderResult(); return; }
+  resultEl.classList.remove('show');
+  quizEl.style.display='block';
+  navEl.style.display='flex';
+
+  const q = curQ();
+  const id = qid();
+  const chosen = answered[id];
+  const isAns = chosen !== null;
+
+  let html = '';
+  html += '<div class="qmeta">';
+  html += '<div class="qnum">SORU '+(idx+1)+' / '+order.length+'</div>';
+  html += '<button class="star-btn '+(starred[id]?'on':'')+'" onclick="toggleStar()" aria-label="Yıldızla">⭐</button>';
+  html += '</div>';
+
+  if(q.yil && q.yil.length){
+    html += '<div class="year-tags">';
+    q.yil.forEach(function(y){ html += '<span class="year-tag">'+y+'</span>'; });
+    html += '</div>';
+  }
+
+  html += '<div class="qcard'+(q.ddx?' has-ddx':'')+'"'+(q.ddx?' onclick="openDdx(event)"':'')+'>'+q.soru
+        + (q.ddx?'<span class="ddx-ok"><svg viewBox="0 0 24 24"><path d="M17 4l3 3-3 3"/><path d="M20 7H8a4 4 0 0 0-4 4"/><path d="M7 20l-3-3 3-3"/><path d="M4 17h12a4 4 0 0 0 4-4"/></svg></span>':'')
+        + '</div>';
+
+  html += '<div class="opts '+(isAns?'locked':'')+'" id="opts">';
+  q.siklar.forEach(function(s,i){
+    let cls='opt';
+    if(isAns){
+      if(i===q.dogru) cls+=' correct';
+      else if(i===chosen) cls+=' wrong';
+      else cls+=' dim';
+    }
+    html += '<button class="'+cls+'" '+(isAns?'':'onclick="answer('+i+')"')+'>'
+          + '<span class="k">'+s.k+'</span><span class="t">'+s.t+'</span><span class="mark"></span></button>';
+  });
+  html += '</div>';
+
+  if(!isAns){
+    html += '<button class="hintbtn" id="preHint" onclick="showPreHint()">💡 İpucu göster</button>';
+    html += '<div id="revealZone"></div>';
+  } else {
+    html += '<div id="revealZone">'+revealHTML(q)+'</div>';
+  }
+
+  quizEl.innerHTML = html;
+
+  document.getElementById('prevBtn').disabled = (idx===0);
+  document.getElementById('nextBtn').textContent = (idx===order.length-1) ? 'Bitir ✓' : 'Sonraki →';
+  document.getElementById('navCounter').textContent = (idx+1)+'/'+order.length;
+
+  updateBars();
+}
+
+function ddxCardHTML(d){
+  if(!d) return '';
+  var rows='';
+  (d.satirlar||[]).forEach(function(r){
+    rows += '<div class="dc'+(r.hit?' hit':'')+'">'
+          + '<div class="emo">'+(r.emo||'🔹')+'</div>'
+          + '<div class="txt"><div class="dn">'+r.ad+'</div><div class="dv">'+r.bulgu+'</div></div></div>';
+  });
+  return '<div class="ddx-card" onclick="closeDdx()">'
+       + '<h3>🩺 '+(d.baslik||'Ayırıcı Tanı')+'</h3>'
+       + (d.ok?'<div class="ddx-key">'+d.ok+'</div>':'')
+       + '<div class="ddx-cards">'+rows+'</div></div>';
+}
+function openDdx(e){
+  if(e){ e.stopPropagation(); }
+  var q=curQ();
+  if(!q.ddx) return;
+  var ov=document.getElementById('ddxOv');
+  if(ov.classList.contains('show')){ closeDdx(); return; }
+  ov.classList.remove('closing');
+  ov.innerHTML = ddxCardHTML(q.ddx);
+  void ov.offsetWidth;
+  ov.classList.add('show');
+}
+function closeDdx(){
+  var ov=document.getElementById('ddxOv');
+  if(!ov.classList.contains('show') || ov.classList.contains('closing')) return;
+  ov.classList.add('closing');
+  setTimeout(function(){ ov.classList.remove('show','closing'); ov.innerHTML=''; }, 430);
+}
+
+function revealHTML(q){
+  return ''
+   + '<div class="box ip"><div class="bt">💡 İPUCU</div><div>'+q.ipucu+'</div></div>'
+   + '<div class="box tz"><div class="bt">⚠️ TUZAK</div><div>'+q.tuzak+'</div></div>'
+   + '<div class="box ac"><div class="bt">📖 AÇIKLAMA</div><div>'+q.aciklama+'</div></div>';
+}
+
+function showPreHint(){
+  const q = curQ();
+  const btn = document.getElementById('preHint');
+  if(btn) btn.style.display='none';
+  document.getElementById('revealZone').innerHTML =
+    '<div class="box ip"><div class="bt">💡 İPUCU</div><div>'+q.ipucu+'</div></div>';
+  scrollToReveal();
+}
+
+/* ================= ACTIONS ================= */
+function answer(i){
+  const id = qid();
+  if(answered[id]!==null) return;
+  const q=curQ();
+
+  // İlk yanlışta: cevabı vermeyen yeşil ipucu + kilit ifade parlaması, tek seferlik → tekrar dene
+  if(i!==q.dogru && q.cue && !cueUsed[id]){
+    cueUsed[id]=true;
+    const m=document.getElementById('cueMsg');
+    m.textContent=q.cue;
+    m.classList.add('show');
+    const qc=document.querySelector('.qcard');
+    if(qc) qc.classList.add('flash');
+    setTimeout(function(){ m.classList.remove('show'); if(qc) qc.classList.remove('flash'); },2400);
+    return; // cevap KİLİTLENMEZ
+  }
+
+  answered[id]=i;
+
+  const opts=document.getElementById('opts');
+  opts.classList.add('locked');
+  const btns=opts.querySelectorAll('.opt');
+  btns.forEach(function(b,k){
+    b.setAttribute('onclick','');
+    if(k===q.dogru) b.classList.add('correct');
+    else if(k===i) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+
+  const pre=document.getElementById('preHint');
+  if(pre) pre.style.display='none';
+
+  document.getElementById('revealZone').innerHTML = revealHTML(q);
+  updateBars();
+  saveState();
+  if(i === q.dogru){ celebrate(btns[q.dogru]); } else { commiserate(); }
+  scrollToReveal();
+}
+
+function scrollToReveal(){
+  requestAnimationFrame(function(){
+    const zone=document.getElementById('revealZone');
+    const first=zone && zone.firstElementChild;
+    if(!first) return;
+    const offset = hdr.offsetHeight + 10;
+    const y = first.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({top:y, behavior:'smooth'});
+  });
+}
+
+function toggleStar(){
+  const id=qid();
+  starred[id]=!starred[id];
+  saveState();
+  render();
+}
+
+function go(dir){
+  if(dir===1 && idx===order.length-1){ finished=true; saveState(); render(); window.scrollTo({top:0,behavior:'smooth'}); return; }
+  idx=Math.max(0,Math.min(order.length-1, idx+dir));
+  saveState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ================= MODAL ================= */
+function openModal(){
+  const grid=document.getElementById('qGrid');
+  let h='';
+  order.forEach(function(id,p){
+    let cls='gbtn';
+    if(answered[id]!==null){ cls += (answered[id]===QUESTIONS[id].dogru)?' ok':' no'; }
+    if(p===idx) cls+=' cur';
+    if(starred[id]) cls+=' star';
+    h += '<button class="'+cls+'" onclick="jump('+p+')">'+(p+1)+'</button>';
+  });
+  grid.innerHTML=h;
+  document.getElementById('modalOv').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('modalOv').classList.remove('show');
+  document.body.style.overflow='';
+}
+function modalBg(e){ if(e.target.id==='modalOv') closeModal(); }
+function jump(p){ idx=p; finished=false; closeModal(); saveState(); render(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+/* ================= COUNTERS / PROGRESS ================= */
+function correctCount(){
+  let c=0;
+  answered.forEach(function(a,i){ if(a!==null && a===QUESTIONS[i].dogru) c++; });
+  return c;
+}
+function starCount(){ return starred.filter(Boolean).length; }
+function updateBars(){
+  document.getElementById('cCount').textContent = correctCount();
+  document.getElementById('sCount').textContent = starCount();
+  const pos = finished ? order.length : (idx+1);
+  document.getElementById('bar').style.width = Math.round((pos/order.length)*100)+'%';
+}
+
+/* ================= RESULT ================= */
+function renderResult(){
+  quizEl.style.display='none';
+  navEl.style.display='none';
+  resultEl.classList.add('show');
+
+  const total=order.length;
+  let correct=0, wrong=0, blank=0, starHere=0;
+  order.forEach(function(id){
+    const a=answered[id];
+    if(a===null) blank++;
+    else if(a===QUESTIONS[id].dogru) correct++;
+    else wrong++;
+    if(starred[id]) starHere++;
+  });
+  const pct=Math.round((correct/total)*100);
+
+  document.getElementById('scoreBig').textContent = correct+'/'+total;
+  document.getElementById('pctLine').textContent = '%'+pct;
+  document.getElementById('ring').style.setProperty('--pct', pct+'%');
+
+  let fb;
+  if(pct>=90) fb='Mükemmel! Bu konulara hâkimsin. 🎯';
+  else if(pct>=70) fb='Çok iyi. Birkaç tuzak dışında sağlamsın. 👏';
+  else if(pct>=50) fb='Fena değil; yanlışları ve tuzakları tekrar et. 📚';
+  else fb='Bu blokları tekrar çalışmakta fayda var. Devam! 💪';
+  document.getElementById('fbText').textContent = fb;
+
+  document.getElementById('rStats').innerHTML =
+      '<div class="rstat g">✓ Doğru '+correct+'</div>'
+    + '<div class="rstat r">✗ Yanlış '+wrong+'</div>'
+    + '<div class="rstat s">⭐ Yıldızlı '+starHere+'</div>';
+
+  let rev='';
+  order.forEach(function(id,p){
+    const q=QUESTIONS[id];
+    const a=answered[id];
+    let badge, cls, label;
+    if(a===null){ badge='–'; cls='blank'; label='Boş'; }
+    else if(a===q.dogru){ badge='✓'; cls='ok'; label='Doğru'; }
+    else { badge='✗'; cls='no'; label='Yanlış'; }
+    const ds=q.siklar[q.dogru];
+    rev += '<div class="rev" onclick="jump('+p+')">'
+         + '<div class="badge '+cls+'">'+badge+'</div>'
+         + '<div style="flex:1">'
+         + '<div class="rq">Soru '+(p+1)+' — '+label+(starred[id]?' ⭐':'')+'</div>'
+         + '<div class="ra">Doğru cevap: <b>'+ds.k+') '+ds.t+'</b></div>'
+         + '</div></div>';
+  });
+  document.getElementById('reviewList').innerHTML = rev;
+
+  document.getElementById('retryWrongBtn').disabled = (wrong===0);
+  document.getElementById('retryStarBtn').disabled = (starCount()===0);
+  setTimeout(function(){ finaleShow(pct); }, 250);
+
+  updateBars();
+}
+
+/* ================= RETRY MODES ================= */
+function startSubset(ids){
+  fxStreak = 0;
+  order = ids.slice();
+  ids.forEach(function(id){ answered[id]=null; });
+  idx=0; finished=false;
+  saveState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function restart(){
+  fxStreak = 0;
+  order = QUESTIONS.map(function(_,i){return i;});
+  for(let i=0;i<QUESTIONS.length;i++){ answered[i]=null; }
+  idx=0; finished=false;
+  clearSavedState();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function retryWrong(){
+  const ids = order.filter(function(id){ return answered[id]!==null && answered[id]!==QUESTIONS[id].dogru; });
+  if(!ids.length){ toast('Yanlış soru yok 🎉'); return; }
+  startSubset(ids);
+}
+function retryStar(){
+  const ids = [];
+  starred.forEach(function(s,i){ if(s) ids.push(i); });
+  if(!ids.length){ toast('Yıldızlı soru yok ⭐'); return; }
+  startSubset(ids);
+}
+
+/* ================= TOAST ================= */
+let toastT=null;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(toastT);
+  toastT=setTimeout(function(){ el.classList.remove('show'); },1800);
+}
+
+/* ================= RESUME ================= */
+function showResumePrompt(saved){
+  const ov = document.getElementById('resumeOv');
+  const sub = document.getElementById('resumeSub');
+  const ord = (saved.order && saved.order.length) ? saved.order : QUESTIONS.map(function(_,i){return i;});
+  const total = ord.length;
+  const pos = saved.finished ? total : Math.min((saved.idx||0)+1, total);
+  const ansCount = saved.answered ? saved.answered.filter(function(x){return x!==null;}).length : 0;
+  sub.textContent = saved.finished
+    ? ('Testi bitirmiştin — sonuç ekranına dönebilirsin. (' + ansCount + ' soru işaretlenmiş)')
+    : ('Soru ' + pos + ' / ' + total + ' — ' + ansCount + ' soru cevaplanmış.');
+  window._savedState = saved;
+  ov.classList.add('show');
+}
+function resumeYes(){
+  applyState(window._savedState);
+  document.getElementById('resumeOv').classList.remove('show');
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function resumeNo(){
+  clearSavedState();
+  document.getElementById('resumeOv').classList.remove('show');
+  render();
+}
+
+
+/* ================= EĞLENCE MOTORU ================= */
+const fxCanvas = document.createElement('canvas');
+fxCanvas.id = 'fxCanvas';
+document.body.appendChild(fxCanvas);
+const fxCtx = fxCanvas.getContext('2d');
+let fxParts = [], fxRaf = null;
+
+function fxResize(){
+  fxCanvas.width = window.innerWidth;
+  fxCanvas.height = window.innerHeight;
+}
+window.addEventListener('resize', fxResize);
+fxResize();
+
+const FX_COLORS = ['#4c9aff','#7c5cff','#2ea043','#f5c451','#ff5b5b','#3fb6a8','#ffffff','#ff9de2'];
+
+function confettiBurst(n, originY){
+  const oy = (typeof originY === 'number') ? originY : window.innerHeight * 0.38;
+  for(let i=0;i<n;i++){
+    fxParts.push({
+      x: window.innerWidth/2 + (Math.random()-0.5)*160,
+      y: oy,
+      vx: (Math.random()-0.5)*13,
+      vy: Math.random()*-13 - 4,
+      g: 0.34,
+      w: Math.random()*8 + 5,
+      h: Math.random()*5 + 3,
+      c: FX_COLORS[Math.floor(Math.random()*FX_COLORS.length)],
+      rot: Math.random()*6.28,
+      vr: (Math.random()-0.5)*0.35,
+      life: 130
+    });
+  }
+  if(!fxRaf) fxRaf = requestAnimationFrame(fxTick);
+}
+
+function fxTick(){
+  fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height);
+  fxParts = fxParts.filter(function(p){ return p.life > 0 && p.y < window.innerHeight + 60; });
+  fxParts.forEach(function(p){
+    p.x += p.vx; p.y += p.vy; p.vy += p.g; p.vx *= 0.995;
+    p.rot += p.vr; p.life--;
+    fxCtx.save();
+    fxCtx.translate(p.x, p.y);
+    fxCtx.rotate(p.rot);
+    fxCtx.globalAlpha = Math.max(0, Math.min(1, p.life/45));
+    fxCtx.fillStyle = p.c;
+    fxCtx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+    fxCtx.restore();
+  });
+  if(fxParts.length){ fxRaf = requestAnimationFrame(fxTick); }
+  else { fxRaf = null; fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height); }
+}
+
+function emojiFloat(list, count){
+  for(let i=0;i<count;i++){
+    const e = document.createElement('div');
+    e.className = 'emoji-pop';
+    e.textContent = list[Math.floor(Math.random()*list.length)];
+    e.style.left = (window.innerWidth/2 + (Math.random()-0.5)*240) + 'px';
+    e.style.top  = (window.innerHeight*0.58) + 'px';
+    e.style.setProperty('--dx', ((Math.random()-0.5)*140) + 'px');
+    e.style.setProperty('--rot', ((Math.random()-0.5)*90) + 'deg');
+    e.style.animationDelay = (Math.random()*0.28) + 's';
+    document.body.appendChild(e);
+    setTimeout(function(){ if(e.parentNode) e.remove(); }, 2200);
+  }
+}
+
+function emojiRain(list, count){
+  for(let i=0;i<count;i++){
+    const e = document.createElement('div');
+    e.className = 'emoji-drop';
+    e.textContent = list[Math.floor(Math.random()*list.length)];
+    e.style.left = (window.innerWidth*0.15 + Math.random()*window.innerWidth*0.7) + 'px';
+    e.style.top  = (window.innerHeight*0.30) + 'px';
+    e.style.setProperty('--rot', ((Math.random()-0.5)*70) + 'deg');
+    e.style.animationDelay = (Math.random()*0.25) + 's';
+    document.body.appendChild(e);
+    setTimeout(function(){ if(e.parentNode) e.remove(); }, 2000);
+  }
+}
+
+const GOOD_EMO = ['🎉','🥳','😄','👏','⭐','💪','🔥','✨','🏆','😎','💚','🩺'];
+const BAD_EMO  = ['😢','😞','💔','😵','🙈','😬','🥲'];
+const MASCOTS  = ['🐵','🦉','🐣','🦊','🐼','🚀'];
+
+const GOOD_MSG = ['Harika! 🎉','Bravo! 👏','Tam isabet! 🎯','Süpersin! 🥳','İşte bu! 💪',
+                  'Mükemmel! ⭐','Doğru cevap! 🔥','Efsanesin! 🏆','Aferin doktor! 🩺',
+                  'Nefes kesici! 😮‍💨','Çok iyisin! 💚'];
+const BAD_MSG  = ['Olsun, tekrar bakalım 💪','Tuzağa düştün ⚠️','Yanlış ama öğrendik 📚',
+                  'Boş ver, devam! 🙌','Bir dahakine 😉','Not al, unutma 📝',
+                  'Açıklamayı oku, kaçırma 👀','Nefesini topla, devam 🫁'];
+const STREAK_MSG = {3:'🔥 3 ÜST ÜSTE!',5:'⚡ 5 SERİ! HARİKA!',8:'🏆 8 SERİ! EFSANE!',
+                    10:'👑 10 SERİ! ŞAMPİYON!',15:'🚀 15 SERİ! DURDURULAMAZ!',
+                    20:'🌟 20 SERİ! İNANILMAZ!'};
+
+let fxStreak = 0;
+
+function showStreak(msg){
+  const s = document.createElement('div');
+  s.className = 'streak';
+  s.textContent = msg;
+  document.body.appendChild(s);
+  setTimeout(function(){ if(s.parentNode) s.remove(); }, 1700);
+}
+
+let fxMsgT = null;
+function showInlineMsg(msg, ok){
+  const zone = document.getElementById('revealZone');
+  if(!zone) return;
+  const old = zone.querySelector('.fxfloat');
+  if(old) old.remove();
+  clearTimeout(fxMsgT);
+  const wrap = document.createElement('div');
+  wrap.className = 'fxfloat';
+  const pill = document.createElement('div');
+  pill.className = 'pill ' + (ok ? 'good' : 'bad');
+  pill.textContent = msg;
+  wrap.appendChild(pill);
+  zone.insertBefore(wrap, zone.firstChild);
+  fxMsgT = setTimeout(function(){ if(wrap.parentNode) wrap.remove(); }, 2100);
+}
+
+function celebrate(btn){
+  confettiBurst(95);
+  emojiFloat(GOOD_EMO, 8);
+  showInlineMsg(GOOD_MSG[Math.floor(Math.random()*GOOD_MSG.length)], true);
+  if(btn){
+    const m = document.createElement('span');
+    m.className = 'mascot';
+    m.textContent = MASCOTS[Math.floor(Math.random()*MASCOTS.length)];
+    btn.style.position = 'relative';
+    btn.appendChild(m);
+  }
+  fxStreak++;
+  if(STREAK_MSG[fxStreak]){
+    showStreak(STREAK_MSG[fxStreak]);
+    setTimeout(function(){ confettiBurst(70, window.innerHeight*0.30); }, 220);
+  }
+  try{ if(navigator.vibrate) navigator.vibrate(35); }catch(e){}
+}
+
+function commiserate(){
+  const m = document.getElementById('main');
+  if(m){
+    m.classList.remove('shake');
+    void m.offsetWidth;
+    m.classList.add('shake');
+    setTimeout(function(){ m.classList.remove('shake'); }, 700);
+  }
+  emojiRain(BAD_EMO, 6);
+  showInlineMsg(BAD_MSG[Math.floor(Math.random()*BAD_MSG.length)], false);
+  fxStreak = 0;
+  try{ if(navigator.vibrate) navigator.vibrate([60,50,60,50,50]); }catch(e){}
+}
+
+function finaleShow(pct){
+  if(pct >= 90){
+    [0,300,600,900].forEach(function(d){
+      setTimeout(function(){ confettiBurst(110, window.innerHeight*0.30); }, d);
+    });
+    emojiFloat(['🏆','👑','🎉','🥳','⭐'], 12);
+  } else if(pct >= 70){
+    confettiBurst(110, window.innerHeight*0.32);
+    setTimeout(function(){ confettiBurst(80, window.innerHeight*0.30); }, 350);
+    emojiFloat(GOOD_EMO, 8);
+  } else if(pct >= 50){
+    confettiBurst(60, window.innerHeight*0.34);
+    emojiFloat(['💪','📚','✨'], 5);
+  } else {
+    emojiFloat(['📚','💪','🩺'], 4);
+  }
+}
+
+/* ================= INIT ================= */
+render();
+window.addEventListener('pagehide', function(){ try{ saveState(); }catch(e){} });
+window.addEventListener('visibilitychange', function(){ if(document.visibilityState==='hidden'){ try{ saveState(); }catch(e){} } });
+(function(){ const s=loadSavedState(); if(hasProgress(s)) showResumePrompt(s); })();
+window.addEventListener('load', function(){ syncHeader(); updateBars(); });
+
+/* nav focus fix */
+try{['prevBtn','listBtn','nextBtn'].forEach(function(id){var el=document.getElementById(id);if(el){el.addEventListener('mousedown',function(e){e.preventDefault();});el.addEventListener('focus',function(){var s=this;setTimeout(function(){try{s.blur();}catch(e){}},0);});el.addEventListener('click',function(){var s=this;setTimeout(function(){try{s.blur();}catch(e){}},0);});}});}catch(e){}
+</script>
+</body>
+</html>

@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="pragma" content="no-cache">
+<title>TUS Karma Deneme — 85 Soru</title>
+<style>
+:root{
+  --bg:#0d0f14; --card:#161a21; --card2:#1c212a; --line:#272e3a;
+  --txt:#e9edf3; --muted:#98a2b1; --acc:#4da3ff; --ok:#28c76f; --bad:#ff4d4d; --star:#ffc53d;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--txt);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:16px; line-height:1.55; -webkit-text-size-adjust:100%;
+}
+mark{background:none;color:#ff5b5b;font-weight:800}
+b{color:#fff;font-weight:700}
+
+/* ---------- HEADER ---------- */
+header{
+  position:fixed; top:0; left:0; right:0; z-index:50;
+  background:rgba(13,15,20,.97); border-bottom:1px solid var(--line);
+  padding:10px 12px calc(10px + env(safe-area-inset-top,0px)); padding-top:10px;
+  backdrop-filter:saturate(140%) blur(8px);
+}
+.hrow{display:flex;align-items:center;gap:10px;max-width:820px;margin:0 auto}
+.menu{
+  background:var(--card2); border:1px solid var(--line); color:var(--txt);
+  border-radius:10px; font-size:19px; line-height:1; padding:8px 11px; cursor:pointer;
+}
+.htitle{font-size:15px;font-weight:800;letter-spacing:.2px;white-space:nowrap}
+.hspace{flex:1}
+.chip{
+  background:var(--card2); border:1px solid var(--line); border-radius:999px;
+  padding:5px 10px; font-size:13px; font-weight:700; white-space:nowrap;
+}
+.chip.ok{color:var(--ok)} .chip.st{color:var(--star)}
+.bar{max-width:820px;margin:9px auto 0;height:5px;background:var(--card2);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#4da3ff,#7ee0c0);transition:width .25s ease}
+
+/* ---------- MAIN ---------- */
+main{max-width:820px;margin:0 auto;padding:14px 12px 60px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.year{
+  display:inline-block;background:#20304a;color:#8fc0ff;
+  border:1px solid #2c4468;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:800;margin-bottom:10px
+}
+.qno{font-size:12.5px;font-weight:800;color:var(--muted);letter-spacing:.6px;margin-bottom:8px}
+.qtext{font-size:17px;font-weight:600;line-height:1.6;margin:0 0 16px}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{
+  display:flex;gap:11px;align-items:flex-start;width:100%;text-align:left;
+  background:var(--card2);border:1px solid var(--line);color:var(--txt);
+  border-radius:12px;padding:12px 13px;font-size:15.5px;line-height:1.45;
+  font-family:inherit;cursor:pointer;transition:border-color .15s,background .15s;
+}
+.opt:active{transform:scale(.995)}
+.opt .k{font-weight:800;color:var(--muted);min-width:17px}
+.opt.correct{background:rgba(40,199,111,.13);border-color:var(--ok)}
+.opt.correct .k{color:var(--ok)}
+.opt.wrong{background:rgba(255,77,77,.13);border-color:var(--bad)}
+.opt.wrong .k{color:var(--bad)}
+.opt.locked{cursor:default}
+.opt:not(.locked):hover{border-color:#3b4657}
+
+.hintbtn{
+  margin-top:14px;width:100%;background:transparent;border:1px dashed #3c4657;color:var(--muted);
+  border-radius:12px;padding:11px;font-size:14.5px;font-weight:700;font-family:inherit;cursor:pointer;
+}
+.starbtn{
+  margin-top:10px;width:100%;background:var(--card2);border:1px solid var(--line);color:var(--muted);
+  border-radius:12px;padding:11px;font-size:14.5px;font-weight:700;font-family:inherit;cursor:pointer;
+}
+.starbtn.on{color:var(--star);border-color:#5a4a1c;background:rgba(255,197,61,.10)}
+
+.box{border-radius:14px;padding:13px 14px;margin-top:12px;font-size:15px;line-height:1.62;border:1px solid}
+.box h4{margin:0 0 6px;font-size:13.5px;letter-spacing:.4px;text-transform:uppercase}
+.box.ip{background:rgba(77,163,255,.09);border-color:#2b4a72}
+.box.ip h4{color:#7cbcff}
+.box.tz{background:rgba(255,197,61,.08);border-color:#5b4a1e}
+.box.tz h4{color:var(--star)}
+.box.ac{background:rgba(40,199,111,.07);border-color:#22553a}
+.box.ac h4{color:#5ee29a}
+
+.nav{display:flex;gap:10px;margin-top:16px}
+.nav button{
+  flex:1;border-radius:12px;padding:13px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;
+  background:var(--card2);border:1px solid var(--line);color:var(--txt);
+}
+.nav button.primary{background:var(--acc);border-color:var(--acc);color:#08131f}
+.nav button:disabled{opacity:.35;cursor:not-allowed}
+
+/* ---------- MODAL ---------- */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.66);z-index:80;display:none;padding:16px;overflow:auto}
+.overlay.open{display:block}
+.sheet{max-width:560px;margin:24px auto;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
+.sheet h3{margin:0 0 12px;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.cell{
+  aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;position:relative;
+  background:var(--card2);border:1px solid var(--line);border-radius:10px;
+  font-size:13.5px;font-weight:800;color:var(--txt);font-family:inherit;cursor:pointer;
+}
+.cell.c{background:rgba(40,199,111,.20);border-color:var(--ok);color:#9fe9c0}
+.cell.w{background:rgba(255,77,77,.20);border-color:var(--bad);color:#ffb3b3}
+.cell.now{outline:2px solid var(--acc);outline-offset:1px}
+.cell .s{position:absolute;top:-6px;right:-4px;font-size:11px}
+.closebtn{width:100%;margin-top:14px;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:12px;padding:12px;font-weight:800;font-family:inherit;font-size:15px;cursor:pointer}
+
+/* ---------- RESULTS ---------- */
+.score{font-size:40px;font-weight:900;text-align:center;margin:6px 0 0}
+.pct{text-align:center;color:var(--muted);font-weight:700;margin-bottom:6px}
+.fb{text-align:center;font-size:15px;color:#cfd7e3;margin-bottom:16px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px}
+.stat{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:11px 6px;text-align:center}
+.stat b{display:block;font-size:21px}
+.stat span{font-size:12px;color:var(--muted);font-weight:700}
+.rev{display:flex;flex-direction:column;gap:7px}
+.rev button{
+  display:flex;gap:9px;align-items:flex-start;text-align:left;width:100%;
+  background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:11px;
+  padding:10px 11px;font-size:14px;font-family:inherit;cursor:pointer;line-height:1.4;
+}
+.badge{font-size:11px;font-weight:800;border-radius:6px;padding:2px 6px;white-space:nowrap;margin-top:1px}
+.badge.c{background:rgba(40,199,111,.2);color:#7ee0a8}
+.badge.w{background:rgba(255,77,77,.2);color:#ff9c9c}
+.badge.b{background:rgba(152,162,177,.18);color:var(--muted)}
+.acts{display:flex;flex-direction:column;gap:9px;margin-top:18px}
+.acts button{border-radius:12px;padding:13px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;background:var(--card2);border:1px solid var(--line);color:var(--txt)}
+.acts button.primary{background:var(--acc);border-color:var(--acc);color:#08131f}
+.acts button:disabled{opacity:.35;cursor:not-allowed}
+@media (max-width:380px){ .htitle{display:none} }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <div class="hrow">
+    <button class="menu" id="menuBtn" aria-label="Soru listesi">&#9776;</button>
+    <div class="htitle">TUS Karma Deneme</div>
+    <div class="hspace"></div>
+    <div class="chip" id="chipPos">0/0</div>
+    <div class="chip ok" id="chipOk">&#10003; 0</div>
+    <div class="chip st" id="chipSt">&#11088; 0</div>
+  </div>
+  <div class="bar"><i id="barFill"></i></div>
+</header>
+
+<main id="main"><div id="app"></div></main>
+
+<div class="overlay" id="overlay">
+  <div class="sheet">
+    <h3>Sorular</h3>
+    <div class="grid" id="grid"></div>
+    <button class="closebtn" id="closeBtn">Kapat</button>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+{
+soru:"<mark>Azzopardi etkisi</mark> aşağıdaki akciğer kanserlerinden hangisinde görülür?",
+siklar:[{k:"A",t:"Küçük hücreli karsinom"},{k:"B",t:"Adenokarsinom"},{k:"C",t:"Büyük hücreli karsinom"},{k:"D",t:"Skuamöz hücreli karsinom"},{k:"E",t:"Lenfanjiyoleiomiyomatozis"}],
+dogru:0,
+ipucu:"Çok hızlı prolifere olan, çekirdek/sitoplazma oranı yüksek ve yaygın nekroz gösteren tümörü düşünün.",
+tuzak:"<b>Lenfanjiyoleiomiyomatozis</b> bir karsinom değil, TSC ile ilişkili düz kas proliferasyonudur; kategori dışı çeldiricidir. Ayrıca Azzopardi, hücre tipiyle değil <b>nekroz yoğunluğuyla</b> ilişkilidir.",
+aciklama:"<b>Azzopardi etkisi</b>, nekroza uğrayan tümör hücrelerinden salınan <b>DNA</b>nın damar duvarı ve stromaya çökerek <b>bazofilik (mavi-mor) boyanma</b> oluşturmasıdır. En tipik olarak <b>küçük hücreli akciğer karsinomunda</b> izlenir. KHAK nöroendokrin kökenlidir: <b>kromogranin, sinaptofizin, CD56, TTF-1</b> pozitif; ayrıca <b>crush (ezilme) artefaktı</b> ve <b>nükleer molding</b> tipiktir."
+},
+{
+soru:"Aşağıdaki <mark>antidot–antikoagülan ilaç eşleştirmelerinden</mark> hangisi doğrudur?<br><br>Sıra: <b>Protamin sülfat — Fitonadion — İdarucizumab — Andeksanet alfa</b>",
+siklar:[{k:"A",t:"Heparin — Varfarin — Vorapaksar — Apiksaban"},{k:"B",t:"Heparin — Enoksiparin — Dabigatran — Apiksaban"},{k:"C",t:"Enoksiparin — Varfarin — Dabigatran — Danaparoid"},{k:"D",t:"Enoksiparin — Varfarin — Dabigatran — Apiksaban"},{k:"E",t:"Fondaparinuks — Varfarin — Danaparoid — Vorapaksar"}],
+dogru:3,
+ipucu:"İdarucizumab tek bir ilaca özgüdür; andeksanet alfa ise faktör Xa inhibitörlerini bağlar.",
+tuzak:"B şıkkında fitonadionun (K vitamini) karşısına <b>enoksaparin</b> konmuş; K vitamini yalnızca <b>varfarin</b> (K vitamini antagonisti) antidotudur. <b>Vorapaksar</b> (PAR-1 antagonisti) ve <b>danaparoid</b> için spesifik antidot yoktur.",
+aciklama:"<b>Protamin sülfat</b>: UFH’i tam, <b>DMAH (enoksaparin)</b> anti-Xa aktivitesini kısmen nötralize eder; fondaparinuksa etkisizdir.<br><b>Fitonadion (K₁ vitamini)</b>: <b>varfarin</b> antidotu.<br><b>İdarucizumab</b>: <b>dabigatran</b>a (direkt trombin inh.) özgü monoklonal antikor fragmanı.<br><b>Andeksanet alfa</b>: <b>apiksaban/rivaroksaban</b> gibi faktör <b>Xa</b> inhibitörlerinin yem (decoy) reseptörü."
+},
+{
+soru:"I. Sodyum stiboglukonat<br>II. Meglumin antimonat<br>III. Miltefosin<br>IV. Dapson<br><br>Yukarıdaki ilaçlardan hangileri <mark>leishmaniazis tedavisinde</mark> kullanılabilir?",
+yil:"2021 benzeri",
+siklar:[{k:"A",t:"Yalnız I"},{k:"B",t:"I ve III"},{k:"C",t:"II ve IV"},{k:"D",t:"I, II ve III"},{k:"E",t:"I, II ve IV"}],
+dogru:3,
+ipucu:"Beş değerlikli antimon bileşiklerinin ikisi de listede; bir de ilk oral antileishmanial ajan var.",
+tuzak:"<b>Dapson</b> bir sülfondur; <b>lepra</b> ve <b>dermatitis herpetiformis</b> tedavisinde kullanılır, leishmaniazis tedavisinde yeri yoktur.",
+aciklama:"Leishmaniazis tedavisinde <b>5 değerlikli antimon bileşikleri</b> (sodyum stiboglukonat, meglumin antimonat) klasik ilk basamaktır; <b>miltefosin</b> ilk <b>oral</b> etkili antileishmanial ajandır (teratojen; gebelikte kontrendike). Ayrıca <b>lipozomal amfoterisin B</b> (viseral formda tercih), <b>paromomisin</b> ve <b>pentamidin</b> kullanılabilir."
+},
+{
+soru:"<mark>Lyme hastalığının başlangıç bulgusu</mark> aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Miyokardit"},{k:"B",t:"Artrit"},{k:"C",t:"Menenjit"},{k:"D",t:"Eritema migrans"},{k:"E",t:"Radikülonörit"}],
+dogru:3,
+ipucu:"Kene tutunma yerinde ortaya çıkan, ortası solan halka şeklindeki lezyonu düşünün.",
+tuzak:"Diğer şıkların hepsi Lyme hastalığında görülür ama <b>evre 2 (erken yayılmış)</b> ya da <b>evre 3 (geç)</b> bulgularıdır. Soru <b>başlangıç (evre 1)</b> bulgusunu sormaktadır.",
+aciklama:"<b>Borrelia burgdorferi</b>, <b>Ixodes</b> kenesiyle bulaşır.<br><b>Evre 1 (lokalize):</b> <b>eritema (kronik) migrans</b> — ortası soluk, halkasal, ağrısız lezyon (öküz gözü).<br><b>Evre 2:</b> multipl EM, <b>fasiyal paralizi</b>, menenjit, radikülonörit, <b>AV blok/miyokardit</b>.<br><b>Evre 3:</b> kronik <b>artrit</b> (diz), akrodermatitis kronika atrofikans, ensefalopati. Tedavi: <b>doksisiklin</b> (nörolojik/kardiyak tutulumda seftriakson)."
+},
+{
+soru:"Mide adenokanserleri ile <mark>kesin olarak ilişkilendirilmiş</mark> olan Helicobacter pylori virülans faktörü aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Vakuolleştirici A proteini"},{k:"B",t:"Fosfolipaz-A"},{k:"C",t:"Sitotoksinle ilişkili gen A proteini"},{k:"D",t:"Üreaz enzimi"},{k:"E",t:"Sitotoksinle ilişkili gen E proteini"}],
+dogru:2,
+ipucu:"Patojenite adasında kodlanan ve tip IV sekresyon sistemiyle hücre içine enjekte edilen proteini arayın.",
+tuzak:"<b>VacA</b> (vakuolleştirici sitotoksin) da virülansta rol alır ve ülserle ilişkilendirilir; ancak <b>karsinogenezle kesin ilişki</b> kurulan <b>CagA</b>’dır. <b>Üreaz</b> asit ortamda kolonizasyonu sağlar, onkojenik değildir.",
+aciklama:"<b>CagA</b> (cytotoxin-associated gene A), <b>cag patojenite adasında</b> kodlanır ve <b>tip IV sekresyon sistemi</b> ile epitel hücresine aktarılır; fosforile olunca <b>SHP-2</b> yolağını aktive ederek proliferasyon ve <b>hummingbird fenotipi</b> oluşturur. <b>CagA(+)</b> suşlar hem <b>mide adenokarsinomu</b> hem <b>MALT lenfoma</b> riskini belirgin artırır. H. pylori, IARC tarafından <b>grup 1 karsinojen</b> kabul edilir."
+},
+{
+soru:"Haemophilus influenzae’nın üretimi için aşağıdakilerden hangisi <mark>en uygun</mark> besiyeridir?",
+siklar:[{k:"A",t:"EMB Agar"},{k:"B",t:"Taze kanlı Agar"},{k:"C",t:"Çikolatamsı Agar"},{k:"D",t:"Buyyon"},{k:"E",t:"Eküvyon"}],
+dogru:2,
+ipucu:"Bakterinin X ve V faktörüne ihtiyacı var; V faktörü ancak eritrositler parçalanınca serbest kalır.",
+tuzak:"<b>Taze kanlı agar</b> çeldiricidir: koyun kanlı agarda <b>NADaz</b> V faktörünü yıktığı ve eritrositler sağlam olduğu için H. influenzae <b>üremez</b> (S. aureus çevresinde <b>satellitizm</b> gösterir). <b>Eküvyon</b> besiyeri değil, örnek alma çubuğudur.",
+aciklama:"<b>H. influenzae</b>, <b>X faktörü (hemin)</b> ve <b>V faktörü (NAD)</b> gerektirir. Kanın 80–90 °C’de ısıtılmasıyla hazırlanan <b>çikolata agarda</b> eritrositler parçalanıp her iki faktör serbestleşir ve ısı NADaz’ı inaktive eder. Klinik örnekte <b>Thayer-Martin</b> benzeri zenginleştirilmiş çikolata agar da kullanılabilir."
+},
+{
+soru:"İnsanda enfeksiyonlara neden olan ve <mark>ilk izolasyonlarında %5-10 CO₂’li ortamda</mark> üretimi gereken Brucella türü aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Brucella melitensis"},{k:"B",t:"Brucella abortus"},{k:"C",t:"Brucella suis"},{k:"D",t:"Brucella canis"},{k:"E",t:"Brucella neotomae"}],
+dogru:1,
+ipucu:"Sığır kaynaklı tür kapnofiliktir; adı da düşük atmosferik gereksinimlerini hatırlatır.",
+tuzak:"Ülkemizde en sık ve en virülan tür <b>B. melitensis</b> olduğu için refleks olarak A işaretlenir; ancak melitensis, suis ve canis <b>CO₂ gerektirmez</b>. <b>B. neotomae</b> ise insanda hastalık yapmaz (çöl faresi türü).",
+aciklama:"<b>B. abortus</b> (sığır) ilk izolasyonda <b>%5–10 CO₂</b> gerektiren tek klasik insan patojenidir; bu nedenle <b>kapnofilik</b> olarak anılır. Ayırıcı testler: <b>H₂S üretimi</b> (abortus ve suis +), <b>tionin/bazik fuksin</b> duyarlılığı. B. melitensis (keçi/koyun) en virülan, <b>B. canis</b> (köpek) en az virülan türdür."
+},
+{
+soru:"Aşağıdaki bakterilerden hangisi <mark>granülomatöz enfeksiyona</mark> neden olabilir?",
+siklar:[{k:"A",t:"Brucella"},{k:"B",t:"Staphylococcus"},{k:"C",t:"Streptococcus"},{k:"D",t:"Bacillus"},{k:"E",t:"Acinetobacter"}],
+dogru:0,
+ipucu:"Hücre içinde yaşayabilen ve T hücre aracılı yanıt uyandıran bakteriyi seçin.",
+tuzak:"Şıklardaki diğer bakteriler tipik <b>süpüratif (nötrofilik)</b> yanıt oluşturur. Granülom = <b>fakültatif hücre içi</b> yaşam + <b>Th1/IFN-γ</b> yanıtı gerektirir.",
+aciklama:"<b>Brucella</b> fakültatif hücre içi bir bakteridir; makrofaj içinde çoğalır ve <b>kazeifikasyon göstermeyen (non-kazeifiye) granülom</b> oluşturur — karaciğer ve kemik iliği biyopsisinde tipiktir. Granülom yapan diğer bakteriler: <b>M. tuberculosis</b>, <b>M. leprae</b>, <b>Treponema pallidum</b>, <b>Bartonella henselae</b>, <b>Francisella tularensis</b>, <b>Listeria</b>."
+},
+{
+soru:"Aşağıdaki seçeneklerde amino asitlerin yapısında bulunan gruplar eşleştirilmiştir, hangisi <mark>yanlıştır</mark>?",
+siklar:[{k:"A",t:"Fenilalanin — Benzen"},{k:"B",t:"Histidin — İmidazol"},{k:"C",t:"Triptofan — İndol"},{k:"D",t:"Prolin — İmino"},{k:"E",t:"Arjinin — Fenol"}],
+dogru:4,
+ipucu:"Fenol halkası hangi amino asidin yan zincirindedir? Arjininin yan zinciri ise kuvvetli bazik bir gruptur.",
+tuzak:"<b>Fenol</b> grubu <b>tirozine</b> aittir (fenilalaninin para pozisyonunda OH eklenmiş hâli). Arjininde ise <b>guanidino</b> grubu vardır — bu yüzden pKa ≈ 12,5 ile <b>en bazik</b> amino asittir.",
+aciklama:"Yan zincir grupları: <b>Fenilalanin → benzen (fenil)</b>, <b>Tirozin → fenol</b>, <b>Triptofan → indol</b>, <b>Histidin → imidazol</b> (pKa ≈ 6, fizyolojik pH’ta tamponlama), <b>Prolin → imino (sekonder amin, pirolidin halkası)</b>, <b>Arjinin → guanidino</b>, <b>Lizin → ε-amino</b>, <b>Sistein → tiyol (–SH)</b>, <b>Metiyonin → tiyoeter</b>."
+},
+{
+soru:"Akuaporinler, suyun membrandan taşınmasında görev alan proteinlerdir. Akuaporinlerin ait olduğu <mark>transporter ailesi</mark> aşağıdakilerden hangisinde doğru olarak verilmiştir?",
+siklar:[{k:"A",t:"Aktif taşıma"},{k:"B",t:"β-barrel kanalı (porin)"},{k:"C",t:"α kanalı"},{k:"D",t:"Simport taşıma"},{k:"E",t:"Antiport taşıma"}],
+dogru:2,
+ipucu:"Su, ATP harcanmadan ve başka bir molekülle birlikte taşınmadan, konsantrasyon gradyanı boyunca geçer; kanalın ikincil yapısına bakın.",
+tuzak:"İsim benzerliği nedeniyle <b>porin</b> şıkkı çeldiricidir; ancak <b>β-barrel porinler</b> gram negatif dış membranda ve mitokondri dış zarında bulunur. Akuaporin ise <b>6 transmembran α-heliks</b> içeren bir <b>α-tip kanaldır</b>.",
+aciklama:"<b>Akuaporinler</b> pasif, kolaylaştırılmış difüzyon sağlayan <b>α-heliksel su kanallarıdır</b>; monomerleri 6 TM heliks içerir, membranda <b>tetramer</b> hâlinde bulunur. <b>NPA motifleri</b> ve <b>ar/R filtresi</b> protonların geçişini engeller. <b>AQP2</b> toplayıcı kanalda <b>ADH (V2 reseptörü–cAMP)</b> ile apikal membrana yerleşir; mutasyonu <b>nefrojenik diabetes insipidus</b> yapar."
+},
+{
+soru:"<mark>Çinko eksikliğine</mark> bağlı olarak ortaya çıkan ekzema benzeri lezyonlarla karakterize hastalık hangisidir?",
+siklar:[{k:"A",t:"Akrodermatitis enteropatika"},{k:"B",t:"Wilson sendromu"},{k:"C",t:"Plummer-Vinson sendromu"},{k:"D",t:"Poland sendromu"},{k:"E",t:"Pellagra"}],
+dogru:0,
+ipucu:"Ağız çevresi ve anogenital bölgede yerleşen dermatit + ishal + alopesi üçlüsünü düşünün.",
+tuzak:"<b>Pellagra</b> (niasin eksikliği) da dermatit yapar ama lezyonlar <b>güneş gören alanlardadır</b> ve <b>demans + diyare</b> eşlik eder. <b>Wilson</b> bakır, <b>Plummer-Vinson</b> demir eksikliğiyle ilişkilidir.",
+aciklama:"<b>Akrodermatitis enteropatika</b>, <b>SLC39A4 (ZIP4)</b> mutasyonuna bağlı otozomal resesif <b>çinko malabsorpsiyonudur</b>. Klasik triad: <b>periorifisyal/akral dermatit + diyare + alopesi</b>. Sütten kesilme döneminde başlar; <b>oral çinko</b> ile dramatik düzelme görülür. Çinko eksikliğinde ayrıca <b>büyüme geriliği, hipogonadizm, tat alma bozukluğu (hipogözi), yara iyileşmesinde gecikme</b> olur."
+},
+{
+soru:"Organ transplantasyonu esnasında immünsüpresyon için kullanılan ajanlardan hangisi <mark>IL-2 inhibisyonu yapan kalsinörin inhibitörlerindendir</mark>?",
+siklar:[{k:"A",t:"Takrolimus"},{k:"B",t:"Sirolimus"},{k:"C",t:"Kortikosteroidler"},{k:"D",t:"Betalasept"},{k:"E",t:"Rituximab"}],
+dogru:0,
+ipucu:"FKBP-12’ye bağlanan iki ilaçtan hangisi kalsinörini, hangisi mTOR’u inhibe eder?",
+tuzak:"<b>Sirolimus</b> da FKBP-12’ye bağlanır ama hedefi <b>mTOR</b>’dur; kalsinörini inhibe etmez. <b>Belatacept</b> CTLA-4 füzyon proteiniyle <b>kostimülasyonu (CD80/86)</b> bloke eder; <b>rituksimab</b> anti-CD20’dir.",
+aciklama:"<b>Kalsinörin inhibitörleri</b>: <b>siklosporin</b> (siklofiline bağlanır) ve <b>takrolimus/FK506</b> (FKBP-12’ye bağlanır). Kalsinörin inhibisyonu → <b>NFAT</b> defosforile edilemez → <b>IL-2 transkripsiyonu</b> baskılanır → T hücre aktivasyonu durur. Ortak yan etki: <b>nefrotoksisite, HT, nörotoksisite</b>. Takrolimusta ek olarak <b>diyabetojenik etki</b>, siklosporinde <b>hirsutizm ve gingival hiperplazi</b> belirgindir."
+},
+{
+soru:"Çocuklarda görülen zehirlenmelerle ilgili aşağıdaki <mark>toksik madde–antidot eşleştirmelerinden</mark> hangisi <mark>yanlıştır</mark>?",
+siklar:[{k:"A",t:"Metanol — Fomepizol"},{k:"B",t:"Arsenik — BAL"},{k:"C",t:"Methemoglobinemi — Metilen mavisi"},{k:"D",t:"Asetaminofen — N-asetil sistein"},{k:"E",t:"Siyanid — Atropin"}],
+dogru:4,
+ipucu:"Atropin hangi zehirlenmede kullanılır? Siyanidde ise hedef, sitokrom oksidazdan siyanidi çekmektir.",
+tuzak:"<b>Atropin</b>, <b>organofosfat/karbamat</b> (antikolinesteraz) zehirlenmesinin antidotudur — siyanidle karıştırılmamalıdır.",
+aciklama:"<b>Siyanid antidotları</b>: <b>hidroksokobalamin</b> (tercih), <b>sodyum nitrit + sodyum tiyosülfat</b>, amil nitrit. Nitritler methemoglobin oluşturarak siyanidi <b>siyanmethemoglobin</b> hâlinde bağlar.<br>Diğerleri doğrudur: <b>metanol/etilen glikol → fomepizol</b> (alkol dehidrogenaz inh.), <b>arsenik, kurşun, cıva → BAL (dimerkaprol)</b>, <b>methemoglobinemi → metilen mavisi</b> (G6PD eksikliğinde kontrendike), <b>parasetamol → NAC</b>."
+},
+{
+soru:"Prematüre bebeklerde aşağıdaki <mark>vitamin eksikliklerinden</mark> hangisi <mark>hemoliz, trombositoz ve ödem</mark> tablosuna neden olabilir?",
+siklar:[{k:"A",t:"A vitamini"},{k:"B",t:"B1 vitamini"},{k:"C",t:"B12 vitamini"},{k:"D",t:"D vitamini"},{k:"E",t:"E vitamini"}],
+dogru:4,
+ipucu:"Eritrosit membranını lipid peroksidasyonundan koruyan yağda eriyen antioksidan vitamini düşünün.",
+tuzak:"Tabloda <b>trombositopeni değil trombositoz</b> olması ayırt edicidir; klasik prematüre E vitamini eksikliği triadı <b>hemolitik anemi + trombositoz + ödem</b>dir.",
+aciklama:"<b>E vitamini (α-tokoferol)</b> membran lipidlerini <b>peroksidasyondan</b> koruyan başlıca antioksidandır. Prematürede depo yetersizliği + demir takviyesi + PUFA’dan zengin beslenme ile <b>hemolitik anemi, trombositoz, ödem</b> görülür. Erişkin/kronik eksiklikte (abetalipoproteinemi, kolestaz) <b>spinoserebellar ataksi, arefleksi, oftalmopleji, posterior kolon bulguları</b> ortaya çıkar."
+},
+{
+soru:"İnflamasyon sırasında sentezlenen aşağıdaki mediyatörlerden hangisi <mark>hücre içine giren steroidlerin nükleusta bulunan reseptörlere bağlanmasını önler</mark>?",
+siklar:[{k:"A",t:"Reaktif oksijen radikalleri"},{k:"B",t:"Heat shock proteinler"},{k:"C",t:"İnterlökin-8"},{k:"D",t:"Prekallikrein"},{k:"E",t:"Lökotrien C4"}],
+dogru:1,
+ipucu:"Sitozolik glukokortikoid reseptörünü ligand yokken kompleks hâlinde tutan şaperonu düşünün.",
+tuzak:"Mediyatör listesindeki diğer seçenekler klasik inflamatuvar mediyatörlerdir ama <b>steroid reseptör etkileşimi yoktur</b>. Şaperonların aşırı artışı, reseptör–steroid kompleksinin nükleusa translokasyonunu engelleyerek <b>steroid direncine</b> katkı verir.",
+aciklama:"Glukokortikoid reseptörü (GR) sitozolde <b>HSP90/HSP70</b> kompleksiyle inaktif tutulur. Steroid bağlanınca şaperonlar ayrılır, reseptör dimerize olup nükleusa geçer ve <b>GRE</b>’lere bağlanır. İnflamasyonda aşırı sentezlenen <b>ısı şok proteinleri</b> bu ayrılmayı ve nükleer bağlanmayı engelleyerek steroid yanıtını azaltır — <b>steroide dirençli</b> inflamasyonun mekanizmalarındandır."
+},
+{
+soru:"Gastrointestinal yerleşimli nöroendokrin tümörler içerisinde <mark>karaciğere metastaz yapma riski en yüksek</mark> olan aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Kolon"},{k:"B",t:"Rektum"},{k:"C",t:"Mide"},{k:"D",t:"Apendiks"},{k:"E",t:"Duodenum"}],
+dogru:0,
+ipucu:"Apendiks ve rektum NET’leri genelde küçük ve insidentaldir; mide/duodenum ön bağırsak kökenlidir. Geriye en agresif davranan lokalizasyon kalır.",
+tuzak:"<b>Apendiks</b> NET’i en sık lokalizasyonlardan biridir ama <b>&lt;2 cm ise neredeyse hiç metastaz yapmaz</b>; sıklık ile agresiflik karıştırılmamalıdır. <b>Rektum</b> NET’leri de genellikle benign seyirlidir.",
+aciklama:"NET’lerde prognozu belirleyen en önemli faktörler <b>lokalizasyon, boyut ve invazyon derinliğidir</b>. <b>Ön bağırsak (mide, duodenum)</b> tümörleri nadiren metastaz yapar; <b>apendiks ve rektum</b> tümörleri genellikle küçük ve benign seyirlidir. <b>Kolon (ve ileum)</b> yerleşimli NET’ler tanı anında büyük olup <b>en yüksek karaciğer metastazı</b> oranına sahiptir. Karaciğer metastazı olmadan <b>karsinoid sendrom</b> (portal geçişte inaktivasyon nedeniyle) genellikle görülmez."
+},
+{
+soru:"<mark>Siklik nötropenisi</mark> olan hastalarda aşağıdaki hangi gen defekti beklenen bir bulgudur?",
+siklar:[{k:"A",t:"ADA2"},{k:"B",t:"STAT3"},{k:"C",t:"AIRE"},{k:"D",t:"Elastaz 2"},{k:"E",t:"PIG-a"}],
+dogru:3,
+ipucu:"Nötrofil granüllerindeki serin proteazı kodlayan gendeki mutasyonu düşünün.",
+tuzak:"<b>PIG-A</b> mutasyonu <b>PNH</b>’dir (GPI çapası kaybı); <b>STAT3</b> <b>hiper-IgE (Job)</b> sendromu; <b>AIRE</b> <b>APECED (APS tip 1)</b>; <b>ADA2</b> eksikliği <b>DADA2</b> (poliarteritis nodoza benzeri vaskülopati).",
+aciklama:"<b>Siklik nötropeni</b>, <b>ELANE (elastaz 2)</b> genindeki otozomal dominant mutasyona bağlıdır; <b>yaklaşık 21 günde bir</b> tekrarlayan nötropeni atakları (3–6 gün süren) ile ateş, aftöz stomatit, farenjit, gingivit yapar. Aynı gendeki mutasyonlar <b>ciddi konjenital nötropeni (Kostmann fenotipi)</b> ile de ilişkilidir. Tedavide <b>G-CSF</b> kullanılır."
+},
+{
+soru:"Kolşisinin kullanılamadığı ya da yetersiz olduğu Ailevi Akdeniz ateşi (AAA) hastalarında aşağıdaki biyolojik ilaçlardan hangisinin kullanımı <mark>uygun değildir</mark>?",
+siklar:[{k:"A",t:"Anakinra"},{k:"B",t:"Etanersept"},{k:"C",t:"Rituksimab"},{k:"D",t:"Tosilizumab"},{k:"E",t:"Kanakinumab"}],
+dogru:2,
+ipucu:"AAA bir otoinflamatuvar hastalıktır ve patogenezin merkezinde IL-1 vardır; B hücrelerinin rolü yoktur.",
+tuzak:"<b>Etanersept</b> ve <b>tosilizumab</b> birinci basamak değildir ama literatürde (özellikle amiloidoz ve dirençli olgularda) <b>kullanılabilir</b> ajanlardır. Kesin olarak yeri olmayan tek seçenek <b>anti-CD20</b>’dir.",
+aciklama:"AAA, <b>MEFV</b> geni mutasyonuyla <b>pirin</b> proteininin bozulması sonucu <b>inflamazom</b> aktivasyonu ve aşırı <b>IL-1β</b> üretimiyle seyreden otozomal resesif otoinflamatuvar hastalıktır. Kolşisine dirençli olgularda ilk seçenek <b>IL-1 blokajıdır</b>: <b>anakinra</b> (IL-1 reseptör antagonisti), <b>kanakinumab</b> (anti-IL-1β), rilonasept. <b>Rituksimab</b> B hücresini hedefler; AAA patogenezinde yeri yoktur."
+},
+{
+soru:"<mark>Michaelis-Gutmann cisimleri</mark> hangi mesane hastalığının histopatolojisinde izlenir?",
+siklar:[{k:"A",t:"Hemorajik sistit"},{k:"B",t:"İntertisyel sistit"},{k:"C",t:"Kronik sistit"},{k:"D",t:"Malakoplaki"},{k:"E",t:"Akut sistit"}],
+dogru:3,
+ipucu:"Makrofajların fagolizozomal sindirim defektine bağlı, yumuşak sarı plaklar oluşturan tabloyu düşünün.",
+tuzak:"<b>İnterstisyel sistit (Hunner ülseri)</b> mast hücresi artışı ile karakterizedir; <b>Michaelis-Gutmann</b> ile ilgisi yoktur. Bu cisimler <b>PAS(+), demir (Prusya mavisi) ve kalsiyum (von Kossa) pozitif</b> laminer yapılardır.",
+aciklama:"<b>Malakoplaki</b>, çoğunlukla <b>E. coli</b> gibi gram negatif enfeksiyonlara karşı makrofajların <b>fagolizozomal bakteri yıkım defekti</b> sonucu gelişir. Mesanede <b>yumuşak, sarı-kahverengi plaklar</b> görülür. Mikroskopide bol granüler eozinofilik sitoplazmalı makrofajlar (<b>von Hansemann hücreleri</b>) ve içlerinde kalsifiye, laminer <b>Michaelis-Gutmann cisimleri</b> saptanır. İmmünsüprese hastalarda sıktır."
+},
+{
+soru:"Aşağıda verilen etkilerden hangisi Epstein-Barr virüsünün (EBV) B lenfosit üzerindeki etkilerinden biri <mark>değildir</mark>?",
+siklar:[{k:"A",t:"LMP-1 artışı ile CD40 reseptörüne bağlanma"},{k:"B",t:"NF-κB artışı ile apoptozisin engellenmesi"},{k:"C",t:"JAK-STAT yolağı aktivasyonu"},{k:"D",t:"EBNA-2 ile siklin D aktivasyonu"},{k:"E",t:"X proteini ile p53 mutasyonu"}],
+dogru:4,
+ipucu:"X proteini hangi hepatotrop virüsün onkoproteinidir?",
+tuzak:"<b>HBx proteini</b> <b>hepatit B virüsüne</b> aittir ve p53’ü inaktive ederek hepatoselüler karsinoma katkı verir; EBV ile ilişkisi yoktur.",
+aciklama:"EBV, B lenfositlere <b>CD21 (CR2)</b> üzerinden girer.<br><b>LMP-1</b>: sürekli aktif bir <b>CD40 taklidi</b> gibi davranıp ligandsız sinyal verir → <b>NF-κB</b> ve <b>JAK/STAT</b> aktivasyonu, <b>BCL-2</b> artışı ile apoptozdan kaçış.<br><b>EBNA-2</b>: <b>siklin D</b> ve LMP-1 transkripsiyonunu artırır.<br>İlişkili tümörler: <b>Burkitt lenfoma [t(8;14), MYC]</b>, nazofarenks karsinomu, Hodgkin lenfoma, post-transplant lenfoproliferatif hastalık."
+},
+{
+soru:"Metallobeta-laktamazlardan <mark>etkilenmeyen</mark> tek beta-laktam hangisidir?",
+siklar:[{k:"A",t:"Ampisilin-sulbaktam"},{k:"B",t:"Amoksisilin-klavulanik asit"},{k:"C",t:"İmipenem"},{k:"D",t:"Aztreonam"},{k:"E",t:"Meropenem"}],
+dogru:3,
+ipucu:"Halka yapısı diğerlerinden farklı olan tek beta-laktamı seçin.",
+tuzak:"<b>Karbapenemler</b> çoğu beta-laktamaza dirençlidir ama <b>metallo-beta-laktamazlar (NDM-1, VIM, IMP)</b> tam da karbapenemleri hidrolize eder. Not: Aztreonam MBL’den etkilenmez ancak bu suşlar sıklıkla <b>eş zamanlı ESBL/AmpC</b> taşıdığı için pratikte aztreonam da etkisiz kalabilir; bu nedenle <b>aztreonam-avibaktam</b> geliştirilmiştir.",
+aciklama:"<b>Metallo-beta-laktamazlar (Ambler sınıf B)</b> aktif bölgelerinde <b>Zn²⁺</b> içerir; <b>EDTA</b> ile inhibe olur, klavulanik asit/tazobaktam ile inhibe <b>olmaz</b>. Penisilinleri, sefalosporinleri ve <b>karbapenemleri</b> parçalar. <b>Monobaktam olan aztreonam</b> (tek halkalı) MBL tarafından hidrolize edilmez."
+},
+{
+soru:"<mark>Çıplak ayakla dolaşanlarda çıplak deriden girerek</mark> eozinofilik pnömoni ve demir eksikliğine yol açan helmint aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Enterobius vermicularis"},{k:"B",t:"Trichinella spiralis"},{k:"C",t:"Trichuris trichiura"},{k:"D",t:"Clonorchis sinensis"},{k:"E",t:"Ancylostoma duodenale"}],
+dogru:4,
+ipucu:"Kancalı kurt: Löffler sendromu yapan filariform larva + duodenumda kan emme.",
+tuzak:"<b>Trichuris trichiura</b> da anemi yapabilir ancak bulaş <b>fekal-oral (yumurta yutulması)</b> iledir ve akciğer göçü yoktur. <b>Strongyloides</b> da deriden girer, ancak demir eksikliği anemisi kancalı kurtların klasik bulgusudur.",
+aciklama:"<b>Ancylostoma duodenale</b> ve <b>Necator americanus</b> (kancalı kurtlar) <b>filariform larva</b> ile sağlam deriden girer → venöz dolaşım → akciğer (<b>Löffler sendromu / eozinofilik pnömoni</b>) → yutulma → duodenum. Erişkinler mukozaya tutunup kan emer; <b>demir eksikliği anemisi</b> ve hipoproteinemi yapar. Tanı: dışkıda <b>ince şeffaf kabuklu, segmentli yumurta</b>. Tedavi: <b>albendazol/mebendazol</b>."
+},
+{
+soru:"Köyde çobanlık yapan 44 yaşındaki hastada saçlarından/lezyondan alınan örnekte <mark>mekik şeklinde makrokonidiaları olan ve UV ile floresans veren</mark> mantarlar izole edilmiş ise bu tabloya neden olabilecek <mark>en olası</mark> etken aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Microsporum canis"},{k:"B",t:"Epidermofiton floccosum"},{k:"C",t:"Trichosporon asahii"},{k:"D",t:"Trichophyton rubrum"},{k:"E",t:"C. albicans"}],
+dogru:0,
+ipucu:"Wood ışığında parlayan tek dermatofit cinsi hangisidir?",
+tuzak:"<b>Trichophyton</b> türleri <b>Wood ışığında floresans vermez</b> ve makrokonidileri silindiriktir. <b>Epidermophyton</b> saçı tutmaz (<b>kunduz kuyruğu</b> şeklinde makrokonidi, mikrokonidi yok). <b>Trichosporon</b> beyaz piedra etkenidir; dermatofit değildir.",
+aciklama:"<b>Microsporum canis</b> zoofilik bir dermatofittir (kedi-köpek, hayvan teması); <b>tinea capitis</b>’in klasik etkenidir. <b>Kalın duvarlı, mekik (iğ) şeklinde, çok bölmeli makrokonidileri</b> vardır ve <b>Wood lambasıyla parlak yeşil floresans</b> verir. Saç dışına spor dizilimi (<b>ektotriks</b>) gösterir. Tedavide sistemik <b>griseofulvin/terbinafin</b> gerekir."
+},
+{
+soru:"Aşağıdaki pankreas neoplazilerinden hangisinin sitolojik incelemesinde <mark>glikojenden zengin PAS (+) hücreler</mark> gözlenir?",
+siklar:[{k:"A",t:"Psödokist"},{k:"B",t:"Seröz kistik neoplazi"},{k:"C",t:"Benign müsinöz kistik neoplazi"},{k:"D",t:"Malign müsinöz kistik neoplazi"},{k:"E",t:"İntraduktal papiller müsinöz neoplazi"}],
+dogru:1,
+ipucu:"Müsin içermeyen, berrak sitoplazmalı kübik hücrelerle döşeli, bal peteği görünümlü kistik tümörü düşünün.",
+tuzak:"<b>PAS pozitifliği</b> hem glikojen hem müsin ile olur; ayırım <b>diastaz</b> ile yapılır: glikojen <b>diastaza duyarlıdır (PAS-D negatif)</b>, müsin dirençlidir. Müsinöz neoplazilerde <b>müsikarmen</b> pozitiftir.",
+aciklama:"<b>Seröz kistadenom</b>, yaşlı kadınlarda ve pankreas <b>gövde-kuyruk</b> yerleşiminde sıktır; <b>bal peteği (mikrokistik)</b> yapı ve <b>santral yıldızsı skar</b> tipiktir. Kistleri berrak seröz sıvı içerir; döşeyici kübik hücreler <b>glikojenden zengin, berrak sitoplazmalıdır (PAS +, diastaza duyarlı)</b>. Neredeyse daima <b>benigndir</b>; <b>VHL</b> ile ilişkilidir. Müsinöz kistik neoplazi ise <b>over tipi stroma</b> içerir ve malign potansiyeli vardır."
+},
+{
+soru:"Küçük ve orta boy safra kanallarında non-süpüratif, granülomatöz yıkım; lenfoplazmositik infiltrasyon, <mark>florid duktus reaksiyonu</mark>, Mallory-Denk cisimleri ve son aşamada safra kanallarında yıkım izlenen hastalıkta aşağıdaki antikorlardan hangisi kanda yüksek beklenir?",
+siklar:[{k:"A",t:"Antimitokondriyal antikorlar"},{k:"B",t:"Anti-Smith antikorlar"},{k:"C",t:"Anti ds-DNA"},{k:"D",t:"Anti-CCP"},{k:"E",t:"Antifosfolipid antikorlar"}],
+dogru:0,
+ipucu:"Orta yaşlı kadında kaşıntı, yorgunluk ve yüksek ALP ile giden kolestatik otoimmün hastalığı düşünün.",
+tuzak:"<b>Anti-Sm</b> ve <b>anti-dsDNA</b> SLE’ye, <b>anti-CCP</b> romatoid artrite özgüdür. Primer sklerozan kolanjitte ise <b>p-ANCA</b> ve <b>büyük kanallarda soğan zarı fibrozis</b> beklenir — soru <b>küçük kanal</b> tutulumunu vurgular.",
+aciklama:"Tarif edilen tablo <b>primer bilier kolanjit (PBC)</b>’tir. <b>AMA (anti-M2, piruvat dehidrogenaz kompleksi E2)</b> %90–95 pozitiftir. Histolojik işaret: <b>florid duktal lezyon</b> (granülomatöz, non-süpüratif destrüktif kolanjit). Klinik: orta yaş kadın, <b>kaşıntı</b>, yorgunluk, <b>ALP ve GGT yüksekliği</b>, <b>IgM</b> artışı, ksantelazma. Tedavi: <b>ursodeoksikolik asit</b>."
+},
+{
+soru:"Aşağıdaki antibiyotiklerden hangisi bakteri hücre duvar sentezini inhibe ederek gram(+) bakterilere bağlı enfeksiyonlarda <mark>haftada bir intravenöz</mark> yoldan kullanılır?",
+siklar:[{k:"A",t:"Basitrasin"},{k:"B",t:"Daptomisin"},{k:"C",t:"Dalbavansin"},{k:"D",t:"Kuinopristin/Dalfopristin"},{k:"E",t:"Linezolid"}],
+dogru:2,
+ipucu:"Vankomisinin yarı ömrü çok uzatılmış lipoglikopeptid türevini arayın.",
+tuzak:"<b>Daptomisin</b> günde bir kez verilir ve hücre duvarını değil <b>hücre membranını</b> depolarize eder. <b>Linezolid</b> ve <b>kuinupristin/dalfopristin</b> <b>protein sentezi (50S)</b> inhibitörleridir. <b>Basitrasin</b> hücre duvarını inhibe eder ama nefrotoksisitesi nedeniyle yalnızca <b>topikal</b> kullanılır.",
+aciklama:"<b>Dalbavansin</b>, <b>lipoglikopeptid</b> grubundandır; vankomisin gibi <b>D-Ala-D-Ala</b> ucuna bağlanarak transglikozilasyon/transpeptidasyonu engeller. Yarı ömrü <b>~2 hafta</b> olduğundan <b>tek doz</b> veya <b>haftada bir IV</b> uygulanır; akut bakteriyel deri ve yumuşak doku enfeksiyonlarında (MRSA dâhil) endikedir. Benzerleri: <b>oritavansin, telavansin</b>."
+},
+{
+soru:"Aşağıdaki klinik bulgulardan hangisi <mark>Heerfordt sendromunda bulunmaz</mark>?",
+siklar:[{k:"A",t:"Anteriyor üveit"},{k:"B",t:"Parotis bezi tutulumu"},{k:"C",t:"Fasiyal paralizi"},{k:"D",t:"Eritema nodozum"},{k:"E",t:"Ateş"}],
+dogru:3,
+ipucu:"Sendromun diğer adı «uveoparotid ateş»tir; bileşenlerini bu isimden çıkarabilirsiniz.",
+tuzak:"<b>Eritema nodozum</b> sarkoidozda sıktır ama <b>Löfgren sendromunun</b> bileşenidir (EN + bilateral hiler LAP + ateş + artrit), Heerfordt’un değil. İki sendromun karıştırılması klasik tuzaktır.",
+aciklama:"<b>Heerfordt (uveoparotid ateş) sendromu</b> sarkoidozun akut bir formudur: <b>anteriyor üveit + parotis büyümesi + fasiyal (VII. sinir) paralizi + ateş</b>. <b>Löfgren sendromu</b> ise <b>eritema nodozum + bilateral hiler lenfadenopati + ateş + poliartralji</b> ile karakterizedir ve iyi prognozludur. Sarkoidozda histoloji <b>non-kazeifiye granülom</b>, laboratuvarda <b>hiperkalsemi ve ACE artışı</b> görülür."
+},
+{
+soru:"<mark>Yaws (frambezi)</mark> hastalığı etkeni aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Treponema pallidum"},{k:"B",t:"Treponema pertenue"},{k:"C",t:"Treponema carateum"},{k:"D",t:"Treponema endemicum"},{k:"E",t:"Mycobacterium hensele"}],
+dogru:1,
+ipucu:"Tropikal bölgelerde çocuklarda deri temasıyla bulaşan, cinsel yolla geçmeyen treponematozu düşünün.",
+tuzak:"<b>T. carateum → pinta</b>, <b>T. endemicum → bejel (endemik sifiliz)</b>, <b>T. pallidum → venereal sifiliz</b>. Ayrıca <b>Mycobacterium hensele</b> diye bir tür yoktur; kedi tırmığı etkeni <b>Bartonella henselae</b>’dir (kategori dışı çeldirici).",
+aciklama:"<b>Yaws (frambezi)</b>: <b>Treponema pallidum subsp. pertenue</b>. Tropikal, nemli bölgelerde <b>çocuklarda deri-deri temasıyla</b> bulaşır; primer lezyon <b>ahududu benzeri papillom (frambezioma)</b>, geç dönemde kemik-kıkırdak destrüksiyonu (<b>gangosa</b>) yapar. <b>Cinsel yolla bulaşmaz, konjenital geçiş yoktur</b>, ancak sifiliz serolojisi (VDRL/TPHA) pozitiftir. Tedavi: tek doz <b>benzatin penisilin</b> veya <b>azitromisin</b>."
+},
+{
+soru:"Aşağıdaki proteinlerden hangisi <mark>mikrovillüs yapısındaki aktin filamanlarını birbirlerine çapraz bağlayarak</mark> yapı bütünlüğünün sağlanmasında görev alır?",
+siklar:[{k:"A",t:"Espin"},{k:"B",t:"Tubulin"},{k:"C",t:"Dynein"},{k:"D",t:"Vimentin"},{k:"E",t:"İntegrin"}],
+dogru:0,
+ipucu:"Mikrovillüsün iskeleti aktindir; onu demetleyen proteinleri hatırlayın (fimbrin, villin, espin).",
+tuzak:"<b>Tubulin</b> ve <b>dynein</b> <b>silyaya</b> (mikrotübül, 9+2) aittir — mikrovillüs ile karıştırılmamalıdır. <b>Vimentin</b> ara filaman (mezenkimal), <b>integrin</b> hücre-matriks adezyon reseptörüdür.",
+aciklama:"<b>Mikrovillüs</b> çekirdeğinde 20–30 <b>aktin filamanı</b> vardır; bunları <b>fimbrin, villin ve espin</b> çapraz bağlar. Tepe kısmında <b>villin</b>, yanlarda <b>miyozin-I ve kalmodulin</b> ile plazma membranına tutunur; tabanda <b>terminal ağ</b> (spektrin, miyozin-II) bulunur. <b>ESPN</b> gen mutasyonları stereosilya defektine bağlı <b>otozomal kalıtılan sağırlık</b> yapar."
+},
+{
+soru:"Aşağıda verilen bakteri türlerinden hangisinin <mark>DNAaz enzimi ile dokulara hasar vermesi beklenmez</mark>?",
+siklar:[{k:"A",t:"Streptococcus pyogenes"},{k:"B",t:"Staphylococcus aureus"},{k:"C",t:"Moraxella catarrhalis"},{k:"D",t:"Serratia marcescens"},{k:"E",t:"Campylobacter jejuni"}],
+dogru:4,
+ipucu:"DNAaz testi hangi bakterilerin identifikasyonunda rutin kullanılır? Listede kalan kıvrık çomak hangi enzimlerle tanınır?",
+tuzak:"<b>Moraxella catarrhalis</b> ve <b>Serratia marcescens</b> tanımlamasında <b>DNAaz testi</b> rutin kullanılır — bu ikisi «DNAaz negatif» sanılarak sık işaretlenir.",
+aciklama:"<b>DNAaz (streptodornaz)</b> viskoz DNA’yı parçalayarak pürülan eksüdanın yayılmasını kolaylaştırır. <b>S. pyogenes</b> (DNaz A-D; <b>anti-DNaz B</b> özellikle deri enfeksiyonu sonrası tanıda kullanılır) ve <b>S. aureus</b> (termonükleaz) klasik örneklerdir; <b>M. catarrhalis</b> ve <b>Serratia</b> da DNAaz pozitiftir. <b>Campylobacter jejuni</b> ise <b>oksidaz(+), katalaz(+), hippurat hidroliz(+)</b> ile tanınır; DNAaz’a bağlı doku hasarı beklenmez."
+},
+{
+soru:"İmmün-disregülasyon, poliendokrinopati, enteropati, X-linked (<mark>İPEX</mark>) sendromunda eksik olan protein ve hücre hangi seçenekte doğru olarak verilmiştir?",
+siklar:[{k:"A",t:"Pirin — T helper 1"},{k:"B",t:"Filaggrin — T helper 2"},{k:"C",t:"Scurfin — T regülatör"},{k:"D",t:"Adenozin deaminaz — B lenfosit"},{k:"E",t:"Tirozin kinaz — CD19"}],
+dogru:2,
+ipucu:"FOXP3 geninin kodladığı proteinin diğer adı nedir?",
+tuzak:"<b>Pirin</b> AAA (MEFV) ile, <b>filaggrin</b> atopik dermatit/iktiyozis vulgaris ile, <b>ADA</b> eksikliği <b>SCID</b> ile, <b>Bruton tirozin kinaz</b> <b>X’e bağlı agamaglobulinemi</b> ile ilişkilidir.",
+aciklama:"<b>IPEX</b>, <b>FOXP3</b> genindeki mutasyona bağlı X’e bağlı resesif hastalıktır; FOXP3’ün ürünü <b>skurfin</b>dir ve <b>CD4+CD25+ regülatör T (Treg)</b> hücrelerinin gelişimi/işlevi için zorunludur (<b>periferik tolerans</b>). Klinik: erken başlangıçlı <b>otoimmün enteropati (inatçı ishal)</b>, <b>neonatal tip 1 DM</b>, tiroidit, ekzematöz dermatit, sitopeniler. Tedavi: immünsüpresyon ve <b>kök hücre nakli</b>."
+},
+{
+soru:"Aşağıdaki hastalıklardan hangisi <mark>trinükleotid tekrar sendromlarından değildir</mark>?",
+siklar:[{k:"A",t:"Duchenne muskuler distrofisi"},{k:"B",t:"Miyotonik distrofi"},{k:"C",t:"Huntington koresi"},{k:"D",t:"Friedreich ataksisi"},{k:"E",t:"Frajil X sendromu"}],
+dogru:0,
+ipucu:"Distrofin genindeki mutasyon tipi tekrar artışı mıdır, yoksa çerçeve kayması yaratan delesyon mudur?",
+tuzak:"İki kas hastalığı yan yana verildiği için <b>Duchenne ile miyotonik distrofi</b> karıştırılır. Miyotonik distrofi <b>DMPK</b> geninde <b>CTG</b> tekrarıdır; Duchenne’de tekrar genişlemesi <b>yoktur</b>.",
+aciklama:"<b>Duchenne MD</b>: <b>DMD (distrofin)</b> geninde çoğunlukla <b>delesyon</b> (çerçeve kaydıran) → X’e bağlı resesif; Gowers belirtisi, psödohipertrofi, CK yüksekliği.<br>Trinükleotid tekrar hastalıkları: <b>Huntington (CAG, HTT)</b>, <b>Miyotonik distrofi (CTG, DMPK)</b>, <b>Frajil X (CGG, FMR1)</b>, <b>Friedreich ataksisi (GAA, FXN — otozomal resesif)</b>, spinoserebellar ataksiler, SBMA. Çoğunda nesiller boyu tekrar artışıyla <b>antisipasyon</b> görülür (Friedreich hariç)."
+},
+{
+soru:"Aşağıdaki genlerden hangisinin kalıtsal mutasyonunda <mark>çok sayıda bazal hücreli deri karsinomu ve medulloblastom</mark> görülür?",
+siklar:[{k:"A",t:"PTCH"},{k:"B",t:"CDKN2A"},{k:"C",t:"SMAD4"},{k:"D",t:"PTEN"},{k:"E",t:"SDHD"}],
+dogru:0,
+ipucu:"Hedgehog sinyal yolağının baskılayıcı reseptörünü düşünün.",
+tuzak:"<b>PTEN</b> mutasyonu <b>Cowden sendromu</b> (trikilemmoma, meme/tiroid kanseri), <b>CDKN2A</b> <b>familyal melanom</b>, <b>SMAD4</b> <b>juvenil polipozis/HHT</b>, <b>SDHD</b> <b>herediter paraganglioma-feokromositoma</b> ile ilişkilidir.",
+aciklama:"<b>PTCH1</b> mutasyonu <b>Gorlin (nevoid bazal hücreli karsinom) sendromuna</b> yol açar: çok sayıda <b>bazal hücreli karsinom</b>, <b>medulloblastom</b>, <b>odontojenik keratokistler</b>, avuç içi-ayak tabanında pitler, iskelet anomalileri (bifid kosta), kalsifiye falks serebri. PTCH, <b>SMO</b>’yu baskılayan tümör baskılayıcıdır; kaybı <b>Hedgehog (SHH)</b> yolağını sürekli aktif hâle getirir. Tedavide <b>vismodegib</b> (SMO inhibitörü) kullanılır."
+},
+{
+soru:"Aşağıdakilerden hangisi <mark>Birt-Hogg-Dubé sendromunda</mark> görülmesi <mark>en olası</mark> malignitedir?",
+siklar:[{k:"A",t:"Kolon adenokarsinomu"},{k:"B",t:"Renal hücreli karsinom"},{k:"C",t:"Mide adenokarsinomu"},{k:"D",t:"Hepatoselüler karsinom"},{k:"E",t:"Rabdomiyosarkom"}],
+dogru:1,
+ipucu:"Fibrofoliküloma + akciğer kistleri + spontan pnömotoraks üçlüsünün eşlik ettiği organ tümörünü düşünün.",
+tuzak:"BHD renal tümörleri çoğunlukla <b>kromofob RHK</b> ve <b>onkositom (hibrid onkositik tümör)</b> tipindedir; berrak hücreli tip <b>VHL</b>’de beklenir. Bu ayrım sık sorulur.",
+aciklama:"<b>Birt-Hogg-Dubé sendromu</b>: <b>FLCN (folikülin)</b> geninde otozomal dominant mutasyon. Klinik üçlü: <b>deride fibrofoliküloma/trikodiskoma</b>, <b>akciğerde bazal yerleşimli kistler ve tekrarlayan spontan pnömotoraks</b>, <b>renal tümörler</b> (çoğunlukla <b>kromofob RHK</b> ve onkositom; sıklıkla multifokal/bilateral). Tarama: periyodik <b>abdominal MR/BT</b>."
+},
+{
+soru:"Aşağıdaki germ hücreli testis tümörlerinden hangisinin <mark>intratübüler germ hücreli neoplaziden gelişmesi en az olasıdır</mark>?",
+siklar:[{k:"A",t:"Klasik seminom"},{k:"B",t:"Embriyonel karsinom"},{k:"C",t:"Koryokarsinom"},{k:"D",t:"Spermatositik tümör"},{k:"E",t:"Anaplastik seminom"}],
+dogru:3,
+ipucu:"Yaşlı erkeklerde görülen, metastaz yapmayan ve izokromozom 12p taşımayan tümörü seçin.",
+tuzak:"İsim benzerliği nedeniyle <b>spermatositik tümör</b> ile <b>seminom</b> karıştırılır; ancak spermatositik tümör <b>GCNIS ile ilişkisiz</b>, <b>OCT3/4 ve PLAP negatif</b>, prognozu mükemmel ayrı bir antitedir. Bu nedenle WHO artık «spermatositik seminom» yerine <b>spermatositik tümör</b> demektedir.",
+aciklama:"Erişkin germ hücreli tümörlerin neredeyse tamamı <b>GCNIS (in situ germ hücreli neoplazi)</b> zemininde gelişir ve <b>i(12p)</b> taşır. İstisnalar: <b>spermatositik tümör</b>, <b>prepubertal yolk sac tümörü</b> ve <b>prepubertal teratom</b>. Spermatositik tümör <b>ileri yaşta</b>, tek taraflı, üç farklı hücre boyutunda (küçük/orta/dev) hücrelerden oluşur; <b>metastaz yapmaz</b>, orşiektomi yeterlidir."
+},
+{
+soru:"Aşağıdaki otoimmün hastalıklarında hangisinde <mark>orbita, akciğer ve böbreklerde fibro-inflamatuvar psödotümörler</mark> görülmesi <mark>en olasıdır</mark>?",
+siklar:[{k:"A",t:"Sjögren sendromu"},{k:"B",t:"Mikst konnektif doku hastalığı"},{k:"C",t:"Sistemik skleroz"},{k:"D",t:"Romatoid artrit"},{k:"E",t:"IgG4-ilişkili hastalık"}],
+dogru:4,
+ipucu:"Otoimmün pankreatit, Riedel tiroiditi ve retroperitoneal fibrozisin ortak çatısı hangi hastalıktır?",
+tuzak:"<b>Sjögren</b> da lakrimal/tükürük bezi tutar ama <b>storiform fibrozis ve obliteratif flebit</b> yapmaz; ayırıcı histolojik bulgular ve <b>serum IgG4</b> yüksekliği IgG4-RD’ye özgüdür.",
+aciklama:"<b>IgG4-ilişkili hastalık</b>, çok organda <b>tümör benzeri kitleler</b> oluşturan fibro-inflamatuvar bir hastalıktır. Histoloji triadı: <b>yoğun IgG4(+) plazma hücresi infiltrasyonu</b>, <b>storiform (hasır örgüsü) fibrozis</b> ve <b>obliteratif flebit</b>. Klasik tutulumlar: <b>otoimmün pankreatit (tip 1)</b>, <b>Mikulicz hastalığı</b>, orbital psödotümör, <b>Riedel tiroiditi</b>, <b>retroperitoneal fibrozis (Ormond)</b>, tübülointerstisyel nefrit. Tedavi: <b>steroid</b>, dirençli olguda rituksimab."
+},
+{
+soru:"Alfa metilaçil koenzim A rasemaz (<mark>AMACR / P504S</mark>) pozitifliğinin <mark>en çok</mark> görüldüğü malign tümör aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Lobüler meme karsinomu"},{k:"B",t:"Malign melanom"},{k:"C",t:"Kolon adenokarsinomu"},{k:"D",t:"Prostat adenokarsinomu"},{k:"E",t:"Küçük hücreli akciğer karsinomu"}],
+dogru:3,
+ipucu:"İğne biyopsisinde bazal hücre belirteçleriyle (p63, HMWCK) birlikte kullanılan pozitif belirteci düşünün.",
+tuzak:"AMACR <b>%100 spesifik değildir</b>; papiller RHK, kolorektal ve meme karsinomlarında da eksprese olabilir. Prostatta tanı, <b>AMACR pozitifliği + bazal hücre kaybı (p63/34βE12 negatifliği)</b> kombinasyonuna dayanır.",
+aciklama:"<b>AMACR (P504S)</b>, dallı zincirli yağ asidi β-oksidasyonunda görevli bir enzimdir. <b>Prostat adenokarsinomunda</b> güçlü sitoplazmik pozitiflik verirken normal bezlerde ve benign hiperplazide negatiftir. Prostat karsinomunun tanımlayıcı özelliği <b>bazal hücre tabakasının kaybıdır</b>; bu nedenle panel: <b>AMACR (+) / p63 (−) / HMWCK (−)</b>. Prostat epiteli ayrıca <b>PSA, PSAP, NKX3.1</b> pozitiftir."
+},
+{
+soru:"<mark>Malign mezotelyoma etyolojisinde suçlanan enfeksiyöz etken</mark> aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Adenovirüs tip 54"},{k:"B",t:"EBV"},{k:"C",t:"Simian Virus 40 (SV40)"},{k:"D",t:"CMV"},{k:"E",t:"HSV"}],
+dogru:2,
+ipucu:"Kontamine polio aşılarıyla insanlara geçtiği düşünülen polyomavirüsü hatırlayın.",
+tuzak:"Mezotelyomanın <b>en önemli ve kanıtlanmış</b> nedeni <b>asbest (özellikle krosidolit/amfibol)</b> ve <b>eriyonit</b> maruziyetidir; SV40 yalnızca <b>kofaktör/suçlanan</b> ajandır, tek başına yeterli değildir.",
+aciklama:"<b>SV40</b> bir <b>polyomavirüstür</b>; <b>büyük T antijeni</b> ile <b>p53</b> ve <b>Rb</b>’yi inaktive ederek hücre döngüsünü kontrolsüzleştirir. 1955–63 arasında kontamine polio aşılarıyla insan popülasyonuna geçtiği ve asbestle sinerjik davranarak mezotelyoma gelişimine katkı verdiği öne sürülmüştür. Mezotelyoma immünhistokimyası: <b>kalretinin, WT-1, D2-40, CK5/6 (+)</b>; <b>CEA, TTF-1, Ber-EP4 (−)</b>."
+},
+{
+soru:"Aşağıdakilerden hangisi <mark>splenik marjinal zon lenfoma</mark> ile ilişkilidir?",
+siklar:[{k:"A",t:"Epstein-Barr virüs"},{k:"B",t:"İnsan Herpes Virüs Tip 8"},{k:"C",t:"Hepatit C virüs"},{k:"D",t:"Helicobacter pylori"},{k:"E",t:"Campylobacter jejuni"}],
+dogru:2,
+ipucu:"Kriyoglobülinemi ile de ilişkili olan hepatotrop virüsü düşünün.",
+tuzak:"<b>H. pylori</b> <b>gastrik MALT lenfoma</b> ile, <b>C. jejuni</b> <b>IPSID (immünoproliferatif ince barsak hastalığı / alfa ağır zincir hastalığı)</b> ile ilişkilidir. Marjinal zon lenfomanın <b>splenik</b> tipi sorulduğunda cevap <b>HCV</b>’dir.",
+aciklama:"<b>Splenik marjinal zon lenfoma</b>, kronik antijenik uyarı zemininde gelişen indolen bir B hücreli lenfomadır; <b>HCV</b> ile güçlü ilişkilidir ve <b>antiviral tedaviyle (DAA) gerileyebilir</b>. Klinik: masif splenomegali, sitopeniler, <b>villöz lenfositler</b>, ± <b>kriyoglobülinemi</b>. Diğer marjinal zon ilişkileri: mide → <b>H. pylori</b>, tiroid → <b>Hashimoto</b>, tükürük bezi → <b>Sjögren</b>, oküler adneks → <b>C. psittaci</b>, ince barsak → <b>C. jejuni</b>."
+},
+{
+soru:"Aşağıdaki Aspergillus türlerinden hangisi <mark>amfoterisin B’ye doğal dirençlidir</mark>?",
+siklar:[{k:"A",t:"Aspergillus fumigatus"},{k:"B",t:"Aspergillus flavus"},{k:"C",t:"Aspergillus niger"},{k:"D",t:"Aspergillus terreus"},{k:"E",t:"Aspergillus versicolor"}],
+dogru:3,
+ipucu:"Bu türde vorikonazol zorunlu birinci seçenektir.",
+tuzak:"<b>A. fumigatus</b> en sık etken olduğu için refleks olarak işaretlenir; ancak intrinsik amfoterisin B direnci <b>A. terreus</b>’a özgüdür. <b>A. flavus</b> aflatoksin ve invaziv sinüzit ile, <b>A. niger</b> otomikoz ve oksalat kristalleri ile akla gelir.",
+aciklama:"<b>Aspergillus terreus</b> amfoterisin B’ye <b>intrinsik (doğal) dirençlidir</b>; bu nedenle tedavide <b>vorikonazol</b> ilk seçenektir (alternatif: izavukonazol, posakonazol, ekinokandinler). Aspergillus genel özellikleri: <b>septalı hifler, dar açılı (45°) dikotom dallanma</b>, galaktomannan ve beta-D-glukan antijen testleri tanıda yardımcıdır."
+},
+{
+soru:"<mark>Over kanseri tedavisinde</mark> kullanılan <mark>tirozin kinaz inhibitörü</mark> aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Erlotinib"},{k:"B",t:"Imatinib"},{k:"C",t:"Olaparib"},{k:"D",t:"Dasatinib"},{k:"E",t:"Sunitinib"}],
+dogru:2,
+ipucu:"Şıklar içinde over kanseri endikasyonu olan tek ilaç hangisidir?",
+tuzak:"<b>Soru öncülü hatalıdır</b>: <b>olaparib bir tirozin kinaz inhibitörü değil, PARP inhibitörüdür</b> (‑parib eki PARP’ı, ‑tinib eki tirozin kinazı gösterir). Şıklardaki gerçek TKI’ların (erlotinib–KHDAK, imatinib–KML/GİST, dasatinib–KML, sunitinib–RHK/GİST) over kanseri endikasyonu yoktur. Bu nedenle kaynağa göre savunulabilir tek yanıt <b>C</b>’dir; ancak sınıflandırma ifadesi yanlıştır.",
+aciklama:"<b>Olaparib</b>, <b>PARP</b> enzimini inhibe ederek tek zincir DNA onarımını bloke eder; <b>BRCA1/2 mutant</b> tümörlerde homolog rekombinasyon defekti nedeniyle <b>sentetik letalite</b> oluşur ve hücre ölür. Endikasyonlar: <b>over</b>, meme, pankreas ve prostat kanseri (BRCA mutasyonlu). Aynı gruptan: <b>rukaparib, niraparib, talazoparib</b>. Yan etkiler: miyelosupresyon, bulantı, nadiren <b>MDS/AML</b>."
+},
+{
+soru:"Gram negatif bakterilerde <mark>dış membranı peptidoglikan tabakaya bağlayan</mark> yapı hangisidir?",
+siklar:[{k:"A",t:"Lipid A"},{k:"B",t:"Kor"},{k:"C",t:"Polisakkarit"},{k:"D",t:"Omp A"},{k:"E",t:"Pentaglisin köprüsü"}],
+dogru:3,
+ipucu:"Bağlantıyı sağlayan yapı bir lipoprotein/dış membran proteinidir; LPS bileşenleri değildir.",
+tuzak:"<b>Lipid A, kor ve O-polisakkarit</b> hepsi <b>LPS (endotoksin)</b> bileşenleridir, yapısal bağlantıyı sağlamazlar. <b>Pentaglisin köprüsü</b> ise <b>gram pozitif S. aureus</b>’un peptidoglikan çapraz bağıdır (kategori dışı).",
+aciklama:"Gram negatif dış membranı peptidoglikana <b>Braun lipoproteini</b> ve <b>OmpA</b> aracılığıyla tutunur. <b>OmpA</b> ayrıca yapısal bütünlük, konjugasyon ve adezyonda rol oynar. Dış membranın diğer öğeleri: <b>porinler (β-barrel)</b>, <b>LPS</b> (lipid A = endotoksik kısım; kor; O antijeni). İki membran arasında <b>periplazmik boşluk</b> yer alır ve beta-laktamazları barındırır."
+},
+{
+soru:"Acil servise aşırı doz ilaç alımı nedeniyle getirilen bir hastada <mark>miyozis, bradikardi, hipotansiyon, hipoventilasyon ve koma</mark> saptanmıştır. Bu hastanın tedavisinde kullanılması gereken, <mark>saf mu (μ) opioid reseptör antagonisti</mark> olan spesifik antidot aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Flumazenil"},{k:"B",t:"Naloksan (Naloxone)"},{k:"C",t:"Naltrekson"},{k:"D",t:"Atropin"},{k:"E",t:"Protamin sülfat"}],
+dogru:1,
+ipucu:"Akut zehirlenmede parenteral, hızlı etkili ve kısa yarı ömürlü olan opioid antagonistini seçin.",
+tuzak:"<b>Naltrekson</b> da opioid antagonistidir ancak <b>oral, uzun etkilidir</b> ve <b>idame (bağımlılık) tedavisinde</b> kullanılır; akut solunum depresyonunda kullanılmaz. <b>Flumazenil</b> benzodiazepin antidotudur.",
+aciklama:"<b>Opioid toksik sendromu</b>: <b>miyozis (pinpoint pupil) + solunum depresyonu + bilinç bulanıklığı</b> triadı.<br><b>Naloksan</b> IV/IM/intranazal uygulanır, saniyeler-dakikalar içinde etki eder; yarı ömrü kısa (~30–60 dk) olduğu için uzun etkili opioidlerde (metadon) <b>tekrarlayan doz veya infüzyon</b> gerekir. Bağımlıda ani <b>yoksunluk sendromu</b> tetikleyebilir. Naloksanın oral biyoyararlanımı düşüktür (ilk geçiş etkisi)."
+},
+{
+soru:"Kemik rezorbsiyonunu baskılamak amacıyla osteoporoz ve Paget hastalığı tedavisinde kullanılan, pirofosfat analogları olup osteoklastlardaki <mark>farnesil pirofosfat sentaz</mark> enzimini inhibe eden, en önemli yan etkisi <mark>özofajit ve çene kemiği osteonekrozu</mark> olan ilaç grubu aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Selektif östrojen reseptör modülatörleri (Raloksifen)"},{k:"B",t:"Bisfosfonatlar (Alendronat, Zolendronat)"},{k:"C",t:"RANKL inhibitörleri (Denosumab)"},{k:"D",t:"Paratiroid hormon analogları (Teriparatid)"},{k:"E",t:"Kalsitonin"}],
+dogru:1,
+ipucu:"Kemik hidroksiapatitine bağlanıp osteoklast tarafından yutulan pirofosfat analoglarını düşünün.",
+tuzak:"<b>Denosumab</b> da çene osteonekrozu yapabilir ama <b>RANKL’ye karşı monoklonal antikordur</b>, pirofosfat analoğu değildir ve mevalonat yolağını etkilemez. Sorudaki <b>farnesil pirofosfat sentaz</b> ifadesi doğrudan azot içeren bisfosfonatlara işaret eder.",
+aciklama:"<b>Azot içeren bisfosfonatlar</b> (alendronat, risedronat, zoledronat) osteoklastta <b>mevalonat yolağındaki farnesil pirofosfat sentazı</b> inhibe eder → küçük GTPaz prenilasyonu bozulur → <b>osteoklast apoptozu</b>. Kullanım: <b>osteoporoz, Paget hastalığı, malignite hiperkalsemisi, kemik metastazı</b>. Yan etkiler: <b>özofajit/özofagus ülseri</b> (bol suyla, aç karnına, 30 dk dik durarak alınmalı), <b>çene osteonekrozu</b>, atipik femur kırığı, IV formda akut faz reaksiyonu ve hipokalsemi."
+},
+{
+soru:"Tip 2 Diabetes Mellitus tedavisinde kullanılan, pankreas beta hücrelerinden bağımsız etki gösteren, periferik dokularda <mark>AMP-aktive protein kinaz (AMPK)</mark> enzimini aktive ederek insülin duyarlılığını artıran ve yan etki olarak <mark>laktik asidoz</mark> riski taşıyan ilk seçenek oral antidiyabetik aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Repaglinid"},{k:"B",t:"Sitagliptin"},{k:"C",t:"Metformin"},{k:"D",t:"Pioglitazon"},{k:"E",t:"Empagliflozin"}],
+dogru:2,
+ipucu:"Hepatik glukoneogenezi baskılayan, kilo aldırmayan ve tek başına hipoglisemi yapmayan biguanidi seçin.",
+tuzak:"<b>Pioglitazon</b> da insülin duyarlılaştırıcıdır ancak etkisi <b>PPAR-γ</b> üzerindendir ve laktik asidoz yapmaz (yan etkileri: ödem, kalp yetmezliği, kırık, mesane kanseri tartışması). <b>Repaglinid</b> beta hücresinden insülin salgılatır (KATP kanalı) — «beta hücreden bağımsız» ifadesiyle çelişir.",
+aciklama:"<b>Metformin</b> (biguanid), <b>AMPK</b> aktivasyonu ile <b>hepatik glukoneogenezi</b> azaltır, periferik glukoz alımını ve insülin duyarlılığını artırır. Avantajları: <b>hipoglisemi yapmaz</b>, kilo nötr/azaltıcı, kardiyovasküler açıdan güvenli. Yan etkileri: GİS intoleransı, <b>B12 eksikliği</b>, nadiren <b>laktik asidoz</b>. Kontrendikasyonları: <b>eGFR &lt;30</b>, ciddi karaciğer yetmezliği, hipoksik durumlar; <b>iyotlu kontrast</b> öncesi geçici kesilir."
+},
+{
+soru:"Gebelik hipertansiyonunun ve preeklampsi tablosunun tedavisinde periferik vasküler düz kasları doğrudan gevşeterek vazodilatasyon yapan, ancak <mark>refleks taşikardi ve sıvı retansiyonu</mark> yapma riski yüksek olan, gebelikte <mark>güvenle kullanılabilen</mark> klasik arteriyel vazodilatör antihipertansif aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Hidralazin (Hydralazine)"},{k:"B",t:"Enalapril"},{k:"C",t:"Losartan"},{k:"D",t:"Nitroprussid"},{k:"E",t:"Aliskiren"}],
+dogru:0,
+ipucu:"Gebelikte RAAS’ı etkileyen tüm ilaçlar yasaktır; geriye doğrudan arteriyoler dilatatör kalır.",
+tuzak:"<b>ACE inhibitörleri, ARB’ler ve renin inhibitörleri gebelikte kesin kontrendikedir</b> (fetal renal displazi, oligohidramnios, kafatası hipoplazisi). <b>Nitroprussid</b> ise fetusta <b>siyanür/tiyosiyanat birikimi</b> riski nedeniyle kaçınılması gereken bir ilaçtır.",
+aciklama:"<b>Hidralazin</b> doğrudan arteriyoler düz kası gevşetir (afterload düşürür); gebelikte ve preeklampside <b>labetalol, nifedipin</b> ile birlikte güvenli seçeneklerdendir. Yan etkileri: <b>refleks taşikardi</b>, sıvı-tuz retansiyonu, baş ağrısı ve yavaş asetilleyicilerde <b>ilaca bağlı lupus</b> benzeri sendrom. Eklampsi profilaksisinde ise antihipertansiften bağımsız olarak <b>MgSO₄</b> kullanılır."
+},
+{
+soru:"Bir reseptöre bağlanarak yapısal (konstitütif) olarak var olan bazal reseptör aktivitesini <mark>sıfırın altına indiren</mark> ve efikasitesi (Emax) <mark>negatif değer alan</mark> ilaç moleküllerine ne ad verilir?",
+siklar:[{k:"A",t:"Tam agonist (Full agonist)"},{k:"B",t:"Parsiyel agonist"},{k:"C",t:"Kompetitif antagonist"},{k:"D",t:"İnvers agonist (Inverse agonist)"},{k:"E",t:"Non-kompetitif antagonist"}],
+dogru:3,
+ipucu:"İntrensek aktivitesi (α) −1 ile 0 arasında olan molekülü arayın.",
+tuzak:"<b>Kompetitif antagonistin</b> intrensek aktivitesi <b>sıfırdır</b>; bazal aktiviteyi değiştirmez, sadece agonisti bloke eder. <b>Negatif efikasite</b> yalnızca invers agonistlere aittir.",
+aciklama:"İntrensek aktivite (α): <b>tam agonist = +1</b>, <b>parsiyel agonist = 0 &lt; α &lt; 1</b>, <b>antagonist = 0</b>, <b>invers agonist = negatif (−1 ≤ α &lt; 0)</b>. İnvers agonistler reseptörün <b>inaktif konformasyonunu</b> stabilize ederek konstitütif aktiviteyi baskılar. Örnekler: <b>H₁ antihistaminikler (setirizin, difenhidramin)</b>, <b>H₂ blokerler</b>, <b>beta blokerlerin bazıları (metoprolol, propranolol)</b>, benzodiazepin reseptöründe <b>β-karbolinler</b>."
+},
+{
+soru:"Çocukluk çağında en sık görülen nefrotik sendrom etkeni olan, ışık mikroskobisinde glomerüllerde belirgin bir patoloji izlenmezken, elektron mikroskobisinde <mark>podositlerin ayak uzantılarında yaygın silinme ve düzleşme</mark> saptanan böbrek hastalığı aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Membranöz nefropati"},{k:"B",t:"Minimal değişiklik hastalığı"},{k:"C",t:"Fokal segmental glomeruloskleroz (FSGS)"},{k:"D",t:"Membranoproliferatif glomerulonefrit (MPGN)"},{k:"E",t:"IgA nefropatisi (Berger hastalığı)"}],
+dogru:1,
+ipucu:"Steroide dramatik yanıt veren, immünfloresansı negatif olan çocukluk çağı nefrotik sendromunu düşünün.",
+tuzak:"<b>FSGS</b>’de de ayak çıkıntısı silinmesi vardır; farkı <b>ışık mikroskobunda segmental skleroz</b> bulunması, <b>steroide dirençli</b> olması ve immünfloresansta segmental <b>IgM/C3</b> tutulumudur. Ayrıca FSGS erişkinde ve siyah ırkta daha sıktır.",
+aciklama:"<b>Minimal değişiklik hastalığı (lipoid nefroz)</b>: 2–6 yaş, <b>selektif proteinüri (albümin)</b>, ışık mikroskobu <b>normal</b>, <b>immünfloresans negatif</b>, EM’de yaygın <b>ayak çıkıntısı silinmesi (effacement)</b>. Patogenezde T hücre kaynaklı sitokinlerin (ör. <b>hemopeksin</b>, son yıllarda <b>anti-nefrin antikorları</b>) podosit yükünü bozması suçlanır. <b>Steroide %90 üzerinde yanıt</b> verir. Hodgkin lenfoma ve <b>NSAİİ</b> ile ilişkili olabilir."
+},
+{
+soru:"Kronik sigara içicisi olan 60 yaşındaki erkek hastanın akciğer biyopsisinde; bronşiyal mukozayı döşeyen normal psödostratifiye silyer kolumnar epitelin yerini kronik iritasyona bağlı olarak <mark>stratifiye skuamöz epitelin</mark> aldığı gözlenmiştir. Bu <mark>geri dönüşümlü</mark> hücresel adaptasyon mekanizması aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Skuamöz displazi"},{k:"B",t:"Skuamöz metaplazi"},{k:"C",t:"Skuamöz hiperplazi"},{k:"D",t:"Anaplazi"},{k:"E",t:"Karsinoma in situ"}],
+dogru:1,
+ipucu:"Bir erişkin hücre tipinin yerini başka bir erişkin hücre tipinin alması hangi terimle tanımlanır?",
+tuzak:"<b>Displazi</b> de sigarayla ilişkilidir ama <b>atipi, pleomorfizm ve polarite kaybı</b> içerir; soru <b>geri dönüşümlü</b> ve <b>normal epitel yerine normal başka epitel</b> gelmesini tarif ettiği için metaplazidir.",
+aciklama:"<b>Metaplazi</b>, kök hücrelerin <b>yeniden programlanmasıyla</b> bir erişkin hücre tipinin yerini başka bir erişkin hücre tipinin almasıdır ve <b>reversibldir</b>. Sigara dumanına bağlı bronşta <b>silyer kolumnar → skuamöz</b> dönüşüm koruyucudur ancak <b>mukosiliyer klirensi kaybettirir</b> ve kalıcı uyarı sürerse <b>displazi → karsinoma in situ → skuamöz hücreli karsinom</b> zeminini hazırlar. Diğer örnekler: <b>Barrett özofagusu</b> (skuamöz → kolumnar, intestinal), <b>vitamin A eksikliği</b>, <b>miyozitis ossifikans</b> (mezenkimal metaplazi)."
+},
+{
+soru:"Akut miyokard infarktüsü (MI) geçiren bir hastanın histopatolojik takibinde; infarkt alanında <mark>kontraksiyon bantlarının görülmesi, yoğun nötrofil infiltrasyonu ve koagülasyon nekrozunun en belirgin hâlini alması</mark> infarkttan yaklaşık ne kadar süre sonra gerçekleşir?",
+siklar:[{k:"A",t:"İlk 30 dakika içinde"},{k:"B",t:"1 - 4 saat arasında"},{k:"C",t:"1 - 3 gün arasında"},{k:"D",t:"7 - 10 gün arasında"},{k:"E",t:"2 - 4 hafta sonra"}],
+dogru:2,
+ipucu:"Nötrofil infiltrasyonunun zirve yaptığı ve fibrinöz perikarditin görülebildiği dönemi düşünün.",
+tuzak:"<b>Kontraksiyon bantları</b> reperfüzyonla ilk saatlerde de belirebilir; ancak soru <b>nötrofil infiltrasyonunun yoğunlaşması + koagülasyon nekrozunun tamamlanması</b> ile birlikte sorduğu için cevap <b>1-3 gün</b>dür. <b>7-10 gün</b> makrofaj/granülasyon dönemidir ve <b>rüptür riskinin en yüksek</b> olduğu evredir.",
+aciklama:"MI zaman çizelgesi:<br><b>0-30 dk</b>: geri dönüşümsüz hasar başlangıcı, dalgalı lifler (EM’de mitokondriyal amorf dansiteler).<br><b>4-12 saat</b>: erken koagülasyon nekrozu, ödem, hemoraji.<br><b>1-3 gün</b>: <b>koagülasyon nekrozu belirgin, çekirdek kaybı, yoğun nötrofil infiltrasyonu</b>; fibrinöz perikardit.<br><b>3-7 gün</b>: makrofajlarla nekrotik doku sindirimi (<b>en zayıf duvar</b>).<br><b>7-10 gün</b>: granülasyon dokusu, neovaskülarizasyon; <b>rüptür riski zirvede</b>.<br><b>2-8 hafta</b>: kollajen birikimi ve <b>skar</b>."
+},
+{
+soru:"Özellikle uzun kemik kırıkları veya şiddetli yumuşak doku travmalarından sonra; travmadan <mark>1-3 gün sonra aniden gelişen</mark> taşipne, dispne, taşikardi, nörolojik semptomlar ve anemiyle birlikte <mark>yaygın peteşiyal döküntülerle</mark> karakterize emboli tipi aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Hava embolisi"},{k:"B",t:"Yağ (fat) embolisi sendromu"},{k:"C",t:"Amniyon sıvı embolisi"},{k:"D",t:"Paradoks emboli"},{k:"E",t:"Septik emboli"}],
+dogru:1,
+ipucu:"Kemik iliğinden dolaşıma geçen mikroglobülleri düşünün; klasik triad solunum + nörolojik + deri bulgularıdır.",
+tuzak:"<b>Amniyon sıvı embolisi</b> de dispne ve DİK yapar ama <b>doğum/postpartum</b> ile ilişkilidir. Yağ embolisinde tipik olan, travma sonrası <b>latent (asemptomatik) 24-72 saatlik dönem</b>dir.",
+aciklama:"<b>Yağ embolisi sendromu</b>: uzun kemik/pelvis kırıkları, ortopedik cerrahi, ciddi yanık ve yumuşak doku travması sonrası kemik iliğinden yağ globüllerinin dolaşıma geçmesiyle olur. Klasik triad: <b>solunum yetmezliği (hipoksemi, ARDS benzeri)</b>, <b>nörolojik bulgular (konfüzyon, koma)</b>, <b>peteşiyal döküntü (üst gövde, aksilla, konjonktiva)</b>. Ayrıca <b>trombositopeni ve anemi</b> görülür. Mekanizma hem mekanik tıkanma hem <b>serbest yağ asitlerinin</b> toksik/inflamatuvar etkisidir. Tedavi destekleyicidir; erken fiksasyon koruyucudur."
+},
+{
+soru:"Akut inflamasyonda lökositlerin endotel üzerinde yaptığı <mark>rolling (yuvarlanma)</mark> aşamasından birincil olarak sorumlu olan <mark>E-selektin ve P-selektin</mark> moleküllerinin lökosit yüzeyinde bağlandığı <mark>karbonhidrat ligandı</mark> aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Sialyl-Lewis X"},{k:"B",t:"ICAM-1"},{k:"C",t:"VCAM-1"},{k:"D",t:"LFA-1"},{k:"E",t:"PECAM-1 (CD31)"}],
+dogru:0,
+ipucu:"Selektinler «lektin» ailesindendir; yani şeker bağlarlar.",
+tuzak:"<b>ICAM-1/VCAM-1</b> (immünglobulin süper ailesi) ve <b>LFA-1/VLA-4</b> (integrinler) <b>sıkı yapışma (adhesion)</b> basamağında rol alır, rolling’de değil. <b>PECAM-1 (CD31)</b> ise <b>transmigrasyon</b> basamağındandır.",
+aciklama:"Lökosit ekstravazasyon basamakları: <b>marjinasyon → rolling (selektinler) → sıkı adezyon (integrinler) → transmigrasyon (PECAM-1) → kemotaksi</b>.<br><b>E-selektin</b> (endotelde sitokinlerle indüklenir), <b>P-selektin</b> (Weibel-Palade cisimlerinden histamin/trombin ile hızla yüzeye çıkar) ve <b>L-selektin</b> (lökositte), lökosit üzerindeki <b>sialil-Lewis X</b> yapısına bağlanır. <b>LAD tip 2</b>, fukoz metabolizması bozukluğuyla sialil-Lewis X eksikliğine ve rolling defektine yol açar; <b>LAD tip 1</b> ise <b>CD18 (β2 integrin)</b> eksikliğidir."
+},
+{
+soru:"Aşağıdaki nekroz tiplerinden hangisi, lizozomal enzimlerin dokuyu tamamen <mark>sıvılaştırması</mark> ile karakterize olan, <mark>merkezi sinir sistemi enfarktüslerinde</mark> ve tüm <mark>bakteriyel/fungal apselerde</mark> görülen tipik nekroz şeklidir?",
+siklar:[{k:"A",t:"Koagülasyon nekrozu"},{k:"B",t:"Likefaksiyon (sıvılaşma) nekrozu"},{k:"C",t:"Kazeifikasyon nekrozu"},{k:"D",t:"Gangrenöz nekroz"},{k:"E",t:"Fibrinoid nekroz"}],
+dogru:1,
+ipucu:"Beyin dokusunda yapısal desteğin (kollajen) az, lipid ve lizozomal enzim yükünün fazla olması sonucu ne olur?",
+tuzak:"Beyin, vücutta <b>iskemiye rağmen koagülasyon nekrozu göstermeyen tek organdır</b>; bu «kural dışı» durum sık sorulur. Sonuçta içi sıvı dolu <b>kistik (kavite) alan</b> ve çevresinde <b>gliozis</b> oluşur.",
+aciklama:"<b>Likefaksiyon nekrozu</b>: hidrolitik enzimler (nötrofil ve hücre lizozomlarından) dokuyu viskoz sıvıya çevirir; <b>apselerde püy</b> ve <b>serebral enfarktta kistik kavite</b> tipiktir.<br>Karşılaştırma: <b>Koagülasyon</b> → kalp, böbrek, dalak enfarktı (doku mimarisi korunur).<br><b>Kazeifikasyon</b> → tüberküloz, histoplazmoz (peynirimsi, granülom içinde).<br><b>Gangrenöz</b> → ekstremite iskemisi (kuru = koagülasyon, ıslak = enfeksiyon eklenmiş likefaksiyon).<br><b>Fibrinoid</b> → immün kompleks vaskülitleri, malign HT, preeklampsi."
+},
+{
+soru:"Hastanede yatan bir hastanın kan kültüründen izole edilen Gram negatif <i>Klebsiella pneumoniae</i> suşunun; penisilinler, sefalosporinler (3. ve 4. kuşak dâhil) ve aztreonama dirençli, ancak <mark>karbapenemlere duyarlı</mark> olduğu; direncin <mark>klavulanik asit ile geri çevrilebildiği</mark> saptanmıştır. Bu bakterinin direnç mekanizması aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Genişlemiş spektrumlu beta-laktamaz (GSBL / ESBL)"},{k:"B",t:"AmpC tipi beta-laktamaz"},{k:"C",t:"Metallobeta-laktamaz (NDM-1)"},{k:"D",t:"KPC (Klebsiella pneumoniae karbapenemaz)"},{k:"E",t:"Porin protein kaybı"}],
+dogru:0,
+ipucu:"Klavulanik asit ile inhibe olması, enzimin aktif bölgesinde serin bulunan ve inhibitörlere duyarlı bir sınıf olduğunu gösterir.",
+tuzak:"<b>AmpC</b> da geniş spektrumludur ama <b>klavulanik asitle inhibe olmaz</b> ve tipik olarak <b>sefoksitine (sefamisin) dirençlidir</b>. <b>KPC ve MBL</b> ise <b>karbapenem direnci</b> yapardı — oysa suş karbapeneme duyarlıdır.",
+aciklama:"<b>ESBL (Ambler sınıf A, Bush grup 2be)</b>: <b>TEM, SHV, CTX-M</b> türevleri; penisilinleri, <b>geniş spektrumlu sefalosporinleri</b> ve <b>aztreonamı</b> hidrolize eder, <b>karbapenemlere ve sefamisinlere (sefoksitin) etkisizdir</b> ve <b>klavulanik asit/tazobaktam ile inhibe olur</b>. Doğrulama: <b>çift disk sinerji testi</b>. Ciddi enfeksiyonda tedavi seçeneği <b>karbapenemlerdir</b>."
+},
+{
+soru:"Genellikle kontamine ve filtrelenmemiş yüzey sularının tüketilmesiyle bulaşan, <mark>duodenal yerleşim</mark> gösteren, trofozoit formu mikroskopta <mark>armut biçimli ve çift nükleuslu</mark> görülen, kronik enfeksiyonda <mark>yağ malabsorbsiyonu (steatore)</mark> ve kilo kaybına neden olan protozoon aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Entamoeba histolytica"},{k:"B",t:"Giardia lamblia (intestinalis)"},{k:"C",t:"Cryptosporidium parvum"},{k:"D",t:"Balantidium coli"},{k:"E",t:"Isospora belli"}],
+dogru:1,
+ipucu:"«Uçurtma» veya «yaşlı adam yüzü» görüntüsü hangi kamçılı protozoona aittir?",
+tuzak:"<b>Entamoeba histolytica</b> <b>kanlı-mukuslu dizanteri</b> ve karaciğer apsesi yapar; <b>steatore ve malabsorpsiyon</b> Giardia’nın özelliğidir. <b>Cryptosporidium</b> ve <b>Isospora</b> AIDS’te sulu ishal yapar ve <b>asidorezistan (kinyoun) boyama</b> ile tanınır.",
+aciklama:"<b>Giardia intestinalis (lamblia)</b>, duodenum-jejunum mukozasına <b>emici disk</b> ile yapışır; mukozal hasar ve safra tuzu tüketimi ile <b>yağ emilim bozukluğu</b> yapar. Trofozoit: <b>armut şeklinde, 2 nükleus, 4 çift kamçı</b>; kist: 4 nükleuslu ve bulaştırıcı formdur. Risk grupları: kampçılar, kreş çocukları, <b>IgA eksikliği/CVID</b>. Tanı: dışkıda kist/trofozoit, <b>ELISA antijen</b>, gerekirse duodenal aspirat (<b>Entero-test</b>). Tedavi: <b>metronidazol, tinidazol, nitazoksanid</b>."
+},
+{
+soru:"Aşağıdaki DNA virüslerinden hangisi, ürettiği <mark>E6 onkoproteini ile p53</mark>; <mark>E7 onkoproteini ile Rb</mark> proteinini inaktive ederek hücreyi kontrolsüz proliferasyona götüren en önemli onkojenik virüstür?",
+siklar:[{k:"A",t:"Epstein-Barr virüsü (EBV)"},{k:"B",t:"İnsan papilloma virüsü (HPV)"},{k:"C",t:"Hepatit C virüsü (HCV)"},{k:"D",t:"Kaposi sarkomu ilişkili herpes virüsü (KSHV/HHV-8)"},{k:"E",t:"İnsan T-hücreli lösemi virüsü (HTLV-1)"}],
+dogru:1,
+ipucu:"Serviks kanserinin yüksek riskli tiplerini düşünün: 16 ve 18.",
+tuzak:"<b>HCV ve HTLV-1 RNA virüsleridir</b>; soru «DNA virüsü» dediği için bu iki şık zaten elenir. <b>HBV</b> ise DNA virüsüdür ve p53’ü <b>HBx</b> ile etkiler — E6/E7 ile karıştırılmamalıdır.",
+aciklama:"<b>HPV</b> (papillomavirüs, çift sarmallı DNA). Yüksek riskli tipler <b>16 ve 18</b>: <b>E6 → p53 yıkımı (E6-AP ubikitin ligazı ile)</b>, <b>E7 → Rb inaktivasyonu → E2F serbestleşmesi</b>. Sonuç: G1/S kontrol noktası kaybı, apoptozdan kaçış, <b>p16 aşırı ekspresyonu</b> (immünhistokimyada belirteç). İlişkili kanserler: <b>serviks, anüs, vulva, penis, orofarenks</b>. Tip <b>6 ve 11</b> düşük risklidir (kondiloma akuminatum, laringeal papillomatozis). Korunma: <b>HPV aşısı</b>."
+},
+{
+soru:"Doğal katil (NK) hücrelerinin <mark>kesin tanımını ve identifikasyonunu</mark> sağlayan tipik yüzey belirteçleri aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"CD3 (+) ve CD4 (+)"},{k:"B",t:"CD19 (+) ve CD20 (+)"},{k:"C",t:"CD16 (+) ve CD56 (+)"},{k:"D",t:"CD14 (+) ve CD15 (+)"},{k:"E",t:"CD8 (+) ve CD28 (+)"}],
+dogru:2,
+ipucu:"ADCC’den sorumlu Fc-gama reseptörünün CD numarasını hatırlayın.",
+tuzak:"NK hücreleri <b>CD3 negatiftir</b> (TCR taşımaz) — CD3 içeren şıklar T hücreye aittir. <b>CD19/CD20</b> B hücre, <b>CD14</b> monosit/makrofaj, <b>CD15</b> granülosit (ve Reed-Sternberg) belirtecidir.",
+aciklama:"<b>NK hücreleri</b> doğal bağışıklığın sitotoksik lenfositleridir: <b>CD16 (FcγRIII) ve CD56 pozitif; CD3 ve yüzey Ig negatif</b>. CD16 sayesinde <b>ADCC</b> yaparlar. Öldürme kararı, <b>inhibitör KIR reseptörlerinin MHC sınıf I</b>’i tanımasıyla verilir: <b>MHC-I kaybı (missing self)</b> → aktivasyon → <b>perforin/granzim</b> ile apoptoz. <b>IL-2, IL-12 ve IL-15</b> ile aktive olur, <b>IFN-γ</b> salgılarlar. Virüsle enfekte ve tümör hücrelerine karşı ilk savunmadır."
+},
+{
+soru:"Perianal bölgeye sabah yataktan kalkmadan önce uygulanan <mark>selofan bant (seloteyp) yöntemi</mark> ile yapılan mikroskobik incelemede, <mark>asimetrik «D» harfi şeklinde</mark> tipik yumurtaların görülmesi, aşağıdaki parazitlerden hangisinin tanısını koydurur?",
+siklar:[{k:"A",t:"Ascaris lumbricoides"},{k:"B",t:"Enterobius vermicularis (kıl kurdu)"},{k:"C",t:"Trichuris trichiura"},{k:"D",t:"Ancylostoma duodenale"},{k:"E",t:"Strongyloides stercoralis"}],
+dogru:1,
+ipucu:"Gece perianal bölgeye yumurta bırakan ve çocuklarda anal kaşıntı yapan nematodu düşünün.",
+tuzak:"<b>Trichuris trichiura</b> yumurtası <b>fıçı/limon şeklinde çift kutup tıkaçlıdır</b> ve <b>dışkıda</b> aranır. Enterobius yumurtası dışkıda genellikle <b>bulunmaz</b>; bu yüzden selofan bant testi zorunludur.",
+aciklama:"<b>Enterobius vermicularis</b>: fekal-oral ve <b>inhalasyon/otoenfeksiyon</b> ile bulaşır; dişi gece perianal bölgeye göç edip yumurtlar → <b>noktürnal pruritus ani</b>, huzursuzluk, kızlarda vulvovajinit. Yumurta: <b>bir yüzü düz, diğeri konveks (D harfi), şeffaf</b> ve bırakıldığında hemen enfektiftir. Tanı: <b>selofan bant (Graham) testi</b>, sabah yıkanmadan alınır. Tedavi: <b>mebendazol/albendazol veya pirantel pamoat</b>, 2 hafta sonra tekrar; <b>tüm aile</b> tedavi edilir."
+},
+{
+soru:"Gram pozitif bakterilerin hücre duvarında bulunan, hücre duvarına dikey olarak uzanarak peptidoglikan tabakaya veya sitoplazmik membrana (lipoteikoik asit) bağlanan, bakterinin <mark>yüzeye tutunmasında (adhezyon)</mark> ve <mark>antijenik yapısında</mark> rol oynayan ana bileşen aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"D-Alanin"},{k:"B",t:"Teikoik asit"},{k:"C",t:"Porin proteinleri"},{k:"D",t:"Lipid A"},{k:"E",t:"Periplazmik jel"}],
+dogru:1,
+ipucu:"Gram pozitiflere özgü, gliserol veya ribitol fosfat polimerini düşünün.",
+tuzak:"<b>Lipid A ve porinler gram negatif</b> yapılardır (kategori dışı çeldirici). <b>Periplazmik boşluk</b> da esas olarak gram negatiflerde belirgindir. <b>D-alanin</b> teikoik asit ve peptidoglikanın bir bileşenidir, ana yapı değildir.",
+aciklama:"<b>Teikoik asitler</b> gram pozitif hücre duvarının <b>%50’sine kadar</b> ulaşabilen, <b>gliserol/ribitol fosfat</b> polimerleridir. Peptidoglikana bağlananlar <b>duvar teikoik asidi</b>, sitoplazmik membrana bağlananlar <b>lipoteikoik asit</b> olarak adlandırılır. Görevleri: <b>adezyon</b>, katyon (Mg²⁺) bağlama, <b>majör yüzey antijeni</b> olma ve <b>TLR2</b> üzerinden inflamatuvar yanıt (endotoksin benzeri etki) oluşturma. Gram negatif bakterilerde bulunmazlar."
+},
+{
+soru:"On aylık erkek hasta, ailesi tarafından fark edilen <mark>nöbet</mark> şikâyetiyle acil servise getiriliyor. Fizik muayenesinde yüzde <mark>anjiyofibromlar</mark>, lumbosakral bölgede <mark>«Shagreen» (şagren) yamaları</mark> ve Wood lambası altında <mark>hipopigmente maküller (ash-leaf spots)</mark> saptanıyor. Ekokardiyografide sol ventrikülde kitle izleniyor. En olası tanı aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Tüberoskleroz kompleksi"},{k:"B",t:"Sturge-Weber sendromu"},{k:"C",t:"Nörofibromatozis tip 1"},{k:"D",t:"Incontinentia pigmenti"},{k:"E",t:"Von Hippel-Lindau hastalığı"}],
+dogru:0,
+ipucu:"Kalpteki kitle bir rabdomiyomdur; deri bulguları ve nöbetle birlikte hangi fakomatozu düşündürür?",
+tuzak:"<b>Kaynakta bu soru yalnızca 4 şık (A-D) ile verilmiştir; standart 5 şıklı formata uydurmak için E şıkkı (Von Hippel-Lindau) tarafımızdan eklenmiştir</b> — doğru yanıt değişmez. Ayrıca <b>ash-leaf spots</b> hipopigmentedir; NF1’in <b>café-au-lait</b> (hiperpigmente) lekeleriyle karıştırılmamalıdır.",
+aciklama:"<b>Tüberoskleroz kompleksi (TSC)</b>: <b>TSC1 (hamartin, 9q)</b> veya <b>TSC2 (tuberin, 16p)</b> mutasyonu, otozomal dominant; <b>mTOR yolağı</b> aşırı aktive olur.<br>Bulgular: <b>infantil spazm/nöbet</b>, kortikal tuberler ve subependimal nodüller (<b>SEGA</b>), <b>ash-leaf makülleri</b>, <b>anjiyofibrom (adenoma sebaceum)</b>, <b>shagreen yaması</b>, periungual fibrom (Koenen), <b>kardiyak rabdomiyom</b>, <b>renal anjiyomiyolipom</b>, <b>lenfanjiyoleiomiyomatozis</b>, retinal hamartom. Tedavide <b>everolimus</b> ve nöbet için <b>vigabatrin</b> kullanılır."
+},
+{
+soru:"İnfluenza virüsünün konak hücreye tutunmasını sağlayan, <mark>sialik asit reseptörlerine bağlanan</mark> ve eritrositleri <mark>aglütine etme</mark> özelliğine sahip olan yüzey glikoproteini aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Nöraminidaz (NA)"},{k:"B",t:"Hemaglutinin (HA)"},{k:"C",t:"Matriks 1 (M1) proteini"},{k:"D",t:"Matriks 2 (M2) iyon kanalı"},{k:"E",t:"Nükleoprotein (NP)"}],
+dogru:1,
+ipucu:"Adı zaten işlevini söylüyor: eritrositleri aglütine eden protein.",
+tuzak:"<b>Nöraminidaz</b> tutunmayı değil, <b>yeni virionların hücreden salınmasını</b> sağlar (sialik asidi keser); <b>oseltamivir/zanamivir</b> bunu inhibe eder. <b>M2</b> ise <b>amantadin/rimantadinin</b> hedefidir ve soyunma (uncoating) basamağında görev alır.",
+aciklama:"<b>İnfluenza A</b>: segmentli, negatif polariteli ssRNA, zarflı ortomiksovirüs.<br><b>HA</b>: konak hücre yüzeyindeki <b>sialik aside</b> bağlanır (tutunma + füzyon), <b>hemaglutinasyon</b> ve <b>nötralizan antikorların</b> hedefidir — koruyucu bağışıklığın temelidir.<br><b>NA</b>: salınım.<br><b>Antijenik drift</b> = nokta mutasyon (mevsimsel salgın), <b>antijenik shift</b> = <b>segment reasortmanı</b> (pandemi; yalnız influenza A). Komplikasyonlar: <b>S. aureus sekonder pnömonisi</b>, çocukta salisilat kullanımıyla <b>Reye sendromu</b>."
+},
+{
+soru:"Yirmi iki yaşında erkek hasta, vücudunda giderek artan kahverengi lekeler ve cilt altı kitleler şikâyetiyle başvuruyor. Muayenede gövdede çok sayıda <mark>café-au-lait makülü</mark>, <mark>aksiller çillenme (Crowe bulgusu)</mark> ve iriste <mark>Lisch nodülleri</mark> saptanıyor. Bu klinik tablodan sorumlu gen ve kodladığı protein hangisinde doğru verilmiştir?",
+siklar:[{k:"A",t:"NF2 geni — Merlin"},{k:"B",t:"TSC1 veya TSC2 genleri — Hamartin / Tuberin"},{k:"C",t:"NF1 geni — Nörofibromin"},{k:"D",t:"FBN1 geni — Fibrillin-1"},{k:"E",t:"VHL geni — pVHL"}],
+dogru:2,
+ipucu:"Lisch nodülü (iris hamartomu) hangi nörokutanöz sendroma özgüdür?",
+tuzak:"<b>Kaynakta bu soru 4 şıklıdır (A-D); 5 şıklı formata uyum için E şıkkı (VHL) eklenmiştir</b>. Ayrıca <b>NF2</b> ile karıştırılmamalıdır: NF2’de café-au-lait ve Lisch nodülü değil, <b>bilateral vestibüler schwannom</b> ve <b>juvenil katarakt</b> beklenir.",
+aciklama:"<b>NF1 (von Recklinghausen)</b>: <b>17q11.2</b>’de <b>NF1</b> geni, ürünü <b>nörofibromin</b> — bir <b>Ras-GAP</b>’tır; kaybı <b>RAS/MAPK</b> yolağını sürekli aktif kılar. Otozomal dominant, <b>tam penetrans, değişken ekspresivite</b>, yüksek de novo mutasyon oranı.<br>Tanı ölçütleri: ≥6 <b>café-au-lait</b> lekesi, ≥2 nörofibrom veya 1 pleksiform nörofibrom, <b>aksiller/inguinal çillenme</b>, <b>≥2 Lisch nodülü</b>, <b>optik gliom</b>, kemik displazisi (sfenoid kanat), birinci derece akrabada NF1. Ek riskler: <b>MPNST</b>, feokromositoma, JMML."
+},
+{
+soru:"Deride veziküler lezyon oluşturan Herpes simpleks virüsü (HSV) veya Varisella zoster virüsü (VZV) enfeksiyonlarının tanısında, <mark>çok çekirdekli dev hücreleri</mark> görmek amacıyla kullanılan sitolojik inceleme yöntemi aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Gram boyama"},{k:"B",t:"Giemsa boyama"},{k:"C",t:"KOH (potasyum hidroksit) preparatı"},{k:"D",t:"Tzanck testi"},{k:"E",t:"Karanlık alan mikroskopisi"}],
+dogru:3,
+ipucu:"Vezikül tabanından kazıntı alınarak yapılan hızlı yatak başı testini düşünün.",
+tuzak:"<b>KOH preparatı mantar</b> (hifa/spor), <b>karanlık alan mikroskopisi Treponema pallidum</b> içindir. <b>Giemsa</b> boyası Tzanck yaymasında kullanılabilir ama <b>testin adı Tzanck</b>’tır — soru yöntemi sormaktadır.",
+aciklama:"<b>Tzanck testi</b>: taze vezikülün tabanından kazıntı alınıp lama yayılır ve <b>Giemsa/Wright</b> ile boyanır. <b>Multinükleer dev hücreler</b> ve <b>Cowdry tip A intranükleer inklüzyonlar</b> görülür. HSV-1, HSV-2 ve VZV’yi <b>ayırt edemez</b> (duyarlılık sınırlıdır); kesin tanı için <b>PCR</b> (altın standart) veya DFA kullanılır. Tzanck ayrıca <b>pemfigus vulgariste akantolitik hücreleri</b> göstermek için de kullanılır."
+},
+{
+soru:"Kamçılılar grubundan <i>Trypanosoma cruzi</i> etkeni olduğu <mark>Chagas hastalığının</mark> insana bulaşma yolu aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Anofel cinsi sivrisinek ısırığı"},{k:"B",t:"Triatomin böceğinin dışkısı"},{k:"C",t:"Kene ısırığı"},{k:"D",t:"Kum sineği"},{k:"E",t:"Tatarcık sineği"}],
+dogru:1,
+ipucu:"«Öpücük böceği» ısırık sırasında dışkılar; parazit ısırıkla değil, kaşıma ile içeri girer.",
+tuzak:"Bulaş <b>ısırıkla doğrudan inokülasyon değildir</b>: böcek dışkısındaki <b>metasiklik tripomastigotlar</b> kaşıma sırasında ısırık yerinden veya konjonktivadan girer. <b>Kum sineği (Phlebotomus/tatarcık) → leishmaniazis</b>, <b>tsetse sineği → Afrika tripanozomiyazı</b>, <b>Anofel → sıtma</b>.",
+aciklama:"<b>Chagas hastalığı (Amerikan tripanozomiyazı)</b>: <b>T. cruzi</b>, vektör <b>Triatoma (redüvit/öpücük böceği)</b>. Akut evre: giriş yerinde <b>şagom</b>, göz kapağında <b>Romaña bulgusu</b>, ateş, lenfadenopati. Kronik evre (yıllar sonra): <b>dilate kardiyomiyopati ve aritmiler</b>, <b>megaözofagus ve megakolon</b> (miyenterik pleksus harabiyeti). Dokuda <b>amastigot</b>, kanda <b>tripomastigot</b> görülür. Tedavi: <b>benznidazol, nifurtimoks</b>."
+},
+{
+soru:"Aşağıdaki <mark>antibiyotik ve yan etki eşleştirmelerinden</mark> hangisi <mark>yanlıştır</mark>?",
+siklar:[{k:"A",t:"Aminoglikozidler — Nefrotoksisite"},{k:"B",t:"Tetrasiklinler — Dişlerde renk değişikliği"},{k:"C",t:"Florokinolonlar — Tendon rüptürü"},{k:"D",t:"Metronidazol — Fotodermatit"},{k:"E",t:"Kloramfenikol — Kemik iliği depresyonu"}],
+dogru:3,
+ipucu:"Metronidazolün en tipik etkileşimi alkol ile ortaya çıkar.",
+tuzak:"<b>Fotosensitivite/fotodermatit</b> <b>tetrasiklinler, florokinolonlar ve sülfonamidlerin</b> tipik yan etkisidir; metronidazolün karakteristik yan etkisi değildir.",
+aciklama:"Doğru eşleştirmeler: <b>Aminoglikozid</b> → nefrotoksisite + <b>ototoksisite</b> + nöromusküler blok; <b>Tetrasiklin</b> → diş renklenmesi, kemik büyümesinde inhibisyon (8 yaş altı ve gebelikte kontrendike), fotosensitivite; <b>Florokinolon</b> → <b>tendinit/tendon rüptürü</b>, QT uzaması, aort anevrizması; <b>Kloramfenikol</b> → <b>doza bağlı reversibl kemik iliği baskılanması ve idiyosenkratik aplastik anemi</b>, yenidoğanda <b>gri bebek sendromu</b>.<br><b>Metronidazol</b> → metalik tat, <b>disülfiram benzeri reaksiyon</b>, periferik nöropati, nadiren nöbet."
+},
+{
+soru:"Aşağıdaki hangi hastalıkta <mark>t(2;5)</mark> daha sıklıkla izlenebilir?",
+siklar:[{k:"A",t:"Anaplastik büyük hücreli lenfoma"},{k:"B",t:"Kronik lenfositer lösemi"},{k:"C",t:"Polistemi rubra vera"},{k:"D",t:"Hodgkin lenfoma"},{k:"E",t:"Foliküler lenfoma"}],
+dogru:0,
+ipucu:"ALK geninin yer aldığı translokasyonu düşünün.",
+tuzak:"<b>Foliküler lenfoma</b> t(14;18) <b>BCL-2</b>; <b>polisitemia vera</b> ise translokasyon değil <b>JAK2 V617F</b> nokta mutasyonu taşır. <b>KLL</b>’de del(13q) ve trizomi 12 gibi anomaliler görülür.",
+aciklama:"<b>t(2;5)(p23;q35)</b> → <b>NPM-ALK</b> füzyon geni → <b>ALK</b> tirozin kinazının konstitütif aktivasyonu. <b>Anaplastik büyük hücreli lenfoma (ALCL)</b>’nin ALK-pozitif alt tipinde görülür; çocuk ve genç erişkinlerde sıktır, <b>ALK(+) olgular daha iyi prognozludur</b>. Histolojide <b>hallmark hücreler</b> (at nalı/böbrek şeklinde çekirdek), <b>CD30 (Ki-1) pozitifliği</b> tipiktir. Tedavide <b>brentuksimab vedotin</b> ve <b>krizotinib</b> kullanılabilir."
+},
+{
+soru:"Aşağıdaki hastalıkların hangisinin tedavisinde <mark>kolşisin kullanım endikasyonu yoktur</mark>?",
+siklar:[{k:"A",t:"Gut"},{k:"B",t:"Ailevi Akdeniz ateşi"},{k:"C",t:"Akut perikardit"},{k:"D",t:"Stabl angina pektoris"},{k:"E",t:"Romatoid artrit"}],
+dogru:4,
+ipucu:"Kolşisin nötrofil kemotaksisini baskılayan bir mikrotübül inhibitörüdür; hangi hastalıkta hastalık modifiye edici rolü hiç yoktur?",
+tuzak:"<b>D şıkkı tartışmalı bir çeldiricidir</b>: klasik farmakoloji kitaplarında stabil angina endikasyonu yoktur; ancak <b>LoDoCo2/COLCOT</b> çalışmalarından sonra düşük doz kolşisin <b>kronik koroner sendromda kardiyovasküler olay azaltımı</b> için onaylanmıştır. <b>Romatoid artritte ise hiçbir dönemde endikasyonu yoktur</b>; bu nedenle en savunulabilir yanıt E’dir.",
+aciklama:"<b>Kolşisin</b> tübüline bağlanarak mikrotübül polimerizasyonunu engeller → <b>nötrofil kemotaksisi, adezyonu ve NLRP3 inflamazom aktivasyonu</b> baskılanır. Endikasyonlar: <b>akut gut atağı ve profilaksisi</b>, <b>Ailevi Akdeniz ateşi (amiloidozu da önler)</b>, <b>akut ve rekürren perikardit</b>, Behçet hastalığında mukokutanöz lezyonlar, psödogut ve son yıllarda <b>aterosklerotik kardiyovasküler hastalık</b>. Yan etkiler: ishal/karın ağrısı, miyopati, kemik iliği baskılanması (özellikle böbrek yetmezliğinde)."
+},
+{
+soru:"Aşağıda verilen <mark>besiyerleri ve üretilen etkenlere</mark> yönelik hangisi <mark>yanlıştır</mark>?",
+siklar:[{k:"A",t:"TCBS besiyeri — Vibrio türleri"},{k:"B",t:"PPLO besiyeri — Mikoplazma"},{k:"C",t:"CCFA agar — C. difficile"},{k:"D",t:"Löfler besiyeri — Bordetella pertussis"},{k:"E",t:"Chapman besiyeri — S. aureus"}],
+dogru:3,
+ipucu:"Löffler pıhtılaşmış serum besiyeri hangi bakterinin metakromatik granüllerini göstermek için kullanılır?",
+tuzak:"Bordetella için doğru besiyerleri <b>Bordet-Gengou (patates-gliserol-kan)</b> ve <b>Regan-Lowe (kömürlü)</b>’dur. Löffler ise <b>Corynebacterium diphtheriae</b> içindir; ayrıca C. diphtheriae için <b>tellürit (Tinsdale/Klauberg)</b> besiyeri seçicidir.",
+aciklama:"Doğru eşleştirmeler: <b>TCBS</b> (tiyosülfat-sitrat-safra-sükroz) → <b>Vibrio</b> (V. cholerae sarı koloni); <b>PPLO</b> → <b>Mycoplasma</b> (kızarmış yumurta görünümlü koloni); <b>CCFA</b> (sikloserin-sefoksitin-früktoz agar) → <b>C. difficile</b>; <b>Chapman/mannitollü tuzlu agar</b> → <b>S. aureus</b> (mannitol fermentasyonuyla sarı). <b>Löffler serum besiyeri</b> → <b>C. diphtheriae</b> (Albert/Neisser boyasıyla <b>metakromatik Babes-Ernst granülleri</b>)."
+},
+{
+soru:"Crohn hastalığı tedavisinde remisyon sağlayan, <mark>enterokütan fistüllerin kapanmasını hızlandıran</mark> ve <mark>septik durumlarda kullanılmaması gereken</mark> ilaç aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Sülfasalazin"},{k:"B",t:"Steroid"},{k:"C",t:"Siklosporin"},{k:"D",t:"İnfliksimab"},{k:"E",t:"Azotiopürin"}],
+dogru:3,
+ipucu:"Fistülizan Crohn hastalığında ilk akla gelen biyolojik ajanı düşünün.",
+tuzak:"<b>Steroidler</b> Crohn’da remisyon sağlar ama <b>fistül kapanmasını hızlandırmaz</b>, aksine fistül iyileşmesini bozabilir. <b>Sülfasalazin</b> daha çok kolonik hastalık ve ülseratif kolitte etkilidir.",
+aciklama:"<b>İnfliksimab</b>, <b>TNF-α</b>’ya karşı kimerik monoklonal antikordur; orta-ağır ve <b>fistülizan Crohn hastalığında</b> remisyon indüksiyonu ve idamesinde kullanılır. Kullanmadan önce <b>latent tüberküloz taraması (PPD/IGRA + akciğer grafisi)</b> ve <b>HBV</b> serolojisi zorunludur. Kontrendikasyonları: <b>aktif enfeksiyon/sepsis, apse</b>, <b>NYHA III-IV kalp yetmezliği</b>, demiyelinizan hastalık. Yan etkiler: infüzyon reaksiyonu, tüberküloz reaktivasyonu, ilaca bağlı lupus, lenfoma riski (özellikle tiyopürinlerle birlikte hepatosplenik T hücreli lenfoma)."
+},
+{
+soru:"Pankreasın <mark>en sık görülen benign tümörü</mark> aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Müsinöz kistadenom"},{k:"B",t:"VIPoma"},{k:"C",t:"Seröz kistadenom"},{k:"D",t:"Gastrinoma"},{k:"E",t:"Non-fonksiyonel endokrin tümörler"}],
+dogru:2,
+ipucu:"Neredeyse hiç malign potansiyeli olmayan, mikrokistik/bal peteği yapıdaki tümörü seçin.",
+tuzak:"<b>Müsinöz kistadenom</b> yaygın olsa da <b>premalign</b> kabul edilir (müsinöz kistadenokarsinoma dönüşebilir); soru <b>benign</b> vurgusu yaptığı için seröz kistadenom tercih edilir. <b>Gastrinoma ve VIPoma</b> ise fonksiyonel nöroendokrin tümörlerdir ve çoğu <b>malign potansiyellidir</b>.",
+aciklama:"<b>Seröz kistadenom</b>: ileri yaş kadın, pankreas <b>gövde-kuyruk</b>, <b>mikrokistik/bal peteği</b> görünüm, <b>santral yıldızsı skar ± kalsifikasyon</b>. Kistleri <b>glikojenden zengin, berrak sitoplazmalı</b> kübik hücrelerle döşelidir; kist sıvısında <b>CEA düşük</b>tür. <b>VHL sendromu</b> ile ilişkilidir ve <b>malignleşmesi son derece nadirdir</b>; asemptomatikse izlem yeterlidir."
+},
+{
+soru:"Gastrointestinal sistemde <mark>hamartomatöz polipler</mark> ve <mark>mukokutanöz melanotik pigmentasyon</mark> nedeniyle takip edilmekte olan bir hastanın genetik incelemelerinde hangi gende mutasyon olması beklenir?",
+siklar:[{k:"A",t:"p53"},{k:"B",t:"RET"},{k:"C",t:"STK11/LKB1"},{k:"D",t:"APC"},{k:"E",t:"PTEN"}],
+dogru:2,
+ipucu:"Dudak ve bukkal mukozada lekeler + ince barsakta hamartomlar = hangi sendrom?",
+tuzak:"<b>APC</b> <b>FAP</b>’ta <b>adenomatöz</b> polip yapar (hamartomatöz değil). <b>PTEN</b> ise <b>Cowden sendromu</b> ile ilişkilidir; o da hamartomatöz polip yapar ama <b>mukokutanöz melanotik pigmentasyon</b> yerine <b>trikilemmoma ve papillomatöz papüller</b> görülür.",
+aciklama:"<b>Peutz-Jeghers sendromu</b>: <b>STK11/LKB1 (19p13)</b> mutasyonu, otozomal dominant. Bulgular: <b>dudak, bukkal mukoza, parmaklarda melanotik makuller</b> ve <b>ince barsak ağırlıklı hamartomatöz polipler</b> (düz kas dallanması = <b>«ağaç dalı» görünümü</b>). Polipler <b>intussusepsiyon ve GİS kanaması</b> yapabilir. Ayrıca <b>meme, kolon, pankreas, over (SCTAT), testis ve serviks (adenoma malignum)</b> kanser riski belirgin artmıştır."
+},
+{
+soru:"Hepatosplenomegali, eklemlerde ağrılı şişlik ve <mark>deri altı nodülleri</mark> yapan, <mark>romatoid artrite benzer</mark> yakınmalarla giden metabolik hastalık aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Fukosidoz"},{k:"B",t:"Mannosidoz"},{k:"C",t:"Farber hastalığı"},{k:"D",t:"Schindler hastalığı"},{k:"E",t:"Sandhoff hastalığı"}],
+dogru:2,
+ipucu:"Seramid birikimiyle giden lipogranülomatozisi düşünün; ilk bulgu bebekte ağlarken ses kısıklığıdır.",
+tuzak:"<b>Sandhoff</b> (heksozaminidaz A+B eksikliği) <b>maküler kiraz kırmızısı leke ve nörodejenerasyon</b> yapar; artrit ve subkutan nodül yapmaz. Farber, çocukluk çağında <b>juvenil idiyopatik artrit</b> ile kolayca karışır.",
+aciklama:"<b>Farber hastalığı (dissemine lipogranülomatozis)</b>: <b>asit seramidaz (ASAH1)</b> eksikliği → dokularda <b>seramid</b> birikimi; otozomal resesif. Klasik triad: <b>eklemlerde ağrılı şişlik ve kontraktür</b>, <b>eklem çevresi/deri altı nodülleri</b>, <b>ses kısıklığı (larinks tutulumu)</b>. Ayrıca hepatosplenomegali, büyüme geriliği, nörolojik tutulum ve solunum güçlüğü olur. Prognoz genellikle kötüdür; tedavide kök hücre nakli ve enzim replasman çalışmaları vardır."
+},
+{
+soru:"Aşağıdakilerden hangisi <mark>kızamığın beklenen komplikasyonlarından biri değildir</mark>?",
+siklar:[{k:"A",t:"Apandisit"},{k:"B",t:"Akut otitis media"},{k:"C",t:"Pnömoni"},{k:"D",t:"Optik nörit"},{k:"E",t:"Glomerülonefrit"}],
+dogru:4,
+ipucu:"Kızamık lenfoid dokuyu ve solunum epitelini hedefler; immün kompleks nefriti tipik değildir.",
+tuzak:"<b>Apandisit</b> çeldiricidir ama kızamıkta lenfoid hiperplaziye (Warthin-Finkeldey dev hücreleri) bağlı obstrüksiyonla gelişebilir ve literatürde bildirilmiş bir komplikasyondur. <b>Glomerülonefrit</b> ise <b>streptokok</b> enfeksiyonlarının klasik komplikasyonudur.",
+aciklama:"<b>Kızamık (rubeola)</b> komplikasyonları: <b>en sık otitis media</b>, <b>en sık ölüm nedeni pnömoni</b> (dev hücreli Hecht pnömonisi veya bakteriyel süperenfeksiyon), <b>larenjotrakeobronşit (krup)</b>, ishal, keratit/körlük (A vitamini eksikliğinde), <b>akut ensefalit (~1/1000)</b>, nadiren miyokardit, trombositopeni, optik nörit ve apandisit. Geç komplikasyon: <b>subakut sklerozan panensefalit (SSPE)</b>, ortalama 7-10 yıl sonra. Tedavide destek + <b>A vitamini</b>."
+},
+{
+soru:"AIDS hastalarında <mark>larvalarıyla menenjite</mark> sebep olan parazit aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Strongyloides stercoralis"},{k:"B",t:"Ancylostoma duodenale"},{k:"C",t:"Necator americanus"},{k:"D",t:"Enterobius vermicularis"},{k:"E",t:"Loa loa"}],
+dogru:0,
+ipucu:"İnsan vücudunda otoenfeksiyon yapabilen ve immünsüpresyonda hiperenfeksiyona dönüşen nematodu düşünün.",
+tuzak:"Diğer kancalı kurtlar (<b>Ancylostoma, Necator</b>) da deriden girer ve akciğer göçü yapar, ancak <b>otoenfeksiyon ve dissemine hastalık yapmazlar</b>. Bu ayrım sorunun kilit noktasıdır.",
+aciklama:"<b>Strongyloides stercoralis</b>, barsakta rabditiform larvaların filariform larvaya dönüşmesiyle <b>otoenfeksiyon</b> yapabilir. <b>Steroid kullanımı, HTLV-1 ve AIDS</b> gibi hücresel immünitenin baskılandığı durumlarda <b>hiperenfeksiyon/dissemine strongyloidiyaz</b> gelişir: larvalar barsak duvarından çıkarken beraberlerinde <b>gram negatif enterik bakteri taşıyarak</b> bakteriyemi ve <b>menenjit</b> (ör. E. coli, Klebsiella) yapar. Tanı: dışkıda <b>rabditiform larva</b> (yumurta değil). Tedavi: <b>ivermektin</b>."
+},
+{
+soru:"Aşağıdakilerden hangisi İnfluenza A ve B virüslerine karşı <mark>tek doz</mark> kullanılan ve <mark>viral mRNA sentezini baskılayan</mark> bir antiviral ilaçtır?",
+siklar:[{k:"A",t:"Baloksavir"},{k:"B",t:"Oseltamivir"},{k:"C",t:"Favipiravir"},{k:"D",t:"Peramivir"},{k:"E",t:"Zanamivir"}],
+dogru:0,
+ipucu:"«Cap-snatching» mekanizmasını bloke eden yeni kuşak oral ilacı arayın.",
+tuzak:"<b>Peramivir</b> de <b>tek doz</b> kullanılır ama <b>intravenöz bir nöraminidaz inhibitörüdür</b> ve mRNA sentezini etkilemez — sorunun asıl tuzağı budur. <b>Oseltamivir (oral) ve zanamivir (inhaler)</b> günde 2 kez, 5 gün verilir.",
+aciklama:"<b>Baloksavir marboksil</b>, viral <b>polimeraz asidik (PA) protein endonükleazını</b> inhibe ederek <b>cap-snatching</b> basamağını ve dolayısıyla <b>viral mRNA sentezini</b> engeller. <b>Tek oral doz</b> yeterlidir; semptomların ilk <b>48 saatinde</b> başlanmalıdır. <b>Nöraminidaz inhibitörleri</b> (oseltamivir, zanamivir, peramivir) ise virionun hücreden salınmasını engeller. <b>Favipiravir</b> RNA bağımlı RNA polimeraz inhibitörüdür ve teratojeniktir."
+},
+{
+soru:"Aşağıdaki ilaç gruplarından hangisi ile tedavi sırasında <mark>sekonder skuamöz hücreli deri kanserleri ve keratoakantom</mark> gelişimi bildirilmiştir?",
+siklar:[{k:"A",t:"PARP inhibitörleri (Olaparib, Rukaparib, Niraparib, Talazoparib)"},{k:"B",t:"BRAF inhibitörleri (Vemurafenib, Dabrafenib, Enkorafenib)"},{k:"C",t:"VEGF inhibitörleri (Bevasizumab, Ramusirumab)"},{k:"D",t:"PD-1 inhibitörleri (Nivolumab, Pembrolizumab)"},{k:"E",t:"mTOR inhibitörleri (Everolimus, Temsirolimus)"}],
+dogru:1,
+ipucu:"Melanom tedavisinde kullanılan, RAS mutant hücrelerde MAPK yolağını paradoksal olarak aktive eden grubu düşünün.",
+tuzak:"Bu yan etki, MEK inhibitörü (<b>trametinib, kobimetinib</b>) eklenerek <b>belirgin azalır</b>; kombinasyon tedavisinin gerekçelerinden biridir. PD-1 inhibitörlerinin tipik yan etkisi ise <b>immün ilişkili advers olaylardır</b> (kolit, tiroidit, pnömonit).",
+aciklama:"<b>BRAF inhibitörleri</b> (V600E mutant melanomda kullanılır) <b>BRAF yabanıl tip / RAS mutant</b> keratinositlerde <b>CRAF dimerizasyonu</b> yoluyla MAPK yolağını <b>paradoksal olarak aktive eder</b>. Sonuçta <b>keratoakantom</b> ve <b>iyi diferansiye skuamöz hücreli deri karsinomu</b>, verrukoz papüller ve el-ayak deri reaksiyonu gelişir. Diğer yan etkiler: artralji, fotosensitivite, ateş (özellikle dabrafenib), QT uzaması."
+},
+{
+soru:"Aşağıdaki seçeneklerin hangisinde «<mark>aynı konakta hem larva hem de erişkin formuyla hastalık oluşturabilen helmintler</mark>» eşleştirilmiştir?",
+siklar:[{k:"A",t:"Trichinella spiralis — Strongyloides stercoralis"},{k:"B",t:"Taenia solium — Toxocara canis"},{k:"C",t:"Necator americanus — Enterobius vermicularis"},{k:"D",t:"Ancylostoma duodenale — Taenia saginata"},{k:"E",t:"Echinococcus granulosus — Trichuris trichiura"}],
+dogru:0,
+ipucu:"İnsanın hem son konak hem ara konak gibi davrandığı iki nematodu arayın.",
+tuzak:"<b>Taenia solium</b> insanda hem erişkin (taeniazis) hem larva (<b>sistiserkoz</b>) yapar; ancak eşleştirildiği <b>Toxocara canis</b> insanda <b>yalnızca larva</b> ile hastalık yapar (visseral larva migrans) — bu yüzden B şıkkı tam karşılamaz. Benzer şekilde <b>Echinococcus</b> insanda sadece larva (kist hidatik) formundadır.",
+aciklama:"<b>Trichinella spiralis</b>: yutulan larvalar barsakta erişkine dönüşür (<b>enteral faz: ishal, karın ağrısı</b>); dişilerin doğurduğu yeni larvalar kaslara yerleşir (<b>parenteral faz: miyalji, periorbital ödem, eozinofili</b>).<br><b>Strongyloides stercoralis</b>: barsakta erişkin form bulunur; filariform larvalar <b>otoenfeksiyon</b> ile dokulara göç edip <b>larva currens</b> ve hiperenfeksiyon yapar. Böylece her ikisi de <b>aynı konakta hem larva hem erişkin</b> ile hastalık oluşturur."
+},
+{
+soru:"Tulareminin <mark>en sık</mark> karşılaşılan klinik formu aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Ülsero-glandüler"},{k:"B",t:"Tifo benzeri tablo"},{k:"C",t:"Okülo-glandüler"},{k:"D",t:"Glandüler"},{k:"E",t:"Pnömoni"}],
+dogru:0,
+ipucu:"Kene/sinek ısırığı veya enfekte hayvan temasıyla giriş yerinde ülser + bölgesel lenfadenopati.",
+tuzak:"<b>Türkiye’de salgınlar su kaynaklı olduğu için en sık form orofaringeal tularemidir</b> (tonsillofarenjit + servikal LAP); ancak <b>dünya genelinde ve klasik ders kitaplarında en sık form ülseroglandülerdir</b>. Sorunun bölge belirtmediği durumda beklenen yanıt A’dır.",
+aciklama:"<b>Francisella tularensis</b>: gram negatif, zorunlu aerop, fakültatif hücre içi kokobasil; <b>sistein içeren besiyeri</b> gerektirir (BCYE, çikolatamsı agar). Bulaş: kene/geyik sineği, enfekte hayvan (tavşan) teması, kontamine su, <b>inhalasyon</b> (biyoterör ajanı, kategori A). Klinik formlar: <b>ülseroglandüler (en sık)</b>, glandüler, <b>orofaringeal (Türkiye’de sık)</b>, okuloglandüler (<b>Parinaud</b>), tifoidal, pnömonik (en ölümcül). Tedavi: <b>streptomisin/gentamisin</b> (alternatif: doksisiklin, siprofloksasin)."
+},
+{
+soru:"<mark>Membran filtrelerinden (0,45 μm por çaplı) geçemeyen</mark> bakteri hangisidir?",
+siklar:[{k:"A",t:"Coxiella burnetii"},{k:"B",t:"Mycoplasma hominis"},{k:"C",t:"Campylobacter jejuni"},{k:"D",t:"Salmonella typhi"},{k:"E",t:"Ureaplasma urealyticum"}],
+dogru:3,
+ipucu:"Rijit hücre duvarı olan ve boyutu tipik enterik basil ölçüsünde (yaklaşık 2-3 x 0,5-1 μm) olan bakteriyi seçin.",
+tuzak:"<b>Campylobacter</b> çeldiricidir: ince, kıvrık ve bükülgen olduğu için <b>0,45-0,65 μm filtrelerden geçer</b> ve bu özellik dışkıdan izolasyonda <b>filtrasyon yöntemi</b> olarak kullanılır. <b>Coxiella</b> da çok küçüktür (0,2-0,4 μm) ve filtreden geçebilir.",
+aciklama:"Membran filtrelerinden geçebilen (filtre-geçirgen) bakteriler genellikle <b>hücre duvarsız veya çok küçük/esnek</b> olanlardır: <b>Mycoplasma, Ureaplasma</b> (duvarsız, pleomorfik), <b>Chlamydia</b>, <b>Coxiella</b>, spiroketler (<b>Leptospira, Treponema</b>) ve <b>Campylobacter</b>. <b>Salmonella typhi</b> gibi klasik <b>Enterobacterales</b> üyeleri rijit peptidoglikan duvarları ve boyutları nedeniyle <b>0,45 μm filtreden geçemez</b>; bu yüzden bu filtreler sıvı besiyeri ve ilaç sterilizasyonunda kullanılır."
+},
+{
+soru:"<mark>Schiller-Duval cisimleri</mark> olarak da bilinen glomerül benzeri yapılar aşağıdaki testis tümörlerinden hangisinde görülür?",
+siklar:[{k:"A",t:"Spermatositik seminom"},{k:"B",t:"Endodermal sinüs tümörü"},{k:"C",t:"Seminom"},{k:"D",t:"Koryokarsinom"},{k:"E",t:"Embriyonel karsinom"}],
+dogru:1,
+ipucu:"3 yaş altı çocuklarda en sık görülen ve AFP yükselten testis tümörünü düşünün.",
+tuzak:"<b>Koryokarsinom</b> <b>β-hCG</b> yükseltir ve histolojisinde <b>sito- ve sinsityotrofoblast</b> bulunur; Schiller-Duval yapmaz. <b>Embriyonel karsinom</b> ise glandüler/papiller yapı gösterir, belirteci <b>CD30 ve OCT3/4</b>’tür.",
+aciklama:"<b>Yolk sac (endodermal sinüs) tümörü</b>: <b>3 yaş altı çocuklarda en sık testis tümörü</b>, prognozu iyidir. Histolojik işaret: <b>Schiller-Duval cisimleri</b> — merkezde bir kapiller, çevresinde tümör hücreleriyle döşeli boşluk (glomerül benzeri yapı). Sitoplazma içinde <b>PAS(+) eozinofilik hyalen globüller</b> bulunur ve bunlar <b>AFP</b> ile boyanır. Serum <b>AFP yüksekliği</b> tanısal ve takipte önemlidir; ayrıca <b>glipikan-3</b> pozitiftir."
+},
+{
+soru:"6 aylık bir kız bebek, sol kol ve bacakta fokal nöbet ile getiriliyor. Muayenede yüzün sağ yarısında trigeminal sinirin <mark>V1-V2 dağılımına uyan port-wine stain (nevus flammeus)</mark>, sağ gözde <mark>glokom</mark>; kraniyal BT’de <mark>«tramvay rayı» şeklinde kortikal kalsifikasyonlar</mark> ve leptomeningeal anjiyomatozis saptanıyor. Bu tablodan sorumlu, <mark>somatik mozaizm</mark> şeklinde kalıtılan ve hücre içi G-protein sinyal yolağında işlev bozukluğuna yol açan mutasyon aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"ATM gen mutasyonu"},{k:"B",t:"VHL gen mutasyonu"},{k:"C",t:"GNAQ gen mutasyonu"},{k:"D",t:"RASA1 gen mutasyonu"},{k:"E",t:"PTEN gen mutasyonu"}],
+dogru:2,
+ipucu:"Sturge-Weber sendromunun sorumlu geni, adında bir G-protein alt birimi taşır.",
+tuzak:"<b>RASA1</b> mutasyonu <b>kapiller malformasyon-arteriyovenöz malformasyon sendromu</b> yapar ve kalıtsaldır; Sturge-Weber ise <b>kalıtsal değil, somatik mozaik</b> bir hastalıktır. <b>ATM</b> → ataksi-telanjiektazi, <b>VHL</b> → retinal/serebellar hemanjiyoblastom.",
+aciklama:"<b>Sturge-Weber sendromu (ensefalotrigeminal anjiyomatozis)</b>: erken embriyonik dönemde <b>GNAQ (Gαq)</b> geninde somatik <b>R183Q</b> mutasyonu; kalıtsal değildir. Bulgular: <b>V1 (± V2) dağılımında port-wine stain</b>, <b>leptomeningeal anjiyomatozis</b>, kortikal atrofi ve <b>«tramvay rayı» kalsifikasyonları</b>, <b>dirençli fokal nöbetler</b>, hemiparezi, mental gerilik ve aynı tarafta <b>konjenital glokom</b> (buftalmus). Nöbet kontrolü ve göz içi basınç takibi esastır."
+},
+{
+soru:"38 yaşında erkek hasta, Doğu Anadolu’da hayvancılıkla uğraştığını ve 1 yıldır sağ üst kadranda künt ağrı hissettiğini belirtiyor. Batın USG’de karaciğer sağ lobda düzgün sınırlı, içinde membran yapıları ve <mark>«kız veziküller»</mark> barındıran kistik kitle saptanıyor. <mark>Köpek dışkısıyla kontamine gıdaların</mark> tüketilmesiyle bulaşan ve bu tabloya yol açan şerit (sestod) türü aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Echinococcus granulosus"},{k:"B",t:"Taenia saginata"},{k:"C",t:"Fasciola hepatica"},{k:"D",t:"Entamoeba histolytica"},{k:"E",t:"Schistosoma mansoni"}],
+dogru:0,
+ipucu:"Kesin konağı köpek, ara konağı koyun olan ve insanda kist hidatik yapan sestodu seçin.",
+tuzak:"<b>Entamoeba histolytica</b> bir protozoondur ve <b>«ançüez ezmesi» görünümünde apse</b> yapar; soru <b>sestod</b> dediği için elenir. <b>E. multilocularis</b> ise <b>alveolar ekinokokkozis</b> yapar; sınırları düzensiz, malignite benzeri infiltratif lezyon oluşturur.",
+aciklama:"<b>Echinococcus granulosus</b>: kesin konak <b>köpek</b>, ara konak koyun/sığır; insan <b>rastlantısal ara konaktır</b>. Yumurtaların yutulmasıyla onkosferler barsaktan geçip <b>en sık karaciğer (sağ lob)</b>, sonra akciğere yerleşir ve <b>unilokuler kist hidatik</b> yapar; içinde <b>kız veziküller ve hidatik kum (protoskoleksler)</b> bulunur. Kist rüptürü <b>anafilaksi</b> ve peritoneal ekilim yapabilir; bu yüzden <b>tanısal ponksiyondan kaçınılır</b>. Tedavi: <b>albendazol ± PAIR veya cerrahi</b> (skolisidal ajanla korunarak)."
+},
+{
+soru:"34 yaşında erkek hasta; ani yüksek ateş, titreme ve <mark>pas rengi balgam</mark> ile başvuruyor. Grafide sağ alt lobda <mark>lober konsolidasyon</mark>; balgam Gram boyamasında <mark>gram pozitif, lanset şeklinde diplokoklar</mark>; kültürde alfa-hemolitik, <mark>safra ve optokine duyarlı</mark> bakteri saptanıyor. Virülansında <mark>fagositozu engelleyen kapsülü</mark> en önemli faktör olan bu etken hangisidir?",
+siklar:[{k:"A",t:"Streptococcus pyogenes (A grubu streptokok)"},{k:"B",t:"Streptococcus pneumoniae (pnömokok)"},{k:"C",t:"Staphylococcus aureus"},{k:"D",t:"Klebsiella pneumoniae"},{k:"E",t:"Streptococcus agalactiae (B grubu streptokok)"}],
+dogru:1,
+ipucu:"Optokin duyarlılığı ve safrada erime, alfa-hemolitik streptokoklar arasında tek bir türü işaret eder.",
+tuzak:"<b>Klebsiella pneumoniae</b> da lober pnömoni ve kanlı («kuş üzümü jölesi») balgam yapar ama <b>gram negatif basildir</b>. <b>S. pyogenes</b> beta-hemolitiktir ve <b>basitrasine duyarlıdır</b>; <b>viridans streptokoklar</b> ise alfa-hemolitik olmakla birlikte <b>optokine dirençlidir</b>.",
+aciklama:"<b>S. pneumoniae</b>: gram pozitif, lanset şeklinde <b>diplokok</b>, <b>alfa-hemolitik</b>, <b>optokin duyarlı</b>, <b>safrada erir (safra çözünürlüğü +)</b>, <b>katalaz negatif</b>. En önemli virülans faktörü <b>polisakkarit kapsüldür</b> (fagositozu engeller; <b>Quellung reaksiyonu</b> ile gösterilir). Diğerleri: pnömolizin, IgA proteaz, teikoik asit/C-polisakkarit. Toplum kökenli <b>pnömoni, otitis media, sinüzit ve erişkin menenjitinin</b> en sık nedenidir. <b>Aspleni ve orak hücreli anemide</b> risk çok yüksektir; korunma: <b>PCV13/PPSV23</b>."
+},
+{
+soru:"68 yaşında kadın hasta, sağ bacakta derin ven trombozu tanısı aldıktan kısa süre sonra masif pulmoner emboli ile kaybediliyor. Bu hastada trombozu hazırlayan, Virchow triadının <mark>hiperkoagülabilite</mark> bileşeninde yer alan ve <mark>batı toplumlarında en sık görülen kalıtsal trombofili</mark> nedeni aşağıdakilerden hangisidir?",
+siklar:[{k:"A",t:"Antitrombin III eksikliği"},{k:"B",t:"Protein C veya Protein S eksikliği"},{k:"C",t:"Faktör V Leiden mutasyonu (aktive protein C direnci)"},{k:"D",t:"Protrombin G20210A gen mutasyonu"},{k:"E",t:"Antifosfolipid antikor sendromu"}],
+dogru:2,
+ipucu:"Faktör V’in aktive protein C tarafından kesilme bölgesindeki nokta mutasyonu.",
+tuzak:"<b>Antifosfolipid sendromu</b> en sık <b>edinsel</b> trombofilidir — soru <b>kalıtsal</b> dediği için elenir. <b>Protrombin G20210A</b> ikinci en sık kalıtsal nedendir; sıklık sıralaması karıştırılmamalıdır.",
+aciklama:"<b>Faktör V Leiden</b>: <b>Arg506Gln (R506Q)</b> nokta mutasyonu → faktör Va, <b>aktive protein C (APC)</b> tarafından inaktive edilemez (<b>APC direnci</b>) → prokoagülan durum. Beyaz ırkta heterozigot sıklığı <b>%2-15</b>; VTE riskini heterozigotta ~5, homozigotta ~50 kat artırır. <b>Oral kontraseptif ve gebelik</b> riski belirgin yükseltir. Tanı: APC direnci testi + <b>PCR ile genetik doğrulama</b>. Virchow triadı: <b>endotel hasarı, staz/türbülans, hiperkoagülabilite</b>."
+},
+{
+soru:"Kırk yaşında kadın hasta, işitme kaybı ve denge bozukluğuyla başvuruyor. Kraniyal görüntülemede <mark>her iki sekizinci kraniyal sinir boyunca yerleşmiş kitleler (vestibüler schwannoma)</mark> saptanıyor. Ayrıca hastada <mark>genç yaşta katarakt</mark> öyküsü bulunuyor. En olası genetik sendrom ve kalıtım şekli hangisidir?",
+siklar:[{k:"A",t:"Tüberoskleroz — Otozomal resesif"},{k:"B",t:"Nörofibromatozis tip 1 — Otozomal dominant"},{k:"C",t:"Nörofibromatozis tip 2 — Otozomal dominant"},{k:"D",t:"Von Hippel-Lindau sendromu — Otozomal dominant"},{k:"E",t:"Li-Fraumeni sendromu — Otozomal dominant"}],
+dogru:2,
+ipucu:"Bilateral akustik nöromanın patognomonik olduğu sendromu düşünün.",
+tuzak:"<b>Kaynakta bu soru 4 şıklıdır (A-D); 5 şıklı formata uyum için E şıkkı (Li-Fraumeni) eklenmiştir</b> — doğru yanıt değişmez. Ayrıca <b>tüberoskleroz otozomal dominanttır</b>; A şıkkındaki kalıtım şekli de yanlış verilmiştir (çift hatalı çeldirici).",
+aciklama:"<b>Nörofibromatozis tip 2</b>: <b>22q12</b>’de <b>NF2</b> geni, ürünü <b>merlin (schwannomin)</b>; otozomal dominant. Tanı ölçütü: <b>bilateral vestibüler schwannom</b> veya birinci derece akraba + tek taraflı schwannom/diğer bulgular. Ek bulgular: <b>meningiom (çoğul), ependimom, jüvenil posterior subkapsüler katarakt</b>, periferik schwannomlar. NF1’den farkı: <b>café-au-lait ve Lisch nodülü tipik değildir</b>, <b>retinal hamartom</b> görülebilir. Kısaltma ipucu: NF2 = <b>«MISME»</b> (multipl inherited schwannoma, meningioma, ependymoma)."
+}
+];
+
+/* ================= STATE ================= */
+const N = QUESTIONS.length;
+let order = QUESTIONS.map((_, i) => i);
+let cur = 0;
+let answers = new Array(N).fill(null);
+let stars  = new Array(N).fill(false);
+let finished = false;
+
+const app     = document.getElementById("app");
+const header  = document.getElementById("header");
+const main    = document.getElementById("main");
+const overlay = document.getElementById("overlay");
+const grid    = document.getElementById("grid");
+
+/* ================= HELPERS ================= */
+function syncHeader(){
+  main.style.paddingTop = header.offsetHeight + "px";
+}
+function correctCount(){
+  let c = 0;
+  for (let i = 0; i < N; i++) if (answers[i] !== null && answers[i] === QUESTIONS[i].dogru) c++;
+  return c;
+}
+function starCount(){ return stars.filter(Boolean).length; }
+
+function updateHeader(){
+  document.getElementById("chipOk").innerHTML = "&#10003; " + correctCount();
+  document.getElementById("chipSt").innerHTML = "&#11088; " + starCount();
+  if (finished){
+    document.getElementById("chipPos").textContent = "Bitti";
+    document.getElementById("barFill").style.width = "100%";
+  } else {
+    document.getElementById("chipPos").textContent = (cur + 1) + "/" + order.length;
+    document.getElementById("barFill").style.width = ((cur + 1) / order.length * 100) + "%";
+  }
+}
+
+/* ================= RENDER QUESTION ================= */
+function render(){
+  finished = false;
+  const qi = order[cur];
+  const q  = QUESTIONS[qi];
+  const ans = answers[qi];
+  const answered = ans !== null;
+
+  let h = '<div class="card">';
+  if (q.yil) h += '<div class="year">' + q.yil + '</div>';
+  h += '<div class="qno">SORU ' + (cur + 1) + " / " + order.length + '</div>';
+  h += '<div class="qtext">' + q.soru + '</div>';
+
+  h += '<div class="opts">';
+  q.siklar.forEach(function(s, i){
+    let cls = "opt";
+    if (answered){
+      cls += " locked";
+      if (i === q.dogru) cls += " correct";
+      else if (i === ans) cls += " wrong";
+    }
+    h += '<button class="' + cls + '" data-i="' + i + '"><span class="k">' + s.k + ')</span><span>' + s.t + '</span></button>';
+  });
+  h += '</div>';
+
+  if (!answered){
+    h += '<button class="hintbtn" id="hintBtn">&#128161; İpucu göster</button>';
+    h += '<div id="manualHint"></div>';
+  }
+
+  h += '<button class="starbtn' + (stars[qi] ? " on" : "") + '" id="starBtn">' +
+       (stars[qi] ? "&#11088; Yıldızlı" : "&#9734; Yıldızla") + '</button>';
+
+  if (answered){
+    h += '<div class="box ip" id="ipucuBox"><h4>&#128161; İpucu</h4>' + q.ipucu + '</div>';
+    h += '<div class="box tz"><h4>&#9888;&#65039; Tuzak</h4>' + q.tuzak + '</div>';
+    h += '<div class="box ac"><h4>&#128214; Açıklama</h4>' + q.aciklama + '</div>';
+  }
+
+  h += '<div class="nav">';
+  h += '<button id="prevBtn"' + (cur === 0 ? " disabled" : "") + '>&#8592; Önceki</button>';
+  h += '<button class="primary" id="nextBtn">' + (cur === order.length - 1 ? "Bitir" : "Sonraki &#8594;") + '</button>';
+  h += '</div></div>';
+
+  app.innerHTML = h;
+
+  app.querySelectorAll(".opt").forEach(function(b){
+    b.addEventListener("click", function(){
+      if (answers[qi] !== null) return;
+      answers[qi] = parseInt(b.dataset.i, 10);
+      render();
+      requestAnimationFrame(scrollToHint);
+    });
+  });
+
+  const hb = document.getElementById("hintBtn");
+  if (hb) hb.addEventListener("click", function(){
+    document.getElementById("manualHint").innerHTML =
+      '<div class="box ip"><h4>&#128161; İpucu</h4>' + q.ipucu + '</div>';
+    hb.style.display = "none";
+  });
+
+  document.getElementById("starBtn").addEventListener("click", function(){
+    stars[qi] = !stars[qi];
+    render();
+  });
+
+  document.getElementById("prevBtn").addEventListener("click", function(){
+    if (cur > 0){ cur--; render(); window.scrollTo({top:0, behavior:"instant"}); }
+  });
+  document.getElementById("nextBtn").addEventListener("click", function(){
+    if (cur < order.length - 1){ cur++; render(); window.scrollTo({top:0, behavior:"instant"}); }
+    else showResults();
+  });
+
+  syncHeader();
+  updateHeader();
+}
+
+function scrollToHint(){
+  const box = document.getElementById("ipucuBox");
+  if (!box) return;
+  const y = box.getBoundingClientRect().top + window.pageYOffset - header.offsetHeight - 6;
+  window.scrollTo({ top: y, behavior: "smooth" });
+}
+
+/* ================= RESULTS ================= */
+function showResults(){
+  finished = true;
+  let dogruS = 0, yanlisS = 0, bosS = 0;
+  order.forEach(function(qi){
+    if (answers[qi] === null) bosS++;
+    else if (answers[qi] === QUESTIONS[qi].dogru) dogruS++;
+    else yanlisS++;
+  });
+  const n = order.length;
+  const pct = Math.round(dogruS / n * 100);
+  let fb;
+  if (pct >= 90) fb = "Mükemmel. Bu konularda hâkimiyetin çok yüksek.";
+  else if (pct >= 75) fb = "Çok iyi. Yanlışları gözden geçirirsen tam oturur.";
+  else if (pct >= 55) fb = "İyi bir temel var; yanlışları tekrar çözmek net kazandırır.";
+  else if (pct >= 35) fb = "Eksikler belirgin. Yanlış sorulardan konu tekrarına dön.";
+  else fb = "Bu bölüm sıfırdan çalışılmalı. Açıklamaları okuyup tekrar dene.";
+
+  const starList = order.filter(function(qi){ return stars[qi]; });
+
+  let h = '<div class="card">';
+  h += '<div class="score">' + dogruS + " / " + n + '</div>';
+  h += '<div class="pct">%' + pct + '</div>';
+  h += '<div class="fb">' + fb + '</div>';
+  h += '<div class="stats">';
+  h += '<div class="stat"><b style="color:var(--ok)">' + dogruS + '</b><span>Doğru</span></div>';
+  h += '<div class="stat"><b style="color:var(--bad)">' + yanlisS + '</b><span>Yanlış</span></div>';
+  h += '<div class="stat"><b style="color:var(--star)">' + starList.length + '</b><span>Yıldızlı</span></div>';
+  h += '</div>';
+
+  h += '<div class="rev">';
+  order.forEach(function(qi, idx){
+    const q = QUESTIONS[qi];
+    let bcls = "b", btxt = "BOŞ";
+    if (answers[qi] !== null){
+      if (answers[qi] === q.dogru){ bcls = "c"; btxt = "DOĞRU"; }
+      else { bcls = "w"; btxt = "YANLIŞ"; }
+    }
+    const plain = q.soru.replace(/<[^>]+>/g, "");
+    const kisa = plain.length > 74 ? plain.slice(0, 74) + "…" : plain;
+    h += '<button data-idx="' + idx + '"><span class="badge ' + bcls + '">' + btxt + '</span>' +
+         '<span><b>' + (idx + 1) + '.</b> ' + kisa +
+         '<br><span style="color:var(--muted)">Doğru: ' + q.siklar[q.dogru].k + ") " + q.siklar[q.dogru].t + '</span>' +
+         (stars[qi] ? " &#11088;" : "") + '</span></button>';
+  });
+  h += '</div>';
+
+  h += '<div class="acts">';
+  h += '<button class="primary" id="restartBtn">&#128260; Baştan Başlat</button>';
+  h += '<button id="wrongBtn"' + (yanlisS === 0 ? " disabled" : "") + '>&#10060; Yanlışları Tekrar Çöz</button>';
+  h += '<button id="starRetryBtn"' + (starList.length === 0 ? " disabled" : "") + '>&#11088; Yıldızlıları Tekrar Çöz</button>';
+  h += '</div></div>';
+
+  app.innerHTML = h;
+
+  app.querySelectorAll(".rev button").forEach(function(b){
+    b.addEventListener("click", function(){
+      cur = parseInt(b.dataset.idx, 10);
+      render();
+      window.scrollTo({ top: 0, behavior: "instant" });
+    });
+  });
+  document.getElementById("restartBtn").addEventListener("click", function(){
+    order = QUESTIONS.map(function(_, i){ return i; });
+    answers = new Array(N).fill(null);
+    stars = new Array(N).fill(false);
+    cur = 0; render(); window.scrollTo({ top: 0, behavior: "instant" });
+  });
+  document.getElementById("wrongBtn").addEventListener("click", function(){
+    const sub = order.filter(function(qi){ return answers[qi] !== null && answers[qi] !== QUESTIONS[qi].dogru; });
+    if (!sub.length) return;
+    sub.forEach(function(qi){ answers[qi] = null; });
+    order = sub; cur = 0; render(); window.scrollTo({ top: 0, behavior: "instant" });
+  });
+  document.getElementById("starRetryBtn").addEventListener("click", function(){
+    const sub = order.filter(function(qi){ return stars[qi]; });
+    if (!sub.length) return;
+    sub.forEach(function(qi){ answers[qi] = null; });
+    order = sub; cur = 0; render(); window.scrollTo({ top: 0, behavior: "instant" });
+  });
+
+  syncHeader();
+  updateHeader();
+  window.scrollTo({ top: 0, behavior: "instant" });
+}
+
+/* ================= MODAL ================= */
+function buildGrid(){
+  let h = "";
+  order.forEach(function(qi, idx){
+    let cls = "cell";
+    if (answers[qi] !== null) cls += (answers[qi] === QUESTIONS[qi].dogru) ? " c" : " w";
+    if (!finished && idx === cur) cls += " now";
+    h += '<button class="' + cls + '" data-idx="' + idx + '">' + (idx + 1) +
+         (stars[qi] ? '<span class="s">&#11088;</span>' : "") + '</button>';
+  });
+  grid.innerHTML = h;
+  grid.querySelectorAll(".cell").forEach(function(b){
+    b.addEventListener("click", function(){
+      cur = parseInt(b.dataset.idx, 10);
+      overlay.classList.remove("open");
+      render();
+      window.scrollTo({ top: 0, behavior: "instant" });
+    });
+  });
+}
+document.getElementById("menuBtn").addEventListener("click", function(){
+  buildGrid();
+  overlay.classList.add("open");
+});
+document.getElementById("closeBtn").addEventListener("click", function(){
+  overlay.classList.remove("open");
+});
+overlay.addEventListener("click", function(e){
+  if (e.target === overlay) overlay.classList.remove("open");
+});
+
+/* ================= INIT ================= */
+window.addEventListener("resize", syncHeader);
+window.addEventListener("load", syncHeader);
+render();
+</script>
+</body>
+</html>

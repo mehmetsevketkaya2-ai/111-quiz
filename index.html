@@ -6,7 +6,7 @@
 <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="expires" content="0">
 <meta http-equiv="pragma" content="no-cache">
-<title>PreTUS Deneme 02 · PART 9 (Temel Tıp Bilimleri)</title>
+<title>PreTUS 6. Cilt Deneme 02 (PART 1)</title>
 <style>
   :root{
     --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --line:#2a3444;
@@ -152,6 +152,11 @@
   .dc:nth-child(5){animation-delay:.44s} .dc:nth-child(6){animation-delay:.52s}
   .ddx-ov.closing .dc{animation:dcOut .28s cubic-bezier(.5,0,.75,.4) forwards;}
   @keyframes dcOut{to{opacity:0;transform:translateX(-90px) rotate(-7deg)}}
+  .ddx-ov.closing .dc:nth-child(5){animation-delay:.02s}
+  .ddx-ov.closing .dc:nth-child(4){animation-delay:.06s}
+  .ddx-ov.closing .dc:nth-child(3){animation-delay:.10s}
+  .ddx-ov.closing .dc:nth-child(2){animation-delay:.14s}
+  .ddx-ov.closing .dc:nth-child(1){animation-delay:.18s}
   @keyframes ddxslide{to{opacity:1;transform:none}}
   .dc .emo{font-size:24px;flex:none;line-height:1.1;}
   .dc .txt .dn{font-weight:800;font-size:15px;margin-bottom:2px;color:var(--text);}
@@ -161,7 +166,6 @@
   .dc.hit .dn{color:#7ee7a8;}
   .dc.hit::after{content:"⭐";position:absolute;top:8px;right:10px;font-size:15px;animation:ddxtwinkle 1.4s ease-in-out infinite;}
   @keyframes ddxtwinkle{0%,100%{opacity:.4;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
-
   .nav{position:fixed;bottom:0;left:0;right:0;z-index:40;background:var(--panel);
     border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));
     display:flex;gap:10px;max-width:720px;margin:0 auto;align-items:stretch;}
@@ -191,7 +195,7 @@
   .modal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
   .modal-h span{font-size:15px;font-weight:800;letter-spacing:.3px;}
   .modal-h .close{background:var(--panel2);border:1px solid var(--line);color:var(--text);
-    border-radius:99px;width:34px;height:34px;font-size:16px;cursor:pointer;font-weight:800;}
+    border-radius:9px;width:34px;height:34px;font-size:16px;cursor:pointer;font-weight:800;}
   .qgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;}
   .gbtn{aspect-ratio:1/1;border-radius:10px;border:1.5px solid var(--line);
     background:var(--panel2);color:var(--text);font-size:14px;font-weight:800;cursor:pointer;
@@ -327,7 +331,7 @@
 <body>
 <header id="hdr">
   <div class="hbar">
-    <div class="htitle">PreTUS · Deneme 02 · PART 9 <span>TUS</span></div>
+    <div class="htitle">PreTUS · 6. Cilt Deneme 02 · PART 1 <span>TUS</span></div>
     <div class="stats">
       <div class="chip correct">✓ <span id="cCount">0</span></div>
       <div class="chip star">⭐ <span id="sCount">0</span></div>
@@ -392,719 +396,809 @@
 <script>
 const QUESTIONS = [
  {
-  "brans": "Fizyoloji",
-  "soru": "Glikozun hücre içine taşınmasında görevli membran proteinleri ve ilgili hücre eşleştirmelerinden hangisi <mark class=\"cue\">yanlıştır</mark>?",
+  "brans": "Anatomi",
+  "soru": "I. Maxilla<br>II. Os ethmoidale<br>III. Concha nasalis inferior<br>IV. Os lacrimale<br><br>Yukarıdaki kemiklerden hangileri <b>canalis nasolacrimalis'in</b> oluşumuna katılır?",
   "siklar": [
-   {"k": "A", "t": "GLUT 1 ------ Eritrosit"},
-   {"k": "B", "t": "GLUT 2 ------ Nöron"},
-   {"k": "C", "t": "GLUT 4 ------ İskelet kas hücresi"},
-   {"k": "D", "t": "SGLT 1 ------ İntestinal epitelial hücre"},
-   {"k": "E", "t": "SGLT 2 ------ Proksimal tübül hücresi"}
+   {
+    "k": "A",
+    "t": "I ve II"
+   },
+   {
+    "k": "B",
+    "t": "II, III ve IV"
+   },
+   {
+    "k": "C",
+    "t": "I, III ve IV"
+   },
+   {
+    "k": "D",
+    "t": "I ve IV"
+   },
+   {
+    "k": "E",
+    "t": "I, II ve III"
+   }
   ],
-  "dogru": 1,
-  "cue": "🎯 Nöronlarda glikoz alımını sağlayan yüksek afiniteli taşıyıcı hangisidir?",
-  "ipucu": "Nöronlar glikozu kan şekeri düşse bile alabilmek için GLUT 3 kullanırlar. GLUT 2 ise yüksek kapasiteli, düşük afinitelidir.",
-  "tuzak": "<mark>GLUT 2</mark> karaciğer, pankreas beta hücreleri, bağırsak ve böbrekte bulunur; nöronlarda ise temel taşıyıcı <mark>GLUT 3</mark>'tür.",
-  "aciklama": "<b>B seçeneği yanlıştır.</b> Nöronlarda glikozun hücre içine taşınmasını sağlayan temel taşıyıcı <b>GLUT 3</b>'tür. GLUT 3 yüksek afiniteli (düşük Km) bir taşıyıcıdır; böylece hipoglisemi durumunda bile beyin glikozu etkin şekilde kullanabilir.<br><br><b>Glikoz Taşıyıcıları (GLUT ve SGLT) Özeti:</b><br>• <b>GLUT 1:</b> Eritrositler, kan-beyin engeli, plasenta, böbrek (bazal tutulum)<br>• <b>GLUT 2:</b> Karaciğer, pankreas β hücreleri, ince bağırsak ve böbrek basolateral membranı (yüksek Km, sensör/vasküler geçiş)<br>• <b>GLUT 3:</b> Nöronlar, beyin, plasenta<br>• <b>GLUT 4:</b> İskelet kası, kalp kası ve yağ dokusu (<b>insülin bağımlı</b> tek GLUT)<br>• <b>GLUT 5:</b> İnce bağırsak ve spermde <b>fruktoz</b> taşıyıcısı<br>• <b>SGLT 1:</b> İnce bağırsak epitelinde ve böbrek S3 proksimal tübülünde Na⁺-glikoz sekonder aktif kotransporterı<br>• <b>SGLT 2:</b> Böbrek S1 proksimal tübülünde filtre edilen glikozun %90'ını geri emen Na⁺-glikoz kotransporterı",
+  "dogru": 2,
+  "cue": "🎯 Ethmoid kemik orbitanın medial duvarında yer alsa da nasolakrimal kanalı sınırlandırmaz.",
+  "ipucu": "Gözyaşı kanalı hangi üç kemiğin özel çıkıntı ve oluklarının birleşmesiyle oluşur?",
+  "tuzak": "<mark>Os ethmoidale</mark> meatus nasi medius'a katılır ancak canalis nasolacrimalis duvarında <b>yer almaz</b>.",
+  "aciklama": "<b>Canalis nasolacrimalis</b>, orbitanın anteromedialinden başlayıp <b>meatus nasi inferior</b>'a açılan kanaldır.<br><br>Kanalı oluşturan yapılar:<br>• <b>Maxilla</b> (sulcus lacrimalis)<br>• <b>Os lacrimale</b> (sulcus lacrimalis)<br>• <b>Concha nasalis inferior</b> (processus lacrimalis)<br><br>Os ethmoidale bu kanalın yapısına katılmaz. Doğru cevap: <b>I, III ve IV (C)</b>.",
   "ddx": {
-   "baslik": "Glikoz Taşıyıcıları (GLUT / SGLT)",
-   "ok": "Nöronlarda yüksek afiniteli GLUT 3 bulunur; GLUT 2 karaciğer ve pankreastadır.",
+   "baslik": "Burun boşluğu kanalları ve açıldığı meatus'lar",
+   "ok": "Canalis nasolacrimalis meatus nasi inferior'a açılan TEK yapıdır.",
    "satirlar": [
-    {"emo": "🧠", "ad": "GLUT 3", "bulgu": "Nöronlar, beyin; yüksek afinite (düşük Km)", "hit": true},
-    {"emo": "🩸", "ad": "GLUT 1", "bulgu": "Eritrositler, kan-beyin engeli, plasenta", "hit": false},
-    {"emo": "🫀", "ad": "GLUT 4", "bulgu": "İskelet kası, yağ dokusu; İNSÜLİN BAĞIMLI", "hit": false},
-    {"emo": "🫁", "ad": "GLUT 2", "bulgu": "Karaciğer, pankreas β hücresi, bağırsak/böbrek basolateral", "hit": false},
-    {"emo": "⚡", "ad": "SGLT 1 / SGLT 2", "bulgu": "İnce bağırsak ve böbrek tübüllerinde Na⁺-glikoz kotransportu", "hit": false}
+    {
+     "emo": "👁️",
+     "ad": "Canalis nasolacrimalis",
+     "bulgu": "Maxilla + Os lacrimale + Concha nasalis inf.; Meatus nasi INFERIOR'a açılır",
+     "hit": true
+    },
+    {
+     "emo": "👃",
+     "ad": "Sinus maxillaris",
+     "bulgu": "Hiatus semilunaris (Meatus nasi medius)",
+     "hit": false
+    },
+    {
+     "emo": "💨",
+     "ad": "Sinus frontalis",
+     "bulgu": "Infundibulum ethmoidale üzerinden Meatus nasi medius",
+     "hit": false
+    },
+    {
+     "emo": "🦴",
+     "ad": "Cellulae ethmoidales posteriores",
+     "bulgu": "Meatus nasi superior",
+     "hit": false
+    }
    ]
   }
  },
  {
+  "brans": "Anatomi",
+  "soru": "Trafik kazasını takiben acil servise getirilen 36 yaşındaki erkek hastanın şuuru açık ve koopere olduğu görülüyor. Anamnezde ve fizik muayenede; ağzını açması istendiğinde çenenin sağ tarafa doğru kaydığı, sağ alt dudak ve dilin sağ yarısının büyük kısmında genel duyu kaybı olduğu ve sağ tarafta parotis bezinde sekresyon olmamasına bağlı kserostomi tespit ediliyor. Radyolojik incelemede kafa tabanında bir kırık olduğu tespit ediliyor.<br><br>Bu hastadaki kırık hattının aşağıdaki <mark class=\"cue\">açıklıklardan</mark> hangisinden geçmesi en olasıdır?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Foramen ovale"
+   },
+   {
+    "k": "B",
+    "t": "Foramen spinosum"
+   },
+   {
+    "k": "C",
+    "t": "Foramen rotundum"
+   },
+   {
+    "k": "D",
+    "t": "Foramina cribrosa"
+   },
+   {
+    "k": "E",
+    "t": "Foramen lacerum"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Foramen ovale'den geçen N. mandibularis (V3) motor, genel duyu ve parasempatik sekretomotor lifleri birlikte taşır.",
+  "ipucu": "Çiğneme kaslarının motorunu ve n. lingualis / n. alveolaris inferior duyusunu taşıyan sinir nereden geçer?",
+  "tuzak": "<mark>Foramen rotundum</mark> V2 (N. maxillaris)'i taşır, çiğneme kaslarını etkilemez. <mark>Foramen spinosum</mark> A. meningea media'yı taşır.",
+  "aciklama": "<b>Foramen ovale</b>'den geçen yapı: <b>Nervus mandibularis (V3)</b>.<br>• Motor felç: Pterygoid kaslar çalışmaz, ağız açılınca çene felçli tarafa kayar.<br>• Duyu kaybı: N. alveolaris inferior ve N. lingualis felciyle dil ön 2/3 ve alt dudakta genel duyu kaybolur.<br>• Sekretomotor kayıp: N. petrosus minor felciyle ganglion oticum üzerinden parotise giden parasempatik lifler kesilir ve kserostomi gelişir."
+ },
+ {
+  "brans": "Anatomi",
+  "soru": "Yüksek ateş, boyun tutulması ve ense sertliği şikâyetleri olan 12 yaşındaki erkek çocuk ailesi tarafından acil servise getiriliyor. Menenjit şüphesi nedeniyle lomber ponksiyon yapılmasına karar veriliyor.<br><br>Bu hastada lomber ponksiyon yapılırken aşağıdaki <mark class=\"cue\">ligamentlerden</mark> hangisinden geçilir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Ligamentum supraspinale"
+   },
+   {
+    "k": "B",
+    "t": "Ligamentum denticulatum"
+   },
+   {
+    "k": "C",
+    "t": "Ligamentum longitudinale anterius"
+   },
+   {
+    "k": "D",
+    "t": "Ligamentum longitudinale posterius"
+   },
+   {
+    "k": "E",
+    "t": "Ligamentum nuchae"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Arka orta hat lomber ponksiyon iğnesi sırasıyla cilt, lig. supraspinale, lig. interspinale ve lig. flavum'u geçer.",
+  "ipucu": "Lomber ponksiyonda spinöz çıkıntıların tepelerini birbirine bağlayan ilk bağ hangisidir?",
+  "tuzak": "<mark>Ligamentum denticulatum</mark> pia mater'in yan uzantısıdır, iğne yolunda yer almaz. <mark>Ligamentum nuchae</mark> servikal bölgeye özgüdür.",
+  "aciklama": "<b>Lomber ponksiyonda geçilen tabakalar:</b><br>1. Deri ve cilt altı<br>2. <b>Ligamentum supraspinale</b> (A)<br>3. Ligamentum interspinale<br>4. Ligamentum flavum<br>5. Spatium epidurale<br>6. Dura mater spinalis<br>7. Arachnoidea mater spinalis<br>8. Spatium subarachnoideum (BOS alınır).<br><br>Ligamentum denticulatum ve lig. longitudinale anterius/posterius iğne yolunda yer almaz."
+ },
+ {
+  "brans": "Anatomi",
+  "soru": "Yirmi bir yaşındaki erkek hasta boynun üst bölümünden aldığı bir bıçak darbesi sebebiyle acil servise geliyor. Radyolojik görüntülemede büyük yapılara bir zarar gelmediği anlaşılıyor. Ancak hastanın fizik muayenesinde angulus mandibulae'nin üstünü örten deride duyu kaybı olduğu tespit ediliyor.<br><br>Bu hastada aşağıdaki <mark class=\"cue\">sinirlerden</mark> hangisinin hasar görmüş olması en olasıdır?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Nervus auriculotemporalis"
+   },
+   {
+    "k": "B",
+    "t": "Nervus occipitalis minor"
+   },
+   {
+    "k": "C",
+    "t": "Nervus buccalis"
+   },
+   {
+    "k": "D",
+    "t": "Nervus auricularis magnus"
+   },
+   {
+    "k": "E",
+    "t": "Nervus transversus colli"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Angulus mandibulae ve kulak memesi üzerini örten derinin duyusunu plexus cervicalis kökenli sinir taşır.",
+  "ipucu": "Plexus cervicalis'in m. sternocleidomastoideus'un arkasından yükselen en kalın deri dalı hangisidir?",
+  "tuzak": "<mark>Nervus auriculotemporalis</mark> V3 dalıdır, kulak önü ve şakak bölgesinin duyusunu taşır, angulus mandibulae'yi innerve etmez.",
+  "aciklama": "<b>Nervus auricularis magnus (C2-C3)</b>: Plexus cervicalis'in duyu dalıdır. Angulus mandibulae üzerindeki derinin, parotis bezi üzerindeki cildin ve kulak kepçesinin alt yarısının duyusunu taşır."
+ },
+ {
+  "brans": "Anatomi",
+  "soru": "Belinden sağ bacağa doğru yayılan ağrı yakınması ile başvuran bir hastanın fizik muayenesinde; sağ ayağında dorsifleksiyonda güç kaybı ve sağ ayak dorsalinde 1. ve 2. parmak arasında hipoestezi olduğu saptanıyor. Manyetik rezonans görüntülemede hastada bir spinal sinire bası yapan disk hernisi görülüyor.<br><br>Bu hastadaki klinik bulguları açıklayabilecek disk hernisinin aşağıdaki <mark class=\"cue\">intervertebral aralıklardan</mark> hangisine ait olması en olasıdır?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "L1-L2"
+   },
+   {
+    "k": "B",
+    "t": "L2-L3"
+   },
+   {
+    "k": "C",
+    "t": "L3-L4"
+   },
+   {
+    "k": "D",
+    "t": "L4-L5"
+   },
+   {
+    "k": "E",
+    "t": "L5-S1"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Düşük ayak (dorsifleksiyon kaybı) ve 1-2. parmak arası duyu kaybı L5 sinir kökü basısına özgüdür.",
+  "ipucu": "L5 sinir kökü posterolateral herniasyonda hangi seviyedeki diskten etkilenir?",
+  "tuzak": "<mark>L5-S1</mark> disk herniasyonunda basıya uğrayan kök S1'dir (gastrocnemius zayıflığı, aşil refleksi kaybı). L4-L5 herniasyonunda ise L5 kökü etkilenir.",
+  "aciklama": "<b>L5 Sinir Kökü Basısı (L4-L5 Disk Hernisi):</b><br>• Motor: Ayak ve başparmak dorsifleksiyonunda zayıflık (düşük ayak / n. fibularis profundus).<br>• Duyu: Ayak sırtı ve 1.-2. parmaklar arası web mesafesinde hipoestezi.<br>• Dolayısıyla L4-L5 seviyesindeki posterolateral disk herniasyonu L5 kökünü sıkıştırır."
+ },
+ {
+  "brans": "Anatomi",
+  "soru": "<b>Arteria mesenterica superior</b>, arteria colica media'yı verdikten hemen sonra tıkanırsa, aşağıdaki damarlardan hangisindeki arteriyel kan akımı <mark class=\"cue\">öncelikle</mark> bozulur?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Pancreas"
+   },
+   {
+    "k": "B",
+    "t": "Flexura coli sinistra"
+   },
+   {
+    "k": "C",
+    "t": "Colon descendens"
+   },
+   {
+    "k": "D",
+    "t": "Colon transversum"
+   },
+   {
+    "k": "E",
+    "t": "Ileum"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 SMA'nın a. colica media dalından sonra ayrılan dalları jejunum, ileum ve ileokolik arterlerdir.",
+  "ipucu": "Ince barsakların distal kısmını besleyen vasa recta'lar hangi SMA dallarından köken alır?",
+  "tuzak": "<mark>Colon transversum</mark> a. colica media tarafından beslenir; tıkanıklık bu dal ayrıldıktan SONRA olduğu için distaldeki jejunum ve ileum etkilenir.",
+  "aciklama": "<b>Arteria mesenterica superior (SMA) dallanma sırası:</b><br>1. A. pancreaticoduodenalis inferior<br>2. Aa. jejunales<br>3. A. colica media<br>4. Aa. ileales ve A. ileocolica.<br><br>A. colica media verildikten sonra oluşan tıkanıklıkta <b>ileum (Aa. ileales)</b> kan akımı doğrudan bozulur."
+ },
+ {
+  "brans": "Anatomi",
+  "soru": "Elli beş yaşında erkek hasta bacaklarında ve karnında ödem şikâyetiyle polikliniğe başvuruyor. Yapılan venöz anjiyogram sonucu sol vena renalis'in açıldığı yerde, vena cava inferior'un tıkandığı ortaya çıkıyor.<br><br>Bu tıkanıklık nedeniyle aşağıdaki damarlardan hangisinde <mark class=\"cue\">daha belirgin dilatasyon</mark> olması beklenir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Vena suprarenalis sinistra"
+   },
+   {
+    "k": "B",
+    "t": "Venae phrenicae inferiores"
+   },
+   {
+    "k": "C",
+    "t": "Vena hepatica dextra"
+   },
+   {
+    "k": "D",
+    "t": "Vena gastrica sinistra"
+   },
+   {
+    "k": "E",
+    "t": "Vena portae hepatis"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Sol renal ven VCI'ya dökülür; sol testiküler/ovaryen ve sol suprarenal venler doğrudan sol renal vene dökülür.",
+  "ipucu": "Sağ suprarenal ven VCI'ya açılırken, sol suprarenal ven hangi vene dökülür?",
+  "tuzak": "<mark>Vena hepatica dextra</mark> tıkanıklığın daha üstünde (diyafram altı VCI) kalır; <mark>Vena portae</mark> karaciğere dökülür.",
+  "aciklama": "<b>Vena renalis sinistra'ya dökülen venler:</b><br>• Vena suprarenalis sinistra<br>• Vena testicularis / ovarica sinistra.<br><br>VCI'nın sol renal ven girişinde tıkanması durumunda sol renal vene açılan <b>Vena suprarenalis sinistra</b>'da geriye doğru kan birikir ve belirgin dilatasyon gelişir."
+ },
+ {
+  "brans": "Anatomi",
+  "soru": "Beyin damarlarını gösteren manyetik rezonans anjiyografide (MRA) sulcus lateralis cerebri (Sylvian yarık) boyunca ilerleyen ana arter aşağıdakilerden hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Arteria cerebri anterior"
+   },
+   {
+    "k": "B",
+    "t": "Arteria cerebri media"
+   },
+   {
+    "k": "C",
+    "t": "Arteria cerebri posterior"
+   },
+   {
+    "k": "D",
+    "t": "Arteria cerebelli superior"
+   },
+   {
+    "k": "E",
+    "t": "Arteria carotis interna"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Hemisferlerin konveks dış yüzeyini ve konuşma/motor alanlarını besleyen damardır.",
+  "ipucu": "Sylvian olukta seyredip insula üzerini örten arter hangisidir?",
+  "tuzak": "<mark>Arteria cerebri anterior</mark> fissure longitudinalis cerebri'de ve korpus kallozum üzerinde seyreder.",
+  "aciklama": "<b>Arteria cerebri media (MCA):</b> A. carotis interna'nın en büyük dalıdır. Sulcus lateralis (Sylvian fisür) boyunca ilerler, insulayı ve serebral hemisferlerin dış konveks yüzünü besler."
+ },
+ {
+  "brans": "Anatomi",
+  "soru": "<b>Ligamentum capitis femoris'in</b> hasar görmesi durumunda aşağıdaki arterlerden hangisinin dalının bu hasardan etkilenmesi beklenir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Arteria obturatoria"
+   },
+   {
+    "k": "B",
+    "t": "Arteria glutea superior"
+   },
+   {
+    "k": "C",
+    "t": "Arteria glutea inferior"
+   },
+   {
+    "k": "D",
+    "t": "Arteria circumflexa femoris medialis"
+   },
+   {
+    "k": "E",
+    "t": "Arteria circumflexa femoris lateralis"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Ramus acetabularis denilen dal fovea capitis femoris'e ulaşır.",
+  "ipucu": "Femur başı ligamanı içinden geçen arter dalı hangi ana arterden çıkar?",
+  "tuzak": "<mark>A. circumflexa femoris medialis</mark> yetişkinde femur başının ASIL besleyicisidir (retinaküler arterler) ancak lig. capitis femoris içinden GEÇMEZ.",
+  "aciklama": "<b>Ligamentum capitis femoris</b> içerisinde <b>Arteria obturatoria</b>'nın <b>ramus acetabularis</b> dalı seyreder. Çocukluk çağında femur başı epifizinin beslenmesine katkıda bulunur."
+ },
+ {
+  "brans": "Anatomi",
+  "soru": "I. Bulbus olfactorius<br>II. Commissura anterior<br>III. Nucleus olfactorius anterior<br>IV. Nervus olfactorius<br>V. Tractus olfactorius<br><br>Aşağıdakilerden hangisinde, <b>koku duyusunun iletiminde</b> görev alan yapılar <mark class=\"cue\">sırasıyla</mark> verilmiştir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "IV - I - V - III - II"
+   },
+   {
+    "k": "B",
+    "t": "IV - I - V - II - III"
+   },
+   {
+    "k": "C",
+    "t": "IV - V - I - II - III"
+   },
+   {
+    "k": "D",
+    "t": "I - IV - V - III - II"
+   },
+   {
+    "k": "E",
+    "t": "I - IV - V - II - III"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Burun mukozasındaki reseptörlerden çıkan lifler önce N. olfactorius (IV) olarak lamina cribrosa'yı geçer.",
+  "ipucu": "Primer koku nöronlarının uzantısı olan sinirden bulbusa, oradan tractusa geçiş sırası nasıldır?",
+  "tuzak": "Bulbus olfactorius sinirden önce sanılabilir; oysa N. olfactorius (IV) 1. nöron uzantısıdır, bulbus (I) 2. nöron gövdelerini içerir.",
+  "aciklama": "<b>Koku Yolu İletim Sırası:</b><br>1. <b>Nervus olfactorius (IV)</b>: Lamina cribrosa'dan geçer.<br>2. <b>Bulbus olfactorius (I)</b>: Mitral hücrelerle sinaps yapar.<br>3. <b>Tractus olfactorius (V)</b>.<br>4. <b>Nucleus olfactorius anterior (III)</b>.<br>5. <b>Commissura anterior (II)</b>: Karşı tarafa çapraz yapar.<br><br>Sıralama: <b>IV - I - V - III - II (A)</b>."
+ },
+ {
+  "brans": "Anatomi",
+  "soru": "İki saat önce başlayan şiddetli baş ağrısı şikâyetiyle acil servise gelen 65 yaşındaki erkek hastada sol alt ekstremitede 3/5, sağ alt ekstremitede 5/5 kuvvetinde olduğu, sol alt ekstremitesinin tamamında hipoestezi tespit ediliyor. BT'de subaraknoid kanama izleniyor.<br><br>Bu hastadaki belirtiler aşağıdaki <mark class=\"cue\">arterlerden</mark> hangisinin hasarına bağlı olabilir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Arteria cerebri anterior"
+   },
+   {
+    "k": "B",
+    "t": "Arteria cerebri media"
+   },
+   {
+    "k": "C",
+    "t": "Arteria cerebri posterior"
+   },
+   {
+    "k": "D",
+    "t": "Arteria choroidea anterior"
+   },
+   {
+    "k": "E",
+    "t": "Arteria choroidea posterior"
+   }
+  ],
+  "dogru": 0,
+  "cue": "🎯 Lobulus paracentralis (bacak ve ayak motor/duyu alanı) bu arter tarafından beslenir.",
+  "ipucu": "Hemisferlerin medial yüzeyini ve bacak temsil alanını besleyen beyin arteri hangisidir?",
+  "tuzak": "<mark>Arteria cerebri media</mark> yüz, kol ve üst ekstremite motor/duyu alanlarını beslemede baskındır.",
+  "aciklama": "<b>Arteria cerebri anterior (ACA):</b> Hemisferlerin medial yüzünü ve <b>lobulus paracentralis</b>'i (karşı taraf bacak ve ayak motor/duyu alanı) besler. Tıkanıklığında karşı bacakta baskın felç ve duyu kaybı görülür."
+ },
+ {
+  "brans": "Anatomi",
+  "soru": "Aşağıdaki yapılardan hangisinde meydana gelecek bir hasarın <b>bellek kayıplarına</b> neden olması <mark class=\"cue\">en olasıdır</mark>?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Septum pellucidum"
+   },
+   {
+    "k": "B",
+    "t": "Tuber cinereum"
+   },
+   {
+    "k": "C",
+    "t": "Adhesio interthalamica"
+   },
+   {
+    "k": "D",
+    "t": "Corpus callosum"
+   },
+   {
+    "k": "E",
+    "t": "Fornix"
+   }
+  ],
+  "dogru": 4,
+  "cue": "🎯 Hippocampus'u corpus mammillare'ye bağlayan Papez halkasının ana eferent yoludur.",
+  "ipucu": "Limbik sistemde hafıza konsolidasyonunda görev alan Papez halkası lif demeti hangisidir?",
+  "tuzak": "<mark>Corpus callosum</mark> en büyük komissüral yoldur ancak hafıza halkası olan Papez devresinde yer almaz.",
+  "aciklama": "<b>Fornix:</b> Hippocampus'u corpus mammillare'ye bağlayan, Papez halkasının (hafıza ve bellek devresi) en önemli yolağıdır. Hasarında yakın hafıza kaybı (anterograd amnezi) gelişir."
+ },
+ {
+  "brans": "Anatomi",
+  "soru": "Yukarıdaki transnazal transsfenoidal yaklaşımla elde edilmiş operasyon görüntüsündeki 1, 2, 3, 4 numaralı yapılar sırasıyla aşağıdakilerden hangisidir?<br><br>1: Tuber cinereum / Corpus mammillare<br>2: Arteria basilaris<br>3: Nervus abducens / oculomotorius / trigeminus<br>4: Arteria superior cerebelli / cerebri posterior",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Tuber cinereum — Arteria basilaris — Nervus abducens — Arteria superior cerebelli"
+   },
+   {
+    "k": "B",
+    "t": "Corpus mammillare — Arteria basilaris — Nervus oculomotorius — Arteria cerebri posterior"
+   },
+   {
+    "k": "C",
+    "t": "Tuber cinereum — Arteria basilaris — Nervus oculomotorius — Arteria cerebri posterior"
+   },
+   {
+    "k": "D",
+    "t": "Corpus mammillare — Arteria basilaris — Nervus abducens — Arteria superior cerebelli"
+   },
+   {
+    "k": "E",
+    "t": "Corpus mammillare — Arteria basilaris — Nervus trigeminus — Arteria superior cerebelli"
+   }
+  ],
+  "dogru": 1,
+  "cue": "🎯 Pons üst sınırında A. basilaris'ten ayrılan N. oculomotorius (3) ve A. cerebri posterior (4) interpedinküler çukurda seyreder.",
+  "ipucu": "Nervus oculomotorius (3. kranial sinir) hangi iki arter arasından çıkar?",
+  "tuzak": "N. abducens pons-medulla birleşiminden çıkar, transsfenoidal yukarı bakışta görülmez.",
+  "aciklama": "Transsfenoidal bakışta pons önünde <b>A. basilaris (2)</b>, üstte <b>Corpus mammillare (1)</b>, interpedinküler çukurda <b>Nervus oculomotorius (3)</b> ve <b>Arteria cerebri posterior (4)</b> yer alır."
+ },
+ {
+  "brans": "Histoloji",
+  "soru": "Aşağıdaki hücre organellerinden birisi Hematoksilen-Eozin boyası ile boyanamaz. Bu organelin boyanabilmesi için gümüşleme gibi özel bir yönteme ihtiyaç duyulur.<br><br>Bu özelliği nedeniyle diğer yapılardan farklılık gösteren bu organel hangisidir?",
+  "siklar": [
+   {
+    "k": "A",
+    "t": "Granüllü endoplazmik retikulum"
+   },
+   {
+    "k": "B",
+    "t": "Hücre çekirdeği"
+   },
+   {
+    "k": "C",
+    "t": "Ribozom"
+   },
+   {
+    "k": "D",
+    "t": "Golgi aygıtı"
+   },
+   {
+    "k": "E",
+    "t": "Mitokondri"
+   }
+  ],
+  "dogru": 3,
+  "cue": "🎯 Rutin H&E kesitlerinde çekirdek yanında boyanmayarak 'negatif Golgi alanı' oluşturan organeldir.",
+  "ipucu": "Gümüş emprenye metodu (Camillo Golgi boyası) ile ilk gösterilen organel hangisidir?",
+  "tuzak": "<mark>Granüllü ER</mark> RNA içerdiği için bazofiliktir ve Hematoksilen ile mor boyanır.",
+  "aciklama": "<b>Golgi aygıtı:</b> Rutin Hematoksilen-Eozin (H&E) boyamada boyanmaz, çekirdek çevresinde soluk soluk görünür (negatif Golgi görüntüsü). Görünür kılmak için <b>gümüşleme (impregnasyon)</b> veya osmiyum boyaları gerekir."
+ },
+ {
   "brans": "Fizyoloji",
-  "soru": "Bakır metabolizması bozukluğuna bağlı karaciğer hasarı ve <mark class=\"cue\">kanat çırpma şeklinde tremor</mark>, yürüyüş ve konuşma bozukluğu ile rijidite gibi nörolojik bulguların görüldüğü Wilson Hastalığında beyinde etkilenen <mark class=\"cue\">esas bölge</mark> aşağıdakilerden hangisidir?",
+  "soru": "Kırk yaşında bir erkek hasta kırık ayak bileği ameliyatı için hastaneye yatırılıyor. Ameliyat sırasında süksinilkolin içeren anesteziklerin kullanımı sonucu sürekli kas kasılması ve ısı üretimi ile sonuçlanan tablo gelişiyor. Hastaya malign hipertermi tanısı koyuluyor.<br><br>Bu hastada mutasyon beklenen kanal <mark class=\"cue\">aşağıdaki hangi tip kanala</mark> örnek verilebilir?",
   "siklar": [
-   {"k": "A", "t": "Putamen"},
-   {"k": "B", "t": "Hipotalamus"},
-   {"k": "C", "t": "Serebellum"},
-   {"k": "D", "t": "Substantia nigra"},
-   {"k": "E", "t": "Talamus"}
-  ],
-  "dogru": 0,
-  "cue": "🎯 Hepatolentiküler dejenerasyonda 'lentiform nukleus'un dış kabuğunu oluşturan yapıyı düşün.",
-  "ipucu": "Wilson hastalığının patolojik adı hepatolentiküler dejenerasyondur. Lentiform nukleusu oluşturan ana yapı putamen'dir.",
-  "tuzak": "<mark>Substantia nigra</mark> Parkinson hastalığında etkilenen ana yapıdır; Wilson hastalığında ise bazal ganglionlardan özellikle <mark>putamen</mark> ve globus pallidus tutulur.",
-  "aciklama": "<b>Wilson hastalığı (hepatolentiküler dejenerasyon)</b>, ATP7B gen mutasyonu sonucu seruloplazmin sentezinin ve safra ile bakır atılımının bozulmasıyla seyreden otozomal resesif bir hastalıktır.<br><br>Aşırı biriken serbest bakır karaciğer, beyin, kornea ve böbreklerde birikir.<br>• Beyinde en çok tutulan ve harabiyete uğrayan bölge <b>putamen</b>dir (ve globus pallidus; birlikte nucleus lentiformis'i oluştururlar).<br>• Histopatolojide putamende softenleşme, kavitasyon, gliozis ve bakır birikimi görülür.<br>• Nörolojik bulgular: Ekstrapramidal sistem bulguları — <b>kanat çırpma tremoru (asteriksis / wing-beating tremor)</b>, disatri, distoni, rijidite, parkinsonizm ve psikiyatrik bozukluklar.<br>• Diğer bulgular: Karaciğer sirozu, korneada <b>Kayser-Fleischer halkası</b> (Descemet membranında bakır birikimi), Coombs negatif hemolitik anemi.<br>• Tedavi: Şelasyon (D-penisilamin, trientin) ve çinko (barsaktan bakır emilimini engeller)."
- },
- {
-  "brans": "Biyokimya",
-  "soru": "Aşağıdakilerden hangisi <b>hemolizli kanda</b> <mark class=\"cue\">beklenmez</mark>?",
-  "siklar": [
-   {"k": "A", "t": "Hiperkalemi"},
-   {"k": "B", "t": "Hiperkalsemi"},
-   {"k": "C", "t": "LDH artışı"},
-   {"k": "D", "t": "Haptoglobulin azalışı"},
-   {"k": "E", "t": "Hiperfosfatemi"}
-  ],
-  "dogru": 1,
-  "cue": "🎯 Hücre içinde düşük, hücre dışında yüksek olan temel katyon hangisidir?",
-  "ipucu": "Eritrosit yıkıldığında hücre içi bileşenler (K⁺, LDH, Fosfat) plazmaya salınır. Kalsiyum ise bir hücre içi elektroliti değildir.",
-  "tuzak": "<mark>Haptoglobulin azalışı</mark> hemolizde serbest hemoglobin bağlandığı için görülür (serbest haptoglobulin düşer). <mark>Hiperkalsemi</mark> ise hemolizde görülmez.",
-  "aciklama": "<b>B seçeneği yanlıştır.</b> Hemoliz sırasında eritrosit membran bütünlüğü bozulur ve eritrosit sitoplazmasında yüksek konsantrasyonda bulunan maddeler plazmaya/seruma geçer:<br><br>• <b>Potasyum (K⁺):</b> Eritrosit içi potasyum çok yüksektir → <b>Yalancı/Gerçek Hiperkalemi</b><br>• <b>Laktat Dehidrogenaz (LDH):</b> Eritrositler zengin LDH-1 ve LDH-2 içerir → <b>Serum LDH seviyesinde belirgin artış</b><br>• <b>Fosfat:</b> Hücre içi organik ve inorganik fosfat salınır → <b>Hiperfosfatemi</b><br>• <b>Hemoglobin:</b> Dolaşıma salınan serbest hemoglobin haptoglobine bağlanır ve kompleks karaciğerde temizlenir → <b>Serbest Haptoglobulin düzeyinde azalma</b><br>• <b>Kalsiyum (Ca²⁺):</b> Kalsiyum ekstrasellüler bir katyondur; eritrosit içi kalsiyum düzeyi son derece düşüktür (<1 µmol/L). Bu nedenle hemoliz kanda hiperkalsemiye yol açmaz."
- },
- {
-  "brans": "Biyokimya",
-  "soru": "Aşağıdaki hormonlardan hangisinin reseptörü <mark class=\"cue\">hücre içindedir</mark>?",
-  "siklar": [
-   {"k": "A", "t": "Kalsitriol"},
-   {"k": "B", "t": "Glukagon"},
-   {"k": "C", "t": "Norepinefrin"},
-   {"k": "D", "t": "Parathormon"},
-   {"k": "E", "t": "Kalsitonin"}
-  ],
-  "dogru": 0,
-  "cue": "🎯 Lipofilik (steroid/D vitamini türevi) yapıda olan ve hücre zarını doğrudan geçen hormonu düşün.",
-  "ipucu": "Steroid hormonlar, tiroit hormonları ve aktif D vitamini (kalsitriol) hücre içi (nükleer/sitoplazmik) reseptörlere bağlanır.",
-  "tuzak": "<mark>Parathormon</mark> ve <mark>Kalsitonin</mark> kalsiyum metabolizmasını düzenlese de peptit yapılıdır ve hücre yüzeyindeki GPCR reseptörlerine bağlanır.",
-  "aciklama": "<b>Kalsitriol [1,25-(OH)₂D₃ / Aktif D Vitamini]</b>, steroid yapılı hormonlar sınıfında değerlendirilir ve hedef hücrelerde <b>intrasellüler (nükleer) reseptör olan VDR (Vitamin D Receptor)</b>'a bağlanır. Reseptör-hormon kompleksi çekirdeğe geçerek geni transkripsiyonel düzeyde düzenler (ör. kalbindin sentezi).<br><br><b>Reseptörü Hücre İçinde (Sitoplazma/Çekirdek) Olan Hormonlar:</b><br>• Steroid hormonlar (Glukokortikoidler, Mineralokortikoidler, Östrojen, Progesteron, Testosteron)<br>• Tiroit hormonları (T₃, T₄)<br>• Kalsitriol (D vitamini)<br>• Retinoik asit<br><br><b>Reseptörü Hücre Yüzeyinde (Membranda) Olan Hormonlar:</b><br>• Peptit ve protein hormonlar (Glukagon, İnsülin, PTH, Kalsitonin, TSH, ACTH, GH vb.)<br>• Katekolaminler (Epinefrin, Norepinefrin)"
- },
- {
-  "brans": "Mikrobiyoloji",
-  "soru": "Yanık ünitesinde takip edilen olgunun takibinin 5. gününde yanık yarasında gelişen koyu renkli lezyonlara <mark class=\"cue\">ektima gangrenosum</mark> tanısı konulmuştur. Bu klinik tablodan sorumlu bakteriyel patojen büyük olasılıkla aşağıdakilerden hangisidir?",
-  "siklar": [
-   {"k": "A", "t": "Vibrio vulnificus"},
-   {"k": "B", "t": "Bacillus anthracis"},
-   {"k": "C", "t": "Pseudomonas aeruginosa"},
-   {"k": "D", "t": "Burkholderia cepacia"},
-   {"k": "E", "t": "Acinetobacter baumannii"}
-  ],
-  "dogru": 2,
-  "cue": "🎯 Yanık hastalarında yeşil-mavi pigment (piyosiyanin) üreten nötropenik/fırsatçı patojeni düşün.",
-  "ipucu": "Ektima gangrenozum, kanda bakteriyemi sırasında cilt damarlarının invazyonuyla oluşan ortası nekrotik siyah lezyonlardır; en klasik etken Pseudomonas'tır.",
-  "tuzak": "<mark>Bacillus anthracis</mark> de şarbon lezyonunda 'kara çıban' (siyah eskar) yapar; ancak yanık hastasındaki ektima gangrenozum tablosunun karakteristik etkeni <mark>Pseudomonas aeruginosa</mark>'dır.",
-  "aciklama": "<b>Ektima gangrenozum (Ethyma gangrenosum)</b>, sıklıkla immündüşkün, nötropenik ve yanık hastalarında gelişen <b>Pseudomonas aeruginosa</b> sepsisinin patognomonik dermatolojik bulgusudur.<br><br>• <b>Patogenez:</b> Bakterinin dermisteki ven ve arteriyol duvarlarını doğrudan invaze etmesi (vaskülit), vasküler tromboz ve doku iskemisi/nekrozu sonucunda oluşur.<br>• <b>Klinik:</b> Başlangıçta eritemli, ağrısız makül/papül şeklinde başlar; hızla ortası mor-siyah nekrotik, ülsere eskara dönüşür.<br>• <b>Pseudomonas aeruginosa Özellikleri:</b> Gram negatif, sporsuz, hareketli (tek polar kamçı), oksidaz pozitif, zorunlu aerop basil. Piyosiyanin (mavi) ve piyoverdin (yeşil) pigmentleri üretir. Yanık yaralarının ve hastane enfeksiyonlarının en önemli etkenlerindendir."
- },
- {
-  "brans": "Mikrobiyoloji",
-  "soru": "<mark class=\"cue\">42°C'de ve %5'lik oksijenli ortamda</mark> üreme özelliği bulunan, mikroskop altında gram negatif <mark class=\"cue\">martı kanadı şeklinde</mark> görülen, özellikle kanatlı hayvan ürünlerinden bulaşıp kanlı ishale sebep olabilen etken aşağıdakilerden hangisidir?",
-  "siklar": [
-   {"k": "A", "t": "Campylobacter jejuni"},
-   {"k": "B", "t": "Salmonella enterica"},
-   {"k": "C", "t": "Shigella flexneri"},
-   {"k": "D", "t": "Yersinia enterocolitica"},
-   {"k": "E", "t": "Clostridium difficile"}
-  ],
-  "dogru": 0,
-  "cue": "🎯 Guillain-Barré sendromu ile en sık ilişkilendirilen termofilik gastrointestinal patojeni hatırla.",
-  "ipucu": "42°C (termofilik), %5 O2 (mikroaerofilik), martı kanadı (seagull wing) görünümü ve tavuk eti bulaşı Campylobacter jejuni'nin klasik dörtlüsüdür.",
-  "tuzak": "<mark>Salmonella</mark> da tavuk etiyle bulaşır ancak 42°C termofilik mikroaerofilik değildir ve çomak şeklindedir.",
-  "aciklama": "<b>Campylobacter jejuni</b>, gelişmiş ve gelişmekte olan ülkelerde bakteriyel gastroenteritin en sık nedenlerinden biridir.<br><br><b>Kritik Mikrobiyolojik Özellikler:</b><br>• <b>Termofilik:</b> Optimal üreme sıcaklığı <b>42°C</b>'dir (diğer bakterilerin çoğunu baskılar).<br>• <b>Mikroaerofilik:</b> %5 O₂, %10 CO₂ ve %85 N₂ içeren ortamda iyi ürer.<br>• <b>Morfoloji:</b> Gram negatif, sarmal/kıvrık, mikroskopta <b>'martı kanadı' (seagull wing)</b> veya virgül şeklinde görülür.<br>• <b>Bulaş:</b> Yetersiz pişirilmiş <b>kanatlı hayvan eti (tavuk)</b>, kontamine su ve unpasteurize süt.<br>• <b>Klinik:</b> Karın ağrısı, kramp, ateş ve <b>kanlı-mukuslu ishal (dizanterik tablo)</b>.<br>• <b>Komplikasyon:</b> <b>Guillain-Barré Sendromu (GBS)</b> ve Reaktif Artrit ile en sık ilişkili bakteriyel etkendir (moleküler benzerlik / gangliyozid otoantikorları)."
- },
- {
-  "brans": "Mikrobiyoloji",
-  "soru": "Furazolidon ve lizostafine <mark class=\"cue\">dirençli</mark>, basitrasine <mark class=\"cue\">duyarlı</mark> saptanan katalaz pozitif, koagülaz pozitif, gram pozitif kok aşağıdakilerden hangisi ile uyumludur?",
-  "siklar": [
-   {"k": "A", "t": "Micrococcus spp."},
-   {"k": "B", "t": "Staphylococcus aureus"},
-   {"k": "C", "t": "Streptococcus pyogenes"},
-   {"k": "D", "t": "Streptococcus bovis"},
-   {"k": "E", "t": "Streptococcus mutans"}
-  ],
-  "dogru": 0,
-  "cue": "🎯 Stafilokoklardan basitrasine duyarlı ve lizostafine dirençli olmasıyla ayrılan mikroorganizma cinsini düşün.",
-  "ipucu": "Basitrasine duyarlı (Taxo A), lizostafine dirençli ve furazolidona dirençli olması Micrococcus spp. için patognomoniktir.",
-  "tuzak": "⚠️ <b>Hatalı Öncül / Tuzak:</b> Soru kökünde 'koagülaz pozitif' yazması çelişkili bir ifadedir; çünkü Micrococcus türleri koagülaz negatiftir. Ancak <b>Furazolidona dirençli + Lizostafine dirençli + Basitrasine duyarlı</b> duyarlılık profili <b>kesin olarak Micrococcus spp.</b>'ye aittir (S. aureus furazolidona ve lizostafine duyarlı, basitrasine dirençlidir; Streptococcus türleri ise katalaz negatiftir).",
-  "aciklama": "<b>Micrococcus spp.</b>, Gram pozitif, katalaz pozitif, tetrat/küme oluşturan koklardır. Laboratuvar tanısında <b>Staphylococcus</b> cinsi bakterilerden ayrımında antibiyotik ve enzim duyarlılık testleri kullanılır.<br><br><b>Ayrım Tablosu:</b><br>• <b>Micrococcus spp.:</b> Furazolidon (<b>Dirençli</b>), Lizostafin (<b>Dirençli</b>), Basitrasin 0.04 U (<b>Duyarlı</b>), Oksidaz (<b>Pozitif</b>).<br>• <b>Staphylococcus spp. (ör. S. aureus):</b> Furazolidon (<b>Duyarlı</b>), Lizostafin (<b>Duyarlı</b>), Basitrasin (<b>Dirençli</b>), Oksidaz (<b>Negatif</b>).<br>• <b>Streptococcus spp.:</b> Katalaz <b>negatiftir</b>.<br><br>⚠️ <i>Soru kökünde verilen 'koagülaz pozitif' ifadesi soru hazırlanırken yapılmış tipik bir dizgi/öncül hatasıdır; fakat antibiyogram profili net olarak Micrococcus'u işaret etmektedir.</i>"
- },
- {
-  "brans": "Mikrobiyoloji",
-  "soru": "İmmünsupresif tedavi alan bir hasta ilerleyici görme kaybı ile göz kliniğine başvurmuş ve yapılan muayenede <mark class=\"cue\">endoftalmit</mark> tanısı konmuştur. Gözden alınan sürüntüde gram pozitif, <mark class=\"cue\">hareketli, beta hemoliz yapan ve sporlu aerop</mark> basiller üremiştir.<br><br>Bu kliniğe aşağıdaki etkenlerden hangisinin sebep olma ihtimali <mark class=\"cue\">en yüksektir</mark>?",
-  "siklar": [
-   {"k": "A", "t": "Bacillus anthracis"},
-   {"k": "B", "t": "Bacillus cereus"},
-   {"k": "C", "t": "Pseudomonas aeruginosa"},
-   {"k": "D", "t": "Clostridium difficile"},
-   {"k": "E", "t": "Clostridium perfringens"}
-  ],
-  "dogru": 1,
-  "cue": "🎯 Travmatik ve fırsatçı yıkıcı endoftalmitlerin en sık sporlu aerop etkenini hatırla.",
-  "ipucu": "Bacillus anthracis HAREKETSİZ ve HEMOLİZSİZDİR. Bacillus cereus ise HAREKETLİ ve BETA-HEMOLİTİKTİR; göz içi yıkıcı endoftalmit yapar.",
-  "tuzak": "<mark>Bacillus anthracis</mark> sporlu Gram pozitif basil olmasına rağmen <b>hareketsizdir (non-motil)</b> ve kanlı besiyerinde <b>hemoliz yapmaz</b>.",
-  "aciklama": "<b>Bacillus cereus</b>, özellikle penetran göz travmaları, IV madde bağımlıları ve immündüşkün hastalarda gelişen <b>akut, yıkıcı ve kör edici endoftalmitin</b> en önemli etkenidir. Toxin (sereolizin, nöraminidaz) üretimi nedeniyle 24-48 saat içinde göz kaybına yol açabilir.<br><br><b>Bacillus cereus vs Bacillus anthracis Ayırıcı Özellikleri:</b><br>• <b>Bacillus cereus:</b> <b>Hareketli (motil)</b>, <b>Beta hemolitik</b>, penisiline dirençli.<br>• <b>Bacillus anthracis:</b> <b>Hareketsiz (non-motil)</b>, <b>Gama hemolitik (hemolizsiz)</b>, kapsüllü (poliglutamik asit), penisiline duyarlı.<br><br><b>Clostridium</b> türleri (C. perfringens, C. difficile) anaeroptur, soruda aerop denmiştir. <b>Pseudomonas</b> ise Gram negatif bir çomaktır."
- },
- {
-  "brans": "Mikrobiyoloji",
-  "soru": "18 yaşında erkek olgunun <mark class=\"cue\">özellikle geceleri yatarken artan</mark> sırt bölgesinde kaşıntı şikâyeti mevcuttur. Yapılan inspeksiyonda ciltten kabarık <mark class=\"cue\">tünellere benzer lezyonlar</mark> gözlenmiş, kaşımaya bağlı yer yer kabuklanmalar gözlenmiştir.<br><br>Bahsedilen klinik tabloya aşağıdaki etkenlerden hangisinin sebep olması <mark class=\"cue\">en yüksek olasılıktır</mark>?",
-  "siklar": [
-   {"k": "A", "t": "Sarcoptes scabiei"},
-   {"k": "B", "t": "Ixodes ricinus"},
-   {"k": "C", "t": "Dermacentor marginatus"},
-   {"k": "D", "t": "Ctenocephalides felis"},
-   {"k": "E", "t": "Hyalomma anatolicum"}
-  ],
-  "dogru": 0,
-  "cue": "🎯 Gece sıcakta artan şiddetli kaşıntı ve stratum korneumdaki 'silion' (tünel) lezyonları.",
-  "ipucu": "Sarcoptes scabiei var. hominis (Uyuz böceği) cildin üst tabakasında tüneller (silion) kazarak yumurtlar.",
-  "tuzak": "<mark>Ixodes ricinus</mark> ve <mark>Hyalomma</mark> kenedir; Lyme ve KKHA gibi hastalıkları taşır. Tünel kazıp gece kaşıntısı yapmaz.",
-  "aciklama": "<b>Uyuz (Scabies)</b>, insan akar türü olan <b>Sarcoptes scabiei var. hominis</b>'in neden olduğu bulaşıcı bir cilt enfestasyonudur.<br><br><b>Karakteristik Klinik Bulgular:</b><br>• <b>Gece ve sıcakta (yatakta) belirgin şekilde artan şiddetli kaşıntı</b> (akarların hareketlenmesi ve tip IV duyarlılık reaksiyonu).<br>• <b>Silion (Tünel):</b> Dişi akarın stratum korneum tabakasında kazdığı 1-10 mm boyunda, kıvrımlı, ciltten hafif kabarık gri-beyaz tüneller.<br>• <b>Yerleşim:</b> Parmak araları, el bileği fleksör yüzü, koltuk altı, bel, genital bölge ve göbek çevresi.<br>• <b>Tedavi:</b> Topikal <b>%5 Permetrin</b> krem (tüm vücuda uygulanır), dirençli/yaygın vakalarda oral <b>İvermektin</b>. Aile bireylerinin eş zamanlı tedavisi şarttır."
- },
- {
-  "brans": "Mikrobiyoloji",
-  "soru": "Aşağıda verilen viral patojenlerden hangisi insanda <mark class=\"cue\">Burkitt lenfoma</mark> gelişiminden en yüksek olasılıkla sorumludur?",
-  "siklar": [
-   {"k": "A", "t": "Hepatit C virüsü"},
-   {"k": "B", "t": "HTLV-1"},
-   {"k": "C", "t": "HIV-1"},
-   {"k": "D", "t": "Cytomegalovirus"},
-   {"k": "E", "t": "Ebstein-Barr virüsü"}
-  ],
-  "dogru": 4,
-  "cue": "🎯 t(8;14) c-myc translokasyonu ve 'yıldızlı gece' (starry sky) görünümü gösteren B hücreli lenfoma etkeni.",
-  "ipucu": "Epstein-Barr Virüsü (EBV / HHV-4) Burkitt lenfoma, Nazofarenks karsinomu ve Hodgkin lenfoma ile ilişkilidir.",
-  "tuzak": "<mark>HTLV-1</mark> Erişkin T-hücreli lösemi/lenfoma (ATLL) yapar. <mark>Hepatit C</mark> ise Mikst Kriyoglobulinemi ve B hücreli non-Hodgkin lenfoma ile ilişkilidir.",
-  "aciklama": "<b>Epstein-Barr Virüsü (EBV / HHV-4)</b>, Gammaherpesvirinae alt ailesinde yer alan onkojenik bir DNA virüsüdür.<br><br><b>EBV ile İlişkili Maligniteler:</b><br>• <b>Burkitt Lenfoma:</b> Özellikle Afrika endemik tipinde %100 EBV ilişkisi mevcuttur. B hücrelerinde <b>t(8;14) c-myc ve IGH translokasyonu</b> tipiktir. Biyopside <b>'yıldızlı gece' (starry sky)</b> görünümü izlenir.<br>• <b>Nazofarenks Karsinomu:</b> Undiferansiye tipte yüksek oran.<br>• <b>Hodgkin Lenfoma:</b> Mikst hücresel ve nodüler sklerozan tipler.<br>• <b>B Hücreli Lenfomalar:</b> İmmündüşkünlerde (AIDS, organ nakli) gelişen lenfoproliferatif hastalıklar.<br>• <b>Oral Lökoplaki:</b> HIV (+) hastalarda 'Saçlı Lökoplaki' (Hairy leukoplakia)."
- },
- {
-  "brans": "Farmakoloji",
-  "soru": "<mark class=\"cue\">17p delesyonu</mark> saptanan KLL olgusunda tercih edilen <mark class=\"cue\">BCL2 inhibitörü</mark> aşağıdakilerden hangisidir?",
-  "siklar": [
-   {"k": "A", "t": "Ofatumumab"},
-   {"k": "B", "t": "Ritüksimab"},
-   {"k": "C", "t": "Obinutuzumab"},
-   {"k": "D", "t": "Venetoklaks"},
-   {"k": "E", "t": "Panobinostat"}
+   {
+    "k": "A",
+    "t": "Sodyum sızma kanalıdırlır"
+   },
+   {
+    "k": "B",
+    "t": "Ligand bağımlı kanaldır"
+   },
+   {
+    "k": "C",
+    "t": "Voltaj bağımlı kanaldır"
+   },
+   {
+    "k": "D",
+    "t": "Mekanik kanaldır"
+   },
+   {
+    "k": "E",
+    "t": "Potasyum sızma kanalıdır"
+   }
   ],
   "dogru": 3,
-  "cue": "🎯 Apoptoz engelleyici BCL-2 proteinini inhibe eden '-klaks' uzantılı küçük molekül.",
-  "ipucu": "Venetoclax (Venetoklaks), BCL-2'ye seçici bağlanarak türe özgü apoptozu indükler. del(17p) KLL'de kemoterapiye direnci kırar.",
-  "tuzak": "<mark>Ritüksimab</mark>, <mark>Ofatumumab</mark> ve <mark>Obinutuzumab</mark> anti-CD20 monoklonal antikorlardır; BCL-2 inhibitörü değildirler.",
-  "aciklama": "<b>Venetoklaks (Venetoclax)</b>, anti-apoptotik bir protein olan <b>BCL-2 (B-cell lymphoma 2)</b>'yi seçici olarak inhibe eden oral bir ilaçtır.<br><br>• <b>Etki Mekanizması:</b> BCL-2 proteinini inhibe ederek pro-aptoptotik proteinlerin (BIM, BAX, BAK) serbest kalmasını sağlar ve lösemik hücrelerde mitochondrial apoptozu tetikler.<br>• <b>Endikasyon:</b> Özellikle <b>17p delesyonu [del(17p)]</b> veya <b>TP53 mutasyonu</b> taşıyan Kronik Lenfositik Lösemi (KLL) olgularında standart kemoimmünoterapilere direnç görüldüğünden Venetoklaks ve Bruton tirozin kinaz (BTK) inhibitörleri (İbrutinib, Acalabrutinib) ilk basamakta tercih edilir.<br>• <b>Önemli Yan Etki:</b> Çok güçlü ve hızlı tümör lizisi yapabildiği için <b>Tümör Lizis Sendromu (TLS)</b> riski yüksektir; doz kademeli artırılır (dose ramp-up)."
+  "cue": "🎯 Ryanodine reseptörü (RyR1), T-tüpündeki DHPR'nin voltaj değişimiyle mekanik olarak açılan kalsiyum kanalıdır.",
+  "ipucu": "İskelet kasında T-tüpü DHPR ile sarkoplazmik retikulum RyR1 arasındaki etkileşim nasıldır?",
+  "tuzak": "<mark>Ligand bağımlı</mark> sanılabilir ancak iskelet kasında DHPR-RyR1 bağlantısı doğrudan fiziki/mekaniktir (düz kasta ise Ca-bağımlı Ca salınımıdır).",
+  "aciklama": "<b>İskelet kasında uyarılma-kasılma eşleşmesi:</b> T-tüp fasyasındaki dihidropiridin reseptörü (DHPR) voltaj sensörüdür ve sarkoplazmik retikulumdaki **Ryanodine reseptörüne (RyR1) mekanik olarak** bağlıdır. Malign hipertermide RyR1 gen mutasyonu sonucu kontrolsüz Ca salınımı ve rigör gelişir."
  },
  {
-  "brans": "Patoloji",
-  "soru": "<mark class=\"cue\">Psödomiksoma peritonei'ye</mark> sebep olabilen over tümörü aşağıdakilerden hangisidir?",
+  "brans": "Histoloji",
+  "soru": "Bir histoloji uzmanlık öğrencisi, böbrek glomeruluslarının yüksek karbonhidrat içeriğinden faydalanarak boyayıp incelemek istiyor. Glikojeni boyayan bir boyadan faydalanarak bazal membranı pembe-kırmızıya boyuyor.<br><br>Yukarıdaki preparatta bazal membranı pembe-kırmızıya boyayan boya hangisidir?",
   "siklar": [
-   {"k": "A", "t": "Struma ovarii"},
-   {"k": "B", "t": "Seröz tümör"},
-   {"k": "C", "t": "Transizyonel hücreli tümör"},
-   {"k": "D", "t": "Endometrioid tümör"},
-   {"k": "E", "t": "Müsinöz tümör"}
+   {
+    "k": "A",
+    "t": "Mallory-Azan"
+   },
+   {
+    "k": "B",
+    "t": "Periyodik Asit Schiff (PAS)"
+   },
+   {
+    "k": "C",
+    "t": "Toluidin Mavisi"
+   },
+   {
+    "k": "D",
+    "t": "Akridin Oranj"
+   },
+   {
+    "k": "E",
+    "t": "Osmiyum Tetraoksit"
+   }
   ],
-  "dogru": 4,
-  "cue": "🎯 Periton boşluğunu jölemsi müsin dokusuyla dolduran ('jelly belly') epiteliyal tümör tipini düşün.",
-  "ipucu": "Psödomiksoma peritonei en sık apandiks kaynaklı müsinöz neoplazmlardan gelişse de overin müsinöz tümörleri de bu tabloyu yapabilir.",
-  "tuzak": "Overin en sık benign ve malignant epiteliyal tümörü <mark>Seröz tümör</mark>dür; ancak müsin üretip psödomiksoma peritonei yapan <mark>Müsinöz tümör</mark>dür.",
-  "aciklama": "<b>Psödomiksoma Peritonei (PMP)</b>, periton boşluğunun ve omentumun müsin salgılayan epiteliyal hücreler ve bol miktarda yapışkan müsin (müsinöz asit / 'jelly belly') ile dolmasıdır.<br><br>• <b>En Sık Kaynak:</b> Apandiksin müsinöz neoplazmlarıdır (Low-grade appendiceal mucinous neoplasm - LAMN).<br>• <b>Jinekolojik Kaynak:</b> Overin <b>müsinöz kistadenokarsinomları</b> veya border-line müsinöz tümörleridir (çoğu zaman apandiks kökenli bir metastazdır).<br>• <b>Klinik ve Tedavi:</b> Karında aşırı distansiyon, asit, ileus bulguları. Tedavisi sitoredüktif cerrahi ve intraperitoneal hipertermik kemoterapi (HIPEC) ile yapılır."
+  "dogru": 1,
+  "cue": "🎯 Karbonhidrat, glikojen, glikoprotein ve fırçamsı kenarları magenta/pembe boyayan klasik reaktif.",
+  "ipucu": "Aldehit gruplarına oksitlenen glikozil yapılarını gösteren histokimyasal boya hangisidir?",
+  "tuzak": "<mark>Mallory-Azan</mark> kolajen lifleri maviye boyar; bazal membran karbonhidratlarını Pembe-Kırmızı boyayan PAS'tır.",
+  "aciklama": "<b>Periyodik Asit Schiff (PAS)</b>: Glikojen, glikoprotein ve karbonhidrattan zengin yapılara (böbrek glomerül bazal membranı, fırçamsı kenarlar) özgüdür ve bu yapıları pembe-kırmızıya (magenta) boyar."
  },
  {
-  "brans": "Patoloji",
-  "soru": "<mark class=\"cue\">Medüller tiroid kanser</mark> ve <mark class=\"cue\">feokromasitoma</mark> tanısı olan yirmi yaşında bir hastada en olası mutasyon aşağıdakilerden hangisidir?",
+  "brans": "Histoloji",
+  "soru": "A: Ter bezi<br>B: Meme bezi<br>C: Gonadlar<br><br>Yukarıda salgılama biçimleri verilen glandlar ile ilgili salgılama mekanizmaları eşleştirmelerinden hangisi doğrudur?",
   "siklar": [
-   {"k": "A", "t": "Menin"},
-   {"k": "B", "t": "Merlin"},
-   {"k": "C", "t": "RET"},
-   {"k": "D", "t": "RET/PTC"},
-   {"k": "E", "t": "PTCH"}
+   {
+    "k": "A",
+    "t": "A: Merokrin — B: Apokrin — C: Holokrin"
+   },
+   {
+    "k": "B",
+    "t": "A: Serumen bezi — B: Gonadlar — C: Meme bezi"
+   },
+   {
+    "k": "C",
+    "t": "A: Gonadlar — B: Meme bezi — C: Tarsal bez"
+   },
+   {
+    "k": "D",
+    "t": "A: Meme bezi — B: Gonadlar — C: Ter bezi"
+   },
+   {
+    "k": "E",
+    "t": "A: Gonadlar — B: Meme bezi — C: Serumen"
+   }
   ],
-  "dogru": 2,
-  "cue": "🎯 MEN 2A ve MEN 2B sendromlarının ortak moleküler genetik temeli.",
-  "ipucu": "Medüller tiroid karsinomu (C hücresi) + Feokromasitoma = MEN 2A/2B. Sorumlu proto-onkogen RET nokta mutasyonudur.",
-  "tuzak": "<mark>RET/PTC</mark> rearanjmanı Papiller tiroid karsinomunda görülür. Medüller tiroid karsinomunda ise germline/somatik <mark>RET nokta mutasyonu</mark> vardır.",
-  "aciklama": "<b>Medüller Tiroid Karsinomu (MTC) + Feokromasitoma</b> birlikteliği <b>MEN 2 (Multiple Endokrin Neoplazi Tip 2)</b> sendromunu tanımlar.<br><br><b>Sendromlar ve Genetik Özellikleri:</b><br>• <b>MEN 2A:</b> Medüller Tiroid Karsinomu (%100) + Feokromasitoma (%50) + Paratiroid Hiperplazisi (%20-30). Sorumlu: <b>RET proto-onkogen nokta mutasyonu</b>.<br>• <b>MEN 2B:</b> Medüller Tiroid Karsinomu + Feokromasitoma + Mukozal Nöromlar + Marfanoid yapı. Sorumlu: <b>RET (M918T) nokta mutasyonu</b>.<br>• <b>Menin (MEN1 geni):</b> MEN 1 sendromu (Paratiroid, Pankreas NÖT, Hipofiz adenomu).<br>• <b>Merlin (NF2 geni):</b> Nörofibromatozis Tip 2 (Bilateral vestibüler şvannom).<br>• <b>RET/PTC:</b> Papiller tiroid kanserinde krozozomal translokasyon/füzyon.<br>• <b>PTCH:</b> Gorlin (Bazal hücreli nevüs) sendromu."
- },
- {
-  "brans": "Patoloji",
-  "soru": "<mark class=\"cue\">Pott hastalığında</mark> etkilenmiş olan vertebradan alınan biyopside görülen <mark class=\"cue\">nekroz tipi</mark> aşağıdakilerden hangisidir?",
-  "siklar": [
-   {"k": "A", "t": "Koagülasyon nekrozu"},
-   {"k": "B", "t": "Likefaksiyon nekrozu"},
-   {"k": "C", "t": "Kazeifikasyon nekrozu"},
-   {"k": "D", "t": "Yağ nekrozu"},
-   {"k": "E", "t": "Fibrinoid nekroz"}
-  ],
-  "dogru": 2,
-  "cue": "🎯 Mycobacterium tuberculosis enfeksiyonunun ayırt edici peynirleşme nekrozu.",
-  "ipucu": "Pott hastalığı vertebra tüberkülozudur. Tüberkülozun karakteristik nekrozu kazeifikasyon nekrozudur.",
-  "tuzak": "Serebral infarktlarda <mark>Likefaksiyon</mark>, miyokart infarktında <mark>Koagülasyon</mark> nekrozu görülür. Tüberküloz granülomunun merkezinde <mark>Kazeifikasyon</mark> nekrozu mevcuttur.",
-  "aciklama": "<b>Pott Hastalığı</b>, <b>Mycobacterium tuberculosis</b> bakterisinin lenfohematojen yolla vertebra gövdelerine yerleşmesi sonucu gelişen tüberküloz spondilitidir.<br><br>• <b>Histopatoloji:</b> Epiteloid histiyositler, Langhans tipi çok çekirdekli dev hücreler, lenfositler ve merkezde peynirimsi, şekilsiz eozinofilik <b>Kazeifikasyon (Peynirleşme) Nekrozu</b> içeren granülomlar (tüberkül) izlenir.<br>• <b>Klinik Bulgular:</b> Sırt/bel ağrısı, kyfosis (kamburluk/kifoz), soğuk apse (psoas apsesi) ve spinal kord basısı sonucu parapleji/nörolojik defisitler."
- },
- {
-  "brans": "Romatoloji",
-  "soru": "Otuz yaşında bir erkek hasta 1-2 yıldır tekrarlayan aftlar, 1 yıldır devam eden bel ağrısı, 3 aydır sol ayak bileğinde şişlik ve 1 aydır ayak parmaklarında ağrı ve şişlik yakınmalarıyla başvuruyor. Hastanın hikâyesinden 6 ay önce <mark class=\"cue\">üretrit ve konjunktivit</mark>, 1 yıl önce akut anterior üveit atağı geçirdiği öğreniliyor.<br><br>Bu hasta için <mark class=\"cue\">en olası tanı</mark> aşağıdakilerden hangisidir?",
-  "siklar": [
-   {"k": "A", "t": "Psöriatik artrit"},
-   {"k": "B", "t": "Behçet hastalığı"},
-   {"k": "C", "t": "Romatoid artrit"},
-   {"k": "D", "t": "Reiter sendromu"},
-   {"k": "E", "t": "Enteropatik artrit"}
-  ],
-  "dogru": 3,
-  "cue": "🎯 'Göremez, işeyemez, tırmanamaz' — Artrit + Üretrit + Konjunktivit üçlüsü!",
-  "ipucu": "Reiter sendromu (Reaktif Artrit) seronegatif spondiloartropati ailesindedir; üretrit, konjunktivit ve asimetrik oligoartrit triadı ile karakterizedir.",
-  "tuzak": "<mark>Behçet hastalığı</mark> oral/genital aft ve üveit yaptığı için akla gelebilir; fakat Behçet'te üretrit beklenmez! <mark>Reiter sendromu</mark>'nda üretrit, konjunktivit, sakroiliit, daktilit (sosis parmak) ve ağrısız mukozal ülserler tipiktir.",
-  "aciklama": "<b>Reiter Sendromu (Reaktif Artrit)</b>, gastrointestinal (<i>Salmonella, Shigella, Yersinia, Campylobacter</i>) veya ürogenital (<i>Chlamydia trachomatis</i>) enfeksiyonlardan 1-4 hafta sonra gelişen seronegatif bir spondiloartropatidir.<br><br><b>Klasik Triad:</b><br>1. <b>Non-gonokokik Üretrit / Servisit</b><br>2. <b>Konjunktivit / Anterior Üveit</b><br>3. <b>Asimetrik Oligoartrit</b> (özellikle alt ekstremite büyük eklemleri)<br><br><b>Diğer Özellikler:</b> Daktilit ('sosis parmak'), topuk ağrısı (entesit), ağrısız oral aftlar, balanitis circinata, keratoderma blennorrhagica ve sakroiliit / inflamatuvar bel ağrısı. <b>HLA-B27</b> pozitifliği yüksektir."
- },
- {
-  "brans": "Mikrobiyoloji",
-  "soru": "Aşağıdaki etkenlerden hangisi dezenfektanlara diğerlerinden <mark class=\"cue\">daha dirençlidir</mark>?",
-  "siklar": [
-   {"k": "A", "t": "Mycobacterium tuberculosis"},
-   {"k": "B", "t": "Staphylococcus aureus"},
-   {"k": "C", "t": "Cryptosporidium parvum"},
-   {"k": "D", "t": "Hepatit B virüsü"},
-   {"k": "E", "t": "Hepatit A virüsü"}
-  ],
-  "dogru": 2,
-  "cue": "🎯 Klorlamaya son derece dirençli, dış ortamda sağlam oositleriyle bilinen protozoon patojeni.",
-  "ipucu": "Dezenfektan direnç hiyerarşisinde Protozoon kist/ookistleri (Cryptosporidium), Mikobakteriler ve Zarsız virüslerin üstündedir.",
-  "tuzak": "<mark>Mycobacterium tuberculosis</mark> lipofilik mumsu hücre duvarı nedeniyle dirençlidir ancak <mark>Cryptosporidium parvum</mark> ookistleri klor dezenfeksiyonuna ve standart hastane dezenfektanlarına mikobakterilerden bile daha dirençlidir.",
-  "aciklama": "<b>Mikroorganizmaların Dezenfektan ve Kimyasal Ajanlara Direnç Hiyerarşisi (En Dirençliden En Duyarlıya):</b><br><br>1. <b>Prionlar</b> (En yüksek direnç)<br>2. <b>Bakteri Sporları</b> (<i>Bacillus, Clostridium</i>)<br>3. <b>Coccidia / Protozoon Kist ve Ookistleri</b> (<b>Cryptosporidium parvum</b>, <i>Giardia lamblia</i>) ✔<br>4. <b>Mikobakteriler</b> (<i>Mycobacterium tuberculosis</i>)<br>5. <b>Zarsız (Çıplak) Küçük Virüsler</b> (Poliovirüs, Hepatit A)<br>6. <b>Mantar Sporları ve Mantarlar</b> (<i>Candida, Aspergillus</i>)<br>7. <b>Vejetatif Bakteriler</b> (<i>Staphylococcus aureus, Pseudomonas aeruginosa</i>)<br>8. <b>Zarflı Virüsler</b> (HBV, HIV, İnfluenza) (En duyarlı)<br><br>Cryptosporidium parvum ookistlerinin kalın dış çeperi klorit ve iyot bazlı standart dezenfektanlara aşırı direnç sağlar; bu nedenle içme sularının klorlanması Cryptosporidium'u yok etmede yetersiz kalabilir (filtrasyon ve UV gereklidir)."
+  "dogru": 0,
+  "cue": "🎯 Merokrin (eksozitoz, hücre kaybı yok), Apokrin (apikal sitoplazma kaybı), Holokrin (tüm hücre parçalanır).",
+  "ipucu": "Sebase bez ve gonad hücresi parçalanarak salgı oluştururken (holokrin), ekrin ter bezleri nasıl salgılar?",
+  "tuzak": "Meme bezi süt proteini için merokrin, süt yağı (lipid) için apokrin mekanizma kullanır.",
+  "aciklama": "<b>Salgılama Tipleri:</b><br>• <b>Merokrin (Ekrin):</b> Eksozitoz ile (Ter bezleri, pankreas akzinusları).<br>• <b>Apokrin:</b> Hücrenin apikal sitoplazmasıyla birlikte (Meme bezi yağ salgısı, koltuk altı apokrin bezler).<br>• <b>Holokrin:</b> Hücrenin kendisi tamamen parçalanarak (Sebase bezler, tarsal/Meibomian bezler, sperm/yumurta salınımı)."
  },
  {
   "brans": "Fizyoloji",
-  "soru": "Aşağıdakilerden hangisi bazal ganglion ile ilişkili hastalıklarda görülen hareket bozukluklarından birisi <mark class=\"cue\">değildir</mark>?",
+  "soru": "Gözün korneasında bol miktarda bulunup ağrının algılanmasında önemli olan reseptörler aşağıdakilerden hangisidir?",
   "siklar": [
-   {"k": "A", "t": "Atetoz"},
-   {"k": "B", "t": "Ballismus"},
-   {"k": "C", "t": "Kore"},
-   {"k": "D", "t": "İntensiyonel tremor"},
-   {"k": "E", "t": "Rijidite"}
-  ],
-  "dogru": 3,
-  "cue": "🎯 Hedefe yaklaştıkça artan (niyet) tremoru hangi beyin yapısının lezyonunda görülür?",
-  "ipucu": "İntensiyonel (niyet) tremor serebellum (serebellar hemisfer) harabiyetinde görülür. İstirahat tremoru ise bazal ganglion (Parkinson) bulgusudur.",
-  "tuzak": "İstirahat tremoru bazal ganglion hastalığında görülürken, hedefe ulaşmaya çalışırken oluşan <mark>İntensiyonel tremor</mark> serebellum lezyonlarına aittir.",
-  "aciklama": "<b>D seçeneği (İntensiyonel Tremor) serebellar lezyon bulgusudur; bazal ganglion hastalığı değildir.</b><br><br>• <b>İntensiyonel (Niyet) Tremor:</b> Serebellar hemisfer veya dentatorubral yol hasarında ortaya çıkarlar; hasta hedefe yaklaştıkça genliği artan tremor izlenir.<br><br><b>Bazal Ganglion Hasarı Bulguları (Ekstrapramidal Sistem Bozuklukları):</b><br>• <b>Atetoz:</b> Distal ekstremitelerde yavaş, kıvrılma şeklinde istemsiz hareketler (Putamen / Globus pallidus).<br>• <b>Ballismus (Hemiballismus):</b> Proksimal kaslarda şiddetli, savurucu hareketler (<b>Nucleus subthalamicus</b> lezyonu).<br>• <b>Kore (Chorea):</b> Hızlı, sıçrayıcı, dans eder tarzda istemsiz hareketler (<b>Striatum / Caudate nucleus</b> dejenerasyonu - Huntington).<br>• <b>Rijidite:</b> Tüm eksen boyunca kas tonusu artışı ('dişli çark' veya 'kursun boru' rijiditesi - Substantia nigra / Parkinson)."
- },
- {
-  "brans": "Mikrobiyoloji",
-  "soru": "Bakterilerin <mark class=\"cue\">demiri hücre içine alabilmek için</mark> kullandıkları proteinin adı nedir?",
-  "siklar": [
-   {"k": "A", "t": "Pilus"},
-   {"k": "B", "t": "Kamçı"},
-   {"k": "C", "t": "Siderofor"},
-   {"k": "D", "t": "Porin"},
-   {"k": "E", "t": "Protein A"}
-  ],
-  "dogru": 2,
-  "cue": "🎯 Konak proteinlerinden (transferrin, laktoferrin) demiri söküp alan yüksek afiniteli şelatör sistemler.",
-  "ipucu": "Bakterilerin konaktan demir yakalamak üzere salgıladıkları moleküllere siderofor (ör. enterobaktin, pyoverdin) denir.",
-  "tuzak": "<mark>Porin</mark> Gram negatiflerin dış membranındaki genel madde geçiş kanallarıdır; özel demir yakalama proteini <mark>Siderofor</mark>dur.",
-  "aciklama": "<b>Sideroforlar</b>, bakterilerin ve mantarların serbest demir konsantrasyonu son derece düşük olan konak dokularından ve çevreden demir (Fe³⁺) iyonlarını yüksek afiniteyle bağlayıp şelatlayarak hücre içine taşımak için salgıladıkları düşük molekül ağırlıklı özelleşmiş yapılardır.<br><br>• <b>Örnekler:</b> <i>E. coli</i>'nin salgıladığı <b>Enterobaktin</b>, <i>Pseudomonas</i>'ın <b>Piyoverdin</b>i.<br>• <b>Diğer Seçenekler:</b><br>&nbsp;&nbsp;— <b>Pilus (Fimbriya):</b> Yüzeylere tutunma ve genetik aktarım (seks pilusu).<br>&nbsp;&nbsp;— <b>Kamçı (Flagellum):</b> Bakteriyel hareketlilik (motilite).<br>&nbsp;&nbsp;— <b>Porin:</b> Gram negatif dış membranında hidrofilik moleküllerin pasif difüzyon kanalı.<br>&nbsp;&nbsp;— <b>Protein A:</b> <i>Staphylococcus aureus</i>'un IgG'nin Fc bölgesini bağlayarak fagositozu önleyen virülans faktörü."
- },
- {
-  "brans": "Mikrobiyoloji",
-  "soru": "Aşağıdaki bakterilerden hangisinin in vitro besiyeri <mark class=\"cue\">demir ve L-sistein</mark> ile zenginleştirilmiş olmalıdır?",
-  "siklar": [
-   {"k": "A", "t": "Staphylococcus aureus"},
-   {"k": "B", "t": "Legionella pneumophila"},
-   {"k": "C", "t": "Escherichia coli"},
-   {"k": "D", "t": "Streptococcus agalactiae"},
-   {"k": "E", "t": "Klebsiella pneumoniae"}
-  ],
-  "dogru": 1,
-  "cue": "🎯 Klimadan bulaşan pnömoni etkeni — BCYE (Tamponlanmış Kömür Maya Özütü) besiyerinde ürer.",
-  "ipucu": "Legionella pneumophila besiyerinde mutlak olarak L-sistein ve demir bulunması gerekir.",
-  "tuzak": "<mark>Legionella pneumophila</mark> standart kanlı agar veya çikolatamsı agarda üremez; özel BCYE agar gerektirir.",
-  "aciklama": "<b>Legionella pneumophila</b>, rutin bakteriyolojik besiyerlerinde (kanlı agar, EMB, MacConkey) üremeyen, titiz (fastidious) bir Gram negatif çomaktır.<br><br>• <b>Besiyeri Gereksinimi:</b> Üremesi için mutlak olarak <b>L-Sistein ve Demir (Iron)</b> gereklidir. Bu amaçla <b>BCYE (Buffered Charcoal Yeast Extract)</b> agarı kullanılır.<br>• <b>BCYE İçeriği:</b> Maya özütü (besin), Aktif kömür (toksik peroksitleri bağlar), L-sistein ve demir tuzları.<br>• <b>Bulaş ve Klinik:</b> Su sistemleri, klima santralleri ve jakuzilerden aerosol yoluyla bulaşır. Aritmi, hyponatremi, yüksek ateş, nörolojik bulgular ve gastrointestinal semptomlarla seyreden <b>Atipik Pnömoni (Lejyoner Hastalığı)</b> veya hafif seyirli <b>Pontiac Ateşi</b> yapar."
- },
- {
-  "brans": "Mikrobiyoloji",
-  "soru": "Aşağıdaki bulgulardan hangisi <mark class=\"cue\">bakteriyel vajinozdan uzaklaştırır</mark>?",
-  "siklar": [
-   {"k": "A", "t": "Vajinal pH'ın 4.4 olması"},
-   {"k": "B", "t": "Laktobasillerin azalması"},
-   {"k": "C", "t": "Pozitif Whiff testi"},
-   {"k": "D", "t": "İpucu hücrelerinin görülmesi"},
-   {"k": "E", "t": "Kokulu ve yapışkan vajinal akıntı"}
-  ],
-  "dogru": 0,
-  "cue": "🎯 Bakteriyel vajinozda vajinal ortamın pH değeri nasıl değişir?",
-  "ipucu": "Bakteriyel vajinozda hidrojen peroksit üreten normal Laktobasiller azalır ve pH > 4.5 üzerine çıkar. Normal asidik pH (4.4) tanıyı dışlatır!",
-  "tuzak": "<mark>İpucu hücreleri (Clue cells)</mark> ve <mark>Whiff (balık kokusu) testi</mark> tanıyı doğrulayan kriterlerdir. pH'ın normal seviyede kalması (≤ 4.5) ise tanıyı uzaklaştırır.",
-  "aciklama": "<b>Bakteriyel Vajinoz (BV)</b>, koruyucu Laktobasil florasının azalması ve başta <i>Gardnerella vaginalis</i>, <i>Mobiluncus</i> ile anaerobların aşırı çoğalmasıyla karakterizedir.<br><br><b>Amsel Tanı Kriterleri (En az 3'ü bulunmalı):</b><br>1. <b>İnce, homojen, gri-beyaz yapışkan akıntı</b><br>2. <b>Vajinal pH > 4.5 olması</b> (asiditenin bozulması) — <i>Vajinal pH'ın 4.4 olması (normal asidik ortam) bakteriyel vajinoz tanısından uzaklaştırır!</i><br>3. <b>Pozitif Whiff (Koku) Testi:</b> Akıntıya %10 KOH damlatıldığında uçucu aminlere bağlı balık kokusu açığa çıkması.<br>4. <b>İpucu Hücreleri (Clue Cells):</b> Islak preparatta vajinal epitel hücrelerinin sınırlarının bakterilerle kaplanıp noktalı/bulanık görünmesi (>%20).<br><br>Tedavi: Oral veya topikal <b>Metronidazol</b> veya Klindamisin."
- },
- {
-  "brans": "Biyokimya",
-  "soru": "Aşağıdakilerden hangisinde pürin ve pirimidin sentezinde oluşan <mark class=\"cue\">ilk nükleotidler</mark> sırasıyla doğru verilmiştir?",
-  "siklar": [
-   {"k": "A", "t": "Adenozin monofosfat- Timidin monofosfat"},
-   {"k": "B", "t": "Orotidin 5' monofosfat- Üridin monofosfat"},
-   {"k": "C", "t": "Guanozin difosfat- Timidin difosfat"},
-   {"k": "D", "t": "Adenin monofosfat- Sitidin monofosfat"},
-   {"k": "E", "t": "İnozin monofosfat- Orotidin 5' monofosfat"}
+   {
+    "k": "A",
+    "t": "Krause"
+   },
+   {
+    "k": "B",
+    "t": "Ruffini"
+   },
+   {
+    "k": "C",
+    "t": "Merkel"
+   },
+   {
+    "k": "D",
+    "t": "Meissner"
+   },
+   {
+    "k": "E",
+    "t": "Serbest sinir uçları"
+   }
   ],
   "dogru": 4,
-  "cue": "🎯 Pürin sentezinde hipoksantin bazı içeren nükleotid ile pirimidin sentezinde orotat içeren ilk nükleotidi düşün.",
-  "ipucu": "De novo pürin sentezinde oluşan ilk nükleotid İnozin Monofosfat (IMP)'tır. De novo pirimidin sentezinde ise Orotidin 5'-monofosfat (OMP)'tır.",
-  "tuzak": "<mark>AMP</mark> ve <mark>UMP</mark> sonraki basamaklarda sentezlenen türevlerdir; ilk oluşan ana nükleotidler IMP ve OMP'tır.",
-  "aciklama": "<b>E seçeneği (İnozin monofosfat - Orotidin 5' monofosfat) doğrudur.</b><br><br>• <b>De Novo Pürin Sentezi:</b> PRPP (Fosforibozil pirofosfat) üzerinden başlayan reaksiyon dizisinde sentezlenen <b>ilk nükleotid İnozin Monofosfat (IMP)</b>'tır. IMP daha sonra dallanarak <b>AMP</b> ve <b>GMP</b>'ye dönüşür.<br>• <b>De Novo Pirimidin Sentezi:</b> Karbamoil fosfat ve aspartattan oluşturulan orotik asitin PRPP ile birleşmesiyle sentezlenen <b>ilk nükleotid Orotidin 5'-monofosfat (OMP)</b>'tır. OMP dekarboksilaz enzimi ile dekarboksile olarak <b>UMP (Üridin monofosfat)</b>'yi oluşturur.<br><br>Görüldüğü üzere pürinde baz doğrudan riboz üzerine inşa edilirken, pirimidinde önce pirimidin halkası kapatılır sonra riboza eklenir."
+  "cue": "🎯 Kornea epiteli içinde kapsülsüz, nosiseptif uyarıları taşıyan A-delta ve C lifi uçları yer alır.",
+  "ipucu": "Ağrı ve sıcaklık duyusunu alan kapsülsüz reseptör tipi hangisidir?",
+  "tuzak": "Meissner ve Merkel dokunma reseptörüdür, korneada özelleşmiş kapsüllü reseptörler bulunmaz.",
+  "aciklama": "<b>Korneada nosisepsiyon:</b> Kornea sadece **serbest sinir uçları (nosiseptörler)** içerir. Bu sayede en ufak dokunma ve iritasyon bile şiddetli ağrı ve kırpma refleksi olarak algılanır."
  },
  {
-  "brans": "Biyokimya",
-  "soru": "I. Glutatyon peroksidaz<br>II. Sitokrom oksidaz<br>III. Superoksit dismutaz<br><br>Yukarıda verilen enzimlerden hangileri kofaktör olarak <mark class=\"cue\">bakır kullanır</mark>?",
+  "brans": "Embriyoloji",
+  "soru": "Altı yaşında bir kız çocuğun publik simfizis superiorunda bir kitle saptanıyor. Muayenede yumuşak kıvamda ve lokasyonlu bir kitle olduğu, umbilikus ile mesane tepe noktası arasında uzanan kitle tespit ediliyor.<br><br>Bu vakadaki vitellus kesesinin arka duvarında bulunan ve erken dönemde kan yapımını üstlenen olusum hangisidir?",
   "siklar": [
-   {"k": "A", "t": "Yalnız II"},
-   {"k": "B", "t": "Yalnız III"},
-   {"k": "C", "t": "I ve II"},
-   {"k": "D", "t": "II ve III"},
-   {"k": "E", "t": "I, II ve III"}
+   {
+    "k": "A",
+    "t": "Primitif çizgi"
+   },
+   {
+    "k": "B",
+    "t": "Notokord"
+   },
+   {
+    "k": "C",
+    "t": "Allantois"
+   },
+   {
+    "k": "D",
+    "t": "Epiblast"
+   },
+   {
+    "k": "E",
+    "t": "Hipoblast"
+   }
   ],
-  "dogru": 3,
-  "cue": "🎯 Solunum zinciri Kompleks IV ve sitoplazmik antioksidan dismutaz enzimlerinin metal kofaktörleri.",
-  "ipucu": "Sitokrom oksidaz (Bakır ve Demir) ve Sitoplazmik Süperoksit Dismutaz (Bakır ve Çinko) bakır içerir. Glutatyon peroksidaz ise Selenyum kullanır.",
-  "tuzak": "<mark>Glutatyon peroksidaz</mark> önemli bir antioksidan enzimdir fakat metal kofaktörü bakır değil <mark>Selenyum (Se)</mark>'dur.",
-  "aciklama": "<b>Bakır (Cu) İçeren Temel Enzimler:</b><br>• <b>Sitokrom C Oksidaz (Kompleks IV) (II):</b> Elektrondan oksijene elektron aktararak su oluşturan mitokondriyal solunum zinciri enzimi. Bakır (Cu_A, Cu_B) ve demir (heme) içerir. ✔<br>• <b>Süperoksit Dismutaz (Cu/Zn-SOD) (III):</b> Sitoplazmik ve ekstrasellüler SOD izozimleri kofaktör olarak <b>Bakır ve Çinko</b> kullanır. (O₂⁻ radikalini H₂O₂'ye dönüştürür). ✔<br>• Diğer Bakır Enzimleri: Lizil oksidaz (kollajen çapraz bağı), Seruloplazmin (ferroksidaz), Tirazinaz (melanin), Dopamin β-hidroksilaz.<br><br><b>Glutatyon Peroksidaz (I):</b> H₂O₂'yi suya indirgeyen bu enzim seleno-protein yapısındadır; kofaktör olarak <b>Selenyum (Se)</b> kullanır."
+  "dogru": 2,
+  "cue": "🎯 Mesane tavanından göbeğe uzanan urakus (ligamentum umbilicale medianum) hangi yapının kalıntısıdır?",
+  "ipucu": "Allantois kisti veya urakus kisti hangi embriyonik yapının kapanmama bozukluğudur?",
+  "tuzak": "<mark>Primitif çizgi</mark> gastrulasyonu başlatır (sacrococcygeal teratoma); mesane göbek arası tüp oluşturmaz.",
+  "aciklama": "<b>Allantois:</b> Vitellus kesesinin arka duvarından gelişen divertiküldür. Erken dönemde kan yapımına katılır, daha sonra **Urakus (Ligamentum umbilicale medianum)** yapısına dönüşür. Kapanmazsa urakus kisti/fistülü oluşur."
  },
  {
-  "brans": "Biyokimya",
-  "soru": "Aşağıdaki moleküllerden hangisi histidin aminoasidi üzerinden <mark class=\"cue\">sentezlenmez</mark>?",
+  "brans": "Embriyoloji",
+  "soru": "Yüz yapısı gelişirken 'çiğneme ve mimik kaslarının' kökeni olan farengeal arkuslar aşağıdakilerden hangisinde doğru eşleştirilmiştir?<br><br><b>Çiğneme kasları — Mimik kasları</b>",
   "siklar": [
-   {"k": "A", "t": "Histamin"},
-   {"k": "B", "t": "Spermin"},
-   {"k": "C", "t": "Anserin"},
-   {"k": "D", "t": "Karnozin"},
-   {"k": "E", "t": "Homokarnozin"}
+   {
+    "k": "A",
+    "t": "Birinci arkus — İkinci arkus"
+   },
+   {
+    "k": "B",
+    "t": "İkinci arkus — Birinci arkus"
+   },
+   {
+    "k": "C",
+    "t": "Üçüncü arkus — Birinci arkus"
+   },
+   {
+    "k": "D",
+    "t": "İkinci arkus — Üçüncü arkus"
+   },
+   {
+    "k": "E",
+    "t": "Dördüncü arkus — Üçüncü arkus"
+   }
   ],
-  "dogru": 1,
-  "cue": "🎯 Poliamin yapısında olan ve ornitin/arginin metabolizmasından köken alan moleküldür.",
-  "ipucu": "Spermin ve spermidin hücre büyümesinde rol oynayan poliaminlerdir; sentez öncülleri L-ornitindir.",
-  "tuzak": "<mark>Karnozin</mark>, <mark>Anserin</mark> ve <mark>Homokarnozin</mark> kas ve beyinde bulunan histidin içeren dipeptitlerdir.",
-  "aciklama": "<b>B seçeneği (Spermin) histidinden sentezlenmez.</b><br><br>• <b>Spermin ve Spermidin:</b> Poliamin yapısındaki bileşiklerdir. Sentezleri <b>L-Ornitin</b> (ve S-adenozilmetiyonin) aminoasidinden başlar: Ornitin → Putresin → Spermidin → <b>Spermin</b>.<br><br><b>Histidin Türevleri:</b><br>• <b>Histamin:</b> Histidinin dekarboksilasyonu ile oluşur (Histidin dekarboksilaz).<br>• <b>Karnozin:</b> β-alanin + L-Histidin dipeptidi.<br>• <b>Anserin:</b> β-alanin + N-metil-Histidin dipeptidi.<br>• <b>Homokarnozin:</b> GABA + L-Histidin dipeptidi."
+  "dogru": 0,
+  "cue": "🎯 1. farengeal arkus siniri V (N. mandibularis), 2. arkus siniri VII (N. facialis)'tir.",
+  "ipucu": "Çiğneme kaslarını N. trigeminus, mimik kaslarını N. facialis innerve ettiğine göre arkuslar hangileridir?",
+  "tuzak": "3. arkus N. glossopharyngeus (m. stylopharyngeus), 4-6. arkus N. vagus yapılarını oluşturur.",
+  "aciklama": "<b>Farengeal Arkuslar:</b><br>• <b>1. Farengeal Arkus (Mandibuler):</b> Çiğneme kasları, m. mylohyoideus, m. digastricus venter anterior (Sinir: N. V3).<br>• <b>2. Farengeal Arkus (Hiyoid):</b> Mimik kasları, stapedius, stylohyoideus, m. digastricus venter posterior (Sinir: N. VII)."
  },
  {
   "brans": "Fizyoloji",
-  "soru": "Aşağıdaki reseptörlerin hangisi görme engelli bireylerin okumasında kullanılan <mark class=\"cue\">Braille alfabesindeki</mark> duysal sinyallerin taşınmasını sağlar?",
+  "soru": "Koagülasyonda çevredeki trombositleri hasar bölgesine çağıran maddeler aşağıdakilerden hangisidir?",
   "siklar": [
-   {"k": "A", "t": "Ruffini korpüskülleri"},
-   {"k": "B", "t": "Kapsülsüz mekanoreseptörler"},
-   {"k": "C", "t": "Merkel hücreleri"},
-   {"k": "D", "t": "Paccini reseptörleri"},
-   {"k": "E", "t": "Serbest sinir uçları"}
+   {
+    "k": "A",
+    "t": "Von Willebrand faktör — ADP"
+   },
+   {
+    "k": "B",
+    "t": "Von Willebrand faktör — serotonin"
+   },
+   {
+    "k": "C",
+    "t": "Kollajen — von Willebrand faktör"
+   },
+   {
+    "k": "D",
+    "t": "ADP — tromboksan A2"
+   },
+   {
+    "k": "E",
+    "t": "ADP — kollajen"
+   }
   ],
-  "dogru": 2,
-  "cue": "🎯 İnce yüzey dokusu, kabartma noktalar, kenar-köşe algısını sağlayan yavaş adapte olan Tip 1 (SA1) mekanoreseptör.",
-  "ipucu": "Merkel hücreleri (Merkel diskleri - SA1) parmak uçlarında yüksek yoğunluktadır, ince detay ve Braille alfabesi okumadan sorumludur.",
-  "tuzak": "<mark>Meissner</mark> hızlı adapte olan (FA1) dokunma reseptörüdür, düşük frekanslı titreşimi algılar. Şekil ve kabartma detaylarını belirleyen ise yavaş adapte olan <mark>Merkel hücreleri</mark>dir.",
-  "aciklama": "<b>Deri Mekanoreseptörleri ve İşlevleri:</b><br><br>• <b>Merkel Hücreleri (SA1 - Yavaş Adapte Tip 1):</b> Parmak uçlarında çok yoğundur. İnce doku detayları, yüzey pürüzsüzlüğü, nesne şekilleri ve <b>Braille alfabesindeki kabartma noktalarının ayırt edilmesi</b>nden sorumlu birincil reseptördür.<br>• <b>Meissner Korpüskülleri (FA1 - Hızlı Adapte Tip 1):</b> Ciltteki kayma, düşük frekanslı (10-50 Hz) titreşim ve nesneleri kavrama kontrolü.<br>• <b>Pacini Korpüskülleri (FA2 - Hızlı Adapte Tip 2):</b> Derin dokuda yerleşiktir, yüksek frekanslı (250 Hz) titreşim algısı.<br>• <b>Ruffini Korpüskülleri (SA2 - Yavaş Adapte Tip 2):</b> Cildin gerilmesi ve eklem pozisyon algısı."
+  "dogru": 3,
+  "cue": "🎯 Aktive olan trombositlerin yoğun granüllerinden ADP, trombosit yüzeyinden Trombroksan A2 salınır.",
+  "ipucu": "Trombosit agregasyonunu ve çağrılmasını (rekreasyonunu) uyaran temel otokrin/parakrin ikili hangisidir?",
+  "tuzak": "<mark>von Willebrand faktör</mark> trombositin subendotelyal kollajene tutunmasını (ADEZYON) sağlar, çağırmayı (agregasyonu) başlatıcı ADP/TXA2 uyarır.",
+  "aciklama": "<b>Trombosit Aktivasyonu ve Agregasyonu:</b> Aktive trombositlerden salınan **ADP** ve **Tromboksan A2 (TXA2)**, dolaşımdaki diğer trombositleri uyararak hasar bölgesine çeker ve agregasyonu sağlar."
  },
  {
   "brans": "Fizyoloji",
-  "soru": "İyodun tiroid epitel hücresinin <mark class=\"cue\">apikal membranından folikül lümenine</mark> iletilmesinden aşağıdakilerden hangisi sorumludur?",
+  "soru": "Safra kesesinin kasılmasında ve pankreastan bikarbonat salgılanmasında görevli temel hormonlar sırası ile hangisidir?",
   "siklar": [
-   {"k": "A", "t": "Tiroglobulin"},
-   {"k": "B", "t": "Tiroid uyarıcı hormon (TSH)"},
-   {"k": "C", "t": "Tirotropin salgılatıcı hormon (TRH)"},
-   {"k": "D", "t": "Sodyum-İyodid ortak taşıyıcısı (NIS proteini)"},
-   {"k": "E", "t": "Pendrin proteini (Klorid-İyodid zıt taşıyıcısı)"}
-  ],
-  "dogru": 4,
-  "cue": "🎯 Apikal membrandaki Cl⁻ / I⁻ anyon değiştiricisi protein (SLC26A4 gen ürünü).",
-  "ipucu": "NIS proteini iyodu kandan hücre içine (bazolateral) alır; Pendrin proteini ise hücreden lümene (apikal) pompalar.",
-  "tuzak": "<mark>NIS (Sodyum-İyodid Simporterı)</mark> iyodu <b>bazolateral membrandan</b> hücreye sokar; apikalden lümene geçiren ise <mark>Pendrin</mark>'dir.",
-  "aciklama": "<b>Tiroid Hormon Sentezi ve İyodür Transportu:</b><br><br>1. <b>İyodür Yakalama (Yutma):</b> İyodür (I⁻), tirositin <b>bazolateral membranındaki Sodyum-İyodid Ortak Taşıyıcısı (NIS)</b> ile sekonder aktif olarak hücre içine alınır.<br>2. <b>Lümene İletim (Çıkış):</b> Hücre içi iyodür, tirositin <b>apikal membranında yer alan Pendrin proteini (Cl⁻ / I⁻ zıt taşıyıcısı)</b> aracılığıyla folikül lümenine aktarılır. ✔<br>3. <b>Oksidasyon ve Organifikasyon:</b> Lümendeki iyodür, <b>Tiroid Peroksidaz (TPO)</b> enzimi ile iyot molekülüne oksitlenir ve Tiroglobulindeki tirozin kalıntılarına bağlanır.<br><br><i>Mutasyon Notu:</i> Pendrin gen (SLC26A4) mutasyonu sensörinöral işitme kaybı ve guatr ile seyreden <b>Pendred Sendromu</b>na yol açar."
- },
- {
-  "brans": "Mikrobiyoloji",
-  "soru": "Epitelyal ve fagositik hücrelere yakın bağlanmaya aracılık eden ve hücreden hücreye sinyal iletimi için önemli olan bir membran proteini <mark class=\"cue\">Opa proteinleri (opasite proteinleri)</mark> aşağıdaki mikroorganizmaların hangisinin virülans faktörüdür?",
-  "siklar": [
-   {"k": "A", "t": "Neisseria gonorrhoeae"},
-   {"k": "B", "t": "Chlamydia trachomatis"},
-   {"k": "C", "t": "Leishmania donovani"},
-   {"k": "D", "t": "Campylobacter jejuni"},
-   {"k": "E", "t": "Listeria monocytogenes"}
-  ],
-  "dogru": 0,
-  "cue": "🎯 Pili (fimbriya) ve Opa proteini ile ürogenital epitele sıkıca tutunan Gram negatif diplokok.",
-  "ipucu": "Neisseria gonorrhoeae'nin kolonilerinin mat/opak görünmesini sağlayan ve epitel hücre invazyonunu yöneten protein Opa proteinidir.",
-  "tuzak": "<mark>Chlamydia trachomatis</mark> cinsel yolla bulaşır ancak Opa proteini <mark>Neisseria gonorrhoeae</mark>'nin özgün dış membran virülans faktörüdür.",
-  "aciklama": "<b>Neisseria gonorrhoeae (Gönokok) Virülans Faktörleri:</b><br><br>• <b>Opa (Opacity-associated) Proteinleri:</b> Dış membran proteinleridir. Epitel hücrelerinde ve nötrofillerde yer alan CD66 (CEACAM) reseptörlerine bağlanarak bakterinin mukozal epitele <b>sıkı tutunmasını (adhezyon) ve hücre içine girmesini (invazyon)</b> sağlar.<br>• <b>Pili (Fimbriya):</b> Bakterinin mukozaya ilk tutunmasını sağlar ve antijenik varyasyon gösterir.<br>• <b>Porin Proteinleri (PorB):</b> Hücre içi öldürülmeyi önler, kompleman aktivasyonunu engeller.<br>• <b>LOS (Lipo-oligosakkarit):</b> Endotoksin etkisi gösterir, tümör nekroz faktör salınımını uyarır.<br>• <b>IgA1 Proteaz:</b> Mukozal IgA1 antikorlarını parçalar."
- },
- {
-  "brans": "Mikrobiyoloji",
-  "soru": "Medikal amaçlarla kullanılan <mark class=\"cue\">sülük tedavisini</mark> takiben hastanın cildinde selülit alanları gelişmiştir. Bu lezyona neden olabilecek <mark class=\"cue\">en olası etken patojen</mark> aşağıdakilerden hangisinde doğru olarak verilmiştir?",
-  "siklar": [
-   {"k": "A", "t": "Chryseobacterium indologenes"},
-   {"k": "B", "t": "Aeromonas hydrophila"},
-   {"k": "C", "t": "Capnocytophaga canimorsus"},
-   {"k": "D", "t": "Eikenella corrodens"},
-   {"k": "E", "t": "Pasteurella multocida"}
-  ],
-  "dogru": 1,
-  "cue": "🎯 Sülüğün (Hirudo medicinalis) bağırsak florasında simbiyotik yaşayan Gram negatif basil.",
-  "ipucu": "Sülük ısırığı veya medikal sülük tedavisi sonrası gelişen selülit ve apse enfeksiyonlarının en klasik etkeni Aeromonas hydrophila'dır.",
-  "tuzak": "<mark>Eikenella corrodens</mark> insan ısırmalarında, <mark>Pasteurella multocida</mark> kedi/köpek ısırmalarında görülür. Sülük tedavisinde ise <mark>Aeromonas hydrophila</mark> kuraldır.",
-  "aciklama": "<b>Aeromonas hydrophila</b>, tatlı sularda ve nemli ortamlarda yaşayan, Gram negatif, oksidaz pozitif, fakültatif anaerob bir çomaktır.<br><br>• <b>Sülük (Hirudoterapi) İlişkisi:</b> Medikal sülüklerin (<i>Hirudo medicinalis</i>) sindirim sisteminde kanın sindirilmesine yardımcı olan simbiyotik bakteridir. Sülük tedavisi uygulanan hastaların %2-20'sinde cilt/yumuşak doku enfeksiyonu (selülit, apse, nekrotizan fasiit) gelişebilir.<br>• <b>Profilaksi:</b> Sülük tedavisi sırasında hastalara sıklıkla <b>Siprofloksasin</b> veya Trimetoprim-Sulfametoksazol profilaksisi verilir.<br><br><b>Ayrım:</b><br>• <b>Capnocytophaga canimorsus:</b> Köpek ısırması sonrası sepsis/purpura fulminans.<br>• <b>Eikenella corrodens:</b> İnsan ısırmaları ve yumruk yaralanmaları.<br>• <b>Pasteurella multocida:</b> Kedi ve köpek tırmalaması/ısırması."
- },
- {
-  "brans": "Parazitoloji",
-  "soru": "Köpeklerden <mark class=\"cue\">sivrisinekler aracılığıyla</mark> bulaşan, pulmoner ve derialtı nodüller yapan <mark class=\"cue\">en olası paraziter etken</mark> aşağıdakilerden hangisidir?",
-  "siklar": [
-   {"k": "A", "t": "Dirofilaria immitis"},
-   {"k": "B", "t": "Angiostrongylus cantonensis"},
-   {"k": "C", "t": "Anisakis simplex"},
-   {"k": "D", "t": "Fasciola hepatica"},
-   {"k": "E", "t": "Schistosoma mansoni"}
+   {
+    "k": "A",
+    "t": "Kolesistokinin — sekretin"
+   },
+   {
+    "k": "B",
+    "t": "Kolesistokinin — motilin"
+   },
+   {
+    "k": "C",
+    "t": "Sekretin — kolesistokinin"
+   },
+   {
+    "k": "D",
+    "t": "Sekretin — motilin"
+   },
+   {
+    "k": "E",
+    "t": "Kolesistokinin — substance P"
+   }
   ],
   "dogru": 0,
-  "cue": "🎯 Köpek kalp kurdu olarak bilinen ve akciğerde 'para para' (coin lesion) nodülü yapan filarya.",
-  "ipucu": "Dirofilaria immitis sivrisineklerle bulaşır; insan akciğerinde rastlantısal soliter pulmoner nodül (coin lesion) oluşturur.",
-  "tuzak": "<mark>Anisakis</mark> çiğ balık yenmesiyle, <mark>Angiostrongylus</mark> salyangoz/karides yenmesiyle bulaşır. Sivrisinekle bulaşan köpek filaryası <mark>Dirofilaria</mark>dır.",
-  "aciklama": "<b>Dirofilaria immitis (Köpek Kalp Kurdu)</b>, filaryal bir nematod parazittir.<br><br>• <b>Bulaş Döngüsü:</b> Esas konak köpekler ve felidlerdir. Larvalar <b>sivrisineklerin (Culex, Aedes, Anopheles)</b> ısırmasıyla insana bulaşır.<br>• <b>İnsandaki Patoloji:</b> İnsan raslantısal (akidental) son konaktır; parazit insanda olgunlaşamaz. Ölen mikrofılaryalar akciğer arteriyollerini tıkarlar ve etrafında infarkt/granülom oluşur.<br>• <b>Radyoloji:</b> Akciğer grafisinde tümörle karışabilen düzgün sınırlı <b>soliter pulmoner nodül ('Coin lesion' / Para görüntüsü)</b> izlenir.<br>• <b>Dirofilaria repens:</b> Derialtı nodülleri ve oküler (göz) tutulum yaparlar."
+  "cue": "🎯 I hücrelerinden salınan hormon safra kesesini kasar; S hücrelerinden salınan hormon HCO3- salgılatır.",
+  "ipucu": "Pankreas enzim salgısını CCK uyarırken, sulu bikarbonat salgısını hangi hormon uyarır?",
+  "tuzak": "Sekretin pankreastan HCO3- uyarır; safra kesesini kasan ana hormon Kolesistokinin (CCK)'dir.",
+  "aciklama": "<b>GİS Hormonları:</b><br>• <b>Kolesistokinin (CCK):</b> Duodenum I hücrelerinden salınır; safra kesesini kasar, Oddi sfinkterini gevşetir, pankreastan enzim salgılatır.<br>• <b>Sekretin:</b> Duodenum S hücrelerinden salınır; pankreas ve safra kanallarından su ve bikarbonat (HCO3-) salgılatır."
  },
  {
-  "brans": "Farmakoloji",
-  "soru": "Herediter anjiyoödem tedavisinde kullanılan <mark class=\"cue\">kallikrein inhibitörü</mark> ilaç hangisidir?",
+  "brans": "Fizyoloji",
+  "soru": "Kalp kasının histolojik özellikleriyle ilgili aşağıdakilerden hangisi <mark class=\"cue\">yanlıştır</mark>?",
   "siklar": [
-   {"k": "A", "t": "İkatibant"},
-   {"k": "B", "t": "Epoprostenol"},
-   {"k": "C", "t": "Karboprost"},
-   {"k": "D", "t": "İloprost"},
-   {"k": "E", "t": "Ekallantid"}
-  ],
-  "dogru": 4,
-  "cue": "🎯 Plazma kallikreinini inhibe ederek bradikinin üretimini doğrudan durduran rekombinant ajan.",
-  "ipucu": "Ekallantid kallikrein inhibitörüdür. İkatibant ise Bradikinin B2 reseptör antagonistidir.",
-  "tuzak": "<mark>İkatibant</mark> da atak tedavisinde kullanılır ama mekanizması Bradikinin B2 reseptör blokajıdır. Kallikrein inhibitörü olan ilaç <mark>Ekallantid</mark>dir.",
-  "aciklama": "<b>Herediter Anjiyoödem (HAÖ)</b>, C1 esteraz inhibitör eksikliği veya disfonksiyonu sonucu kontrolsüz plazma kallikreini aktivasyonu ve aşırı <b>Bradikinin</b> üretimiyle karakterize tablodur.<br><br><b>Akut Atak Tedavisi İlaçları ve Mekanizmaları:</b><br>• <b>Ekallantid (Ecallantide):</b> Recombinant <b>Plazma Kallikrein İnhibitörü</b>'dür. Yüksek moleküler ağırlıklı kininojenin bradikinine dönüşümünü engeller. ✔<br>• <b>İkatibant (Icatibant):</b> Seçici <b>Bradikinin B2 Reseptör Antagonisti</b>'dir.<br>• <b>C1 Esteraz İnhibitör Konsantratları (Berinert, Ruconest):</b> Eksik enzimi yerine koyar.<br>• <b>Lanadelumab:</b> Profilakside kullanılan monoklonal anti-kallikrein antikoru.<br>• <b>Epoprostenol, İloprost, Karboprost:</b> Prostaglandin/Prostasiklin analoglarıdır."
- },
- {
-  "brans": "Farmakoloji",
-  "soru": "<b>Zopiklon intoksikasyonunda</b> antidot olarak hangisi tercih edilir?",
-  "siklar": [
-   {"k": "A", "t": "Midazolam"},
-   {"k": "B", "t": "Flurazepam"},
-   {"k": "C", "t": "Flumazenil"},
-   {"k": "D", "t": "Aprepitant"},
-   {"k": "E", "t": "Pentilentetrazol"}
-  ],
-  "dogru": 2,
-  "cue": "🎯 Hem benzodiazepinlerin hem de Z-ilaçlarının (zopiklon, zolpidem) ortak yarıştırıcı antagonisti.",
-  "ipucu": "Flumazenil, GABA_A reseptör kompleksi üzerindeki benzodiazepin bağlama bölgesinin yarışmalı antagonistidir.",
-  "tuzak": "Zopiklon bir benzodiazepin türevi değildir ('Z-ilacı'dır) ancak GABA_A reseptörünün aynı BZD1 bölgesine bağlandığı için antidotu yine <mark>Flumazenil</mark>dir.",
-  "aciklama": "<b>Flumazenil</b>, GABA_A reseptör kompleksinin benzodiazepin (BZD) bağlama bölgesine yüksek afiniteyle bağlanan yarışmalı (kompetitif) antagonisttir.<br><br>• <b>Etki Alanı:</b> Hem klasik <b>Benzodiazepinlerin</b> (Midazolam, Diazepam vb.) hem de benzodiazepin yapısında olmayan fakat aynı reseptör bölgesini kullanan <b>Z-ilaçlarının (Zopiklon, Zolpidem, Zaleplon)</b> etkilerini ve zehirlenmelerini hızla geri çevirir.<br>• <b>Klinik Uyarı:</b> Kronik benzodiazepin kullanıcılarında veya epileptik hastalarda Flumazenil verilmesi şiddetli <b>yoksunluk nöbetlerini (konvülsiyon)</b> tetikleyebilir."
- },
- {
-  "brans": "Farmakoloji",
-  "soru": "Uykuya dalma bozukluğunda kullanılan <mark class=\"cue\">oreksin reseptör antagonisti</mark> ilaç hangisidir?",
-  "siklar": [
-   {"k": "A", "t": "Zopiklon"},
-   {"k": "B", "t": "Ramelteon"},
-   {"k": "C", "t": "Buspiron"},
-   {"k": "D", "t": "Baklofen"},
-   {"k": "E", "t": "Daridoreksant"}
-  ],
-  "dogru": 4,
-  "cue": "🎯 '-reksant' ön/son eki alan ikili oreksin reseptör antagonistleri (DORA).",
-  "ipucu": "Oreksin (hipokretin) uyanıklığı sağlayan nöropeptiddir. Bloke edilmesi (Daridoreksant, Suvoreksant) uykuyu başlatır.",
-  "tuzak": "<mark>Ramelteon</mark> Melatonin MT1/MT2 agonisti iken, oreksin antagonisti olan ilaç <mark>Daridoreksant</mark>'tır.",
-  "aciklama": "<b>Oreksin Reseptör Antagonistleri (DORA - Dual Orexin Receptor Antagonists):</b><br><br>• <b>Temsilciler:</b> <b>Daridoreksant</b>, Suvoreksant, Lemboreksant.<br>• <b>Mekanizma:</b> Hipotalamustan salınan ve uyanıklık/amnezi durumunu sürdüren <b>Oreksin-A ve Oreksin-B</b> nöropeptitlerinin OX1 ve OX2 reseptörlerini antagonist olarak bloke eder.<br>• <b>Endikasyon:</b> İnsomnia (uykuya dalma ve uykuyu sürdürme güçlüğü).<br><br><b>Diğer İlaçlar:</b><br>• <b>Ramelteon:</b> Melatonin MT1/MT2 reseptör agonisti.<br>• <b>Buspiron:</b> 5-HT1A parsiyel agonisti (anksiyolitik).<br>• <b>Baklofen:</b> GABA_B agonisti (santral kas gevşetici)."
- },
- {
-  "brans": "Farmakoloji",
-  "soru": "Aşağıdaki benzodiazepinlerden hangisi, küçük girişimsel işlemler için propofol ile birlikte <mark class=\"cue\">anterograd amnezi oluşturmak amacı parenteral yol ile</mark> uygulanabilir?",
-  "siklar": [
-   {"k": "A", "t": "Triazolam"},
-   {"k": "B", "t": "Midazolam"},
-   {"k": "C", "t": "Alprazolam"},
-   {"k": "D", "t": "Flurazepam"},
-   {"k": "E", "t": "Flunitrazepam"}
-  ],
-  "dogru": 1,
-  "cue": "🎯 Suda çözünen, IV/IM uygulanabilen, kısa etkili ve amnestik benzodiazepin.",
-  "ipucu": "Midazolam sedasyon, anksiyoliz ve güçlü anterograd amnezi sağlayan parenteral (IV) ilk tercih benzodiazepindir.",
-  "tuzak": "<mark>Triazolam</mark> ve <mark>Alprazolam</mark> oral yoldan kullanılır. Girişimsel sedation ve IV kullanım için standart ajan <mark>Midazolam</mark>'dır.",
-  "aciklama": "<b>Midazolam</b>, suda çözünebilen imidazobenzodiazepin türevi kısa etkili bir ilaçtır.<br><br>• <b>Kullanım Sebebi:</b> IV enjeksiyondan sonra 1-2 dakika içinde etki gösterir. Belirgin <b>anterograd amnezi</b> (işlem anını ve sonrasını hatırlamama) sağlar.<br>• <b>Endikasyon:</b> Endoskopi, bronkoskopi, küçük cerrahi müdahaleler ve anestezi indüksiyonu/sedasyonu.<br>• <b>Avantajı:</b> Suda çözündüğü için enjeksiyon yerinde tromboflebit riski son derece düşüktür (Diazepam'a kıyasla)."
- },
- {
-  "brans": "Farmakoloji",
-  "soru": "<mark class=\"cue\">Melatonin MT-1 ve MT-2 reseptörleri için agonist</mark>; 5-HT2c reseptörü için antagonist etkisi ile majör depresyon tedavisinde kullanılan ilaç hangisidir?",
-  "siklar": [
-   {"k": "A", "t": "Ramelteon"},
-   {"k": "B", "t": "Zopiklon"},
-   {"k": "C", "t": "Agomelatin"},
-   {"k": "D", "t": "Zolpidem"},
-   {"k": "E", "t": "Flumazenil"}
-  ],
-  "dogru": 2,
-  "cue": "🎯 Sirkadiyen ritmi düzelten hem melatoninerjik hem de 5-HT2C blokörü antidepresan.",
-  "ipucu": "Agomelatin, MT1/MT2 agonisti ve 5-HT2C antagonistidir. Majör depresyonda uyku mimarisini düzeltir.",
-  "tuzak": "<mark>Ramelteon</mark> da MT1/MT2 agonistidir fakat depresyon ilacı değildir (insomnia ilacıdır). Antidepresan olan <mark>Agomelatin</mark>'dir.",
-  "aciklama": "<b>Agomelatin (Agomelatine):</b><br><br>• <b>Mekanizma:</b> Melatonin <b>MT_1 ve MT_2 reseptör agonisti</b> + Serotonin <b>5-HT2C reseptör antagonisti</b>dir.<br>• <b>Etki:</b> 5-HT2C antagonizması ön beyinde dopamin ve noradrenalin salınımını artırır.<br>• <b>Endikasyon:</b> Majör Depresif Bozukluk (özellikle uyku bozukluğu ve anksiyetesi belirgin olan olgularda).<br>• <b>Avantajı:</b> Cinsel işlev bozukluğu yapmaz, kilo alımı azdır.<br>• <b>Önemli Takip:</b> Hepatotoksisite riski nedeniyle tedavi öncesi ve sırasında <b>karaciğer enzim takibi (ALT/AST)</b> yapılması şarttır."
- },
- {
-  "brans": "Farmakoloji",
-  "soru": "Dikkat Eksikliği ve hiperaktivite bozukluğunda kullanılan, <mark class=\"cue\">seçici noradrenalin geri alım inhibitörü</mark> ilaç hangisidir?",
-  "siklar": [
-   {"k": "A", "t": "Metilfenidat"},
-   {"k": "B", "t": "Alprazolam"},
-   {"k": "C", "t": "Klomipramin"},
-   {"k": "D", "t": "Atomoksetin"},
-   {"k": "E", "t": "Moklobemid"}
+   {
+    "k": "A",
+    "t": "Kalp kasında diad vardır."
+   },
+   {
+    "k": "B",
+    "t": "Kalp kası sarkoplazmik retikulumunda fosfolamban bulunur."
+   },
+   {
+    "k": "C",
+    "t": "Kalp kasında T tübülleri çok gelişmiştir."
+   },
+   {
+    "k": "D",
+    "t": "Kalp kasında kasılma sırasında sadece hücre içi kalsiyum etkilidir."
+   },
+   {
+    "k": "E",
+    "t": "Kalp kası hücrelerini birbirinden ayıran interkale diskler bulunur."
+   }
   ],
   "dogru": 3,
-  "cue": "🎯 DEHB tedavisinde stimülan olmayan (non-stimülan) seçici NET blokörü ilaç.",
-  "ipucu": "Atomoksetin, presinaptik noradrenalin taşıyıcısını (NET) seçici olarak inhibe eden non-stimülan DEHB ilacıdır.",
-  "tuzak": "<mark>Metilfenidat</mark> DEHB'de ilk seçenektir ancak etki mekanizması dopamin ve noradrenalin geri alımını engelleyen bir santral sinir sistemi stimülanıdır.",
-  "aciklama": "<b>Atomoksetin (Atomoxetine):</b><br><br>• <b>Mekanizma:</b> Seçici <b>Noradrenalin Geri Alım İnhibitörü (NRI / NET blokörü)</b>'dür.<br>• <b>Kullanım:</b> Çocuk ve erişkin <b>Dikkat Eksikliği ve Hiperaktivite Bozukluğunda (DEHB)</b> stimülan olmayan (non-stimülan) ilaç seçeneğidir.<br>• <b>Avantaj:</b> Bağımlılık potansiyeli ve kötüye kullanımı yoktur (kırmızı/yeşil reçeteye tabi değildir). Tık bozukluğu veya anksiyetesi olan DEHB hastalarında tercih edilir."
+  "cue": "🎯 Kalp kasında kasılma için hücre dışından (hücre dışı sıvı) T-tüpü L-tipi Ca kanallarından Ca girişi ZORUNLUDUR.",
+  "ipucu": "İskelet kası tek başına SR kalsiyumu ile kasılabilirken, kalp kası neye bağımlıdır?",
+  "tuzak": "İskelet kasında triad vardır, kalp kasında T-tüpü + 1 terminal sisterna birleşimi olan DIAD bulunur.",
+  "aciklama": "<b>Kalp Kasında Kasılma Mekanizması:</b> Aksiyon potansiyeli sırasında T-tüpündeki L-tipi Ca kanallarından (DHPR) hücre içine <b>hücre dışı Ca++ girişi olur</b>. Bu kalsiyum sarkoplazmik retikulumdaki RyR2'yi uyararak daha fazla kalsiyum salınmasını sağlar (Ca-induced Ca release). Yani kasılmada **hem hücre dışı hem hücre içi kalsiyum** rol oynar."
  },
  {
-  "brans": "Farmakoloji",
-  "soru": "Antineoplastik tedavi sonrasında gelişen myelosupresyona bağlı trombositopeni tedavisinde kullanılan <mark class=\"cue\">IL-11 analoğu</mark> ilaç hangisidir?",
+  "brans": "Fizyoloji",
+  "soru": "I. Kortizol<br>II. Leptin<br>III. Açlık<br>IV. Somatostatin<br><br>Yukarıdakilerden hangileri <b>insülin sekresyonunu azaltır</b>?",
   "siklar": [
-   {"k": "A", "t": "Romiplostim"},
-   {"k": "B", "t": "Eritropoietin"},
-   {"k": "C", "t": "Eltrombopag"},
-   {"k": "D", "t": "Oprelvekin"},
-   {"k": "E", "t": "Darbepoietin"}
+   {
+    "k": "A",
+    "t": "I ve III"
+   },
+   {
+    "k": "B",
+    "t": "II ve IV"
+   },
+   {
+    "k": "C",
+    "t": "I, II ve III"
+   },
+   {
+    "k": "D",
+    "t": "II, III ve IV"
+   },
+   {
+    "k": "E",
+    "t": "I, II, III ve IV"
+   }
   ],
   "dogru": 3,
-  "cue": "🎯 Rekombinant İntelökin-11 (rIL-11) yapısında olan megakaryosit uyarıcısı.",
-  "ipucu": "Oprelvekin rekombinant IL-11'dir. Romiplostim ve Eltrombopag ise TPO reseptör agonistleridir.",
-  "tuzak": "<mark>Romiplostim</mark> ve <mark>Eltrombopag</mark> trombosit artırır fakat IL-11 analoğu değil, TPO (Trombopoietin) reseptör agonistidir.",
-  "aciklama": "<b>Oprelvekin (Recombinant Interleukin-11 / rIL-11):</b><br><br>• <b>Etki:</b> Megakaryosit olgunlaşmasını ve trombosit üretimini uyarır.<br>• <b>Endikasyon:</b> Non-myeloid kanserlerde kemoterapiye bağlı gelişen <b>şiddetli trombositopeninin önlenmesi ve tedavisi</b>.<br>• <b>Yan Etki:</b> Plazma hacim genişlemesi (sıvı retansiyonu), ödem, dilüsyonel anemi ve atriyal aritmiler.<br><br><b>Ayrım:</b><br>• <b>Romiplostim:</b> TPO peptit mimetik ajanı.<br>• <b>Eltrombopag:</b> Oral non-peptit TPO reseptör agonisti.<br>• <b>Eritropoietin / Darbepoietin:</b> Eritrosit yapımını uyaran rHuEPO analogları."
+  "cue": "🎯 Kortizol kan şekerini yükseltip insülin sekresyonunu artırır; diğer üçü azaltır.",
+  "ipucu": "Somatostatin tüm pankreas hormonlarını baskılarken, leptin ve açlık insülini nasıl etkiler?",
+  "tuzak": "<mark>Kortizol</mark> insülin direncine yol açıp dolaylı olarak insülin salgısını ARTIRIR, azaltmaz.",
+  "aciklama": "<b>İnsülin Sekresyonunu Azaltan Faktörler:</b> Somatostatin, Leptin, Açlık, Alfa-adrenerjik uyarı (sempatik), Galanin, Diazoksid.<br><b>İnsülin Sekresyonunu Artıranlar:</b> Glikoz, Aminoasitler, GİS hormonları (GLP-1, GIP, CCK), Kortizol, Büyüme hormonu, Glukagon."
  },
  {
-  "brans": "Farmakoloji",
-  "soru": "Aşağıda verilen kanser tedavisinde kullanılabilen ilaçlar ile ilgili verilen bilgilerden hangisi <mark class=\"cue\">yanlıştır</mark>?",
+  "brans": "Fizyoloji",
+  "soru": "Akciğerde <b>transpulmoner basınç</b> ile ilgili yukarıdakilerden hangisi/hangileri doğrudur?<br><br>I. İnspirasyon sırasında azalır.<br>II. Ekspirasyon sırasında artar.<br>III. Daima pozitif bir basınçtır.<br>IV. Akciğerde 'geri kaçma basıncı' olarak bilinir.",
   "siklar": [
-   {"k": "A", "t": "Lapatinib, HER2 pozitif meme kanseri tedavisinde kullanılabilen tirozin kinaz inhibitörüdür."},
-   {"k": "B", "t": "Krizotinib, küçük hücre dışı akciğer kanseri tedavisinde kullanılabilen ALK ve ROS1 inhibitörüdür."},
-   {"k": "C", "t": "Ritüksimab, lenfoma tedavisinde kullanılabilen CD25'e karşı geliştirilmiş monoklonal antikordur."},
-   {"k": "D", "t": "Tofacitinib, romatoid artrit tedavisinde kullanılabilen JAK-STAT inhibitörü ilaçtır."},
-   {"k": "E", "t": "Venetoklaks, 17p delesyonlu KLL tedavisinde kullanılabilen BCL-2 inhibitörüdür."}
-  ],
-  "dogru": 2,
-  "cue": "🎯 B hücrelerinin yüzeyindeki antijene karşı geliştirilen Ritüksimab hangi CD kümesine bağlanır?",
-  "ipucu": "Ritüksimab CD20'ye karşı geliştirilmiştir. CD25'e (IL-2R alfa) karşı geliştirilen monoklonal antikorlar ise Basiliximab ve Daclizumab'dır.",
-  "tuzak": "<mark>Ritüksimab</mark> B hücreli lenfomalarda hedef ilaçtır fakat CD25 değil <mark>CD20</mark> antijenine bağlanır.",
-  "aciklama": "<b>C seçeneği yanlıştır.</b><br><br>• <b>Ritüksimab (Rituximab):</b> B lenfosit yüzeyinde bulunan <b>CD20 antijenine</b> karşı geliştirilmiş şimerik monoklonal antikordur. Non-Hodgkin lenfoma, KLL ve RA tedavisinde kullanılır.<br>• <b>CD25 Antagonistleri:</b> <b>Basiliximab</b> ve <b>Daclizumab</b> t-hücrelerindeki IL-2 reseptör alfa zincirini (CD25) bloke eder (organ nakli red önleme).<br><br><b>Doğru İfadeler:</b><br>• <b>Lapatinib:</b> EGFR ve HER2 dual TKI.<br>• <b>Krizotinib:</b> ALK / ROS1 TKI (KHDAK).<br>• <b>Tofacitinib:</b> JAK-STAT inhibitörü (RA, Ülseratif kolit).<br>• <b>Venetoklaks:</b> BCL-2 inhibitörü."
- },
- {
-  "brans": "Farmakoloji",
-  "soru": "Aşağıdakilerden hangisi <mark class=\"cue\">psödomembranöz enterokolit</mark> tedavisinde kullanılabilecek ilaçlardan biri <mark class=\"cue\">değildir</mark>?",
-  "siklar": [
-   {"k": "A", "t": "Fidaksomisin"},
-   {"k": "B", "t": "Klindamisin"},
-   {"k": "C", "t": "Bezlotoksumab"},
-   {"k": "D", "t": "Vankomisin"},
-   {"k": "E", "t": "Metronidazol"}
-  ],
-  "dogru": 1,
-  "cue": "🎯 Hastalığın en klasik NEDENİ / TETİKLEYİCİSİ olan antibiyotiği bul.",
-  "ipucu": "Klindamisin C. difficile enterokolitinin en önemli nedenlerinden biridir; tedavide asla kullanılmaz!",
-  "tuzak": "<mark>Bezlotoksumab</mark> antibiyotik değildir ama C. difficile B toksinini nötralize eden ve nüksleri önleyen monoclonal antikordur.",
-  "aciklama": "<b>Psödomembranöz Enterokolit (Clostridioides difficile Enfeksiyonu):</b><br><br>• <b>Klindamisin (B seçeneği):</b> Geniş spektrumlu antibiyotik kullanımı bağırsak florasını bozarak <i>C. difficile</i> aşırı çoğalmasına zemin hazırlar. Klindamisin bu tablonun <b>tedavisi değil, en karakteristik ETİYOLOJİK NEDENİDİR!</b><br><br><b>Tedavi Seçenekleri:</b><br>• <b>Oral Vankomisin:</b> İlk basamak standart antibiyotik.<br>• <b>Fidaksomisin:</b> Dar spektrumlu, nüks riski düşük ilk basamak antibiyotik.<br>• <b>Metronidazol (oral/IV):</b> Hafif olgularda veya alternatiftir.<br>• <b>Bezlotoksumab:</b> C. difficile Toksin B'ye karşı monoklonal antikor (tekrarlayan C. difficile riski yüksek hastalarda nüksü önler)."
- },
- {
-  "brans": "Farmakoloji",
-  "soru": "Osteoporoz tedavisinde <mark class=\"cue\">hem kemik rezorsiyonunu inhibe ederek hem de yeni kemik oluşumunu stimüle ederek</mark> duel etki ile kullanılabilen ilaç aşağıdakilerden hangisidir?",
-  "siklar": [
-   {"k": "A", "t": "Teriparatid"},
-   {"k": "B", "t": "Tiludronat"},
-   {"k": "C", "t": "Sinakalset"},
-   {"k": "D", "t": "Denosumab"},
-   {"k": "E", "t": "Strontium Ranelate"}
+   {
+    "k": "A",
+    "t": "Yalnız I"
+   },
+   {
+    "k": "B",
+    "t": "Yalnız II"
+   },
+   {
+    "k": "C",
+    "t": "I ve II"
+   },
+   {
+    "k": "D",
+    "t": "II ve IV"
+   },
+   {
+    "k": "E",
+    "t": "III ve IV"
+   }
   ],
   "dogru": 4,
-  "cue": "🎯 'Dual Action Bone Agent' (DABA) olarak tanımlanan stronsiyum tuzu.",
-  "ipucu": "Stronsiyum Ranelat hem osteoklastları baskılar hem de osteoblastları uyarır (çift etkili/dual etki).",
-  "tuzak": "<mark>Teriparatid</mark> yalnız kemik yapımını (anabolik etki) uyarır. <mark>Denosumab</mark> ve bisfosfonatlar yalnız kemik yıkımını baskılar. Çift etkili olan <mark>Strontium Ranelate</mark>'tir.",
-  "aciklama": "<b>Stronsiyum Ranelat (Strontium Ranelate):</b><br><br>• <b>Özgün Etki (Dual Etki):</b> Osteoblastik prekürsörlerin proliferasyonunu ve kolajen sentezini uyararak <b>yeni kemik oluşumunu artırır</b>; aynı zamanda osteoklast farklılaşmasını ve aktivitesini engelleyerek <b>kemik rezorsiyonunu azaltır</b>.<br>• <b>Sınıfı:</b> DABA (Dual Action Bone Agent).<br><br><b>Diğer Osteoporoz İlaçları:</b><br>• <b>Teriparatid:</b> Rekombinant PTH (1-34) analoğu — Tam anabolik etki.<br>• <b>Denosumab:</b> Monoklonal RANKL antikoru — Antiresorptif.<br>• <b>Bisfosfonatlar (Alendronat, Zoledronat, Tiludronat):</b> Osteoklast apoptozu — Antiresorptif.<br>• <b>Sinakalset:</b> Paratiroid CaSR kalsimimetik ilacı (Osteoporoz ilacı değildir)."
- },
- {
-  "brans": "Farmakoloji",
-  "soru": "Sol ventrikül duvar gerimine sekonder olarak sol ventrikül miyositlerden salınan kalp yetmezliğinde prognostik önemi olan <mark class=\"cue\">BNP analoğu</mark> ilaç aşağıdakilerden hangisidir?",
-  "siklar": [
-   {"k": "A", "t": "Nesiritid"},
-   {"k": "B", "t": "Levosimendan"},
-   {"k": "C", "t": "Daglutril"},
-   {"k": "D", "t": "Fineronon"},
-   {"k": "E", "t": "Rolofilin"}
-  ],
-  "dogru": 0,
-  "cue": "🎯 Rekombinant insan B-tipi natriüretik peptid (rhBNP) analoğu.",
-  "ipucu": "Nesiritid, BNP analoğudur; cGMP'yi artırarak vazodilatasyon ve natriürez sağlar.",
-  "tuzak": "<mark>Levosimendan</mark> kalsiyum duyarlılaştırıcı inotrop ajandır, BNP analoğu olan <mark>Nesiritid</mark>dir.",
-  "aciklama": "<b>Nesiritid (Nesiritide):</b><br><br>• <b>Yapı:</b> Rekombinant insan B-Tipi Natriüretik Peptid (rhBNP) analoğudur.<br>• <b>Etki Mekanizması:</b> Natriüretik peptid A/B reseptörlerine bağlanarak zar tipi <b>Guanilat Siklaz</b>ı aktifler ve hücresel <b>cGMP</b> düzeyini yükseltir.<br>• <b>Sonuç:</b> Arteriyel ve venöz vazodilatasyon, ön yük (preload) ve art yük (afterload) azalması, natriürez ve diürez.<br>• <b>Kullanım:</b> Akut dekompanse kalp yetmezliği tedavisi.<br><br><b>Diğer İlaçlar:</b><br>• <b>Levosimendan:</b> Troponin C'ye bağlanarak Ca²⁺ duyarlılığını artıran inotropik ajan.<br>• <b>Finerenon:</b> Non-steroid Mineralokortikoid Reseptör Antagonisti (MRA)."
- },
- {
-  "brans": "Farmakoloji",
-  "soru": "Aşağıdaki antiaritmik ilaçlardan hangisi <mark class=\"cue\">pacemaker aktiviteyi baskılar</mark>?",
-  "siklar": [
-   {"k": "A", "t": "Lidokain"},
-   {"k": "B", "t": "Vernekalant"},
-   {"k": "C", "t": "Dofetilid"},
-   {"k": "D", "t": "Adenozin"},
-   {"k": "E", "t": "İbutilid"}
-  ],
-  "dogru": 3,
-  "cue": "🎯 SA nodu ve AV nodu geçici olarak durduran, A1 reseptör agonisti nükleozit.",
-  "ipucu": "Adenozin SA nod pacemaker aktivitesini ve AV nod iletimini Gi-K+ kanalları açarak baskılar.",
-  "tuzak": "<mark>Lidokain</mark> iskemik ventriküler aritmilerde (Faz 0) etkilidir; SA ve AV nod pacemaker aktivitesini baskılayan temel akut ajan <mark>Adenozin</mark>'dir.",
-  "aciklama": "<b>Adenozin (Adenosine):</b><br><br>• <b>Mekanizma:</b> SA ve AV nod hücrelerinde pürinerjik <b>A_1 reseptörlerini</b> uyarır. G_i proteini aracılığıyla adenilat siklazı inhibe eder, cAMP'yi düşürür ve Asetilkolin/Adenozin duyarlı K⁺ kanallarını (I_{K,Ado}) açarak belirgin <b>hiperpolarizasyon</b> oluşturur.<br>• <b>Etki:</b> SA nod otomatikliğini (pacemaker aktivite) baskılar ve AV nod iletim hızını durdurur/yavaşlatır.<br>• <b>Kullanım:</b> AV nodu içeren Paroksismal Supraventriküler Taşikardilerin (PSVT) sonlandırılmasında IV ilk seçenektir.<br>• <b>Yarı Ömrü:</b> Çok kısadır (<10 saniye)."
- },
- {
-  "brans": "Farmakoloji",
-  "soru": "Aşağıdaki beta blokörlerden hangisinin aynı zamanda <mark class=\"cue\">K kanal aktivatörü</mark> özelliği vardır?",
-  "siklar": [
-   {"k": "A", "t": "Karvedilol"},
-   {"k": "B", "t": "Pindolol"},
-   {"k": "C", "t": "Propranolol"},
-   {"k": "D", "t": "Seliprolol"},
-   {"k": "E", "t": "Tilisolol"}
-  ],
-  "dogru": 4,
-  "cue": "🎯 Potasyum kanallarını açarak ek vazodilatatör etki sunan özel β-blokör.",
-  "ipucu": "Tilisolol hem beta reseptör blokajı yapan hem de K+ kanal aktivatör özelliği olan ajandır.",
-  "tuzak": "<mark>Karvedilol</mark> alfa-1 blokajı yaparlar. <mark>Seliprolol</mark> beta-2 agonist ve NO salgılatıcıdır. K+ kanalı açan ise <mark>Tilisolol</mark>'dür.",
-  "aciklama": "<b>Tilisolol:</b><br><br>• <b>Özellik:</b> Non-seçici β-adrenerjik reseptör antagonistidir. Ek olarak membran <b>Potasyum (K⁺) kanallarını aktive edici (açıcı)</b> özelliğe sahiptir.<br>• <b>Sonuç:</b> Hücre dışına K⁺ çıkışı ile damar düz kasında hiperpolarizasyon ve belirgin vazodilatasyon sağlar.<br><br><b>Ek Özellikli Beta Blokörler Özeti:</b><br>• <b>Karvedilol & Labetalol:</b> α_1 reseptör blokajı.<br>• <b>Nebivolol:</b> Endotelyal Nitrik Oksit (NO) sentezi uyarısı.<br>• <b>Seliprolol:</b> β_2 intrinsik sempatomimetik (agonist) etki + NO üretimi.<br>• <b>Pindolol & Asebutolol:</b> İntrinsik Sempatomimetik Aktivite (ISA) / Parsiyel agonist."
- },
- {
-  "brans": "Enfeksiyon Hastalıkları",
-  "soru": "Orta Anadolu'da kırsal bölgeye seyahat edenlerde ateş, halsizlik, yorgunluk, lökopeni, trombositopeni ve ilerleyen dönemlerde hepatit gelişen döküntülü bir hastada fizik muayenede <mark class=\"cue\">kene tespit ediyorsunuz</mark>. Muhtemel hastalık aşağıdakilerden hangisidir?",
-  "siklar": [
-   {"k": "A", "t": "Bolivya hemorajik ateşi"},
-   {"k": "B", "t": "Lassa ateşi"},
-   {"k": "C", "t": "Kırım-Kongo hemorajik ateşi"},
-   {"k": "D", "t": "Ebola hemorajik ateşi"},
-   {"k": "E", "t": "Sarı humma"}
-  ],
-  "dogru": 2,
-  "cue": "🎯 Kelkit vadisi, Tokat, Sivas, Yozgat bölgesinde Hyalomma kenesi ile bulaşan virüs.",
-  "ipucu": "Kırım-Kongo Hemorajik Ateşi (KKHA / Bunyaviridae / Nairovirus) kene tutunması öyküsü, lökopeni, trombositopeni ve kanamalarla seyreder.",
-  "tuzak": "<mark>Lassa</mark> kemirgenlerle, <mark>Ebola</mark> yarasa/temasla, <mark>Sarı humma</mark> sivrisinekle bulaşır. Türkiye Orta Anadolu kene ateşi etkeni <mark>KKHA</mark>'dır.",
-  "aciklama": "<b>Kırım-Kongo Hemorajik Ateşi (KKHA):</b><br><br>• <b>Etken:</b> Nairoviridae ailesinden bir RNA virüsüdür.<br>• <b>Bulaş:</b> <b>Hyalomma cinsi kenelerin</b> tutunması, enfekte hayvan kanı/dokusu veya hasta insan sıvılarıyla temas.<br>• <b>Coğrafya:</b> Türkiye'de özellikle İç Anadolu, Doğu Karadeniz iç kesimleri (Tokat, Sivas, Yozgat, Çorum, Erzurum vb.).<br>• <b>Laboratuvar & Klinik:</b> Ani ateş, kas ağrısı, <b>lökopeni, şiddetli trombositopeni, ALT/AST ve CK/LDH yüksekliği</b>. İlerleyen vakalarda peteşi, purpura, GIS kanamaları ve DIC.<br>• <b>Tedavi:</b> Destek tedavisi + <b>Ribavirin</b>."
- },
- {
-  "brans": "Parazitoloji",
-  "soru": "Aşağıdakilerden hangisi Plasmodium falciparum'un <mark class=\"cue\">eritrosit içi görünümlerinden birisi değildir</mark>?",
-  "siklar": [
-   {"k": "A", "t": "Muz şeklinde gametositler"},
-   {"k": "B", "t": "Bir eritrositin içinde birden çok taşlı yüzük bulunması"},
-   {"k": "C", "t": "Walkman kulaklığı görünümü"},
-   {"k": "D", "t": "Rozet şeklinde şizontlarının bulunması"},
-   {"k": "E", "t": "Maurer granüllerinin görülmesi"}
-  ],
-  "dogru": 3,
-  "cue": "🎯 P. malariae'ye özgü merozoitlerin santral pigment etrafında rozet/papatya gibi dizildiği şizont şekli.",
-  "ipucu": "Rozet şeklinde şizont görünümü Plasmodium malariae'ye aittir. P. falciparum ise periferik kanda şizont oluşturmaz (sekestre olur).",
-  "tuzak": "<mark>Walkman kulaklığı</mark> (çift kromatinli yüzük) P. falciparum'un tipik genç trofozoitidir. <mark>Rozet şizont</mark> ise P. malariae'nin karakteristik şeklidir.",
-  "aciklama": "<b>D seçeneği (Rozet Şizont) Plasmodium falciparum'a ait DEĞİLDİR.</b><br><br>• <b>Rozet (Papatya) Şizont:</b> Merozoitlerin santral hemozoin pigmenti etrafında simetrik dizilmesiyle oluşan görünüm <b>Plasmodium malariae</b>'ye özgüdür.<br><br><b>Plasmodium falciparum Periferik Yayma Özellikleri:</b><br>• <b>Muz / Hilal Şeklinde Gametositler:</b> P. falciparum için patognomoniktir.<br>• <b>Çoklu Enfeksiyon (Multiple Infection):</b> Tek bir eritrosit içinde 2 veya daha fazla genç trofozoit halkanın bulunması.<br>• <b>Walkman Kulaklığı (Appliké/Accolé) Görünümü:</b> Eritrosit çeperine yapışık, iki kromatin noktasına sahip ince halkalar.<br>• <b>Maurer Benekleri (Maurer's Clefts):</b> Enfekte eritrosit sitoplazmasında kaba kırmızı benekler.<br>• <i>Not:</i> P. falciparum'da yaşlı trofozoitler ve şizontlar derin organ kapillerlerinde sekestre olduğu için periferik kanda görülmezler."
- },
- {
-  "brans": "Parazitoloji",
-  "soru": "İskandinavya'ya giden bir sanayici burada <mark class=\"cue\">çiğ balık yiyor</mark>. Yaklaşık altı ay kadar sonra rutin işlerini yapmasına rağmen anemi gelişiyor. Yapılan araştırmalarda <mark class=\"cue\">vitamin B12 eksikliği</mark> saptanıyor.<br><br>Hastadaki B12 vitamin eksikliğine bağlı aneminin sebebi aşağıdakilerden hangisi olabilir?",
-  "siklar": [
-   {"k": "A", "t": "Cysticercosis"},
-   {"k": "B", "t": "Yersinia enfeksiyonu"},
-   {"k": "C", "t": "Diphyllobothrium latum enfeksiyonu"},
-   {"k": "D", "t": "Parvovirus B19 enfeksiyonu"},
-   {"k": "E", "t": "Aşırı buzlu votka içmesi"}
-  ],
-  "dogru": 2,
-  "cue": "🎯 Tatlı su balıklarından bulaşan ve konaktan aşırı B12 vitamini emen en uzun insan tenyası.",
-  "ipucu": "Diphyllobothrium latum (balık tenyası) çiğ balıkla bulaşır, B12 vitaminini tüketerek megaloblastik anemi yapar.",
-  "tuzak": "<mark>Cysticercosis</mark> domuz eti / Taenia solium yumurtası ile bulaşır ve nörosistiserkoz yapar. Çiğ balık + B12 eksikliği klasikleşmiş <mark>Diphyllobothrium latum</mark> ikilisidir.",
-  "aciklama": "<b>Diphyllobothrium latum (Balık Tenyası):</b><br><br>• <b>Bulaş Yolu:</b> İskandinavya, Baltık ve göl bölgelerinde yetersiz pişirilmiş veya <b>çiğ tatlı su balığı</b> (somon, alabalık, turna) yenmesiyle pleroserkoid larvaların alınması.<br>• <b>Patogenez:</b> İnce bağırsağa yerleşen parazit (10-15 metre boyuna ulaşabilir) lümendeki <b>Vitamin B12'yi yüksek miktarda tüketir</b> (konak B12'sinin %80'inden fazlasını emebilir).<br>• <b>Klinik:</b> B12 vitamini eksikliğine bağlı <b>Megaloblastik Anemi</b> ve nörolojik bulgular (subakut kombine sistem dejenerasyonu - arka ve yan kordon tutulumu).<br>• <b>Tedavi:</b> Tek doz <b>Praziquantel</b> veya Niklozamid."
+  "cue": "🎯 Transpulmoner basınç = Alveoler basınç - Plevral basınç'tır ve akciğerleri açık tutan kuvvettir.",
+  "ipucu": "İnspirasyonda transpulmoner basınç artar mı azalır mı?",
+  "tuzak": "İnspirasyonda plevral basınç daha negatifleştiği için transpulmoner basınç AZALMAZ, ARTAR.",
+  "aciklama": "<b>Transpulmoner Basınç (Ptp):</b> Alveol basıncı ile plevra içi basınç arasındaki farktır (Ptp = Palv - Ppip). Akciğerlerin geri büzülme (elastic recoil) eğilimine karşı onları açık tutan kuvvettir. **Daima pozitiftir (III)** ve **geri kaçma basıncı olarak bilinir (IV)**. İnspirasyon sırasında artar."
  }
 ];
 
@@ -1386,10 +1480,10 @@ function renderResult(){
   document.getElementById('ring').style.setProperty('--pct', pct+'%');
 
   let fb;
-  if(pct>=90) fb='Mükemmel! Temel Tıp Bilimlerine hâkimsin. 🎯';
-  else if(pct>=70) fb='Çok iyi. Birkaç detay dışında temel alanlarda sağlamsın. 👏';
+  if(pct>=90) fb='Mükemmel! Bu konulara hâkimsin. 🎯';
+  else if(pct>=70) fb='Çok iyi. Birkaç tuzak dışında sağlamsın. 👏';
   else if(pct>=50) fb='Fena değil; yanlışları ve tuzakları tekrar et. 📚';
-  else fb='Bu konuları tekrar çalışmakta büyük fayda var. Devam! 💪';
+  else fb='Bu blokları tekrar çalışmakta fayda var. Devam! 💪';
   document.getElementById('fbText').textContent = fb;
 
   document.getElementById('rStats').innerHTML =

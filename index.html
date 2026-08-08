@@ -1,1786 +1,1511 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="pragma" content="no-cache">
-<title>PreTUS 6. Cilt Deneme 02 (PART 1)</title>
-<style>
-  :root{
-    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --line:#2a3444;
-    --text:#e6edf3; --muted:#9aa7b5; --accent:#4c9aff; --accent2:#7c5cff;
-    --green:#2ea043; --green-bg:#12341c; --red:#e5484d; --red-bg:#3a1518;
-    --star:#f5c451; --hint:#3fb6a8; --trap:#ff5b5b; --exp:#b487ff;
-  }
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    line-height:1.6;-webkit-text-size-adjust:100%;}
-  mark{background:none;color:var(--trap);font-weight:800;}
-  b{color:#fff;font-weight:700;}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>TUS Hazırlık İnteraktif Quiz</title>
+  <style>
+    :root {
+      --bg-color: #0d0f17;
+      --card-bg: #161926;
+      --card-inner: #1e2235;
+      --border-color: #2a2f4a;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --success: #22c55e;
+      --success-bg: rgba(34, 197, 94, 0.15);
+      --error: #ef4444;
+      --error-bg: rgba(239, 68, 68, 0.15);
+      --warning: #f59e0b;
+      --warning-bg: rgba(245, 158, 11, 0.12);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --mark-color: #ff5b5b;
+    }
 
-  header{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--panel);
-    border-bottom:1px solid var(--line);padding:env(safe-area-inset-top) 0 0 0;
-    box-shadow:0 4px 18px rgba(0,0,0,.35);}
-  .hbar{display:flex;align-items:center;justify-content:space-between;gap:10px;
-    padding:11px 16px 10px;}
-  .htitle{font-size:15px;font-weight:800;letter-spacing:.3px;}
-  .htitle span{color:var(--accent);}
-  .stats{display:flex;gap:8px;}
-  .chip{display:flex;align-items:center;gap:5px;background:var(--panel2);
-    border:1px solid var(--line);border-radius:999px;padding:5px 11px;
-    font-size:13px;font-weight:700;}
-  .chip.correct{color:var(--green);} .chip.star{color:var(--star);}
-  .progress{height:5px;background:var(--panel2);width:100%;}
-  .progress > i{display:block;height:100%;width:0;
-    background:linear-gradient(90deg,var(--accent),var(--accent2));
-    transition:width .35s ease;}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
 
-  main{max-width:720px;margin:0 auto;padding:16px 16px 120px;}
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-  .qmeta{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-  .qnum{font-size:13px;font-weight:800;color:var(--muted);letter-spacing:.5px;}
-  .star-btn{background:none;border:none;cursor:pointer;font-size:26px;line-height:1;
-    filter:grayscale(1) opacity(.45);transition:transform .15s,filter .15s;padding:2px 4px;}
-  .star-btn.on{filter:none;transform:scale(1.12);}
+    mark {
+      background: transparent;
+      color: var(--mark-color);
+      font-weight: 800;
+    }
 
-  .year-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
-  .brans-tag{font-size:11.5px;font-weight:800;letter-spacing:.3px;color:var(--accent2);
-    background:rgba(124,92,255,.12);border:1px solid rgba(124,92,255,.35);
-    border-radius:6px;padding:3px 9px;}
-  .gsec{grid-column:1/-1;font-size:11.5px;font-weight:800;letter-spacing:.5px;
-    color:var(--accent2);text-transform:uppercase;padding:8px 2px 2px;
-    border-top:1px solid var(--line);margin-top:4px;}
-  .gsec:first-child{border-top:none;margin-top:0;padding-top:2px;}
-  .brans-break{display:flex;flex-direction:column;gap:7px;width:100%;margin:14px 0 4px;}
-  .bb-row{display:flex;align-items:center;gap:10px;background:var(--panel);
-    border:1px solid var(--line);border-radius:11px;padding:9px 12px;}
-  .bb-name{flex:1;font-size:13.5px;font-weight:800;text-align:left;}
-  .bb-score{font-size:13.5px;font-weight:800;color:var(--text);}
-  .bb-bar{height:6px;border-radius:4px;background:var(--panel2);overflow:hidden;
-    width:76px;border:1px solid var(--line);}
-  .bb-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--accent));}
-  .bb-row.weak .bb-name{color:var(--red);}
-  .bb-title{font-size:12px;font-weight:800;letter-spacing:.5px;color:var(--muted);
-    text-transform:uppercase;margin-top:16px;}
-  .year-tag{font-size:11.5px;font-weight:700;letter-spacing:.3px;color:var(--accent);
-    background:rgba(76,154,255,.1);border:1px solid rgba(76,154,255,.3);
-    border-radius:6px;padding:3px 9px;}
+    /* Header */
+    header#quiz-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: var(--card-bg);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
 
-  .qcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;
-    padding:18px 17px;margin-bottom:14px;font-size:16.5px;}
+    .header-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
 
-  .opts{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
-  .opt{display:flex;align-items:flex-start;gap:12px;background:var(--panel);
-    border:1.5px solid var(--line);border-radius:13px;padding:13px 14px;cursor:pointer;
-    font-size:16px;transition:border-color .15s,background .15s,transform .05s;
-    text-align:left;color:var(--text);width:100%;}
-  .opt:active{transform:scale(.995);}
-  .opt .k{flex:0 0 26px;height:26px;border-radius:50%;background:var(--panel2);
-    border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
-    font-weight:800;font-size:14px;color:var(--muted);}
-  .opt .t{flex:1;padding-top:1px;}
-  .opt:not(.locked):hover{border-color:var(--accent);}
-  .opts.locked .opt{cursor:default;}
-  .opt.correct{border-color:var(--green);background:var(--green-bg);}
-  .opt.correct .k{background:var(--green);border-color:var(--green);color:#fff;}
-  .opt.wrong{border-color:var(--red);background:var(--red-bg);}
-  .opt.wrong .k{background:var(--red);border-color:var(--red);color:#fff;}
-  .opt.dim{opacity:.55;}
-  .opt .mark{flex:0 0 24px;height:26px;display:flex;align-items:center;justify-content:center;
-    font-weight:900;font-size:18px;line-height:1;}
-  .opt.correct .mark::after{content:"✓";color:var(--green);}
-  .opt.wrong .mark::after{content:"✗";color:var(--red);}
+    .btn-icon {
+      background: var(--card-inner);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
 
-  .hintbtn{display:inline-flex;align-items:center;gap:7px;background:var(--panel2);
-    color:var(--hint);border:1px solid var(--line);border-radius:11px;padding:11px 15px;
-    font-size:14.5px;font-weight:700;cursor:pointer;margin-bottom:14px;}
-  .hintbtn:hover{border-color:var(--hint);}
+    .btn-icon:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
 
-  .box{border-radius:13px;padding:13px 15px;margin-bottom:11px;font-size:15.5px;
-    border:1px solid var(--line);animation:fade .35s ease;}
-  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
-  .box .bt{display:flex;align-items:center;gap:8px;font-weight:800;margin-bottom:6px;
-    font-size:14px;letter-spacing:.3px;}
-  .box.ip{background:rgba(63,182,168,.08);border-color:rgba(63,182,168,.35);}
-  .box.ip .bt{color:var(--hint);}
-  .box.tz{background:rgba(255,91,91,.07);border-color:rgba(255,91,91,.32);}
-  .box.tz .bt{color:var(--trap);}
-  .box.ac{background:rgba(180,135,255,.08);border-color:rgba(180,135,255,.32);}
-  .box.ac .bt{color:var(--exp);}
+    .progress-center {
+      flex: 1;
+      max-width: 360px;
+      text-align: center;
+    }
 
-  .qcard{position:relative;}
-  .qcard.has-ddx{cursor:pointer;padding-right:46px;}
-  .qcard .cue{transition:all .3s;border-radius:4px;}
-  .qcard.flash .cue{background:rgba(46,160,67,.3);color:#fff;box-shadow:0 0 0 3px rgba(46,160,67,.3);padding:0 2px;}
-  .ddx-ok{position:absolute;top:12px;right:12px;width:28px;height:28px;display:grid;place-items:center;
-    color:var(--accent);cursor:pointer;animation:ddxpulse 2.2s ease-in-out infinite;z-index:3;}
-  .ddx-ok svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-  @keyframes ddxpulse{0%,100%{opacity:.5;transform:translateY(0)}50%{opacity:1;transform:translateY(-2px)}}
+    .progress-text {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
 
-  .cueMsg{position:fixed;left:0;right:0;top:0;z-index:400;background:#0f2a1e;
-    border-bottom:2px solid var(--green);color:#b6f0d4;font-weight:700;font-size:15.5px;
-    padding:15px 18px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.5);
-    transform:translateY(-110%);transition:transform .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;}
-  .cueMsg.show{transform:translateY(0);animation:cuewiggle .5s ease .35s;}
-  @keyframes cuewiggle{0%,100%{transform:translateY(0)}25%{transform:translateY(0) rotate(-.4deg)}75%{transform:translateY(0) rotate(.4deg)}}
+    .progress-bar-bg {
+      height: 8px;
+      background: var(--card-inner);
+      border-radius: 4px;
+      overflow: hidden;
+    }
 
-  .ddx-ov{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;
-    padding:20px;background:rgba(6,10,15,.55);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);perspective:1800px;}
-  .ddx-ov.show{display:flex;}
-  .ddx-card{width:100%;max-width:440px;max-height:88vh;overflow-y:auto;
-    background:linear-gradient(160deg,#1a2230 0%,#141a24 100%);
-    border:1px solid rgba(76,154,255,.4);border-radius:22px;padding:22px;
-    box-shadow:0 24px 70px rgba(0,0,0,.6),0 0 40px rgba(76,154,255,.12);
-    cursor:pointer;}
-  .ddx-ov.show .ddx-card{animation:dealIn .5s cubic-bezier(.2,.8,.22,1) both;}
-  @keyframes dealIn{0%{opacity:0;transform:translateY(60vh) rotate(14deg) scale(.8)}100%{opacity:1;transform:none}}
-  .ddx-ov.closing .ddx-card{animation:dealOut .4s cubic-bezier(.5,0,.75,.4) both;}
-  @keyframes dealOut{0%{opacity:1;transform:none}100%{opacity:0;transform:translateY(60vh) rotate(14deg) scale(.8)}}
-  .ddx-card h3{margin:0 0 14px;display:flex;align-items:center;gap:9px;font-size:16px;font-weight:800;
-    background:linear-gradient(90deg,#4c9aff,#7ee7c7);-webkit-background-clip:text;background-clip:text;color:transparent;}
-  .ddx-key{font-size:14.5px;color:var(--text);background:rgba(76,154,255,.1);
-    border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:10px 13px;margin-bottom:14px;}
-  .ddx-cards{display:flex;flex-direction:column;gap:10px;}
-  .dc{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;
-    padding:12px 13px;background:rgba(255,255,255,.025);position:relative;overflow:hidden;
-    opacity:0;transform:translateX(-90px) rotate(-7deg);animation:ddxslide .45s cubic-bezier(.2,.85,.28,1.25) forwards;}
-  .dc:nth-child(1){animation-delay:.12s} .dc:nth-child(2){animation-delay:.20s}
-  .dc:nth-child(3){animation-delay:.28s} .dc:nth-child(4){animation-delay:.36s}
-  .dc:nth-child(5){animation-delay:.44s} .dc:nth-child(6){animation-delay:.52s}
-  .ddx-ov.closing .dc{animation:dcOut .28s cubic-bezier(.5,0,.75,.4) forwards;}
-  @keyframes dcOut{to{opacity:0;transform:translateX(-90px) rotate(-7deg)}}
-  .ddx-ov.closing .dc:nth-child(5){animation-delay:.02s}
-  .ddx-ov.closing .dc:nth-child(4){animation-delay:.06s}
-  .ddx-ov.closing .dc:nth-child(3){animation-delay:.10s}
-  .ddx-ov.closing .dc:nth-child(2){animation-delay:.14s}
-  .ddx-ov.closing .dc:nth-child(1){animation-delay:.18s}
-  @keyframes ddxslide{to{opacity:1;transform:none}}
-  .dc .emo{font-size:24px;flex:none;line-height:1.1;}
-  .dc .txt .dn{font-weight:800;font-size:15px;margin-bottom:2px;color:var(--text);}
-  .dc .txt .dv{font-size:13.5px;color:var(--muted);} .dc .txt .dv b{color:var(--text);font-weight:600;}
-  .dc.hit{border-color:var(--green);background:linear-gradient(120deg,rgba(46,160,67,.2),rgba(46,160,67,.06));
-    box-shadow:0 0 20px rgba(46,160,67,.25);}
-  .dc.hit .dn{color:#7ee7a8;}
-  .dc.hit::after{content:"⭐";position:absolute;top:8px;right:10px;font-size:15px;animation:ddxtwinkle 1.4s ease-in-out infinite;}
-  @keyframes ddxtwinkle{0%,100%{opacity:.4;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
-  .nav{position:fixed;bottom:0;left:0;right:0;z-index:40;background:var(--panel);
-    border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));
-    display:flex;gap:10px;max-width:720px;margin:0 auto;align-items:stretch;}
-  .nav button{border:1px solid var(--line);border-radius:12px;padding:14px;
-    font-size:15.5px;font-weight:800;cursor:pointer;background:var(--panel2);color:var(--text);}
-  .nav .prev,.nav .next{flex:1;}
-  .nav .list{flex:0 0 auto;min-width:66px;color:var(--muted);font-size:13px;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.1;}
-  .nav .list .lc{font-size:16px;}
-  .nav .next{background:linear-gradient(90deg,var(--accent),var(--accent2));
-    color:#fff;border-color:transparent;}
-  .nav button:disabled{opacity:.4;cursor:not-allowed;}
-  .nav button{-webkit-tap-highlight-color:transparent;}
-  .nav button:focus{outline:none;}
-  .nav .prev:focus,.nav .prev:active{background:var(--panel2);color:var(--text);border-color:var(--line);}
-  .nav .list:focus,.nav .list:active{background:var(--panel2);color:var(--muted);border-color:var(--line);}
-  .nav .next:focus,.nav .next:active{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;}
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--primary);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
 
-  .modal-ov{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.55);
-    display:none;align-items:flex-end;justify-content:center;}
-  .modal-ov.show{display:flex;animation:fade .2s ease;}
-  .modal{width:100%;max-width:720px;background:var(--panel);
-    border-top-left-radius:20px;border-top-right-radius:20px;
-    border:1px solid var(--line);border-bottom:none;padding:16px 16px 26px;
-    max-height:72vh;overflow:auto;animation:slideup .28s ease;}
-  @keyframes slideup{from{transform:translateY(30px);opacity:.6;}to{transform:none;opacity:1;}}
-  .modal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-  .modal-h span{font-size:15px;font-weight:800;letter-spacing:.3px;}
-  .modal-h .close{background:var(--panel2);border:1px solid var(--line);color:var(--text);
-    border-radius:9px;width:34px;height:34px;font-size:16px;cursor:pointer;font-weight:800;}
-  .qgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;}
-  .gbtn{aspect-ratio:1/1;border-radius:10px;border:1.5px solid var(--line);
-    background:var(--panel2);color:var(--text);font-size:14px;font-weight:800;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;position:relative;}
-  .gbtn.ok{background:var(--green-bg);border-color:var(--green);color:var(--green);}
-  .gbtn.no{background:var(--red-bg);border-color:var(--red);color:var(--red);}
-  .gbtn.cur{outline:2px solid var(--accent);outline-offset:1px;}
-  .gbtn.star::after{content:"";position:absolute;top:3px;right:3px;width:7px;height:7px;
-    border-radius:50%;background:var(--star);}
+    .header-stats {
+      display: flex;
+      gap: 8px;
+    }
 
-  .result{display:none;}
-  .result.show{display:block;animation:fade .4s ease;}
-  .score-ring{display:flex;flex-direction:column;align-items:center;justify-content:center;
-    width:170px;height:170px;margin:8px auto 6px;border-radius:50%;
-    background:conic-gradient(var(--accent) var(--pct,0%),var(--panel2) 0);}
-  .score-ring .inner{width:138px;height:138px;border-radius:50%;background:var(--bg);
-    display:flex;flex-direction:column;align-items:center;justify-content:center;}
-  .score-ring .big{font-size:34px;font-weight:900;}
-  .score-ring .sub{font-size:13px;color:var(--muted);font-weight:700;}
-  .pctline{text-align:center;font-size:20px;font-weight:900;margin:2px 0 4px;}
-  .fb{text-align:center;color:var(--muted);font-size:15px;margin-bottom:14px;}
-  .result-stats{display:flex;gap:10px;justify-content:center;margin-bottom:22px;flex-wrap:wrap;}
-  .rstat{background:var(--panel);border:1px solid var(--line);border-radius:11px;
-    padding:9px 15px;font-size:13.5px;font-weight:800;}
-  .rstat.g{color:var(--green);} .rstat.r{color:var(--red);} .rstat.s{color:var(--star);}
-  .review-h{font-size:14px;font-weight:800;color:var(--muted);letter-spacing:.4px;
-    margin:6px 0 10px;}
-  .rev{display:flex;align-items:center;gap:11px;background:var(--panel);
-    border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:9px;
-    cursor:pointer;transition:border-color .15s;}
-  .rev:hover{border-color:var(--accent);}
-  .rev .badge{flex:0 0 auto;width:24px;height:24px;border-radius:6px;font-size:15px;
-    display:flex;align-items:center;justify-content:center;font-weight:900;}
-  .rev .badge.ok{background:var(--green-bg);color:var(--green);}
-  .rev .badge.no{background:var(--red-bg);color:var(--red);}
-  .rev .badge.blank{background:var(--panel2);color:var(--muted);}
-  .rev .rq{flex:1;font-size:14px;}
-  .rev .ra{font-size:12.5px;color:var(--muted);margin-top:2px;}
-  .rev .ra b{color:var(--green);}
-  .result-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
-  .ract{width:100%;padding:15px;border-radius:13px;border:1px solid var(--line);
-    background:var(--panel2);color:var(--text);font-size:15px;font-weight:800;cursor:pointer;}
-  .ract:hover{border-color:var(--accent);}
-  .ract.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));
-    color:#fff;border-color:transparent;}
-  .ract:disabled{opacity:.4;cursor:not-allowed;}
+    .stat-badge {
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 6px 10px;
+      border-radius: 6px;
+      background: var(--card-inner);
+      border: 1px solid var(--border-color);
+    }
 
-  .resume-ov{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.6);
-    display:none;align-items:center;justify-content:center;padding:20px;}
-  .resume-ov.show{display:flex;animation:fade .2s ease;}
-  .resume-box{width:100%;max-width:420px;background:var(--panel);border:1px solid var(--line);
-    border-radius:18px;padding:22px 20px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.5);}
-  .resume-t{font-size:18px;font-weight:900;margin-bottom:8px;}
-  .resume-s{font-size:14px;color:var(--muted);margin-bottom:18px;line-height:1.5;}
-  .resume-btns{display:flex;flex-direction:column;gap:10px;}
-  .resume-btn{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);
-    background:var(--panel2);color:var(--text);font-size:15px;font-weight:800;cursor:pointer;}
-  .resume-btn:hover{border-color:var(--accent);}
-  .resume-btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));
-    color:#fff;border-color:transparent;}
+    .stat-badge.correct { color: var(--success); }
+    .stat-badge.star { color: var(--warning); }
 
-  #fxCanvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:90;}
-  .emoji-pop{position:fixed;font-size:36px;pointer-events:none;z-index:95;
-    will-change:transform,opacity;animation:floatUp 1.7s cubic-bezier(.2,.7,.3,1) forwards;}
-  @keyframes floatUp{
-    0%{opacity:0;transform:translate(0,0) scale(.4) rotate(0deg);}
-    12%{opacity:1;transform:translate(0,-14px) scale(1.25) rotate(0deg);}
-    100%{opacity:0;transform:translate(var(--dx,0px),-190px) scale(1.05) rotate(var(--rot,25deg));}
-  }
-  .emoji-drop{position:fixed;font-size:30px;pointer-events:none;z-index:95;
-    animation:dropDown 1.5s ease-in forwards;}
-  @keyframes dropDown{
-    0%{opacity:0;transform:translateY(-30px) scale(.6) rotate(0deg);}
-    15%{opacity:1;}
-    100%{opacity:0;transform:translateY(150px) scale(1) rotate(var(--rot,-20deg));}
-  }
-  .shake{animation:shakeX .55s cubic-bezier(.36,.07,.19,.97) both;}
-  @keyframes shakeX{
-    10%,90%{transform:translateX(-2px);} 20%,80%{transform:translateX(4px);}
-    30%,50%,70%{transform:translateX(-8px);} 40%,60%{transform:translateX(8px);}
-  }
-  .opt.correct{animation:popOk .55s cubic-bezier(.2,1.4,.4,1);
-    box-shadow:0 0 22px rgba(46,160,67,.45);}
-  @keyframes popOk{0%{transform:scale(1);}35%{transform:scale(1.035);}100%{transform:scale(1);}}
-  .opt.wrong{animation:wobbleNo .5s;}
-  @keyframes wobbleNo{
-    0%,100%{transform:translateX(0);}20%{transform:translateX(-6px);}
-    40%{transform:translateX(6px);}60%{transform:translateX(-4px);}80%{transform:translateX(4px);}
-  }
-  .mascot{position:absolute;right:12px;top:50%;font-size:26px;line-height:1;
-    transform:translateY(-50%);animation:mascotDance .7s ease-in-out infinite alternate;
-    pointer-events:none;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4));}
-  @keyframes mascotDance{
-    from{transform:translateY(-42%) rotate(-12deg) scale(1);}
-    to{transform:translateY(-62%) rotate(12deg) scale(1.18);}
-  }
-  .streak{position:fixed;left:50%;top:22%;transform:translateX(-50%) scale(.6);
-    font-size:22px;font-weight:900;color:var(--star);z-index:96;opacity:0;
-    text-shadow:0 3px 14px rgba(0,0,0,.6);pointer-events:none;
-    animation:streakPop 1.5s ease-out forwards;white-space:nowrap;}
-  @keyframes streakPop{
-    0%{opacity:0;transform:translateX(-50%) scale(.5);}
-    20%{opacity:1;transform:translateX(-50%) scale(1.15);}
-    75%{opacity:1;transform:translateX(-50%) scale(1);}
-    100%{opacity:0;transform:translateX(-50%) scale(1) translateY(-24px);}
-  }
-  .score-ring{animation:ringIn .8s cubic-bezier(.2,1.2,.3,1);}
-  @keyframes ringIn{from{transform:scale(.75) rotate(-12deg);opacity:0;}to{transform:none;opacity:1;}}
+    /* Main Container */
+    main#quiz-main {
+      flex: 1;
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 16px;
+    }
 
-  .fxfloat{position:relative;height:0;overflow:visible;}
-  .fxfloat .pill{position:absolute;left:50%;top:-4px;
-    transform:translateX(-50%);
-    background:var(--panel2);border:1px solid var(--line);color:var(--text);
-    padding:11px 18px;border-radius:11px;font-size:14px;font-weight:700;
-    white-space:nowrap;z-index:80;pointer-events:none;
-    box-shadow:0 6px 20px rgba(0,0,0,.45);
-    animation:pillIn .25s ease both, pillOut .45s ease 1.55s forwards;}
-  @keyframes pillIn{
-    from{opacity:0;transform:translateX(-50%) translateY(12px);}
-    to{opacity:1;transform:translateX(-50%) translateY(0);}
-  }
-  @keyframes pillOut{
-    to{opacity:0;transform:translateX(-50%) translateY(-8px);}
-  }
+    /* Card */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      position: relative;
+    }
 
-  .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);
-    background:var(--panel2);border:1px solid var(--line);color:var(--text);
-    padding:11px 18px;border-radius:11px;font-size:14px;font-weight:700;z-index:80;
-    opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 6px 20px rgba(0,0,0,.4);}
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-</style>
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .year-badge {
+      background: rgba(99, 102, 241, 0.2);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .btn-star {
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: transform 0.2s, color 0.2s;
+    }
+
+    .btn-star.active {
+      color: var(--warning);
+      transform: scale(1.15);
+    }
+
+    .question-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 20px;
+      word-wrap: break-word;
+    }
+
+    /* Options */
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .option-btn {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--card-inner);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, 0.1);
+    }
+
+    .option-key {
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 8px;
+      border-radius: 4px;
+      min-width: 28px;
+      text-align: center;
+    }
+
+    .option-btn.correct {
+      background: var(--success-bg) !important;
+      border-color: var(--success) !important;
+      color: #86efac !important;
+    }
+
+    .option-btn.wrong {
+      background: var(--error-bg) !important;
+      border-color: var(--error) !important;
+      color: #fca5a5 !important;
+    }
+
+    .option-btn:disabled {
+      cursor: default;
+      opacity: 0.85;
+    }
+
+    /* Pre-answer hint button */
+    .btn-hint-manual {
+      background: var(--card-inner);
+      border: 1px dashed var(--primary);
+      color: var(--primary);
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 16px;
+      transition: all 0.2s;
+    }
+
+    .btn-hint-manual:hover {
+      background: rgba(99, 102, 241, 0.15);
+    }
+
+    /* Unrolling Info Boxes */
+    .info-box {
+      border-left: 4px solid;
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-top: 14px;
+      font-size: 0.95rem;
+      display: none;
+    }
+
+    .info-box.hint {
+      background: rgba(59, 130, 246, 0.1);
+      border-color: #3b82f6;
+      color: #93c5fd;
+    }
+
+    .info-box.trap {
+      background: var(--warning-bg);
+      border-color: var(--warning);
+      color: #fde047;
+    }
+
+    .info-box.explanation {
+      background: var(--success-bg);
+      border-color: var(--success);
+      color: #a7f3d0;
+    }
+
+    .info-box-title {
+      font-weight: 800;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Navigation Bar */
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .btn-nav {
+      flex: 1;
+      padding: 12px;
+      background: var(--primary);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-nav:hover:not(:disabled) {
+      background: var(--primary-hover);
+    }
+
+    .btn-nav:disabled {
+      background: var(--card-inner);
+      color: var(--text-muted);
+      cursor: not-allowed;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 650px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title {
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+
+    .modal-body {
+      padding: 16px;
+      overflow-y: auto;
+    }
+
+    .grid-questions {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 480px) {
+      .grid-questions {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .grid-cell {
+      aspect-ratio: 1;
+      background: var(--card-inner);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s;
+    }
+
+    .grid-cell:hover {
+      border-color: var(--primary);
+    }
+
+    .grid-cell.current {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .grid-cell.correct {
+      background: var(--success-bg);
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    .grid-cell.wrong {
+      background: var(--error-bg);
+      border-color: var(--error);
+      color: var(--error);
+    }
+
+    .grid-cell .star-icon {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      font-size: 0.65rem;
+      color: var(--warning);
+    }
+
+    /* Results Screen */
+    .results-container {
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .score-card {
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    .score-circle {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .score-feedback {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .stat-card {
+      background: var(--card-inner);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+    }
+
+    .stat-card-val {
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    .stat-card-lbl {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .review-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 350px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .review-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--card-inner);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .review-item:hover {
+      border-color: var(--primary);
+    }
+
+    .review-badge {
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.75rem;
+    }
+
+    .review-badge.correct { background: var(--success-bg); color: var(--success); }
+    .review-badge.wrong { background: var(--error-bg); color: var(--error); }
+    .review-badge.empty { background: rgba(255, 255, 255, 0.1); color: var(--text-muted); }
+
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-action {
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+
+    .btn-action.primary { background: var(--primary); color: white; }
+    .btn-action.secondary { background: var(--card-inner); border: 1px solid var(--border-color); color: var(--text-main); }
+    .btn-action:disabled { opacity: 0.4; cursor: not-allowed; }
+  </style>
 </head>
 <body>
-<header id="hdr">
-  <div class="hbar">
-    <div class="htitle">PreTUS · 6. Cilt Deneme 02 · PART 1 <span>TUS</span></div>
-    <div class="stats">
-      <div class="chip correct">✓ <span id="cCount">0</span></div>
-      <div class="chip star">⭐ <span id="sCount">0</span></div>
-    </div>
-  </div>
-  <div class="progress"><i id="bar"></i></div>
-</header>
 
-<main id="main">
-  <div id="quiz"></div>
-  <div class="cueMsg" id="cueMsg"></div>
-  <div class="ddx-ov" id="ddxOv" onclick="closeDdx()"></div>
+  <!-- Sticky Header -->
+  <header id="quiz-header">
+    <div class="header-container">
+      <button class="btn-icon" onclick="openModal()">
+        <span>☰</span> <span>Soru Listesi</span>
+      </button>
 
-  <div class="result" id="result">
-    <div class="score-ring" id="ring">
-      <div class="inner">
-        <div class="big" id="scoreBig">0/0</div>
-        <div class="sub">DOĞRU</div>
+      <div class="progress-center">
+        <div class="progress-text" id="progress-text">Soru 1 / 64</div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progress-bar-fill"></div>
+        </div>
+      </div>
+
+      <div class="header-stats">
+        <div class="stat-badge correct" id="badge-correct">✓ 0</div>
+        <div class="stat-badge star" id="badge-star">⭐ 0</div>
       </div>
     </div>
-    <div class="pctline" id="pctLine">%0</div>
-    <div class="fb" id="fbText"></div>
-    <div class="result-stats" id="rStats"></div>
-    <div class="bb-title" id="bbTitle" style="display:none">BRANŞ DÖKÜMÜ</div>
-    <div class="brans-break" id="bransBreak"></div>
-    <div class="result-actions">
-      <button class="ract primary" onclick="restart()">↺ Tüm Soruları Yeniden Çöz</button>
-      <button class="ract" id="retryWrongBtn" onclick="retryWrong()">✗ Yanlışları Tekrar Çöz</button>
-      <button class="ract" id="retryStarBtn" onclick="retryStar()">⭐ Yıldızlıları Tekrar Çöz</button>
+  </header>
+
+  <!-- Main Content -->
+  <main id="quiz-main">
+    
+    <!-- Question View -->
+    <div id="question-container">
+      <div class="card">
+        <div class="card-header">
+          <span class="year-badge" id="year-badge" style="display:none;"></span>
+          <button class="btn-star" id="star-btn" onclick="toggleStarCurrent()">★</button>
+        </div>
+
+        <div class="question-text" id="question-text"></div>
+
+        <div class="options-grid" id="options-grid"></div>
+
+        <button class="btn-hint-manual" id="btn-hint-manual" onclick="toggleManualHint()">
+          💡 İpucu Göster
+        </button>
+
+        <div class="info-box hint" id="hint-box">
+          <div class="info-box-title">💡 İpucu</div>
+          <div id="hint-content"></div>
+        </div>
+
+        <div class="info-box trap" id="trap-box">
+          <div class="info-box-title">⚠️ Tuzak</div>
+          <div id="trap-content"></div>
+        </div>
+
+        <div class="info-box explanation" id="explanation-box">
+          <div class="info-box-title">📖 Açıklama</div>
+          <div id="explanation-content"></div>
+        </div>
+      </div>
+
+      <div class="nav-bar">
+        <button class="btn-nav" id="btn-prev" onclick="prevQuestion()">← Önceki</button>
+        <button class="btn-nav" id="btn-next" onclick="nextQuestion()">Sonraki →</button>
+      </div>
     </div>
-    <div class="review-h">SORU İNCELEMESİ</div>
-    <div id="reviewList"></div>
-  </div>
-</main>
 
-<div class="nav" id="nav">
-  <button class="prev" id="prevBtn" onclick="go(-1)">← Önceki</button>
-  <button class="list" id="listBtn" onclick="openModal()"><span class="lc">☰</span><span id="navCounter">0/0</span></button>
-  <button class="next" id="nextBtn" onclick="go(1)">Sonraki →</button>
-</div>
+    <!-- Results View -->
+    <div id="results-container" class="results-container">
+      <div class="card score-card">
+        <div class="score-circle" id="score-circle">0 / 64</div>
+        <div class="score-feedback" id="score-feedback">Tebrikler! Quizi tamamladınız.</div>
+      </div>
 
-<div class="modal-ov" id="modalOv" onclick="modalBg(event)">
-  <div class="modal">
-    <div class="modal-h"><span>Sorular</span><button class="close" onclick="closeModal()">✕</button></div>
-    <div class="qgrid" id="qGrid"></div>
-  </div>
-</div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card-val" style="color: var(--success);" id="res-correct">0</div>
+          <div class="stat-card-lbl">Doğru</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-val" style="color: var(--error);" id="res-wrong">0</div>
+          <div class="stat-card-lbl">Yanlış</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-val" style="color: var(--warning);" id="res-starred">0</div>
+          <div class="stat-card-lbl">Yıldızlı</div>
+        </div>
+      </div>
 
-<div class="resume-ov" id="resumeOv">
-  <div class="resume-box">
-    <div class="resume-t">↩ Kaldığın yerden devam?</div>
-    <div class="resume-s" id="resumeSub"></div>
-    <div class="resume-btns">
-      <button class="resume-btn primary" onclick="resumeYes()">Kaldığım yerden devam et</button>
-      <button class="resume-btn" onclick="resumeNo()">Baştan başla</button>
+      <div class="card">
+        <div style="font-weight: 800; margin-bottom: 12px;">Soru Bazlı İnceleme</div>
+        <div class="review-list" id="review-list"></div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn-action primary" onclick="restartFullQuiz()">🔄 Baştan Başlat</button>
+        <button class="btn-action secondary" id="btn-retry-wrong" onclick="retryWrongQuestions()">❌ Yanlışları Tekrar Çöz</button>
+        <button class="btn-action secondary" id="btn-retry-starred" onclick="retryStarredQuestions()">⭐ Yıldızlıları Tekrar Çöz</button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Question Grid Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Soru Navigasyonu</div>
+        <button class="btn-icon" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="grid-questions" id="grid-questions"></div>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="toast" id="toast"></div>
+  <script>
+    const ALL_QUESTIONS = [
+      {
+        soru: "Sistemik sklerodermada <mark>GIS'de en sık etkilenen organ</mark> aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Özofagus"}, {k:"B", t:"Mide"}, {k:"C", t:"Duodenum"}, {k:"D", t:"Kolon"}, {k:"E", t:"Rektum"}],
+        dogru: 0,
+        ipucu: "Gastrointestinal sistem tutulumu hastaların %90'ından fazlasında görülür ve özofagus motilite bozukluğu ilk bulgulardandır.",
+        tuzak: "Sistemik sklerodermada genel olarak en sık etkilenen organ <mark>deri</mark>'dir; ancak soruda özellikle <mark>GIS'de (Gastrointestinal Sistemde)</mark> en sık etkilenen organ sorulmaktadır. İnce bağırsak veya kolon ile karıştırmayınız!",
+        aciklama: "Sistemik sklerodermada (skleroderma) <mark>özofagus</mark> %90-95 oranında gastrointestinal sistemin en sık tutulan organıdır. Alt özofagus sfinkter tonusu azalır, peristaltizm kaybolur ve reflu özofajit gelişir."
+      },
+      {
+        soru: "Aşağıdaki hematolojik malignitelerin hangisinde neoplastik hücrelerde <mark>tartarata dirençli asit fosfataz (TRAP)</mark> pozitifliği saptanır?",
+        siklar: [{k:"A", t:"Hairy cell lösemi"}, {k:"B", t:"Hodgkin lenfoma, mikst sellüler tip"}, {k:"C", t:"Mikozis fungoides"}, {k:"D", t:"Multiple myelom"}, {k:"E", t:"Burkitt Lenfoma"}],
+        dogru: 0,
+        ipucu: "B hücreli, tüylü sitoplazmik uzantılara sahip olan ve splenomegali ile seyreden lösemi tipidir.",
+        tuzak: "TRAP pozitifliği osteoklastlarda da bulunur; fakat TUS'ta hematolojik maligniteler arasında <mark>Hairy Cell Lösemi</mark> için patognomonik kabul edilir.",
+        aciklama: "<mark>Hairy cell lösemi (Tüylü hücreli lösemi)</mark>, neoplastik B hücrelerinde <mark>TRAP (tartrate-resistant acid phosphatase)</mark> enzim aktivitesi ile karakterizedir. Tedavisinde Kladribin (2-CdA) kullanılır."
+      },
+      {
+        soru: "<mark>Opsonin etkisi en güçlü olan</mark> aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Porperdin"}, {k:"B", t:"C1"}, {k:"C", t:"C2"}, {k:"D", t:"C3b"}, {k:"E", t:"Transferin"}],
+        dogru: 3,
+        ipucu: "Kompleman kaskadında fagositozu indükleyen ana molekül C3 yıkım ürünüdür.",
+        tuzak: "<mark>C3a ve C5a</mark> anaflatoksindir (kemoatraktandır); opsonizasyon yapmazlar. Opsonizasyondan sorumlu temel kompleman elemanı <mark>C3b</mark>'dir!",
+        aciklama: "İmmün sistemde fagositozu kolaylaştıran en güçlü opsoninler <mark>IgG (Fc bölgesi)</mark> ve kompleman sistemi elemanı olan <mark>C3b</mark>'dir. Nötrofil ve makrofajlarda C3b reseptörleri bulunur."
+      },
+      {
+        soru: "Hangisi <mark>absida (Absidia / Lichtheimia)</mark> kökenlerine etkili bir azoldür?",
+        siklar: [{k:"A", t:"Flukonazol"}, {k:"B", t:"Ketakanazol"}, {k:"C", t:"Nistatin"}, {k:"D", t:"Griseofulvin"}, {k:"E", t:"Posakonazol"}],
+        dogru: 4,
+        ipucu: "Mucorales / Zygomycetes ailesine etkili geniş spektrumlu triazol grubudur.",
+        tuzak: "<mark>Flukonazol ve Vorikonazol</mark> Zygomycetes / Mucorales mantarlarına <mark>ETKİSİZDİR</mark>. Mucorales enfeksiyonlarında azol sınıfından sadece <mark>Posakonazol ve Isavukonazol</mark> etkilidir!",
+        aciklama: "<mark>Absidia (Lichtheimia)</mark>, bir Zigomikoz (Mucorales) etkenidir. Triazol türevlerinden <mark>Posakonazol</mark> Mucorales türlerine karşı yüksek etkinliğe sahiptir."
+      },
+      {
+        soru: "Aşağıdaki mikroorganizmaların hangisi ile <mark>bronkopulmoner displazi (BPD)</mark> arasında ilişki vardır?",
+        siklar: [{k:"A", t:"Ureaplasma urealyticum"}, {k:"B", t:"RSV"}, {k:"C", t:"Escherichia coli"}, {k:"D", t:"Grup B Streptokok"}, {k:"E", t:"Mycoplasma pneumoniae"}],
+        dogru: 0,
+        ipucu: "Hücre duvarı olmayan, prematüre bebeklerde kronik akciğer hasarını tetikleyen genital atipik bakteri.",
+        tuzak: "<mark>RSV</mark> bronşiolit yapar ancak prematürelerde <mark>Bronkopulmoner Displazi (BPD)</mark> patojenezinde spesifik rolü gösterilen etken <mark>Ureaplasma urealyticum</mark>'dur.",
+        aciklama: "<mark>Ureaplasma urealyticum</mark>, prematüre bebeklerde koryoamniyonit ve respiratuar distres ile BPD (Bronkopulmoner Displazi) gelişiminde önemli bir risk faktörüdür."
+      },
+      {
+        soru: "Akciğerde <mark>tüberküloz gelişim riskinde belirgin artışa</mark> neden olan pnömokonyoz aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Silikozis"}, {k:"B", t:"Berilyozis"}, {k:"C", t:"Asbestozis"}, {k:"D", t:"Baryum sülfat"}, {k:"E", t:"Siderozis"}],
+        dogru: 0,
+        ipucu: "Taş kesiciler, kum püskürtme işçileri ve madencilerde görülen, makrofaj fonksiyonlarını bozan tablo.",
+        tuzak: "<mark>Asbestozis</mark> mezotelyoma ve kanser riskini artırırken, <mark>Silikozis</mark> doğrudan <mark>Tüberküloz (Silikotüberküloz)</mark> riskini katbekat artırır!",
+        aciklama: "<mark>Silikozis</mark>, silika kristallerinin alveoler makrofajlar tarafından fagosite edilmesi ve lizozom yıkımı sonucu <mark>hücresel bağışıklığı baskılayarak tüberküloz riskini en çok artıran</mark> pnömokonyozdur."
+      },
+      {
+        soru: "<mark>İnklüzyon konjuktivit, nongonokoksik üretrit ve infantil pnömoniye</mark> neden olabilen en olası bakteri aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Chlamydia psittaci"}, {k:"B", t:"Chlamydia trachomatis"}, {k:"C", t:"Haemophilus ducrei"}, {k:"D", t:"Calymmatobacterium granulomatis"}, {k:"E", t:"S.aureus"}],
+        dogru: 1,
+        ipucu: "Zorunlu hücre içi bakterisidir, stakkato tarzı öksürük ve genital enfeksiyon yapar.",
+        tuzak: "<mark>Chlamydia psittaci</mark> papağan humması (psittakoz) yaparken, <mark>Chlamydia trachomatis (D-K)</mark> ürogenital ve neonatal/infantil enfeksiyon etkenidir.",
+        aciklama: "<mark>Chlamydia trachomatis</mark> D-K serotipleri erişkinlerde <mark>nongonokoksik üretrit</mark> ve <mark>inklüzyon konjonktiviti</mark>, yenidoğanda ise <mark>infantil pnömoni</mark> oluşturur."
+      },
+      {
+        soru: "Sifilis <mark>ikinci döneminde</mark> saptanan klinik bulgulardan <mark>olmayan</mark> aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Makülopapüler deri döküntüsü"}, {k:"B", t:"Condyloma lata"}, {k:"C", t:"Lenfadenopati"}, {k:"D", t:"Gom"}, {k:"E", t:"Hepatit"}],
+        dogru: 3,
+        ipucu: "Granülomatöz yıkıcı lezyonlar sekonder değil, sekellerin görüldüğü geç evreye aittir.",
+        tuzak: "<mark>Gom (Gumma)</mark> lezyonları Sekonder Sifilis değil, <mark>Tersiyer (3. Evre) Sifilis</mark> bulgusudur! Condyloma lata ve palmo-plantar döküntü ise 2. evrededir.",
+        aciklama: "Sekonder sifiliste <mark>makülopapüler döküntü, condyloma lata, yaygın LAP, hepatit</mark> görülür. <mark>Gom (Gumma)</mark> ise hücresel aşırı duyarlılık sonucu gelişen <mark>Tersiyer sifilis</mark> lezyonudur."
+      },
+      {
+        soru: "Aşağıdakilerden hangisi <mark>inflamasyonda ilk artan</mark> akut faz reaktanıdır?",
+        siklar: [{k:"A", t:"Albumin"}, {k:"B", t:"Prealbumin"}, {k:"C", t:"alfa-1 antikimotripsin"}, {k:"D", t:"Makroglobulin"}, {k:"E", t:"Seruloplazmin"}],
+        dogru: 2,
+        ipucu: "Serin proteaz inhibitörü olup serumda doku hasarını takiben saatler içinde hızla yükselir.",
+        tuzak: "<mark>Seruloplazmin</mark> en geç artan akut faz reaktanıdır. Albumin ve prealbumin ise <mark>negatif</mark> reaktanlardır. Şıklardaki pozitif reaktanlardan <mark>alfa-1 antikimotripsin</mark> ilk artanlar arasındadır.",
+        aciklama: "<mark>alfa-1 antikimotripsin</mark>, inflamasyonda ve doku yıkımında serum düzeyi hızla artan proteaz inhibitörü pozitif akut faz reaktanıdır. Seruloplazmin ise en geç yükselendir."
+      },
+      {
+        soru: "Karaciğer aşağıdaki enzimlerden hangisine sahip olmadığı için <mark>keton cisimlerini kullanmaz</mark>?",
+        siklar: [{k:"A", t:"HMG coA sentaz"}, {k:"B", t:"HMG coA liyaz"}, {k:"C", t:"HMG coA redüktaz"}, {k:"D", t:"Tiyoforaz"}, {k:"E", t:"Tiyokinaz"}],
+        dogru: 3,
+        ipucu: "Süksinil-CoA'dan asetoasetata CoA aktaran ekstrahepatik enzimdir.",
+        tuzak: "Karaciğer keton cisimlerini <mark>sentezler</mark> (HMG-CoA sentaz/liyaz vardır), ancak <mark>tüketmez</mark>. Bunun sebebi <mark>Tiyoforaz (Süksinil-CoA:3-ketoasit CoA transferaz)</mark> enziminin olmamasıdır!",
+        aciklama: "Karaciğerde keton cismi üretimi gerçekleşir fakat <mark>Tiyoforaz</mark> bulunmadığı için ürettiği keton cisimlerini kendisi enerji kaynağı olarak tüketemez."
+      },
+      {
+        soru: "Aşağıdakilerden hangisi <mark>esansiyel amino asittir</mark>?",
+        siklar: [{k:"A", t:"Aspartat"}, {k:"B", t:"Valin"}, {k:"C", t:"Glutamat"}, {k:"D", t:"Serin"}, {k:"E", t:"Alanin"}],
+        dogru: 1,
+        ipucu: "PVT TIM HALL kısaltmasındaki dallı zincirli amino asitlerden biridir.",
+        tuzak: "<mark>Aspartat, Glutamat, Alanin, Serin</mark> non-esansiyel amino asitlerdir. <mark>Valin</mark> ise diyetle alınması zorunlu esansiyel amino asittir.",
+        aciklama: "Esansiyel amino asitler: <mark>Valin, Lösin, İzolösin, Lizin, Metiyonin, Fenilalanin, Treonin, Triptofan, Histidin, Arjinin</mark>. Valin dallı zincirli esansiyel bir amino asittir."
+      },
+      {
+        soru: "Aşağıdaki antiviral ajanlardan hangisi Hepatit C virüs genomunun <mark>NS5B bölgesini hedefleyerek</mark> etki gösterir?",
+        siklar: [{k:"A", t:"Sofosbuvir"}, {k:"B", t:"Boceprevir"}, {k:"C", t:"Telaprevir"}, {k:"D", t:"Ribavirin"}, {k:"E", t:"Asiklovir"}],
+        dogru: 0,
+        ipucu: "Son eki '-buvir' olan RNA bağımlı RNA polimeraz inhibitörü anti-HCV ilacı.",
+        tuzak: "İlaç isim son ekleri ipucudur: <mark>-previr</mark> (NS3/4A proteaz inh.), <mark>-asvir</mark> (NS5A inh.), <mark>-buvir</mark> (NS5B polimeraz inh.).",
+        aciklama: "<mark>Sofosbuvir</mark>, HCV NS5B RNA bağımlı RNA polimerazı inhibe eden nükleotid analoğudur. Boceprevir ve Telaprevir NS3/4A proteaz inhibitörleridir."
+      },
+      {
+        soru: "Aşağıdaki antibiyotiklerden hangisi <mark>Pseudomonas pnömonisinin tedavisi için uygun değildir</mark>?",
+        siklar: [{k:"A", t:"Piperacillin-tazobactam"}, {k:"B", t:"Cefoperazon"}, {k:"C", t:"Cefepime"}, {k:"D", t:"Kolistin"}, {k:"E", t:"Ertapenem"}],
+        dogru: 4,
+        ipucu: "Grup 1 karbapenem olup Pseudomonas aeruginosa ve Acinetobacter'e karşı etkisizdir.",
+        tuzak: "Karbapenemlerden İmipenem, Meropenem, Doripenem antipsödomonaldir; fakat <mark>Ertapenem</mark> Psödomonas'a <mark>ETKİSİZDİR</mark>!",
+        aciklama: "<mark>Ertapenem</mark>, Pseudomonas aeruginosa ve Acinetobacter türlerine karşı etkinliği bulunmayan tek karbapenem üyesidir."
+      },
+      {
+        soru: "Subkutan feohifomikoz etkenlerinden birisi olan besiyerinde esmer kadife-yün görünümlü koloniler yapan ve laktofenol pamuk mavisi boyama sonrasında mikroskopta zincir yapmış <mark>el bombaları gibi görünen</mark> mantar aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Wangiella"}, {k:"B", t:"Curvularia"}, {k:"C", t:"Alternaria"}, {k:"D", t:"Bipolaris"}, {k:"E", t:"Exophiala"}],
+        dogru: 2,
+        ipucu: "Mural (enine ve boyuna bölmeli) makrokonidyaları rakete veya el bombasına benzetilen dematiyöz küf.",
+        tuzak: "Exophiala ve Wangiella da dematiyöz mantarlardır fakat enine-boyuna bölmeli zincir oluşturan <mark>el bombası / raket</mark> görünümü <mark>Alternaria</mark>'ya özgüdür.",
+        aciklama: "<mark>Alternaria</mark> türleri, mikroskopta <mark>enine ve boyuna bölmeli (dictyospore)</mark>, zincir oluşturan ve <mark>el bombası / raket</mark> biçiminde konidyaları ile tanınır."
+      },
+      {
+        soru: "Aşağıda verilen hücre tiplerinden hangisi <mark>MHC-I antijeni taşımamaktadır</mark>?",
+        siklar: [{k:"A", t:"Eritrosit"}, {k:"B", t:"Lenfositler"}, {k:"C", t:"Monositler"}, {k:"D", t:"Bazofiller"}, {k:"E", t:"Eosinofiller"}],
+        dogru: 0,
+        ipucu: "Çekirdeksiz olan ve tümör/virüs enfeksiyonlarında sitotoksik T hücrelerinin hedefi olmayan kan hücresi.",
+        tuzak: "MHC Class I molekülleri tüm çekirdekli hücrelerde ve trombositlerde bulunur; çekirdeksiz <mark>matür eritrositlerde</mark> bulunmaz!",
+        aciklama: "<mark>MHC Class I (HLA-A, B, C)</mark> molekülleri çekirdeksiz hücreler olan <mark>Eritrositlerde</mark> bulunmaz. Diğer tüm lökositler çekirdekli olduklarından MHC-I taşırlar."
+      },
+      {
+        soru: "Aşağıda verilen antifungallerden hangisi <mark>zigomikoz (Mucorales) tedavisinde</mark> kullanılmaktadır?",
+        siklar: [{k:"A", t:"Anidulafungin"}, {k:"B", t:"Kaspofungin"}, {k:"C", t:"Vorikonazol"}, {k:"D", t:"Flukonazol"}, {k:"E", t:"Isavukonazol"}],
+        dogru: 4,
+        ipucu: "Vorikonazolün etkisiz olduğu Mucorales enfeksiyonlarında onaylı yeni triazol türevi.",
+        tuzak: "<mark>Vorikonazol ve Ekinokandinler</mark> Mukormikoz/Zigomikoz tedavisinde <mark>KULLANILMAZ</mark> (etkisizdir)! Zigomikozda <mark>Amfoterisin B, Posakonazol ve Isavukonazol</mark> kullanılır.",
+        aciklama: "<mark>Isavukonazol</mark>, Mucorales grubunun (Zigomikoz) tedavisinde Amfoterisin B ve Posakonazol gibi ruhsatlı geniş spektrumlu triazoldür."
+      },
+      {
+        soru: "Morfolojik olarak <mark>mezotelyoma ile karışabilen</mark> akciğer tümörü aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Skuamöz hücreli karsinom"}, {k:"B", t:"Adenokarsinom"}, {k:"C", t:"Küçük hücreli karsinom"}, {k:"D", t:"NUT-Midline karsinom"}, {k:"E", t:"Karsinoid tümör"}],
+        dogru: 1,
+        ipucu: "Glandüler yapı oluşturan ve Calretinin/WT-1 negatifliği, TTF-1/Napsin-A pozitifliği ile ayırt edilen tümör.",
+        tuzak: "Skuamöz hücreli karsinom ile karışmaz; epitelioid mezotelyoma histolojik olarak en çok <mark>Akciğer Adenokarsinomu</mark> ile karışır!",
+        aciklama: "Epitelioid Tip Mezotelyoma, mikroskobik olarak <mark>Akciğer Adenokarsinomu</mark> ile benzerlik gösterir. Adenokarsinom <mark>TTF-1 (+)</mark> iken Mezotelyoma <mark>Calretinin (+)</mark>'dir."
+      },
+      {
+        soru: "Doğal konakları <mark>yarasalar</mark> olan ve insanlara bulaştığında; ilerleyici baş ağrısı, ishal, kusma ve şok tablosuna sebep olarak <mark>kısa sürede ölüme yol açabilen</mark> viral hastalık tablosu aşağıdaki virüslerden hangisi ile uyumludur?",
+        siklar: [{k:"A", t:"Deng virüsü"}, {k:"B", t:"Sarı humma virüsü"}, {k:"C", t:"Chikungunya virüs"}, {k:"D", t:"Zika virüs"}, {k:"E", t:"Ebola virüsü"}],
+        dogru: 4,
+        ipucu: "Filoviridae ailesinden, Afrika'da mortalitesi %90'a varan hemorajik ateş etkeni.",
+        tuzak: "Deng ve Zika sivrisineklerle bulaşır. Doğal konakçısı <mark>Meyve Yarasaları</mark> olan ağır hemorajik ateş etkeni <mark>Ebola virüsü</mark>'dür.",
+        aciklama: "<mark>Ebola virüsü</mark> (Filovirus), doğal rezervuarı meyve yarasaları olan, insanlarda ağır kanamalı ateş, vasküler sızıntı ve şok ile seyreden virüstür."
+      },
+      {
+        soru: "Aşağıdaki akciğer karsinomlarından hangisi <mark>ALK ve EGFR mutasyonu</mark> yanı sıra, özellikle epitelyal tip mezotelyoma ile karışabilmesi bilinir?",
+        siklar: [{k:"A", t:"Kondroid hamartom"}, {k:"B", t:"Akciğer Adenokarsinomu"}, {k:"C", t:"Karsinoid tümör"}, {k:"D", t:"Küçük hücreli akciğer karsinomu"}, {k:"E", t:"Skuamöz hücreli akciğer karsinomu"}],
+        dogru: 1,
+        ipucu: "Sigara içmeyenlerde ve kadınlarda daha sık görülen, periferik yerleşimli akciğer kanseri.",
+        tuzak: "Küçük hücreli ve skuamöz karsinom santral yerleşimlidir. EGFR ve ALK mutasyonları <mark>Akciğer Adenokarsinomu</mark>'nda görülür!",
+        aciklama: "<mark>Akciğer Adenokarsinomu</mark>, hedefe yönelik tedavilerin uygulandığı EGFR ve ALK mutasyonlarını barındırır ve epitelioid mezotelyoma ile karışır."
+      },
+      {
+        soru: "Viral hepatitte aşağıdaki histolojik bulgulardan hangisi <mark>kronikleşmeye işaret eder</mark>?",
+        siklar: [{k:"A", t:"Hepatosit nekrozu"}, {k:"B", t:"Apoptozis"}, {k:"C", t:"Köprüleşme fibrozisi"}, {k:"D", t:"Hepatosit proliferasyonu"}, {k:"E", t:"Mononükleer iltihabi infiltrasyon"}],
+        dogru: 2,
+        ipucu: "Portal alanlar ile santral ven arasında bağ dokusu artışını temsil eden histopatolojik bulgu.",
+        tuzak: "Hepatosit nekrozu ve apoptoz akut hepatitte de görülür; fakat fibrozis artışı ve <mark>Köprüleşme Fibrozisi (Bridging fibrosis)</mark> kronikleşmenin göstergesidir.",
+        aciklama: "Viral hepatitlerde <mark>Köprüleşme Fibrozisi</mark> hastalığın kronikleştiğini ve siroza ilerleyebileceğini gösteren en önemli histopatolojik işarettir."
+      },
+      {
+        soru: "Tiroid kanserlerinden hangisi <mark>PTEN gen mutasyonu</mark> ile ilişkilidir?",
+        siklar: [{k:"A", t:"Medüller troid kanseri"}, {k:"B", t:"Skuamöz hücreli karsinom"}, {k:"C", t:"Diffüz sklerozan varyant papiller karsinom"}, {k:"D", t:"Tall cell varyant papiller karsinom"}, {k:"E", t:"Foliküler karsinom"}],
+        dogru: 4,
+        ipucu: "Cowden sendromunda otozomal dominant olarak tiroidde hamartom ve bu kanser gelişir.",
+        tuzak: "Papiller tiroid kanserinde BRAF; Medüller tiroid kanserinde RET; <mark>Foliküler karsinomda</mark> ise <mark>PAX8-PPARG ve PTEN</mark> mutasyonları ön plandadır!",
+        aciklama: "<mark>PTEN gen mutasyonu</mark> (Cowden Sendromu), meme, endometriyum ve tiroidin <mark>Foliküler Karsinomu</mark> gelişim riski ile karakterizedir."
+      },
+      {
+        soru: "Aşağıdakilerden sarkomlardan hangisinde <mark>t(11;22)</mark> görülür?",
+        siklar: [{k:"A", t:"Ewing sarkomu"}, {k:"B", t:"Sinovyal sarkom"}, {k:"C", t:"Rabdomyosarkom"}, {k:"D", t:"Liposarkom"}, {k:"E", t:"Berrak hücreli sarkom"}],
+        dogru: 0,
+        ipucu: "Küçük mavi yuvarlak hücreli tümör olup EWSR1-FLI1 geni sentezlenir.",
+        tuzak: "Sinovyal sarkomda t(X;18), Miksoid liposarkomda t(12;16) görülür. <mark>t(11;22)</mark> translokasyonu <mark>Ewing Sarkomu</mark> için patognomoniktir!",
+        aciklama: "<mark>Ewing sarkomu</mark>, <mark>t(11;22)</mark> sonucu oluşan <mark>EWSR1-FLI1</mark> füzyon geni ile karakterize küçük yuvarlak mavi hücreli kemik/yumuşak doku tümörüdür."
+      },
+      {
+        soru: "İlacın belirli bir dokuya afinite gösterip o dokuda birikmesine ne ad verilir?",
+        siklar: [{k:"A", t:"Sumasyon"}, {k:"B", t:"Redistribüsyon"}, {k:"C", t:"Sekestrasyon"}, {k:"D", t:"İyon tuzağı"}, {k:"E", t:"Biyoaktivasyon"}],
+        dogru: 2,
+        ipucu: "Iodine'in tiroidde, tetrasiklinin kemikte tutulması gibi doku deposu oluşturma olayı.",
+        tuzak: "<mark>Redistribüsyon</mark> ilacın dokular arası yeniden dağılımıdır. İlacın dokuda selektif birikmesine ise <mark>Sekestrasyon</mark> denir.",
+        aciklama: "<mark>Sekestrasyon</mark>, bir ilacın plazmaya oranla dokulardaki hücresel bileşenlere yüksek afinite göstererek dokuda akümüle olmasıdır."
+      },
+      {
+        soru: "Aşağıdaki antiastmatik ilaçlardan hangisi <mark>5-Lipooksijenaz enzimini inhibe ederek</mark>, Lökotrien sentezini engeller?",
+        siklar: [{k:"A", t:"Salbutamol"}, {k:"B", t:"Omalizumab"}, {k:"C", t:"Zileuton"}, {k:"D", t:"Siklesonid"}, {k:"E", t:"Bambuterol"}],
+        dogru: 2,
+        ipucu: "Lökotrien reseptör blokörü değil, direkt sentez enzimini bloke eden molekül.",
+        tuzak: "<mark>Montelukast</mark> CysLT1 reseptör antagonistidir. <mark>5-Lipooksijenaz (5-LOX)</mark> enzim inhibitörü olan ilaç ise <mark>Zileuton</mark>'dur!",
+        aciklama: "<mark>Zileuton</mark>, araşidonik asit metabolizmasında <mark>5-Lipooksijenaz</mark> enzimini inhibe ederek lökotrien sentezini engeller."
+      },
+      {
+        soru: "T lenfositten salınarak monosit ve makrofaj aktivasyonu yapmasının yanında <mark>granülom oluşumunu da tetikleyebilen</mark> sitokin aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"IL-1"}, {k:"B", t:"IL-3"}, {k:"C", t:"IL-6"}, {k:"D", t:"İnterferon gama"}, {k:"E", t:"TNF alfa"}],
+        dogru: 3,
+        ipucu: "Th1 hücrelerinden salınan, epiteloid histiyosit ve Langhans dev hücre oluşumunu sağlayan temel sitokin.",
+        tuzak: "<mark>TNF-alfa</mark> granülomun idamesini sağlar; fakat T hücresinden salınıp makrofajı aktive ederek <mark>granülomu tetikleyen</mark> birincil sitokin <mark>İnterferon gama (IFN-γ)</mark>'dır!",
+        aciklama: "<mark>İnterferon gama (IFN-gama)</mark>, Th1 hücrelerinden salınır. Makrofajları klasik yoldan aktive eder ve tüberküloz benzeri <mark>granülomatöz reaksiyonları</mark> başlatır."
+      },
+      {
+        soru: "Ekstrapiramidal yan etkileri olan <mark>antidepresan</mark> aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Amoksapin"}, {k:"B", t:"İmipramin"}, {k:"C", t:"Amitriptilin"}, {k:"D", t:"Desipramin"}, {k:"E", t:"Maprotilin"}],
+        dogru: 0,
+        ipucu: "D2 reseptör blokajı yapan aktif nöroleptik metabolit üreten tetrasiklik antidepresan.",
+        tuzak: "Klasik TCA'lar EPS yapmaz. <mark>Amoksapin</mark> ise nöroleptik yapılı metaboliti nedeniyle <mark>D2 blokajı ve EPS / Parkinsonizm</mark> riski taşır!",
+        aciklama: "<mark>Amoksapin</mark>, metaboliti olan 7-hidroksiamoksapin nedeniyle güçlü <mark>Dopamin D2 reseptör antagonizması</mark> gösterir ve EPS yapabilir."
+      },
+      {
+        soru: "Aşağıdaki atipik antipsikotiklerden hangisi <mark>metabolik sendrom hastalarında kullanılmamalıdır</mark>?",
+        siklar: [{k:"A", t:"Aripiprazol"}, {k:"B", t:"Ketiapin"}, {k:"C", t:"Risperidon"}, {k:"D", t:"Klozapin"}, {k:"E", t:"Olanzapin"}],
+        dogru: 4,
+        ipucu: "Aşırı kilo alımı, dislipidemi ve yeni başlayan diyabet riski en yüksek olan antipsikotik.",
+        tuzak: "<mark>Aripiprazol</mark> metabolik nötr iken; <mark>Olanzapin</mark> metabolik sendrom ve belirgin kilo alımına en çok yol açan atipik antipsikotiktir.",
+        aciklama: "<mark>Olanzapin</mark>, H1 ve 5-HT2C blokajı nedeniyle <mark>şiddetli kilo alımı, hiperglisemi ve metabolik sendrom</mark> riski en yüksek antipsikotiktir."
+      },
+      {
+        soru: "Aşağıdaki vitaminlerden hangisi, piruvat dehidrogenaz ve alfa-ketoglutarat dehidrogenaz gibi multienzim komplekslerinin fonksiyon görebilmesi için gerekli olan ve eksikliğinde <mark>Wernicke-Korsakoff sendromu ile Beriberi</mark> hastalığına yol açan koenzimin prekürsörüdür?",
+        siklar: [{k:"A", t:"Riboflavin (Vitamin B2)"}, {k:"B", t:"Niasin (Vitamin B3)"}, {k:"C", t:"Tiamin (Vitamin B1)"}, {k:"D", t:"Piridoksin (Vitamin B6)"}, {k:"E", t:"Pantotenik asit (Vitamin B5)"}],
+        dogru: 2,
+        ipucu: "Tiamin pirofosfat (TPP) sentezinde kullanılan B1 vitamini.",
+        tuzak: "B6 vitamini eksikliği nöropati yapar ancak <mark>Wernicke-Korsakoff ve Beriberi</mark> <mark>Tiamin (B1)</mark> eksikliğine özgüdür!",
+        aciklama: "<mark>Tiamin (Vitamin B1)</mark>, TPP koenzimine dönüşerek dehidrogenaz reaksiyonlarında görev alır. Eksikliği Beriberi ve Wernicke-Korsakoff yapar."
+      },
+      {
+        soru: "Özellikle Amerika kıtasında endemik olan, laboratuvar kültüründe (25°C) üretildiğinde mikroskobik olarak kalın duvarlı, parmaksı/dikenimsi çıkıntıları olan büyük yuvarlak makrokonidyumlar (<mark>tüberküllü makrokonidya</mark>) oluşturan dimorfik mantar etkeni aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Coccidioides immitis"}, {k:"B", t:"Histoplasma capsulatum"}, {k:"C", t:"Blastomyces dermatitidis"}, {k:"D", t:"Paracoccidioides brasiliensis"}, {k:"E", t:"Sporothrix schenckii"}],
+        dogru: 1,
+        ipucu: "Kuş ve yarasa dışkısıyla kirlenmiş topraklardan bulaşan, makrofaj içi mantar.",
+        tuzak: "Coccidioides dokuda sferül oluşturur. Kültürde <mark>tüberküllü makrokonidyum</mark> yapan etken <mark>Histoplasma capsulatum</mark>'dur!",
+        aciklama: "<mark>Histoplasma capsulatum</mark>, oda sıcaklığındaki küf fazında <mark>tüberküllü makrokonidyalar</mark> oluşturmasıyla tanınan dimorfik mantardır."
+      },
+      {
+        soru: "Interlökin-6 (IL-6) uyarısıyla karaciğerde sentezlenen, enterositlerin basolateral membranında ve makrofajların yüzeyinde bulunan <mark>Ferroportin kanalını bağlayarak onu endositoza uğratıp yıkan</mark>, böylece kronik hastalık anemisinde demirin hapsedilmesinden sorumlu olan <mark>akut faz reaktanı peptid</mark> aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Seroüloplazmin"}, {k:"B", t:"Hepsidin (Hepcidin)"}, {k:"C", t:"Alfa-1 antitrispin"}, {k:"D", t:"Haptoglobin"}, {k:"E", t:"Transferrin"}],
+        dogru: 1,
+        ipucu: "Demir emilimini ve makrofajdan salınımını engelleyen negatif demir regülatörü peptid.",
+        tuzak: "<mark>Transferrin</mark> demiri taşır. Demiri makrofajda hapseden ve <mark>Ferroportin'i yıkan</mark> akut faz peptidi <mark>Hepsidin</mark>'dir!",
+        aciklama: "<mark>Hepsidin</mark>, karaciğerden IL-6 uyarısıyla salınır. <mark>Ferroportin</mark> kanalını yıkarak bağırsaktan demir emilimini kilitler ve kronik hastalık anemisine yol açar."
+      },
+      {
+        soru: "Malign neoplazilerin derecelendirilmesi (grading) ve evrelendirilmesi (staging) ilkeleri düşünüldüğünde; bir tümörün klinik gidişatını ve prognozunu belirlemede <mark>en güvenilir, en objektif ve en güçlü prognostik kriter</mark> aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Tümörün histolojik grade'i"}, {k:"B", t:"Tümörün mitotik indeksi"}, {k:"C", t:"Tümörün TNM evresi (Staging)"}, {k:"D", t:"Tümör hücrelerindeki pleomorfizm derecesi"}, {k:"E", t:"Tümörün nekroz barındırma oranı"}],
+        dogru: 2,
+        ipucu: "Tümörün boyutu, lenf nodu tutulumu ve uzak metastaz durumunu kapsayan evreleme sistemi.",
+        tuzak: "<mark>Histolojik grade</mark> diferansiyasyonu gösterir; ancak prognozu belirlemede <mark>Evreleme (Staging / TNM)</mark> her zaman daha güçlüdür!",
+        aciklama: "<mark>TNM Evrelendirmesi (Staging)</mark>, tümörün vücuttaki yayılımını gösterir ve patolojide <mark>en güçlü prognostik faktördür</mark>."
+      },
+      {
+        soru: "Dermatofit enfeksiyonlarının tedavisinde kullanılan; ergosterol biyosentez basamaklarında <mark>Skualen Epoksidaz</mark> enzimini inhibe ederek hücresel toksisiteye yol açan <mark>Allilamin</mark> türevi antifungal ajan aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Ketokonazol"}, {k:"B", t:"Terbinafin"}, {k:"C", t:"Flukonazol"}, {k:"D", t:"Kaspofungin"}, {k:"E", t:"Amfoterisin B"}],
+        dogru: 1,
+        ipucu: "Tırnak mantarı (oniomikoz) tedavisinde ilk tercih edilen allilamin grubu ilaç.",
+        tuzak: "Azoller 14-alfa lanosterol demetilazı inhibe eder. <mark>Skualen epoksidazı</mark> inhibe eden allilamin grubu ilaç <mark>Terbinafin</mark>'dir!",
+        aciklama: "<mark>Terbinafin</mark>, bir allilamin türevidir. Ergosterol sentezinde <mark>Skualen Epoksidaz</mark> enzimini inhibe ederek fungal hücre ölümüne neden olur."
+      },
+      {
+        soru: "Kanser kemoterapisinde kullanılan; metabolize olması sonucu açığa çıkan <mark>Akrolein</mark> adı verilen toksik metaboliti nedeniyle hastalarda <mark>Hemorajik Sistit</mark> yan etkisine yol açan ve bu toksisiteyi önlemek amacıyla hastaya mutlak <mark>Mesna</mark> verilmesi gereken antineoplastik ilaç aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Siklofosfamid"}, {k:"B", t:"Metotreksat"}, {k:"C", t:"Sisplatin"}, {k:"D", t:"Doksorubisin"}, {k:"E", t:"Vinkristin"}],
+        dogru: 0,
+        ipucu: "Alkilleyici ajan olup mesane toksisitesine karşı sulfhidril vericisi Mesna ile nötralize edilir.",
+        tuzak: "Sisplatin nefrofoksisite yapar. <mark>Akrolein</mark> bağlı hemorajik sistit yapan ve <mark>Mesna</mark> koruması gerektiren ilaç <mark>Siklofosfamid</mark>'dir!",
+        aciklama: "<mark>Siklofosfamid</mark> metabolizması sırasında idrar kesesine iritan olan <mark>Akrolein</mark> oluşur. Bunu önlemek için idrarda akroleini bağlayan <mark>Mesna</mark> verilir."
+      },
+      {
+        soru: "Atopik Dermatit ve astım tedavisinde kullanılan, IL-4 ve IL-13 sitokinlerinin ortak reseptör kompleksi alt birimi olan <mark>IL-4Rα (İnterlökin-4 Reseptör Alfa)</mark> molekülünü bloke eden monoklonal antikor aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Secukinumab"}, {k:"B", t:"Ixekizumab"}, {k:"C", t:"Dupilumab"}, {k:"D", t:"Brodalumab"}, {k:"E", t:"Guselkumab"}],
+        dogru: 2,
+        ipucu: "IL-4 ve IL-13 sinyalini eş zamanlı durduran atopi ilacı.",
+        tuzak: "<mark>Secukinumab</mark> anti-IL-17A'dır. <mark>IL-4Rα</mark> antagonisti monoklonal antikor <mark>Dupilumab</mark>'dır!",
+        aciklama: "<mark>Dupilumab</mark>, <mark>IL-4Rα</mark> alt birimine bağlanarak hem IL-4 hem de IL-13 sinyal iletimini engeller."
+      },
+      {
+        soru: "Aşağıdaki plazma lipoproteinlerinden hangisi, karaciğerde sentezlenen <mark>endojen kaynaklı triaçilgliserollerin</mark> periferik dokulara taşınmasında ana görev üstlenen ve yapısında <mark>Apo B-100</mark> barındıran lipoproteindir?",
+        siklar: [{k:"A", t:"Şilomikron"}, {k:"B", t:"VLDL"}, {k:"C", t:"LDL"}, {k:"D", t:"HDL"}, {k:"E", t:"IDL"}],
+        dogru: 1,
+        ipucu: "Karaciğerden salınan, trigliseridden zengin lipoprotein.",
+        tuzak: "<mark>Şilomikron</mark> diyetle alınan <mark>eksojen</mark> trigliseridleri taşır (Apo B-48). Karaciğerden sentezlenen <mark>endojen</mark> TG'yi <mark>VLDL</mark> (Apo B-100) taşır!",
+        aciklama: "<mark>VLDL</mark>, karaciğerde sentezlenen endojen trigliseridleri perifere taşır ve majör apolipoproteini <mark>Apo B-100</mark>'dür."
+      },
+      {
+        soru: "Doğrudan eozinofiller üzerindeki <mark>İnterlökin-5 Reseptör Alfa (IL-5Rα)</mark> alt birimine bağlanan ve <mark>ADCC yoluyla eozinofilleri tüketen</mark> monoklonal antikor aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Benralizumab"}, {k:"B", t:"Omalizumab"}, {k:"C", t:"Dupilumab"}, {k:"D", t:"Lebrikizumab"}, {k:"E", t:"Tralokinumab"}],
+        dogru: 0,
+        ipucu: "Eozinofilik astımda direkt IL-5 reseptörünü bloke edip ADCC ile apoptoz yaptıran ilaç.",
+        tuzak: "<mark>Mepolizumab</mark> serbest IL-5 sitokinine bağlanır; reseptör olan <mark>IL-5Rα</mark>'ya bağlanan ve apoptoz indükleyen ilaç <mark>Benralizumab</mark>'dır!",
+        aciklama: "<mark>Benralizumab</mark>, <mark>IL-5Rα</mark> reseptörüne bağlanır ve NK hücreleri aracılı <mark>ADCC</mark> ile eozinofilleri yok eder."
+      },
+      {
+        soru: "Özellikle serbest IgE antikorlarına spesifik olarak bağlanan, IgE'nin mast hücreleri üzerindeki <mark>FcεRI reseptörlerine tutunmasını engelleyerek</mark> degranülasyonu bloke eden anti-IgE monoklonal antikoru aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Mepolizumab"}, {k:"B", t:"Omalizumab"}, {k:"C", t:"Dupilumab"}, {k:"D", t:"Benralizumab"}, {k:"E", t:"Reslizumab"}],
+        dogru: 1,
+        ipucu: "Ağır alerjik astımda kullanılan ilk anti-IgE biyolojik ajan.",
+        tuzak: "Mepolizumab anti-IL-5'tir; <mark>anti-IgE</mark> olan ajan <mark>Omalizumab</mark>'dır!",
+        aciklama: "<mark>Omalizumab</mark>, serbest IgE'nin Fc bölgesine bağlanarak IgE'nin mast hücresi ve bazofillerdeki <mark>FcεRI</mark> reseptörlerine bağlanmasını engeller."
+      },
+      {
+        soru: "Kemoterapiye bağlı (CINV) şiddetli kusmanın önlenmesinde kullanılan; santral sinir sistemindeki <mark>Nörokinin-1 (NK1)</mark> reseptörlerini selektif olarak bloke ederek <mark>Substans P</mark>'nin kusma merkezini uyarmasını engelleyen ajan aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Ondansetron"}, {k:"B", t:"Aprepitant"}, {k:"C", t:"Metoklopramid"}, {k:"D", t:"Skopolamin"}, {k:"E", t:"Alosetron"}],
+        dogru: 1,
+        ipucu: "Geniş kemoterapi emezisinde ondansetron ve dekzametazon ile kombine edilen NK1 antagonisti.",
+        tuzak: "<mark>Ondansetron</mark> 5-HT3 antagonistidir. <mark>Substans P / NK1 reseptörlerini</mark> bloke eden ilaç <mark>Aprepitant</mark>'tır!",
+        aciklama: "<mark>Aprepitant</mark>, CNS'de <mark>Nörokinin-1 (NK1)</mark> reseptörlerini selektif olarak bloke ederek <mark>Substans P</mark>'nin kusmayı uyarmasını engeller."
+      },
+      {
+        soru: "Kollajen sentezi sürecinde; prokollajenin hücre dışına salgılanmasından sonra gerçekleşen, kollajen liflerinin çapraz bağlanarak matüre olmasını sağlayan ve <mark>bakır (Cu) kofaktörüne</mark> gereksinim duyan ekstrasellüler basamak aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Sinyal peptidinin uzaklaştırılması"}, {k:"B", t:"Prolin ve lizin kalıntılarının hidroksilasyonu"}, {k:"C", t:"Hidroksilizin kalıntılarının glikozilasyonu"}, {k:"D", t:"Üçlü heliks yapısının oluşumu"}, {k:"E", t:"Lizil oksidaz aracılığıyla çapraz bağların kurulması"}],
+        dogru: 4,
+        ipucu: "Lizin ve hidroksilizin kalıntılarını deamine ederek çapraz bağ kuran enzim reaksiyonu.",
+        tuzak: "Hidroksilasyon <mark>hücre içinde</mark> gerçekleşir ve C vitamini + Fe2+ gerektirir! <mark>Hücre dışında</mark> gerçekleşen ve <mark>Bakır (Cu)</mark> gerektiren basamak <mark>Lizil Oksidaz ile çapraz bağ kurulmasıdır</mark>.",
+        aciklama: "<mark>Lizil Oksidaz</mark>, ekstrasellüler mesafede kollajen lifleri arasında çapraz bağlar oluşturur. Kofaktör olarak <mark>Bakır (Cu)</mark> kullanır."
+      },
+      {
+        soru: "İnflamatuar bağırsak hastalıklarında lökositlerin bağırsak dokusuna göçünü engellemek amacıyla, bağırsak damar endotelindeki MAdCAM-1 molekülüne bağlanan <mark>α4β7 integrin</mark> yapısını selektif olarak bloke eden gastrointestinal sistem seçici monoklonal antikor aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Natalizumab"}, {k:"B", t:"Vedolizumab"}, {k:"C", t:"Ustekinumab"}, {k:"D", t:"İnfliximab"}, {k:"E", t:"Adalimumab"}],
+        dogru: 1,
+        ipucu: "GIS spresifik integrin antagonisti olan İBH ilacı.",
+        tuzak: "<mark>Natalizumab</mark> sistemik alfa-4 integrini bloke eder (PML riski vardır). Sadece bağırsak seçici olan <mark>α4β7 integrin</mark> inhibitörü <mark>Vedolizumab</mark>'dır!",
+        aciklama: "<mark>Vedolizumab</mark>, <mark>α4β7 integrine</mark> bağlanarak lenfositlerin bağırsaktaki <mark>MAdCAM-1</mark>'e tutunmasını seçici olarak engeller."
+      },
+      {
+        soru: "Nötropenik hastalarda fırsatçı enfeksiyon yapan, doku kesitlerinde <mark>dar açılı (yaklaşık 45 derece) dikotomik dallanma</mark> gösteren septalı hif yapılarıyla izlenen küf mantarı aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Candida albicans"}, {k:"B", t:"Aspergillus fumigatus"}, {k:"C", t:"Cryptococcus neoformans"}, {k:"D", t:"Rhizopus oryzae"}, {k:"E", t:"Pneumocystis jirovecii"}],
+        dogru: 1,
+        ipucu: "Galaktomannan testi ile tanınan, invaziv akciğer enfeksiyonu yapan küf.",
+        tuzak: "<mark>Rhizopus (Mucor)</mark> dik açılı (90 derece) septasız hif yapar! <mark>45 derece dar açılı dikotomik dallanan septalı hif</mark> <mark>Aspergillus fumigatus</mark>'a özgüdür.",
+        aciklama: "<mark>Aspergillus fumigatus</mark>, dokuda <mark>45 derece dar açı ile dallanan ve septa içeren</mark> küf yapıları ile karakterizedir."
+      },
+      {
+        soru: "Gebelikte maruz kalındığında fetüste ciddi teratojenik etkilere yol açan; özellikle kraniyofasiyal anomaliler, kulak kusurları ve <mark>timus hipoplazisi/aplazisi (DiGeorge benzeri tablo)</mark> oluşturan akne tedavi ajanı aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Tetrasiklin"}, {k:"B", t:"İzotretinoin (Retinoik asit)"}, {k:"C", t:"Siproteron asetat"}, {k:"D", t:"Benzoil peroksit"}, {k:"E", t:"Azelaik asit"}],
+        dogru: 1,
+        ipucu: "Kullanılırken en az 2 korunma yöntemi şart koşulan oral A vitamini türevi.",
+        tuzak: "Tetrasiklin kemik/diş rengini bozar; ancak <mark>DiGeorge benzeri kraniyofasiyal/timik sendrom</mark> yapan oral retinoid <mark>İzotretinoin</mark>'dir!",
+        aciklama: "<mark>İzotretinoin (Retinoik asit)</mark>, nöral krest hücresi göçünü bozarak DiGeorge benzeri timik ve kardiyovasküler kusurlar oluşturur."
+      },
+      {
+        soru: "Asendan aorta duvarındaki vaza vazorumları tutarak <mark>obliteratif endarterit</mark> tablosuna yol açan, tunika mediada iskemi yaratarak aort anevrizmalarına neden olan <mark>spiroket</mark> aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Treponema pallidum"}, {k:"B", t:"Borrelia burgdorferi"}, {k:"C", t:"Leptospira interrogans"}, {k:"D", t:"Mycobacterium tuberculosis"}, {k:"E", t:"Chlamydia pneumoniae"}],
+        dogru: 0,
+        ipucu: "Frengi etkeni olup kardiyovasküler sifilis tablosu yapar.",
+        tuzak: "Aort anevrizmasına yol açan ve vaza vazorumlarda <mark>obliteratif endarterit</mark> yapan mikroorganizma <mark>Treponema pallidum</mark>'dur (Sifilitik Aortit).",
+        aciklama: "<mark>Treponema pallidum</mark>, vaza vazorumlarda <mark>obliteratif endarterit</mark> yapar. Tunika media beslenmesi bozulur ve anevrizma gelişir."
+      },
+      {
+        soru: "Miyokard enfarktüsü sonrasında hasarlı dokunun temizlenmesi sürecinde, hasardan sonraki <mark>3. ila 7. günler arasında</mark> dokuda sayıca zirveye ulaşarak fagositoz yapan temel hücre aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Nötrofil"}, {k:"B", t:"Makrofaj"}, {k:"C", t:"Plazma hücresi"}, {k:"D", t:"Eozinofil"}, {k:"E", t:"T lenfosit"}],
+        dogru: 1,
+        ipucu: "Nötrofillerden sonra dokuya gelerek nekrotik birikintileri temizleyen mononükleer hücre.",
+        tuzak: "<mark>Nötrofiller</mark> ilk 1-3 günde zirvededir. <mark>3-7. günlerde</mark> dominant olan ve onarımı başlatan hücreler <mark>Makrofajlar</mark>'dır.",
+        aciklama: "MI sonrası hücresel kronoloji: 1-3. günlerde <mark>Nötrofiller</mark> pik yapar, <mark>3-7. günlerde Makrofajlar</mark> dokuya egemen olarak ölü dokuyu temizler."
+      },
+      {
+        soru: "Doğrudan İnterlökin-23 (IL-23) sitokininin kendine özgü ve spesifik olan <mark>p19 alt birimine</mark> bağlanarak onu nötralize eden monoklonal antikor aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Ustekinumab"}, {k:"B", t:"Guselkumab"}, {k:"C", t:"Secukinumab"}, {k:"D", t:"Brodalumab"}, {k:"E", t:"İksizizumab (Ixekizumab)"}],
+        dogru: 1,
+        ipucu: "IL-12'yi etkilemeyen, p19 spesifik anti-IL-23 psoriazis ilacı.",
+        tuzak: "<mark>Ustekinumab</mark> hem IL-12 hem IL-23'ün ortak <mark>p40</mark> alt birimini bağlar. Sadece IL-23'ün <mark>p19</mark> alt birimine bağlanan <mark>Guselkumab</mark>'dır!",
+        aciklama: "<mark>Guselkumab</mark>, selektif olarak IL-23 p19 alt birimini hedefler ve IL-12 yolağını korur."
+      },
+      {
+        soru: "Genetik materyalin bir alıcı bakteriye <mark>bakteriyofajlar (bakteri virüsleri) aracılığıyla</mark> taşınması esasına dayanan yatay gen transferi mekanizması aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Transformasyon"}, {k:"B", t:"Transdüksiyon"}, {k:"C", t:"Konjugasyon"}, {k:"D", t:"Transpozisyon"}, {k:"E", t:"Transfeksiyon"}],
+        dogru: 1,
+        ipucu: "Virüs vektörlü bakteriyel gen transferi.",
+        tuzak: "Transformasyon çıplak DNA alımıdır, Konjugasyon pilus aracılıdır. Bakteriyofaj aracılı aktarım ise <mark>Transdüksiyon</mark>'dur!",
+        aciklama: "<mark>Transdüksiyon</mark>, bakteriyofajların enfekte ettikleri bakterinin DNA parçalarını başka bir bakteriye aktarması olayıdır."
+      },
+      {
+        soru: "Alerjik reaksiyonlar ile paraziter enfeksiyonlarda sayıca artış gösteren; elektron mikroskobunda <mark>kristaloid kor (major temel protein - MBP)</mark> içeren spesifik granüllere sahip hücre aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Nötrofil"}, {k:"B", t:"Bazofil"}, {k:"C", t:"Eozinofil"}, {k:"D", t:"Monosit"}, {k:"E", t:"Lenfosit"}],
+        dogru: 2,
+        ipucu: "Parazitleri katyonik proteinlerle öldüren bilobe çekirdekli lökosit.",
+        tuzak: "Bazofil histamin içerir. Kristalloid kor ve <mark>Major Temel Protein (MBP)</mark> içeren hücre <mark>Eozinofil</mark>'dir!",
+        aciklama: "<mark>Eozinofiller</mark>, granüllerinde parazitlere karşı toksik olan <mark>Major Temel Protein (MBP)</mark> ve eozinofil katyonik protein barındırır."
+      },
+      {
+        soru: "Hücre hasarı sürecinde, nükleusun kromatin yoğunlaşması göstererek <mark>büzülmesi, küçülmesi ve hiperkromatik</mark> bir görünüm almasıyla karakterize irreversible nükleer değişiklik aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Piknoz"}, {k:"B", t:"Karyoreksis"}, {k:"C", t:"Karyoliz"}, {k:"D", t:"Otofaji"}, {k:"E", t:"Heterofaji"}],
+        dogru: 0,
+        ipucu: "Nükleer büzüşme / büzülme aşaması.",
+        tuzak: "<mark>Karyoreksis</mark> parçalanmadır; <mark>Karyoliz</mark> erimedir. Çekirdeğin koyulaşıp büzüşmesi <mark>Piknoz</mark>'dur!",
+        aciklama: "Çekirdek değişiklikleri sırasıyla: 1) <mark>Piknoz</mark> (büzüşme), 2) <mark>Karyoreksis</mark> (parçalanma), 3) <mark>Karyoliz</mark> (erime)."
+      },
+      {
+        soru: "Karaciğerde sitokrom P450 (CYP) enzim sistemini indükleyerek, birlikte kullanılan ilaçların plazma konsantrasyonunu düşüren <mark>mikrozomal enzim indükleyici</mark> ilaç aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Simetidin"}, {k:"B", t:"Eritromisin"}, {k:"C", t:"Ketokonazol"}, {k:"D", t:"Rifampisin"}, {k:"E", t:"Greyfurt suyu"}],
+        dogru: 3,
+        ipucu: "Tüberküloz tedavisinde kullanılan güçlü CYP3A4 indükleyicisi.",
+        tuzak: "Simetidin, Eritromisin, Ketokonazol ve Greyfurt suyu CYP450 <mark>İNHİBİTÖRLERİDİR</mark>! Seçeneklerdeki tek enzim <mark>İNDÜKLEYİCİSİ</mark> <mark>Rifampisin</mark>'dir!",
+        aciklama: "<mark>Rifampisin</mark> güçlü bir CYP450 <mark>enzim indükleyicisidir</mark>. Birlikte verilen ilaçların metabolizmasını hızlandırır."
+      },
+      {
+        soru: "Plasmodium türleri düşünüldüğünde; eritrositlerin <mark>sadece genç formlarını (retikülositleri)</mark> enfekte eden, latent karaciğer aşaması (<mark>hipnozoit</mark>) oluşturarak nükslere (relaps) yol açabilen protozoon hangisidir?",
+        siklar: [{k:"A", t:"Plasmodium falciparum"}, {k:"B", t:"Plasmodium vivax"}, {k:"C", t:"Plasmodium malariae"}, {k:"D", t:"Plasmodium knowlesi"}, {k:"E", t:"Toxoplasma gondii"}],
+        dogru: 1,
+        ipucu: "Oraklaşmış eritrositleri değil retikülositleri seçen ve Primaquin ile tedavisi yapılan sıtma etkeni.",
+        tuzak: "Plasmodium falciparum tüm eritrositleri tutar ve hipnozoit oluşturmaz. <mark>Hipnozoit yapıp relaps oluşturan</mark> türler <mark>P. vivax ve P. ovale</mark>'dir!",
+        aciklama: "<mark>Plasmodium vivax</mark>, sadece retikülositleri enfekte eder ve karaciğerde <mark>hipnozoit</mark> oluşturarak yıllar sonra relapslara neden olur."
+      },
+      {
+        soru: "Periferik sinir sisteminde aksonların etrafını sararak miyelin kılıfı oluşturan ve <mark>tek bir hücre ile sadece tek bir akson internodyumunu</mark> miyelinleyen nöroglia hücresi aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Astrosit"}, {k:"B", t:"Schwann hücresi"}, {k:"C", t:"Mikroglia"}, {k:"D", t:"Ependim hücresi"}, {k:"E", t:"Satellit hücresi"}],
+        dogru: 1,
+        ipucu: "Guillain-Barré sendromunda otoimmün hasara uğrayan PSS miyelin hücresi.",
+        tuzak: "<mark>Oligodendrositler</mark> SSS'de bulunur ve birden fazla aksonu miyelinler. PSS'de <mark>sadece tek bir internodu</mark> miyelinleyen hücre <mark>Schwann hücresi</mark>'dir!",
+        aciklama: "<mark>Schwann hücresi</mark>, periferik sinir sisteminde yer alır ve yalnızca tek bir aksonun tek bir internodal segmentini miyelinler."
+      },
+      {
+        soru: "Aşağıdaki amino asitlerden hangisi <mark>protein sentezine katılamayan</mark>, üre döngüsünde ara ürün olarak görev yapan ve yapısında <mark>guanidino grubu</mark> bulunduran bir amino asittir?",
+        siklar: [{k:"A", t:"Sitrulin"}, {k:"B", t:"Ornitin"}, {k:"C", t:"Arjinin"}, {k:"D", t:"Arjininosüksinat"}, {k:"E", t:"Prolin"}],
+        dogru: 3,
+        ipucu: "Arjinin ve aspartat birleşimiyle oluşan, arjininosüksinat liyaz ile arjinin ve fumarata ayrılan molekül.",
+        tuzak: "<mark>Arjinin</mark> guanidino grubu içerir FAKAT <mark>protein sentezine katılır</mark>! Soru protein sentezine <mark>KATILAMAYAN</mark> üre döngüsü ara ürününü sormaktadır, doğru yanıt <mark>Arjininosüksinat</mark>'tır.",
+        aciklama: "<mark>Arjininosüksinat</mark>, üre döngüsünde sentezlenir. Yapısında guanidino türevi yapı taşır ve protein sentezine katılmaz."
+      },
+      {
+        soru: "İskelet kası liflerinde <mark>kalsiyum iyonlarının depolandığı</mark> ve kasılma uyarısı geldiğinde sitoplazmaya salındığı özelleşmiş organel aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"T-tübülü"}, {k:"B", t:"Sarkoplazmik retikulum"}, {k:"C", t:"Mitokondri"}, {k:"D", t:"Golgi aygıtı"}, {k:"E", t:"Lizozom"}],
+        dogru: 1,
+        ipucu: "Kas hücresindeki özelleşmiş Düz Endoplazmik Retikulum (SER).",
+        tuzak: "<mark>T-tübülü</mark> zarların içeri çöküntüsüdür ve aksiyon potansiyelini iletir; Kalsiyum depolayan organel ise <mark>Sarkoplazmik Retikulum</mark>'dur!",
+        aciklama: "<mark>Sarkoplazmik Retikulum</mark>, kas hücrelerinde kalsiyumu (Ca2+) depolar ve kasılma anında sitozole salar."
+      },
+      {
+        soru: "Solunum yollarının büyük bir kısmını döşeyen, silli hücreler ve kadeh (goblet) hücreleri içeren epitel doku tipi aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Yalancı çok katlı prizmatik epitel"}, {k:"B", t:"Tek katlı yassı epitel"}, {k:"C", t:"Çok katlı yassı keratinize olmayan epitel"}, {k:"D", t:"Tek katlı kübik epitel"}, {k:"E", t:"Değişici (transizyonel) epitel"}],
+        dogru: 0,
+        ipucu: "Klasik respiratuar epitel tipi.",
+        tuzak: "Çekirdekler farklı seviyede olduğu için çok katlı görünen respiratuar epitel <mark>Yalancı çok katlı prizmatik epitel</mark>'dir.",
+        aciklama: "Solunum yolları <mark>Yalancı Çok Katlı Silli Prizmatik Epitel</mark> (Respiratuar Epitel) ile kaplıdır."
+      },
+      {
+        soru: "Bir ilacın reseptörüne bağlanma eğilimini değiştirmeden, <mark>maksimal etkisini (Emax) düşüren</mark> ve agonist dozunun artırılmasıyla <mark>yenilemeyen</mark> inhibisyon tipi aşağıdakilerden hangisidir?",
+        siklar: [{k:"A", t:"Kompetitif antagonizma"}, {k:"B", t:"Non-kompetitif antagonizma"}, {k:"C", t:"Parsiyel agonist etki"}, {k:"D", t:"Kimyasal antagonizma"}, {k:"E", t:"Fizyolojik antagonizma"}],
+        dogru: 1,
+        ipucu: "Emax değerini aşağı çeken, agonist yarışmasıyla üstesinden gelinemeyen blokaj.",
+        tuzak: "Kompetitif antagonizmada Emax değişmez, EC50 artar. <mark>Non-kompetitif antagonizmada</mark> ise agonist dozu artırılsa bile <mark>Emax düşer</mark>!",
+        aciklama: "<mark>Non-kompetitif antagonizma</mark>, antagonistin alosterik veya kovalent bağlanmasıyla oluşur. Agonist konsantrasyonu artırılarak Emax geri kazanılamaz."
+      },
+      {
+        soru: "Aşağıdaki enzimlerden hangisi glikoliz yolunda yer alan ve fruktoz-6-fosfatı fruktoz-1,6-bifosfata dönüştüren, <mark>hız kısıtlayıcı basamağı</mark> katalizler?",
+        siklar: [{k:"A", t:"Glukokinaz"}, {k:"B", t:"Fosfofruktokinaz-1"}, {k:"C", t:"Piruvat kinaz"}, {k:"D", t:"Aldolaz A"}, {k:"E", t:"Fosfogliserat kinaz"}],
+        dogru: 1,
+        ipucu: "Fruktoz 2,6-bifosfat ve AMP ile allosterik olarak aktive edilen glikoliz enzimi.",
+        tuzak: "Glukokinaz glikolizin ilk enzimidir; ancak en ana <mark>hız kısıtlayıcı ve düzenleyici enzim</mark> <mark>Fosfofruktokinaz-1 (PFK-1)</mark>'dir!",
+        aciklama: "<mark>Fosfofruktokinaz-1 (PFK-1)</mark>, Fruktoz-6-fosfattan Fruktoz-1,6-bifosfat oluşturan ve glikoliz hızını belirleyen kilit enzimdir."
+      },
+      {
+        soru: "Aşağıdaki ilaçlardan hangisi büyüme hormonu yetersizliği tedavisinde kullanılan <mark>Rekombinan IGF 1 analoğudur</mark>?",
+        siklar: [{k:"A", t:"Oktreotid"}, {k:"B", t:"Mekasermin"}, {k:"C", t:"Somatrem"}, {k:"D", t:"Atosiban"}, {k:"E", t:"Pegvisomant"}],
+        dogru: 1,
+        ipucu: "GH reseptör insensitivitesinde (Laron cüceliği) kullanılan insülin benzeri büyüme faktörü analoğu.",
+        tuzak: "Somatrem rekombinan GH'dır. GH reseptör direnci olan vakalarda verilen <mark>Rekombinan IGF-1 analoğu</mark> <mark>Mekasermin</mark>'dir!",
+        aciklama: "<mark>Mekasermin</mark>, rekombinan insan IGF-1 analoğudur. Büyüme hormonu reseptör defektinde (Laron cüceliği) kullanılır."
+      },
+      {
+        soru: "Aşağıdakilerden hangisi metastatik kolon kanseri tedavisinde kullanılan <mark>Epidermal büyüme faktörü reseptörüne (EGFR)</mark> karşı geliştirilmiş monoklonal antikordur?",
+        siklar: [{k:"A", t:"Bevacizumab"}, {k:"B", t:"Rituksimab"}, {k:"C", t:"Transtuzumab"}, {k:"D", t:"Panitumumab"}, {k:"E", t:"Alemtuzumab"}],
+        dogru: 3,
+        ipucu: "RAS wild-type metastatik kolorektal kanserde cetuximab alternatifi tam insan monoklonal antikoru.",
+        tuzak: "Bevacizumab anti-VEGF'tir. EGFR (HER1)'e karşı kolorektal kanserde kullanılan ilaç <mark>Panitumumab</mark> (ve Cetuximab)'dır.",
+        aciklama: "<mark>Panitumumab</mark>, EGFR'ye özgül monoklonal antikordur. KRAS/NRAS wild-type kolorektal kanser tedavisinde kullanılır."
+      },
+      {
+        soru: "Aşağıdaki akut koroner sendrom tedavisinde kullanılan ilaçlardan hangisinin <mark>geçici dispne ve sinoatriyal blok</mark> yapması en olasıdır?",
+        siklar: [{k:"A", t:"Prasugrel"}, {k:"B", t:"Tirofiban"}, {k:"C", t:"Tikagrelor"}, {k:"D", t:"Klopidogrel"}, {k:"E", t:"Tiklopidin"}],
+        dogru: 2,
+        ipucu: "P2Y12 reseptör blokörü olup adenozin reuptake inhibisyonu da yapan ajan.",
+        tuzak: "Klopidogrel dispne yapmaz. <mark>Tikagrelor</mark> direkt P2Y12 blokörüdür ve adenozin artışına bağlı <mark>dispne, SA/AV blok ve ürik asit yükselmesi</mark> yapabilir!",
+        aciklama: "<mark>Tikagrelor</mark>, adenozin reuptake inhibisyonu nedeniyle plazma adenozinini artırarak <mark>geçici dispne ve sinoatriyal/AV blok</mark> yapabilir."
+      },
+      {
+        soru: "Aşağıdaki ilaçlardan hangisi parkinson tedavisinde <mark>transdermal kullanılan</mark> dopamin agonistidir?",
+        siklar: [{k:"A", t:"Bromokriptin"}, {k:"B", t:"Kabergolin"}, {k:"C", t:"Ropirinol"}, {k:"D", t:"Pramipeksol"}, {k:"E", t:"Rotigotin"}],
+        dogru: 4,
+        ipucu: "24 saatlik sürekli plazma konsantrasyonu sağlayan Parkinson cilt bandı.",
+        tuzak: "Pramipeksol ve Ropirinol oral kullanılır. <mark>Transdermal patch (flaster)</mark> formunda kullanılan dopamin agonisti <mark>Rotigotin</mark>'dir!",
+        aciklama: "<mark>Rotigotin</mark>, non-ergot dopamin agonisti olup günlük <mark>transdermal bant</mark> şeklinde uygulanır."
+      },
+      {
+        soru: "Aşağıdaki maddelerden hangisi etkisini <mark>sitokin - JAK/STAT reseptörleri</mark> üzerinden <mark>göstermez</mark>?",
+        siklar: [{k:"A", t:"Leptin"}, {k:"B", t:"Büyüme hormonu"}, {k:"C", t:"İnsülin"}, {k:"D", t:"Eritropoietin"}, {k:"E", t:"İnterferon"}],
+        dogru: 2,
+        ipucu: "İntrinsik reseptör tirozin kinaz (RTK) aktivitesine sahip olan metabolik hormon.",
+        tuzak: "Büyüme hormonu, Leptin ve Eritropoietin <mark>JAK-STAT</mark> yolunu kullanır. <mark>İnsülin</mark> ise doğrudan <mark>İntrinsik Tirozin Kinaz</mark> reseptörüne sahiptir!",
+        aciklama: "<mark>İnsülin</mark> reseptörü, kendiliğinden kinaz aktivitesi barındıran <mark>Tirozin Kinaz Reseptörüdür</mark>."
+      },
+      {
+        soru: "Ağızda görülen lezyonlardan hangisinin <mark>maligniteye dönüşme olasılığı en fazladır</mark>?",
+        siklar: [{k:"A", t:"Tüylü hücreli lökoplaki"}, {k:"B", t:"Lökoplaki"}, {k:"C", t:"Eritroplaki"}, {k:"D", t:"Aftöz stomatit"}, {k:"E", t:"Oral kandidiazis"}],
+        dogru: 2,
+        ipucu: "Kırmızı renkli, epitelial displazi oranı %50'nin üzerinde olan premalign oral lezyon.",
+        tuzak: "<mark>Lökoplaki</mark> en sık görülen lezyondur (%5-15 malignleşir); fakat <mark>en yüksek malignleşme riskine</mark> (%50'ye varan) sahip lezyon <mark>Eritroplaki</mark>'dir!",
+        aciklama: "<mark>Eritroplaki</mark>, oral kavitedeki kırmızı kadifemsi lezyondur. Yüksek oranda displazi barındırır ve <mark>malign dönüşüm riski en yüksek</mark> oral lezyondur."
+      },
+      {
+        soru: "Aşağıdaki hepatit virüslerinden hangisi, defektif bir RNA virüsü olup replike olabilmek için <mark>Hepatit B virüsünün (HBV) yüzey antijenine (HBsAg)</mark> ihtiyaç duyar?",
+        siklar: [{k:"A", t:"Hepatit A virüsü"}, {k:"B", t:"Hepatit C virüsü"}, {k:"C", t:"Hepatit D virüsü"}, {k:"D", t:"Hepatit E virüsü"}, {k:"E", t:"Hepatit G virüsü"}],
+        dogru: 2,
+        ipucu: "Süperenfeksiyon veya koenfeksiyon şeklinde Hepatit B ile birlikte hastalık yapan etken.",
+        tuzak: "Hepatit C ve E bağımsız virüslerdir. Yardımcı virüs olarak <mark>HBsAg'ye</mark> bağımlı tek defektif virüs <mark>Hepatit D virüsü (HDV / Delta)</mark>'dür!",
+        aciklama: "<mark>Hepatit D Virüsü (HDV)</mark>, defektif bir RNA virüsüdür. Kılıf oluşturabilmek için <mark>HBV'nin HBsAg proteinine</mark> muhtaçtır."
+      },
+      {
+        soru: "Aşağıdaki neoplazilerden hangisinin gelişiminde bir tümör supresör gen olan <mark>p16 (CDKN2A) mutasyonu</mark> önemli rol oynar?",
+        siklar: [{k:"A", t:"Retinoblastom"}, {k:"B", t:"Hemanjioblastom"}, {k:"C", t:"Nöroblastom"}, {k:"D", t:"Ailesel mide karsinomu"}, {k:"E", t:"Malign melanom"}],
+        dogru: 4,
+        ipucu: "Familial vakalarında p16INK4a mutasyonu saptanan, pigmentli deri tümörü.",
+        tuzak: "Retinoblastom Rb geni ile ilişkilidir. Ailesel ve sporadik <mark>Malign Melanom</mark> gelişiminde ana genetik bozukluk <mark>p16 / CDKN2A</mark> mutasyonudur!",
+        aciklama: "<mark>p16 (CDKN2A)</mark>, hücresel siklusun G1/S geçişini denetleyen tümör supresör gendir. Mutasyonu ailesel <mark>Malign Melanom</mark> vakalarında çok sık görülür."
+      }
+    ];
 
-<script>
-const QUESTIONS = [
- {
-  "brans": "Anatomi",
-  "soru": "I. Maxilla<br>II. Os ethmoidale<br>III. Concha nasalis inferior<br>IV. Os lacrimale<br><br>Yukarıdaki kemiklerden hangileri <b>canalis nasolacrimalis'in</b> oluşumuna katılır?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "I ve II"
-   },
-   {
-    "k": "B",
-    "t": "II, III ve IV"
-   },
-   {
-    "k": "C",
-    "t": "I, III ve IV"
-   },
-   {
-    "k": "D",
-    "t": "I ve IV"
-   },
-   {
-    "k": "E",
-    "t": "I, II ve III"
-   }
-  ],
-  "dogru": 2,
-  "cue": "🎯 Ethmoid kemik orbitanın medial duvarında yer alsa da nasolakrimal kanalı sınırlandırmaz.",
-  "ipucu": "Gözyaşı kanalı hangi üç kemiğin özel çıkıntı ve oluklarının birleşmesiyle oluşur?",
-  "tuzak": "<mark>Os ethmoidale</mark> meatus nasi medius'a katılır ancak canalis nasolacrimalis duvarında <b>yer almaz</b>.",
-  "aciklama": "<b>Canalis nasolacrimalis</b>, orbitanın anteromedialinden başlayıp <b>meatus nasi inferior</b>'a açılan kanaldır.<br><br>Kanalı oluşturan yapılar:<br>• <b>Maxilla</b> (sulcus lacrimalis)<br>• <b>Os lacrimale</b> (sulcus lacrimalis)<br>• <b>Concha nasalis inferior</b> (processus lacrimalis)<br><br>Os ethmoidale bu kanalın yapısına katılmaz. Doğru cevap: <b>I, III ve IV (C)</b>.",
-  "ddx": {
-   "baslik": "Burun boşluğu kanalları ve açıldığı meatus'lar",
-   "ok": "Canalis nasolacrimalis meatus nasi inferior'a açılan TEK yapıdır.",
-   "satirlar": [
-    {
-     "emo": "👁️",
-     "ad": "Canalis nasolacrimalis",
-     "bulgu": "Maxilla + Os lacrimale + Concha nasalis inf.; Meatus nasi INFERIOR'a açılır",
-     "hit": true
-    },
-    {
-     "emo": "👃",
-     "ad": "Sinus maxillaris",
-     "bulgu": "Hiatus semilunaris (Meatus nasi medius)",
-     "hit": false
-    },
-    {
-     "emo": "💨",
-     "ad": "Sinus frontalis",
-     "bulgu": "Infundibulum ethmoidale üzerinden Meatus nasi medius",
-     "hit": false
-    },
-    {
-     "emo": "🦴",
-     "ad": "Cellulae ethmoidales posteriores",
-     "bulgu": "Meatus nasi superior",
-     "hit": false
+    // State Variables
+    let activeQuestions = [...ALL_QUESTIONS];
+    let currentIndex = 0;
+    let userAnswers = {}; // { indexInActive: optionIdx }
+    let starredMap = {};   // { questionOriginalIndex: true/false }
+
+    // Init Page
+    window.addEventListener('load', () => {
+      adjustHeaderSpace();
+      renderQuestion();
+      updateHeaderStats();
+    });
+
+    window.addEventListener('resize', adjustHeaderSpace);
+
+    function adjustHeaderSpace() {
+      const header = document.getElementById('quiz-header');
+      const main = document.getElementById('quiz-main');
+      if (header && main) {
+        main.style.paddingTop = (header.offsetHeight + 16) + 'px';
+      }
     }
-   ]
-  }
- },
- {
-  "brans": "Anatomi",
-  "soru": "Trafik kazasını takiben acil servise getirilen 36 yaşındaki erkek hastanın şuuru açık ve koopere olduğu görülüyor. Anamnezde ve fizik muayenede; ağzını açması istendiğinde çenenin sağ tarafa doğru kaydığı, sağ alt dudak ve dilin sağ yarısının büyük kısmında genel duyu kaybı olduğu ve sağ tarafta parotis bezinde sekresyon olmamasına bağlı kserostomi tespit ediliyor. Radyolojik incelemede kafa tabanında bir kırık olduğu tespit ediliyor.<br><br>Bu hastadaki kırık hattının aşağıdaki <mark class=\"cue\">açıklıklardan</mark> hangisinden geçmesi en olasıdır?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "Foramen ovale"
-   },
-   {
-    "k": "B",
-    "t": "Foramen spinosum"
-   },
-   {
-    "k": "C",
-    "t": "Foramen rotundum"
-   },
-   {
-    "k": "D",
-    "t": "Foramina cribrosa"
-   },
-   {
-    "k": "E",
-    "t": "Foramen lacerum"
-   }
-  ],
-  "dogru": 0,
-  "cue": "🎯 Foramen ovale'den geçen N. mandibularis (V3) motor, genel duyu ve parasempatik sekretomotor lifleri birlikte taşır.",
-  "ipucu": "Çiğneme kaslarının motorunu ve n. lingualis / n. alveolaris inferior duyusunu taşıyan sinir nereden geçer?",
-  "tuzak": "<mark>Foramen rotundum</mark> V2 (N. maxillaris)'i taşır, çiğneme kaslarını etkilemez. <mark>Foramen spinosum</mark> A. meningea media'yı taşır.",
-  "aciklama": "<b>Foramen ovale</b>'den geçen yapı: <b>Nervus mandibularis (V3)</b>.<br>• Motor felç: Pterygoid kaslar çalışmaz, ağız açılınca çene felçli tarafa kayar.<br>• Duyu kaybı: N. alveolaris inferior ve N. lingualis felciyle dil ön 2/3 ve alt dudakta genel duyu kaybolur.<br>• Sekretomotor kayıp: N. petrosus minor felciyle ganglion oticum üzerinden parotise giden parasempatik lifler kesilir ve kserostomi gelişir."
- },
- {
-  "brans": "Anatomi",
-  "soru": "Yüksek ateş, boyun tutulması ve ense sertliği şikâyetleri olan 12 yaşındaki erkek çocuk ailesi tarafından acil servise getiriliyor. Menenjit şüphesi nedeniyle lomber ponksiyon yapılmasına karar veriliyor.<br><br>Bu hastada lomber ponksiyon yapılırken aşağıdaki <mark class=\"cue\">ligamentlerden</mark> hangisinden geçilir?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "Ligamentum supraspinale"
-   },
-   {
-    "k": "B",
-    "t": "Ligamentum denticulatum"
-   },
-   {
-    "k": "C",
-    "t": "Ligamentum longitudinale anterius"
-   },
-   {
-    "k": "D",
-    "t": "Ligamentum longitudinale posterius"
-   },
-   {
-    "k": "E",
-    "t": "Ligamentum nuchae"
-   }
-  ],
-  "dogru": 0,
-  "cue": "🎯 Arka orta hat lomber ponksiyon iğnesi sırasıyla cilt, lig. supraspinale, lig. interspinale ve lig. flavum'u geçer.",
-  "ipucu": "Lomber ponksiyonda spinöz çıkıntıların tepelerini birbirine bağlayan ilk bağ hangisidir?",
-  "tuzak": "<mark>Ligamentum denticulatum</mark> pia mater'in yan uzantısıdır, iğne yolunda yer almaz. <mark>Ligamentum nuchae</mark> servikal bölgeye özgüdür.",
-  "aciklama": "<b>Lomber ponksiyonda geçilen tabakalar:</b><br>1. Deri ve cilt altı<br>2. <b>Ligamentum supraspinale</b> (A)<br>3. Ligamentum interspinale<br>4. Ligamentum flavum<br>5. Spatium epidurale<br>6. Dura mater spinalis<br>7. Arachnoidea mater spinalis<br>8. Spatium subarachnoideum (BOS alınır).<br><br>Ligamentum denticulatum ve lig. longitudinale anterius/posterius iğne yolunda yer almaz."
- },
- {
-  "brans": "Anatomi",
-  "soru": "Yirmi bir yaşındaki erkek hasta boynun üst bölümünden aldığı bir bıçak darbesi sebebiyle acil servise geliyor. Radyolojik görüntülemede büyük yapılara bir zarar gelmediği anlaşılıyor. Ancak hastanın fizik muayenesinde angulus mandibulae'nin üstünü örten deride duyu kaybı olduğu tespit ediliyor.<br><br>Bu hastada aşağıdaki <mark class=\"cue\">sinirlerden</mark> hangisinin hasar görmüş olması en olasıdır?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "Nervus auriculotemporalis"
-   },
-   {
-    "k": "B",
-    "t": "Nervus occipitalis minor"
-   },
-   {
-    "k": "C",
-    "t": "Nervus buccalis"
-   },
-   {
-    "k": "D",
-    "t": "Nervus auricularis magnus"
-   },
-   {
-    "k": "E",
-    "t": "Nervus transversus colli"
-   }
-  ],
-  "dogru": 3,
-  "cue": "🎯 Angulus mandibulae ve kulak memesi üzerini örten derinin duyusunu plexus cervicalis kökenli sinir taşır.",
-  "ipucu": "Plexus cervicalis'in m. sternocleidomastoideus'un arkasından yükselen en kalın deri dalı hangisidir?",
-  "tuzak": "<mark>Nervus auriculotemporalis</mark> V3 dalıdır, kulak önü ve şakak bölgesinin duyusunu taşır, angulus mandibulae'yi innerve etmez.",
-  "aciklama": "<b>Nervus auricularis magnus (C2-C3)</b>: Plexus cervicalis'in duyu dalıdır. Angulus mandibulae üzerindeki derinin, parotis bezi üzerindeki cildin ve kulak kepçesinin alt yarısının duyusunu taşır."
- },
- {
-  "brans": "Anatomi",
-  "soru": "Belinden sağ bacağa doğru yayılan ağrı yakınması ile başvuran bir hastanın fizik muayenesinde; sağ ayağında dorsifleksiyonda güç kaybı ve sağ ayak dorsalinde 1. ve 2. parmak arasında hipoestezi olduğu saptanıyor. Manyetik rezonans görüntülemede hastada bir spinal sinire bası yapan disk hernisi görülüyor.<br><br>Bu hastadaki klinik bulguları açıklayabilecek disk hernisinin aşağıdaki <mark class=\"cue\">intervertebral aralıklardan</mark> hangisine ait olması en olasıdır?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "L1-L2"
-   },
-   {
-    "k": "B",
-    "t": "L2-L3"
-   },
-   {
-    "k": "C",
-    "t": "L3-L4"
-   },
-   {
-    "k": "D",
-    "t": "L4-L5"
-   },
-   {
-    "k": "E",
-    "t": "L5-S1"
-   }
-  ],
-  "dogru": 3,
-  "cue": "🎯 Düşük ayak (dorsifleksiyon kaybı) ve 1-2. parmak arası duyu kaybı L5 sinir kökü basısına özgüdür.",
-  "ipucu": "L5 sinir kökü posterolateral herniasyonda hangi seviyedeki diskten etkilenir?",
-  "tuzak": "<mark>L5-S1</mark> disk herniasyonunda basıya uğrayan kök S1'dir (gastrocnemius zayıflığı, aşil refleksi kaybı). L4-L5 herniasyonunda ise L5 kökü etkilenir.",
-  "aciklama": "<b>L5 Sinir Kökü Basısı (L4-L5 Disk Hernisi):</b><br>• Motor: Ayak ve başparmak dorsifleksiyonunda zayıflık (düşük ayak / n. fibularis profundus).<br>• Duyu: Ayak sırtı ve 1.-2. parmaklar arası web mesafesinde hipoestezi.<br>• Dolayısıyla L4-L5 seviyesindeki posterolateral disk herniasyonu L5 kökünü sıkıştırır."
- },
- {
-  "brans": "Anatomi",
-  "soru": "<b>Arteria mesenterica superior</b>, arteria colica media'yı verdikten hemen sonra tıkanırsa, aşağıdaki damarlardan hangisindeki arteriyel kan akımı <mark class=\"cue\">öncelikle</mark> bozulur?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "Pancreas"
-   },
-   {
-    "k": "B",
-    "t": "Flexura coli sinistra"
-   },
-   {
-    "k": "C",
-    "t": "Colon descendens"
-   },
-   {
-    "k": "D",
-    "t": "Colon transversum"
-   },
-   {
-    "k": "E",
-    "t": "Ileum"
-   }
-  ],
-  "dogru": 4,
-  "cue": "🎯 SMA'nın a. colica media dalından sonra ayrılan dalları jejunum, ileum ve ileokolik arterlerdir.",
-  "ipucu": "Ince barsakların distal kısmını besleyen vasa recta'lar hangi SMA dallarından köken alır?",
-  "tuzak": "<mark>Colon transversum</mark> a. colica media tarafından beslenir; tıkanıklık bu dal ayrıldıktan SONRA olduğu için distaldeki jejunum ve ileum etkilenir.",
-  "aciklama": "<b>Arteria mesenterica superior (SMA) dallanma sırası:</b><br>1. A. pancreaticoduodenalis inferior<br>2. Aa. jejunales<br>3. A. colica media<br>4. Aa. ileales ve A. ileocolica.<br><br>A. colica media verildikten sonra oluşan tıkanıklıkta <b>ileum (Aa. ileales)</b> kan akımı doğrudan bozulur."
- },
- {
-  "brans": "Anatomi",
-  "soru": "Elli beş yaşında erkek hasta bacaklarında ve karnında ödem şikâyetiyle polikliniğe başvuruyor. Yapılan venöz anjiyogram sonucu sol vena renalis'in açıldığı yerde, vena cava inferior'un tıkandığı ortaya çıkıyor.<br><br>Bu tıkanıklık nedeniyle aşağıdaki damarlardan hangisinde <mark class=\"cue\">daha belirgin dilatasyon</mark> olması beklenir?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "Vena suprarenalis sinistra"
-   },
-   {
-    "k": "B",
-    "t": "Venae phrenicae inferiores"
-   },
-   {
-    "k": "C",
-    "t": "Vena hepatica dextra"
-   },
-   {
-    "k": "D",
-    "t": "Vena gastrica sinistra"
-   },
-   {
-    "k": "E",
-    "t": "Vena portae hepatis"
-   }
-  ],
-  "dogru": 0,
-  "cue": "🎯 Sol renal ven VCI'ya dökülür; sol testiküler/ovaryen ve sol suprarenal venler doğrudan sol renal vene dökülür.",
-  "ipucu": "Sağ suprarenal ven VCI'ya açılırken, sol suprarenal ven hangi vene dökülür?",
-  "tuzak": "<mark>Vena hepatica dextra</mark> tıkanıklığın daha üstünde (diyafram altı VCI) kalır; <mark>Vena portae</mark> karaciğere dökülür.",
-  "aciklama": "<b>Vena renalis sinistra'ya dökülen venler:</b><br>• Vena suprarenalis sinistra<br>• Vena testicularis / ovarica sinistra.<br><br>VCI'nın sol renal ven girişinde tıkanması durumunda sol renal vene açılan <b>Vena suprarenalis sinistra</b>'da geriye doğru kan birikir ve belirgin dilatasyon gelişir."
- },
- {
-  "brans": "Anatomi",
-  "soru": "Beyin damarlarını gösteren manyetik rezonans anjiyografide (MRA) sulcus lateralis cerebri (Sylvian yarık) boyunca ilerleyen ana arter aşağıdakilerden hangisidir?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "Arteria cerebri anterior"
-   },
-   {
-    "k": "B",
-    "t": "Arteria cerebri media"
-   },
-   {
-    "k": "C",
-    "t": "Arteria cerebri posterior"
-   },
-   {
-    "k": "D",
-    "t": "Arteria cerebelli superior"
-   },
-   {
-    "k": "E",
-    "t": "Arteria carotis interna"
-   }
-  ],
-  "dogru": 1,
-  "cue": "🎯 Hemisferlerin konveks dış yüzeyini ve konuşma/motor alanlarını besleyen damardır.",
-  "ipucu": "Sylvian olukta seyredip insula üzerini örten arter hangisidir?",
-  "tuzak": "<mark>Arteria cerebri anterior</mark> fissure longitudinalis cerebri'de ve korpus kallozum üzerinde seyreder.",
-  "aciklama": "<b>Arteria cerebri media (MCA):</b> A. carotis interna'nın en büyük dalıdır. Sulcus lateralis (Sylvian fisür) boyunca ilerler, insulayı ve serebral hemisferlerin dış konveks yüzünü besler."
- },
- {
-  "brans": "Anatomi",
-  "soru": "<b>Ligamentum capitis femoris'in</b> hasar görmesi durumunda aşağıdaki arterlerden hangisinin dalının bu hasardan etkilenmesi beklenir?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "Arteria obturatoria"
-   },
-   {
-    "k": "B",
-    "t": "Arteria glutea superior"
-   },
-   {
-    "k": "C",
-    "t": "Arteria glutea inferior"
-   },
-   {
-    "k": "D",
-    "t": "Arteria circumflexa femoris medialis"
-   },
-   {
-    "k": "E",
-    "t": "Arteria circumflexa femoris lateralis"
-   }
-  ],
-  "dogru": 0,
-  "cue": "🎯 Ramus acetabularis denilen dal fovea capitis femoris'e ulaşır.",
-  "ipucu": "Femur başı ligamanı içinden geçen arter dalı hangi ana arterden çıkar?",
-  "tuzak": "<mark>A. circumflexa femoris medialis</mark> yetişkinde femur başının ASIL besleyicisidir (retinaküler arterler) ancak lig. capitis femoris içinden GEÇMEZ.",
-  "aciklama": "<b>Ligamentum capitis femoris</b> içerisinde <b>Arteria obturatoria</b>'nın <b>ramus acetabularis</b> dalı seyreder. Çocukluk çağında femur başı epifizinin beslenmesine katkıda bulunur."
- },
- {
-  "brans": "Anatomi",
-  "soru": "I. Bulbus olfactorius<br>II. Commissura anterior<br>III. Nucleus olfactorius anterior<br>IV. Nervus olfactorius<br>V. Tractus olfactorius<br><br>Aşağıdakilerden hangisinde, <b>koku duyusunun iletiminde</b> görev alan yapılar <mark class=\"cue\">sırasıyla</mark> verilmiştir?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "IV - I - V - III - II"
-   },
-   {
-    "k": "B",
-    "t": "IV - I - V - II - III"
-   },
-   {
-    "k": "C",
-    "t": "IV - V - I - II - III"
-   },
-   {
-    "k": "D",
-    "t": "I - IV - V - III - II"
-   },
-   {
-    "k": "E",
-    "t": "I - IV - V - II - III"
-   }
-  ],
-  "dogru": 0,
-  "cue": "🎯 Burun mukozasındaki reseptörlerden çıkan lifler önce N. olfactorius (IV) olarak lamina cribrosa'yı geçer.",
-  "ipucu": "Primer koku nöronlarının uzantısı olan sinirden bulbusa, oradan tractusa geçiş sırası nasıldır?",
-  "tuzak": "Bulbus olfactorius sinirden önce sanılabilir; oysa N. olfactorius (IV) 1. nöron uzantısıdır, bulbus (I) 2. nöron gövdelerini içerir.",
-  "aciklama": "<b>Koku Yolu İletim Sırası:</b><br>1. <b>Nervus olfactorius (IV)</b>: Lamina cribrosa'dan geçer.<br>2. <b>Bulbus olfactorius (I)</b>: Mitral hücrelerle sinaps yapar.<br>3. <b>Tractus olfactorius (V)</b>.<br>4. <b>Nucleus olfactorius anterior (III)</b>.<br>5. <b>Commissura anterior (II)</b>: Karşı tarafa çapraz yapar.<br><br>Sıralama: <b>IV - I - V - III - II (A)</b>."
- },
- {
-  "brans": "Anatomi",
-  "soru": "İki saat önce başlayan şiddetli baş ağrısı şikâyetiyle acil servise gelen 65 yaşındaki erkek hastada sol alt ekstremitede 3/5, sağ alt ekstremitede 5/5 kuvvetinde olduğu, sol alt ekstremitesinin tamamında hipoestezi tespit ediliyor. BT'de subaraknoid kanama izleniyor.<br><br>Bu hastadaki belirtiler aşağıdaki <mark class=\"cue\">arterlerden</mark> hangisinin hasarına bağlı olabilir?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "Arteria cerebri anterior"
-   },
-   {
-    "k": "B",
-    "t": "Arteria cerebri media"
-   },
-   {
-    "k": "C",
-    "t": "Arteria cerebri posterior"
-   },
-   {
-    "k": "D",
-    "t": "Arteria choroidea anterior"
-   },
-   {
-    "k": "E",
-    "t": "Arteria choroidea posterior"
-   }
-  ],
-  "dogru": 0,
-  "cue": "🎯 Lobulus paracentralis (bacak ve ayak motor/duyu alanı) bu arter tarafından beslenir.",
-  "ipucu": "Hemisferlerin medial yüzeyini ve bacak temsil alanını besleyen beyin arteri hangisidir?",
-  "tuzak": "<mark>Arteria cerebri media</mark> yüz, kol ve üst ekstremite motor/duyu alanlarını beslemede baskındır.",
-  "aciklama": "<b>Arteria cerebri anterior (ACA):</b> Hemisferlerin medial yüzünü ve <b>lobulus paracentralis</b>'i (karşı taraf bacak ve ayak motor/duyu alanı) besler. Tıkanıklığında karşı bacakta baskın felç ve duyu kaybı görülür."
- },
- {
-  "brans": "Anatomi",
-  "soru": "Aşağıdaki yapılardan hangisinde meydana gelecek bir hasarın <b>bellek kayıplarına</b> neden olması <mark class=\"cue\">en olasıdır</mark>?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "Septum pellucidum"
-   },
-   {
-    "k": "B",
-    "t": "Tuber cinereum"
-   },
-   {
-    "k": "C",
-    "t": "Adhesio interthalamica"
-   },
-   {
-    "k": "D",
-    "t": "Corpus callosum"
-   },
-   {
-    "k": "E",
-    "t": "Fornix"
-   }
-  ],
-  "dogru": 4,
-  "cue": "🎯 Hippocampus'u corpus mammillare'ye bağlayan Papez halkasının ana eferent yoludur.",
-  "ipucu": "Limbik sistemde hafıza konsolidasyonunda görev alan Papez halkası lif demeti hangisidir?",
-  "tuzak": "<mark>Corpus callosum</mark> en büyük komissüral yoldur ancak hafıza halkası olan Papez devresinde yer almaz.",
-  "aciklama": "<b>Fornix:</b> Hippocampus'u corpus mammillare'ye bağlayan, Papez halkasının (hafıza ve bellek devresi) en önemli yolağıdır. Hasarında yakın hafıza kaybı (anterograd amnezi) gelişir."
- },
- {
-  "brans": "Anatomi",
-  "soru": "Yukarıdaki transnazal transsfenoidal yaklaşımla elde edilmiş operasyon görüntüsündeki 1, 2, 3, 4 numaralı yapılar sırasıyla aşağıdakilerden hangisidir?<br><br>1: Tuber cinereum / Corpus mammillare<br>2: Arteria basilaris<br>3: Nervus abducens / oculomotorius / trigeminus<br>4: Arteria superior cerebelli / cerebri posterior",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "Tuber cinereum — Arteria basilaris — Nervus abducens — Arteria superior cerebelli"
-   },
-   {
-    "k": "B",
-    "t": "Corpus mammillare — Arteria basilaris — Nervus oculomotorius — Arteria cerebri posterior"
-   },
-   {
-    "k": "C",
-    "t": "Tuber cinereum — Arteria basilaris — Nervus oculomotorius — Arteria cerebri posterior"
-   },
-   {
-    "k": "D",
-    "t": "Corpus mammillare — Arteria basilaris — Nervus abducens — Arteria superior cerebelli"
-   },
-   {
-    "k": "E",
-    "t": "Corpus mammillare — Arteria basilaris — Nervus trigeminus — Arteria superior cerebelli"
-   }
-  ],
-  "dogru": 1,
-  "cue": "🎯 Pons üst sınırında A. basilaris'ten ayrılan N. oculomotorius (3) ve A. cerebri posterior (4) interpedinküler çukurda seyreder.",
-  "ipucu": "Nervus oculomotorius (3. kranial sinir) hangi iki arter arasından çıkar?",
-  "tuzak": "N. abducens pons-medulla birleşiminden çıkar, transsfenoidal yukarı bakışta görülmez.",
-  "aciklama": "Transsfenoidal bakışta pons önünde <b>A. basilaris (2)</b>, üstte <b>Corpus mammillare (1)</b>, interpedinküler çukurda <b>Nervus oculomotorius (3)</b> ve <b>Arteria cerebri posterior (4)</b> yer alır."
- },
- {
-  "brans": "Histoloji",
-  "soru": "Aşağıdaki hücre organellerinden birisi Hematoksilen-Eozin boyası ile boyanamaz. Bu organelin boyanabilmesi için gümüşleme gibi özel bir yönteme ihtiyaç duyulur.<br><br>Bu özelliği nedeniyle diğer yapılardan farklılık gösteren bu organel hangisidir?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "Granüllü endoplazmik retikulum"
-   },
-   {
-    "k": "B",
-    "t": "Hücre çekirdeği"
-   },
-   {
-    "k": "C",
-    "t": "Ribozom"
-   },
-   {
-    "k": "D",
-    "t": "Golgi aygıtı"
-   },
-   {
-    "k": "E",
-    "t": "Mitokondri"
-   }
-  ],
-  "dogru": 3,
-  "cue": "🎯 Rutin H&E kesitlerinde çekirdek yanında boyanmayarak 'negatif Golgi alanı' oluşturan organeldir.",
-  "ipucu": "Gümüş emprenye metodu (Camillo Golgi boyası) ile ilk gösterilen organel hangisidir?",
-  "tuzak": "<mark>Granüllü ER</mark> RNA içerdiği için bazofiliktir ve Hematoksilen ile mor boyanır.",
-  "aciklama": "<b>Golgi aygıtı:</b> Rutin Hematoksilen-Eozin (H&E) boyamada boyanmaz, çekirdek çevresinde soluk soluk görünür (negatif Golgi görüntüsü). Görünür kılmak için <b>gümüşleme (impregnasyon)</b> veya osmiyum boyaları gerekir."
- },
- {
-  "brans": "Fizyoloji",
-  "soru": "Kırk yaşında bir erkek hasta kırık ayak bileği ameliyatı için hastaneye yatırılıyor. Ameliyat sırasında süksinilkolin içeren anesteziklerin kullanımı sonucu sürekli kas kasılması ve ısı üretimi ile sonuçlanan tablo gelişiyor. Hastaya malign hipertermi tanısı koyuluyor.<br><br>Bu hastada mutasyon beklenen kanal <mark class=\"cue\">aşağıdaki hangi tip kanala</mark> örnek verilebilir?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "Sodyum sızma kanalıdırlır"
-   },
-   {
-    "k": "B",
-    "t": "Ligand bağımlı kanaldır"
-   },
-   {
-    "k": "C",
-    "t": "Voltaj bağımlı kanaldır"
-   },
-   {
-    "k": "D",
-    "t": "Mekanik kanaldır"
-   },
-   {
-    "k": "E",
-    "t": "Potasyum sızma kanalıdır"
-   }
-  ],
-  "dogru": 3,
-  "cue": "🎯 Ryanodine reseptörü (RyR1), T-tüpündeki DHPR'nin voltaj değişimiyle mekanik olarak açılan kalsiyum kanalıdır.",
-  "ipucu": "İskelet kasında T-tüpü DHPR ile sarkoplazmik retikulum RyR1 arasındaki etkileşim nasıldır?",
-  "tuzak": "<mark>Ligand bağımlı</mark> sanılabilir ancak iskelet kasında DHPR-RyR1 bağlantısı doğrudan fiziki/mekaniktir (düz kasta ise Ca-bağımlı Ca salınımıdır).",
-  "aciklama": "<b>İskelet kasında uyarılma-kasılma eşleşmesi:</b> T-tüp fasyasındaki dihidropiridin reseptörü (DHPR) voltaj sensörüdür ve sarkoplazmik retikulumdaki **Ryanodine reseptörüne (RyR1) mekanik olarak** bağlıdır. Malign hipertermide RyR1 gen mutasyonu sonucu kontrolsüz Ca salınımı ve rigör gelişir."
- },
- {
-  "brans": "Histoloji",
-  "soru": "Bir histoloji uzmanlık öğrencisi, böbrek glomeruluslarının yüksek karbonhidrat içeriğinden faydalanarak boyayıp incelemek istiyor. Glikojeni boyayan bir boyadan faydalanarak bazal membranı pembe-kırmızıya boyuyor.<br><br>Yukarıdaki preparatta bazal membranı pembe-kırmızıya boyayan boya hangisidir?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "Mallory-Azan"
-   },
-   {
-    "k": "B",
-    "t": "Periyodik Asit Schiff (PAS)"
-   },
-   {
-    "k": "C",
-    "t": "Toluidin Mavisi"
-   },
-   {
-    "k": "D",
-    "t": "Akridin Oranj"
-   },
-   {
-    "k": "E",
-    "t": "Osmiyum Tetraoksit"
-   }
-  ],
-  "dogru": 1,
-  "cue": "🎯 Karbonhidrat, glikojen, glikoprotein ve fırçamsı kenarları magenta/pembe boyayan klasik reaktif.",
-  "ipucu": "Aldehit gruplarına oksitlenen glikozil yapılarını gösteren histokimyasal boya hangisidir?",
-  "tuzak": "<mark>Mallory-Azan</mark> kolajen lifleri maviye boyar; bazal membran karbonhidratlarını Pembe-Kırmızı boyayan PAS'tır.",
-  "aciklama": "<b>Periyodik Asit Schiff (PAS)</b>: Glikojen, glikoprotein ve karbonhidrattan zengin yapılara (böbrek glomerül bazal membranı, fırçamsı kenarlar) özgüdür ve bu yapıları pembe-kırmızıya (magenta) boyar."
- },
- {
-  "brans": "Histoloji",
-  "soru": "A: Ter bezi<br>B: Meme bezi<br>C: Gonadlar<br><br>Yukarıda salgılama biçimleri verilen glandlar ile ilgili salgılama mekanizmaları eşleştirmelerinden hangisi doğrudur?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "A: Merokrin — B: Apokrin — C: Holokrin"
-   },
-   {
-    "k": "B",
-    "t": "A: Serumen bezi — B: Gonadlar — C: Meme bezi"
-   },
-   {
-    "k": "C",
-    "t": "A: Gonadlar — B: Meme bezi — C: Tarsal bez"
-   },
-   {
-    "k": "D",
-    "t": "A: Meme bezi — B: Gonadlar — C: Ter bezi"
-   },
-   {
-    "k": "E",
-    "t": "A: Gonadlar — B: Meme bezi — C: Serumen"
-   }
-  ],
-  "dogru": 0,
-  "cue": "🎯 Merokrin (eksozitoz, hücre kaybı yok), Apokrin (apikal sitoplazma kaybı), Holokrin (tüm hücre parçalanır).",
-  "ipucu": "Sebase bez ve gonad hücresi parçalanarak salgı oluştururken (holokrin), ekrin ter bezleri nasıl salgılar?",
-  "tuzak": "Meme bezi süt proteini için merokrin, süt yağı (lipid) için apokrin mekanizma kullanır.",
-  "aciklama": "<b>Salgılama Tipleri:</b><br>• <b>Merokrin (Ekrin):</b> Eksozitoz ile (Ter bezleri, pankreas akzinusları).<br>• <b>Apokrin:</b> Hücrenin apikal sitoplazmasıyla birlikte (Meme bezi yağ salgısı, koltuk altı apokrin bezler).<br>• <b>Holokrin:</b> Hücrenin kendisi tamamen parçalanarak (Sebase bezler, tarsal/Meibomian bezler, sperm/yumurta salınımı)."
- },
- {
-  "brans": "Fizyoloji",
-  "soru": "Gözün korneasında bol miktarda bulunup ağrının algılanmasında önemli olan reseptörler aşağıdakilerden hangisidir?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "Krause"
-   },
-   {
-    "k": "B",
-    "t": "Ruffini"
-   },
-   {
-    "k": "C",
-    "t": "Merkel"
-   },
-   {
-    "k": "D",
-    "t": "Meissner"
-   },
-   {
-    "k": "E",
-    "t": "Serbest sinir uçları"
-   }
-  ],
-  "dogru": 4,
-  "cue": "🎯 Kornea epiteli içinde kapsülsüz, nosiseptif uyarıları taşıyan A-delta ve C lifi uçları yer alır.",
-  "ipucu": "Ağrı ve sıcaklık duyusunu alan kapsülsüz reseptör tipi hangisidir?",
-  "tuzak": "Meissner ve Merkel dokunma reseptörüdür, korneada özelleşmiş kapsüllü reseptörler bulunmaz.",
-  "aciklama": "<b>Korneada nosisepsiyon:</b> Kornea sadece **serbest sinir uçları (nosiseptörler)** içerir. Bu sayede en ufak dokunma ve iritasyon bile şiddetli ağrı ve kırpma refleksi olarak algılanır."
- },
- {
-  "brans": "Embriyoloji",
-  "soru": "Altı yaşında bir kız çocuğun publik simfizis superiorunda bir kitle saptanıyor. Muayenede yumuşak kıvamda ve lokasyonlu bir kitle olduğu, umbilikus ile mesane tepe noktası arasında uzanan kitle tespit ediliyor.<br><br>Bu vakadaki vitellus kesesinin arka duvarında bulunan ve erken dönemde kan yapımını üstlenen olusum hangisidir?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "Primitif çizgi"
-   },
-   {
-    "k": "B",
-    "t": "Notokord"
-   },
-   {
-    "k": "C",
-    "t": "Allantois"
-   },
-   {
-    "k": "D",
-    "t": "Epiblast"
-   },
-   {
-    "k": "E",
-    "t": "Hipoblast"
-   }
-  ],
-  "dogru": 2,
-  "cue": "🎯 Mesane tavanından göbeğe uzanan urakus (ligamentum umbilicale medianum) hangi yapının kalıntısıdır?",
-  "ipucu": "Allantois kisti veya urakus kisti hangi embriyonik yapının kapanmama bozukluğudur?",
-  "tuzak": "<mark>Primitif çizgi</mark> gastrulasyonu başlatır (sacrococcygeal teratoma); mesane göbek arası tüp oluşturmaz.",
-  "aciklama": "<b>Allantois:</b> Vitellus kesesinin arka duvarından gelişen divertiküldür. Erken dönemde kan yapımına katılır, daha sonra **Urakus (Ligamentum umbilicale medianum)** yapısına dönüşür. Kapanmazsa urakus kisti/fistülü oluşur."
- },
- {
-  "brans": "Embriyoloji",
-  "soru": "Yüz yapısı gelişirken 'çiğneme ve mimik kaslarının' kökeni olan farengeal arkuslar aşağıdakilerden hangisinde doğru eşleştirilmiştir?<br><br><b>Çiğneme kasları — Mimik kasları</b>",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "Birinci arkus — İkinci arkus"
-   },
-   {
-    "k": "B",
-    "t": "İkinci arkus — Birinci arkus"
-   },
-   {
-    "k": "C",
-    "t": "Üçüncü arkus — Birinci arkus"
-   },
-   {
-    "k": "D",
-    "t": "İkinci arkus — Üçüncü arkus"
-   },
-   {
-    "k": "E",
-    "t": "Dördüncü arkus — Üçüncü arkus"
-   }
-  ],
-  "dogru": 0,
-  "cue": "🎯 1. farengeal arkus siniri V (N. mandibularis), 2. arkus siniri VII (N. facialis)'tir.",
-  "ipucu": "Çiğneme kaslarını N. trigeminus, mimik kaslarını N. facialis innerve ettiğine göre arkuslar hangileridir?",
-  "tuzak": "3. arkus N. glossopharyngeus (m. stylopharyngeus), 4-6. arkus N. vagus yapılarını oluşturur.",
-  "aciklama": "<b>Farengeal Arkuslar:</b><br>• <b>1. Farengeal Arkus (Mandibuler):</b> Çiğneme kasları, m. mylohyoideus, m. digastricus venter anterior (Sinir: N. V3).<br>• <b>2. Farengeal Arkus (Hiyoid):</b> Mimik kasları, stapedius, stylohyoideus, m. digastricus venter posterior (Sinir: N. VII)."
- },
- {
-  "brans": "Fizyoloji",
-  "soru": "Koagülasyonda çevredeki trombositleri hasar bölgesine çağıran maddeler aşağıdakilerden hangisidir?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "Von Willebrand faktör — ADP"
-   },
-   {
-    "k": "B",
-    "t": "Von Willebrand faktör — serotonin"
-   },
-   {
-    "k": "C",
-    "t": "Kollajen — von Willebrand faktör"
-   },
-   {
-    "k": "D",
-    "t": "ADP — tromboksan A2"
-   },
-   {
-    "k": "E",
-    "t": "ADP — kollajen"
-   }
-  ],
-  "dogru": 3,
-  "cue": "🎯 Aktive olan trombositlerin yoğun granüllerinden ADP, trombosit yüzeyinden Trombroksan A2 salınır.",
-  "ipucu": "Trombosit agregasyonunu ve çağrılmasını (rekreasyonunu) uyaran temel otokrin/parakrin ikili hangisidir?",
-  "tuzak": "<mark>von Willebrand faktör</mark> trombositin subendotelyal kollajene tutunmasını (ADEZYON) sağlar, çağırmayı (agregasyonu) başlatıcı ADP/TXA2 uyarır.",
-  "aciklama": "<b>Trombosit Aktivasyonu ve Agregasyonu:</b> Aktive trombositlerden salınan **ADP** ve **Tromboksan A2 (TXA2)**, dolaşımdaki diğer trombositleri uyararak hasar bölgesine çeker ve agregasyonu sağlar."
- },
- {
-  "brans": "Fizyoloji",
-  "soru": "Safra kesesinin kasılmasında ve pankreastan bikarbonat salgılanmasında görevli temel hormonlar sırası ile hangisidir?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "Kolesistokinin — sekretin"
-   },
-   {
-    "k": "B",
-    "t": "Kolesistokinin — motilin"
-   },
-   {
-    "k": "C",
-    "t": "Sekretin — kolesistokinin"
-   },
-   {
-    "k": "D",
-    "t": "Sekretin — motilin"
-   },
-   {
-    "k": "E",
-    "t": "Kolesistokinin — substance P"
-   }
-  ],
-  "dogru": 0,
-  "cue": "🎯 I hücrelerinden salınan hormon safra kesesini kasar; S hücrelerinden salınan hormon HCO3- salgılatır.",
-  "ipucu": "Pankreas enzim salgısını CCK uyarırken, sulu bikarbonat salgısını hangi hormon uyarır?",
-  "tuzak": "Sekretin pankreastan HCO3- uyarır; safra kesesini kasan ana hormon Kolesistokinin (CCK)'dir.",
-  "aciklama": "<b>GİS Hormonları:</b><br>• <b>Kolesistokinin (CCK):</b> Duodenum I hücrelerinden salınır; safra kesesini kasar, Oddi sfinkterini gevşetir, pankreastan enzim salgılatır.<br>• <b>Sekretin:</b> Duodenum S hücrelerinden salınır; pankreas ve safra kanallarından su ve bikarbonat (HCO3-) salgılatır."
- },
- {
-  "brans": "Fizyoloji",
-  "soru": "Kalp kasının histolojik özellikleriyle ilgili aşağıdakilerden hangisi <mark class=\"cue\">yanlıştır</mark>?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "Kalp kasında diad vardır."
-   },
-   {
-    "k": "B",
-    "t": "Kalp kası sarkoplazmik retikulumunda fosfolamban bulunur."
-   },
-   {
-    "k": "C",
-    "t": "Kalp kasında T tübülleri çok gelişmiştir."
-   },
-   {
-    "k": "D",
-    "t": "Kalp kasında kasılma sırasında sadece hücre içi kalsiyum etkilidir."
-   },
-   {
-    "k": "E",
-    "t": "Kalp kası hücrelerini birbirinden ayıran interkale diskler bulunur."
-   }
-  ],
-  "dogru": 3,
-  "cue": "🎯 Kalp kasında kasılma için hücre dışından (hücre dışı sıvı) T-tüpü L-tipi Ca kanallarından Ca girişi ZORUNLUDUR.",
-  "ipucu": "İskelet kası tek başına SR kalsiyumu ile kasılabilirken, kalp kası neye bağımlıdır?",
-  "tuzak": "İskelet kasında triad vardır, kalp kasında T-tüpü + 1 terminal sisterna birleşimi olan DIAD bulunur.",
-  "aciklama": "<b>Kalp Kasında Kasılma Mekanizması:</b> Aksiyon potansiyeli sırasında T-tüpündeki L-tipi Ca kanallarından (DHPR) hücre içine <b>hücre dışı Ca++ girişi olur</b>. Bu kalsiyum sarkoplazmik retikulumdaki RyR2'yi uyararak daha fazla kalsiyum salınmasını sağlar (Ca-induced Ca release). Yani kasılmada **hem hücre dışı hem hücre içi kalsiyum** rol oynar."
- },
- {
-  "brans": "Fizyoloji",
-  "soru": "I. Kortizol<br>II. Leptin<br>III. Açlık<br>IV. Somatostatin<br><br>Yukarıdakilerden hangileri <b>insülin sekresyonunu azaltır</b>?",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "I ve III"
-   },
-   {
-    "k": "B",
-    "t": "II ve IV"
-   },
-   {
-    "k": "C",
-    "t": "I, II ve III"
-   },
-   {
-    "k": "D",
-    "t": "II, III ve IV"
-   },
-   {
-    "k": "E",
-    "t": "I, II, III ve IV"
-   }
-  ],
-  "dogru": 3,
-  "cue": "🎯 Kortizol kan şekerini yükseltip insülin sekresyonunu artırır; diğer üçü azaltır.",
-  "ipucu": "Somatostatin tüm pankreas hormonlarını baskılarken, leptin ve açlık insülini nasıl etkiler?",
-  "tuzak": "<mark>Kortizol</mark> insülin direncine yol açıp dolaylı olarak insülin salgısını ARTIRIR, azaltmaz.",
-  "aciklama": "<b>İnsülin Sekresyonunu Azaltan Faktörler:</b> Somatostatin, Leptin, Açlık, Alfa-adrenerjik uyarı (sempatik), Galanin, Diazoksid.<br><b>İnsülin Sekresyonunu Artıranlar:</b> Glikoz, Aminoasitler, GİS hormonları (GLP-1, GIP, CCK), Kortizol, Büyüme hormonu, Glukagon."
- },
- {
-  "brans": "Fizyoloji",
-  "soru": "Akciğerde <b>transpulmoner basınç</b> ile ilgili yukarıdakilerden hangisi/hangileri doğrudur?<br><br>I. İnspirasyon sırasında azalır.<br>II. Ekspirasyon sırasında artar.<br>III. Daima pozitif bir basınçtır.<br>IV. Akciğerde 'geri kaçma basıncı' olarak bilinir.",
-  "siklar": [
-   {
-    "k": "A",
-    "t": "Yalnız I"
-   },
-   {
-    "k": "B",
-    "t": "Yalnız II"
-   },
-   {
-    "k": "C",
-    "t": "I ve II"
-   },
-   {
-    "k": "D",
-    "t": "II ve IV"
-   },
-   {
-    "k": "E",
-    "t": "III ve IV"
-   }
-  ],
-  "dogru": 4,
-  "cue": "🎯 Transpulmoner basınç = Alveoler basınç - Plevral basınç'tır ve akciğerleri açık tutan kuvvettir.",
-  "ipucu": "İnspirasyonda transpulmoner basınç artar mı azalır mı?",
-  "tuzak": "İnspirasyonda plevral basınç daha negatifleştiği için transpulmoner basınç AZALMAZ, ARTAR.",
-  "aciklama": "<b>Transpulmoner Basınç (Ptp):</b> Alveol basıncı ile plevra içi basınç arasındaki farktır (Ptp = Palv - Ppip). Akciğerlerin geri büzülme (elastic recoil) eğilimine karşı onları açık tutan kuvvettir. **Daima pozitiftir (III)** ve **geri kaçma basıncı olarak bilinir (IV)**. İnspirasyon sırasında artar."
- }
-];
 
-let order = QUESTIONS.map(function(_,i){return i;});
-let idx = 0;
-const answered = new Array(QUESTIONS.length).fill(null);
-const starred  = new Array(QUESTIONS.length).fill(false);
-const cueUsed  = new Array(QUESTIONS.length).fill(false);
-let finished = false;
+    function renderQuestion() {
+      const q = activeQuestions[currentIndex];
+      const origIndex = ALL_QUESTIONS.indexOf(q);
 
-const STORAGE_KEY = 'tusquiz::' + (document.title || 'quiz') + '::' + QUESTIONS.length;
-function saveState(){
-  try{
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      answered:answered, starred:starred, idx:idx, order:order, finished:finished, v:1
-    }));
-  }catch(e){}
-}
-function loadSavedState(){
-  try{ const r=localStorage.getItem(STORAGE_KEY); return r?JSON.parse(r):null; }catch(e){ return null; }
-}
-function clearSavedState(){ try{ localStorage.removeItem(STORAGE_KEY); }catch(e){} }
-function hasProgress(s){
-  if(!s) return false;
-  const a = s.answered && s.answered.some(function(x){return x!==null;});
-  return a || (s.idx>0) || s.finished;
-}
-function applyState(s){
-  for(let i=0;i<QUESTIONS.length;i++){
-    answered[i] = (s.answered && i<s.answered.length && s.answered[i]!==undefined) ? s.answered[i] : null;
-    starred[i]  = (s.starred  && i<s.starred.length)  ? !!s.starred[i] : false;
-  }
-  order = (s.order && s.order.length) ? s.order.slice() : QUESTIONS.map(function(_,i){return i;});
-  idx = (typeof s.idx==='number') ? Math.max(0,Math.min(order.length-1,s.idx)) : 0;
-  finished = !!s.finished;
-}
+      // Header Progress
+      document.getElementById('progress-text').innerText = `Soru ${currentIndex + 1} / ${activeQuestions.length}`;
+      const fillPct = ((currentIndex + 1) / activeQuestions.length) * 100;
+      document.getElementById('progress-bar-fill').style.width = fillPct + '%';
 
-function qid(){ return order[idx]; }
-function curQ(){ return QUESTIONS[order[idx]]; }
+      // Star Button State
+      const starBtn = document.getElementById('star-btn');
+      starBtn.className = starredMap[origIndex] ? 'btn-star active' : 'btn-star';
 
-const hdr = document.getElementById('hdr');
-const main = document.getElementById('main');
-function syncHeader(){
-  const h = hdr.offsetHeight;
-  main.style.paddingTop = (h + 14) + 'px';
-  document.documentElement.style.setProperty('--hdrH', h + 'px');
-}
-window.addEventListener('load', syncHeader);
-window.addEventListener('resize', syncHeader);
-syncHeader();
+      // Year Badge
+      const yearBadge = document.getElementById('year-badge');
+      if (q.yil) {
+        yearBadge.innerText = q.yil;
+        yearBadge.style.display = 'inline-block';
+      } else {
+        yearBadge.style.display = 'none';
+      }
 
-const quizEl = document.getElementById('quiz');
-const resultEl = document.getElementById('result');
-const navEl = document.getElementById('nav');
+      // Question text
+      document.getElementById('question-text').innerHTML = q.soru;
 
-function render(){
-  if(finished){ renderResult(); return; }
-  resultEl.classList.remove('show');
-  quizEl.style.display='block';
-  navEl.style.display='flex';
+      // Options
+      const optionsGrid = document.getElementById('options-grid');
+      optionsGrid.innerHTML = '';
 
-  const q = curQ();
-  const id = qid();
-  const chosen = answered[id];
-  const isAns = chosen !== null;
+      const isAnswered = userAnswers[currentIndex] !== undefined;
+      const selectedOption = userAnswers[currentIndex];
 
-  let html = '';
-  html += '<div class="qmeta">';
-  html += '<div class="qnum">SORU '+(idx+1)+' / '+order.length+'</div>';
-  html += '<button class="star-btn '+(starred[id]?'on':'')+'" onclick="toggleStar()" aria-label="Yıldızla">⭐</button>';
-  html += '</div>';
+      q.siklar.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        
+        if (isAnswered) {
+          btn.disabled = true;
+          if (idx === q.dogru) {
+            btn.classList.add('correct');
+          } else if (idx === selectedOption) {
+            btn.classList.add('wrong');
+          }
+        } else {
+          btn.onclick = () => selectOption(idx);
+        }
 
-  if((q.yil && q.yil.length) || q.brans){
-    html += '<div class="year-tags">';
-    if(q.brans){ html += '<span class="brans-tag">'+q.brans+'</span>'; }
-    if(q.yil){ q.yil.forEach(function(y){ html += '<span class="year-tag">'+y+'</span>'; }); }
-    html += '</div>';
-  }
+        btn.innerHTML = `<span class="option-key">${opt.k}</span> <span>${opt.t}</span>`;
+        optionsGrid.appendChild(btn);
+      });
 
-  html += '<div class="qcard'+(q.ddx?' has-ddx':'')+'"'+(q.ddx?' onclick="openDdx(event)"':'')+'>'+q.soru
-        + (q.ddx?'<span class="ddx-ok"><svg viewBox="0 0 24 24"><path d="M17 4l3 3-3 3"/><path d="M20 7H8a4 4 0 0 0-4 4"/><path d="M7 20l-3-3 3-3"/><path d="M4 17h12a4 4 0 0 0 4-4"/></svg></span>':'')
-        + '</div>';
+      // Info Boxes
+      const hintBox = document.getElementById('hint-box');
+      const trapBox = document.getElementById('trap-box');
+      const expBox = document.getElementById('explanation-box');
+      const btnManualHint = document.getElementById('btn-hint-manual');
 
-  html += '<div class="opts '+(isAns?'locked':'')+'" id="opts">';
-  q.siklar.forEach(function(s,i){
-    let cls='opt';
-    if(isAns){
-      if(i===q.dogru) cls+=' correct';
-      else if(i===chosen) cls+=' wrong';
-      else cls+=' dim';
+      document.getElementById('hint-content').innerHTML = q.ipucu;
+      document.getElementById('trap-content').innerHTML = q.tuzak;
+      document.getElementById('explanation-content').innerHTML = q.aciklama;
+
+      if (isAnswered) {
+        btnManualHint.style.display = 'none';
+        hintBox.style.display = 'block';
+        trapBox.style.display = 'block';
+        expBox.style.display = 'block';
+      } else {
+        btnManualHint.style.display = 'block';
+        hintBox.style.display = 'none';
+        trapBox.style.display = 'none';
+        expBox.style.display = 'none';
+      }
+
+      // Navigation Buttons
+      document.getElementById('btn-prev').disabled = (currentIndex === 0);
+      const btnNext = document.getElementById('btn-next');
+      if (currentIndex === activeQuestions.length - 1) {
+        btnNext.innerText = 'Bitir 🎉';
+      } else {
+        btnNext.innerText = 'Sonraki →';
+      }
+
+      adjustHeaderSpace();
     }
-    html += '<button class="'+cls+'" '+(isAns?'':'onclick="answer('+i+')"')+'>'
-          + '<span class="k">'+s.k+'</span><span class="t">'+s.t+'</span><span class="mark"></span></button>';
-  });
-  html += '</div>';
 
-  if(!isAns){
-    html += '<button class="hintbtn" id="preHint" onclick="showPreHint()">💡 İpucu göster</button>';
-    html += '<div id="revealZone"></div>';
-  } else {
-    html += '<div id="revealZone">'+revealHTML(q)+'</div>';
-  }
+    function selectOption(optionIdx) {
+      if (userAnswers[currentIndex] !== undefined) return;
 
-  quizEl.innerHTML = html;
+      userAnswers[currentIndex] = optionIdx;
+      renderQuestion();
+      updateHeaderStats();
 
-  document.getElementById('prevBtn').disabled = (idx===0);
-  document.getElementById('nextBtn').textContent = (idx===order.length-1) ? 'Bitir ✓' : 'Sonraki →';
-  document.getElementById('navCounter').textContent = (idx+1)+'/'+order.length;
+      // Auto scroll to hint box
+      setTimeout(() => {
+        const header = document.getElementById('quiz-header');
+        const hintBox = document.getElementById('hint-box');
+        if (hintBox) {
+          const headerHeight = header ? header.offsetHeight : 80;
+          const targetPos = hintBox.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12;
+          window.scrollTo({ top: targetPos, behavior: 'smooth' });
+        }
+      }, 50);
+    }
 
-  updateBars();
-}
+    function toggleManualHint() {
+      const hintBox = document.getElementById('hint-box');
+      if (hintBox.style.display === 'block') {
+        hintBox.style.display = 'none';
+      } else {
+        hintBox.style.display = 'block';
+      }
+      adjustHeaderSpace();
+    }
 
-function ddxCardHTML(d){
-  if(!d) return '';
-  var rows='';
-  (d.satirlar||[]).forEach(function(r){
-    rows += '<div class="dc'+(r.hit?' hit':'')+'">'
-          + '<div class="emo">'+(r.emo||'🔹')+'</div>'
-          + '<div class="txt"><div class="dn">'+r.ad+'</div><div class="dv">'+r.bulgu+'</div></div></div>';
-  });
-  return '<div class="ddx-card" onclick="closeDdx()">'
-       + '<h3>🩺 '+(d.baslik||'Ayırıcı Tanı')+'</h3>'
-       + (d.ok?'<div class="ddx-key">'+d.ok+'</div>':'')
-       + '<div class="ddx-cards">'+rows+'</div></div>';
-}
-function openDdx(e){
-  if(e){ e.stopPropagation(); }
-  var q=curQ();
-  if(!q.ddx) return;
-  var ov=document.getElementById('ddxOv');
-  if(ov.classList.contains('show')){ closeDdx(); return; }
-  ov.classList.remove('closing');
-  ov.innerHTML = ddxCardHTML(q.ddx);
-  void ov.offsetWidth;
-  ov.classList.add('show');
-}
-function closeDdx(){
-  var ov=document.getElementById('ddxOv');
-  if(!ov.classList.contains('show') || ov.classList.contains('closing')) return;
-  ov.classList.add('closing');
-  setTimeout(function(){ ov.classList.remove('show','closing'); ov.innerHTML=''; }, 430);
-}
+    function toggleStarCurrent() {
+      const q = activeQuestions[currentIndex];
+      const origIndex = ALL_QUESTIONS.indexOf(q);
+      starredMap[origIndex] = !starredMap[origIndex];
+      renderQuestion();
+      updateHeaderStats();
+    }
 
-function revealHTML(q){
-  return ''
-   + '<div class="box ip"><div class="bt">💡 İPUCU</div><div>'+q.ipucu+'</div></div>'
-   + '<div class="box tz"><div class="bt">⚠️ TUZAK</div><div>'+q.tuzak+'</div></div>'
-   + '<div class="box ac"><div class="bt">📖 AÇIKLAMA</div><div>'+q.aciklama+'</div></div>';
-}
+    function updateHeaderStats() {
+      let correctCount = 0;
+      Object.keys(userAnswers).forEach(idx => {
+        if (userAnswers[idx] === activeQuestions[idx].dogru) {
+          correctCount++;
+        }
+      });
 
-function showPreHint(){
-  const q = curQ();
-  const btn = document.getElementById('preHint');
-  if(btn) btn.style.display='none';
-  document.getElementById('revealZone').innerHTML =
-    '<div class="box ip"><div class="bt">💡 İPUCU</div><div>'+q.ipucu+'</div></div>';
-  scrollToReveal();
-}
+      let starCount = Object.values(starredMap).filter(Boolean).length;
 
-function answer(i){
-  const id = qid();
-  if(answered[id]!==null) return;
-  const q=curQ();
+      document.getElementById('badge-correct').innerText = `✓ ${correctCount}`;
+      document.getElementById('badge-star').innerText = `⭐ ${starCount}`;
+    }
 
-  if(i!==q.dogru && q.cue && !cueUsed[id]){
-    cueUsed[id]=true;
-    const m=document.getElementById('cueMsg');
-    m.textContent=q.cue;
-    m.classList.add('show');
-    const qc=document.querySelector('.qcard');
-    if(qc) qc.classList.add('flash');
-    setTimeout(function(){ m.classList.remove('show'); if(qc) qc.classList.remove('flash'); },5000);
-    return;
-  }
+    function nextQuestion() {
+      if (currentIndex < activeQuestions.length - 1) {
+        currentIndex++;
+        renderQuestion();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        showResults();
+      }
+    }
 
-  answered[id]=i;
+    function prevQuestion() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
 
-  const opts=document.getElementById('opts');
-  opts.classList.add('locked');
-  const btns=opts.querySelectorAll('.opt');
-  btns.forEach(function(b,k){
-    b.setAttribute('onclick','');
-    if(k===q.dogru) b.classList.add('correct');
-    else if(k===i) b.classList.add('wrong');
-    else b.classList.add('dim');
-  });
+    /* Modal Navigation */
+    function openModal() {
+      const grid = document.getElementById('grid-questions');
+      grid.innerHTML = '';
 
-  const pre=document.getElementById('preHint');
-  if(pre) pre.style.display='none';
+      activeQuestions.forEach((q, idx) => {
+        const origIdx = ALL_QUESTIONS.indexOf(q);
+        const cell = document.createElement('div');
+        cell.className = 'grid-cell';
 
-  document.getElementById('revealZone').innerHTML = revealHTML(q);
-  updateBars();
-  saveState();
-  if(i === q.dogru){ celebrate(btns[q.dogru]); } else { commiserate(); }
-  scrollToReveal();
-}
+        if (idx === currentIndex) cell.classList.add('current');
 
-function scrollToReveal(){
-  requestAnimationFrame(function(){
-    const zone=document.getElementById('revealZone');
-    const first=zone && zone.firstElementChild;
-    if(!first) return;
-    const offset = hdr.offsetHeight + 10;
-    const y = first.getBoundingClientRect().top + window.pageYOffset - offset;
-    window.scrollTo({top:y, behavior:'smooth'});
-  });
-}
+        if (userAnswers[idx] !== undefined) {
+          if (userAnswers[idx] === q.dogru) {
+            cell.classList.add('correct');
+          } else {
+            cell.classList.add('wrong');
+          }
+        }
 
-function toggleStar(){
-  const id=qid();
-  starred[id]=!starred[id];
-  saveState();
-  render();
-}
+        cell.innerText = idx + 1;
 
-function go(dir){
-  if(dir===1 && idx===order.length-1){ finished=true; saveState(); render(); window.scrollTo({top:0,behavior:'smooth'}); return; }
-  idx=Math.max(0,Math.min(order.length-1, idx+dir));
-  saveState();
-  render();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
+        if (starredMap[origIdx]) {
+          const starIcon = document.createElement('span');
+          starIcon.className = 'star-icon';
+          starIcon.innerText = '★';
+          cell.appendChild(starIcon);
+        }
 
-function openModal(){
-  const grid=document.getElementById('qGrid');
-  let h='';
-  let lastB=null;
-  order.forEach(function(id,p){
-    const b=QUESTIONS[id].brans;
-    if(b && b!==lastB){ h += '<div class="gsec">'+b+'</div>'; lastB=b; }
-    let cls='gbtn';
-    if(answered[id]!==null){ cls += (answered[id]===QUESTIONS[id].dogru)?' ok':' no'; }
-    if(p===idx) cls+=' cur';
-    if(starred[id]) cls+=' star';
-    h += '<button class="'+cls+'" onclick="jump('+p+')">'+(p+1)+'</button>';
-  });
-  grid.innerHTML=h;
-  document.getElementById('modalOv').classList.add('show');
-  document.body.style.overflow='hidden';
-}
-function closeModal(){
-  document.getElementById('modalOv').classList.remove('show');
-  document.body.style.overflow='';
-}
-function modalBg(e){ if(e.target.id==='modalOv') closeModal(); }
-function jump(p){ idx=p; finished=false; closeModal(); saveState(); render(); window.scrollTo({top:0,behavior:'smooth'}); }
+        cell.onclick = () => {
+          currentIndex = idx;
+          closeModal();
+          renderQuestion();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
 
-function correctCount(){
-  let c=0;
-  answered.forEach(function(a,i){ if(a!==null && a===QUESTIONS[i].dogru) c++; });
-  return c;
-}
-function starCount(){ return starred.filter(Boolean).length; }
-function updateBars(){
-  document.getElementById('cCount').textContent = correctCount();
-  document.getElementById('sCount').textContent = starCount();
-  const pos = finished ? order.length : (idx+1);
-  document.getElementById('bar').style.width = Math.round((pos/order.length)*100)+'%';
-}
+        grid.appendChild(cell);
+      });
 
-function renderResult(){
-  quizEl.style.display='none';
-  navEl.style.display='none';
-  resultEl.classList.add('show');
+      document.getElementById('modal-overlay').style.display = 'flex';
+    }
 
-  const total=order.length;
-  let correct=0, wrong=0, blank=0, starHere=0;
-  order.forEach(function(id){
-    const a=answered[id];
-    if(a===null) blank++;
-    else if(a===QUESTIONS[id].dogru) correct++;
-    else wrong++;
-    if(starred[id]) starHere++;
-  });
-  const pct=Math.round((correct/total)*100);
+    function closeModal() {
+      document.getElementById('modal-overlay').style.display = 'none';
+    }
 
-  document.getElementById('scoreBig').textContent = correct+'/'+total;
-  document.getElementById('pctLine').textContent = '%'+pct;
-  document.getElementById('ring').style.setProperty('--pct', pct+'%');
+    /* Results */
+    function showResults() {
+      document.getElementById('question-container').style.display = 'none';
+      const resContainer = document.getElementById('results-container');
+      resContainer.style.display = 'flex';
 
-  let fb;
-  if(pct>=90) fb='Mükemmel! Bu konulara hâkimsin. 🎯';
-  else if(pct>=70) fb='Çok iyi. Birkaç tuzak dışında sağlamsın. 👏';
-  else if(pct>=50) fb='Fena değil; yanlışları ve tuzakları tekrar et. 📚';
-  else fb='Bu blokları tekrar çalışmakta fayda var. Devam! 💪';
-  document.getElementById('fbText').textContent = fb;
+      let correctCount = 0;
+      let wrongCount = 0;
+      let unansweredCount = 0;
 
-  document.getElementById('rStats').innerHTML =
-      '<div class="rstat g">✓ Doğru '+correct+'</div>'
-    + '<div class="rstat r">✗ Yanlış '+wrong+'</div>'
-    + '<div class="rstat s">⭐ Yıldızlı '+starHere+'</div>';
+      activeQuestions.forEach((q, idx) => {
+        if (userAnswers[idx] === undefined) {
+          unansweredCount++;
+        } else if (userAnswers[idx] === q.dogru) {
+          correctCount++;
+        } else {
+          wrongCount++;
+        }
+      });
 
-  let rev='';
-  order.forEach(function(id,p){
-    const q=QUESTIONS[id];
-    const a=answered[id];
-    let badge, cls, label;
-    if(a===null){ badge='–'; cls='blank'; label='Boş'; }
-    else if(a===q.dogru){ badge='✓'; cls='ok'; label='Doğru'; }
-    else { badge='✗'; cls='no'; label='Yanlış'; }
-    const ds=q.siklar[q.dogru];
-    rev += '<div class="rev" onclick="jump('+p+')">'
-         + '<div class="badge '+cls+'">'+badge+'</div>'
-         + '<div style="flex:1">'
-         + '<div class="rq">Soru '+(p+1)+' — '+label+(starred[id]?' ⭐':'')+'</div>'
-         + '<div class="ra">Doğru cevap: <b>'+ds.k+') '+ds.t+'</b></div>'
-         + '</div></div>';
-  });
-  document.getElementById('reviewList').innerHTML = rev;
+      const total = activeQuestions.length;
+      const pct = Math.round((correctCount / total) * 100);
 
-  const bMap={}; const bOrder=[];
-  order.forEach(function(id){
-    const b=QUESTIONS[id].brans; if(!b) return;
-    if(!bMap[b]){ bMap[b]={d:0,t:0}; bOrder.push(b); }
-    bMap[b].t++;
-    if(answered[id]!==null && answered[id]===QUESTIONS[id].dogru) bMap[b].d++;
-  });
-  const bbEl=document.getElementById('bransBreak');
-  const bbT=document.getElementById('bbTitle');
-  if(bOrder.length){
-    let bh='';
-    bOrder.forEach(function(b){
-      const o=bMap[b]; const bp=o.t?Math.round(o.d/o.t*100):0;
-      bh += '<div class="bb-row'+(bp<50?' weak':'')+'">'
-          + '<div class="bb-name">'+b+'</div>'
-          + '<div class="bb-bar"><div class="bb-fill" style="width:'+bp+'%"></div></div>'
-          + '<div class="bb-score">'+o.d+'/'+o.t+'</div></div>';
-    });
-    bbEl.innerHTML=bh; bbT.style.display='';
-  } else { bbEl.innerHTML=''; bbT.style.display='none'; }
+      document.getElementById('score-circle').innerText = `${correctCount} / ${total} (%${pct})`;
 
-  document.getElementById('retryWrongBtn').disabled = (wrong===0);
-  document.getElementById('retryStarBtn').disabled = (starCount()===0);
-  setTimeout(function(){ finaleShow(pct); }, 250);
+      let feedback = "Gayet iyi performans! Eksik konuları gözden geçirerek başaranızı artırabilirsiniz.";
+      if (pct >= 85) feedback = "Mükemmel sonuç! TUS konularına oldukça hakimsiniz 🎉";
+      else if (pct < 50) feedback = "Daha fazla pratik ve konu tekrarı yapmanız önerilir. Yılmak yok! 💪";
 
-  updateBars();
-}
+      document.getElementById('score-feedback').innerText = feedback;
+      document.getElementById('res-correct').innerText = correctCount;
+      document.getElementById('res-wrong').innerText = wrongCount;
 
-function startSubset(ids){
-  fxStreak = 0;
-  order = ids.slice();
-  ids.forEach(function(id){ answered[id]=null; });
-  idx=0; finished=false;
-  saveState();
-  render();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function restart(){
-  fxStreak = 0;
-  order = QUESTIONS.map(function(_,i){return i;});
-  for(let i=0;i<QUESTIONS.length;i++){ answered[i]=null; }
-  idx=0; finished=false;
-  clearSavedState();
-  render();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function retryWrong(){
-  const ids = order.filter(function(id){ return answered[id]!==null && answered[id]!==QUESTIONS[id].dogru; });
-  if(!ids.length){ toast('Yanlış soru yok 🎉'); return; }
-  startSubset(ids);
-}
-function retryStar(){
-  const ids = [];
-  starred.forEach(function(s,i){ if(s) ids.push(i); });
-  if(!ids.length){ toast('Yıldızlı soru yok ⭐'); return; }
-  startSubset(ids);
-}
+      let totalStar = Object.values(starredMap).filter(Boolean).length;
+      document.getElementById('res-starred').innerText = totalStar;
 
-let toastT=null;
-function toast(msg){
-  const el=document.getElementById('toast');
-  el.textContent=msg; el.classList.add('show');
-  clearTimeout(toastT);
-  toastT=setTimeout(function(){ el.classList.remove('show'); },1800);
-}
+      // Review list
+      const reviewList = document.getElementById('review-list');
+      reviewList.innerHTML = '';
 
-function showResumePrompt(saved){
-  const ov = document.getElementById('resumeOv');
-  const sub = document.getElementById('resumeSub');
-  const ord = (saved.order && saved.order.length) ? saved.order : QUESTIONS.map(function(_,i){return i;});
-  const total = ord.length;
-  const pos = saved.finished ? total : Math.min((saved.idx||0)+1, total);
-  const ansCount = saved.answered ? saved.answered.filter(function(x){return x!==null;}).length : 0;
-  sub.textContent = saved.finished
-    ? ('Testi bitirmiştin — sonuç ekranına dönebilirsin. (' + ansCount + ' soru işaretlenmiş)')
-    : ('Soru ' + pos + ' / ' + total + ' — ' + ansCount + ' soru cevaplanmış.');
-  window._savedState = saved;
-  ov.classList.add('show');
-}
-function resumeYes(){
-  applyState(window._savedState);
-  document.getElementById('resumeOv').classList.remove('show');
-  render();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function resumeNo(){
-  clearSavedState();
-  document.getElementById('resumeOv').classList.remove('show');
-  render();
-}
+      activeQuestions.forEach((q, idx) => {
+        const item = document.createElement('div');
+        item.className = 'review-item';
 
-const fxCanvas = document.createElement('canvas');
-fxCanvas.id = 'fxCanvas';
-document.body.appendChild(fxCanvas);
-const fxCtx = fxCanvas.getContext('2d');
-let fxParts = [], fxRaf = null;
+        const isAns = userAnswers[idx] !== undefined;
+        const isCorr = isAns && userAnswers[idx] === q.dogru;
 
-function fxResize(){
-  fxCanvas.width = window.innerWidth;
-  fxCanvas.height = window.innerHeight;
-}
-window.addEventListener('resize', fxResize);
-fxResize();
+        let badgeHtml = `<span class="review-badge empty">Boş</span>`;
+        if (isAns) {
+          badgeHtml = isCorr ? `<span class="review-badge correct">Doğru</span>` : `<span class="review-badge wrong">Yanlış</span>`;
+        }
 
-const FX_COLORS = ['#4c9aff','#7c5cff','#2ea043','#f5c451','#ff5b5b','#3fb6a8','#ffffff','#ff9de2'];
+        item.innerHTML = `
+          <div>
+            <strong>Soru ${idx + 1}:</strong> Doğru Cevap: <span style="color:var(--success); font-weight:700;">${q.siklar[q.dogru].k}</span>
+          </div>
+          ${badgeHtml}
+        `;
 
-function confettiBurst(n, originY){
-  const oy = (typeof originY === 'number') ? originY : window.innerHeight * 0.38;
-  for(let i=0;i<n;i++){
-    fxParts.push({
-      x: window.innerWidth/2 + (Math.random()-0.5)*160,
-      y: oy,
-      vx: (Math.random()-0.5)*13,
-      vy: Math.random()*-13 - 4,
-      g: 0.34,
-      w: Math.random()*8 + 5,
-      h: Math.random()*5 + 3,
-      c: FX_COLORS[Math.floor(Math.random()*FX_COLORS.length)],
-      rot: Math.random()*6.28,
-      vr: (Math.random()-0.5)*0.35,
-      life: 130
-    });
-  }
-  if(!fxRaf) fxRaf = requestAnimationFrame(fxTick);
-}
+        item.onclick = () => {
+          resContainer.style.display = 'none';
+          document.getElementById('question-container').style.display = 'block';
+          currentIndex = idx;
+          renderQuestion();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
 
-function fxTick(){
-  fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height);
-  fxParts = fxParts.filter(function(p){ return p.life > 0 && p.y < window.innerHeight + 60; });
-  fxParts.forEach(function(p){
-    p.x += p.vx; p.y += p.vy; p.vy += p.g; p.vx *= 0.995;
-    p.rot += p.vr; p.life--;
-    fxCtx.save();
-    fxCtx.translate(p.x, p.y);
-    fxCtx.rotate(p.rot);
-    fxCtx.globalAlpha = Math.max(0, Math.min(1, p.life/45));
-    fxCtx.fillStyle = p.c;
-    fxCtx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
-    fxCtx.restore();
-  });
-  if(fxParts.length){ fxRaf = requestAnimationFrame(fxTick); }
-  else { fxRaf = null; fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height); }
-}
+        reviewList.appendChild(item);
+      });
 
-function emojiFloat(list, count){
-  for(let i=0;i<count;i++){
-    const e = document.createElement('div');
-    e.className = 'emoji-pop';
-    e.textContent = list[Math.floor(Math.random()*list.length)];
-    e.style.left = (window.innerWidth/2 + (Math.random()-0.5)*240) + 'px';
-    e.style.top  = (window.innerHeight*0.58) + 'px';
-    e.style.setProperty('--dx', ((Math.random()-0.5)*140) + 'px');
-    e.style.setProperty('--rot', ((Math.random()-0.5)*90) + 'deg');
-    e.style.animationDelay = (Math.random()*0.28) + 's';
-    document.body.appendChild(e);
-    setTimeout(function(){ if(e.parentNode) e.remove(); }, 2200);
-  }
-}
+      // Retry buttons state
+      document.getElementById('btn-retry-wrong').disabled = (wrongCount === 0);
+      document.getElementById('btn-retry-starred').disabled = (totalStar === 0);
 
-function emojiRain(list, count){
-  for(let i=0;i<count;i++){
-    const e = document.createElement('div');
-    e.className = 'emoji-drop';
-    e.textContent = list[Math.floor(Math.random()*list.length)];
-    e.style.left = (window.innerWidth*0.15 + Math.random()*window.innerWidth*0.7) + 'px';
-    e.style.top  = (window.innerHeight*0.30) + 'px';
-    e.style.setProperty('--rot', ((Math.random()-0.5)*70) + 'deg');
-    e.style.animationDelay = (Math.random()*0.25) + 's';
-    document.body.appendChild(e);
-    setTimeout(function(){ if(e.parentNode) e.remove(); }, 2000);
-  }
-}
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-const GOOD_EMO = ['🎉','🥳','😄','👏','⭐','💪','🔥','✨','🏆','😎','💚','🩺'];
-const BAD_EMO  = ['😢','😞','💔','😵','🙈','😬','🥲'];
-const MASCOTS  = ['🐵','🦉','🐣','🦊','🐼','🚀'];
+    function restartFullQuiz() {
+      activeQuestions = [...ALL_QUESTIONS];
+      currentIndex = 0;
+      userAnswers = {};
+      document.getElementById('results-container').style.display = 'none';
+      document.getElementById('question-container').style.display = 'block';
+      renderQuestion();
+      updateHeaderStats();
+    }
 
-const GOOD_MSG = ['Harika! 🎉','Bravo! 👏','Tam isabet! 🎯','Süpersin! 🥳','İşte bu! 💪',
-                  'Mükemmel! ⭐','Doğru cevap! 🔥','Efsanesin! 🏆','Aferin doktor! 🩺',
-                  'Nefes kesici! 😮‍💨','Çok iyisin! 💚'];
-const BAD_MSG  = ['Olsun, tekrar bakalım 💪','Tuzağa düştün ⚠️','Yanlış ama öğrendik 📚',
-                  'Boş ver, devam! 🙌','Bir dahakine 😉','Not al, unutma 📝',
-                  'Açıklamayı oku, kaçırma 👀','Nefesini topla, devam 🫁'];
-const STREAK_MSG = {3:'🔥 3 ÜST ÜSTE!',5:'⚡ 5 SERİ! HARİKA!',8:'🏆 8 SERİ! EFSANE!',
-                    10:'👑 10 SERİ! ŞAMPİYON!',15:'🚀 15 SERİ! DURDURULAMAZ!',
-                    20:'🌟 20 SERİ! İNANILMAZ!'};
+    function retryWrongQuestions() {
+      const wrongList = activeQuestions.filter((q, idx) => userAnswers[idx] !== undefined && userAnswers[idx] !== q.dogru);
+      if (wrongList.length === 0) return;
 
-let fxStreak = 0;
+      activeQuestions = wrongList;
+      currentIndex = 0;
+      userAnswers = {};
+      document.getElementById('results-container').style.display = 'none';
+      document.getElementById('question-container').style.display = 'block';
+      renderQuestion();
+      updateHeaderStats();
+    }
 
-function showStreak(msg){
-  const s = document.createElement('div');
-  s.className = 'streak';
-  s.textContent = msg;
-  document.body.appendChild(s);
-  setTimeout(function(){ if(s.parentNode) s.remove(); }, 1700);
-}
+    function retryStarredQuestions() {
+      const starredList = ALL_QUESTIONS.filter((q, idx) => starredMap[idx]);
+      if (starredList.length === 0) return;
 
-let fxMsgT = null;
-function showInlineMsg(msg, ok){
-  const zone = document.getElementById('revealZone');
-  if(!zone) return;
-  const old = zone.querySelector('.fxfloat');
-  if(old) old.remove();
-  clearTimeout(fxMsgT);
-  const wrap = document.createElement('div');
-  wrap.className = 'fxfloat';
-  const pill = document.createElement('div');
-  pill.className = 'pill ' + (ok ? 'good' : 'bad');
-  pill.textContent = msg;
-  wrap.appendChild(pill);
-  zone.insertBefore(wrap, zone.firstChild);
-  fxMsgT = setTimeout(function(){ if(wrap.parentNode) wrap.remove(); }, 2100);
-}
-
-function celebrate(btn){
-  confettiBurst(95);
-  emojiFloat(GOOD_EMO, 8);
-  showInlineMsg(GOOD_MSG[Math.floor(Math.random()*GOOD_MSG.length)], true);
-  if(btn){
-    const m = document.createElement('span');
-    m.className = 'mascot';
-    m.textContent = MASCOTS[Math.floor(Math.random()*MASCOTS.length)];
-    btn.style.position = 'relative';
-    btn.appendChild(m);
-  }
-  fxStreak++;
-  if(STREAK_MSG[fxStreak]){
-    showStreak(STREAK_MSG[fxStreak]);
-    setTimeout(function(){ confettiBurst(70, window.innerHeight*0.30); }, 220);
-  }
-  try{ if(navigator.vibrate) navigator.vibrate(35); }catch(e){}
-}
-
-function commiserate(){
-  const m = document.getElementById('main');
-  if(m){
-    m.classList.remove('shake');
-    void m.offsetWidth;
-    m.classList.add('shake');
-    setTimeout(function(){ m.classList.remove('shake'); }, 700);
-  }
-  emojiRain(BAD_EMO, 6);
-  showInlineMsg(BAD_MSG[Math.floor(Math.random()*BAD_MSG.length)], false);
-  fxStreak = 0;
-  try{ if(navigator.vibrate) navigator.vibrate([60,50,60,50,50]); }catch(e){}
-}
-
-function finaleShow(pct){
-  if(pct >= 90){
-    [0,300,600,900].forEach(function(d){
-      setTimeout(function(){ confettiBurst(110, window.innerHeight*0.30); }, d);
-    });
-    emojiFloat(['🏆','👑','🎉','🥳','⭐'], 12);
-  } else if(pct >= 70){
-    confettiBurst(110, window.innerHeight*0.32);
-    setTimeout(function(){ confettiBurst(80, window.innerHeight*0.30); }, 350);
-    emojiFloat(GOOD_EMO, 8);
-  } else if(pct >= 50){
-    confettiBurst(60, window.innerHeight*0.34);
-    emojiFloat(['💪','📚','✨'], 5);
-  } else {
-    emojiFloat(['📚','💪','🩺'], 4);
-  }
-}
-
-render();
-window.addEventListener('pagehide', function(){ try{ saveState(); }catch(e){} });
-window.addEventListener('visibilitychange', function(){ if(document.visibilityState==='hidden'){ try{ saveState(); }catch(e){} } });
-(function(){ const s=loadSavedState(); if(hasProgress(s)) showResumePrompt(s); })();
-window.addEventListener('load', function(){ syncHeader(); updateBars(); });
-
-try{['prevBtn','listBtn','nextBtn'].forEach(function(id){var el=document.getElementById(id);if(el){el.addEventListener('mousedown',function(e){e.preventDefault();});el.addEventListener('focus',function(){var s=this;setTimeout(function(){try{s.blur();}catch(e){}},0);});el.addEventListener('click',function(){var s=this;setTimeout(function(){try{s.blur();}catch(e){}},0);});}});}catch(e){}
-</script>
+      activeQuestions = starredList;
+      currentIndex = 0;
+      userAnswers = {};
+      document.getElementById('results-container').style.display = 'none';
+      document.getElementById('question-container').style.display = 'block';
+      renderQuestion();
+      updateHeaderStats();
+    }
+  </script>
 </body>
 </html>
